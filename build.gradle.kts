@@ -5,8 +5,6 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("PrivatePropertyName") // CopyrightHeader, CopyrightDelimiter
-
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -83,7 +81,9 @@ subprojects {
         parent != rootProject
     ) {
         generateSequence(parent) { project ->
-            project.parent.takeIf { it != rootProject }
+            project.parent.takeIf { parent ->
+                parent != rootProject
+            }
         }.forEach { project ->
             evaluationDependsOn(project.path)
         }
