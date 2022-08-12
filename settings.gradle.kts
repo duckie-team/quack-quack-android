@@ -10,8 +10,8 @@ rootProject.name = "quack-quack"
 include(
     ":common",
     ":playground",
-    ":lint-compose",
     ":lint-core",
+    ":lint-compose",
     ":lint-writing",
     ":ui-components",
 )
