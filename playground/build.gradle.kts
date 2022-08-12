@@ -29,5 +29,6 @@ android {
 
 dependencies {
     implementations(projects.uiComponents)
+    setupLint()
     setupCompose(core = libs.bundles.compose.core, debug = libs.bundles.compose.debug)
 }

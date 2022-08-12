@@ -1,11 +1,15 @@
 import org.gradle.api.artifacts.dsl.DependencyHandler as DependencyScope
+import org.gradle.api.artifacts.ProjectDependency
 
 private const val Implementation = "implementation"
 private const val DebugImplementation = "debugImplementation"
 private const val TestRuntimeOnly = "testRuntimeOnly"
 private const val TestImplementation = "testImplementation"
 private const val CompileOnly = "compileOnly"
+private const val LintChecks = "lintChecks"
 private const val Api = "api"
+
+private val lintModules = listOf(":lint-core", ":lint-compose", ":lint-writing")
 
 fun DependencyScope.setupJunit(core: Any, engine: Any) {
     delegate(method = TestImplementation, core)
@@ -20,6 +24,10 @@ fun DependencyScope.setupLint(core: Any, test: Any) {
 fun DependencyScope.setupCompose(core: Any, debug: Any) {
     delegate(method = Implementation, core)
     delegate(method = DebugImplementation, debug)
+}
+
+fun DependencyScope.setupLint() {
+    delegate(method = LintChecks, *lintModules.map(::project).toTypedArray())
 }
 
 fun DependencyScope.implementations(vararg paths: Any) {
@@ -37,3 +45,6 @@ fun DependencyScope.apis(vararg paths: Any) {
 private fun DependencyScope.delegate(method: String, vararg paths: Any) {
     paths.forEach { path -> add(method, path) }
 }
+
+private fun DependencyScope.project(path: String) =
+    project(mapOf("path" to path)) as ProjectDependency
