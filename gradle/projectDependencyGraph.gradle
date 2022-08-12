@@ -1,14 +1,14 @@
 // https://github.com/droidknights/DroidKnights2021_App/blob/main/gradle/dependencyGraph.gradle
 task projectDependencyGraph {
     doLast {
-        def dot = new File(rootProject.rootDir, 'art/project-dependency-graph/graph.dot')
+        def dot = new File(rootProject.rootDir, "art/project-dependency-graph/graph.dot")
         dot.parentFile.mkdirs()
         dot.delete()
 
-        dot << 'digraph {\n'
+        dot << "digraph {\n"
         dot << "  graph [label=\"${rootProject.name}\\n \",labelloc=t,fontsize=30,ranksep=1.4];\n"
-        dot << '  node [style=filled, fillcolor="#bbbbbb"];\n'
-        dot << '  rankdir=TB;\n'
+        dot << "  node [style=filled, fillcolor=\"#bbbbbb\"];\n"
+        dot << "  rankdir=TB;\n"
 
         def rootProjects = []
         def queue = [rootProject]
@@ -20,35 +20,23 @@ task projectDependencyGraph {
 
         def projects = new LinkedHashSet<Project>()
         def dependencies = new LinkedHashMap<Tuple2<Project, Project>, List<String>>()
-        def multiplatformProjects = []
-        def jsProjects = []
         def androidProjects = []
         def androidLibraryProjects = []
         def androidDynamicFeatureProjects = []
-        def javaProjects = []
 
         queue = [rootProject]
         while (!queue.isEmpty()) {
             def project = queue.remove(0)
             queue.addAll(project.childProjects.values())
 
-            if (project.plugins.hasPlugin('org.jetbrains.kotlin.multiplatform')) {
-                multiplatformProjects.add(project)
-            }
-            if (project.plugins.hasPlugin('kotlin2js')) {
-                jsProjects.add(project)
-            }
-            if (project.plugins.hasPlugin('com.android.application')) {
+            if (project.plugins.hasPlugin("com.android.application")) {
                 androidProjects.add(project)
             }
-            if (project.plugins.hasPlugin('com.android.library')) {
+            if (project.plugins.hasPlugin("com.android.library")) {
                 androidLibraryProjects.add(project)
             }
-            if (project.plugins.hasPlugin('com.android.dynamic-feature')) {
+            if (project.plugins.hasPlugin("com.android.dynamic-feature")) {
                 androidDynamicFeatureProjects.add(project)
-            }
-            if (project.plugins.hasPlugin('java-library') || project.plugins.hasPlugin('java')) {
-                javaProjects.add(project)
             }
 
             project.configurations.all { config ->
@@ -62,10 +50,12 @@ task projectDependencyGraph {
                             rootProjects.remove(dependency)
 
                             def graphKey = new Tuple2<Project, Project>(project, dependency)
-                            def traits = dependencies.computeIfAbsent(graphKey) { new ArrayList<String>() }
+                            def traits = dependencies.computeIfAbsent(graphKey) {
+                                new ArrayList<String>()
+                            }
 
-                            if (config.name.toLowerCase().endsWith('implementation')) {
-                                traits.add('style=dotted')
+                            if (config.name.toLowerCase().endsWith("implementation")) {
+                                traits.add("style=dotted")
                             }
                         }
             }
@@ -73,52 +63,46 @@ task projectDependencyGraph {
 
         projects = projects.sort { it.path }
 
-        dot << '\n  # Projects\n\n'
+        dot << "\n  # Projects\n\n"
         for (project in projects) {
             def traits = []
 
-            if (multiplatformProjects.contains(project)) {
-                traits.add('fillcolor="#ffd2b3"')
-            } else if (jsProjects.contains(project)) {
-                traits.add('fillcolor="#ffffba"')
-            } else if (androidProjects.contains(project)) {
-                traits.add('fillcolor="#baffc9"')
+            if (androidProjects.contains(project)) {
+                traits.add("fillcolor=\"#baffc9\"")
             } else if (androidLibraryProjects.contains(project)) {
-                traits.add('fillcolor="#81D4FA"')
+                traits.add("fillcolor=\"#81D4FA\"")
             } else if (androidDynamicFeatureProjects.contains(project)) {
-                traits.add('fillcolor="#c9baff"')
-            } else if (javaProjects.contains(project)) {
-                traits.add('fillcolor="#ffb3ba"')
+                traits.add("fillcolor=\"#c9baff\"")
             } else {
-                traits.add('fillcolor="#eeeeee"')
+                traits.add("fillcolor=\"#eeeeee\"")
             }
 
             dot << "  \"${project.path}\" [${traits.join(", ")}];\n"
         }
 
-        dot << '\n  {rank = same;'
+        dot << "\n  {rank = same;"
         for (project in projects) {
             if (rootProjects.contains(project)) {
                 dot << " \"${project.path}\";"
             }
         }
-        dot << '}\n'
+        dot << "}\n"
 
-        dot << '\n  # Dependencies\n\n'
+        dot << "\n  # Dependencies\n\n"
         dependencies.forEach { key, traits ->
-            dot << "  \"${key.first.path}\" -> \"${key.second.path}\""
+            dot << "  \"${key.v1.path}\" -> \"${key.v2.path}\""
             if (!traits.isEmpty()) {
                 dot << " [${traits.join(", ")}]"
             }
-            dot << '\n'
+            dot << "\n"
         }
 
-        dot << '}\n'
+        dot << "}\n"
 
-        def p = "dot -Tpng -O graph.dot".execute([], dot.parentFile)
-        p.waitFor()
-        if (p.exitValue() != 0) {
-            throw new RuntimeException(p.errorStream.text)
+        def process = "dot -Tpng -O graph.dot".execute([], dot.parentFile)
+        process.waitFor()
+        if (process.exitValue() != 0) {
+            throw new RuntimeException(process.errorStream.text)
         }
         dot.delete()
 
