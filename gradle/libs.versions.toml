@@ -3,6 +3,7 @@
 dokka = "1.6.10"
 ktlint = "10.2.1"
 detekt = "1.20.0-RC1"
+spotless = "6.9.1"
 
 # build
 gradle = "7.4.0-alpha09"
@@ -34,6 +35,7 @@ junit-engine = "5.9.0"
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 
 [libraries]
 build-dokka = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }

@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.spotless)
 }
 
 buildscript {
@@ -78,9 +79,28 @@ subprojects {
             evaluationDependsOn(project.path)
         }
     }
+
+    apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)
+    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+        kotlin {
+            target("**/*.kt")
+            licenseHeaderFile(rootProject.file("license.kt"))
+            indentWithSpaces(4)
+            trimTrailingWhitespace()
+        }
+        format("kts") {
+            target("**/*.kts")
+            licenseHeaderFile(
+                rootProject.file("license.kt"),
+                "(^(?![\\/ ]\\*).*$)"
+            )
+            trimTrailingWhitespace()
+            indentWithSpaces(4)
+        }
+    }
 }
 
-tasks.register("clean", Delete::class) {
+tasks.register("cleanAll", Delete::class) {
     allprojects.map { it.buildDir }.forEach(::delete)
 }
 
