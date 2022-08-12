@@ -10,5 +10,7 @@ android {
 }
 
 dependencies {
+    implementations(projects.common)
+    setupLint(core = libs.bundles.lint, test = libs.test.lint)
     setupJunit(core = libs.test.junit.core, engine = libs.test.junit.engine)
 }

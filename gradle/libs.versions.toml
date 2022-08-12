@@ -17,6 +17,7 @@ landscapist = "1.6.1"
 accompanist = "0.26.1-alpha"
 
 # tools
+lint = "30.2.2"
 logeukes = "1.0.0"
 profileinstaller = "1.2.0"
 customview = "1.2.0-alpha01"
@@ -39,7 +40,7 @@ build-dokka = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka"
 build-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 build-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
-compose-fondation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-core" }
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-core" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
 compose-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapist" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-core" } # debugImplementation
@@ -48,15 +49,19 @@ compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", v
 customview-core = { module = "androidx.customview:customview", version.ref = "customview" } # debugImplementation
 customview-poolingcontainer = { module = "androidx.customview:customview-poolingcontainer", version.ref = "customview-poolingcontainer" } # debugImplementation
 
+lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "lint" } # compileOnly
+lint-checks = { module = "com.android.tools.lint:lint-checks", version.ref = "lint" } # compileOnly
+
 util-logeukes = { module = "land.sungbin:logeukes", version.ref = "logeukes" }
 util-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileinstaller" }
 
+test-lint = { module = "com.android.tools.lint:lint-tests", version.ref = "lint" }
 test-junit-core = { module = "junit:junit", version.ref = "junit" }
 test-junit-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit-engine" } # testRuntimeOnly
 test-compose-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose-core" } # debugImplementation
 test-compose-junit = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-core" } # androidTestImplementation
 
 [bundles]
-compose-core = ["compose-fondation", "compose-activity", "compose-glide", "compose-tooling-preview"]
-compose-debug = ["compose-tooling"]
-customview = ["customview-core", "customview-poolingcontainer"]
+lint = ["lint-api", "lint-checks"] # compileOnly
+compose-core = ["compose-foundation", "compose-activity", "compose-glide", "compose-tooling-preview"]
+compose-debug = ["compose-tooling", "customview-core", "customview-poolingcontainer"] # debugImplementation
