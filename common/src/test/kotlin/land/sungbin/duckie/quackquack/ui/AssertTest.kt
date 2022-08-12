@@ -2,9 +2,8 @@ package land.sungbin.duckie.quackquack.ui
 
 import land.sungbin.duckie.quackquack.common.requireNonNull
 import land.sungbin.duckie.quackquack.common.runtimeCheck
+import org.junit.Assert.assertNotNull
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class AssertTest {
     @Suppress("RedundantNullableReturnType")
