@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/toss-duck.svg" width="40%" alt="duck" />
+  <img src="./assets/toss-duck.svg" width="10%" alt="duck" />
 </p>
 <h1 align="center">quack-quack</h1>
 <h5 align="center">덕키 디자인 시스템</h5>
