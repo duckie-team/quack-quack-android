@@ -1,3 +1,12 @@
+/*
+ * Designed and developed by 2022 SungbinLand, Team Duckie
+ *
+ * Licensed under the MIT.
+ * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ */
+
+@file:Suppress("PrivatePropertyName") // CopyrightHeader, CopyrightDelimiter
+
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -60,8 +69,8 @@ allprojects {
     }
 
     apply {
-        plugin("io.gitlab.arturbosch.detekt")
-        plugin("org.jlleitschuh.gradle.ktlint")
+        plugin(rootProject.libs.plugins.detekt.get().pluginId)
+        plugin(rootProject.libs.plugins.ktlint.get().pluginId)
     }
 }
 
@@ -85,17 +94,12 @@ subprojects {
         kotlin {
             target("**/*.kt")
             licenseHeaderFile(rootProject.file("license.kt"))
-            indentWithSpaces(4)
             trimTrailingWhitespace()
         }
         format("kts") {
             target("**/*.kts")
-            licenseHeaderFile(
-                rootProject.file("license.kt"),
-                "(^(?![\\/ ]\\*).*$)"
-            )
+            licenseHeaderFile(rootProject.file("license.kt"), "(^(?![\\/ ]\\*).*$)")
             trimTrailingWhitespace()
-            indentWithSpaces(4)
         }
     }
 }
