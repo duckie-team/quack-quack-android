@@ -9,7 +9,7 @@ Ensure your change is properly formatted by running:
 
 ```gradle
 ./gradlew ktlintCheck
-./gradlew detektCheck
+./gradlew detekt
 ```
 
 Also, it's need testing:
