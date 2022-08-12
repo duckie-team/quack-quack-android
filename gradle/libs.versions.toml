@@ -28,9 +28,6 @@ customview-poolingcontainer = "1.0.0"
 junit = "4.13.2"
 junit-engine = "5.9.0"
 
-# lints
-# TODO
-
 [plugins]
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
