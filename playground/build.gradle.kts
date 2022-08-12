@@ -6,5 +6,5 @@ plugins {
 }
 
 android {
-    namespace = "land.sungbin.duckie.quackquack.placeground"
+    namespace = "land.sungbin.duckie.quackquack.playground"
 }
