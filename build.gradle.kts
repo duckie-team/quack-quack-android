@@ -2,8 +2,8 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("io.gitlab.arturbosch.detekt") version Versions.BuildUtil.Detekt
-    id("org.jlleitschuh.gradle.ktlint") version Versions.BuildUtil.KtlintPlugin
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.ktlint)
 }
 
 buildscript {
@@ -13,9 +13,9 @@ buildscript {
     }
 
     dependencies {
-        classpath("org.jetbrains.dokka:dokka-base:${Versions.BuildUtil.Dokka}")
-        classpath("com.android.tools.build:gradle:${Versions.Essential.Gradle}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.Essential.Kotlin}")
+        classpath(libs.build.gradle)
+        classpath(libs.build.kotlin)
+        classpath(libs.build.dokka)
     }
 }
 
@@ -32,7 +32,7 @@ allprojects {
 
         detekt {
             buildUponDefaultConfig = true
-            toolVersion = Versions.BuildUtil.Detekt
+            toolVersion = libs.versions.detekt.get()
             config.setFrom(files("$rootDir/detekt-config.yml"))
         }
 
@@ -67,7 +67,8 @@ allprojects {
 subprojects {
     // https://github.com/gradle/gradle/issues/4823#issuecomment-715615422
     @Suppress("UnstableApiUsage")
-    if (gradle.startParameter.isConfigureOnDemand &&
+    if (
+        gradle.startParameter.isConfigureOnDemand &&
         buildscript.sourceFile?.extension?.toLowerCase() == "kts" &&
         parent != rootProject
     ) {

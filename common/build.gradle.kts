@@ -6,9 +6,10 @@ plugins {
 }
 
 android {
-    namespace = "land.sungbin.duckie.quackquack.lint.writing"
+    namespace = "land.sungbin.duckie.quackquack.common"
 }
 
 dependencies {
+    apis(libs.util.logeukes)
     setupJunit(core = libs.test.junit.core, engine = libs.test.junit.engine)
 }
