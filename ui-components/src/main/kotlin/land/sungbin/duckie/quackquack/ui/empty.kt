@@ -8,5 +8,3 @@
  */
 
 package land.sungbin.duckie.quackquack.ui
-
-
