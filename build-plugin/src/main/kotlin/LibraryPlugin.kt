@@ -9,7 +9,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
-class LibraryPlugin : Plugin<Project> {
+internal class LibraryPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             applyPlugins(PluginEnum.Library, PluginEnum.Kotlin)

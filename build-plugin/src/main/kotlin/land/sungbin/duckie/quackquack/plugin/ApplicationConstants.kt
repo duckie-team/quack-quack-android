@@ -9,7 +9,7 @@ package land.sungbin.duckie.quackquack.plugin
 
 import org.gradle.api.JavaVersion
 
-object ApplicationConstants {
+internal object ApplicationConstants {
     const val minSdk = 21
     const val targetSdk = 33
     const val compileSdk = 33

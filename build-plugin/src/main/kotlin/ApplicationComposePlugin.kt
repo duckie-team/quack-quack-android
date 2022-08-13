@@ -9,7 +9,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
-class ApplicationComposePlugin : Plugin<Project> {
+internal class ApplicationComposePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             val extension = extensions.getByType<BaseAppModuleExtension>()

@@ -32,12 +32,12 @@ internal fun DependencyScope.implementations(vararg paths: Any) {
     delegate(method = Implementation, paths = paths)
 }
 
-fun DependencyScope.setupJunit(core: Any, engine: Any) {
+internal fun DependencyScope.setupJunit(core: Any, engine: Any) {
     delegate(method = TestImplementation, core)
     delegate(method = TestRuntimeOnly, engine)
 }
 
-fun DependencyScope.setupCompose(core: Any, debug: Any) {
+internal fun DependencyScope.setupCompose(core: Any, debug: Any) {
     delegate(method = Implementation, core)
     delegate(method = DebugImplementation, debug)
 }

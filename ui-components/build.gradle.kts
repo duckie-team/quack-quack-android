@@ -5,7 +5,6 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-// buildFeatures, composeOptions
 @file:Suppress("UnstableApiUsage")
 
 plugins {
