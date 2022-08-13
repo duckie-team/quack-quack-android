@@ -93,20 +93,17 @@ subprojects {
     configure<SpotlessExtension> {
         kotlin {
             target("**/*.kt")
-            trimTrailingWhitespace()
             licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
         }
         format("kts") {
             target("**/*.kts")
             // Look for the first line that doesn't have a block comment (assumed to be the license)
             licenseHeaderFile(rootProject.file("spotless/copyright.kt"), "(^(?![\\/ ]\\*).*$)")
-            trimTrailingWhitespace()
         }
         format("xml") {
             target("**/*.xml")
             // Look for the first XML tag that isn't a comment (<!--) or the xml declaration (<?xml)
             licenseHeaderFile(rootProject.file("spotless/copyright.xml"), "(<[^!?])")
-            trimTrailingWhitespace()
         }
     }
 
