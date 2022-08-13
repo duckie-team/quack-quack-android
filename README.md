@@ -2,7 +2,7 @@
   <img src="./assets/toss-duck.svg" width="10%" alt="duck" />
 </p>
 <h1 align="center">quack-quack</h1>
-<h5 align="center">덕키 디자인 시스템</h5>
+<h5 align="center"><a href="https://github.com/sungbinland/duckie">덕키</a> 디자인 시스템</h5>
 <p align="center">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-blue"/></a>
   <a href="https://developer.android.com/about/versions/lollipop"><img alt="API 21+" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg"/></a>
