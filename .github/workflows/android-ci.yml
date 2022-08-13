@@ -38,6 +38,3 @@ jobs:
 
       - name: Check detekt format
         run: ./gradlew detekt
-
-      - name: Check spotless format
-        run: ./gradlew spotlessCheck

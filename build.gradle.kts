@@ -1,19 +1,19 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
+ * [build.gradle.kts] created by Ji Sungbin on 22. 8. 14. 오전 12:49
+ *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
-    alias(libs.plugins.spotless)
-    id("quackquack.project.jacoco.plugin")
+    id(PluginEnum.Jacoco)
 }
 
 buildscript {
@@ -86,24 +86,6 @@ subprojects {
             }
         }.forEach { project ->
             evaluationDependsOn(project.path)
-        }
-    }
-
-    apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)
-    configure<SpotlessExtension> {
-        kotlin {
-            target("**/*.kt")
-            licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
-        }
-        format("kts") {
-            target("**/*.kts")
-            // Look for the first line that doesn't have a block comment (assumed to be the license)
-            licenseHeaderFile(rootProject.file("spotless/copyright.kt"), "(^(?![\\/ ]\\*).*$)")
-        }
-        format("xml") {
-            target("**/*.xml")
-            // Look for the first XML tag that isn't a comment (<!--) or the xml declaration (<?xml)
-            licenseHeaderFile(rootProject.file("spotless/copyright.xml"), "(<[^!?])")
         }
     }
 

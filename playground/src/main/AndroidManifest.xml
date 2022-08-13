@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-     Designed and developed by 2022 SungbinLand, Team Duckie
+  ~ Designed and developed by 2022 SungbinLand, Team Duckie
+  ~
+  ~ [AndroidManifest.xml] created by Ji Sungbin on 22. 8. 14. 오전 12:59
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+  -->
 
-     Licensed under the MIT.
-     Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
--->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
