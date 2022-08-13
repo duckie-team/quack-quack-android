@@ -10,7 +10,6 @@ Ensure your change is properly formatted by running:
 ```gradle
 ./gradlew ktlintFormat
 ./gradlew detekt
-./gradlew spotlessApply
 ```
 
 Also, it's need testing:
