@@ -2,7 +2,7 @@
 # plugins
 dokka = "1.6.10"
 ktlint = "10.2.1"
-detekt = "1.20.0-RC1"
+detekt = "1.21.0"
 spotless = "6.9.1"
 
 # build
