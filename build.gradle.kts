@@ -5,8 +5,9 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-import io.gitlab.arturbosch.detekt.Detekt
+import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
     alias(libs.plugins.detekt)
@@ -84,12 +85,11 @@ subprojects {
     }
 
     apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)
-    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+    configure<SpotlessExtension> {
         kotlin {
             target("**/*.kt")
-            ktlint(libs.versions.ktlint.get()).userData(mapOf("android" to "true"))
-            licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
             trimTrailingWhitespace()
+            licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
         }
         format("kts") {
             target("**/*.kts")
@@ -104,12 +104,16 @@ subprojects {
             trimTrailingWhitespace()
         }
     }
+
+    configure<KtlintExtension> {
+        version.set(rootProject.libs.versions.ktlint.source.get())
+        android.set(true)
+        outputToConsole.set(true)
+    }
 }
 
 tasks.register("cleanAll", Delete::class) {
     allprojects.map { it.buildDir }.forEach(::delete)
 }
 
-apply {
-    from("gradle/projectDependencyGraph.gradle")
-}
+apply(from = "gradle/projectDependencyGraph.gradle")
