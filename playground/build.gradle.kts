@@ -29,6 +29,6 @@ android {
 
 dependencies {
     implementations(projects.uiComponents)
-    linkChecksOverride(projects.lintCore, projects.lintCompose, projects.lintWriting)
+    lintChecksOverride(projects.lintCore, projects.lintCompose, projects.lintWriting)
     setupCompose(core = libs.bundles.compose.core, debug = libs.bundles.compose.debug)
 }
