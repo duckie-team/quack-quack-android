@@ -29,6 +29,6 @@ android {
 
 dependencies {
     implementations(projects.common, libs.util.profileinstaller)
-    lintPublichs(projects.lintCore, projects.lintCompose, projects.lintWriting)
+    lintPublishs(projects.lintCore, projects.lintCompose, projects.lintWriting)
     setupCompose(core = libs.bundles.compose.core, debug = libs.bundles.compose.debug)
 }

@@ -33,7 +33,7 @@ fun DependencyScope.setupCompose(core: Any, debug: Any) {
     delegate(method = DebugImplementation, debug)
 }
 
-fun DependencyScope.lintPublichs(vararg paths: Any) {
+fun DependencyScope.lintPublishs(vararg paths: Any) {
     delegate(method = LintPublish, paths = paths)
 }
 
