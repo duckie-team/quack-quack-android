@@ -16,8 +16,6 @@ private const val CompileOnly = "compileOnly"
 private const val LintPublish = "lintPublish"
 private const val Api = "api"
 
-private val lintModules = listOf(":lint-core", ":lint-compose", ":lint-writing")
-
 fun DependencyScope.setupJunit(core: Any, engine: Any) {
     delegate(method = TestImplementation, core)
     delegate(method = TestRuntimeOnly, engine)
