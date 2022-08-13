@@ -1,0 +1,3 @@
+stable class EmptyTest {
+  <runtime stability> = Stable
+}
