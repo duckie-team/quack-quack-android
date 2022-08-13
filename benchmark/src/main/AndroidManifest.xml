@@ -4,7 +4,10 @@
      Licensed under the MIT.
      Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
 -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-sdk tools:overrideLibrary="androidx.benchmark.macro.junit4" />
 
     <queries>
         <package android:name="land.sungbin.duckie.quackquack.playground" />
