@@ -8,8 +8,9 @@ guidelines you need to follow.
 Ensure your change is properly formatted by running:
 
 ```gradle
-./gradlew ktlintCheck
+./gradlew ktlintFormat
 ./gradlew detekt
+./gradlew spotlessApply
 ```
 
 Also, it's need testing:
