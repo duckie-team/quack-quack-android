@@ -87,12 +87,20 @@ subprojects {
     configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         kotlin {
             target("**/*.kt")
-            licenseHeaderFile(rootProject.file("license.kt"))
+            ktlint(libs.versions.ktlint.get()).userData(mapOf("android" to "true"))
+            licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
             trimTrailingWhitespace()
         }
         format("kts") {
             target("**/*.kts")
-            licenseHeaderFile(rootProject.file("license.kt"), "(^(?![\\/ ]\\*).*$)")
+            // Look for the first line that doesn't have a block comment (assumed to be the license)
+            licenseHeaderFile(rootProject.file("spotless/copyright.kt"), "(^(?![\\/ ]\\*).*$)")
+            trimTrailingWhitespace()
+        }
+        format("xml") {
+            target("**/*.xml")
+            // Look for the first XML tag that isn't a comment (<!--) or the xml declaration (<?xml)
+            licenseHeaderFile(rootProject.file("spotless/copyright.xml"), "(<[^!?])")
             trimTrailingWhitespace()
         }
     }
