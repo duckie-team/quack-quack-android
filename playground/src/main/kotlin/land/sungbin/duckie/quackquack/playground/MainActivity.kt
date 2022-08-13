@@ -1,6 +1,8 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
+ * [MainActivity.kt] created by Ji Sungbin on 22. 8. 14. 오전 12:59
+ *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -16,7 +18,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BasicText(text = "AWESOME GRADLE!")
+            BasicText(text = "AWESOME AGAIN!")
         }
     }
 }
