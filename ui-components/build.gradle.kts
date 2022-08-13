@@ -30,5 +30,6 @@ android {
 dependencies {
     implementations(projects.common, libs.util.profileinstaller)
     lintPublishs(projects.lintCore, projects.lintCompose, projects.lintWriting)
+    setupJunit(core = libs.test.junit.core, engine = libs.test.junit.engine)
     setupCompose(core = libs.bundles.compose.core, debug = libs.bundles.compose.debug)
 }
