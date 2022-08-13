@@ -4,10 +4,10 @@ plugins {
 
 group = "land.sungbin.duckie.quackquack.plugin"
 
-// JavaVersion.VERSION_11 변수로 하면 빌드 에러뜸
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    val version = JavaVersion.VERSION_11
+    sourceCompatibility = version
+    targetCompatibility = version
 }
 
 dependencies {
@@ -15,36 +15,40 @@ dependencies {
     implementation(libs.build.kotlin)
 }
 
-// quackquack 변수로 하면 빌드 에러뜸
 gradlePlugin {
+    val prefix = "quackquack"
     plugins {
         register("applicationPlugin") {
-            id = "quackquack.application.plugin"
+            id = "$prefix.application.plugin"
             implementationClass = "ApplicationPlugin"
         }
         register("applicationComposePlugin") {
-            id = "quackquack.application.compose.plugin"
+            id = "$prefix.application.compose.plugin"
             implementationClass = "ApplicationComposePlugin"
         }
         register("applicationJacocoPlugin") {
-            id = "quackquack.application.jacoco.plugin"
+            id = "$prefix.application.jacoco.plugin"
             implementationClass = "ApplicationJacocoPlugin"
         }
         register("libraryPlugin") {
-            id = "quackquack.library.plugin"
+            id = "$prefix.library.plugin"
             implementationClass = "LibraryPlugin"
         }
         register("libraryComposePlugin") {
-            id = "quackquack.library.compose.plugin"
+            id = "$prefix.library.compose.plugin"
             implementationClass = "LibraryComposePlugin"
         }
         register("libraryJacocoPlugin") {
-            id = "quackquack.library.jacoco.plugin"
+            id = "$prefix.library.jacoco.plugin"
             implementationClass = "LibraryJacocoPlugin"
         }
         register("benchmarkPlugin") {
-            id = "quackquack.benchmark.plugin"
+            id = "$prefix.benchmark.plugin"
             implementationClass = "BenchmarkPlugin"
+        }
+        register("projectJacoco") {
+            id = "$prefix.project.jacoco.plugin"
+            implementationClass = "ProjectJacocoPlugin"
         }
     }
 }

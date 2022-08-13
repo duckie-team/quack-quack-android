@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.spotless)
+    id("quackquack.project.jacoco.plugin")
 }
 
 buildscript {
@@ -58,6 +59,10 @@ allprojects {
                     "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$projectPath/report/compose-reports"
                 )
             }
+        }
+
+        tasks.withType<Test> {
+            useJUnitPlatform()
         }
     }
 
