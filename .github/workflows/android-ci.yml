@@ -36,5 +36,8 @@ jobs:
       - name: Check ktlint format
         run: ./gradlew ktlintCheck
 
-      - name: Build assemble release apk
-        run: ./gradlew assembleRelease
+      - name: Check detekt format
+        run: ./gradlew detekt
+
+      - name: Check spotless format
+        run: ./gradlew spotlessCheck
