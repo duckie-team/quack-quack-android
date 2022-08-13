@@ -5,9 +5,7 @@ package land.sungbin.duckie.quackquack.plugin
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
 
-internal fun Project.configureApplication(
-    commonExtension: CommonExtension<*, *, *, *>,
-) {
+internal fun Project.configureApplication(commonExtension: CommonExtension<*, *, *, *>) {
     commonExtension.apply {
         compileSdk = ApplicationConstants.compileSdk
 

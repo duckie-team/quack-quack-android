@@ -18,9 +18,7 @@ private val coverageExclusions = listOf(
     "**/Manifest*.*"
 )
 
-internal fun Project.configureJacoco(
-    androidComponentsExtension: AndroidComponentsExtension<*, *, *>,
-) {
+internal fun Project.configureJacoco(androidComponentsExtension: AndroidComponentsExtension<*, *, *>) {
     configure<JacocoPluginExtension> {
         toolVersion = libs.findVersion("jacoco").get().toString()
     }
@@ -30,32 +28,31 @@ internal fun Project.configureJacoco(
     androidComponentsExtension.onVariants { variant ->
         val testTaskName = "test${variant.name.capitalize(Locale.getDefault())}UnitTest"
 
-        val reportTask =
-            tasks.register(
-                name = "jacoco${testTaskName.capitalize(Locale.getDefault())}Report",
-                type = JacocoReport::class
-            ) {
-                dependsOn(testTaskName)
+        val reportTask = tasks.register(
+            name = "jacoco${testTaskName.capitalize(Locale.getDefault())}Report",
+            type = JacocoReport::class
+        ) {
+            dependsOn(testTaskName)
 
-                reports {
-                    xml.required.set(true)
-                    html.required.set(true)
-                }
-
-                classDirectories.setFrom(
-                    fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
-                        exclude(coverageExclusions)
-                    }
-                )
-
-                sourceDirectories.setFrom(
-                    files(
-                        "$projectDir/src/main/java",
-                        "$projectDir/src/main/kotlin"
-                    )
-                )
-                executionData.setFrom(file("$buildDir/jacoco/$testTaskName.exec"))
+            reports {
+                xml.required.set(true)
+                html.required.set(true)
             }
+
+            classDirectories.setFrom(
+                fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
+                    exclude(coverageExclusions)
+                }
+            )
+
+            sourceDirectories.setFrom(
+                files(
+                    "$projectDir/src/main/java",
+                    "$projectDir/src/main/kotlin"
+                )
+            )
+            executionData.setFrom(file("$buildDir/jacoco/$testTaskName.exec"))
+        }
 
         jacocoTestReport.dependsOn(reportTask)
     }
