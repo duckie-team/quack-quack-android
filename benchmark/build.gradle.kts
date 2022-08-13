@@ -1,4 +1,3 @@
-// buildTypes, AndroidConfig
 @file:Suppress("UnstableApiUsage")
 
 plugins {
