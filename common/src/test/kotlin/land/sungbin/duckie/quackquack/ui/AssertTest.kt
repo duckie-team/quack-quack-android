@@ -17,6 +17,16 @@ class AssertTest {
     private val nullableValue: String? = "Bye, World!"
     private val nullValue: String? = null
 
+    @Test(expected = IllegalStateException::class)
+    fun `throw-ise`() {
+        runtimeCheck(false)
+    }
+
+    @Test
+    fun checkPassed() {
+        runtimeCheck(true)
+    }
+
     @Test
     fun `non-null-value`() {
         assertNotNull(requireNonNull(nullableValue))
@@ -24,11 +34,6 @@ class AssertTest {
 
     @Test(expected = NullPointerException::class)
     fun `throw-npe`() {
-        requireNonNull(nullValue)
-    }
-
-    @Test(expected = IllegalStateException::class)
-    fun `throw-ise`() {
-        runtimeCheck(false)
+        assertNotNull(requireNonNull(nullValue))
     }
 }
