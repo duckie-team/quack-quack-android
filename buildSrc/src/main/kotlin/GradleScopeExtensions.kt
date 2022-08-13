@@ -33,7 +33,7 @@ fun DependencyScope.setupCompose(core: Any, debug: Any) {
     delegate(method = DebugImplementation, debug)
 }
 
-fun DependencyScope.linkChecksOverride(vararg paths: Any) {
+fun DependencyScope.lintChecksOverride(vararg paths: Any) {
     delegate(method = LintChecks, paths = paths)
 }
 
