@@ -36,16 +36,10 @@ allprojects {
     }
 
     afterEvaluate {
-        project.apply("$rootDir/gradle/common.gradle")
-
         detekt {
             buildUponDefaultConfig = true
             toolVersion = libs.versions.detekt.get()
             config.setFrom(files("$rootDir/detekt-config.yml"))
-        }
-
-        tasks.withType<Detekt>().configureEach {
-            jvmTarget = ApplicationConstants.jvmTarget
         }
 
         tasks.withType<KotlinCompile> {

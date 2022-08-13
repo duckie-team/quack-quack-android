@@ -6,10 +6,9 @@
  */
 
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    id(PluginEnum.Library)
+    id(PluginEnum.LibraryJacoco)
     alias(libs.plugins.dokka)
-    jacoco
 }
 
 android {
@@ -18,5 +17,4 @@ android {
 
 dependencies {
     apis(libs.util.logeukes)
-    setupJunit(core = libs.test.junit.core, engine = libs.test.junit.engine)
 }

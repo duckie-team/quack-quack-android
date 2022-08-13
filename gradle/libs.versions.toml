@@ -18,6 +18,7 @@ landscapist = "1.6.1"
 accompanist = "0.26.1-alpha"
 
 # tools
+jacoco = "0.8.8"
 lint = "30.2.2"
 logeukes = "1.0.0"
 profileinstaller = "1.2.0"
@@ -71,3 +72,4 @@ test-compose-junit = { module = "androidx.compose.ui:ui-test-junit4", version.re
 lint = ["lint-api", "lint-checks"] # compileOnly
 compose-core = ["compose-foundation", "compose-activity", "compose-glide", "compose-tooling-preview"]
 compose-debug = ["compose-tooling", "customview-core", "customview-poolingcontainer"] # debugImplementation
+benchmark = ["androidx-junit", "androidx-benchmark"]
