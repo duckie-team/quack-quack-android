@@ -1,0 +1,22 @@
+complexity:
+  LongParameterList:
+    active: false
+
+style:
+  MagicNumber:
+    ignorePropertyDeclaration: true
+    ignoreCompanionObjectPropertyDeclaration: true
+  ForbiddenComment:
+    active: false
+  UnusedPrivateMember:
+    ignoreAnnotated: [ 'preview' ]
+  ThrowsCount:
+    active: false
+
+naming:
+  TopLevelPropertyNaming:
+    constantPattern: '[A-Z][A-Za-z0-9]*'
+  FunctionNaming:
+    ignoreAnnotated: [ 'Composable' ]
+  MatchingDeclarationName:
+    active: false
