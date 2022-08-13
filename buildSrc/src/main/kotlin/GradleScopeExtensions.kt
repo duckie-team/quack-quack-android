@@ -13,7 +13,7 @@ private const val DebugImplementation = "debugImplementation"
 private const val TestRuntimeOnly = "testRuntimeOnly"
 private const val TestImplementation = "testImplementation"
 private const val CompileOnly = "compileOnly"
-private const val LintChecks = "lintChecks"
+private const val LintPublish = "lintPublish"
 private const val Api = "api"
 
 private val lintModules = listOf(":lint-core", ":lint-compose", ":lint-writing")
@@ -33,8 +33,8 @@ fun DependencyScope.setupCompose(core: Any, debug: Any) {
     delegate(method = DebugImplementation, debug)
 }
 
-fun DependencyScope.lintChecksOverride(vararg paths: Any) {
-    delegate(method = LintChecks, paths = paths)
+fun DependencyScope.lintPublichs(vararg paths: Any) {
+    delegate(method = LintPublish, paths = paths)
 }
 
 fun DependencyScope.implementations(vararg paths: Any) {

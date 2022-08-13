@@ -29,6 +29,5 @@ android {
 
 dependencies {
     implementations(projects.uiComponents)
-    lintChecksOverride(projects.lintCore, projects.lintCompose, projects.lintWriting)
     setupCompose(core = libs.bundles.compose.core, debug = libs.bundles.compose.debug)
 }
