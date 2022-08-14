@@ -56,4 +56,16 @@ class QuackTextStyle private constructor(
             lineHeight = 20.sp,
         )
     }
+
+    // TODO: support color change animation
+    @Stable
+    internal fun changeColor(
+        newColor: QuackColor,
+    ) = QuackTextStyle(
+        color = newColor,
+        size = size,
+        weight = weight,
+        letterSpacing = letterSpacing,
+        lineHeight = lineHeight,
+    )
 }
