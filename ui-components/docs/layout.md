@@ -128,3 +128,43 @@ Column(
 ### 결론
 
 구현 보류 -> 추후 회의로 논의해야 함
+
+---
+
+### 다시 찾은 해결 방법
+
+```kotlin
+class EmptyActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                        .background(color = Color.Black)
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .background(color = Color.Red)
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                        .background(color = Color.Black)
+                )
+            }
+        }
+    }
+}
+```
+
+이렇게 Modifier.weight 를 이용해 계층 구분을 해주면 ConstraintLayout 없이 ColumnScope 를 그대로 사용하면서 구현할 수 있음.
