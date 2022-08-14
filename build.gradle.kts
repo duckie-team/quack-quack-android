@@ -93,6 +93,7 @@ subprojects {
         version.set(rootProject.libs.versions.ktlint.source.get())
         android.set(true)
         outputToConsole.set(true)
+        additionalEditorconfigFile.set(file("$rootDir/.editorconfig"))
     }
 }
 
