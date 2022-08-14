@@ -9,10 +9,12 @@
 
 package land.sungbin.duckie.quackquack.ui.component
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -25,7 +27,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import land.sungbin.duckie.quackquack.common.runIf
-import land.sungbin.duckie.quackquack.ui.component.modifier.surface
+import land.sungbin.duckie.quackquack.ui.animation.quackTween
+import land.sungbin.duckie.quackquack.ui.modifier.surface
 
 @Composable
 internal fun QuackSurface(
@@ -38,7 +41,7 @@ internal fun QuackSurface(
     rippleColor: Color = Color.Unspecified,
     onClick: (() -> Unit)? = null,
     contentAlignment: Alignment = Alignment.Center,
-    content: @Composable () -> Unit,
+    content: @Composable BoxScope.() -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -61,10 +64,12 @@ internal fun QuackSurface(
                     role = Role.Button,
                     onClick = onClick!!,
                 )
-            },
+            }
+            .animateContentSize(
+                animationSpec = quackTween(),
+            ),
         propagateMinConstraints = true,
         contentAlignment = contentAlignment,
-    ) {
-        content()
-    }
+        content = content,
+    )
 }
