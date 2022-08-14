@@ -7,6 +7,8 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("UNUSED_VARIABLE")
+
 package land.sungbin.duckie.quackquack.playground
 
 import android.os.Bundle
@@ -15,29 +17,37 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import land.sungbin.duckie.quackquack.ui.color.QuackColor
-import land.sungbin.duckie.quackquack.ui.component.QuackButton
-import land.sungbin.duckie.quackquack.ui.typography.QuackTextStyle
+import land.sungbin.duckie.quackquack.ui.component.QuackLargeButton
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            var enabled by remember { mutableStateOf(true) }
             val toast = rememberToast()
 
             Column(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Bottom,
+                verticalArrangement = Arrangement.SpaceBetween,
             ) {
-                QuackButton(
-                    backgroundColor = QuackColor.PumpkinOrange,
-                    radius = 12.dp,
+                BasicTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "Click Me!",
+                    onValueChange = {},
+                )
+                QuackLargeButton(
+                    enabled = enabled,
+                    imeSupport = true,
                     text = "QuackButton",
-                    textStyle = QuackTextStyle.M1420
                 ) {
-                    toast("Bye, world!")
+                    enabled = !enabled
                 }
             }
         }
