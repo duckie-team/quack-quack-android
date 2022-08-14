@@ -57,7 +57,7 @@ class QuackTextStyle private constructor(
         )
     }
 
-    // TODO: support color change animation
+    // TODO: 색상 변경 애니메이션 지원
     @Stable
     internal fun changeColor(
         newColor: QuackColor,

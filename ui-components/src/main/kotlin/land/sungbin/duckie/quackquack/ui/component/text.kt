@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import land.sungbin.duckie.quackquack.ui.typography.QuackTextStyle
 
-// TODO: text change animation (use AnimatedContent)
+// TODO: AnimatedContent 를 사용해서 텍스트 변경 애니메이션 지원
 @Composable
 internal fun QuackText(
     modifier: Modifier = Modifier,
