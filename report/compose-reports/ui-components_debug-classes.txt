@@ -1,8 +1,3 @@
-stable class QuackTextStyle {
-  stable val color: QuackColor
-  stable val size: TextUnit
-  stable val weight: FontWeight
-  stable val letterSpacing: TextUnit
-  stable val lineHeight: TextUnit
-  stable val suit: FontFamily
+stable class QuackLayoutDefault {
+  stable val PaddingValues: PaddingValues
 }
