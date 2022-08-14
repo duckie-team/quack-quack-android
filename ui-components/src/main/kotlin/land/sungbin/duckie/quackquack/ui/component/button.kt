@@ -109,6 +109,7 @@ internal fun QuackBasicButton(
             .padding(
                 paddingValues = margin,
             )
+            // TODO: ime 애니메이션에 따른 컴포넌트 사이즈 조정 애니메이션 지원
             .runIf(imeSupport) {
                 imePadding()
             },
