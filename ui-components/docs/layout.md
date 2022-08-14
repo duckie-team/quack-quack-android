@@ -102,7 +102,6 @@ Column(
     )
     Box( // content
         modifier = Modifier
-            .fillMaxWidth()
             .fillMaxSize()
             .background(color = Color.Green)
     )
@@ -118,3 +117,10 @@ Column(
 이렇게 Column 으로 구현했다면 content 에서 fillMaxSize 를 하게 되면 footer 가 content 에 가려져서 안보임. ConstraintLayout 을
 이용하여 특정 영역의 경계를 확실하게 나누는 것으로 결정함.
 
+---
+
+### 다시 문제
+
+구현을 ConstraintLayout 으로 하게 된다면 ColumnScope 를 이용할 수 없음. 남은 방법은 measure policy 를 직접 만드는 것이지만, 이 방법은
+구글이 만드는 것보다 훨씬 비효율적이고 학습 곡선이 갑자기 가팔라짐. ConstraintLayout 을 이용해 그대로 구현하는 경우 ColumnScope 의 구현을 포기해야 함.
+하지만 Column 이 사용되는 곳은 아주 많기 때문에 ColumnScope 를 포기하는 것은 큰 결심이 필요함.
