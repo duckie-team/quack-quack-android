@@ -21,6 +21,11 @@ android {
 }
 
 dependencies {
-    implementations(projects.common, libs.util.profileinstaller)
+    implementations(
+        projects.common,
+        libs.util.profileinstaller,
+        libs.compose.constraintlayout,
+        libs.compose.glide
+    )
     lintPublishs(projects.lintCore, projects.lintCompose, projects.lintWriting)
 }
