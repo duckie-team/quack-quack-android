@@ -7,7 +7,7 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package land.sungbin.duckie.quackquack.ui.component.modifier
+package land.sungbin.duckie.quackquack.ui.modifier
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
