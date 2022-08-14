@@ -10,14 +10,12 @@
 package land.sungbin.duckie.quackquack.ui.layout
 
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 
 private typealias ColumnContent = @Composable ColumnScope.() -> Unit
 
-@LayoutScopeMarker
 @Immutable
 interface QuackColumnScope {
     @Stable
@@ -30,16 +28,13 @@ interface QuackColumnScope {
     fun footer(content: ColumnContent)
 }
 
-private class QuackColumnScopeInstance(columnScope: ColumnScope) : QuackColumnScope,
-    ColumnScope by columnScope {
+private class QuackColumnScopeInstance(
+    columnScope: ColumnScope,
+) : QuackColumnScope, ColumnScope by columnScope {
 
-    lateinit var headerContent: ColumnContent
-    lateinit var contentContent: ColumnContent
-    lateinit var footerContent: ColumnContent
-
-    val hasHeader get() = ::headerContent.isInitialized
-    val hasContent get() = ::contentContent.isInitialized
-    val hasFooter get() = ::footerContent.isInitialized
+    var headerContent: ColumnContent = {}
+    var contentContent: ColumnContent = {}
+    var footerContent: ColumnContent = {}
 
     override fun header(content: ColumnContent) {
         headerContent = content
