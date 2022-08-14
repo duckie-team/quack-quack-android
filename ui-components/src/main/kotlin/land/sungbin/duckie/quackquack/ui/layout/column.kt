@@ -1,7 +1,7 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [layout.kt] created by Ji Sungbin on 22. 8. 14. 오후 5:17
+ * [column.kt] created by Ji Sungbin on 22. 8. 14. 오후 5:17
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.ui.Modifier
-import androidx.constraintlayout.compose.ConstraintLayout
 
 private typealias ColumnContent = @Composable ColumnScope.() -> Unit
 
@@ -53,15 +51,5 @@ private class QuackColumnScopeInstance(columnScope: ColumnScope) : QuackColumnSc
 
     override fun footer(content: ColumnContent) {
         footerContent = content
-    }
-}
-
-@Composable
-fun QuackColumn(
-    modifier: Modifier = Modifier,
-    content: QuackColumnScope.() -> Unit
-) {
-    ConstraintLayout(modifier = modifier) {
-        val (headerRef, contentRef, footerRef) = createRefs()
     }
 }

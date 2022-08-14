@@ -46,6 +46,7 @@ build-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradl
 build-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 compose-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "compose-constraintlayout" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose-core" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-core" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
 compose-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapist" }
