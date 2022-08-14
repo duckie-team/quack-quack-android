@@ -7,33 +7,92 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("ModifierParameter")
+
 package land.sungbin.duckie.quackquack.ui.component
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import land.sungbin.duckie.quackquack.common.runIf
 import land.sungbin.duckie.quackquack.ui.animation.quackTween
 import land.sungbin.duckie.quackquack.ui.color.QuackColor
+import land.sungbin.duckie.quackquack.ui.constant.NoPadding
+import land.sungbin.duckie.quackquack.ui.constant.QuackHeight
+import land.sungbin.duckie.quackquack.ui.constant.QuackWidth
+import land.sungbin.duckie.quackquack.ui.modifier.applyQuackSize
 import land.sungbin.duckie.quackquack.ui.typography.QuackTextStyle
 
+@Immutable
+private object QuackButtonDefaults {
+    @Stable
+    val DefaultHorizontalPadding = 16.dp
+
+    @Stable
+    val DefaultVerticalPadding = 8.dp
+
+    @Stable
+    val PaddingValues = PaddingValues(
+        horizontal = DefaultHorizontalPadding,
+        vertical = DefaultVerticalPadding,
+    )
+}
+
 @Composable
-fun QuackButton(
-    modifier: Modifier = Modifier,
-    backgroundColor: QuackColor,
+fun QuackLargeButton(
+    enabled: Boolean,
+    text: String,
+    imeSupport: Boolean = false,
+    onClick: () -> Unit,
+) {
+    QuackBasicButton(
+        width = QuackWidth.Fill,
+        height = QuackHeight.Custom(
+            height = 44.dp,
+        ),
+        imeSupport = imeSupport,
+        backgroundColor = when (enabled) {
+            true -> QuackColor.PumpkinOrange
+            else -> QuackColor.Greyish
+        },
+        radius = 8.dp,
+        text = text,
+        textStyle = QuackTextStyle.M1420.changeColor(
+            newColor = QuackColor.White,
+        ),
+        onClick = onClick
+    )
+}
+
+@Composable
+internal fun QuackBasicButton(
+    width: QuackWidth,
+    height: QuackHeight,
+    margin: PaddingValues = NoPadding,
+    imeSupport: Boolean = false,
+    backgroundColor: QuackColor = QuackColor.Unspecified,
     border: BorderStroke? = null,
     elevation: Dp = 0.dp,
-    radius: Dp,
+    radius: Dp = 0.dp,
     rippleEnabled: Boolean = true,
-    rippleColor: QuackColor = QuackColor.Unspecified, // vs 그냥 Color 사용 (고민중)
+    rippleColor: QuackColor = QuackColor.Unspecified,
     text: String,
-    textStyle: QuackTextStyle,
+    textStyle: QuackTextStyle = QuackTextStyle.M1420,
+    textPadding: PaddingValues = QuackButtonDefaults.PaddingValues,
     onClick: () -> Unit,
 ) {
     val animatedBackgroundColor by animateColorAsState(
@@ -42,9 +101,17 @@ fun QuackButton(
     )
 
     QuackSurface(
-        modifier = modifier.animateContentSize(
-            animationSpec = quackTween(),
-        ),
+        modifier = Modifier
+            .applyQuackSize(
+                width = width,
+                height = height,
+            )
+            .padding(
+                paddingValues = margin,
+            )
+            .runIf(imeSupport) {
+                imePadding()
+            },
         border = border,
         elevation = elevation,
         shape = RoundedCornerShape(
@@ -55,10 +122,19 @@ fun QuackButton(
         rippleColor = rippleColor.value,
         onClick = onClick,
     ) {
-        // TODO: add text change animation, migration to QuackText
-        Text(
-            text = text,
-            style = textStyle.toComposeStyle(),
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    paddingValues = textPadding,
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            QuackText(
+                text = text,
+                style = textStyle,
+            )
+        }
     }
 }
