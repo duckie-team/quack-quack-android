@@ -56,7 +56,7 @@ private object QuackButtonDefaults {
 fun QuackLargeButton(
     enabled: Boolean,
     text: String,
-    imeSupport: Boolean = false,
+    imeAnimation: Boolean = false,
     onClick: () -> Unit,
 ) {
     QuackBasicButton(
@@ -64,7 +64,7 @@ fun QuackLargeButton(
         height = QuackHeight.Custom(
             height = 44.dp,
         ),
-        imeSupport = imeSupport,
+        imeAnimation = imeAnimation,
         backgroundColor = when (enabled) {
             true -> QuackColor.PumpkinOrange
             else -> QuackColor.Greyish
@@ -83,7 +83,7 @@ internal fun QuackBasicButton(
     width: QuackWidth,
     height: QuackHeight,
     margin: PaddingValues = NoPadding,
-    imeSupport: Boolean = false,
+    imeAnimation: Boolean = false,
     backgroundColor: QuackColor = QuackColor.Unspecified,
     border: BorderStroke? = null,
     elevation: Dp = 0.dp,
@@ -110,7 +110,7 @@ internal fun QuackBasicButton(
                 paddingValues = margin,
             )
             // TODO: ime 애니메이션에 따른 컴포넌트 사이즈 조정 애니메이션 지원
-            .runIf(imeSupport) {
+            .runIf(imeAnimation) {
                 imePadding()
             },
         border = border,

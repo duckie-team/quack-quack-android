@@ -78,10 +78,11 @@ private fun QuackButtonTest() {
         )
         QuackLargeButton(
             enabled = enabled,
-            imeSupport = true,
+            imeAnimation = true,
             text = "QuackButton",
-        ) {
-            enabled = !enabled
-        }
+            onClick = {
+                enabled = !enabled
+            }
+        )
     }
 }
