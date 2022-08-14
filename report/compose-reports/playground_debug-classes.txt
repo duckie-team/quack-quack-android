@@ -1,3 +1,8 @@
 stable class MainActivity {
   <runtime stability> = Stable
 }
+unstable class ToastWrapper {
+  unstable val contextWrapper: WeakReference<@[FlexibleNullability] Context?>
+  unstable val toastInstance: @[FlexibleNullability] Toast?
+  <runtime stability> = Unstable
+}

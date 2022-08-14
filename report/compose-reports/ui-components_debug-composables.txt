@@ -1,0 +1,24 @@
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackButton(
+  stable modifier: Modifier? = @static Companion
+  stable backgroundColor: QuackColor
+  stable border: BorderStroke? = @static null
+  stable elevation: Dp = @dynamic LiveLiterals$ButtonKt.Int$$$this$call-$get-dp$$param-elevation$fun-QuackButton().dp
+  stable radius: Dp
+  stable rippleEnabled: Boolean = @dynamic LiveLiterals$ButtonKt.Boolean$param-rippleEnabled$fun-QuackButton()
+  stable rippleColor: QuackColor = @static Companion.Unspecified
+  stable text: String
+  stable textStyle: QuackTextStyle
+  stable onClick: Function0<Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable, [androidx.compose.ui.UiComposable]]") fun QuackSurface(
+  stable modifier: Modifier? = @static Companion
+  stable shape: Shape? = @static RectangleShape
+  stable backgroundColor: Color
+  stable border: BorderStroke? = @static null
+  stable elevation: Dp = @dynamic LiveLiterals$SurfaceKt.Int$$$this$call-$get-dp$$param-elevation$fun-QuackSurface().dp
+  stable rippleEnabled: Boolean = @dynamic LiveLiterals$SurfaceKt.Boolean$param-rippleEnabled$fun-QuackSurface()
+  stable rippleColor: Color = @static Companion.Unspecified
+  stable onClick: Function0<Unit>? = @static null
+  stable contentAlignment: Alignment? = @static Companion.Center
+  stable content: Function2<Composer, Int, Unit>
+)
