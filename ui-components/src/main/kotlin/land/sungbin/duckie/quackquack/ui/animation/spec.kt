@@ -9,15 +9,15 @@
 
 package land.sungbin.duckie.quackquack.ui.animation
 
-import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Stable
 
 @Stable
-private const val DefaultAnimationMills = 500
+private const val DefaultAnimationMills = 250
 
 @Stable
 internal fun <T> quackTween() = tween<T>(
     durationMillis = DefaultAnimationMills,
-    easing = LinearEasing,
+    easing = FastOutSlowInEasing,
 )
