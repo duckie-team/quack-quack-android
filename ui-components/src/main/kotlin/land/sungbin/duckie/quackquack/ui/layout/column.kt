@@ -9,11 +9,8 @@
 
 package land.sungbin.duckie.quackquack.ui.layout
 
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
-
+// layout 문서 참고
+/*
 private typealias ColumnContent = @Composable ColumnScope.() -> Unit
 
 @Immutable
@@ -48,3 +45,4 @@ private class QuackColumnScopeInstance(
         footerContent = content
     }
 }
+*/
