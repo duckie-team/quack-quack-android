@@ -21,8 +21,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,21 +34,6 @@ import land.sungbin.duckie.quackquack.ui.constant.QuackHeight
 import land.sungbin.duckie.quackquack.ui.constant.QuackWidth
 import land.sungbin.duckie.quackquack.ui.modifier.applyQuackSize
 import land.sungbin.duckie.quackquack.ui.typography.QuackTextStyle
-
-@Immutable
-private object QuackButtonDefaults {
-    @Stable
-    val DefaultHorizontalPadding = 16.dp
-
-    @Stable
-    val DefaultVerticalPadding = 8.dp
-
-    @Stable
-    val PaddingValues = PaddingValues(
-        horizontal = DefaultHorizontalPadding,
-        vertical = DefaultVerticalPadding,
-    )
-}
 
 @Composable
 fun QuackLargeButton(
@@ -92,7 +75,7 @@ internal fun QuackBasicButton(
     rippleColor: QuackColor = QuackColor.Unspecified,
     text: String,
     textStyle: QuackTextStyle = QuackTextStyle.M1420,
-    textPadding: PaddingValues = QuackButtonDefaults.PaddingValues,
+    textPadding: PaddingValues = NoPadding,
     onClick: () -> Unit,
 ) {
     val animatedBackgroundColor by animateColorAsState(
