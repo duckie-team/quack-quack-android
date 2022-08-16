@@ -15,6 +15,7 @@ import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Implementation
 import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
+import com.android.tools.lint.detector.api.LintFix
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import org.jetbrains.uast.UCallExpression
@@ -31,7 +32,7 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
             reportIssue(
                 context = context,
                 node = node,
-                name = name,
+                currentName = name,
                 preferredName = preferredName,
             )
         }
@@ -44,14 +45,24 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
     private fun reportIssue(
         context: JavaContext,
         node: UElement,
-        name: String,
+        currentName: String,
         preferredName: String,
     ) {
+        val quickfix = LintFix.create()
+            .name("Use $preferredName")
+            .replace()
+            .text(currentName)
+            .with(preferredName)
+            .robot(true)
+            .independent(true)
+            .build()
+
         context.report(
             issue = ISSUE,
             scope = node,
             location = context.getLocation(node),
-            message = "Using $preferredName instead of $name",
+            message = "Using $preferredName instead of $currentName",
+            quickfixData = quickfix
         )
     }
 
@@ -61,7 +72,7 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
             id = "DesignSystem",
             briefDescription = "Design system",
             explanation = "Jetpack Compose 의 foundation 컴포저블 대신에 " +
-                "QuackQuack 디자인 시스템의 컴포저블을 사용해야 합니다.",
+                    "QuackQuack 디자인 시스템의 컴포저블을 사용해야 합니다.",
             category = Category.CUSTOM_LINT_CHECKS,
             priority = 7,
             severity = Severity.ERROR,
