@@ -11,15 +11,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler as DependencyScope
 import org.gradle.api.artifacts.ProjectDependency
 
 private const val Implementation = "implementation"
-private const val LintPublish = "lintPublish"
 private const val Api = "api"
-
-fun DependencyScope.lintPublishs(vararg paths: Any) {
-    delegate(
-        method = LintPublish,
-        paths = paths,
-    )
-}
 
 fun DependencyScope.implementations(vararg paths: Any) {
     delegate(
