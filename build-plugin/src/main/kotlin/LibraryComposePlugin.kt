@@ -22,7 +22,11 @@ internal class LibraryComposePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             val extension = extensions.getByType<LibraryExtension>()
-            configureCompose(extension)
+
+            configureCompose(
+                commonExtension = extension,
+            )
+
             dependencies {
                 setupCompose(
                     core = libs.findBundle("compose-core").get(),

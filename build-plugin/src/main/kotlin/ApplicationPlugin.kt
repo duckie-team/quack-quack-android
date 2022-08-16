@@ -21,9 +21,15 @@ import org.gradle.kotlin.dsl.configure
 internal class ApplicationPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            applyPlugins(PluginEnum.Application, PluginEnum.Kotlin)
+            applyPlugins(
+                PluginEnum.Application,
+                PluginEnum.Kotlin,
+            )
+
             extensions.configure<BaseAppModuleExtension> {
-                configureApplication(this)
+                configureApplication(
+                    commonExtension = this,
+                )
                 defaultConfig {
                     targetSdk = ApplicationConstants.targetSdk
                     versionCode = ApplicationConstants.versionCode

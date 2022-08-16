@@ -21,8 +21,12 @@ import org.gradle.kotlin.dsl.dependencies
 internal class ApplicationJacocoPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            applyPlugins(PluginEnum.Jacoco)
+            applyPlugins(
+                PluginEnum.Jacoco,
+            )
+
             configureJacocoForOnceCoverage()
+
             dependencies {
                 setupJunit(
                     core = libs.findLibrary("test-junit-core").get(),

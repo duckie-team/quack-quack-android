@@ -16,7 +16,10 @@ import org.gradle.api.Project
 class ProjectJacocoPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            applyPlugins(PluginEnum.Jacoco)
+            applyPlugins(
+                PluginEnum.Jacoco,
+            )
+
             configureJacocoForAllCoverage()
         }
     }

@@ -21,7 +21,11 @@ import org.gradle.kotlin.dsl.configure
 internal class LibraryPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            applyPlugins(PluginEnum.Library, PluginEnum.Kotlin)
+            applyPlugins(
+                PluginEnum.AndroidLibrary,
+                PluginEnum.Kotlin,
+            )
+
             extensions.configure<LibraryExtension> {
                 configureApplication(this)
                 defaultConfig.targetSdk = ApplicationConstants.targetSdk

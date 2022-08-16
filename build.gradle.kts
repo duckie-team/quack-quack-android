@@ -48,15 +48,15 @@ allprojects {
             kotlinOptions {
                 freeCompilerArgs = freeCompilerArgs + listOf(
                     "-Xopt-in=kotlin.OptIn",
-                    "-Xopt-in=kotlin.RequiresOptIn"
+                    "-Xopt-in=kotlin.RequiresOptIn",
                 )
                 freeCompilerArgs = freeCompilerArgs + listOf(
                     "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=$projectPath/report/compose-metrics"
+                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=$projectPath/report/compose-metrics",
                 )
                 freeCompilerArgs = freeCompilerArgs + listOf(
                     "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$projectPath/report/compose-reports"
+                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$projectPath/report/compose-reports",
                 )
             }
         }

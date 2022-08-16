@@ -22,7 +22,11 @@ internal class ApplicationComposePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             val extension = extensions.getByType<BaseAppModuleExtension>()
-            configureCompose(extension)
+
+            configureCompose(
+                commonExtension = extension,
+            )
+
             dependencies {
                 setupCompose(
                     core = libs.findBundle("compose-core").get(),
