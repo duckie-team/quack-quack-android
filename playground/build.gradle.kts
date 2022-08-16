@@ -29,7 +29,6 @@ android {
 }
 
 dependencies {
-    implementations(
-        projects.uiComponents,
-    )
+    implementations(projects.uiComponents)
+     lintChecks(projects.lintCompose)
 }

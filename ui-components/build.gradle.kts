@@ -27,6 +27,4 @@ dependencies {
         libs.compose.material,
         libs.compose.glide,
     )
-    // 한개의 린트만 publish 가능
-    lintPublish(projects.lintCompose)
 }

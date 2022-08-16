@@ -22,6 +22,10 @@ internal fun Project.configureApplication(commonExtension: CommonExtension<*, *,
             minSdk = ApplicationConstants.minSdk
         }
 
+        lint {
+            abortOnError = false
+        }
+
         sourceSets {
             getByName("main").java.srcDirs("src/main/kotlin/")
         }
