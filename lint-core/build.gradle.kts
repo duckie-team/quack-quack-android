@@ -8,16 +8,5 @@
  */
 
 plugins {
-    id(PluginEnum.Library)
-    id(PluginEnum.LibraryJacoco)
-    alias(libs.plugins.dokka)
-}
-
-android {
-    namespace = "land.sungbin.duckie.quackquack.lint.core"
-}
-
-dependencies {
-    implementations(projects.common)
-    setupLint(core = libs.bundles.lint, test = libs.test.lint)
+    id(PluginEnum.Lint)
 }
