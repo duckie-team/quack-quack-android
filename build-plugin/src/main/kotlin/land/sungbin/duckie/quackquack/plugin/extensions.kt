@@ -38,13 +38,6 @@ internal fun CommonExtension<*, *, *, *>.kotlinOptions(block: KotlinJvmOptions.(
     (this as ExtensionAware).extensions.configure("kotlinOptions", block)
 }
 
-internal fun DependencyScope.compileOnlys(vararg paths: Any) {
-    delegate(
-        method = CompileOnly,
-        paths = paths,
-    )
-}
-
 internal fun DependencyScope.implementations(vararg paths: Any) {
     delegate(
         method = Implementation,
