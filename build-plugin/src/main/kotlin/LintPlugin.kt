@@ -1,4 +1,3 @@
-
 import land.sungbin.duckie.quackquack.plugin.PluginEnum
 import land.sungbin.duckie.quackquack.plugin.applyPlugins
 import land.sungbin.duckie.quackquack.plugin.compileOnlys
