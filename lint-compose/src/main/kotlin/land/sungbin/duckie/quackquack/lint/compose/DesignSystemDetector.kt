@@ -60,7 +60,8 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
         val ISSUE = Issue.create(
             id = "DesignSystem",
             briefDescription = "Design system",
-            explanation = "Jetpack Compose 의 foundation 컴포저블 대신에 QuackQuack 디자인 시스템의 컴포저블을 사용해야 합니다.",
+            explanation = "Jetpack Compose 의 foundation 컴포저블 대신에 " +
+                "QuackQuack 디자인 시스템의 컴포저블을 사용해야 합니다.",
             category = Category.CUSTOM_LINT_CHECKS,
             priority = 7,
             severity = Severity.ERROR,
