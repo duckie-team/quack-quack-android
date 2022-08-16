@@ -1,7 +1,7 @@
 // https://github.com/droidknights/DroidKnights2021_App/blob/main/gradle/dependencyGraph.gradle
 task projectDependencyGraph {
     doLast {
-        def dot = new File(rootProject.rootDir, "art/project-dependency-graph/graph.dot")
+        def dot = new File(rootProject.rootDir, "assets/project-dependency-graph/graph.dot")
         dot.parentFile.mkdirs()
         dot.delete()
 
