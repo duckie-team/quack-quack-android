@@ -1,0 +1,4 @@
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackColumn(
+  stable contentPadding: PaddingValues? = @static QuackLayoutDefault.PaddingValues
+  stable content: @[DisallowComposableCalls] @[ExtensionFunctionType] Function1<QuackColumnScope, Unit>
+)

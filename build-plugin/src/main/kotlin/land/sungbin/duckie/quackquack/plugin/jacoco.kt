@@ -86,10 +86,8 @@ internal fun Project.configureJacocoForAllCoverage() {
             }
         }
         val executions = subprojects.mapNotNull { project ->
-            val dir = "${project.buildDir}/jacoco/coverage.exec"
-            when (File(dir).exists()) {
-                true -> dir
-                else -> null
+            "${project.buildDir}/jacoco/coverage.exec".takeIf { dir ->
+                File(dir).exists()
             }
         }
 

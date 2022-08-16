@@ -18,33 +18,6 @@ private const val CompileOnly = "compileOnly"
 private const val LintPublish = "lintPublish"
 private const val Api = "api"
 
-/* file: settings.gradle.kts
-@file:Suppress("UnstableApiUsage")
-
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
-    }
-}
-*/
-
-/*
-private val DependencyScope.libs
-    get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
-
-fun DependencyScope.setupJUnit() {
-    delegate(method = TestImplementation, libs.findLibrary("test-junit-core"))
-    delegate(method = TestRuntimeOnly, libs.findLibrary("test-junit-engine"))
-}
-*/
-
 fun DependencyScope.setupJunit(core: Any, engine: Any) {
     delegate(method = TestImplementation, core)
     delegate(method = TestRuntimeOnly, engine)
