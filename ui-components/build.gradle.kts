@@ -25,7 +25,8 @@ dependencies {
         projects.common,
         libs.util.profileinstaller,
         libs.compose.material,
-        libs.compose.glide
+        libs.compose.glide,
     )
-    lintPublishs(projects.lintCore, projects.lintCompose, projects.lintWriting)
+    // 한개의 린트만 publish 가능
+    lintPublish(projects.lintCompose)
 }
