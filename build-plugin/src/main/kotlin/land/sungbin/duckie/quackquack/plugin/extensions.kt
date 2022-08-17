@@ -19,6 +19,7 @@ import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
+private const val CompileOnly = "compileOnly"
 private const val Implementation = "implementation"
 private const val DebugImplementation = "debugImplementation"
 private const val TestRuntimeOnly = "testRuntimeOnly"
@@ -38,19 +39,47 @@ internal fun CommonExtension<*, *, *, *>.kotlinOptions(block: KotlinJvmOptions.(
 }
 
 internal fun DependencyScope.implementations(vararg paths: Any) {
-    delegate(method = Implementation, paths = paths)
+    delegate(
+        method = Implementation,
+        paths = paths,
+    )
 }
 
 internal fun DependencyScope.setupJunit(core: Any, engine: Any) {
-    delegate(method = TestImplementation, core)
-    delegate(method = TestRuntimeOnly, engine)
+    delegate(
+        method = TestImplementation,
+        core,
+    )
+    delegate(
+        method = TestRuntimeOnly,
+        engine,
+    )
+}
+
+fun DependencyScope.setupLint(core: Any, test: Any) {
+    delegate(
+        method = CompileOnly,
+        core,
+    )
+    delegate(
+        method = TestImplementation,
+        test,
+    )
 }
 
 internal fun DependencyScope.setupCompose(core: Any, debug: Any) {
-    delegate(method = Implementation, core)
-    delegate(method = DebugImplementation, debug)
+    delegate(
+        method = Implementation,
+        core,
+    )
+    delegate(
+        method = DebugImplementation,
+        debug,
+    )
 }
 
 private fun DependencyScope.delegate(method: String, vararg paths: Any) {
-    paths.forEach { path -> add(method, path) }
+    paths.forEach { path ->
+        add(method, path)
+    }
 }

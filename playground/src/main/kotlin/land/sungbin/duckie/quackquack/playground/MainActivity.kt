@@ -38,9 +38,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            QuackColumnTest()
+            Button()
         }
     }
+}
+
+@Composable
+private fun Button() {
+    throw NotImplementedError("stub")
 }
 
 @Composable

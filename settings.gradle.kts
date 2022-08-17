@@ -28,5 +28,5 @@ include(
     ":lint-compose",
     ":lint-writing",
     ":ui-components",
-    ":benchmark"
+    ":benchmark",
 )

@@ -25,9 +25,15 @@ import org.gradle.kotlin.dsl.dependencies
 internal class BenchmarkPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            applyPlugins(PluginEnum.Test, PluginEnum.Kotlin)
+            applyPlugins(
+                PluginEnum.Test,
+                PluginEnum.Kotlin,
+            )
+
             extensions.configure<TestExtension> {
-                configureApplication(this)
+                configureApplication(
+                    commonExtension = this,
+                )
 
                 defaultConfig {
                     targetSdk = ApplicationConstants.targetSdk
@@ -47,11 +53,15 @@ internal class BenchmarkPlugin : Plugin<Project> {
             }
 
             dependencies {
-                implementations(libs.findBundle("benchmark").get())
+                implementations(
+                    libs.findBundle("benchmark").get(),
+                )
             }
 
             extensions.configure<TestAndroidComponentsExtension> {
-                beforeVariants(selector().all()) {
+                beforeVariants(
+                    selector = selector().all(),
+                ) {
                     it.enable = it.buildType == "benchmark"
                 }
             }

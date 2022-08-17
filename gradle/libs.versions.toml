@@ -55,8 +55,8 @@ compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", v
 
 customview-poolingcontainer = { module = "androidx.customview:customview-poolingcontainer", version.ref = "customview-poolingcontainer" } # debugImplementation
 
+lint-core = { module = "com.android.tools.lint:lint", version.ref = "lint" }
 lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "lint" } # compileOnly
-lint-checks = { module = "com.android.tools.lint:lint-checks", version.ref = "lint" } # compileOnly
 
 util-logeukes = { module = "land.sungbin:logeukes", version.ref = "logeukes" }
 util-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileinstaller" }
@@ -71,7 +71,7 @@ test-compose-manifest = { module = "androidx.compose.ui:ui-test-manifest", versi
 test-compose-junit = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-core" } # androidTestImplementation
 
 [bundles]
-lint = ["lint-api", "lint-checks"] # compileOnly
+test-lint = ["lint-core", "test-lint"]
 compose-core = ["compose-foundation", "compose-activity", "compose-tooling-preview"]
 compose-debug = ["compose-tooling", "customview-poolingcontainer"] # debugImplementation
 benchmark = ["androidx-junit", "androidx-benchmark"]

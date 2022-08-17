@@ -13,12 +13,6 @@ plugins {
 
 group = "land.sungbin.duckie.quackquack.plugin"
 
-java {
-    val version = JavaVersion.VERSION_11
-    sourceCompatibility = version
-    targetCompatibility = version
-}
-
 dependencies {
     implementation(libs.build.gradle)
     implementation(libs.build.kotlin)
@@ -58,6 +52,10 @@ gradlePlugin {
         register("projectJacoco") {
             id = "$prefix.project.jacoco.plugin"
             implementationClass = "ProjectJacocoPlugin"
+        }
+        register("lint") {
+            id = "$prefix.lint"
+            implementationClass = "LintPlugin"
         }
     }
 }

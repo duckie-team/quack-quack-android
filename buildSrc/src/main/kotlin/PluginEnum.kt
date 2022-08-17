@@ -10,6 +10,7 @@
 object PluginEnum {
     private const val prefix = "quackquack"
 
+    const val Lint = "$prefix.lint"
     const val Jacoco = "$prefix.project.jacoco.plugin"
     const val Benchmark = "$prefix.benchmark.plugin"
     const val Application = "$prefix.application.plugin"

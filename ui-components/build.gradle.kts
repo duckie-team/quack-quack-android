@@ -25,7 +25,6 @@ dependencies {
         projects.common,
         libs.util.profileinstaller,
         libs.compose.material,
-        libs.compose.glide
+        libs.compose.glide,
     )
-    lintPublishs(projects.lintCore, projects.lintCompose, projects.lintWriting)
 }
