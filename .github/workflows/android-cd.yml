@@ -2,7 +2,7 @@ name: Android CD
 on:
   pull_request:
     branches: [ develop ]
-    types: [ labeled, closed ]
+    types: [ closed ]
 
 jobs:
   deploy:
