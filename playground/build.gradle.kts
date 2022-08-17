@@ -19,7 +19,20 @@ plugins {
 android {
     namespace = "team.duckie.quackquack.playground"
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(BuildConstants.StoreFilePath)
+            storePassword = BuildConstants.StorePassword
+            keyAlias = BuildConstants.KeyAlias
+            keyPassword = BuildConstants.KeyPassword
+        }
+    }
+
     buildTypes {
+        release {
+            signingConfig = signingConfigs.getByName("release")
+        }
+
         create("benchmark") {
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += listOf("release")

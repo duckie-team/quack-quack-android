@@ -1,10 +1,12 @@
-name: Android CI
+name: Android CD
 on:
   pull_request:
     branches: [ develop ]
+    types: [ labeled, closed ]
 
 jobs:
-  build:
+  deploy:
+    if: ${{ github.event.pull_request.merged && github.event.label.name == 'UI' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -41,14 +43,14 @@ jobs:
       - name: Unzip secrets.tar
         run: tar xvf secrets.tar
 
-      - name: Check ktlint format
-        run: ./gradlew ktlintCheck
+      - name: Build apk
+        run: ./gradlew assembleRelease
 
-      - name: Check detekt format
-        run: ./gradlew detekt
-
-      - name: Run test
-        run: ./gradlew test
-
-      - name: Run build
-        run: ./gradlew build
+      - name: Upload apk to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: duckie
+          file: playground/build/outputs/apk/release/playground-release.apk
+          releaseNotesFile: documents/release-note/default.txt
