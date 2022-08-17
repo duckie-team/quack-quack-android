@@ -30,7 +30,7 @@ internal class ApplicationJacocoPlugin : Plugin<Project> {
             dependencies {
                 setupJunit(
                     core = libs.findLibrary("test-junit-core").get(),
-                    engine = libs.findLibrary("test-junit-engine").get()
+                    engine = libs.findLibrary("test-junit-engine").get(),
                 )
             }
         }

@@ -22,7 +22,9 @@ internal class LibraryComposeUiTestPlugin : Plugin<Project> {
         with(target) {
             val extension = extensions.getByType<LibraryExtension>()
 
-            configureCompose(commonExtension = extension)
+            configureCompose(
+                commonExtension = extension,
+            )
 
             extension.apply {
                 defaultConfig {
