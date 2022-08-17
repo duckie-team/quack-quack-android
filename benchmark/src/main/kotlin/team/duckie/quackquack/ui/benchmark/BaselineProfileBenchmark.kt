@@ -1,22 +1,13 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [BaselineProfileBenchmark.kt] created by Ji Sungbin on 22. 8. 18. 오전 2:13
- *
- * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
- */
-
-/*
- * Designed and developed by 2022 SungbinLand, Team Duckie
- *
  * [BaselineProfileBenchmark.kt] created by Ji Sungbin on 22. 8. 14. 오전 12:50
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.duckie.quackquack.ui.benchmark
+package team.duckie.quackquack.ui.benchmark
 
 import androidx.benchmark.macro.BaselineProfileMode
 import androidx.benchmark.macro.CompilationMode
@@ -45,7 +36,7 @@ class BaselineProfileBenchmark {
 
     private fun startup(compilationMode: CompilationMode) {
         benchmarkRule.measureRepeated(
-            packageName = team.duckie.duckie.quackquack.ui.benchmark.AppPackageName,
+            packageName = AppPackageName,
             metrics = listOf(StartupTimingMetric()),
             iterations = 10,
             startupMode = StartupMode.COLD,

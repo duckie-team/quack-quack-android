@@ -1,22 +1,13 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [BaselineProfileGenerator.kt] created by Ji Sungbin on 22. 8. 18. 오전 2:13
- *
- * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
- */
-
-/*
- * Designed and developed by 2022 SungbinLand, Team Duckie
- *
  * [BaselineProfileGenerator.kt] created by Ji Sungbin on 22. 8. 14. 오전 12:50
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.duckie.quackquack.ui.benchmark
+package team.duckie.quackquack.ui.benchmark
 
 import androidx.benchmark.macro.ExperimentalBaselineProfilesApi
 import androidx.benchmark.macro.junit4.BaselineProfileRule
@@ -32,7 +23,7 @@ class BaselineProfileGenerator {
     val baselineProfileRule = BaselineProfileRule()
 
     @Test
-    fun startup() = baselineProfileRule.collectBaselineProfile(packageName = team.duckie.duckie.quackquack.ui.benchmark.AppPackageName) {
+    fun startup() = baselineProfileRule.collectBaselineProfile(packageName = AppPackageName) {
         pressHome()
         startActivityAndWait()
     }
