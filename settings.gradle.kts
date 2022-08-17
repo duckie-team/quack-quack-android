@@ -12,7 +12,7 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
-    includeBuild("build-plugin")
+    includeBuild("gradle-conventions")
     repositories {
         google()
         mavenCentral()
