@@ -11,3 +11,6 @@ build
 release
 local.properties
 google-services.json
+secrets.tar
+keystore
+/buildSrc/src/main/kotlin/BuildConstants.kt
