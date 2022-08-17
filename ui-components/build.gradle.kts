@@ -18,6 +18,10 @@ plugins {
 
 android {
     namespace = "land.sungbin.duckie.quackquack.ui"
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 }
 
 dependencies {
@@ -26,5 +30,6 @@ dependencies {
         libs.util.profileinstaller,
         libs.compose.material,
         libs.compose.glide,
+        libs.test.compose.junit,
     )
 }
