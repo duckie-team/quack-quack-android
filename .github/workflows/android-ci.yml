@@ -38,3 +38,9 @@ jobs:
 
       - name: Check detekt format
         run: ./gradlew detekt
+
+      - name: Run test
+        run: ./gradlew test
+
+      - name: Run build
+        run: ./gradlew build
