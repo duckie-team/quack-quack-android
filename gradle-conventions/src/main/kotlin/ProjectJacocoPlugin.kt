@@ -7,11 +7,11 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-import land.sungbin.duckie.quackquack.plugin.PluginEnum
-import land.sungbin.duckie.quackquack.plugin.applyPlugins
-import land.sungbin.duckie.quackquack.plugin.configureJacocoForAllCoverage
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import team.duckie.quackquack.convention.PluginEnum
+import team.duckie.quackquack.convention.applyPlugins
+import team.duckie.quackquack.convention.configureJacocoForAllCoverage
 
 class ProjectJacocoPlugin : Plugin<Project> {
     override fun apply(target: Project) {

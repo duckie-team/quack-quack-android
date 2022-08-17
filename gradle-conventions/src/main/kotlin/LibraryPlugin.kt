@@ -10,13 +10,13 @@
 @file:Suppress("unused")
 
 import com.android.build.gradle.LibraryExtension
-import land.sungbin.duckie.quackquack.plugin.ApplicationConstants
-import land.sungbin.duckie.quackquack.plugin.PluginEnum
-import land.sungbin.duckie.quackquack.plugin.applyPlugins
-import land.sungbin.duckie.quackquack.plugin.configureApplication
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import team.duckie.quackquack.convention.ApplicationConstants
+import team.duckie.quackquack.convention.PluginEnum
+import team.duckie.quackquack.convention.applyPlugins
+import team.duckie.quackquack.convention.configureApplication
 
 internal class LibraryPlugin : Plugin<Project> {
     override fun apply(target: Project) {

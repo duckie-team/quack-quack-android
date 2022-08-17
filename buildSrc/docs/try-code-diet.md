@@ -19,7 +19,7 @@ dependencyResolutionManagement {
 private val DependencyScope.libs
     get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
-fun DependencyScope.setupJUuit() {
+fun DependencyScope.setupJuit() {
     delegate(method = TestImplementation, libs.findLibrary("test-junit-core"))
     delegate(method = TestRuntimeOnly, libs.findLibrary("test-junit-engine"))
 }

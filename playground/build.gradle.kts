@@ -17,7 +17,7 @@ plugins {
 }
 
 android {
-    namespace = "land.sungbin.duckie.quackquack.playground"
+    namespace = "team.duckie.quackquack.playground"
 
     buildTypes {
         create("benchmark") {

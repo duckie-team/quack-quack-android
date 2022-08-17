@@ -1,21 +1,21 @@
-import com.android.build.gradle.LibraryExtension
-import land.sungbin.duckie.quackquack.plugin.androidTestImplementations
-import land.sungbin.duckie.quackquack.plugin.configureCompose
-import land.sungbin.duckie.quackquack.plugin.debugImplementations
-import land.sungbin.duckie.quackquack.plugin.libs
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
-
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [LibraryComposeUiTestPlugin.kt] created by Ji Sungbin on 22. 8. 17. 오후 11:39
+ * [LibraryComposeUiTestPlugin.kt] created by Ji Sungbin on 22. 8. 18. 오전 2:25
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
+
+import com.android.build.gradle.LibraryExtension
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.getByType
+import team.duckie.quackquack.convention.androidTestImplementations
+import team.duckie.quackquack.convention.configureCompose
+import team.duckie.quackquack.convention.debugImplementations
+import team.duckie.quackquack.convention.libs
 
 internal class LibraryComposeUiTestPlugin : Plugin<Project> {
     override fun apply(target: Project) {

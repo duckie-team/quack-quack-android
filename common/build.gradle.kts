@@ -14,7 +14,7 @@ plugins {
 }
 
 android {
-    namespace = "land.sungbin.duckie.quackquack.common"
+    namespace = "team.duckie.quackquack.common"
 }
 
 dependencies {

@@ -10,13 +10,13 @@
 @file:Suppress("unused")
 
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import land.sungbin.duckie.quackquack.plugin.configureCompose
-import land.sungbin.duckie.quackquack.plugin.libs
-import land.sungbin.duckie.quackquack.plugin.setupCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
+import team.duckie.quackquack.convention.configureCompose
+import team.duckie.quackquack.convention.libs
+import team.duckie.quackquack.convention.setupCompose
 
 internal class ApplicationComposePlugin : Plugin<Project> {
     override fun apply(target: Project) {

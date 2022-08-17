@@ -11,7 +11,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "land.sungbin.duckie.quackquack.plugin"
+group = "team.duckie.quackquack.convention"
 
 dependencies {
     implementation(libs.build.gradle)

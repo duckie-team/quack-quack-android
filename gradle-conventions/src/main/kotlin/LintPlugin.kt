@@ -7,17 +7,17 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-import land.sungbin.duckie.quackquack.plugin.PluginEnum
-import land.sungbin.duckie.quackquack.plugin.applyPlugins
-import land.sungbin.duckie.quackquack.plugin.libs
-import land.sungbin.duckie.quackquack.plugin.setupJunit
-import land.sungbin.duckie.quackquack.plugin.setupLint
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
+import team.duckie.quackquack.convention.PluginEnum
+import team.duckie.quackquack.convention.applyPlugins
+import team.duckie.quackquack.convention.libs
+import team.duckie.quackquack.convention.setupJunit
+import team.duckie.quackquack.convention.setupLint
 
 internal class LintPlugin : Plugin<Project> {
     override fun apply(target: Project) {
