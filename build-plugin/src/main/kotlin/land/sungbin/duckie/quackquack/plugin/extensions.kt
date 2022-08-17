@@ -24,6 +24,7 @@ private const val Implementation = "implementation"
 private const val DebugImplementation = "debugImplementation"
 private const val TestRuntimeOnly = "testRuntimeOnly"
 private const val TestImplementation = "testImplementation"
+private const val AndroidTestImplementation = "androidTestImplementation"
 
 internal fun Project.applyPlugins(vararg plugins: String) {
     plugins.forEach { plugin ->
@@ -41,6 +42,20 @@ internal fun CommonExtension<*, *, *, *>.kotlinOptions(block: KotlinJvmOptions.(
 internal fun DependencyScope.implementations(vararg paths: Any) {
     delegate(
         method = Implementation,
+        paths = paths,
+    )
+}
+
+internal fun DependencyScope.androidTestImplementations(vararg paths: Any) {
+    delegate(
+        method = AndroidTestImplementation,
+        paths = paths,
+    )
+}
+
+internal fun DependencyScope.debugImplementations(vararg paths: Any) {
+    delegate(
+        method = DebugImplementation,
         paths = paths,
     )
 }
