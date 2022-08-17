@@ -33,6 +33,14 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Decrypt secrets.tar.gpg
+        run: gpg --quiet --batch --yes --always-trust --decrypt --passphrase="$SECRET_GPG_PASSWORD" --output secrets.tar secrets.tar.gpg
+        env:
+          SECRET_GPG_PASSWORD: ${{ secrets.SECRET_GPG_PASSWORD }}
+
+      - name: Unzip secrets.tar
+        run: tar xvf secrets.tar
+
       - name: Check ktlint format
         run: ./gradlew ktlintCheck
 
