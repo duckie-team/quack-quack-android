@@ -41,6 +41,10 @@ gradlePlugin {
             id = "$prefix.library.compose.plugin"
             implementationClass = "LibraryComposePlugin"
         }
+        register("libraryComposeUiTestPlugin") {
+            id = "$prefix.library.compose.uitest.plugin"
+            implementationClass = "LibraryComposeUiTestPlugin"
+        }
         register("libraryJacocoPlugin") {
             id = "$prefix.library.jacoco.plugin"
             implementationClass = "LibraryJacocoPlugin"

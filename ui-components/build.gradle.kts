@@ -13,15 +13,12 @@ plugins {
     id(PluginEnum.Library)
     id(PluginEnum.LibraryJacoco)
     id(PluginEnum.LibraryCompose)
+    id(PluginEnum.LibraryComposeUiTest)
     alias(libs.plugins.dokka)
 }
 
 android {
     namespace = "land.sungbin.duckie.quackquack.ui"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 }
 
 dependencies {
@@ -30,6 +27,5 @@ dependencies {
         libs.util.profileinstaller,
         libs.compose.material,
         libs.compose.glide,
-        libs.test.compose.junit,
     )
 }

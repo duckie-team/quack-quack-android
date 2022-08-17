@@ -18,5 +18,6 @@ object PluginEnum {
     const val ApplicationJacoco = "$prefix.application.jacoco.plugin"
     const val Library = "$prefix.library.plugin"
     const val LibraryCompose = "$prefix.library.compose.plugin"
+    const val LibraryComposeUiTest = "$prefix.library.compose.uitest.plugin"
     const val LibraryJacoco = "$prefix.library.jacoco.plugin"
 }
