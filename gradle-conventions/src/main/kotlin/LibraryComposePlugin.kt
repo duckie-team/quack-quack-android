@@ -30,7 +30,7 @@ internal class LibraryComposePlugin : Plugin<Project> {
             dependencies {
                 setupCompose(
                     core = libs.findBundle("compose-core").get(),
-                    debug = libs.findBundle("compose-debug").get()
+                    debug = libs.findBundle("compose-debug").get(),
                 )
             }
         }

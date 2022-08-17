@@ -30,6 +30,7 @@ internal class ApplicationPlugin : Plugin<Project> {
                 configureApplication(
                     commonExtension = this,
                 )
+
                 defaultConfig {
                     targetSdk = ApplicationConstants.targetSdk
                     versionCode = ApplicationConstants.versionCode

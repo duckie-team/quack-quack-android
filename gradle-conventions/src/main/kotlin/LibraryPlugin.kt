@@ -27,7 +27,10 @@ internal class LibraryPlugin : Plugin<Project> {
             )
 
             extensions.configure<LibraryExtension> {
-                configureApplication(this)
+                configureApplication(
+                    commonExtension = this,
+                )
+
                 defaultConfig.targetSdk = ApplicationConstants.targetSdk
             }
         }

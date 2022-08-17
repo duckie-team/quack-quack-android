@@ -42,7 +42,7 @@ internal class LintPlugin : Plugin<Project> {
                     )
                     setupLint(
                         core = libs.findLibrary("lint-api").get(),
-                        test = libs.findBundle("test-lint").get()
+                        test = libs.findBundle("test-lint").get(),
                     )
                 }
             }
