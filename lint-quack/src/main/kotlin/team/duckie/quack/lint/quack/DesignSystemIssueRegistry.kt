@@ -7,13 +7,14 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.lint.compose
+@file:Suppress("UnstableApiUsage")
+
+package team.duckie.quack.lint.quack
 
 import com.android.tools.lint.client.api.IssueRegistry
 import com.android.tools.lint.client.api.Vendor
 import com.android.tools.lint.detector.api.CURRENT_API
 
-@Suppress("UnstableApiUsage") // IssueRegistry
 class DesignSystemIssueRegistry : IssueRegistry() {
     override val issues = listOf(DesignSystemDetector.ISSUE)
 
@@ -23,7 +24,7 @@ class DesignSystemIssueRegistry : IssueRegistry() {
 
     override val vendor = Vendor(
         vendorName = "QuackQuack",
-        identifier = "team.duckie.quack:quack-lint-compose:{version}",
+        identifier = "team.duckie.quack:quack-lint-quack:{version}",
         feedbackUrl = "https://github.com/sungbinland/duckie-quack-quack/issues",
         contact = "https://github.com/sungbinland/duckie-quack-quack",
     )
