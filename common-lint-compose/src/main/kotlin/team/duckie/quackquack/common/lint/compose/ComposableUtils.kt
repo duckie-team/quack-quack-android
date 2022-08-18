@@ -149,7 +149,7 @@ private class ComposableBodyVisitor(
     /**
      * @return whether the body can be considered Composable or not
      */
-    fun isComposable(): Boolean = when (val element = parentUElements.last()) {
+    fun isComposable() = when (val element = parentUElements.last()) {
         is UMethod -> element.isComposable
         is ULambdaExpression -> element.isComposable
         else -> false
@@ -214,7 +214,7 @@ private class ComposableBodyVisitor(
 /**
  * Returns whether this type reference is @Composable or not
  */
-private val UTypeReferenceExpression.isComposable: Boolean
+private val UTypeReferenceExpression.isComposable: Boolean // 타입 명시 필수
     get() {
         if (type.hasAnnotation(Names.Runtime.Composable.javaFqn)) return true
 
@@ -227,7 +227,7 @@ private val UTypeReferenceExpression.isComposable: Boolean
 /**
  * Returns whether this annotated declaration has a Composable annotation
  */
-private val KtAnnotated.hasComposableAnnotation: Boolean
+private val KtAnnotated.hasComposableAnnotation
     get() = annotationEntries.any { annotationEntry ->
         (annotationEntry.toUElement() as UAnnotation).qualifiedName == Names.Runtime.Composable.javaFqn
     }

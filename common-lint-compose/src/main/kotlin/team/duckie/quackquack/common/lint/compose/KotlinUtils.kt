@@ -141,7 +141,7 @@ class UnreferencedParameter(
  * Returns whether this lambda expression has an implicit `it` parameter - meaning it has
  * one parameter, and the parameter is not named explicitly.
  */
-private val KtLambdaExpression.hasImplicitItParameter: Boolean
+private val KtLambdaExpression.hasImplicitItParameter: Boolean // 타입 명시 필수
     get() {
         return when {
             // There is already a parameter specified explicitly
