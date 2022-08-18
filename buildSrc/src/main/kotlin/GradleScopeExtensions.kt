@@ -28,7 +28,6 @@ fun DependencyScope.testImplementations(vararg paths: Any) {
     )
 }
 
-
 fun DependencyScope.apis(vararg paths: Any) {
     delegate(
         method = Api,
