@@ -16,4 +16,8 @@ dependencies {
         projects.commonLint,
         projects.commonLintCompose,
     )
+    testImplementations(
+        projects.commonLintTest,
+        projects.commonLintCompose,
+    )
 }
