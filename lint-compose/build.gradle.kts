@@ -10,3 +10,7 @@
 plugins {
     id(PluginEnum.AndroidLint)
 }
+
+dependencies {
+    implementations(projects.commonLintCompose)
+}
