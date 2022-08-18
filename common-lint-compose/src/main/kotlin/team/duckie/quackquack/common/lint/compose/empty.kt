@@ -7,7 +7,7 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.common.lint
+package team.duckie.quackquack.common.lint.compose
 
 fun test() {
     println("Hello World!")

@@ -12,5 +12,5 @@ plugins {
 }
 
 dependencies {
-    implementations(projects.commonLint)
+    implementations(projects.commonLintCompose)
 }
