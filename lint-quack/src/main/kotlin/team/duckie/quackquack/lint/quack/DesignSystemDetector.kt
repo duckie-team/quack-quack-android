@@ -20,28 +20,34 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.LintFix
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
-import org.jetbrains.uast.UCallExpression
+import com.android.tools.lint.detector.api.SourceCodeScanner
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.UMethod
+import team.duckie.quackquack.common.lint.compose.isComposable
+import team.duckie.quackquack.common.lint.hasOperator
+import team.duckie.quackquack.common.lint.isOperator
 
-class DesignSystemDetector : Detector(), Detector.UastScanner {
-    override fun getApplicableUastTypes() = listOf(UCallExpression::class.java)
+class DesignSystemDetector : Detector(), SourceCodeScanner {
+    private val methods = mapOf(
+        "BasicTextField" to "QuackTextField",
+    )
+
+    override fun getApplicableUastTypes() = listOf(UMethod::class.java)
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
-        override fun visitCallExpression(node: UCallExpression) {
-            val name = node.methodName ?: return
-            val preferredName = methods[name] ?: return
-            reportIssue(
-                context = context,
-                node = node,
-                currentName = name,
-                preferredName = preferredName,
-            )
+        override fun visitMethod(node: UMethod) {
+            if (!node.isComposable) return
+            if (context.isOperator(node) || context.hasOperator(node)) return
+            methods[node.name]?.let { quackName ->
+                reportIssue(
+                    context = context,
+                    node = node,
+                    currentName = node.name,
+                    preferredName = quackName
+                )
+            }
         }
     }
-
-    private val methods = mapOf(
-        "Button" to "QuackLargeButton",
-    )
 
     private fun reportIssue(
         context: JavaContext,
@@ -54,8 +60,7 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
             .replace()
             .text(currentName)
             .with(preferredName)
-            .robot(true)
-            .independent(true)
+            .autoFix()
             .build()
 
         context.report(
@@ -73,7 +78,7 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
             id = "DesignSystem",
             briefDescription = "Design system",
             explanation = "Jetpack Compose 의 foundation 컴포저블 대신에 " +
-                "QuackQuack 디자인 시스템의 컴포저블을 사용해야 합니다.",
+                    "QuackQuack 디자인 시스템의 컴포저블을 사용해야 합니다.",
             category = Category.CUSTOM_LINT_CHECKS,
             priority = 10,
             severity = Severity.FATAL,
