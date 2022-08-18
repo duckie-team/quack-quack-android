@@ -22,7 +22,7 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             applyPlugins(
-                PluginEnum.Application,
+                PluginEnum.AndroidApplication,
                 PluginEnum.AndroidKotlin,
             )
 
