@@ -17,6 +17,7 @@ quack-quack 은 [duckie](https://github.com/sungbinland/duckie) 에서 사용될
 
 - `ui-components`: 디자인된 컴포저블 모음
 - `lint-core`: 모든 코드에 공통적으로 적용될 코드 린트
+- `lint-quack`: 꽥꽥 UI 컴포넌트 사용을 권장하는 린트
 - `lint-compose`: 컴포즈 코드에 적용될 코드 린트
 - `lint-writing`:  UX Writing 에 적용될 린트
 
