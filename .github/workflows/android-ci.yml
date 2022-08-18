@@ -41,14 +41,5 @@ jobs:
       - name: Unzip secrets.tar
         run: tar xvf secrets.tar
 
-      - name: Check ktlint format
-        run: ./gradlew ktlintCheck
-
-      - name: Check detekt format
-        run: ./gradlew detekt
-
-      - name: Run test
-        run: ./gradlew test
-
-      - name: Run build
+      - name: Run build (includes ktlint/detekt/test check)
         run: ./gradlew build
