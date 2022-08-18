@@ -7,7 +7,9 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.lint.compose
+@file:Suppress("UnstableApiUsage")
+
+package team.duckie.quack.lint.quack
 
 import com.android.tools.lint.client.api.UElementHandler
 import com.android.tools.lint.detector.api.Category
@@ -21,7 +23,6 @@ import com.android.tools.lint.detector.api.Severity
 import org.jetbrains.uast.UCallExpression
 import org.jetbrains.uast.UElement
 
-@Suppress("UnstableApiUsage") // Detector
 class DesignSystemDetector : Detector(), Detector.UastScanner {
     override fun getApplicableUastTypes() = listOf(UCallExpression::class.java)
 
@@ -74,8 +75,8 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
             explanation = "Jetpack Compose 의 foundation 컴포저블 대신에 " +
                 "QuackQuack 디자인 시스템의 컴포저블을 사용해야 합니다.",
             category = Category.CUSTOM_LINT_CHECKS,
-            priority = 7,
-            severity = Severity.ERROR,
+            priority = 10,
+            severity = Severity.FATAL,
             implementation = Implementation(
                 DesignSystemDetector::class.java,
                 Scope.JAVA_FILE_SCOPE

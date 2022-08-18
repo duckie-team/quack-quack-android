@@ -9,11 +9,10 @@
 
 @file:Suppress("UnstableApiUsage", "TestFunctionName")
 
-package team.duckie.quackquack.lint.compose
+package team.duckie.quack.lint.quack
 
 import com.android.tools.lint.checks.infrastructure.TestFiles.kotlin
 import com.android.tools.lint.checks.infrastructure.TestLintTask.lint
-import com.android.tools.lint.detector.api.Severity
 import org.junit.Test
 
 class DesignSystemTest {
@@ -33,9 +32,8 @@ class DesignSystemTest {
             )
             .issues(DesignSystemDetector.ISSUE)
             .run()
-            .expectCount(
+            .expectErrorCount(
                 expectedCount = 1,
-                Severity.ERROR
             )
     }
 }

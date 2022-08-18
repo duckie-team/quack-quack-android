@@ -25,6 +25,7 @@ include(
     ":common",
     ":playground",
     ":lint-core",
+    ":lint-quack",
     ":lint-compose",
     ":lint-writing",
     ":ui-components",

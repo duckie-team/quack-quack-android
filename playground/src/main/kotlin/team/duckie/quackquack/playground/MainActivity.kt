@@ -38,14 +38,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // Button()
+            Button()
         }
     }
 }
 
 @Composable
 private fun Button() {
-    throw NotImplementedError("stub")
+    println("stub")
 }
 
 @Composable
