@@ -178,13 +178,10 @@ private class ComposableBodyVisitor(
         fun UDeclaration.isPropertyInsideAnonymousClass() =
             getContainingUClass()?.isAnonymousClass() == true
 
-        while (
-            containingDeclaration != null && (
-                    containingDeclaration.isLocalProperty() ||
-                            containingDeclaration.isAnonymousClass() ||
-                            containingDeclaration.isPropertyInsideAnonymousClass()
-                    )
-        ) {
+        fun UDeclaration.isContainingDeclaration() =
+            isLocalProperty() || isAnonymousClass() || isPropertyInsideAnonymousClass()
+
+        while (containingDeclaration != null && containingDeclaration.isContainingDeclaration()) {
             containingDeclaration = containingDeclaration.getContainingDeclaration()
         }
 
