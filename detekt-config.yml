@@ -12,6 +12,10 @@ style:
     ignoreAnnotated: [ 'preview' ]
   ThrowsCount:
     active: false
+  ReturnCount:
+    active: false
+  LoopWithTooManyJumpStatements:
+    active: false
 
 naming:
   TopLevelPropertyNaming:
@@ -19,4 +23,6 @@ naming:
   FunctionNaming:
     ignoreAnnotated: [ 'Composable' ]
   MatchingDeclarationName:
+    active: false
+  VariableNaming:
     active: false
