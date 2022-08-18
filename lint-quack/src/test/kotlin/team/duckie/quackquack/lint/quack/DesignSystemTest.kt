@@ -11,28 +11,35 @@
 
 package team.duckie.quackquack.lint.quack
 
-import com.android.tools.lint.checks.infrastructure.TestFiles.kotlin
-import com.android.tools.lint.checks.infrastructure.TestLintTask.lint
+import org.junit.Rule
 import org.junit.Test
+import team.duckie.quackquack.common.lint.test.LintTestRule
+import team.duckie.quackquack.common.lint.test.composableTestFile
 
 class DesignSystemTest {
+
+    @get:Rule
+    val lintTestRule = LintTestRule()
+
     @Test
     fun designSystem() {
-        lint()
-            .allowMissingSdk()
-            .files(
-                kotlin(
+        lintTestRule
+            .assertErrorCount(
+                files = listOf(
+                    composableTestFile(
+                        """
+                        @Composable
+                        fun Button() {}
+                        @Composable
+                        fun Main() {
+                            Button()
+                        }
                     """
-                    fun Button() {}
-                    fun test() {
-                        Button()
-                    }
-                    """
-                )
-            )
-            .issues(DesignSystemDetector.ISSUE)
-            .run()
-            .expectErrorCount(
+                    ),
+                ),
+                issues = listOf(
+                    DesignSystemIssue,
+                ),
                 expectedCount = 1,
             )
     }
