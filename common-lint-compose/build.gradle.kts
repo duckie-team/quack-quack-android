@@ -11,3 +11,7 @@ plugins {
     id(PluginEnum.JvmLibrary)
     id(PluginEnum.AndroidLint)
 }
+
+dependencies {
+    api("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
+}
