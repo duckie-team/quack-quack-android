@@ -13,7 +13,7 @@ plugins {
     id(PluginEnum.AndroidLibrary)
     id(PluginEnum.AndroidLibraryCompose)
     id(PluginEnum.AndroidLibraryComposeUiTest)
-    id(PluginEnum.ProjectJacoco)
+    id(PluginEnum.ModuleJacoco)
     alias(libs.plugins.dokka)
 }
 

@@ -11,7 +11,6 @@
 
 plugins {
     id(PluginEnum.AndroidApplication)
-    id(PluginEnum.AndroidLibrary)
     id(PluginEnum.AndroidApplicationCompose)
     alias(libs.plugins.dokka)
 }

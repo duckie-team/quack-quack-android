@@ -9,7 +9,7 @@
 
 plugins {
     id(PluginEnum.AndroidLibrary)
-    id(PluginEnum.ProjectJacoco)
+    id(PluginEnum.ModuleJacoco)
     alias(libs.plugins.dokka)
 }
 
