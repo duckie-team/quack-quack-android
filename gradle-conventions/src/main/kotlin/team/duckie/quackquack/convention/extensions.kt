@@ -39,6 +39,13 @@ internal fun CommonExtension<*, *, *, *>.kotlinOptions(block: KotlinJvmOptions.(
     (this as ExtensionAware).extensions.configure("kotlinOptions", block)
 }
 
+internal fun DependencyScope.compileOnlys(vararg paths: Any) {
+    delegate(
+        method = CompileOnly,
+        paths = paths
+    )
+}
+
 internal fun DependencyScope.implementations(vararg paths: Any) {
     delegate(
         method = Implementation,
@@ -63,33 +70,33 @@ internal fun DependencyScope.debugImplementations(vararg paths: Any) {
 internal fun DependencyScope.setupJunit(core: Any, engine: Any) {
     delegate(
         method = TestImplementation,
-        core,
+        paths = arrayOf(core),
     )
     delegate(
         method = TestRuntimeOnly,
-        engine,
+        paths = arrayOf(engine),
     )
 }
 
 fun DependencyScope.setupLint(core: Any, test: Any) {
     delegate(
         method = CompileOnly,
-        core,
+        paths = arrayOf(core),
     )
     delegate(
         method = TestImplementation,
-        test,
+        paths = arrayOf(test),
     )
 }
 
 internal fun DependencyScope.setupCompose(core: Any, debug: Any) {
     delegate(
         method = Implementation,
-        core,
+        paths = arrayOf(core),
     )
     delegate(
         method = DebugImplementation,
-        debug,
+        paths = arrayOf(debug),
     )
 }
 

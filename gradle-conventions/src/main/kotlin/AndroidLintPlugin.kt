@@ -17,6 +17,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import team.duckie.quackquack.convention.PluginEnum
 import team.duckie.quackquack.convention.applyPlugins
+import team.duckie.quackquack.convention.compileOnlys
 import team.duckie.quackquack.convention.libs
 import team.duckie.quackquack.convention.setupJunit
 import team.duckie.quackquack.convention.setupLint
@@ -38,6 +39,7 @@ internal class AndroidLintPlugin : Plugin<Project> {
 
             dependencies {
                 dependencies {
+                    compileOnlys(libs.findLibrary("kotlin-stdlib").get())
                     setupJunit(
                         core = libs.findLibrary("test-junit-core").get(),
                         engine = libs.findLibrary("test-junit-engine").get(),

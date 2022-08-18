@@ -38,6 +38,10 @@ android {
             isDebuggable = false
         }
     }
+
+    lint {
+        disable.add("NotificationPermission")
+    }
 }
 
 dependencies {
