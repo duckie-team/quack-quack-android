@@ -8,7 +8,7 @@
  */
 
 plugins {
-    id(PluginEnum.Benchmark)
+    id(PluginEnum.AndroidBenchmark)
 }
 
 android {

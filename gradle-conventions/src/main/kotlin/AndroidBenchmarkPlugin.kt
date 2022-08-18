@@ -1,7 +1,7 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [BenchmarkPlugin.kt] created by Ji Sungbin on 22. 8. 14. 오전 12:52
+ * [AndroidBenchmarkPlugin.kt] created by Ji Sungbin on 22. 8. 14. 오전 12:52
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
@@ -22,12 +22,12 @@ import team.duckie.quackquack.convention.configureApplication
 import team.duckie.quackquack.convention.implementations
 import team.duckie.quackquack.convention.libs
 
-internal class BenchmarkPlugin : Plugin<Project> {
+internal class AndroidBenchmarkPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             applyPlugins(
-                PluginEnum.Test,
-                PluginEnum.Kotlin,
+                PluginEnum.AndroidTest,
+                PluginEnum.AndroidKotlin,
             )
 
             extensions.configure<TestExtension> {
@@ -53,16 +53,14 @@ internal class BenchmarkPlugin : Plugin<Project> {
             }
 
             dependencies {
-                implementations(
-                    libs.findBundle("benchmark").get(),
-                )
+                implementations(libs.findBundle("benchmark").get())
             }
 
             extensions.configure<TestAndroidComponentsExtension> {
                 beforeVariants(
                     selector = selector().all(),
-                ) {
-                    it.enable = it.buildType == "benchmark"
+                ) { testVariant ->
+                    testVariant.enable = testVariant.buildType == "benchmark"
                 }
             }
         }

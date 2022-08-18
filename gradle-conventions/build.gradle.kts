@@ -21,45 +21,45 @@ dependencies {
 gradlePlugin {
     val prefix = "quackquack"
     plugins {
-        register("applicationPlugin") {
-            id = "$prefix.application.plugin"
-            implementationClass = "ApplicationPlugin"
+        register("androidLintPlugin") {
+            id = "$prefix.android.lint"
+            implementationClass = "AndroidLintPlugin"
         }
-        register("applicationComposePlugin") {
-            id = "$prefix.application.compose.plugin"
-            implementationClass = "ApplicationComposePlugin"
+        register("androidBenchmarkPlugin") {
+            id = "$prefix.android.benchmark"
+            implementationClass = "AndroidBenchmarkPlugin"
         }
-        register("applicationJacocoPlugin") {
-            id = "$prefix.application.jacoco.plugin"
-            implementationClass = "ApplicationJacocoPlugin"
+        register("androidApplicationPlugin") {
+            id = "$prefix.android.application"
+            implementationClass = "AndroidApplicationPlugin"
         }
-        register("libraryPlugin") {
-            id = "$prefix.library.plugin"
-            implementationClass = "LibraryPlugin"
+        register("androidApplicationComposePlugin") {
+            id = "$prefix.android.application.compose"
+            implementationClass = "AndroidApplicationComposePlugin"
         }
-        register("libraryComposePlugin") {
-            id = "$prefix.library.compose.plugin"
-            implementationClass = "LibraryComposePlugin"
+        register("androidLibraryPlugin") {
+            id = "$prefix.android.library"
+            implementationClass = "AndroidLibraryPlugin"
         }
-        register("libraryComposeUiTestPlugin") {
-            id = "$prefix.library.compose.uitest.plugin"
-            implementationClass = "LibraryComposeUiTestPlugin"
+        register("androidLibraryComposePlugin") {
+            id = "$prefix.android.library.compose"
+            implementationClass = "AndroidLibraryComposePlugin"
         }
-        register("libraryJacocoPlugin") {
-            id = "$prefix.library.jacoco.plugin"
-            implementationClass = "LibraryJacocoPlugin"
+        register("androidLibraryComposeUiTestPlugin") {
+            id = "$prefix.android.library.compose.uitest"
+            implementationClass = "AndroidLibraryComposeUiTestPlugin"
         }
-        register("benchmarkPlugin") {
-            id = "$prefix.benchmark.plugin"
-            implementationClass = "BenchmarkPlugin"
-        }
-        register("projectJacoco") {
-            id = "$prefix.project.jacoco.plugin"
+        register("projectJacocoPlugin") {
+            id = "$prefix.project.jacoco"
             implementationClass = "ProjectJacocoPlugin"
         }
-        register("lint") {
-            id = "$prefix.lint"
-            implementationClass = "LintPlugin"
+        register("moduleJacocoPlugin") {
+            id = "$prefix.module.jacoco"
+            implementationClass = "ModuleJacocoPlugin"
+        }
+        register("jvmLibraryPlugin") {
+            id = "$prefix.jvm.library"
+            implementationClass = "JvmLibraryPlugin"
         }
     }
 }
