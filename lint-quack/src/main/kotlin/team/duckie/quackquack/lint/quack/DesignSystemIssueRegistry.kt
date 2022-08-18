@@ -9,7 +9,7 @@
 
 @file:Suppress("UnstableApiUsage")
 
-package team.duckie.quack.lint.quack
+package team.duckie.quackquack.lint.quack
 
 import com.android.tools.lint.client.api.IssueRegistry
 import com.android.tools.lint.client.api.Vendor
