@@ -10,10 +10,9 @@
 package team.duckie.quackquack.common.lint
 
 import com.android.tools.lint.detector.api.JavaContext
+import com.intellij.psi.PsiModifierListOwner
 import org.jetbrains.uast.UMethod
 
-fun JavaContext.isOperator(node: UMethod) = evaluator.isOperator(node)
+fun JavaContext.isOperator(node: PsiModifierListOwner) = evaluator.isOperator(node)
 
-fun JavaContext.hasOperator(node: UMethod) = node.findSuperMethods().any { method ->
-    evaluator.isOperator(method)
-}
+fun JavaContext.hasOperator(node: UMethod) = node.findSuperMethods().any(::isOperator)
