@@ -38,8 +38,7 @@ class PackageName internal constructor(internal val segments: List<String>) {
     /**
      * The Java-style package name for this [Name], separated with `.`
      */
-    val javaPackageName: String
-        get() = segments.joinToString(".")
+    val javaPackageName get() = segments.joinToString(".")
 }
 
 /**
@@ -56,13 +55,12 @@ class Name internal constructor(
     /**
      * The short name for this [Name]
      */
-    val shortName: String
-        get() = nameSegments.last()
+    val shortName get() = nameSegments.last()
 
     /**
      * The Java-style fully qualified name for this [Name], separated with `.`
      */
-    val javaFqn: String
+    val javaFqn
         get() = pkg.segments.joinToString(".", postfix = ".") +
                 nameSegments.joinToString(".")
 

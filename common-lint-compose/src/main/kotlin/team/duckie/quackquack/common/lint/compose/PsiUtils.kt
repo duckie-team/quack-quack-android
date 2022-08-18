@@ -30,8 +30,7 @@ fun PsiMethod.isInPackageName(packageName: PackageName): Boolean {
 /**
  * Whether this [PsiMethod] returns Unit
  */
-val PsiMethod.returnsUnit
-    get() = returnType.isVoidOrUnit
+val PsiMethod.returnsUnit get() = returnType.isVoidOrUnit
 
 /**
  * Whether this [PsiType] is `void` or [Unit]
@@ -39,17 +38,14 @@ val PsiMethod.returnsUnit
  * In Kotlin 1.6 some expressions now explicitly return [Unit] instead of just being [PsiType.VOID],
  * so this returns whether this type is either.
  */
-val PsiType?.isVoidOrUnit
-    get() = this == PsiType.VOID || this?.canonicalText == "kotlin.Unit"
+val PsiType?.isVoidOrUnit get() = this == PsiType.VOID || this?.canonicalText == Unit.toString()
 
 /**
  * @return whether [this] inherits from [name]. Returns `true` if [this] _is_ directly [name].
  */
-fun PsiType.inheritsFrom(name: Name) =
-    InheritanceUtil.isInheritor(this, name.javaFqn)
+fun PsiType.inheritsFrom(name: Name) = InheritanceUtil.isInheritor(this, name.javaFqn)
 
 /**
  * @return whether [this] inherits from [name]. Returns `true` if [this] _is_ directly [name].
  */
-fun PsiClass.inheritsFrom(name: Name) =
-    InheritanceUtil.isInheritor(this, name.javaFqn)
+fun PsiClass.inheritsFrom(name: Name) = InheritanceUtil.isInheritor(this, name.javaFqn)
