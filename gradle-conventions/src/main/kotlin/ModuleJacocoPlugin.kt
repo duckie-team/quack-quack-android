@@ -1,7 +1,7 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [ApplicationJacocoPlugin.kt] created by Ji Sungbin on 22. 8. 14. 오전 12:51
+ * [ModuleJacocoPlugin.kt] created by Ji Sungbin on 22. 8. 14. 오전 12:51
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
@@ -18,7 +18,7 @@ import team.duckie.quackquack.convention.configureJacocoForOnceCoverage
 import team.duckie.quackquack.convention.libs
 import team.duckie.quackquack.convention.setupJunit
 
-internal class ApplicationJacocoPlugin : Plugin<Project> {
+internal class ModuleJacocoPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             applyPlugins(

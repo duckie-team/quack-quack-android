@@ -10,10 +10,10 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    id(PluginEnum.Library)
-    id(PluginEnum.LibraryJacoco)
-    id(PluginEnum.LibraryCompose)
-    id(PluginEnum.LibraryComposeUiTest)
+    id(PluginEnum.AndroidLibrary)
+    id(PluginEnum.AndroidLibraryCompose)
+    id(PluginEnum.AndroidLibraryComposeUiTest)
+    id(PluginEnum.ModuleJacoco)
     alias(libs.plugins.dokka)
 }
 

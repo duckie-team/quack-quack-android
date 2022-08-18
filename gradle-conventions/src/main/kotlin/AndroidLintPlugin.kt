@@ -1,11 +1,13 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [LintPlugin.kt] created by Ji Sungbin on 22. 8. 16. 오후 7:29
+ * [AndroidLintPlugin.kt] created by Ji Sungbin on 22. 8. 16. 오후 7:29
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
+
+@file:Suppress("unused")
 
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
@@ -19,13 +21,13 @@ import team.duckie.quackquack.convention.libs
 import team.duckie.quackquack.convention.setupJunit
 import team.duckie.quackquack.convention.setupLint
 
-internal class LintPlugin : Plugin<Project> {
+internal class AndroidLintPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             applyPlugins(
                 PluginEnum.JavaLibrary,
                 PluginEnum.PureKotlin,
-                PluginEnum.Lint,
+                PluginEnum.AndroidLint,
             )
 
             extensions.configure<JavaPluginExtension> {

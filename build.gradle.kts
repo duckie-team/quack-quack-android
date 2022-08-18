@@ -13,7 +13,7 @@ import org.jlleitschuh.gradle.ktlint.KtlintExtension
 plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
-    id(PluginEnum.Jacoco)
+    id(PluginEnum.ProjectJacoco)
 }
 
 buildscript {

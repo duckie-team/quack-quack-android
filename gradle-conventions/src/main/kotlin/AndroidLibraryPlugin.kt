@@ -1,15 +1,15 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [ApplicationPlugin.kt] created by Ji Sungbin on 22. 8. 14. 오전 12:51
+ * [AndroidLibraryPlugin.kt] created by Ji Sungbin on 22. 8. 14. 오전 12:52
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("UnstableApiUsage", "unused")
+@file:Suppress("unused")
 
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -18,24 +18,20 @@ import team.duckie.quackquack.convention.PluginEnum
 import team.duckie.quackquack.convention.applyPlugins
 import team.duckie.quackquack.convention.configureApplication
 
-internal class ApplicationPlugin : Plugin<Project> {
+internal class AndroidLibraryPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             applyPlugins(
-                PluginEnum.Application,
-                PluginEnum.Kotlin,
+                PluginEnum.AndroidLibrary,
+                PluginEnum.AndroidKotlin,
             )
 
-            extensions.configure<BaseAppModuleExtension> {
+            extensions.configure<LibraryExtension> {
                 configureApplication(
                     commonExtension = this,
                 )
 
-                defaultConfig {
-                    targetSdk = ApplicationConstants.targetSdk
-                    versionCode = ApplicationConstants.versionCode
-                    versionName = ApplicationConstants.versionName
-                }
+                defaultConfig.targetSdk = ApplicationConstants.targetSdk
             }
         }
     }

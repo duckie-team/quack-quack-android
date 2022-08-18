@@ -23,6 +23,7 @@ pluginManagement {
 rootProject.name = "quack-quack"
 include(
     ":common",
+    ":common-lint",
     ":playground",
     ":lint-core",
     ":lint-quack",

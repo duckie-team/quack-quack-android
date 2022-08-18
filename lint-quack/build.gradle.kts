@@ -8,5 +8,9 @@
  */
 
 plugins {
-    id(PluginEnum.Lint)
+    id(PluginEnum.AndroidLint)
+}
+
+dependencies {
+    implementations(projects.commonLint)
 }

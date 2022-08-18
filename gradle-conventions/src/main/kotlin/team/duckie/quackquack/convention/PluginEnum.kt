@@ -10,12 +10,15 @@
 package team.duckie.quackquack.convention
 
 internal object PluginEnum {
-    const val Lint = "com.android.lint"
-    const val Test = "com.android.test"
-    const val Application = "com.android.application"
+    const val AndroidLint = "com.android.lint"
+    const val AndroidTest = "com.android.test"
+    const val AndroidApplication = "com.android.application"
+
     const val JavaLibrary = "java-library"
     const val AndroidLibrary = "com.android.library"
-    const val Kotlin = "kotlin-android"
+
     const val PureKotlin = "kotlin"
+    const val AndroidKotlin = "kotlin-android"
+
     const val Jacoco = "org.gradle.jacoco"
 }
