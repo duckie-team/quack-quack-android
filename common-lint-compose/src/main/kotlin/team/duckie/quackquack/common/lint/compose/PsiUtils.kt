@@ -30,7 +30,7 @@ fun PsiMethod.isInPackageName(packageName: PackageName): Boolean {
 /**
  * Whether this [PsiMethod] returns Unit
  */
-val PsiMethod.returnsUnit get() = returnType.isVoidOrUnit
+val PsiMethod.isReturnsUnit get() = returnType.isVoidOrUnit
 
 /**
  * Whether this [PsiType] is `void` or [Unit]

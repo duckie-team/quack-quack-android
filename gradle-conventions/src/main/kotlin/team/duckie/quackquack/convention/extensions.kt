@@ -42,7 +42,7 @@ internal fun CommonExtension<*, *, *, *>.kotlinOptions(block: KotlinJvmOptions.(
 internal fun DependencyScope.compileOnlys(vararg paths: Any) {
     delegate(
         method = CompileOnly,
-        paths = paths
+        paths = paths,
     )
 }
 

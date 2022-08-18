@@ -34,9 +34,6 @@ fun PsiMethod.toKmFunction() = containingClass!!
     .getKmDeclarationContainer()
     ?.findKmFunctionForPsiMethod(this)
 
-// TODO: https://youtrack.jetbrains.com/issue/KT-45310
-// Currently there is no built in support for parsing kotlin metadata from kotlin class files, so
-// we need to manually inspect the annotations and work with Cls* (compiled PSI).
 /**
  * Returns the [KmDeclarationContainer] using the kotlin.Metadata annotation present on this
  * [PsiClass]. Returns null if there is no annotation (not parsing a Kotlin
@@ -45,7 +42,6 @@ fun PsiMethod.toKmFunction() = containingClass!!
  */
 private fun PsiClass.getKmDeclarationContainer(): KmDeclarationContainer? {
     val classKotlinMetadataAnnotation = annotations.find { annotation ->
-        // hasQualifiedName() not available on the min version of Lint we compile against
         annotation.qualifiedName == KotlinMetadataFqn
     } ?: return null
 
@@ -104,7 +100,7 @@ private fun PsiAnnotation.toHeader(): KotlinClassHeader {
         data2 = data2,
         extraString = extraString,
         packageName = packageName,
-        extraInt = extraInt
+        extraInt = extraInt,
     )
 }
 
@@ -113,12 +109,8 @@ private fun PsiAnnotation.toHeader(): KotlinClassHeader {
  * signature.
  */
 private fun KmDeclarationContainer.findKmFunctionForPsiMethod(method: PsiMethod): KmFunction? {
-    // Strip any mangled part of the name in case of value / inline classes
     val expectedName = method.name.substringBefore("-")
     val expectedSignature = ClassUtil.getAsmMethodSignature(method)
-    // Since Kotlin 1.6 PSI updates, in some cases what used to be `void` return types are converted
-    // to `kotlin.Unit`, even though in the actual metadata they are still void. Try to match those
-    // cases as well
     val unitReturnTypeSuffix = "Lkotlin/Unit;"
     val expectedSignatureConvertedFromUnitToVoid =
         when (expectedSignature.endsWith(unitReturnTypeSuffix)) {

@@ -51,8 +51,6 @@ private class LambdaParameterVisitor(private val lambda: KtLambdaExpression) {
      * return a list containing an [UnreferencedParameter] with `it` as the name.
      */
     fun findUnreferencedParameters(): List<UnreferencedParameter> {
-        // If there is an implicit `it` parameter, we only want to look for "it". There is no value
-        // for parameter, since there is no corresponding declaration in the function literal.
         return if (lambda.hasImplicitItParameter) {
             if (isParameterReferenced(ItName)) {
                 emptyList()
@@ -60,17 +58,13 @@ private class LambdaParameterVisitor(private val lambda: KtLambdaExpression) {
                 listOf(UnreferencedParameter(ItName, null))
             }
         } else {
-            // Otherwise, look for all named, non-destructured parameters
             lambda.valueParameters
-                // Ignore parameters with a destructuring declaration instead of a named parameter
                 .filter { parameter ->
                     parameter.destructuringDeclaration == null
                 }
-                // Ignore referenced parameters
                 .filterNot { parameter ->
                     isParameterReferenced(parameter.name!!)
                 }
-                // Return an UnreferencedParameters for each un-referenced parameter
                 .map { parameter ->
                     UnreferencedParameter(parameter.name!!, parameter)
                 }
@@ -82,22 +76,13 @@ private class LambdaParameterVisitor(private val lambda: KtLambdaExpression) {
             expression.getReferencedName() == name
         }
 
-        // Fast return if there is no reference
         if (matchingReferences.isEmpty()) return false
 
-        // Find lambdas that shadow this parameter name, to make sure that they aren't shadowing
-        // the references we are looking through
         val lambdasWithMatchingParameterName = innerLambdas.filter { innerLambda ->
-            // If the lambda has an implicit it parameter, it will shadow the outer parameter if
-            // the outer parameter also has an implicit it parameter (its name is "it").
             if (innerLambda.hasImplicitItParameter) {
                 name == ItName
             } else {
-                // Otherwise look to see if any of the parameters on the inner lambda have the
-                // same name
                 innerLambda.valueParameters
-                    // Ignore parameters with a destructuring declaration instead of a named
-                    // parameter
                     .filter { parameter ->
                         parameter.destructuringDeclaration == null
                     }
@@ -107,8 +92,6 @@ private class LambdaParameterVisitor(private val lambda: KtLambdaExpression) {
             }
         }
 
-        // The parameter is referenced if there is at least one reference that isn't shadowed by an
-        // inner lambda
         return matchingReferences.any { reference ->
             lambdasWithMatchingParameterName.none { expression ->
                 expression.isAncestor(reference)
@@ -144,10 +127,7 @@ class UnreferencedParameter(
 private val KtLambdaExpression.hasImplicitItParameter: Boolean // 타입 명시 필수
     get() {
         return when {
-            // There is already a parameter specified explicitly
             functionLiteral.hasParameterSpecification() -> false
-            // There are either no parameters, or more than 1 parameter required for `it`
-            // to be allowed
             (toUElement() as? ULambdaExpression)?.valueParameters?.size != 1 -> false
             else -> true
         }
