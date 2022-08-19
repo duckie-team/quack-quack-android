@@ -69,8 +69,7 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
             .replace()
             .text(currentName)
             .with(preferredName)
-            .robot(true)
-            .independent(true)
+            .autoFix()
             .build()
 
         context.report(
