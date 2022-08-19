@@ -13,6 +13,7 @@ plugins {
 
 dependencies {
     implementations(
+        projects.common,
         projects.commonLintCompose,
     )
 }
