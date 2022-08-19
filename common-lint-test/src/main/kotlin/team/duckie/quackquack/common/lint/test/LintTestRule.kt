@@ -47,7 +47,7 @@ private class LintTestRuleImpl : TestWatcher(), LintTestRule {
         lint
             .files(*files.toComposableTestableFiles())
             .issues(*issues.toTypedArray())
-            // .testModes(TestMode.TYPE_ALIAS)
+            .testModes(TestMode.DEFAULT)
             .run()
             .expectErrorCount(expectedCount)
     }
