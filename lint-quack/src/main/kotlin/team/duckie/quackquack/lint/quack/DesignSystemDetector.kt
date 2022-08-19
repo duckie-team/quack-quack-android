@@ -22,6 +22,7 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import org.jetbrains.uast.UCallExpression
 import org.jetbrains.uast.UElement
+import team.duckie.quackquack.common.lint.compose.isInvokedWithinComposable
 
 val DesignSystemIssue = Issue.create(
     id = "DesignSystem",
@@ -47,6 +48,8 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
         override fun visitCallExpression(node: UCallExpression) {
+            if (!node.isInvokedWithinComposable()) return
+
             val name = node.methodName ?: return
             val preferredName = methods[name] ?: return
             reportIssue(
