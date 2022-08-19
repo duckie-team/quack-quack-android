@@ -28,10 +28,13 @@ import org.jetbrains.uast.UMethod
 import team.duckie.quackquack.common.lint.compose.isComposable
 import team.duckie.quackquack.common.lint.compose.isReturnsUnit
 
+private const val BriefDescription = "MutableCollections 사용 감지됨"
+private const val Explanation = "Skippable 을 위해 ImmutableCollections 사용을 지향해야 합니다."
+
 val PreferredImmutableCollectionsIssue = Issue.create(
     id = "PreferredImmutableCollections",
-    briefDescription = "MutableCollections 사용 감지됨",
-    explanation = "Skippable 을 위해 ImmutableCollections 사용을 지향해야 합니다.",
+    briefDescription = BriefDescription,
+    explanation = Explanation,
     category = Category.PERFORMANCE,
     priority = 7,
     severity = Severity.ERROR,
@@ -74,7 +77,7 @@ class PreferredImmutableCollectionsDetector : Detector(), SourceCodeScanner {
                         issue = PreferredImmutableCollectionsIssue,
                         scope = parameterType,
                         location = context.getNameLocation(parameterType),
-                        message = "MutableCollection 사용 감지됨"
+                        message = Explanation,
                     )
                 }
             }
