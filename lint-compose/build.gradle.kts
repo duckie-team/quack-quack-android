@@ -11,9 +11,10 @@ plugins {
     id(PluginEnum.AndroidLint)
 }
 
+BundleInsideHelper.forInsideLintJar(project)
+
 dependencies {
-    implementations(
-        projects.common,
+    bundleInsides(
         projects.commonLintCompose,
     )
 }
