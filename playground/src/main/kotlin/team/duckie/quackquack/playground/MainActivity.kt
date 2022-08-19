@@ -30,7 +30,13 @@ fun DesignSystem() {
     Button()
 }
 
+interface ImmutableList<T>
+
 @Composable
-fun PreferredMutableCollection(list: MutableList<Any>) {
+fun PreferredMutableCollection(
+    list: List<Any>,
+    list2: MutableList<Any>,
+    list3: ImmutableList<Any>
+) {
     // stub!
 }
