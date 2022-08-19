@@ -16,6 +16,7 @@ package team.duckie.quackquack.common.lint.test
 
 import com.android.tools.lint.checks.infrastructure.TestFile
 import com.android.tools.lint.checks.infrastructure.TestLintTask
+import com.android.tools.lint.checks.infrastructure.TestMode
 import com.android.tools.lint.detector.api.Issue
 import org.junit.rules.TestRule
 import org.junit.rules.TestWatcher
@@ -44,13 +45,15 @@ private class LintTestRuleImpl : TestWatcher(), LintTestRule {
         expectedCount: Int,
     ) {
         lint
-            .files(*files.addComposableAnnotation())
+            .files(*files.toComposableTestableFiles())
             .issues(*issues.toTypedArray())
+            // .testModes(TestMode.TYPE_ALIAS)
             .run()
             .expectErrorCount(expectedCount)
     }
 
-    private fun List<TestFile>.addComposableAnnotation() = ArrayList(this).apply {
-        add(ComposableAnnotationFile)
-    }.toTypedArray()
+    private fun List<TestFile>.toComposableTestableFiles() =
+        ArrayList(map(TestFile::indented)).apply {
+            add(ComposableAnnotationFile)
+        }.toTypedArray()
 }
