@@ -50,9 +50,6 @@ import org.jetbrains.uast.withContainingElements
  */
 fun UExpression.isInvokedWithinComposable() = ComposableBodyVisitor(this).isComposable()
 
-// TODO: https://youtrack.jetbrains.com/issue/KT-45406
-// KotlinUMethodWithFakeLightDelegate.hasAnnotation() (for reified functions for example)
-// doesn't find annotations, so just look at the annotations directly.
 /**
  * Returns whether this method is @Composable or not
  */
@@ -66,21 +63,17 @@ val PsiMethod.isComposable
  */
 val UVariable.isComposable: Boolean // 타입 명시 필수
     get() {
-        // Annotation on the lambda
         val annotationOnLambda = when (val initializer = uastInitializer) {
             is ULambdaExpression -> {
                 val source = initializer.sourcePsi
                 if (source is KtFunction) {
-                    // Anonymous function, val foo = @Composable fun() {}
                     source.hasComposableAnnotation
                 } else {
-                    // Lambda, val foo = @Composable {}
                     initializer.findAnnotation(Names.Runtime.Composable.javaFqn) != null
                 }
             }
             else -> false
         }
-        // Annotation on the type, foo: @Composable () -> Unit = {}
         val annotationOnType = typeReference?.isComposable == true
         return annotationOnLambda || annotationOnType
     }
@@ -90,18 +83,7 @@ val UVariable.isComposable: Boolean // 타입 명시 필수
  */
 private val PsiParameter.isComposable
     get() = when {
-        // The parameter is in a class file. Currently type annotations aren't currently added to
-        // the underlying type (https://youtrack.jetbrains.com/issue/KT-45307), so instead we use
-        // the metadata annotation.
-        this is ClsParameterImpl ||
-                // In some cases when a method is defined in bytecode and the call fails to resolve
-                // to the ClsMethodImpl, we will instead get a LightParameter. Note that some Kotlin
-                // declarations too will also appear as a LightParameter, so we can check to see if
-                // the source language is Java, which means that this is a LightParameter for
-                // bytecode, as opposed to for a Kotlin declaration.
-                // https://youtrack.jetbrains.com/issue/KT-46883
-                (this is LightParameter && this.language is JavaLanguage) -> {
-            // Find the containing method, so we can get metadata from the containing class
+        this is ClsParameterImpl || (this is LightParameter && this.language is JavaLanguage) -> {
             val containingMethod = getParentOfType<PsiMethod>(true)
             val kmFunction = containingMethod!!.toKmFunction()
 
@@ -113,7 +95,6 @@ private val PsiParameter.isComposable
                 annotation.className == Names.Runtime.Composable.kmClassName
             } != null
         }
-        // The parameter is in a source declaration
         else -> (toUElement() as UParameter).typeReference!!.isComposable
     }
 
@@ -122,16 +103,13 @@ private val PsiParameter.isComposable
  */
 val ULambdaExpression.isComposable
     get() = when (val lambdaParent = uastParent) {
-        // Function call with a lambda parameter
         is UCallExpression -> {
             val parameter = lambdaParent.getParameterForArgument(this)
             parameter?.isComposable == true
         }
-        // A local / non-local lambda variable
         is UVariable -> {
             lambdaParent.isComposable
         }
-        // Either a new UAST type we haven't handled, or non-Kotlin declarations
         else -> false
     }
 
@@ -170,7 +148,6 @@ private class ComposableBodyVisitor(
      * search above as it still could be created in the context of a Composable body
      */
     private val boundaryUElement by lazy {
-        // The nearest property / function / etc declaration that contains this call expression
         var containingDeclaration = expression.getContainingDeclaration()
 
         fun UDeclaration.isLocalProperty() = (sourcePsi as? KtProperty)?.isLocal == true
@@ -191,19 +168,11 @@ private class ComposableBodyVisitor(
     private val parentUElements by lazy {
         val elements = mutableListOf<UElement>()
 
-        // Look through containing elements until we find a lambda or a method
         for (element in expression.withContainingElements) {
             elements += element
             when (element) {
-                // TODO: consider handling the case of a lambda inside an inline function call,
-                //  such as `apply` or `forEach`. These calls don't really change the
-                //  'composability' here, but there may be other inline function calls that
-                //  capture the lambda and invoke it elsewhere, so we might need to look for
-                //  a callsInPlace contract in the metadata for the function, or the body of the
-                //  source definition.
                 is ULambdaExpression -> break
                 is UMethod -> break
-                // Stop when we reach the parent declaration to avoid escaping the scope.
                 boundaryUElement -> break
             }
         }
@@ -217,10 +186,6 @@ private class ComposableBodyVisitor(
 private val UTypeReferenceExpression.isComposable: Boolean // 타입 명시 필수
     get() {
         if (type.hasAnnotation(Names.Runtime.Composable.javaFqn)) return true
-
-        // Annotations on the types of local properties (val foo: @Composable () -> Unit = {})
-        // are currently not present on the PsiType, we so need to manually check the underlying
-        // type reference. (https://youtrack.jetbrains.com/issue/KTIJ-18821)
         return (sourcePsi as? KtTypeReference)?.hasComposableAnnotation == true
     }
 

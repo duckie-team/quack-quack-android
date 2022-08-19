@@ -45,6 +45,8 @@ build-dokka = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka"
 build-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 build-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+
 compose-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "compose-constraintlayout" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose-core" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-core" }

@@ -1,7 +1,7 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [DesignSystemDetector.kt] created by Ji Sungbin on 22. 8. 16. 오후 6:33
+ * [DesignSystemDetector.kt] created by Ji Sungbin on 22. 8. 19. 오전 4:18
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
@@ -23,7 +23,26 @@ import com.android.tools.lint.detector.api.Severity
 import org.jetbrains.uast.UCallExpression
 import org.jetbrains.uast.UElement
 
+val DesignSystemIssue = Issue.create(
+    id = "DesignSystem",
+    briefDescription = "컴포즈 기본 디자인을 사용하고 있습니다.",
+    explanation = "Jetpack Compose 의 foundation 컴포저블 대신에 " +
+            "QuackQuack 디자인 시스템의 컴포저블을 사용해야 합니다.",
+    category = Category.CUSTOM_LINT_CHECKS,
+    priority = 7,
+    severity = Severity.ERROR,
+    implementation = Implementation(
+        DesignSystemDetector::class.java,
+        Scope.JAVA_FILE_SCOPE
+    )
+)
+
+// 테스트 코드에서 DesignSystemIssue 를 정상적으로 참조하기 위해 public 필요
 class DesignSystemDetector : Detector(), Detector.UastScanner {
+    private val methods = mapOf(
+        "Button" to "QuackLargeButton",
+    )
+
     override fun getApplicableUastTypes() = listOf(UCallExpression::class.java)
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
@@ -38,10 +57,6 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
             )
         }
     }
-
-    private val methods = mapOf(
-        "Button" to "QuackLargeButton",
-    )
 
     private fun reportIssue(
         context: JavaContext,
@@ -59,28 +74,11 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
             .build()
 
         context.report(
-            issue = ISSUE,
+            issue = DesignSystemIssue,
             scope = node,
             location = context.getLocation(node),
             message = "Using $preferredName instead of $currentName",
             quickfixData = quickfix
-        )
-    }
-
-    companion object {
-        @JvmField
-        val ISSUE = Issue.create(
-            id = "DesignSystem",
-            briefDescription = "Design system",
-            explanation = "Jetpack Compose 의 foundation 컴포저블 대신에 " +
-                "QuackQuack 디자인 시스템의 컴포저블을 사용해야 합니다.",
-            category = Category.CUSTOM_LINT_CHECKS,
-            priority = 10,
-            severity = Severity.FATAL,
-            implementation = Implementation(
-                DesignSystemDetector::class.java,
-                Scope.JAVA_FILE_SCOPE
-            )
         )
     }
 }
