@@ -32,7 +32,7 @@ val ComposableAnnotationFile: TestFile = kotlin(
         AnnotationTarget.PROPERTY_GETTER,
     )
     annotation class Composable
-    """
+    """.trimIndent()
 )
 
 fun composableTestFile(@Language("kotlin") source: String): TestFile = kotlin(
@@ -41,6 +41,6 @@ fun composableTestFile(@Language("kotlin") source: String): TestFile = kotlin(
 
     import androidx.compose.runtime.Composable
 
-    $source
-    """
+    ${source.trimIndent()}
+    """.trimIndent()
 )
