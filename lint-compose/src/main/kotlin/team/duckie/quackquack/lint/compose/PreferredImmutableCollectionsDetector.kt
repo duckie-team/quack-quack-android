@@ -23,7 +23,6 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
-import com.intellij.psi.PsiJavaFile
 import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.uast.UMethod
 import team.duckie.quackquack.common.lint.compose.isComposable
@@ -42,6 +41,17 @@ val PreferredImmutableCollectionsIssue = Issue.create(
     )
 )
 
+private val CollectionNames = listOf(
+    "List",
+    "Map",
+    "Set",
+)
+
+private val ImmutableNames = listOf(
+    "Immutable",
+    "Persistent",
+)
+
 class PreferredImmutableCollectionsDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes() = listOf(UMethod::class.java)
 
@@ -50,15 +60,21 @@ class PreferredImmutableCollectionsDetector : Detector(), SourceCodeScanner {
             if (!node.isComposable || !node.isReturnsUnit) return
 
             for (parameter in node.uastParameters) {
-                val type = parameter.sourcePsi as? KtParameter ?: continue
-                val parameterTypePackage =
-                    (type.typeReference!!.typeElement!!.containingFile as? PsiJavaFile)?.packageName
-                if (parameterTypePackage.orEmpty().startsWith("kotlin.collections")) {
+                val ktParameter = parameter.sourcePsi as? KtParameter ?: continue
+                val parameterType = ktParameter.typeReference ?: continue
+                val parameterTypeName = parameterType.text
+                val isCollection = CollectionNames.any { collectionName ->
+                    parameterTypeName.contains(collectionName)
+                }
+                val isImmutable = ImmutableNames.any { immutableName ->
+                    parameterTypeName.contains(immutableName)
+                }
+                if (isCollection && !isImmutable) {
                     context.report(
                         issue = PreferredImmutableCollectionsIssue,
-                        scope = type.typeReference!!,
-                        location = context.getNameLocation(element = type.typeReference!!),
-                        message = "MutableCollection 사용은 지양해야 합니다."
+                        scope = parameterType,
+                        location = context.getNameLocation(parameterType),
+                        message = "MutableCollection 사용 감지됨"
                     )
                 }
             }

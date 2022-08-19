@@ -30,7 +30,7 @@ class ComposeLintTest {
                         """
                         @Composable
                         fun Test(list: MutableList<Any>) {}
-                    """
+                        """
                     ),
                 ),
                 issues = listOf(
