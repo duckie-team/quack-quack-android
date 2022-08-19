@@ -27,7 +27,6 @@ class DesignSystemIssueRegistry : IssueRegistry() {
 
     override val vendor = Vendor(
         vendorName = "QuackQuack",
-        identifier = "team.duckie.quack:quack-lint-quack:{version}",
         feedbackUrl = "https://github.com/sungbinland/duckie-quack-quack/issues",
         contact = "https://github.com/sungbinland/duckie-quack-quack",
     )
