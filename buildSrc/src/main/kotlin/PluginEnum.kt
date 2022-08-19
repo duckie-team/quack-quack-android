@@ -11,6 +11,7 @@ object PluginEnum {
     private const val prefix = "quackquack"
 
     const val AndroidLint = "$prefix.android.lint"
+    const val AndroidCommonLintPlugin = "$prefix.android.common.lint"
     const val AndroidBenchmark = "$prefix.android.benchmark"
     const val AndroidApplication = "$prefix.android.application"
     const val AndroidApplicationCompose = "$prefix.android.application.compose"

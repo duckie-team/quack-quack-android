@@ -9,5 +9,5 @@
 
 plugins {
     id(PluginEnum.JvmLibrary)
-    id(PluginEnum.AndroidLint)
+    id(PluginEnum.AndroidCommonLintPlugin)
 }
