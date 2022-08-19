@@ -1,3 +1,12 @@
+/*
+ * Designed and developed by 2022 SungbinLand, Team Duckie
+ *
+ * [AndroidCommonLintPlugin.kt] created by Ji Sungbin on 22. 8. 19. 오후 7:52
+ *
+ * Licensed under the MIT.
+ * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ */
+
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -10,15 +19,6 @@ import team.duckie.quackquack.convention.compileOnlys
 import team.duckie.quackquack.convention.libs
 import team.duckie.quackquack.convention.setupJunit
 import team.duckie.quackquack.convention.setupLint
-
-/*
- * Designed and developed by 2022 SungbinLand, Team Duckie
- *
- * [AndroidCommonLintPlugin.kt] created by Ji Sungbin on 22. 8. 19. 오후 7:52
- *
- * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
- */
 
 internal class AndroidCommonLintPlugin : Plugin<Project> {
     override fun apply(target: Project) {
