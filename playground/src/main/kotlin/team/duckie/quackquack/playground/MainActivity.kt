@@ -7,7 +7,11 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("UNUSED_VARIABLE", "unused")
+@file:Suppress(
+    "UNUSED_VARIABLE",
+    "unused",
+    "UNUSED_PARAMETER",
+)
 
 package team.duckie.quackquack.playground
 
@@ -22,6 +26,11 @@ fun Button() {
 }
 
 @Composable
-fun Main() {
-    // Button() <-- lint error
+fun DesignSystem() {
+    Button()
+}
+
+@Composable
+fun PreferredMutableCollection(list: MutableList<Any>) {
+    // stub!
 }

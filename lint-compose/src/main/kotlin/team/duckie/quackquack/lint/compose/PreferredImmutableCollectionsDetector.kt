@@ -23,8 +23,11 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
-import org.jetbrains.uast.UElement
+import com.intellij.psi.PsiJavaFile
+import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.uast.UMethod
+import team.duckie.quackquack.common.lint.compose.isComposable
+import team.duckie.quackquack.common.lint.compose.isReturnsUnit
 
 val PreferredImmutableCollectionsIssue = Issue.create(
     id = "PreferredImmutableCollections",
@@ -44,33 +47,21 @@ class PreferredImmutableCollectionsDetector : Detector(), SourceCodeScanner {
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
         override fun visitMethod(node: UMethod) {
-            // if (!node.isComposable) return
-            val mutableCollectionsParameter = node.typeParameters.find { parameter ->
-                parameter.qualifiedName?.startsWith("kotlin.collections") == true
-            }
-            if (mutableCollectionsParameter != null) {
-                reportIssue(
-                    context = context,
-                    node = node,
-                    currentName = mutableCollectionsParameter.name.orEmpty(),
-                    preferredName = "ImmutableCollections"
-                )
-                context.evaluator.isInfix()
+            if (!node.isComposable || !node.isReturnsUnit) return
+
+            for (parameter in node.uastParameters) {
+                val type = parameter.sourcePsi as? KtParameter ?: continue
+                val parameterTypePackage =
+                    (type.typeReference!!.typeElement!!.containingFile as? PsiJavaFile)?.packageName
+                if (parameterTypePackage.orEmpty().startsWith("kotlin.collections")) {
+                    context.report(
+                        issue = PreferredImmutableCollectionsIssue,
+                        scope = type.typeReference!!,
+                        location = context.getNameLocation(element = type.typeReference!!),
+                        message = "MutableCollection 사용은 지양해야 합니다."
+                    )
+                }
             }
         }
-    }
-
-    private fun reportIssue(
-        context: JavaContext,
-        node: UElement,
-        currentName: String,
-        preferredName: String,
-    ) {
-        context.report(
-            issue = PreferredImmutableCollectionsIssue,
-            scope = node,
-            location = context.getLocation(node),
-            message = "Using $preferredName instead of $currentName",
-        )
     }
 }

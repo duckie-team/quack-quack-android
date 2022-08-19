@@ -47,4 +47,5 @@ android {
 dependencies {
     implementations(projects.uiComponents)
     lintChecks(projects.lintQuack)
+    lintChecks(projects.lintCompose)
 }

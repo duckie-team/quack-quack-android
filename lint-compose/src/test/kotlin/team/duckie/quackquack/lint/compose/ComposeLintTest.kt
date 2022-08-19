@@ -11,7 +11,6 @@
 
 package team.duckie.quackquack.lint.compose
 
-import com.android.tools.lint.checks.infrastructure.TestFiles.kotlin
 import org.junit.Rule
 import org.junit.Test
 import team.duckie.quackquack.common.lint.test.LintTestRule
@@ -23,20 +22,14 @@ class ComposeLintTest {
     val lintTestRule = LintTestRule()
 
     @Test
-    fun designSystem() {
+    fun preferredImmutableCollections() {
         lintTestRule
             .assertErrorCount(
                 files = listOf(
-                    kotlin(
-                        """
-                        package kotlin.collections
-                        interface List<T>
-                        """.trimIndent()
-                    ),
                     composableTestFile(
                         """
                         @Composable
-                        fun Test(list: List<Any>) {}
+                        fun Test(list: MutableList<Any>) {}
                     """
                     ),
                 ),
