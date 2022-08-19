@@ -16,11 +16,10 @@
 package team.duckie.quackquack.playground
 
 import androidx.activity.ComponentActivity
-import androidx.compose.runtime.Composable
 
 class MainActivity : ComponentActivity()
 
-@Composable
+/*@Composable
 fun Button() {
     // stub!
 }
@@ -39,4 +38,4 @@ fun PreferredMutableCollection(
     list3: ImmutableList<Any>
 ) {
     // stub!
-}
+}*/
