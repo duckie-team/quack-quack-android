@@ -13,7 +13,6 @@ import com.android.tools.lint.client.api.IssueRegistry
 import com.android.tools.lint.client.api.Vendor
 import com.android.tools.lint.detector.api.CURRENT_API
 import com.android.tools.lint.detector.api.Detector
-import com.android.tools.lint.detector.api.Issue
 
 /**
  * QuackQuack 의 Core 카테고리 린트 [Detector] 들을
@@ -21,8 +20,8 @@ import com.android.tools.lint.detector.api.Issue
  */
 // 상수 값들 하드코딩 안하면 빌드 타임에서 레퍼런스를 참조하지 못해 빌드 에러뜸
 class CoreIssueRegistry : IssueRegistry() {
-    override val issues = listOf<Issue>(
-
+    override val issues = listOf(
+        MutableCollectionPublicIssue
     )
 
     override val api = CURRENT_API
