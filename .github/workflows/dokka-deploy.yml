@@ -1,7 +1,5 @@
 name: Deploy dokka content
 on:
-  issue_comment:
-    types: [ created, edited ]
   pull_request:
     branches: [ develop ]
 
@@ -16,7 +14,7 @@ concurrency:
 
 jobs:
   dokka-deploy:
-    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/deploy dokka') }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'dokka') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

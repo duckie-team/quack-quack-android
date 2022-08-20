@@ -6,7 +6,7 @@ on:
 
 jobs:
   android-deploy:
-    if: ${{ github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'UI') }}
+    if: ${{ github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
