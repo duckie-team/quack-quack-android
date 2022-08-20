@@ -2,6 +2,7 @@ name: Deploy dokka content
 on:
   pull_request:
     branches: [ develop ]
+    types: [ closed ]
 
 permissions:
   contents: read
@@ -14,7 +15,7 @@ concurrency:
 
 jobs:
   dokka-deploy:
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'dokka') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+    if: ${{ github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'dokka') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
 
     environment:
       name: github-pages
@@ -61,7 +62,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
 
-      - name: Upload artifact
+      - name: Upload dokka artifact
         uses: actions/upload-pages-artifact@v1
         with:
           path: "documents/dokka"
