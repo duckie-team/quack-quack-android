@@ -8,15 +8,7 @@
  */
 
 plugins {
-    id(PluginEnum.AndroidLibrary)
+    id(PluginEnum.JvmLibrary)
     id(PluginEnum.ModuleJacoco)
     alias(libs.plugins.dokka)
-}
-
-android {
-    namespace = "team.duckie.quackquack.common"
-}
-
-dependencies {
-    apis(libs.util.logeukes)
 }

@@ -9,33 +9,23 @@
 
 package team.duckie.quackquack.ui
 
-import org.junit.Assert.assertNotNull
 import org.junit.Test
-import team.duckie.quackquack.common.requireNonNull
+import team.duckie.quackquack.common.npe
 import team.duckie.quackquack.common.runtimeCheck
 
 class AssertTest {
-    @Suppress("RedundantNullableReturnType")
-    private val nullableValue: String? = "Bye, World!"
-    private val nullValue: String? = null
-
     @Test(expected = IllegalStateException::class)
-    fun `throw-ise`() {
+    fun `throw ise`() {
         runtimeCheck(false)
     }
 
     @Test
-    fun checkPassed() {
+    fun passed() {
         runtimeCheck(true)
     }
 
-    @Test
-    fun `non-null-value`() {
-        assertNotNull(requireNonNull(nullableValue))
-    }
-
     @Test(expected = NullPointerException::class)
-    fun `throw-npe`() {
-        assertNotNull(requireNonNull(nullValue))
+    fun `throw npe`() {
+        npe()
     }
 }

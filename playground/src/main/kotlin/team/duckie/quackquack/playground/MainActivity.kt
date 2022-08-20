@@ -7,21 +7,35 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("UNUSED_VARIABLE", "unused")
+@file:Suppress(
+    "UNUSED_VARIABLE",
+    "unused",
+    "UNUSED_PARAMETER",
+)
 
 package team.duckie.quackquack.playground
 
 import androidx.activity.ComponentActivity
-import androidx.compose.runtime.Composable
 
 class MainActivity : ComponentActivity()
 
-@Composable
+/*@Composable
 fun Button() {
     // stub!
 }
 
 @Composable
-fun Main() {
-    // Button() <-- lint error
+fun DesignSystem() {
+    Button()
 }
+
+interface ImmutableList<T>
+
+@Composable
+fun PreferredMutableCollection(
+    list: List<Any>,
+    list2: MutableList<Any>,
+    list3: ImmutableList<Any>
+) {
+    // stub!
+}*/

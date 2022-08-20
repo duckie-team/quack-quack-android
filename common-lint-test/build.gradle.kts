@@ -13,6 +13,7 @@ plugins {
 
 dependencies {
     implementations(
+        projects.common,
         libs.test.junit.core,
         libs.test.lint,
         libs.lint.api,

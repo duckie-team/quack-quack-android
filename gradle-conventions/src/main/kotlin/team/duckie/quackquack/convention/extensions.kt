@@ -53,6 +53,13 @@ internal fun DependencyScope.implementations(vararg paths: Any) {
     )
 }
 
+internal fun DependencyScope.testImplementations(vararg paths: Any) {
+    delegate(
+        method = TestImplementation,
+        paths = paths,
+    )
+}
+
 internal fun DependencyScope.androidTestImplementations(vararg paths: Any) {
     delegate(
         method = AndroidTestImplementation,

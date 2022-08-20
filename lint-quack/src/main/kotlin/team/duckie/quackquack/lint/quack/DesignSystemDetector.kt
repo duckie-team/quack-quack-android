@@ -22,12 +22,16 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import org.jetbrains.uast.UCallExpression
 import org.jetbrains.uast.UElement
+import team.duckie.quackquack.common.lint.compose.isInvokedWithinComposable
+
+private const val BriefDescription = "컴포즈 기본 디자인 컴포넌트 사용 감지됨"
+private const val Explanation = "Jetpack Compose 의 foundation 컴포저블 대신에 " +
+        "QuackQuack 디자인 시스템의 컴포저블을 사용해야 합니다."
 
 val DesignSystemIssue = Issue.create(
     id = "DesignSystem",
-    briefDescription = "컴포즈 기본 디자인을 사용하고 있습니다.",
-    explanation = "Jetpack Compose 의 foundation 컴포저블 대신에 " +
-            "QuackQuack 디자인 시스템의 컴포저블을 사용해야 합니다.",
+    briefDescription = BriefDescription,
+    explanation = Explanation,
     category = Category.CUSTOM_LINT_CHECKS,
     priority = 7,
     severity = Severity.ERROR,
@@ -47,6 +51,8 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
         override fun visitCallExpression(node: UCallExpression) {
+            if (!node.isInvokedWithinComposable()) return
+
             val name = node.methodName ?: return
             val preferredName = methods[name] ?: return
             reportIssue(
@@ -65,20 +71,19 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
         preferredName: String,
     ) {
         val quickfix = LintFix.create()
-            .name("Use $preferredName")
+            .name("$preferredName 로 변경")
             .replace()
             .text(currentName)
             .with(preferredName)
-            .robot(true)
-            .independent(true)
+            .autoFix()
             .build()
 
         context.report(
             issue = DesignSystemIssue,
             scope = node,
             location = context.getLocation(node),
-            message = "Using $preferredName instead of $currentName",
-            quickfixData = quickfix
+            message = Explanation,
+            quickfixData = quickfix,
         )
     }
 }

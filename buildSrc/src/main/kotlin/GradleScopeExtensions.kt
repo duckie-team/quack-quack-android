@@ -8,11 +8,26 @@
  */
 
 import org.gradle.api.artifacts.dsl.DependencyHandler as DependencyScope
-import org.gradle.api.artifacts.ProjectDependency
 
+private const val BundleInside = "bundleInside"
 private const val Implementation = "implementation"
 private const val TestImplementation = "testImplementation"
 private const val Api = "api"
+private const val LintChecks = "lintChecks"
+
+fun DependencyScope.customLints(vararg paths: Any) {
+    delegate(
+        method = LintChecks,
+        paths = paths
+    )
+}
+
+fun DependencyScope.bundleInsides(vararg paths: Any) {
+    delegate(
+        method = BundleInside,
+        paths = paths
+    )
+}
 
 fun DependencyScope.implementations(vararg paths: Any) {
     delegate(
@@ -40,6 +55,3 @@ private fun DependencyScope.delegate(method: String, vararg paths: Any) {
         add(method, path)
     }
 }
-
-private fun DependencyScope.project(path: String) =
-    project(mapOf("path" to path)) as ProjectDependency

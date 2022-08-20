@@ -16,10 +16,12 @@ package team.duckie.quackquack.common.lint.test
 
 import com.android.tools.lint.checks.infrastructure.TestFile
 import com.android.tools.lint.checks.infrastructure.TestLintTask
+import com.android.tools.lint.checks.infrastructure.TestMode
 import com.android.tools.lint.detector.api.Issue
 import org.junit.rules.TestRule
-import org.junit.rules.TestWatcher
 import org.junit.runner.Description
+import org.junit.runners.model.Statement
+import team.duckie.quackquack.common.runIf
 
 fun LintTestRule(): LintTestRule = LintTestRuleImpl()
 
@@ -28,29 +30,36 @@ interface LintTestRule : TestRule {
         files: List<TestFile>,
         issues: List<Issue>,
         expectedCount: Int,
+        fixedFile: TestFile? = null,
     )
 }
 
-private class LintTestRuleImpl : TestWatcher(), LintTestRule {
-    private lateinit var lint: TestLintTask
-
-    override fun starting(description: Description) {
-        lint = TestLintTask.lint().allowMissingSdk()
-    }
+private class LintTestRuleImpl : LintTestRule {
+    override fun apply(base: Statement, description: Description) = base
 
     override fun assertErrorCount(
         files: List<TestFile>,
         issues: List<Issue>,
         expectedCount: Int,
+        fixedFile: TestFile?,
     ) {
-        lint
-            .files(*files.addComposableAnnotation())
+        TestLintTask
+            .lint()
+            .allowMissingSdk()
+            .testModes(TestMode.DEFAULT)
+            .files(*files.toComposableTestableFiles())
             .issues(*issues.toTypedArray())
             .run()
             .expectErrorCount(expectedCount)
+            .runIf(fixedFile != null) {
+                checkFix(
+                    fix = null, // 첫 번째 QuickFix 로 자동 선택됨
+                    after = fixedFile!!
+                )
+            }
     }
 
-    private fun List<TestFile>.addComposableAnnotation() = ArrayList(this).apply {
+    private fun List<TestFile>.toComposableTestableFiles() = ArrayList(this).apply {
         add(ComposableAnnotationFile)
     }.toTypedArray()
 }

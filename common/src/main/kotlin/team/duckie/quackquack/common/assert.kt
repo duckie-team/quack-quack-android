@@ -7,17 +7,19 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("unused")
+
 package team.duckie.quackquack.common
 
-private val DefaultMessage = """
+@PublishedApi
+internal val DefaultMessage = """
     A runtime error occurred in quack-quack. Please report it through GitHub issues.
     https://github.com/sungbinland/quack-quack/issues/
 """.trimIndent()
 
-fun runtimeCheck(value: Boolean, lazyMessage: () -> String = { DefaultMessage }) {
+inline fun runtimeCheck(value: Boolean, lazyMessage: () -> String = { DefaultMessage }) {
     if (!value) throw IllegalStateException(lazyMessage())
 }
 
-fun <T> requireNonNull(value: T?, lazyMessage: () -> String = { DefaultMessage }): T {
-    return value ?: throw NullPointerException(lazyMessage())
-}
+inline fun npe(lazyMessage: () -> String = { DefaultMessage }): Nothing =
+    throw NullPointerException(lazyMessage())

@@ -1,13 +1,11 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [AndroidLintPlugin.kt] created by Ji Sungbin on 22. 8. 16. 오후 7:29
+ * [AndroidCommonLintPlugin.kt] created by Ji Sungbin on 22. 8. 19. 오후 7:52
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
-
-@file:Suppress("unused")
 
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
@@ -18,13 +16,11 @@ import org.gradle.kotlin.dsl.dependencies
 import team.duckie.quackquack.convention.PluginEnum
 import team.duckie.quackquack.convention.applyPlugins
 import team.duckie.quackquack.convention.compileOnlys
-import team.duckie.quackquack.convention.implementations
 import team.duckie.quackquack.convention.libs
 import team.duckie.quackquack.convention.setupJunit
 import team.duckie.quackquack.convention.setupLint
-import team.duckie.quackquack.convention.testImplementations
 
-internal class AndroidLintPlugin : Plugin<Project> {
+internal class AndroidCommonLintPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             applyPlugins(
@@ -42,8 +38,6 @@ internal class AndroidLintPlugin : Plugin<Project> {
             dependencies {
                 dependencies {
                     compileOnlys(libs.findLibrary("kotlin-stdlib").get())
-                    implementations(project(":common-lint"))
-                    testImplementations(project(":common-lint-test"))
                     setupJunit(
                         core = libs.findLibrary("test-junit-core").get(),
                         engine = libs.findLibrary("test-junit-engine").get(),

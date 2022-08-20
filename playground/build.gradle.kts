@@ -45,6 +45,11 @@ android {
 }
 
 dependencies {
-    implementations(projects.uiComponents)
-    lintChecks(projects.lintQuack)
+    implementations(
+        projects.uiComponents,
+    )
+    customLints(
+        projects.lintQuack,
+        projects.lintCompose,
+    )
 }

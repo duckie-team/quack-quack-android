@@ -7,6 +7,8 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("unused")
+
 package team.duckie.quackquack.common
 
 inline fun <T> T.runIf(condition: Boolean, run: T.() -> T) = if (condition) {
