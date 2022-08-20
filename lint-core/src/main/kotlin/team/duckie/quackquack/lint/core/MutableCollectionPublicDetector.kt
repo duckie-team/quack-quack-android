@@ -15,10 +15,17 @@
 package team.duckie.quackquack.lint.core
 
 import com.android.tools.lint.client.api.UElementHandler
-import com.android.tools.lint.detector.api.*
-import org.jetbrains.kotlin.psi.KtFunction
+import com.android.tools.lint.detector.api.Category
+import com.android.tools.lint.detector.api.Detector
+import com.android.tools.lint.detector.api.Implementation
+import com.android.tools.lint.detector.api.Issue
+import com.android.tools.lint.detector.api.JavaContext
+import com.android.tools.lint.detector.api.Scope
+import com.android.tools.lint.detector.api.Severity
+import com.android.tools.lint.detector.api.SourceCodeScanner
 import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.kotlin.psi.KtProperty
+import org.jetbrains.uast.UDeclaration
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.UastVisibility
 
@@ -62,12 +69,13 @@ private val MutableNames = listOf(
  * 린트 에러가 발생합니다.
  *
  * ```
- * public MutableCollection<Any> <- MutableCollection 의 접근 제어가 public 으로 감지됨
+ * public MutableCollection<Any> variableName <- MutableCollection 의 접근 제어가 public 으로 감지됨
+ * MutableCollection<Any> variableName <- internal 도 public 으로 감지됨
  *
  * // MutableCollection 접근제어 범위가 public 이어서 린트 에러가 발생함
  * ```
  *
- * 2. 함수 내 파라미터에 public 을 사용할 시
+ * 2. 함수 내 파라미터에 public 이외 언급이 없을 시
  *
  * 함수 내 파라미터 접근제어자 범위는 기본적으로 packageLocal 이므로 문제가 없습니다.
  */
@@ -82,12 +90,12 @@ class MutableCollectionPublicDetector : Detector(), SourceCodeScanner {
             val property = node.sourcePsi as? KtProperty
             val propertyType = property?.typeReference ?: return
             val propertyTypeName = propertyType.text
-            val isImmutable = MutableNames.any { immutableName ->
+            val isMutable = MutableNames.any { immutableName ->
                 propertyTypeName.startsWith(immutableName)
             }
 
             // mutable Collection 인 경우 && PUBLIC 인 경우
-            if(isImmutable && node.visibility == UastVisibility.PUBLIC) {
+            if (isMutable && node.visibility == UastVisibility.PUBLIC) {
                 context.report(
                     issue = MutableCollectionPublicIssue,
                     scope = propertyType,
@@ -102,10 +110,12 @@ class MutableCollectionPublicDetector : Detector(), SourceCodeScanner {
                 val ktParameter = parameter.sourcePsi as? KtParameter ?: continue
                 val parameterType = ktParameter.typeReference ?: continue
                 val parameterTypeName = parameterType.text
-                val isImmutable = MutableNames.any { immutableName ->
+                val isMutable = MutableNames.any { immutableName ->
                     parameterTypeName.startsWith(immutableName)
                 }
-                if(isImmutable && parameter.visibility == UastVisibility.PUBLIC) {
+
+                // mutable Collection 인 경우 && PUBLIC 인 경우
+                if (isMutable && parameter.visibility == UastVisibility.PUBLIC) {
                     context.report(
                         issue = MutableCollectionPublicIssue,
                         scope = parameterType,
