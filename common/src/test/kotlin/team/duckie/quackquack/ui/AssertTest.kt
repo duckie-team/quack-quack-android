@@ -9,14 +9,28 @@
 
 package team.duckie.quackquack.ui
 
+import org.junit.Assert.assertThrows
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import team.duckie.quackquack.common.npe
 import team.duckie.quackquack.common.runtimeCheck
 
+private const val ByeWorld = "bye world"
+
 class AssertTest {
     @Test(expected = IllegalStateException::class)
-    fun `throw ise`() {
+    fun `throw ise with default message`() {
         runtimeCheck(false)
+    }
+
+    @Test
+    fun `throw ise with custom message`() {
+        val exception = assertThrows(
+            IllegalStateException::class.java
+        ) {
+            runtimeCheck(false) { ByeWorld }
+        }
+        assertTrue(exception.message == ByeWorld)
     }
 
     @Test
@@ -25,7 +39,17 @@ class AssertTest {
     }
 
     @Test(expected = NullPointerException::class)
-    fun `throw npe`() {
+    fun `throw npe with default message`() {
         npe()
+    }
+
+    @Test
+    fun `throw npe with custom message`() {
+        val exception = assertThrows(
+            NullPointerException::class.java
+        ) {
+            npe { ByeWorld }
+        }
+        assertTrue(exception.message == ByeWorld)
     }
 }

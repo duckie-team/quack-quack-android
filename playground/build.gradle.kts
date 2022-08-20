@@ -12,6 +12,7 @@
 plugins {
     id(PluginEnum.AndroidApplication)
     id(PluginEnum.AndroidApplicationCompose)
+    id(PluginEnum.JvmKover)
     id(PluginEnum.JvmDokka)
 }
 
@@ -45,9 +46,7 @@ android {
 }
 
 dependencies {
-    implementations(
-        projects.uiComponents,
-    )
+    implementations(projects.uiComponents)
     customLints(
         projects.lintQuack,
         projects.lintCompose,

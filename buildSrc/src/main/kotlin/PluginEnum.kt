@@ -18,8 +18,8 @@ object PluginEnum {
     const val AndroidLibrary = "$prefix.android.library"
     const val AndroidLibraryCompose = "$prefix.android.library.compose"
     const val AndroidLibraryComposeUiTest = "$prefix.android.library.compose.uitest"
-    const val ProjectJacoco = "$prefix.project.jacoco"
-    const val ModuleJacoco = "$prefix.module.jacoco"
+
+    const val JvmKover = "$prefix.jvm.kover"
     const val JvmLibrary = "$prefix.jvm.library"
     const val JvmDokka = "$prefix.jvm.dokka"
 }

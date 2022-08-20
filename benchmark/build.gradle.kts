@@ -10,6 +10,7 @@
 plugins {
     id(PluginEnum.AndroidBenchmark)
     id(PluginEnum.JvmDokka)
+    alias(libs.plugins.kover)
 }
 
 android {

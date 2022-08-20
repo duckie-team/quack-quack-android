@@ -18,6 +18,7 @@ dependencies {
     // Unresolved reference: implementations
     implementation(libs.build.gradle)
     implementation(libs.build.kotlin)
+    implementation(libs.build.kover)
     implementation(libs.build.dokka.base)
     implementation(libs.build.dokka.plugin)
 }
@@ -57,13 +58,9 @@ gradlePlugin {
             id = "$prefix.android.library.compose.uitest"
             implementationClass = "AndroidLibraryComposeUiTestPlugin"
         }
-        register("projectJacocoPlugin") {
-            id = "$prefix.project.jacoco"
-            implementationClass = "ProjectJacocoPlugin"
-        }
-        register("moduleJacocoPlugin") {
-            id = "$prefix.module.jacoco"
-            implementationClass = "ModuleJacocoPlugin"
+        register("jvmKoverPlugin") {
+            id = "$prefix.jvm.kover"
+            implementationClass = "JvmKoverPlugin"
         }
         register("jvmLibraryPlugin") {
             id = "$prefix.jvm.library"

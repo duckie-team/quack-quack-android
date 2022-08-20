@@ -16,7 +16,17 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.dokka)
-    id(PluginEnum.ProjectJacoco)
+    alias(libs.plugins.kover)
+}
+
+koverMerged {
+    enable()
+    htmlReport {
+        reportDir.set(file("$rootDir/report/test-coverage"))
+    }
+    xmlReport {
+        reportFile.set(file("$rootDir/report/test-coverage/report.xml"))
+    }
 }
 
 buildscript {
@@ -33,8 +43,6 @@ buildscript {
 }
 
 allprojects {
-    val projectPath = rootProject.file(".").absolutePath
-
     repositories {
         google()
         mavenCentral()
@@ -55,17 +63,13 @@ allprojects {
                 )
                 freeCompilerArgs = freeCompilerArgs + listOf(
                     "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=$projectPath/report/compose-metrics",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=$rootDir/report/compose-metrics",
                 )
                 freeCompilerArgs = freeCompilerArgs + listOf(
                     "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$projectPath/report/compose-reports",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$rootDir/report/compose-reports",
                 )
             }
-        }
-
-        tasks.withType<Test> {
-            useJUnitPlatform()
         }
     }
 

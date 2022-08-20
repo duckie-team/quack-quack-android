@@ -13,7 +13,7 @@ plugins {
     id(PluginEnum.AndroidLibrary)
     id(PluginEnum.AndroidLibraryCompose)
     id(PluginEnum.AndroidLibraryComposeUiTest)
-    id(PluginEnum.ModuleJacoco)
+    id(PluginEnum.JvmKover)
     id(PluginEnum.JvmDokka)
 }
 
