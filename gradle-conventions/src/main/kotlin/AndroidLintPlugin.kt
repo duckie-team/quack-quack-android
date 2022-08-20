@@ -40,22 +40,16 @@ internal class AndroidLintPlugin : Plugin<Project> {
             )
 
             extensions.configure<JavaPluginExtension> {
-                val version = JavaVersion.VERSION_1_8
+                val version = JavaVersion.VERSION_11
                 sourceCompatibility = version
                 targetCompatibility = version
             }
 
             dependencies {
                 dependencies {
-                    compileOnlys(
-                        libs.findLibrary("kotlin-stdlib").get(),
-                    )
-                    implementations(
-                        project(":common-lint"),
-                    )
-                    testImplementations(
-                        project(":common-lint-test"),
-                    )
+                    compileOnlys(libs.findLibrary("kotlin-stdlib").get())
+                    implementations(project(":common-lint"))
+                    testImplementations(project(":common-lint-test"))
                     setupJunit(
                         core = libs.findLibrary("test-junit-core").get(),
                         engine = libs.findLibrary("test-junit-engine").get(),

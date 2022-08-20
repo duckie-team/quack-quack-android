@@ -26,10 +26,7 @@ internal class AndroidLibraryComposeUiTestPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             val extension = extensions.getByType<LibraryExtension>()
-
-            configureCompose(
-                commonExtension = extension,
-            )
+            configureCompose(extension)
 
             extension.apply {
                 defaultConfig {
@@ -38,12 +35,8 @@ internal class AndroidLibraryComposeUiTestPlugin : Plugin<Project> {
             }
 
             dependencies {
-                debugImplementations(
-                    libs.findLibrary("test-compose-manifest").get(),
-                )
-                androidTestImplementations(
-                    libs.findLibrary("test-compose-junit").get(),
-                )
+                debugImplementations(libs.findLibrary("test-compose-manifest").get())
+                androidTestImplementations(libs.findLibrary("test-compose-junit").get())
             }
         }
     }

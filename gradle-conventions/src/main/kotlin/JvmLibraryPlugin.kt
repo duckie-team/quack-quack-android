@@ -27,7 +27,7 @@ internal class JvmLibraryPlugin : Plugin<Project> {
             )
 
             extensions.configure<JavaPluginExtension> {
-                val version = JavaVersion.VERSION_1_8
+                val version = JavaVersion.VERSION_11
                 sourceCompatibility = version
                 targetCompatibility = version
             }

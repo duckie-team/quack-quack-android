@@ -25,16 +25,12 @@ internal class AndroidLibraryComposePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             val extension = extensions.getByType<LibraryExtension>()
-
-            configureCompose(
-                commonExtension = extension,
-            )
+            configureCompose(extension)
 
             dependencies {
                 setupCompose(
                     core = libs.findBundle("compose-core").get(),
-                    debug = libs.findBundle("compose-debug")
-                        .get(), // preview 빌드에 debugImplementation 이 사용됩니다.
+                    debug = libs.findBundle("compose-debug").get(),
                 )
             }
         }

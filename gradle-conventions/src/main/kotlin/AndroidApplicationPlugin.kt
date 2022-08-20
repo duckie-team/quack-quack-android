@@ -30,9 +30,7 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
             )
 
             extensions.configure<BaseAppModuleExtension> {
-                configureApplication(
-                    commonExtension = this,
-                )
+                configureApplication(this)
 
                 defaultConfig {
                     targetSdk = ApplicationConstants.targetSdk
