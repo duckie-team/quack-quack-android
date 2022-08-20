@@ -10,7 +10,7 @@
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.dokka.DokkaConfiguration.Visibility
+import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
@@ -20,7 +20,7 @@ import team.duckie.quackquack.convention.libs
 /**
  * Android 프레임워크에 의존적이지 않은 순수한 Dokka 모듈을 구성합니다.
  */
-internal class ModuleDokkaPlugin : Plugin<Project> {
+internal class JvmDokkaPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             applyPlugins(libs.findPlugin("dokka").get().get().pluginId)
@@ -29,7 +29,7 @@ internal class ModuleDokkaPlugin : Plugin<Project> {
                 suppressInheritedMembers.set(true)
 
                 dokkaSourceSets.configureEach {
-                    documentedVisibilities.set(Visibility.values().toList())
+                    documentedVisibilities.set(DokkaConfiguration.Visibility.values().toList())
                     jdkVersion.set(11)
                 }
 

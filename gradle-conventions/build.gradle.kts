@@ -68,7 +68,7 @@ gradlePlugin {
         }
         register("jvmDokkaPlugin") {
             id = "$prefix.jvm.dokka"
-            implementationClass = "ModuleDokkaPlugin"
+            implementationClass = "JvmDokkaPlugin"
         }
     }
 }
