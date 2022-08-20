@@ -72,46 +72,46 @@ private val MutableNames = listOf(
  * 함수 내 파라미터 접근제어자 범위는 기본적으로 packageLocal 이므로 문제가 없습니다.
  */
 class MutableCollectionPublicDetector : Detector(), SourceCodeScanner {
-    override fun getApplicableUastTypes() = listOf(UMethod::class.java)
+    override fun getApplicableUastTypes() = listOf(
+        UMethod::class.java,
+        UDeclaration::class.java,
+    )
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
+        override fun visitDeclaration(node: UDeclaration) {
+            val property = node.sourcePsi as? KtProperty
+            val propertyType = property?.typeReference ?: return
+            val propertyTypeName = propertyType.text
+            val isImmutable = MutableNames.any { immutableName ->
+                propertyTypeName.startsWith(immutableName)
+            }
+
+            // mutable Collection 인 경우 && PUBLIC 인 경우
+            if(isImmutable && node.visibility == UastVisibility.PUBLIC) {
+                context.report(
+                    issue = MutableCollectionPublicIssue,
+                    scope = propertyType,
+                    location = context.getNameLocation(propertyType),
+                    message = Explanation,
+                )
+            }
+        }
+
         override fun visitMethod(node: UMethod) {
-            when(val sourcePsi = node.sourcePsi) {
-                is KtFunction -> {
-                    for (parameter in node.uastParameters) {
-                        val ktParameter = parameter.sourcePsi as? KtParameter ?: continue
-                        val parameterType = ktParameter.typeReference ?: continue
-                        val parameterTypeName = parameterType.text
-                        val isImmutable = MutableNames.any { immutableName ->
-                            parameterTypeName.startsWith(immutableName)
-                        }
-                        if(isImmutable && parameter.visibility == UastVisibility.PUBLIC) {
-                            context.report(
-                                issue = MutableCollectionPublicIssue,
-                                scope = parameterType,
-                                location = context.getNameLocation(parameterType),
-                                message = Explanation,
-                            )
-                        }
-                    }
+            for (parameter in node.uastParameters) {
+                val ktParameter = parameter.sourcePsi as? KtParameter ?: continue
+                val parameterType = ktParameter.typeReference ?: continue
+                val parameterTypeName = parameterType.text
+                val isImmutable = MutableNames.any { immutableName ->
+                    parameterTypeName.startsWith(immutableName)
                 }
-
-                is KtProperty -> {
-                    val parameterType = sourcePsi.typeReference ?: return
-                    val parameterTypeName = parameterType.text
-                    val isImmutable = MutableNames.any { immutableName ->
-                        parameterTypeName.startsWith(immutableName)
-                    }
-
-                    // mutable Collection 인 경우 && PUBLIC 인 경우
-                    if(isImmutable && node.visibility == UastVisibility.PUBLIC) {
-                        context.report(
-                            issue = MutableCollectionPublicIssue,
-                            scope = parameterType,
-                            location = context.getNameLocation(parameterType),
-                            message = Explanation,
-                        )
-                    }
+                if(isImmutable && parameter.visibility == UastVisibility.PUBLIC) {
+                    context.report(
+                        issue = MutableCollectionPublicIssue,
+                        scope = parameterType,
+                        location = context.getNameLocation(parameterType),
+                        message = Explanation,
+                    )
                 }
             }
         }
