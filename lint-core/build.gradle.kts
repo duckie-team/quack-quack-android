@@ -9,5 +9,6 @@
 
 plugins {
     id(PluginEnum.AndroidLint)
+    id(PluginEnum.JvmKover)
     id(PluginEnum.JvmDokka)
 }

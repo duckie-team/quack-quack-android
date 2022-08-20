@@ -10,11 +10,10 @@
 plugins {
     id(PluginEnum.JvmLibrary)
     id(PluginEnum.AndroidCommonLintPlugin)
+    id(PluginEnum.JvmKover)
     id(PluginEnum.JvmDokka)
 }
 
 dependencies {
-    apis(
-        libs.kotlin.metadata,
-    )
+    apis(libs.kotlin.metadata)
 }

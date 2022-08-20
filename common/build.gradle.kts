@@ -9,6 +9,6 @@
 
 plugins {
     id(PluginEnum.JvmLibrary)
-    id(PluginEnum.ModuleJacoco)
+    id(PluginEnum.JvmKover)
     id(PluginEnum.JvmDokka)
 }

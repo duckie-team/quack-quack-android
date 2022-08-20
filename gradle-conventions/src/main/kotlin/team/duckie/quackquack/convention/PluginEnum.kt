@@ -22,6 +22,4 @@ internal object PluginEnum {
 
     const val PureKotlin = "kotlin"
     const val AndroidKotlin = "kotlin-android"
-
-    const val Jacoco = "org.gradle.jacoco"
 }
