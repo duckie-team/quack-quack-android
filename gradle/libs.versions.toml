@@ -22,7 +22,7 @@ landscapist = "1.6.1"
 accompanist = "0.26.1-alpha"
 
 # tools
-jacoco = "0.8.8"
+kover = "0.6.0-Beta"
 lint = "30.2.2"
 logeukes = "1.0.0"
 profileinstaller = "1.2.0"
@@ -40,12 +40,14 @@ junit-engine = "5.9.0"
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 
 [libraries]
 build-dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 build-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 build-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 build-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+build-kover = { module = "org.jetbrains.kotlinx:kover", version.ref = "kover" }
 
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-metadata = { module = "org.jetbrains.kotlinx:kotlinx-metadata-jvm", version.ref = "kotlin-metadata" }
