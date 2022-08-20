@@ -11,8 +11,13 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import team.duckie.quackquack.convention.PluginEnum
 import team.duckie.quackquack.convention.applyPlugins
-import team.duckie.quackquack.convention.configureJacocoForAllCoverage
+import team.duckie.quackquack.convention.configureJacocoForProject
 
+/**
+ * Android 프레임워크에 의존적이지 않은 순수한 Jacoco 모듈을 구성합니다.
+ *
+ * 프로젝트 그레이들 단위에서 사용되므로 [configureJacocoForProject] 를 사용합니다.
+ */
 class ProjectJacocoPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
@@ -20,7 +25,7 @@ class ProjectJacocoPlugin : Plugin<Project> {
                 PluginEnum.Jacoco,
             )
 
-            configureJacocoForAllCoverage()
+            configureJacocoForProject()
         }
     }
 }

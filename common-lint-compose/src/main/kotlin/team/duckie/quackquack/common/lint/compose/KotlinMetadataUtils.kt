@@ -26,6 +26,11 @@ import kotlinx.metadata.jvm.KotlinClassMetadata
 import kotlinx.metadata.jvm.signature
 
 /**
+ * 코틀린 메타 데이터의 full qualified name 상수 값
+ */
+private const val KotlinMetadataFqn = "kotlin.Metadata"
+
+/**
  * @return the corresponding [KmFunction] for this [PsiMethod], or `null` if there is no
  * corresponding [KmFunction]. This method is only meaningful if this [PsiMethod] represents a
  * method defined in bytecode (most often a [ClsMethodImpl]).
@@ -125,5 +130,3 @@ private fun KmDeclarationContainer.findKmFunctionForPsiMethod(method: PsiMethod)
                 )
     }
 }
-
-private const val KotlinMetadataFqn = "kotlin.Metadata"

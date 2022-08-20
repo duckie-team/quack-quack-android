@@ -41,12 +41,45 @@ val DesignSystemIssue = Issue.create(
     )
 )
 
-// 테스트 코드에서 DesignSystemIssue 를 정상적으로 참조하기 위해 public 필요
-class DesignSystemDetector : Detector(), Detector.UastScanner {
-    private val methods = mapOf(
-        "Button" to "QuackLargeButton",
-    )
+/**
+ * key 에서 value 로 변경돼야 하는 컴포저블명을 매핑합니다.
+ *
+ * [key - value]
+ *
+ * 컴포즈 foundation 컴포넌트 - QuackQuack 디자인 시스템의 컴포넌트
+ */
+private val methods = mapOf(
+    "Button" to "QuackLargeButton",
+)
 
+/**
+ * QuackQuack 린트의 DesignSystem 규칙을 구현합니다.
+ *
+ * 아래와 같은 조건에서 린트 검사가 진행됩니다.
+ *
+ * 1. 컴포저블 함수 안에서 사용돼야 함
+ *
+ * 아래와 같은 조건에서 린트 에러가 발생합니다.
+ *
+ * 1. [methods] 의 key 를 사용중이 감지됨
+ *
+ * 현재 이 규칙은 함수명을 이용하여 검사하도록 구현됐습니다.
+ * 따라서 아래와 같이 일반 함수의 네이밍을 [methods] 의 key 로
+ * 하면 린트 에러가 발생합니다.
+ *
+ * ```
+ * fun Button() {}
+ * @Composable
+ * fun Main() {
+ *     Button()
+ * //  ~~~~~~~~ <- 컴포즈 기본 디자인 컴포넌트 사용 감지됨
+ * // Button 이 컴포저블이 아닌데도 린트 에러가 발생함
+ * }
+ * ```
+ *
+ * 해당 함수가 컴포저블인지도 확인하도록 구현이 개선돼야 합니다.
+ */
+class DesignSystemDetector : Detector(), Detector.UastScanner {
     override fun getApplicableUastTypes() = listOf(UCallExpression::class.java)
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {

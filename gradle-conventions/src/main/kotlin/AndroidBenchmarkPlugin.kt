@@ -22,6 +22,11 @@ import team.duckie.quackquack.convention.configureApplication
 import team.duckie.quackquack.convention.implementations
 import team.duckie.quackquack.convention.libs
 
+/**
+ * Android 프레임워크에 의존적인 밴치마크 모듈을 구성합니다.
+ *
+ * 밴치마크 모듈은 baseline profiles 를 산출하기 위해 사용됩니다.
+ */
 internal class AndroidBenchmarkPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {

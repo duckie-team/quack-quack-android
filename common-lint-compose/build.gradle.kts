@@ -13,5 +13,7 @@ plugins {
 }
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
+    apis(
+        "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0",
+    )
 }

@@ -19,6 +19,10 @@ import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
+/**
+ * 그레이들에서 좀 더 쉽게 사용하기 위한 확장 함수들을 정의합니다.
+ */
+
 private const val CompileOnly = "compileOnly"
 private const val Implementation = "implementation"
 private const val DebugImplementation = "debugImplementation"

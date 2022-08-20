@@ -9,6 +9,9 @@
 
 package team.duckie.quackquack.convention
 
+/**
+ * 플러그인 오타 방지를 위한 상수 값들 모음
+ */
 internal object PluginEnum {
     const val AndroidLint = "com.android.lint"
     const val AndroidTest = "com.android.test"

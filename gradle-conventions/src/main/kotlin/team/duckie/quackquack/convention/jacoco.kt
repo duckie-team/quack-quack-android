@@ -18,6 +18,9 @@ import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
+/**
+ * Jacoco 에서 커버리지 계산에 제외할 폴더들
+ */
 private val coverageExclusions = listOf(
     "**/R.class",
     "**/R\$*.class",
@@ -25,7 +28,15 @@ private val coverageExclusions = listOf(
     "**/Manifest*.*"
 )
 
-internal fun Project.configureJacocoForOnceCoverage() {
+/**
+ * 모듈 단위 그레이들에서 Jacoco 환경을 설정해 줍니다.
+ *
+ * 산출된 exec 를 정해진 경로로 저장합니다.
+ *
+ * 현재 executionData 설정이 되지 않는 문제가 있습니다.
+ * https://github.com/sungbinland/duckie-quack-quack/issues/11
+ */
+internal fun Project.configureJacocoForModule() {
     configure<JacocoPluginExtension> {
         toolVersion = libs.findVersion("jacoco").get().toString()
     }
@@ -60,7 +71,15 @@ internal fun Project.configureJacocoForOnceCoverage() {
     }
 }
 
-internal fun Project.configureJacocoForAllCoverage() {
+/**
+ * 프로젝트 단위 그레이들에서 Jacoco 환경을 설정해 줍니다.
+ *
+ * 모든 모듈들의 exec 들을 모아서 하나의 커버리지로 계산하는데 사용됩니다.
+ *
+ * 현재 executionData 설정이 되지 않는 문제가 있습니다.
+ * https://github.com/sungbinland/duckie-quack-quack/issues/11
+ */
+internal fun Project.configureJacocoForProject() {
     configure<JacocoPluginExtension> {
         toolVersion = libs.findVersion("jacoco").get().toString()
         reportsDirectory.set(file(rootProject.file("documents/coverage")))
