@@ -9,6 +9,7 @@
 
 plugins {
     id(PluginEnum.AndroidBenchmark)
+    alias(libs.plugins.dokka)
 }
 
 android {
