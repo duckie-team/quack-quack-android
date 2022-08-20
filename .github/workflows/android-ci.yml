@@ -4,8 +4,9 @@ on:
     branches: [ develop ]
 
 jobs:
-  build:
+  android-build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
 

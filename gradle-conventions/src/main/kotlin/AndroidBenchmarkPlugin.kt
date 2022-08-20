@@ -36,9 +36,7 @@ internal class AndroidBenchmarkPlugin : Plugin<Project> {
             )
 
             extensions.configure<TestExtension> {
-                configureApplication(
-                    commonExtension = this,
-                )
+                configureApplication(this)
 
                 defaultConfig {
                     targetSdk = ApplicationConstants.targetSdk
@@ -62,9 +60,7 @@ internal class AndroidBenchmarkPlugin : Plugin<Project> {
             }
 
             extensions.configure<TestAndroidComponentsExtension> {
-                beforeVariants(
-                    selector = selector().all(),
-                ) { testVariant ->
+                beforeVariants(selector().all()) { testVariant ->
                     testVariant.enable = testVariant.buildType == "benchmark"
                 }
             }

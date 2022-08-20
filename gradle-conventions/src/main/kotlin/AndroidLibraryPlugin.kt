@@ -30,10 +30,7 @@ internal class AndroidLibraryPlugin : Plugin<Project> {
             )
 
             extensions.configure<LibraryExtension> {
-                configureApplication(
-                    commonExtension = this,
-                )
-
+                configureApplication(this)
                 defaultConfig.targetSdk = ApplicationConstants.targetSdk
             }
         }

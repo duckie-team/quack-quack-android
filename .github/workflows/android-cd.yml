@@ -5,9 +5,11 @@ on:
     types: [ closed ]
 
 jobs:
-  deploy:
-    if: ${{ github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'UI') }}
+  android-deploy:
+    if: ${{ github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
 
@@ -51,4 +53,6 @@ jobs:
           token: ${{ secrets.FIREBASE_TOKEN }}
           groups: duckie
           file: playground/build/outputs/apk/release/playground-release.apk
-          releaseNotesFile: documents/release-note/default.txt
+          releaseNotes: |
+            마지막 변경 사항 제목: ${{ github.event.pull_request.title }}
+            자세한 변경 사항은 https://duckie.team/quack/pr 를 확인해 주세요.
