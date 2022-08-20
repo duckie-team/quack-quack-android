@@ -24,6 +24,12 @@ import team.duckie.quackquack.convention.setupJunit
 import team.duckie.quackquack.convention.setupLint
 import team.duckie.quackquack.convention.testImplementations
 
+/**
+ * Android 프레임워크에 의존적인 린트 개발 환경을 구성합니다.
+ *
+ * [AndroidCommonLintPlugin] 와 달리
+ * 린트 개발에 도움이 될 수 있는 추가적인 다른 의존성들도 같이 구성합니다.
+ */
 internal class AndroidLintPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
@@ -41,9 +47,15 @@ internal class AndroidLintPlugin : Plugin<Project> {
 
             dependencies {
                 dependencies {
-                    compileOnlys(libs.findLibrary("kotlin-stdlib").get())
-                    implementations(project(":common-lint"))
-                    testImplementations(project(":common-lint-test"))
+                    compileOnlys(
+                        libs.findLibrary("kotlin-stdlib").get(),
+                    )
+                    implementations(
+                        project(":common-lint"),
+                    )
+                    testImplementations(
+                        project(":common-lint-test"),
+                    )
                     setupJunit(
                         core = libs.findLibrary("test-junit-core").get(),
                         engine = libs.findLibrary("test-junit-engine").get(),

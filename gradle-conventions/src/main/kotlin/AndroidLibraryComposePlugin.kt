@@ -18,6 +18,9 @@ import team.duckie.quackquack.convention.configureCompose
 import team.duckie.quackquack.convention.libs
 import team.duckie.quackquack.convention.setupCompose
 
+/**
+ * Android 프레임워크의 Library 환경에서 Jetpack Compose 를 사용할 준비를 합니다.
+ */
 internal class AndroidLibraryComposePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
@@ -30,7 +33,8 @@ internal class AndroidLibraryComposePlugin : Plugin<Project> {
             dependencies {
                 setupCompose(
                     core = libs.findBundle("compose-core").get(),
-                    debug = libs.findBundle("compose-debug").get(),
+                    debug = libs.findBundle("compose-debug")
+                        .get(), // preview 빌드에 debugImplementation 이 사용됩니다.
                 )
             }
         }

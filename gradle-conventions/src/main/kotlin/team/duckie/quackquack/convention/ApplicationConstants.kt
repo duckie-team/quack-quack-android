@@ -11,6 +11,9 @@ package team.duckie.quackquack.convention
 
 import org.gradle.api.JavaVersion
 
+/**
+ * 그레이들 설정에 사용될 기본 상수 값들 모음
+ */
 internal object ApplicationConstants {
     const val minSdk = 21
     const val targetSdk = 33
