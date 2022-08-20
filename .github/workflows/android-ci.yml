@@ -42,3 +42,11 @@ jobs:
 
       - name: Run build (includes ktlint/detekt/test check)
         run: ./gradlew build
+
+      - name: Generate merged xml report by Kover
+        run: ./gradlew koverMergedXmlReport
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: report/test-coverage/report.xml
