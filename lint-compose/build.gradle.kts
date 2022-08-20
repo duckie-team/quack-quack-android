@@ -9,7 +9,7 @@
 
 plugins {
     id(PluginEnum.AndroidLint)
-    alias(libs.plugins.dokka)
+    id(PluginEnum.JvmDokka)
 }
 
 BundleInsideHelper.forInsideLintJar(project)

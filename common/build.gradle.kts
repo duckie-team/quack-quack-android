@@ -10,5 +10,5 @@
 plugins {
     id(PluginEnum.JvmLibrary)
     id(PluginEnum.ModuleJacoco)
-    alias(libs.plugins.dokka)
+    id(PluginEnum.JvmDokka)
 }

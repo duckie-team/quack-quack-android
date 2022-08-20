@@ -10,5 +10,5 @@
 plugins {
     id(PluginEnum.JvmLibrary)
     id(PluginEnum.AndroidCommonLintPlugin)
-    alias(libs.plugins.dokka)
+    id(PluginEnum.JvmDokka)
 }

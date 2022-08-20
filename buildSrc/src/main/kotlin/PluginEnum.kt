@@ -21,4 +21,5 @@ object PluginEnum {
     const val ProjectJacoco = "$prefix.project.jacoco"
     const val ModuleJacoco = "$prefix.module.jacoco"
     const val JvmLibrary = "$prefix.jvm.library"
+    const val JvmDokka = "$prefix.jvm.dokka"
 }

@@ -12,7 +12,7 @@
 plugins {
     id(PluginEnum.AndroidApplication)
     id(PluginEnum.AndroidApplicationCompose)
-    alias(libs.plugins.dokka)
+    id(PluginEnum.JvmDokka)
 }
 
 android {
