@@ -73,7 +73,6 @@ allprojects {
 
     if (pluginManager.hasPlugin(rootProject.libs.plugins.dokka.get().pluginId)) {
         tasks.withType<DokkaTaskPartial>().configureEach {
-            moduleName.set("Duckie-QuackQuack-Sub")
             outputDirectory.set(file("$rootDir/documents/dokka"))
             suppressInheritedMembers.set(true)
 
@@ -89,7 +88,7 @@ allprojects {
         }
 
         tasks.dokkaHtmlMultiModule.configure {
-            moduleName.set("Duckie-QuackQuack-Root")
+            moduleName.set("Duckie-QuackQuack")
             outputDirectory.set(file("$rootDir/documents/dokka"))
 
             pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
