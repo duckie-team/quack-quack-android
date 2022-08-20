@@ -9,13 +9,17 @@
 
 plugins {
     `kotlin-dsl`
+    alias(libs.plugins.dokka)
 }
 
 group = "team.duckie.quackquack.convention"
 
 dependencies {
+    // Unresolved reference: implementations
     implementation(libs.build.gradle)
     implementation(libs.build.kotlin)
+    implementation(libs.build.dokka.base)
+    implementation(libs.build.dokka.plugin)
 }
 
 gradlePlugin {
@@ -64,6 +68,10 @@ gradlePlugin {
         register("jvmLibraryPlugin") {
             id = "$prefix.jvm.library"
             implementationClass = "JvmLibraryPlugin"
+        }
+        register("jvmDokkaPlugin") {
+            id = "$prefix.jvm.dokka"
+            implementationClass = "ModuleDokkaPlugin"
         }
     }
 }

@@ -9,6 +9,7 @@
 
 plugins {
     id(PluginEnum.JvmLibrary)
+    id(PluginEnum.JvmDokka)
 }
 
 dependencies {

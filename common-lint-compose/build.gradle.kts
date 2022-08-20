@@ -10,10 +10,11 @@
 plugins {
     id(PluginEnum.JvmLibrary)
     id(PluginEnum.AndroidCommonLintPlugin)
+    id(PluginEnum.JvmDokka)
 }
 
 dependencies {
     apis(
-        "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0",
+        libs.kotlin.metadata,
     )
 }

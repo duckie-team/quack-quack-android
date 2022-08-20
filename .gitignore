@@ -14,3 +14,4 @@ google-services.json
 secrets.tar
 keystore
 /buildSrc/src/main/kotlin/BuildConstants.kt
+/documents/dokka/

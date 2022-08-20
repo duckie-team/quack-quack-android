@@ -7,12 +7,15 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+import org.jetbrains.dokka.base.DokkaBase
+import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.dokka)
     id(PluginEnum.ProjectJacoco)
 }
 
@@ -25,7 +28,7 @@ buildscript {
     dependencies {
         classpath(libs.build.gradle)
         classpath(libs.build.kotlin)
-        classpath(libs.build.dokka)
+        classpath(libs.build.dokka.base)
     }
 }
 
@@ -63,6 +66,19 @@ allprojects {
 
         tasks.withType<Test> {
             useJUnitPlatform()
+        }
+    }
+
+    if (pluginManager.hasPlugin(rootProject.libs.plugins.dokka.get().pluginId)) {
+        tasks.dokkaHtmlMultiModule.configure {
+            moduleName.set("Duckie-QuackQuack")
+            outputDirectory.set(file("$rootDir/documents/dokka"))
+
+            pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
+                footerMessage =
+                    """made with <span style="color: #ff8300;">❤</span> by <a href="https://duckie.team/">Duckie</a>"""
+                customAssets = listOf(file("assets/logo-icon.svg"))
+            }
         }
     }
 
