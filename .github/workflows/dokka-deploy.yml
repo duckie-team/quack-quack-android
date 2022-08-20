@@ -1,12 +1,22 @@
-name: Android CD
+name: Deploy dokka content
 on:
   pull_request:
     branches: [ develop ]
-    types: [ closed ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
   deploy:
-    if: ${{ github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'UI') }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -41,14 +51,17 @@ jobs:
       - name: Unzip secrets.tar
         run: tar xvf secrets.tar
 
-      - name: Build apk
-        run: ./gradlew assembleRelease
+      - name: Generate dokka content
+        run: ./gradlew dokkaHtmlMultiModule
 
-      - name: Upload apk to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+      - name: Setup Pages
+        uses: actions/configure-pages@v1
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          appId: ${{ secrets.FIREBASE_APP_ID }}
-          token: ${{ secrets.FIREBASE_TOKEN }}
-          groups: duckie
-          file: playground/build/outputs/apk/release/playground-release.apk
-          releaseNotesFile: documents/release-note/default.txt
+          path: "documents/dokka"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
