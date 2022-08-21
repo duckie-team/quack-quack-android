@@ -42,14 +42,12 @@ interface LintTestRule : TestRule {
      * @param expectedCount 발생해야 하는 린트 에러 개수
      * @param fixedFile QuickFix 가 가능하다면 QuickFix 가 적용된 후 [TestFile]
      * 만약 QuickFix 가 불가능 하다면 null 입력, 기본값은 null
-     * @param fileType see [FileType]
      */
     fun assertErrorCount(
         files: List<TestFile>,
         issues: List<Issue>,
         expectedCount: Int,
         fixedFile: TestFile? = null,
-        fileType: FileType,
     )
 }
 
@@ -61,13 +59,12 @@ private class LintTestRuleImpl : LintTestRule {
         issues: List<Issue>,
         expectedCount: Int,
         fixedFile: TestFile?,
-        fileType: FileType,
     ) {
         TestLintTask
             .lint()
             .allowMissingSdk()
             .testModes(TestMode.DEFAULT)
-            .files(*files.toTestableFiles(fileType))
+            .files(*files.toComposableTestableFiles())
             .issues(*issues.toTypedArray())
             .run()
             .expectErrorCount(expectedCount)
@@ -77,21 +74,6 @@ private class LintTestRuleImpl : LintTestRule {
                     after = fixedFile!!
                 )
             }
-    }
-
-    /**
-     * [TestFile] 목록에 File 를 추가합니다.
-     *
-     * @param fileType see [FileType]
-     *
-     * @receiver [ComposableAnnotationFile] 이 추가되기 전 [TestFile] 목록
-     *
-     * @return receiver 로 받은 [TestFile] 목록에
-     * [ComposableAnnotationFile] 이 추가된 새로운 [TestFile] 목록
-     */
-    private fun List<TestFile>.toTestableFiles(fileType: FileType) = when (fileType) {
-        FileType.ComposableAnnotation -> this.toComposableTestableFiles()
-        FileType.Default -> this.toDefaultTestableFiles()
     }
 
     /**
@@ -105,27 +87,4 @@ private class LintTestRuleImpl : LintTestRule {
     private fun List<TestFile>.toComposableTestableFiles() = ArrayList(this).apply {
         add(ComposableAnnotationFile)
     }.toTypedArray()
-
-    /**
-     * [TestFile] 목록에 [DefaultFile] 를 추가합니다.
-     *
-     * @receiver [DefaultFile] 이 추가되기 전 [TestFile] 목록
-     *
-     * @return receiver 로 받은 [TestFile] 목록에
-     * [DefaultFile] 이 추가된 새로운 [TestFile] 목록
-     */
-    private fun List<TestFile>.toDefaultTestableFiles() = ArrayList(this).apply {
-        add(DefaultFile)
-    }.toTypedArray()
-}
-
-/**
- * LintTest 를 진행할 File 의 Type 을 명세합니다.
- *
- * @property Default 일반 Kt 파일
- * @property ComposableAnnotation @Composable 이 있는 Kt 파일
- * */
-enum class FileType {
-    Default,
-    ComposableAnnotation,
 }

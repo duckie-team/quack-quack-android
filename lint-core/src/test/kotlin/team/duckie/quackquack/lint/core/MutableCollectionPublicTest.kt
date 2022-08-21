@@ -13,9 +13,8 @@ package team.duckie.quackquack.lint.core
 
 import org.junit.Rule
 import org.junit.Test
-import team.duckie.quackquack.common.lint.test.FileType
 import team.duckie.quackquack.common.lint.test.LintTestRule
-import team.duckie.quackquack.common.lint.test.defaultTestFile
+import team.duckie.quackquack.common.lint.test.composableTestFile
 
 /**
  * 테스트 성공 조건
@@ -36,7 +35,7 @@ class MutableCollectionPublicTest {
         lintTestRule
             .assertErrorCount(
                 files = listOf(
-                    defaultTestFile(
+                    composableTestFile(
                         """
                         val mutableList: MutableList<Any>
                         val mutableMap: MutableMap<Any, Any>
@@ -51,7 +50,6 @@ class MutableCollectionPublicTest {
                     MutableCollectionPublicIssue,
                 ),
                 expectedCount = 3,
-                fileType = FileType.Default,
             )
     }
 
@@ -60,7 +58,7 @@ class MutableCollectionPublicTest {
         lintTestRule
             .assertErrorCount(
                 files = listOf(
-                    defaultTestFile(
+                    composableTestFile(
                         """
                         val mutableList: ImmutableList<Any>
                         val mutableMap: ImmutableMap<Any, Any>
@@ -75,7 +73,6 @@ class MutableCollectionPublicTest {
                     MutableCollectionPublicIssue,
                 ),
                 expectedCount = 0,
-                fileType = FileType.Default,
             )
     }
 
@@ -84,7 +81,7 @@ class MutableCollectionPublicTest {
         lintTestRule
             .assertErrorCount(
                 files = listOf(
-                    defaultTestFile(
+                    composableTestFile(
                         """
                         private val mutableList: MutableList<Any>
                         private val mutableMap: MutableMap<Any, Any>
@@ -102,7 +99,6 @@ class MutableCollectionPublicTest {
                     MutableCollectionPublicIssue,
                 ),
                 expectedCount = 3,
-                fileType = FileType.Default,
             )
     }
 
@@ -111,7 +107,7 @@ class MutableCollectionPublicTest {
         lintTestRule
             .assertErrorCount(
                 files = listOf(
-                    defaultTestFile(
+                    composableTestFile(
                         """
                         class DummyClass {
                             private val mutableList: MutableList<Any>
@@ -146,7 +142,6 @@ class MutableCollectionPublicTest {
                     MutableCollectionPublicIssue,
                 ),
                 expectedCount = 9,
-                fileType = FileType.Default,
             )
     }
 
@@ -155,7 +150,7 @@ class MutableCollectionPublicTest {
         lintTestRule
             .assertErrorCount(
                 files = listOf(
-                    defaultTestFile(
+                    composableTestFile(
                         """
                         fun mutableList(val list: MutableList<Any>) {}
                         fun mutableMap(val map: MutableMap<Any, Any>) {}
@@ -173,7 +168,6 @@ class MutableCollectionPublicTest {
                     MutableCollectionPublicIssue,
                 ),
                 expectedCount = 0,
-                fileType = FileType.Default,
             )
     }
 
@@ -182,7 +176,7 @@ class MutableCollectionPublicTest {
         lintTestRule
             .assertErrorCount(
                 files = listOf(
-                    defaultTestFile(
+                    composableTestFile(
                         """
                         @Composable
                         fun mutableList(val list: MutableList<Any>) {}
@@ -209,7 +203,6 @@ class MutableCollectionPublicTest {
                     MutableCollectionPublicIssue,
                 ),
                 expectedCount = 0,
-                fileType = FileType.ComposableAnnotation,
             )
     }
 }

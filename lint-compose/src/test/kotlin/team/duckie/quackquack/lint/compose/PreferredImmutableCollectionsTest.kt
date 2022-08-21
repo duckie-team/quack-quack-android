@@ -14,7 +14,6 @@ package team.duckie.quackquack.lint.compose
 import org.junit.Rule
 import org.junit.Test
 import team.duckie.quackquack.common.lint.test.LintTestRule
-import team.duckie.quackquack.common.lint.test.FileType
 import team.duckie.quackquack.common.lint.test.composableTestFile
 
 /**
@@ -45,7 +44,6 @@ class PreferredImmutableCollectionsTest {
                     PreferredImmutableCollectionsIssue,
                 ),
                 expectedCount = 1,
-                fileType = FileType.ComposableAnnotation,
             )
     }
 
@@ -65,7 +63,6 @@ class PreferredImmutableCollectionsTest {
                     PreferredImmutableCollectionsIssue,
                 ),
                 expectedCount = 0,
-                fileType = FileType.ComposableAnnotation,
             )
     }
 
@@ -96,7 +93,6 @@ class PreferredImmutableCollectionsTest {
                     PreferredImmutableCollectionsIssue,
                 ),
                 expectedCount = 6,
-                fileType = FileType.ComposableAnnotation,
             )
     }
 
@@ -128,7 +124,6 @@ class PreferredImmutableCollectionsTest {
                     PreferredImmutableCollectionsIssue,
                 ),
                 expectedCount = 0,
-                fileType = FileType.ComposableAnnotation,
             )
     }
 }
