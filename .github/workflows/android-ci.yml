@@ -57,7 +57,7 @@ jobs:
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
-          source-directory: "report/test-coverage/"
+          source-directory: "report/test-coverage"
           destination-github-username: "sungbinland"
           destination-repository-name: "duckie-quack-test-coverage-deploy"
           user-email: ji@sungb.in
@@ -78,7 +78,7 @@ jobs:
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_UI_DEPLOY_KEY }}
         with:
-          source-directory: "ui-components/src/test/snapshots/images/"
+          source-directory: "ui-components/src/test/snapshots/images"
           destination-github-username: "sungbinland"
           destination-repository-name: "duckie-quack-ui-components-snapshot-deploy"
           user-email: ji@sungb.in

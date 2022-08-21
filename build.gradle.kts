@@ -122,7 +122,7 @@ tasks.register("cleanAll", Delete::class) {
 }
 
 tasks.register("configurationTestCoverageHtmlReport") {
-    val rootFolderPath = "$rootDir/report/test-coverage/"
+    val rootFolderPath = "$rootDir/report/test-coverage"
     File(rootFolderPath).let { rootFolder ->
         if (!rootFolder.exists()) {
             rootFolder.mkdirs()
@@ -169,7 +169,7 @@ tasks.register("printPngExtensionFileTreeForDebugging") {
 }
 
 tasks.register("configurationUiComponentsSnapshotDeploy") {
-    val rootFolderPath = "$rootDir/ui-components/src/test/snapshots/images/"
+    val rootFolderPath = "$rootDir/ui-components/src/test/snapshots/images"
     val rootFolder = File(rootFolderPath)
     if (!rootFolder.exists()) {
         rootFolder.mkdirs()
