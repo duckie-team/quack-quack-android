@@ -26,6 +26,7 @@ import team.duckie.quackquack.ui.constant.SimpleTagPadding
 import team.duckie.quackquack.ui.typography.QuackTitle2
 
 internal val QuackTagBorderWidth = 1.dp
+internal val QuackTagHeight = 34.dp
 
 @Composable
 fun QuackSimpleTag(
@@ -35,7 +36,7 @@ fun QuackSimpleTag(
 ) {
     Box(
         modifier = Modifier
-            .height(34.dp)
+            .height(QuackTagHeight)
             .clip(QuackTagShape)
             .tagBorder(isSelected)
             .padding(SimpleTagPadding)
