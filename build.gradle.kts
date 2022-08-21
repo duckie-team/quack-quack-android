@@ -122,13 +122,14 @@ tasks.register("cleanAll", Delete::class) {
 }
 
 tasks.register("configurationTestCoverageHtmlReport") {
-    File("$rootDir/report/test-coverage").let { rootFolder ->
+    val rootFolderPath = "$rootDir/report/test-coverage"
+    File(rootFolderPath).let { rootFolder ->
         if (!rootFolder.exists()) {
             rootFolder.mkdirs()
         }
     }
-    val cname = File("$rootDir/report/test-coverage/CNAME")
-    val readme = File("$rootDir/report/test-coverage/README.md")
+    val cname = File("$rootFolderPath/CNAME")
+    val readme = File("$rootFolderPath/README.md")
     cname.writeText(
         """
         quack-test.duckie.team
@@ -154,15 +155,16 @@ tasks.register("configurationTestCoverageHtmlReport") {
 }
 
 tasks.register("configurationUiComponentsSnapshotDeploy") {
-    val rootFolderPath = "$rootDir/ui-components/src/test/snapshots"
+    val rootFolderPath = "$rootDir/ui-components/src/test/snapshots/images"
     val rootFolder = File(rootFolderPath)
     if (!rootFolder.exists()) {
         rootFolder.mkdirs()
     }
     val snapshots = rootFolder.list()!!
-    val snapshotsReadme = ArrayList<String>().apply {
-        snapshots.forEach { snapshotPath ->
-            add("|- [$snapshotPath](https://quack-ui.duckie.team/$snapshotPath)")
+    val snapshotsReadme = ArrayList<String>().apply { // needs kotlin.collections.buildList
+        snapshots.forEach { snapshotName ->
+            val snapshotShortName = snapshotName.substringAfterLast("_")
+            add("|- [$snapshotShortName](https://quack-ui.duckie.team/$snapshotName)")
         }
     }
 
