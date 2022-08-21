@@ -28,7 +28,7 @@ import team.duckie.quackquack.ui.typography.QuackSubtitle
 import team.duckie.quackquack.ui.typography.QuackTitle2
 
 private val QuackTabSpacedBy = 32.dp
-private val QuackTabBottomDividerWidth = 1.dp
+private val QuackTabUnderBarHeight = 1.dp
 private val QuackTabHeight = 36.dp
 private val QuackSubTabWidth = 108.dp
 
@@ -61,42 +61,25 @@ fun QuackMainTab(
             targetValue = bottomBarWidths[selectedTabIndex],
             animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing)
         )
-
-        Row(
+        QuackTabTextRow(
             modifier = Modifier
                 .align(Alignment.CenterStart)
                 .padding(TabPadding),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(QuackTabSpacedBy)
-        ) {
-            tabTitleResources.forEachIndexed { index, titleResource ->
-                val text = stringResource(titleResource)
-                val modifier = Modifier.clickable {
-                    onTabSelected(index)
-                }
-                if (index == selectedTabIndex) {
-                    QuackTitle2(text = text, modifier = modifier)
-                } else {
-                    QuackSubtitle(text = text, modifier = modifier)
-                }
-            }
-        }
-
-        Box(
-            modifier = Modifier
-                .width(tabWidths.getSumByIndex(tabTitleResources.size))
-                .height(QuackTabBottomDividerWidth)
-                .background(QuackColor.Gray3.value)
-                .align(Alignment.BottomCenter)
+            tabTitleResources = tabTitleResources,
+            onTabSelected = onTabSelected,
+            selectedTabIndex = selectedTabIndex
         )
-
-        Box(
+        QuackTabUnderBar(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            width = tabWidths.getSumByIndex(tabTitleResources.size),
+            background = QuackColor.Gray3
+        )
+        QuackTabUnderBar(
             modifier = Modifier
-                .padding(start = offsetAnimation)
-                .width(textAnimation)
-                .height(QuackTabBottomDividerWidth)
-                .align(Alignment.BottomStart)
-                .background(QuackColor.PumpkinOrange.value)
+                .align(Alignment.BottomCenter)
+                .padding(start = offsetAnimation),
+            width = textAnimation,
+            background = QuackColor.PumpkinOrange
         )
     }
 
@@ -116,38 +99,66 @@ fun QuackSubTab(
 
         val offsetAnimation: Dp by animateDpAsState(
             targetValue = QuackSubTabWidth * selectedTabIndex,
-            animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing)
+            animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
         )
-        Row(
-            modifier = Modifier
-                .align(Alignment.CenterStart),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            tabTitleResources.forEachIndexed { index, titleResource ->
-                val text = stringResource(titleResource)
-                val modifier = Modifier
-                    .width(QuackSubTabWidth)
-                    .clickable {
-                        onTabSelected(index)
-                    }
-                if (index == selectedTabIndex) {
-                    QuackTitle2(text = text, modifier = modifier)
-                } else {
-                    QuackSubtitle(text = text, modifier = modifier)
-                }
-            }
-        }
 
-        Box(
+        QuackTabTextRow(
+            modifier = Modifier.align(Alignment.CenterStart),
+            tabTitleResources = tabTitleResources,
+            onTabSelected = onTabSelected,
+            selectedTabIndex = selectedTabIndex
+        )
+
+        QuackTabUnderBar(
             modifier = Modifier
-                .padding(start = offsetAnimation)
-                .width(QuackSubTabWidth)
-                .height(QuackTabBottomDividerWidth)
                 .align(Alignment.BottomStart)
-                .background(QuackColor.Black.value)
+                .padding(start = offsetAnimation),
+            width = QuackSubTabWidth,
+            background = QuackColor.Black,
         )
     }
+}
 
+@Composable
+private fun QuackTabTextRow(
+    modifier: Modifier,
+    tabTitleResources: List<Int>,
+    onTabSelected: (index: Int) -> Unit,
+    selectedTabIndex: Int
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        tabTitleResources.forEachIndexed { index, titleResource ->
+            val text = stringResource(titleResource)
+            val textModifier = Modifier
+                .width(QuackSubTabWidth)
+                .clickable {
+                    onTabSelected(index)
+                }
+            if (index == selectedTabIndex) {
+                QuackTitle2(text = text, modifier = textModifier)
+            } else {
+                QuackSubtitle(text = text, modifier = textModifier)
+            }
+        }
+    }
+}
+
+@Composable
+private fun QuackTabUnderBar(
+    modifier: Modifier,
+    width: Dp,
+    background: QuackColor,
+) {
+
+    Box(
+        modifier = modifier
+            .width(width)
+            .height(QuackTabUnderBarHeight)
+            .background(background.value)
+    )
 
 }
 
