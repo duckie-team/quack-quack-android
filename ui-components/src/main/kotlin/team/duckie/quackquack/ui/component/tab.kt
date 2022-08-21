@@ -15,7 +15,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -29,6 +30,7 @@ import team.duckie.quackquack.ui.typography.QuackTitle2
 private val QuackTabSpacedBy = 32.dp
 private val QuackTabBottomDividerWidth = 1.dp
 private val QuackTabHeight = 36.dp
+private val QuackSubTabWidth = 108.dp
 
 /**
  * TODO : 추상화 단계 맞춰주기
@@ -106,35 +108,28 @@ fun QuackSubTab(
     tabTitleResources: List<Int>,
     onTabSelected: (index: Int) -> Unit,
 ) {
-
-    val tabWidths = tabTitleResources.map {
-        (stringResource(id = it).length * 12 + 32).dp
-    }
     Box(
-        modifier = Modifier.height(QuackTabHeight)
+        modifier = Modifier
+            .height(QuackTabHeight)
+            .padding(TabPadding)
     ) {
 
         val offsetAnimation: Dp by animateDpAsState(
-            targetValue = tabWidths.getSumByIndex(selectedTabIndex),
-            animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing)
-        )
-
-        val textAnimation: Dp by animateDpAsState(
-            targetValue = tabWidths[selectedTabIndex],
+            targetValue = QuackSubTabWidth * selectedTabIndex,
             animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing)
         )
         Row(
             modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(TabPadding),
+                .align(Alignment.CenterStart),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(QuackTabSpacedBy)
         ) {
             tabTitleResources.forEachIndexed { index, titleResource ->
                 val text = stringResource(titleResource)
-                val modifier = Modifier.clickable {
-                    onTabSelected(index)
-                }
+                val modifier = Modifier
+                    .width(QuackSubTabWidth)
+                    .clickable {
+                        onTabSelected(index)
+                    }
                 if (index == selectedTabIndex) {
                     QuackTitle2(text = text, modifier = modifier)
                 } else {
@@ -145,16 +140,8 @@ fun QuackSubTab(
 
         Box(
             modifier = Modifier
-                .width(tabWidths.getSumByIndex(tabTitleResources.size))
-                .height(QuackTabBottomDividerWidth)
-                .background(QuackColor.Gray3.value)
-                .align(Alignment.BottomCenter)
-        )
-
-        Box(
-            modifier = Modifier
                 .padding(start = offsetAnimation)
-                .width(textAnimation)
+                .width(QuackSubTabWidth)
                 .height(QuackTabBottomDividerWidth)
                 .align(Alignment.BottomStart)
                 .background(QuackColor.Black.value)
@@ -164,9 +151,9 @@ fun QuackSubTab(
 
 }
 
-private fun List<Dp>.getSumByIndex(index: Int) : Dp{
+private fun List<Dp>.getSumByIndex(index: Int): Dp {
     var sum = 0.dp
-    for ( i in 0 until index){
+    for (i in 0 until index) {
         sum += this[i]
     }
     return sum
