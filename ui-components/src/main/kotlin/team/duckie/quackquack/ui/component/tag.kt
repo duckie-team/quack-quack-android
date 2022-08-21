@@ -30,6 +30,9 @@ private val QuackTagBorderWidth = 1.dp
 private val QuackTagHeight = 34.dp
 private val QuackIconTagSpace = 8.dp
 
+/**
+ * TODO: Ripple Effect 처리
+ */
 @Composable
 fun QuackBoldTag(
     isSelected: Boolean,
