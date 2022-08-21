@@ -9,7 +9,23 @@
 
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
+import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.constant.QuackTagShape
+import team.duckie.quackquack.ui.constant.SimpleTagPadding
+import team.duckie.quackquack.ui.typography.QuackTitle2
+
+internal val QuackTagBorderWidth = 1.dp
 
 @Composable
 fun QuackSimpleTag(
@@ -17,7 +33,19 @@ fun QuackSimpleTag(
     text: String,
     onClick: () -> Unit,
 ) {
-
+    Box(
+        modifier = Modifier
+            .height(34.dp)
+            .clip(QuackTagShape)
+            .tagBorder(isSelected)
+            .padding(SimpleTagPadding)
+            .clickable {
+                onClick()
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        QuackTitle2(text = text, color = getTagColor(isSelected))
+    }
 }
 
 @Composable
@@ -38,4 +66,16 @@ fun QuackIconTag(
     onClickIcon: () -> Unit,
 ) {
 
+}
+
+
+private fun Modifier.tagBorder(isSelected: Boolean) = composed {
+    Modifier.border(
+        width = QuackTagBorderWidth, color =
+        getTagColor(isSelected).value
+    )
+}
+
+private fun getTagColor(isSelected: Boolean): QuackColor {
+    return if (isSelected) QuackColor.PumpkinOrange else QuackColor.Gray3
 }
