@@ -96,9 +96,6 @@ fun QuackMainTab(
                 .align(Alignment.BottomStart)
                 .background(QuackColor.PumpkinOrange.value)
         )
-
-
-
     }
 
 }
@@ -109,6 +106,61 @@ fun QuackSubTab(
     tabTitleResources: List<Int>,
     onTabSelected: (index: Int) -> Unit,
 ) {
+
+    val tabWidths = tabTitleResources.map {
+        (stringResource(id = it).length * 12 + 32).dp
+    }
+    Box(
+        modifier = Modifier.height(QuackTabHeight)
+    ) {
+
+        val offsetAnimation: Dp by animateDpAsState(
+            targetValue = tabWidths.getSumByIndex(selectedTabIndex),
+            animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing)
+        )
+
+        val textAnimation: Dp by animateDpAsState(
+            targetValue = tabWidths[selectedTabIndex],
+            animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing)
+        )
+        Row(
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(TabPadding),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(QuackTabSpacedBy)
+        ) {
+            tabTitleResources.forEachIndexed { index, titleResource ->
+                val text = stringResource(titleResource)
+                val modifier = Modifier.clickable {
+                    onTabSelected(index)
+                }
+                if (index == selectedTabIndex) {
+                    QuackTitle2(text = text, modifier = modifier)
+                } else {
+                    QuackSubtitle(text = text, modifier = modifier)
+                }
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .width(tabWidths.getSumByIndex(tabTitleResources.size))
+                .height(QuackTabBottomDividerWidth)
+                .background(QuackColor.Gray3.value)
+                .align(Alignment.BottomCenter)
+        )
+
+        Box(
+            modifier = Modifier
+                .padding(start = offsetAnimation)
+                .width(textAnimation)
+                .height(QuackTabBottomDividerWidth)
+                .align(Alignment.BottomStart)
+                .background(QuackColor.Black.value)
+        )
+    }
+
 
 }
 
