@@ -25,8 +25,8 @@ import team.duckie.quackquack.ui.constant.QuackTagShape
 import team.duckie.quackquack.ui.constant.SimpleTagPadding
 import team.duckie.quackquack.ui.typography.QuackTitle2
 
-internal val QuackTagBorderWidth = 1.dp
-internal val QuackTagHeight = 34.dp
+private val QuackTagBorderWidth = 1.dp
+private val QuackTagHeight = 34.dp
 
 @Composable
 fun QuackSimpleTag(
@@ -45,7 +45,7 @@ fun QuackSimpleTag(
             },
         contentAlignment = Alignment.Center
     ) {
-        QuackTitle2(text = text, color = getTagColor(isSelected))
+        QuackTitle2(text = text, color = getTagTextColor(isSelected))
     }
 }
 
@@ -72,11 +72,16 @@ fun QuackIconTag(
 
 private fun Modifier.tagBorder(isSelected: Boolean) = composed {
     Modifier.border(
-        width = QuackTagBorderWidth, color =
-        getTagColor(isSelected).value
+        width = QuackTagBorderWidth,
+        color = getTagBorderColor(isSelected).value,
+        shape = QuackTagShape,
     )
 }
 
-private fun getTagColor(isSelected: Boolean): QuackColor {
+private fun getTagBorderColor(isSelected: Boolean): QuackColor {
     return if (isSelected) QuackColor.PumpkinOrange else QuackColor.Gray3
+}
+
+private fun getTagTextColor(isSelected: Boolean): QuackColor {
+    return if (isSelected) QuackColor.PumpkinOrange else QuackColor.Black
 }
