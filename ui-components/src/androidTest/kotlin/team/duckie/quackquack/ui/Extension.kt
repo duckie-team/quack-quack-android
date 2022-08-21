@@ -18,6 +18,15 @@ import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.*
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.unit.*
+import junit.framework.TestCase.assertEquals
+
+/**
+ * For Background Color Test
+ */
+fun SemanticsNodeInteraction.assertBackgroundColor(expectedBackground: Color) {
+    val capturedName = captureToImage().colorSpace.name
+    assertEquals(expectedBackground.colorSpace.name, capturedName)
+}
 
 /**
  * For Text Color Assert

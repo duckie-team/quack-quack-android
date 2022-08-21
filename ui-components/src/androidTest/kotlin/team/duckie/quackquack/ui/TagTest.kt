@@ -17,6 +17,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.QuackBoldTag
+import team.duckie.quackquack.ui.component.QuackIcon
+import team.duckie.quackquack.ui.component.QuackIconTag
 
 @RunWith(AndroidJUnit4::class)
 class TagTest {
@@ -43,7 +45,40 @@ class TagTest {
         composeTestRule.onNodeWithText(TEST_TAG)
             .assertHorizontallyCenterInRoot()
             .assertVerticallyCenterInRoot()
-            .assertTextColor(QuackColor.Gray3.value)
+            .assertTextColor(QuackColor.Black.value)
+    }
+    @Test
+    fun `default_icon_tag_test`() {
+        composeTestRule.setContent {
+            QuackIconTag(
+                isSelected = false,
+                text = TEST_TAG,
+                icon = QuackIcon.Close,
+                onClickTag = {},
+                onClickIcon = {},
+            )
+        }
+
+        composeTestRule.onNodeWithText(TEST_TAG)
+            .assertTextColor(QuackColor.Black.value)
+            .assertBackgroundColor(QuackColor.White.value)
+    }
+
+    @Test
+    fun `selected_icon_tag_test`(){
+        composeTestRule.setContent {
+            QuackIconTag(
+                isSelected = true,
+                text = TEST_TAG,
+                icon = QuackIcon.Close,
+                onClickTag = {},
+                onClickIcon = {},
+            )
+        }
+
+        composeTestRule.onNodeWithText(TEST_TAG)
+            .assertTextColor(QuackColor.White.value)
+            .assertBackgroundColor(QuackColor.PumpkinOrange.value)
     }
 
     companion object {
