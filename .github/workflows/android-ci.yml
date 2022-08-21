@@ -57,7 +57,7 @@ jobs:
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
-          source-directory: "report/test-coverage"
+          source-directory: "report/test-coverage/"
           destination-github-username: "sungbinland"
           destination-repository-name: "duckie-quack-test-coverage-deploy"
           user-email: ji@sungb.in
@@ -67,6 +67,9 @@ jobs:
       - name: Generate ui components snapshot
         if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
         run: ./gradlew recordPaparazziRelease
+
+      - name: Print all folder tree for debugging
+        run: ./gradlew printAllFolderTreeForDebugging
 
       - name: Generate snapshots deploy configuration files
         if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
@@ -78,7 +81,7 @@ jobs:
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_UI_DEPLOY_KEY }}
         with:
-          source-directory: "ui-components/src/test/snapshots/images"
+          source-directory: "ui-components/src/test/snapshots/images/"
           destination-github-username: "sungbinland"
           destination-repository-name: "duckie-quack-ui-components-snapshot-deploy"
           user-email: ji@sungb.in
