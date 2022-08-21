@@ -44,22 +44,46 @@ jobs:
         run: ./gradlew build
 
       - name: Generate merged report by Kover
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
         run: ./gradlew koverMergedReport
 
       - name: Generate test coverage html report configuration files
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
         run: ./gradlew configurationTestCoverageHtmlReport
 
       - name: Pushes report html to deploy repository
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
         uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
-          source-directory: "report/test-coverage/"
+          source-directory: "report/test-coverage"
           destination-github-username: "sungbinland"
           destination-repository-name: "duckie-quack-test-coverage-deploy"
           user-email: ji@sungb.in
           commit-message: |
             #${{ github.event.number }} 에서 생성된 테스트 커버리지
+
+      - name: Generate ui components snapshot
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+        run: ./gradlew recordPaparazziRelease
+
+      - name: Generate snapshots deploy configuration files
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+        run: ./gradlew configurationUiComponentsSnapshotDeploy
+
+      - name: Pushes snapshots to deploy repository
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_UI_DEPLOY_KEY }}
+        with:
+          source-directory: "ui-components/src/test/snapshots/images"
+          destination-github-username: "sungbinland"
+          destination-repository-name: "duckie-quack-ui-components-snapshot-deploy"
+          user-email: ji@sungb.in
+          commit-message: |
+            #${{ github.event.number }} 에서 생성된 스냅샷
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
