@@ -43,8 +43,20 @@ jobs:
       - name: Run build (includes ktlint/detekt/test check)
         run: ./gradlew build
 
-      - name: Generate merged xml report by Kover
-        run: ./gradlew koverMergedXmlReport
+      - name: Generate merged report by Kover
+        run: ./gradlew koverMergedReport
+
+      - name: Pushes report html to deploy repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+        with:
+          source-directory: "report/test-coverage/"
+          destination-github-username: "sungbinland"
+          destination-repository-name: "duckie-quack-test-coverage-deploy"
+          user-email: ji@sungb.in
+          commit-message: |
+            #${{ github.event.number }} 에서 생성된 테스트 커버리지
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
