@@ -59,5 +59,9 @@ value class QuackColor private constructor(
         val Gray3 = QuackColor(
             value = Color(0xFFEFEFEF)
         )
+        @Stable
+        val Gray4 = QuackColor(
+            value = Color(0xF6F6F6)
+        )
     }
 }
