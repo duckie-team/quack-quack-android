@@ -17,3 +17,17 @@ import androidx.compose.ui.unit.dp
 internal val NoPadding = PaddingValues(
     all = 0.dp,
 )
+
+@Stable
+internal val SimpleTagPadding = PaddingValues(
+    horizontal = 12.dp,
+    vertical = 8.dp,
+)
+
+@Stable
+internal val IconTagPadding = PaddingValues(
+    start = 16.dp,
+    end = 10.dp,
+    top = 8.dp,
+    bottom = 8.dp,
+)
