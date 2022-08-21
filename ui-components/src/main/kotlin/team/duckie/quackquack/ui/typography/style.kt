@@ -75,7 +75,7 @@ class QuackTextStyle private constructor(
         @Stable
         val Title2 = QuackTextStyle(
             size = 14.sp,
-            weight = FontWeight.Normal,
+            weight = FontWeight.Bold,
             letterSpacing = 0.sp,
             lineHeight = 20.sp
         )
