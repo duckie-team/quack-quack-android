@@ -9,11 +9,10 @@
 
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +20,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.constant.IconTagPadding
 import team.duckie.quackquack.ui.constant.QuackTagShape
 import team.duckie.quackquack.ui.constant.SimpleTagPadding
 import team.duckie.quackquack.ui.typography.QuackBody1
@@ -28,6 +28,7 @@ import team.duckie.quackquack.ui.typography.QuackTitle2
 
 private val QuackTagBorderWidth = 1.dp
 private val QuackTagHeight = 34.dp
+private val QuackIconTagSpace = 8.dp
 
 @Composable
 fun QuackBoldTag(
@@ -77,6 +78,30 @@ fun QuackIconTag(
     onClickIcon: () -> Unit,
 ) {
 
+    Box(
+        modifier = Modifier
+            .tagShape(isSelected)
+            .background(color = getTagBackground(isSelected).value)
+            .padding(IconTagPadding)
+            .clickable {
+                onClickTag()
+            }
+    ) {
+
+        Row {
+            QuackTitle2(text = text, color = getIconTagTextColor(isSelected))
+            Spacer(modifier = Modifier.width(QuackIconTagSpace))
+            QuackSimpleIconImage(
+                modifier = Modifier.clickable{
+                    onClickIcon()
+                },
+                icon = icon,
+                color = getIconColor(isSelected),
+                contentDescription = "tagIcon",
+            )
+        }
+    }
+
 }
 
 
@@ -97,4 +122,16 @@ private fun getTagBorderColor(isSelected: Boolean): QuackColor {
 
 private fun getTagTextColor(isSelected: Boolean): QuackColor {
     return if (isSelected) QuackColor.PumpkinOrange else QuackColor.Black
+}
+
+private fun getTagBackground(isSelected: Boolean): QuackColor {
+    return if (isSelected) QuackColor.PumpkinOrange else QuackColor.White
+}
+
+private fun getIconTagTextColor(isSelected: Boolean): QuackColor {
+    return if (isSelected) QuackColor.White else QuackColor.Black
+}
+
+private fun getIconColor(isSelected: Boolean): QuackColor {
+    return if (isSelected) QuackColor.White else QuackColor.Gray2
 }
