@@ -155,8 +155,16 @@ tasks.register("configurationTestCoverageHtmlReport") {
 }
 
 tasks.register("printAllFolderTreeForDebugging") {
-    File(rootDir.path).walk().forEach {
-        println(it)
+    File(rootDir.path).walk().forEach { file ->
+        println(file)
+    }
+}
+
+tasks.register("printPngExtensionFileTreeForDebugging") {
+    File(rootDir.path).walk().forEach { file ->
+        if (file.path.endsWith("png")) {
+            println(file)
+        }
     }
 }
 

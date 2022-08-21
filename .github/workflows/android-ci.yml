@@ -53,7 +53,7 @@ jobs:
 
       - name: Pushes report html to deploy repository
         if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
-        uses: cpina/github-action-push-to-another-repository@main
+        uses: cpina/github-action-push-to-another-repository@v1.5
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
@@ -68,16 +68,13 @@ jobs:
         if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
         run: ./gradlew recordPaparazziRelease
 
-      - name: Print all folder tree for debugging
-        run: ./gradlew printAllFolderTreeForDebugging
-
       - name: Generate snapshots deploy configuration files
         if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
         run: ./gradlew configurationUiComponentsSnapshotDeploy
 
       - name: Pushes snapshots to deploy repository
         if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
-        uses: cpina/github-action-push-to-another-repository@main
+        uses: cpina/github-action-push-to-another-repository@v1.5
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_UI_DEPLOY_KEY }}
         with:
@@ -92,3 +89,9 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           files: report/test-coverage/report.xml
+
+      - name: Print all folder tree for debugging
+        run: ./gradlew printAllFolderTreeForDebugging
+
+      - name: Print png extension file tree for debugging
+        run: ./gradlew printPngExtensionFileTreeForDebugging

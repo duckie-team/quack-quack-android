@@ -7,6 +7,8 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("TestFunctionName")
+
 package team.duckie.quackquack.ui
 
 import androidx.compose.material.Button
@@ -37,7 +39,7 @@ class QuackButtonSnapshot {
     )
 
     @Test
-    fun `quack large button`() {
+    fun QuackLargeButton() {
         paparazzi.snapshot {
             QuackLargeButton(
                 text = "QuackLargeButton snapshot",
@@ -47,7 +49,7 @@ class QuackButtonSnapshot {
     }
 
     @Test
-    fun `default material button`() {
+    fun DefaultMaterialButton() {
         paparazzi.snapshot {
             Button(
                 onClick = {},
