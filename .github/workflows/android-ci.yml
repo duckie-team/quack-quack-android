@@ -46,6 +46,9 @@ jobs:
       - name: Generate merged report by Kover
         run: ./gradlew koverMergedReport
 
+      - name: Generate test coverage html report configuration files
+        run: ./gradlew configurationTestCoverageHtmlReport
+
       - name: Pushes report html to deploy repository
         uses: cpina/github-action-push-to-another-repository@main
         env:
