@@ -153,4 +153,35 @@ tasks.register("configurationTestCoverageHtmlReport") {
     readme.createNewFile()
 }
 
+tasks.register("configurationUiComponentsSnapshotDeploy") {
+    val rootFolderPath = "$rootDir/ui-components/src/test/snapshots"
+    val rootFolder = File(rootFolderPath)
+    if (!rootFolder.exists()) {
+        rootFolder.mkdirs()
+    }
+    val snapshots = rootFolder.list()!!
+    val snapshotsReadme = ArrayList<String>().apply {
+        snapshots.forEach { snapshotPath ->
+            add("|- [$snapshotPath](https://quack-ui.duckie.team/$snapshotPath)")
+        }
+    }
+
+    val cname = File("$rootFolderPath/CNAME")
+    val readme = File("$rootFolderPath/README.md")
+    cname.writeText(
+        """
+        quack-ui.duckie.team
+        """.trimIndent()
+    )
+    readme.writeText(
+        """
+        |## duckie quackquack ui components snapshot
+        |
+        ${snapshotsReadme.joinToString("\n")}
+        """.trimMargin()
+    )
+    cname.createNewFile()
+    readme.createNewFile()
+}
+
 apply(from = "gradle/projectDependencyGraph.gradle")
