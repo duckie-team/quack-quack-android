@@ -16,7 +16,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.color.QuackColor
-import team.duckie.quackquack.ui.component.QuackSimpleTag
+import team.duckie.quackquack.ui.component.QuackBoldTag
 
 @RunWith(AndroidJUnit4::class)
 class TagTest {
@@ -31,7 +31,7 @@ class TagTest {
     fun `enabled_simple_tag_tst`() {
 
         composeTestRule.setContent {
-            QuackSimpleTag(
+            QuackBoldTag(
                 isSelected = false,
                 text = TEST_TAG,
                 onClick = {
