@@ -28,7 +28,7 @@ class TagTest {
      * TODO : Border, Padding 관련 테스트 코드 작성
      */
     @Test
-    fun `simple_tag_tst`() {
+    fun `enabled_simple_tag_tst`() {
 
         composeTestRule.setContent {
             QuackSimpleTag(
@@ -43,7 +43,7 @@ class TagTest {
         composeTestRule.onNodeWithText(TEST_TAG)
             .assertHorizontallyCenterInRoot()
             .assertVerticallyCenterInRoot()
-            .assertTextColor(QuackColor.Black.value)
+            .assertTextColor(QuackColor.Gray3.value)
     }
 
     companion object {
