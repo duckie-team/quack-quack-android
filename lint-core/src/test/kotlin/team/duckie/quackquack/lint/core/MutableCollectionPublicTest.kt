@@ -18,9 +18,9 @@ import team.duckie.quackquack.common.lint.test.composableTestFile
 
 /**
  * 테스트 성공 조건
- * 1. MutableCollection 의 접근 제어 범위가 public 일 시 경고해야 함 (특정 범위 내에서도 마찬가지)
+ * 1. MutableCollections 의 접근 제어 범위가 public 일 시 경고해야 함 (특정 범위 내에서도 마찬가지)
  *    interface 는 KotlinUMethod 로 인식하므로 제외 (이유: Java 에서는 인터페이스 변수 기능이 없어, 함수로 변환해서 처리함)
- * 2. Immutable, Persistence 등 Minor 한 ImMutableCollection 은 경고하지 않음
+ * 2. Immutable, Persistence 등 Minor 한 ImMutableCollections 은 경고하지 않음
  * 3. 접근 제어 범위가 public 이 아닐경우 경고하지 않음
  */
 class MutableCollectionPublicTest {
@@ -69,7 +69,7 @@ class MutableCollectionPublicTest {
     }
 
     @Test
-    fun `Can use Public at Minor ImmutableCollection`() {
+    fun `Can use Public at Minor ImmutableCollections`() {
         lintTestRule.assertErrorCount(
             files = listOf(
                 composableTestFile(
