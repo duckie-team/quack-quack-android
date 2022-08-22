@@ -18,12 +18,9 @@ import team.duckie.quackquack.common.lint.test.composableTestFile
 
 /**
  * 테스트 성공 조건
- * 1. Mutable 키워드가 붙은 Collection 에 public, internal 이 붙을 시 경고해야 함
- * 2. Immutable, Persistence 등 Minor 한 Immutable Collection 은 경고하지 않음
- * 3. public, internal 사용하지 않을 경우 경고하지 않음
- * 4. class, object, interface 내 Mutable Collection 변수에 public, internal 이 붙을 시 경고해야 함
- * 5. Function 내의 parameter 의 접근 제어자는 public 이 아님 (package local)
- * 6. Compose Function 내의 parameter 의 접근 제어자는 public 이 아님 (package local)
+ * 1. MutableCollection 의 접근 제어 범위가 public 일 시 경고해야 함 (특정 범위 내에서도 마찬가지)
+ * 2. Immutable, Persistence 등 Minor 한 ImMutableCollection 은 경고하지 않음
+ * 3. 접근 제어 범위가 public 이 아닐경우 경고하지 않음
  */
 class MutableCollectionPublicTest {
 
@@ -31,18 +28,45 @@ class MutableCollectionPublicTest {
     val lintTestRule = LintTestRule()
 
     @Test
-    fun `Don't use Public at Mutable Collection`() {
+    fun `Don't use Public at MutableCollection`() {
         lintTestRule
             .assertErrorCount(
                 files = listOf(
                     composableTestFile(
                         """
-                        val mutableList: MutableList<Any>
-                        val mutableMap: MutableMap<Any, Any>
-                        val mutableSet: MutableSet<Any>
-                        val list: List<Any>
-                        val map: Map<Any, Any>
-                        val set: Set<Any>
+                        val mutableList: MutableList<Any> = mutableListOf()
+                        val mutableMap: MutableMap<Any, Any> = mutableMapOf()
+                        val mutableSet: MutableSet<Any> = mutableSetOf()
+                        val list: List<Any> = listOf()
+                        val map: Map<Any, Any> = mapOf()
+                        val set: Set<Any> = setOf()
+
+                        class DummyClass {
+                            private val mutableList: MutableList<Any> = mutableListOf()
+                            protected val mutableMap: MutableMap<Any, Any> = mutableMapOf()
+                            private val mutableSet: MutableSet<Any> = mutableSetOf()
+                            internal val mutableList: MutableList<Any> = mutableListOf()
+                            val mutableMap: MutableMap<Any, Any> = mutableMapOf()
+                            val mutableSet: MutableSet<Any> = mutableSetOf()
+                        }
+
+                        object DummyObject {
+                            private val mutableList: MutableList<Any> = mutableListOf()
+                            protected val mutableMap: MutableMap<Any, Any> = mutableMapOf()
+                            private val mutableSet: MutableSet<Any> = mutableSetOf()
+                            internal val mutableList: MutableList<Any> = mutableListOf()
+                            val mutableMap: MutableMap<Any, Any> = mutableMapOf()
+                            val mutableSet: MutableSet<Any> = mutableSetOf()
+                        }
+
+                        interface DummyInterface {
+                            private val mutableList: MutableList<Any> = mutableListOf()
+                            protected val mutableMap: MutableMap<Any, Any> = mutableMapOf()
+                            private val mutableSet: MutableSet<Any> = mutableSetOf()
+                            internal val mutableList: MutableList<Any> = mutableListOf()
+                            val mutableMap: MutableMap<Any, Any> = mutableMapOf()
+                            val mutableSet: MutableSet<Any> = mutableSetOf()
+                        }
                         """
                     ),
                 ),
@@ -54,7 +78,7 @@ class MutableCollectionPublicTest {
     }
 
     @Test
-    fun `Can use Public at Minor Immutable Collection`() {
+    fun `Can use Public at Minor ImmutableCollection`() {
         lintTestRule
             .assertErrorCount(
                 files = listOf(
@@ -77,21 +101,21 @@ class MutableCollectionPublicTest {
     }
 
     @Test
-    fun `Dont't use Public, Internal at Mutable Collection`() {
+    fun `Dont't use Public, Internal at MutableCollection`() {
         lintTestRule
             .assertErrorCount(
                 files = listOf(
                     composableTestFile(
                         """
-                        private val mutableList: MutableList<Any>
-                        private val mutableMap: MutableMap<Any, Any>
-                        private val mutableSet: MutableSet<Any>
-                        protected val mutableList: MutableList<Any>
-                        protected val mutableMap: MutableMap<Any, Any>
-                        protected val mutableSet: MutableSet<Any>
-                        internal val mutableList: MutableList<Any>
-                        internal val mutableMap: MutableMap<Any, Any>
-                        internal val mutableSet: MutableSet<Any>
+                        private val mutableList: MutableList<Any> = mutableListOf()
+                        private val mutableMap: MutableMap<Any, Any> = mutableMapOf()
+                        private val mutableSet: MutableSet<Any> = mutableSetOf()
+                        protected val mutableList: MutableList<Any> = mutableListOf()
+                        protected val mutableMap: MutableMap<Any, Any> = mutableMapOf()
+                        protected val mutableSet: MutableSet<Any> = mutableSetOf()
+                        internal val mutableList: MutableList<Any> = mutableListOf()
+                        internal val mutableMap: MutableMap<Any, Any> = mutableMapOf()
+                        internal val mutableSet: MutableSet<Any> = mutableSetOf()
                         """
                     ),
                 ),
@@ -99,110 +123,6 @@ class MutableCollectionPublicTest {
                     MutableCollectionPublicIssue,
                 ),
                 expectedCount = 3,
-            )
-    }
-
-    @Test
-    fun `Don't use Public at Mutable Collection in class, object, interface`() {
-        lintTestRule
-            .assertErrorCount(
-                files = listOf(
-                    composableTestFile(
-                        """
-                        class DummyClass {
-                            private val mutableList: MutableList<Any>
-                            protected val mutableMap: MutableMap<Any, Any>
-                            private val mutableSet: MutableSet<Any>
-                            internal val mutableList: MutableList<Any>
-                            val mutableMap: MutableMap<Any, Any>
-                            val mutableSet: MutableSet<Any>
-                        }
-
-                        object DummyObject {
-                            private val mutableList: MutableList<Any>
-                            protected val mutableMap: MutableMap<Any, Any>
-                            private val mutableSet: MutableSet<Any>
-                            internal val mutableList: MutableList<Any>
-                            val mutableMap: MutableMap<Any, Any>
-                            val mutableSet: MutableSet<Any>
-                        }
-
-                        interface DummyInterface {
-                            private val mutableList: MutableList<Any>
-                            protected val mutableMap: MutableMap<Any, Any>
-                            private val mutableSet: MutableSet<Any>
-                            internal val mutableList: MutableList<Any>
-                            val mutableMap: MutableMap<Any, Any>
-                            val mutableSet: MutableSet<Any>
-                        }
-                        """
-                    ),
-                ),
-                issues = listOf(
-                    MutableCollectionPublicIssue,
-                ),
-                expectedCount = 9,
-            )
-    }
-
-    @Test
-    fun `Function parameter is not public`() {
-        lintTestRule
-            .assertErrorCount(
-                files = listOf(
-                    composableTestFile(
-                        """
-                        fun mutableList(val list: MutableList<Any>) {}
-                        fun mutableMap(val map: MutableMap<Any, Any>) {}
-                        fun mutableSet(val set: MutableSet<Any>) {}
-                        fun mutableList(private val list: MutableList<Any>) {}
-                        fun mutableMap(private val map: MutableMap<Any, Any>) {}
-                        fun mutableSet(private val set: MutableSet<Any>) {}
-                        fun list(val list: MutableList<Any>) {}
-                        fun map(val map: MutableMap<Any, Any>) {}
-                        fun set(val set: MutableSet<Any>) {}
-                        """
-                    ),
-                ),
-                issues = listOf(
-                    MutableCollectionPublicIssue,
-                ),
-                expectedCount = 0,
-            )
-    }
-
-    @Test
-    fun `Compose Function parameter is not public`() {
-        lintTestRule
-            .assertErrorCount(
-                files = listOf(
-                    composableTestFile(
-                        """
-                        @Composable
-                        fun mutableList(val list: MutableList<Any>) {}
-                        @Composable
-                        fun mutableMap(val map: MutableMap<Any, Any>) {}
-                        @Composable
-                        fun mutableSet(val set: MutableSet<Any>) {}
-                        @Composable
-                        fun mutableList(private val list: MutableList<Any>) {}
-                        @Composable
-                        fun mutableMap(private val map: MutableMap<Any, Any>) {}
-                        @Composable
-                        fun mutableSet(private val set: MutableSet<Any>) {}
-                        @Composable
-                        fun list(list: MutableList<Any>) {}
-                        @Composable
-                        fun map(map: MutableMap<Any, Any>) {}
-                        @Composable
-                        fun set(set: MutableSet<Any>) {}
-                        """
-                    ),
-                ),
-                issues = listOf(
-                    MutableCollectionPublicIssue,
-                ),
-                expectedCount = 0,
             )
     }
 }

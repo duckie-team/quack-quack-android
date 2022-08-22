@@ -23,10 +23,8 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
-import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.uast.UDeclaration
-import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.UastVisibility
 
 private const val BriefDescription = "MutableCollection public 노출 금지"
@@ -46,7 +44,7 @@ val MutableCollectionPublicIssue = Issue.create(
 )
 
 /**
- * MutableCollections 접미사
+ * MutableCollection 접미사
  *
  * kotlinx.collections 패키지에 있는 Collections 들 입니다.
  *
@@ -62,15 +60,15 @@ private val MutableNames = listOf(
  *
  * 다음과 같은 조건에서 린트 검사를 진행합니다.
  *
- * 1. Mutable Collection 에서 public 을 사용할 시
+ * 1. MutableCollection 에서 public 을 사용할 시
  *
- * 현재 이 규칙은 Mutable Collection 앞에 public 이 붙었는지 검사하도록 구현됐습니다.
- * 따라서 아래와 같이 Mutable Collection 앞에 public 을 사용할 시
+ * 현재 이 규칙은 MutableCollection 변수의 접근 제어 범위(visibility) 가 public 인지 검사하도록 구현됐습니다.
+ * 따라서 아래와 같이 MutableCollection 앞에 public 을 사용할 시
  * 린트 에러가 발생합니다.
  *
  * ```
- * public MutableCollection<Any> variableName <- MutableCollection 의 접근 제어가 public 으로 감지됨
- * MutableCollection<Any> variableName <- internal 도 public 으로 감지됨
+ * val variableName: MutableCollection<Any> <- MutableCollection 의 접근 제어가 public 으로 감지됨
+ * internal val variableName: MutableCollection<Any> <- internal 도 public 으로 감지됨
  *
  * // MutableCollection 접근제어 범위가 public 이어서 린트 에러가 발생함
  * ```
@@ -81,7 +79,6 @@ private val MutableNames = listOf(
  */
 class MutableCollectionPublicDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes() = listOf(
-        UMethod::class.java,
         UDeclaration::class.java,
     )
 
@@ -102,27 +99,6 @@ class MutableCollectionPublicDetector : Detector(), SourceCodeScanner {
                     location = context.getNameLocation(propertyType),
                     message = Explanation,
                 )
-            }
-        }
-
-        override fun visitMethod(node: UMethod) {
-            for (parameter in node.uastParameters) {
-                val ktParameter = parameter.sourcePsi as? KtParameter ?: continue
-                val parameterType = ktParameter.typeReference ?: continue
-                val parameterTypeName = parameterType.text
-                val isMutable = MutableNames.any { immutableName ->
-                    parameterTypeName.startsWith(immutableName)
-                }
-
-                // mutable Collection 인 경우 && PUBLIC 인 경우
-                if (isMutable && parameter.visibility == UastVisibility.PUBLIC) {
-                    context.report(
-                        issue = MutableCollectionPublicIssue,
-                        scope = parameterType,
-                        location = context.getNameLocation(parameterType),
-                        message = Explanation,
-                    )
-                }
             }
         }
     }

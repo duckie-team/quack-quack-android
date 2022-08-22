@@ -21,7 +21,7 @@ import com.android.tools.lint.detector.api.Detector
 // 상수 값들 하드코딩 안하면 빌드 타임에서 레퍼런스를 참조하지 못해 빌드 에러뜸
 class CoreIssueRegistry : IssueRegistry() {
     override val issues = listOf(
-        MutableCollectionPublicIssue
+        MutableCollectionPublicIssue,
     )
 
     override val api = CURRENT_API
