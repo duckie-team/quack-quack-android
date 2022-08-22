@@ -44,7 +44,7 @@ jobs:
         run: ./gradlew build --stacktrace
 
       - name: Generate merged report by Kover
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+        if: contains(github.event.pull_request.labels.*.name, 'test')
         run: ./gradlew koverMergedReport --stacktrace
 
       - name: Upload coverage to Codecov
