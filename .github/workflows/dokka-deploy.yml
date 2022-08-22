@@ -72,7 +72,6 @@ jobs:
         uses: actions/deploy-pages@v1
 
       - name: Comment dokka is deployed
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
         uses: Code-Hex/neo-cowsay-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
