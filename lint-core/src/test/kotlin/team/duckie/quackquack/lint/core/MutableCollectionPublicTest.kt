@@ -29,7 +29,7 @@ class MutableCollectionPublicTest {
     val lintTestRule = LintTestRule()
 
     @Test
-    fun `Don't use Public at MutableCollection`() {
+    fun `Using MutableCollections as public throws an error`() {
         lintTestRule.assertErrorCount(
             files = listOf(
                 composableTestFile(
@@ -91,7 +91,7 @@ class MutableCollectionPublicTest {
     }
 
     @Test
-    fun `Dont't use Public, Internal at MutableCollection`() {
+    fun `Use private, protected, internal at MutableCollections variable definition`() {
         lintTestRule.assertErrorCount(
             files = listOf(
                 composableTestFile(
