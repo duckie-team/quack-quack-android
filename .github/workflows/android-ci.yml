@@ -69,6 +69,14 @@ jobs:
 
       - name: Generate ui components snapshot
         if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+        run: ./gradlew recordPaparazzi --stacktrace
+
+      - name: Generate ui components snapshot to debug
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+        run: ./gradlew recordPaparazziDebug --stacktrace
+
+      - name: Generate ui components snapshot to release
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
         run: ./gradlew recordPaparazziRelease --stacktrace
 
       - name: Generate snapshots deploy configuration files
