@@ -67,15 +67,11 @@ private val MutableNames = listOf(
  * 린트 에러가 발생합니다.
  *
  * ```
- * val variableName: MutableCollection<Any> <- MutableCollection 의 접근 제어가 public 으로 감지됨
- * internal val variableName: MutableCollection<Any> <- internal 도 public 으로 감지됨
- *
- * // MutableCollection 접근제어 범위가 public 이어서 린트 에러가 발생함
+ * val variableName: MutableCollection<Any>
+//     ~~~~~~~~~~~~ <- MutableCollection 의 접근 제어가 public 으로 감지됨
  * ```
- *
- * 2. 함수 내 파라미터에 public 이외 언급이 없을 시
- *
- * 함수 내 파라미터 접근제어자 범위는 기본적으로 packageLocal 이므로 문제가 없습니다.
+ * TODO internal val variableName: MutableCollection<Any> <- internal 은 private 으로 감지됨
+ *      internal 에 대해서는 모니터링 필요
  */
 class MutableCollectionPublicDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes() = listOf(
