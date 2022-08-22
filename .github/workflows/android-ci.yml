@@ -96,6 +96,7 @@ jobs:
 
       - name: Comment test coverage is deployed
         if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+        uses: Code-Hex/neo-cowsay-action@v1
         with:
           cow: 'random'
           message: |
@@ -104,6 +105,7 @@ jobs:
 
       - name: Comment snapshots is deployed
         if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+        uses: Code-Hex/neo-cowsay-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
