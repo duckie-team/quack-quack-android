@@ -15,6 +15,7 @@ plugins {
     id(PluginEnum.AndroidLibraryComposeUiTest)
     id(PluginEnum.JvmKover)
     id(PluginEnum.JvmDokka)
+    id("app.cash.paparazzi") version ("1.0.0")
 }
 
 android {

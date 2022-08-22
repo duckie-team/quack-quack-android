@@ -37,7 +37,7 @@ import team.duckie.quackquack.ui.typography.QuackTextStyle
 
 @Composable
 fun QuackLargeButton(
-    enabled: Boolean,
+    enabled: Boolean = true,
     text: String,
     imeAnimation: Boolean = false,
     onClick: () -> Unit,

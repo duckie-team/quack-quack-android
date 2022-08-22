@@ -57,7 +57,7 @@ jobs:
         run: tar xvf secrets.tar
 
       - name: Generate dokka content
-        run: ./gradlew dokkaHtmlMultiModule
+        run: ./gradlew dokkaHtmlMultiModule --stacktrace
 
       - name: Setup Pages
         uses: actions/configure-pages@v2
@@ -70,3 +70,14 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+
+      - name: Comment dokka is deployed
+        uses: Code-Hex/neo-cowsay-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          cow: 'random'
+          cowsay_on_comment: true
+          message: |
+            새로운 버전의 Dokka 가 배포되었습니다.
+            https://quack-docs.duckie.team/ 에서 확인하실 수 있습니다.
