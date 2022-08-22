@@ -12,6 +12,7 @@ package team.duckie.quackquack.ui.color
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
+import kotlin.reflect.KProperty
 
 @Immutable
 @JvmInline
@@ -25,7 +26,7 @@ value class QuackColor private constructor(
         )
 
         @Stable
-        val PumpkinOrange = QuackColor(
+        val DuckieOrange = QuackColor(
             value = Color(
                 red = 255,
                 green = 131,
@@ -52,4 +53,6 @@ value class QuackColor private constructor(
             value = Color.Black,
         )
     }
+
+    operator fun getValue(thisRef: Any?, property: KProperty<*>) = value
 }

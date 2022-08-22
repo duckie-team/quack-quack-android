@@ -49,7 +49,7 @@ fun QuackLargeButton(
         ),
         imeAnimation = imeAnimation,
         backgroundColor = when (enabled) {
-            true -> QuackColor.PumpkinOrange
+            true -> QuackColor.DuckieOrange
             else -> QuackColor.Greyish
         },
         radius = 8.dp,

@@ -7,6 +7,8 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.dokka)
