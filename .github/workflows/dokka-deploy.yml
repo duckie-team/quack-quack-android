@@ -57,7 +57,7 @@ jobs:
         run: tar xvf secrets.tar
 
       - name: Generate dokka content
-        run: ./gradlew dokkaHtmlMultiModule
+        run: ./gradlew dokkaHtmlMultiModule --stacktrace
 
       - name: Setup Pages
         uses: actions/configure-pages@v2

@@ -55,7 +55,7 @@ jobs:
         if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
         uses: cpina/github-action-push-to-another-repository@v1.5
         env:
-          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_COVERAGE_DEPLOY_KEY }}
         with:
           source-directory: "report/test-coverage"
           destination-github-username: "sungbinland"

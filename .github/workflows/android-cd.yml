@@ -44,7 +44,7 @@ jobs:
         run: tar xvf secrets.tar
 
       - name: Build apk
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease --stacktrace
 
       - name: Upload apk to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
