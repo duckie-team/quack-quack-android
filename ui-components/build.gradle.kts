@@ -19,10 +19,17 @@ plugins {
     id(PluginEnum.JvmKover)
     id(PluginEnum.JvmDokka)
     alias(libs.plugins.paparazzi)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "team.duckie.quackquack.ui"
+}
+
+kotlin {
+    sourceSets.main {
+        kotlin.srcDir("build/generated/ksp/debug/kotlin")
+    }
 }
 
 dependencies {
@@ -31,5 +38,8 @@ dependencies {
         libs.util.profileinstaller,
         libs.compose.material,
         libs.compose.glide,
+        libs.showkase.core,
     )
+    ksp(libs.showkase.processor)
+    testImplementation(libs.test.parameter.injector)
 }
