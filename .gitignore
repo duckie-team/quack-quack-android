@@ -17,3 +17,4 @@ keystore
 /documents/dokka/
 /report
 /ui-components/src/test/snapshots
+/ui-components/out/
