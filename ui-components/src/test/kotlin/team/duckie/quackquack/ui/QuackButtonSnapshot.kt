@@ -15,7 +15,7 @@ import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.Paparazzi
 import app.cash.paparazzi.androidHome
 import app.cash.paparazzi.detectEnvironment
-import com.android.ide.common.rendering.api.SessionParams
+import com.android.ide.common.rendering.api.SessionParams.RenderingMode
 import org.junit.Rule
 import org.junit.Test
 import team.duckie.quackquack.ui.component.QuackLargeButton
@@ -27,13 +27,13 @@ class QuackButtonSnapshot {
     val paparazzi = Paparazzi(
         environment = detectEnvironment().copy(
             platformDir = "${androidHome()}/platforms/android-32",
-            compileSdkVersion = 32
+            compileSdkVersion = 32,
         ),
         deviceConfig = DeviceConfig.PIXEL_5.copy(
             softButtons = false,
-            screenHeight = 1
+            screenHeight = 1,
         ),
-        renderingMode = SessionParams.RenderingMode.V_SCROLL,
+        renderingMode = RenderingMode.V_SCROLL,
     )
 
     @Test
