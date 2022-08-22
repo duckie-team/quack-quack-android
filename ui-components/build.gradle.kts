@@ -7,7 +7,10 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("UnstableApiUsage")
+@file:Suppress(
+    "UnstableApiUsage",
+    "DSL_SCOPE_VIOLATION",
+)
 
 plugins {
     id(PluginEnum.AndroidLibrary)
@@ -15,7 +18,7 @@ plugins {
     id(PluginEnum.AndroidLibraryComposeUiTest)
     id(PluginEnum.JvmKover)
     id(PluginEnum.JvmDokka)
-    id("app.cash.paparazzi") version ("1.0.0")
+    alias(libs.plugins.paparazzi)
 }
 
 android {
