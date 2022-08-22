@@ -40,16 +40,19 @@ jobs:
       - name: Unzip secrets.tar
         run: tar xvf secrets.tar
 
+      - name: Remove build folders
+        run: ./gradlew cleanAll --stacktrace
+
       - name: Run build (includes ktlint/detekt/test check)
-        run: ./gradlew build
+        run: ./gradlew build --stacktrace
 
       - name: Generate merged report by Kover
         if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
-        run: ./gradlew koverMergedReport
+        run: ./gradlew koverMergedReport --stacktrace
 
       - name: Generate test coverage html report configuration files
         if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
-        run: ./gradlew configurationTestCoverageHtmlReport
+        run: ./gradlew configurationTestCoverageHtmlReport --stacktrace
 
       - name: Pushes report html to deploy repository
         if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
@@ -66,11 +69,11 @@ jobs:
 
       - name: Generate ui components snapshot
         if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
-        run: ./gradlew recordPaparazziRelease
+        run: ./gradlew recordPaparazziRelease --stacktrace
 
       - name: Generate snapshots deploy configuration files
         if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
-        run: ./gradlew configurationUiComponentsSnapshotDeploy
+        run: ./gradlew configurationUiComponentsSnapshotDeploy --stacktrace
 
       - name: Pushes snapshots to deploy repository
         if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
@@ -91,7 +94,7 @@ jobs:
           files: report/test-coverage/report.xml
 
       - name: Print all folder tree for debugging
-        run: ./gradlew printAllFolderTreeForDebugging
+        run: ./gradlew printAllFolderTreeForDebugging --stacktrace
 
       - name: Print png extension file tree for debugging
-        run: ./gradlew printPngExtensionFileTreeForDebugging
+        run: ./gradlew printPngExtensionFileTreeForDebugging --stacktrace
