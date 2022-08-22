@@ -70,3 +70,15 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+
+      - name: Comment dokka is deployed
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+        uses: Code-Hex/neo-cowsay-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          cow: 'random'
+          cowsay_on_comment: true
+          message: |
+            새로운 버전의 Dokka 가 배포되었습니다.
+            https://quack-docs.duckie.team/ 에서 확인하실 수 있습니다.
