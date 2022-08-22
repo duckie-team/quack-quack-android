@@ -18,7 +18,6 @@ import app.cash.paparazzi.detectEnvironment
 import com.android.ide.common.rendering.api.SessionParams.RenderingMode
 import org.junit.Rule
 import org.junit.Test
-import team.duckie.quackquack.ui.component.QuackLargeButton
 
 class QuackButtonSnapshot {
     // https://github.com/cashapp/paparazzi/issues/489#issuecomment-1195674603
@@ -37,24 +36,10 @@ class QuackButtonSnapshot {
     )
 
     @Test
-    fun `quack large button`() {
+    fun default_material_button() {
         paparazzi.snapshot {
-            QuackLargeButton(
-                text = "QuackLargeButton snapshot",
-                onClick = {},
-            )
-        }
-    }
-
-    @Test
-    fun `default material button`() {
-        paparazzi.snapshot {
-            Button(
-                onClick = {},
-            ) {
-                Text(
-                    text = "Default Material Button",
-                )
+            Button(onClick = {}) {
+                Text(text = "Default Material Button!!!")
             }
         }
     }
