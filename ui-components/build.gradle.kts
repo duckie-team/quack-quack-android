@@ -24,11 +24,14 @@ plugins {
 
 android {
     namespace = "team.duckie.quackquack.ui"
-}
 
-kotlin {
-    sourceSets.main {
-        kotlin.srcDir("build/generated/ksp/debug/kotlin")
+    buildTypes {
+        sourceSets.getByName("debug") {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        sourceSets.getByName("release") {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
     }
 }
 
