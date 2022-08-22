@@ -24,8 +24,8 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import org.jetbrains.kotlin.psi.KtProperty
+import org.jetbrains.kotlin.psi.psiUtil.isPublic
 import org.jetbrains.uast.UDeclaration
-import org.jetbrains.uast.UastVisibility
 
 private const val BriefDescription = "MutableCollection public 노출 금지"
 private const val Explanation = "캡슐화를 위해 MutableCollection public 노출은 금지됩니다."
@@ -92,7 +92,7 @@ class MutableCollectionPublicDetector : Detector(), SourceCodeScanner {
             }
 
             // mutable Collection 인 경우 && PUBLIC 인 경우
-            if (isMutable && node.visibility == UastVisibility.PUBLIC) {
+            if (isMutable && property.isPublic) {
                 context.report(
                     issue = MutableCollectionPublicIssue,
                     scope = propertyType,

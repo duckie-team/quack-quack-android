@@ -29,11 +29,10 @@ class MutableCollectionPublicTest {
 
     @Test
     fun `Don't use Public at MutableCollection`() {
-        lintTestRule
-            .assertErrorCount(
-                files = listOf(
-                    composableTestFile(
-                        """
+        lintTestRule.assertErrorCount(
+            files = listOf(
+                composableTestFile(
+                    """
                         val mutableList: MutableList<Any> = mutableListOf()
                         val mutableMap: MutableMap<Any, Any> = mutableMapOf()
                         val mutableSet: MutableSet<Any> = mutableSetOf()
@@ -42,48 +41,47 @@ class MutableCollectionPublicTest {
                         val set: Set<Any> = setOf()
 
                         class DummyClass {
-                            private val mutableList: MutableList<Any> = mutableListOf()
-                            protected val mutableMap: MutableMap<Any, Any> = mutableMapOf()
-                            private val mutableSet: MutableSet<Any> = mutableSetOf()
-                            internal val mutableList: MutableList<Any> = mutableListOf()
-                            val mutableMap: MutableMap<Any, Any> = mutableMapOf()
-                            val mutableSet: MutableSet<Any> = mutableSetOf()
+                            private val mutableListClassPrivate: MutableList<Any> = mutableListOf()
+                            protected val mutableMapClassProtected: MutableMap<Any, Any> = mutableMapOf()
+                            private val mutableSetClassPrivate: MutableSet<Any> = mutableSetOf()
+                            internal val mutableListClassInternal: MutableList<Any> = mutableListOf()
+                            val mutableMapClassPublic: MutableMap<Any, Any> = mutableMapOf()
+                            val mutableSetClassPublic: MutableSet<Any> = mutableSetOf()
                         }
 
                         object DummyObject {
-                            private val mutableList: MutableList<Any> = mutableListOf()
-                            protected val mutableMap: MutableMap<Any, Any> = mutableMapOf()
-                            private val mutableSet: MutableSet<Any> = mutableSetOf()
-                            internal val mutableList: MutableList<Any> = mutableListOf()
-                            val mutableMap: MutableMap<Any, Any> = mutableMapOf()
-                            val mutableSet: MutableSet<Any> = mutableSetOf()
+                            private val mutableListObjectPrivate: MutableList<Any> = mutableListOf()
+                            protected val mutableMapObjectProtected: MutableMap<Any, Any> = mutableMapOf()
+                            private val mutableSetObjectPrivate: MutableSet<Any> = mutableSetOf()
+                            internal val mutableListObjectInternal: MutableList<Any> = mutableListOf()
+                            val mutableMapObjectPublic: MutableMap<Any, Any> = mutableMapOf()
+                            val mutableSetObjectPublic: MutableSet<Any> = mutableSetOf()
                         }
 
                         interface DummyInterface {
-                            private val mutableList: MutableList<Any> = mutableListOf()
-                            protected val mutableMap: MutableMap<Any, Any> = mutableMapOf()
-                            private val mutableSet: MutableSet<Any> = mutableSetOf()
-                            internal val mutableList: MutableList<Any> = mutableListOf()
-                            val mutableMap: MutableMap<Any, Any> = mutableMapOf()
-                            val mutableSet: MutableSet<Any> = mutableSetOf()
+                            private val mutableListInterfacePrivate: MutableList<Any> = mutableListOf()
+                            protected val mutableMapInterfaceProtected: MutableMap<Any, Any> = mutableMapOf()
+                            private val mutableSetInterfacePrivate: MutableSet<Any> = mutableSetOf()
+                            internal val mutableListInterfaceInternal: MutableList<Any> = mutableListOf()
+                            val mutableMapInterfacePublic: MutableMap<Any, Any> = mutableMapOf()
+                            val mutableSetInterfacePublic: MutableSet<Any> = mutableSetOf()
                         }
                         """
-                    ),
                 ),
-                issues = listOf(
-                    MutableCollectionPublicIssue,
-                ),
-                expectedCount = 3,
-            )
+            ),
+            issues = listOf(
+                MutableCollectionPublicIssue,
+            ),
+            expectedCount = 9,
+        )
     }
 
     @Test
     fun `Can use Public at Minor ImmutableCollection`() {
-        lintTestRule
-            .assertErrorCount(
-                files = listOf(
-                    composableTestFile(
-                        """
+        lintTestRule.assertErrorCount(
+            files = listOf(
+                composableTestFile(
+                    """
                         val mutableList: ImmutableList<Any>
                         val mutableMap: ImmutableMap<Any, Any>
                         val mutableSet: ImmutableSet<Any>
@@ -91,38 +89,37 @@ class MutableCollectionPublicTest {
                         val map: PersistentMap<Any, Any>
                         val set: PersistentSet<Any>
                         """
-                    ),
                 ),
-                issues = listOf(
-                    MutableCollectionPublicIssue,
-                ),
-                expectedCount = 0,
-            )
+            ),
+            issues = listOf(
+                MutableCollectionPublicIssue,
+            ),
+            expectedCount = 0,
+        )
     }
 
     @Test
     fun `Dont't use Public, Internal at MutableCollection`() {
-        lintTestRule
-            .assertErrorCount(
-                files = listOf(
-                    composableTestFile(
+        lintTestRule.assertErrorCount(
+            files = listOf(
+                composableTestFile(
+                    """
+                        private val mutableList1: MutableList<Any> = mutableListOf()
+                        private val mutableMap1: MutableMap<Any, Any> = mutableMapOf()
+                        private val mutableSet1: MutableSet<Any> = mutableSetOf()
+                        protected val mutableList2: MutableList<Any> = mutableListOf()
+                        protected val mutableMap2: MutableMap<Any, Any> = mutableMapOf()
+                        protected val mutableSet2: MutableSet<Any> = mutableSetOf()
+                        internal val mutableList3: MutableList<Any> = mutableListOf()
+                        internal val mutableMap3: MutableMap<Any, Any> = mutableMapOf()
+                        internal val mutableSet3: MutableSet<Any> = mutableSetOf()
                         """
-                        private val mutableList: MutableList<Any> = mutableListOf()
-                        private val mutableMap: MutableMap<Any, Any> = mutableMapOf()
-                        private val mutableSet: MutableSet<Any> = mutableSetOf()
-                        protected val mutableList: MutableList<Any> = mutableListOf()
-                        protected val mutableMap: MutableMap<Any, Any> = mutableMapOf()
-                        protected val mutableSet: MutableSet<Any> = mutableSetOf()
-                        internal val mutableList: MutableList<Any> = mutableListOf()
-                        internal val mutableMap: MutableMap<Any, Any> = mutableMapOf()
-                        internal val mutableSet: MutableSet<Any> = mutableSetOf()
-                        """
-                    ),
                 ),
-                issues = listOf(
-                    MutableCollectionPublicIssue,
-                ),
-                expectedCount = 3,
-            )
+            ),
+            issues = listOf(
+                MutableCollectionPublicIssue,
+            ),
+            expectedCount = 0,
+        )
     }
 }
