@@ -26,6 +26,7 @@ import com.android.tools.lint.detector.api.SourceCodeScanner
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.psiUtil.isPublic
 import org.jetbrains.uast.UDeclaration
+import org.jetbrains.uast.kotlin.KotlinUField
 
 private const val BriefDescription = "MutableCollection public 노출 금지"
 private const val Explanation = "캡슐화를 위해 MutableCollection public 노출은 금지됩니다."
@@ -80,6 +81,9 @@ class MutableCollectionPublicDetector : Detector(), SourceCodeScanner {
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
         override fun visitDeclaration(node: UDeclaration) {
+            // Kotlin 특성 상 field 이외의 것 (ex. getter, setter 등) 도 체크하므로 해당 내용만 체크하도록 처리
+            if (node !is KotlinUField) return
+
             val property = node.sourcePsi as? KtProperty
             val propertyType = property?.typeReference ?: return
             val propertyTypeName = propertyType.text
