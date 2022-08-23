@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.constant.IconTagPadding
@@ -95,7 +96,7 @@ fun QuackIconTag(
             QuackTitle2(text = text, color = getIconTagTextColor(isSelected))
             Spacer(modifier = Modifier.width(QuackIconTagSpace))
             QuackSimpleIconImage(
-                modifier = Modifier.clickable{
+                modifier = Modifier.clickable {
                     onClickIcon()
                 },
                 icon = icon,
@@ -137,4 +138,43 @@ private fun getIconTagTextColor(isSelected: Boolean): QuackColor {
 
 private fun getIconColor(isSelected: Boolean): QuackColor {
     return if (isSelected) QuackColor.White else QuackColor.Gray2
+}
+
+
+@Preview
+@Composable
+fun QuackBoldTagPreview() {
+    val text = "더키"
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        QuackBoldTag(isSelected = true, text = text) {}
+        QuackBoldTag(isSelected = false, text = "더키") {}
+    }
+}
+
+@Preview
+@Composable
+fun QuackSimpleTagPreview() {
+    val text = "시간 약속을 잘 지켜요"
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        QuackSimpleTag(isSelected = true, text = text, {})
+        QuackSimpleTag(isSelected = false, text = text, {})
+    }
+}
+
+
+@Preview
+@Composable
+fun QuackIconTagPreview() {
+    val text = "더키"
+    val icon = QuackIcon.Close
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        QuackIconTag(isSelected = true, text = text, icon = icon, {}, {})
+        QuackIconTag(isSelected = false, text = text, icon = icon, {}, {})
+    }
 }
