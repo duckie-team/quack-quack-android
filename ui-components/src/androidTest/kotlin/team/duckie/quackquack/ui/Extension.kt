@@ -19,6 +19,7 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.unit.*
 import junit.framework.TestCase.assertEquals
+import team.duckie.quackquack.ui.color.QuackColor
 
 /**
  * For Background Color Test
@@ -32,8 +33,8 @@ fun SemanticsNodeInteraction.assertBackgroundColor(expectedBackground: Color) {
  * For Text Color Assert
  */
 fun SemanticsNodeInteraction.assertTextColor(
-    expectedColor: Color
-): SemanticsNodeInteraction = assert(isOfColor(expectedColor))
+    expectedColor: QuackColor
+): SemanticsNodeInteraction = assert(isOfColor(expectedColor.value))
 
 private fun isOfColor(color: Color): SemanticsMatcher = SemanticsMatcher(
     "${SemanticsProperties.Text.name} is of color '$color'"
