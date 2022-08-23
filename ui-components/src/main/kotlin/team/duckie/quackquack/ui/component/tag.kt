@@ -18,10 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.constant.IconTagPadding
+import team.duckie.quackquack.ui.constant.QuackRectangleTagShape
 import team.duckie.quackquack.ui.constant.QuackTagShape
 import team.duckie.quackquack.ui.constant.SimpleTagPadding
 import team.duckie.quackquack.ui.typography.QuackBody1
@@ -29,7 +31,7 @@ import team.duckie.quackquack.ui.typography.QuackTitle2
 
 private val QuackTagBorderWidth = 1.dp
 private val QuackTagHeight = 34.dp
-private val QuackIconTagSpace = 8.dp
+private val QuackIconTagSpace = 6.dp
 
 /**
  * TODO: Ripple Effect 처리
@@ -42,7 +44,7 @@ fun QuackBoldTag(
 ) {
     Box(
         modifier = Modifier
-            .tagShape(isSelected)
+            .tagModifier(isSelected = isSelected, shape = QuackTagShape)
             .padding(SimpleTagPadding)
             .clickable {
                 onClick()
@@ -62,7 +64,7 @@ fun QuackSimpleTag(
 
     Box(
         modifier = Modifier
-            .tagShape(isSelected)
+            .tagModifier(isSelected = isSelected, shape = QuackRectangleTagShape)
             .padding(SimpleTagPadding)
             .clickable {
                 onClick()
@@ -84,7 +86,7 @@ fun QuackIconTag(
 
     Box(
         modifier = Modifier
-            .tagShape(isSelected)
+            .tagModifier(isSelected = isSelected, shape = QuackTagShape)
             .background(color = getTagBackground(isSelected).value)
             .padding(IconTagPadding)
             .clickable {
@@ -109,14 +111,17 @@ fun QuackIconTag(
 }
 
 
-private fun Modifier.tagShape(isSelected: Boolean) = composed {
+private fun Modifier.tagModifier(isSelected: Boolean, shape: Shape) = composed {
     Modifier
         .height(QuackTagHeight)
-        .clip(QuackTagShape)
+        .clip(shape)
+        .background(
+            color = QuackColor.White.value
+        )
         .border(
             width = QuackTagBorderWidth,
             color = getTagBorderColor(isSelected).value,
-            shape = QuackTagShape,
+            shape = shape,
         )
 }
 
@@ -148,8 +153,8 @@ fun QuackBoldTagPreview() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        QuackBoldTag(isSelected = true, text = text) {}
-        QuackBoldTag(isSelected = false, text = "더키") {}
+        QuackBoldTag(isSelected = false, text = text) {}
+        QuackBoldTag(isSelected = true, text = "더키") {}
     }
 }
 
@@ -160,8 +165,8 @@ fun QuackSimpleTagPreview() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        QuackSimpleTag(isSelected = true, text = text, {})
         QuackSimpleTag(isSelected = false, text = text, {})
+        QuackSimpleTag(isSelected = true, text = text, {})
     }
 }
 
@@ -174,7 +179,7 @@ fun QuackIconTagPreview() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        QuackIconTag(isSelected = true, text = text, icon = icon, {}, {})
         QuackIconTag(isSelected = false, text = text, icon = icon, {}, {})
+        QuackIconTag(isSelected = true, text = text, icon = icon, {}, {})
     }
 }
