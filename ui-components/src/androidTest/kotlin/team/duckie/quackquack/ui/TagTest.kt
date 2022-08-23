@@ -9,8 +9,13 @@
 
 package team.duckie.quackquack.ui
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
@@ -30,14 +35,15 @@ class TagTest {
      * TODO : Border, Padding 관련 테스트 코드 작성
      */
     @Test
-    fun `enabled_simple_tag_tst`() {
+    fun `quack_bold_tag_test`() {
 
         composeTestRule.setContent {
+            var isSelected by remember { mutableStateOf(false)}
             QuackBoldTag(
-                isSelected = false,
+                isSelected = isSelected,
                 text = TEST_TAG,
                 onClick = {
-
+                    isSelected = !(isSelected)
                 }
             )
         }
@@ -45,7 +51,9 @@ class TagTest {
         composeTestRule.onNodeWithText(TEST_TAG)
             .assertHorizontallyCenterInRoot()
             .assertVerticallyCenterInRoot()
-            .assertTextColor(QuackColor.Black.value)
+            .assertTextColor(QuackColor.Black)
+            .performClick()
+            .assertTextColor(QuackColor.PumpkinOrange)
     }
     @Test
     fun `default_icon_tag_test`() {
