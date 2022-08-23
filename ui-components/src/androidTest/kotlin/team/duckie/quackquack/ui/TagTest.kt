@@ -13,9 +13,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.test.assertLeftPositionInRootIsEqualTo
+import androidx.compose.ui.test.assertTopPositionInRootIsEqualTo
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
@@ -24,6 +27,7 @@ import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.QuackBoldTag
 import team.duckie.quackquack.ui.component.QuackIcon
 import team.duckie.quackquack.ui.component.QuackIconTag
+import team.duckie.quackquack.ui.constant.SimpleTagPadding
 
 @RunWith(AndroidJUnit4::class)
 class TagTest {
@@ -51,6 +55,10 @@ class TagTest {
         composeTestRule.onNodeWithText(TEST_TAG)
             .assertHorizontallyCenterInRoot()
             .assertVerticallyCenterInRoot()
+            .assertLeftPositionInRootIsEqualTo(SimpleTagPadding.calculateLeftPadding(LayoutDirection.Ltr))
+            .assertRightPositionInRootIsEqualTo(SimpleTagPadding.calculateRightPadding(LayoutDirection.Ltr))
+            .assertTopPositionInRootIsEqualTo(SimpleTagPadding.calculateTopPadding())
+            .assertBottomPositionInRootIsEqualTo(SimpleTagPadding.calculateBottomPadding())
             .assertTextColor(QuackColor.Black)
             .performClick()
             .assertTextColor(QuackColor.PumpkinOrange)
