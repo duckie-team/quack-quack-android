@@ -13,3 +13,5 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
 
 internal val QuackTagShape = RoundedCornerShape(18.dp)
+
+internal val QuackRectangleTagShape = RoundedCornerShape(12.dp)
