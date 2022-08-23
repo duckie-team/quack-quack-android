@@ -31,7 +31,7 @@ class TypographyTest {
         }
 
         composeTestRule.onNodeWithText(TEST_TEXT).assertTextColor(
-            QuackColor.Black.value
+            QuackColor.Black
         )
     }
 
