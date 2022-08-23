@@ -68,8 +68,8 @@ class TagTest {
         }
 
         composeTestRule.onNodeWithText(TEST_TAG)
-            .assertTextColor(QuackColor.Black.value)
-            .assertBackgroundColor(QuackColor.White.value)
+            .assertTextColor(QuackColor.Black)
+            .assertBackgroundColor(QuackColor.White)
     }
 
     @Test
@@ -85,8 +85,8 @@ class TagTest {
         }
 
         composeTestRule.onNodeWithText(TEST_TAG)
-            .assertTextColor(QuackColor.White.value)
-            .assertBackgroundColor(QuackColor.PumpkinOrange.value)
+            .assertTextColor(QuackColor.White)
+            .assertBackgroundColor(QuackColor.PumpkinOrange)
     }
 
     companion object {

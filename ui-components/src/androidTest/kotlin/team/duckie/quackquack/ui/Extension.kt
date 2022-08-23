@@ -24,9 +24,9 @@ import team.duckie.quackquack.ui.color.QuackColor
 /**
  * For Background Color Test
  */
-fun SemanticsNodeInteraction.assertBackgroundColor(expectedBackground: Color) {
+fun SemanticsNodeInteraction.assertBackgroundColor(expectedBackground: QuackColor) {
     val capturedName = captureToImage().colorSpace.name
-    assertEquals(expectedBackground.colorSpace.name, capturedName)
+    assertEquals(expectedBackground.value.colorSpace.name, capturedName)
 }
 
 /**
