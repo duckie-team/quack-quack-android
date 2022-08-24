@@ -34,6 +34,7 @@ class Paparazzi {
       compileSdkVersion = 32,
     ),
     deviceConfig = ${본인이 원하는 디바이스 기종}.copy(
+      softButtons = false, // 추가로 스냅샷 이미지에서 UI 컴포넌트 이미지만 확인하기 위해 Soft Button 을 가려야 합니다.
       screenHeight = 1, // #383 해결
     ),
     renderingMode = RenderingMode.V_SCROLL, // #383 해결
@@ -62,3 +63,83 @@ paparazzi + [Showkase](https://github.com/airbnb/Showkase) + ParameterizedTest �
 ###  ParameterizedTest
 
 덕키에서 ParameterizedTest 는 편의를 위해 Google 의 [TestParameterInjector](https://github.com/google/TestParameterInjector) 를 사용합니다.
+
+TestParameterInjector 는 테스트가 진행될 때 함수명 뒤에 `[${index}.${value.toString()}]` 을 자동으로 추가합니다. **따라서 모든 parameterized value 는 래퍼 클래스를 만들어서 `toString()` override 가 필요합니다.**
+
+### 명명
+
+**테스트 클래스와 함수의 네이밍은 스냅샷 이미지 HTML 리포트 생성에 영향을 미칩니다.** 스냅샷 이미지의 파일명은 아래와 같은 규칙이 적용됩니다.
+
+```
+[테스트 폴더 패키지명]_[테스트 클래스명]_[테스트 함수명][ParameterizedTest label]_[Paparazzi#snapshot 의 name 인자]
+```
+
+정확한 스냅샷 이미지 HTML 리포트 생성을 위해 요구되는 네이밍 조건은 다음과 같습니다.
+
+- 테스트 폴더 패키지명과 테스트 클래스명에는 `_` 가 들어가면 안됩니다.
+- 테스트 클래스명은 본인이 테스트하고자 하는 UI 파트의 이름이 들어가야 합니다. **즉, 하나의 클래스에는 하나의 UI 파트만 들어가야 합니다.** 예를 들어 클래스명으로 다음이 될 수 있습니다: Button, Toggle, Tab, Tag, TextField, Typography, DropDown, BottomSheet, Image, Label. **간단한 리포트를 위해 클래스명에 Snapshot 같은 접미어를 붙이면 안됩니다.** 오직 UI 파트명 하나로 명명돼야 합니다.
+- 테스트 함수명으론 현재 테스트 하려는 UI 컴포넌트명을 대소문자 구분하여 그대로 사용해야 합니다.
+- `Paparazzi#snapshot 의 name 인자` 로 현재 value 의 타입과 이름을 `:` 로 구분하여 명시해야 합니다. 여러개의 variant 가 있다면 `-`로 구분해야 합니다. (`_` 가 아닙니다)
+
+**띄어쓰기 하나도 HTML 리포트 생성에 영향을 미칩니다.** 위 규칙들을 따르는 올바른 테스트 클래스는 아래와 같습니다.
+
+```kotlin
+package team.duckie.quackquack.ui
+
+@RunWith(TestParameterInjector::class)
+class Button {
+    @get:Rule
+    val paparazzi = Paparazzi(
+        environment = detectEnvironment().copy(
+            platformDir = "${androidHome()}/platforms/android-32",
+            compileSdkVersion = 32,
+        ),
+        deviceConfig = DeviceConfig.PIXEL_5.copy(
+            softButtons = false,
+            screenHeight = 1,
+        ),
+        renderingMode = SessionParams.RenderingMode.V_SCROLL,
+    )
+
+    private object ColorVariantProvider : TestParameter.TestParameterValuesProvider {
+        override fun provideValues() = Showkase.getMetadata().colorList.map(::ColorVariant)
+    }
+
+    private object TypographyVariantProvider : TestParameter.TestParameterValuesProvider {
+        override fun provideValues() = Showkase.getMetadata().typographyList.map(::TextStyleVariant)
+    }
+
+    @Test
+    fun QuackLargeButton(
+        @TestParameter(valuesProvider = ColorVariantProvider::class) colorVariant: ColorVariant,
+        @TestParameter(valuesProvider = TypographyVariantProvider::class) textStyleVariant: TextStyleVariant,
+    ) {
+        paparazzi.snapshot(name = "[color:${colorVariant.name}]-[textStyle:${textStyleVariant.name}]") {
+            Box( // 이 예제에서는 QuackLargeButton 대신 Box 를 캡처했지만 실제 테스트에서는 실제 UI 컴포넌트가 사용돼야 합니다.
+                modifier = Modifier
+                    .size(100.dp)
+                    .background(color = colorVariant.color),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = "Bye, world!",
+                    style = textStyleVariant.textStyle,
+                )
+            }
+        }
+    }
+}
+
+class ColorVariant(value: ShowkaseBrowserColor) {
+    val color = value.color
+    val name = value.colorName
+    override fun toString() = "color"
+}
+
+class TextStyleVariant(value: ShowkaseBrowserTypography) {
+    val textStyle = value.textStyle
+    val name = value.typographyName
+    override fun toString() = "typography"
+}
+
+```
