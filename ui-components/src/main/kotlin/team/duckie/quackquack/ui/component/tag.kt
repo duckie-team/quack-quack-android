@@ -31,7 +31,7 @@ import team.duckie.quackquack.ui.typography.QuackTitle2
 
 private val QuackTagBorderWidth = 1.dp
 private val QuackTagHeight = 34.dp
-private val QuackIconTagSpace = 6.dp
+private val QuackIconTagSpace = 8.dp
 
 /**
  * TODO: Ripple Effect 처리
