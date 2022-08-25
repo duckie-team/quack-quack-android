@@ -38,6 +38,9 @@ object QuackTextFieldDefaults {
     internal val height = 44.dp
     internal val width = 328.dp
 
+    internal val iconSpacing = 8.dp
+    internal val smallIconSpacing = 4.dp
+
     private val horizontalPadding = 0.dp
     private val topPadding = 18.dp
     private val bottomPadding = 8.dp
