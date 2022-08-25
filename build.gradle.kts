@@ -210,6 +210,7 @@ tasks.register("configurationUiComponentsSnapshotDeploy") {
         }
 
         val cname = File("$rootFolderPath/CNAME")
+        val config = File("$rootFolderPath/_config.yml")
         val readme = File("$rootFolderPath/README.md")
         val snapshots = (rootFolder.list() ?: emptyArray()).filter { file ->
             file.endsWith("png")
@@ -277,6 +278,12 @@ tasks.register("configurationUiComponentsSnapshotDeploy") {
         }
 
         cname.writeText("quack-ui.duckie.team")
+        config.writeText(
+            """
+                |name: Quack-Quack UI Snapshots
+                |title: null
+            """.trimMargin()
+        )
         readme.writeText(snapshotTypeListMdContent)
         cname.createNewFile()
         readme.createNewFile()
