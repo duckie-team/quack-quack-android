@@ -9,6 +9,8 @@
 
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
+import java.text.SimpleDateFormat
+import java.util.Date
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -183,6 +185,11 @@ val String.className get() = split("_")[1]
 val String.functionName get() = split("_")[2].split("[").first()
 val String.parameterizedValues get() = split("_").last().removeSuffix(".png").replace(":", ": ")
 
+fun getCurrentDate(): String {
+    val formatter = SimpleDateFormat("yyyy.MM.dd HH:mm:ss 에 생성됨")
+    return formatter.format(Date())
+}
+
 /**
  * 스냅샷 이미지 HTML 리포트 생성 규칙
  *
@@ -201,28 +208,66 @@ tasks.register("configurationUiComponentsSnapshotDeploy") {
 
         val cname = File("$rootFolderPath/CNAME")
         val readme = File("$rootFolderPath/README.md")
-        val snapshots = rootFolder.list() ?: emptyArray()
+        val snapshots = (rootFolder.list() ?: emptyArray()).filter { file ->
+            file.endsWith("png")
+        }
+        val snapshotClassNameMapWithSnapshotListMdContents = snapshots.groupBy { snapshot ->
+            snapshot.className
+        }.map { snapshotMap ->
+            val (className, _snapshots) = snapshotMap
+            val snapshotContents = _snapshots.joinToString("\n\n") { snapshot ->
+                val snapshotName = snapshot.functionName
+                val snapshotPath = snapshot.replace(" ", "%20")
+                // original: [color: orange]-[textstyle: small]
+                // [transformed]
+                // - color: orange
+                // - textstyle: small
+                val snapshotParameterizedValuesList = snapshot.parameterizedValues
+                    .split("-").joinToString("\n") { value ->
+                        value.replace("[", "- ").replace("]", "")
+                    }
+                val snapshotMdLabel = """
+                    |### [$snapshotName]
 
-        val classNames = snapshots.map { it.className }.distinct()
-        val snapshotNamesMapWithClassName = snapshots.groupBy {
+                    |$snapshotParameterizedValuesList
+                    """.trimMargin()
+                val snapshotContent = """
+                    |$snapshotMdLabel
 
+                    |<a href="$snapshotPath"><img src="$snapshotPath" width="50%"/></a>
+                    """.trimMargin()
+                snapshotContent
+            }
+            className to snapshotContents
         }
 
+        val snapshotTypeListMdContent = snapshotClassNameMapWithSnapshotListMdContents.joinToString(
+            separator = "\n",
+            prefix = "# Duckie Quack-Quack UI 스냅샷\n\n",
+            postfix = "\n\n#### ${getCurrentDate()}",
+        ) {
+            val snapshotClassName = it.first
+            "- [$snapshotClassName]($snapshotClassName.md)"
+        }
+        snapshotClassNameMapWithSnapshotListMdContents.forEach { (className, snapshotListMdContent) ->
+            File("$rootFolderPath/$className.md").run {
+                writeText("""
+                    |# $className
 
-        val snapshotsReadme = snapshots.mapNotNull { snapshotName ->
-            val snapshotShortName = snapshotName.substringAfterLast("_").replace(" ", "_")
-            val snapshotPath = snapshotName.replace(" ", "%20")
-            "- [$snapshotShortName](https://quack-ui.duckie.team/$snapshotPath)".takeIf {
-                snapshotName.endsWith("png")
+                    |$snapshotListMdContent
+
+                    |#### [🏠](README.md)
+                """.trimMargin())
+                createNewFile()
             }
         }
 
         cname.writeText("quack-ui.duckie.team")
-        readme.writeText(snapshotsReadme.joinToString("\n"))
+        readme.writeText(snapshotTypeListMdContent)
         cname.createNewFile()
         readme.createNewFile()
-    } catch (e: IndexOutOfBoundsException) {
-        println("스냅샷 이미지 HTML 리포트 생성에 실패했습니다. 어긋난 네이밍 규칙이 없는지 확인해 주세요.")
+    } catch (exception: IndexOutOfBoundsException) {
+        println("스냅샷 이미지 HTML 리포트 생성에 실패했습니다. 어긋난 네이밍 규칙이 없는지 확인해 주세요.\n\n${exception.message}")
     }
 }
 
