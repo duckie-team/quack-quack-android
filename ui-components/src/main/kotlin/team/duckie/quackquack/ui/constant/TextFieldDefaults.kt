@@ -9,6 +9,7 @@
 
 package team.duckie.quackquack.ui.constant
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.*
 import androidx.compose.ui.unit.Dp
@@ -31,6 +32,9 @@ interface QuackTextFieldColors {
 
     @Composable
     fun cursorColor(): QuackColor
+
+    @Composable
+    fun indicatorColor(isError: Boolean): QuackColor
 }
 
 @Immutable
@@ -40,10 +44,14 @@ object QuackTextFieldDefaults {
 
     internal val iconSpacing = 8.dp
     internal val smallIconSpacing = 4.dp
+    internal val errorTextSpacing = 4.dp
+    internal val lengthTextSpacing = 2.dp
 
     private val horizontalPadding = 0.dp
     private val topPadding = 18.dp
     private val bottomPadding = 8.dp
+
+    private val errorIndicatorThickness = 1.dp
 
     @Composable
     fun textFieldColors(
@@ -52,6 +60,8 @@ object QuackTextFieldDefaults {
         placeholderColor: QuackColor = QuackColor.Greyish,
         trailingIconColor: QuackColor = QuackColor.Greyish,
         cursorColor: QuackColor = QuackColor.DuckieOrange,
+        indicatorColor: QuackColor = QuackColor.Unspecified,
+        errorIndicatorColor: QuackColor = QuackColor.OrangeRed
     ): QuackTextFieldColors =
         QuackDefaultTextFieldColors(
             textColor = textColor,
@@ -59,6 +69,8 @@ object QuackTextFieldDefaults {
             placeholderColor = placeholderColor,
             trailingIconColor = trailingIconColor,
             cursorColor = cursorColor,
+            indicatorColor = indicatorColor,
+            errorIndicatorColor = errorIndicatorColor,
         )
 
     @Composable
@@ -68,6 +80,18 @@ object QuackTextFieldDefaults {
         top: Dp = topPadding,
         bottom: Dp = bottomPadding
     ): PaddingValues = PaddingValues(start, top, end, bottom)
+
+    @Composable
+    fun indicatorStroke(
+        width: Dp = errorIndicatorThickness,
+        colors: QuackTextFieldColors = textFieldColors(),
+        isError: Boolean
+    ): BorderStroke = BorderStroke(
+        width = width,
+        color = colors.indicatorColor(
+            isError = isError
+        ).value
+    )
 }
 
 @Immutable
@@ -76,7 +100,9 @@ private class QuackDefaultTextFieldColors(
     private val backgroundColor: QuackColor,
     private val placeholderColor: QuackColor,
     private val trailingIconColor: QuackColor,
-    private val cursorColor: QuackColor
+    private val cursorColor: QuackColor,
+    private val indicatorColor: QuackColor,
+    private val errorIndicatorColor: QuackColor,
 ) : QuackTextFieldColors {
 
     @Composable
@@ -93,4 +119,11 @@ private class QuackDefaultTextFieldColors(
 
     @Composable
     override fun cursorColor(): QuackColor = cursorColor
+
+    @Composable
+    override fun indicatorColor(isError: Boolean) = if (isError) {
+        errorIndicatorColor
+    } else {
+        indicatorColor
+    }
 }
