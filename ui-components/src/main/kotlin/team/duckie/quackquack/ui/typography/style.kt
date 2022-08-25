@@ -36,13 +36,15 @@ class QuackTextStyle private constructor(
     private val suit = FontFamily(Font(R.font.suit_variable))
 
     @Stable
-    internal fun toComposeStyle() = TextStyle(
+    internal fun toComposeStyle(
+        textAlign: TextAlign = TextAlign.Center
+    ) = TextStyle(
         color = color.value,
         fontSize = size,
         fontFamily = suit,
         fontWeight = weight,
         letterSpacing = letterSpacing,
-        textAlign = TextAlign.Center,
+        textAlign = textAlign,
         lineHeight = lineHeight,
     )
 
