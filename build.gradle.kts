@@ -211,53 +211,65 @@ tasks.register("configurationUiComponentsSnapshotDeploy") {
         val snapshots = (rootFolder.list() ?: emptyArray()).filter { file ->
             file.endsWith("png")
         }
-        val snapshotClassNameMapWithSnapshotListMdContents = snapshots.groupBy { snapshot ->
+        val snapshotClassNameMapWithSnapshotsMdContents = snapshots.groupBy { snapshot ->
             snapshot.className
         }.map { snapshotMap ->
             val (className, _snapshots) = snapshotMap
-            val snapshotContents = _snapshots.joinToString("\n\n") { snapshot ->
-                val snapshotName = snapshot.functionName
-                val snapshotPath = snapshot.replace(" ", "%20")
-                // original: [color: orange]-[textstyle: small]
-                // [transformed]
-                // - color: orange
-                // - textstyle: small
-                val snapshotParameterizedValuesList = snapshot.parameterizedValues
-                    .split("-").joinToString("\n") { value ->
-                        value.replace("[", "- ").replace("]", "")
-                    }
-                val snapshotMdLabel = """
-                    |### [$snapshotName]
-
-                    |$snapshotParameterizedValuesList
-                    """.trimMargin()
-                val snapshotContent = """
-                    |$snapshotMdLabel
-
+            val snapshotFunctionNameMapWithSnapshotsMdContents = _snapshots.groupBy { snapshot ->
+                snapshot.functionName
+            }.toSortedMap().map { (snapshotFunctionName, snapshots) ->
+                val snapshotContents = snapshots.joinToString("\n\n") { snapshot ->
+                    val snapshotPath = snapshot.replace(" ", "%20")
+                    // original: [color: orange]-[textstyle: small]
+                    // [transformed]
+                    // - color: orange
+                    // - textstyle: small
+                    val snapshotParameterizedValues = snapshot.parameterizedValues
+                        .split("-")
+                        .sorted()
+                        .joinToString("\n") { value ->
+                            value.replace("[", "- ").replace("]", "")
+                        }
+                    val snapshotMdContent = """
                     |<a href="$snapshotPath"><img src="$snapshotPath" width="50%"/></a>
+
+                    |$snapshotParameterizedValues
                     """.trimMargin()
-                snapshotContent
+                    snapshotMdContent
+                }
+                snapshotFunctionName to snapshotContents
             }
-            className to snapshotContents
+            val snapshotsMdContent = snapshotFunctionNameMapWithSnapshotsMdContents
+                .joinToString("\n\n") { (snapshotFunctionName, snapshotsMdContent) ->
+                    """
+                    |### $snapshotFunctionName
+
+                    |$snapshotsMdContent
+                    """.trimMargin()
+                }
+            className to snapshotsMdContent
         }
 
-        val snapshotTypeListMdContent = snapshotClassNameMapWithSnapshotListMdContents.joinToString(
-            separator = "\n",
-            prefix = "# Duckie Quack-Quack UI 스냅샷\n\n",
-            postfix = "\n\n#### ${getCurrentDate()}",
-        ) {
-            val snapshotClassName = it.first
-            "- [$snapshotClassName]($snapshotClassName.md)"
-        }
-        snapshotClassNameMapWithSnapshotListMdContents.forEach { (className, snapshotListMdContent) ->
+        val snapshotTypeListMdContent =
+            snapshotClassNameMapWithSnapshotsMdContents.joinToString(
+                separator = "\n",
+                prefix = "# Duckie Quack-Quack UI 스냅샷\n\n",
+                postfix = "\n\n#### ${getCurrentDate()}",
+            ) {
+                val snapshotClassName = it.first
+                "- [$snapshotClassName]($snapshotClassName.md)"
+            }
+        snapshotClassNameMapWithSnapshotsMdContents.forEach { (className, snapshotListMdContent) ->
             File("$rootFolderPath/$className.md").run {
-                writeText("""
+                writeText(
+                    """
                     |# $className
 
                     |$snapshotListMdContent
 
                     |#### [🏠](README.md)
-                """.trimMargin())
+                """.trimMargin()
+                )
                 createNewFile()
             }
         }
