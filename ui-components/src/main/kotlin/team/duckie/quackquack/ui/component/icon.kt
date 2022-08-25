@@ -35,6 +35,11 @@ value class QuackIcon private constructor(
         val Search = QuackIcon(
             value = R.drawable.search_16
         )
+
+        @Stable
+        val Won = QuackIcon(
+            value = R.drawable.won_16
+        )
     }
 
 }
