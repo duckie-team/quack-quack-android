@@ -85,6 +85,26 @@ class Button {
         }
     }
 
+    @Test
+    fun QuackLargeButton2(
+        @TestParameter(valuesProvider = ColorVariantProvider::class) colorVariant: ColorVariant,
+        @TestParameter(valuesProvider = TypographyVariantProvider::class) textStyleVariant: TextStyleVariant,
+    ) {
+        paparazzi.snapshot(name = "[color:${colorVariant.name}]-[textStyle:${textStyleVariant.name}]") {
+            Box(
+                modifier = Modifier
+                    .size(100.dp)
+                    .background(color = colorVariant.color),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = "QuackLargeButton2",
+                    style = textStyleVariant.textStyle,
+                )
+            }
+        }
+    }
+
     class ColorVariant(value: ShowkaseBrowserColor) {
         val color = value.color
         val name = value.colorName
