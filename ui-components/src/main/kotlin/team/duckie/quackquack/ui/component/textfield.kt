@@ -18,13 +18,88 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.constant.*
+import team.duckie.quackquack.ui.modifier.bottomIndicatorLine
+import team.duckie.quackquack.ui.typography.QuackBody1
+import team.duckie.quackquack.ui.typography.QuackSubtitle
 import team.duckie.quackquack.ui.typography.QuackTextStyle
 
+@Composable
+fun QuackLimitedTextField(
+    text: String,
+    onTextChanged: (text: String) -> Unit,
+    placeholder: String,
+    isError: Boolean,
+    errorText: String,
+    maxLength: Int,
+    icon: QuackIcon = QuackIcon.Delete,
+    onClickButton: () -> Unit,
+) {
+    val currentLengthTextColor = if (text.isEmpty()) {
+        QuackColor.Greyish
+    } else {
+        QuackColor.Black
+    }
+    QuackBasicTextField(
+        text = text,
+        onTextChanged = {
+            if (it.length <= maxLength) {
+                onTextChanged(it)
+            }
+        },
+        placeholder = placeholder,
+        isError = isError,
+        errorText = errorText,
+        trailing = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                QuackBody1(
+                    text = "${text.length}",
+                    color = currentLengthTextColor
+                )
+                Spacer(
+                    modifier = Modifier.width(
+                        width = QuackTextFieldDefaults.lengthTextSpacing
+                    )
+                )
+                QuackBody1(
+                    text = "/",
+                    color = QuackColor.Greyish
+                )
+                Spacer(
+                    modifier = Modifier.width(
+                        width = QuackTextFieldDefaults.lengthTextSpacing
+                    )
+                )
+                QuackBody1(
+                    text = "$maxLength",
+                    color = QuackColor.Greyish
+                )
+                if (text.isNotEmpty()) {
+                    Spacer(
+                        modifier = Modifier.width(
+                            width = QuackTextFieldDefaults.smallIconSpacing
+                        )
+                    )
+                    QuackSimpleIconImage(
+                        modifier = Modifier.clickable {
+                            onClickButton()
+                        },
+                        icon = icon,
+                        contentDescription = "textFieldIcon",
+                    )
+                }
+            }
+        },
+        style = QuackTextStyle.Title1
+    )
+}
 
 @Composable
 fun QuackTrailingTextField(
@@ -44,19 +119,17 @@ fun QuackTrailingTextField(
             },
         ),
         trailing = {
-            QuackText(
+            QuackSubtitle(
                 modifier = Modifier
                     .clickable(text.isNotEmpty()) {
                         onClickButton()
                     },
                 text = buttonText,
-                style = if (text.isEmpty()) {
-                    QuackTextStyle.M1420
+                color = if (text.isEmpty()) {
+                    QuackColor.Greyish
                 } else {
-                    QuackTextStyle.M1420.changeColor(
-                        newColor = QuackColor.DuckieOrange
-                    )
-                },
+                    QuackColor.DuckieOrange
+                }
             )
         },
     )
@@ -115,63 +188,82 @@ private fun QuackBasicTextField(
     keyboardActions: KeyboardActions = KeyboardActions(),
     trailing: @Composable (() -> Unit)? = null,
     icon: @Composable (() -> Unit)? = null,
+    isError: Boolean = false,
+    errorText: String = "",
     margin: PaddingValues = QuackTextFieldDefaults.textFieldPadding(),
     iconSpacing: Dp = QuackTextFieldDefaults.iconSpacing,
     singleLine: Boolean = true,
     colors: QuackTextFieldColors = QuackTextFieldDefaults.textFieldColors(),
-    style: QuackTextStyle = QuackTextStyle.M1420
+    style: QuackTextStyle = QuackTextStyle.Body1
 ) {
     BasicTextField(
         value = text,
         onValueChange = onTextChanged,
-        textStyle = style.toComposeStyle(),
+        textStyle = style.toComposeStyle(
+            textAlign = TextAlign.Left
+        ),
         cursorBrush = SolidColor(colors.cursorColor().value),
         singleLine = singleLine,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         decorationBox = { innerTextField ->
-            QuackSurface(
-                modifier = Modifier.size(
-                    width = width,
-                    height = height,
-                ),
-                contentAlignment = Alignment.CenterStart,
-                backgroundColor = colors.backgroundColor().value,
-            ) {
-                Row(
+            Column {
+                QuackSurface(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(margin),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                        .size(
+                            width = width,
+                            height = height,
+                        )
+                        .bottomIndicatorLine(
+                            QuackTextFieldDefaults.indicatorStroke(
+                                isError = isError
+                            )
+                        ),
+                    contentAlignment = Alignment.CenterStart,
+                    backgroundColor = colors.backgroundColor().value,
                 ) {
                     Row(
-                        modifier = Modifier.weight(1f),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(margin),
+                        horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        icon?.run {
-                            this()
-                            Spacer(modifier = Modifier.width(iconSpacing))
-                        }
-                        Box {
-                            if (text.isEmpty()) {
-                                QuackText(
-                                    text = placeholder,
-                                    style = style.changeColor(
-                                        newColor = QuackColor.Greyish,
-                                    ),
-                                )
+                        Row(
+                            modifier = Modifier.weight(1f),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            icon?.run {
+                                this()
+                                Spacer(modifier = Modifier.width(iconSpacing))
                             }
-                            innerTextField()
+                            Box {
+                                if (text.isEmpty()) {
+                                    QuackBody1(
+                                        text = placeholder,
+                                        color = QuackColor.Greyish,
+                                    )
+                                }
+                                innerTextField()
+                            }
                         }
-                    }
-                    trailing?.run {
-                        Spacer(modifier = Modifier.width(iconSpacing))
-                        this()
+                        trailing?.run {
+                            Spacer(modifier = Modifier.width(iconSpacing))
+                            this()
+                        }
                     }
                 }
+                if (isError) {
+                    Spacer(modifier = Modifier.height(QuackTextFieldDefaults.errorTextSpacing))
+                    QuackBody1(
+                        text = errorText,
+                        color = QuackColor.OrangeRed,
+                    )
+                }
             }
+
         },
     )
+
 }
 
 @Composable
@@ -220,5 +312,24 @@ fun QuackTrailingTextFieldPreview() {
         buttonText = "등록",
         placeholder = placeholder,
         onClickButton = {},
+    )
+}
+
+@Composable
+@Preview
+fun QuackLimitedTextFieldPreview() {
+    val (text, setText) = remember { mutableStateOf("") }
+    val placeholder = "placeholder"
+    val errorText = "특수문자가 포함되어 있습니다"
+    val maxLength = 30
+    val isError = text.endsWith("E")
+    QuackLimitedTextField(
+        text = text,
+        onTextChanged = setText,
+        placeholder = placeholder,
+        errorText = errorText,
+        isError = isError,
+        maxLength = maxLength,
+        onClickButton = {}
     )
 }
