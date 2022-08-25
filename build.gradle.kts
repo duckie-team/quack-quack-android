@@ -253,22 +253,21 @@ tasks.register("configurationUiComponentsSnapshotDeploy") {
             className to snapshotsMdContent
         }
 
-        val snapshotTypeListMdContent =
-            snapshotClassNameMapWithSnapshotsMdContents.joinToString(
-                separator = "\n",
-                prefix = "# Duckie Quack-Quack UI 스냅샷\n\n",
-                postfix = "\n\n#### ${getCreatedDate()}",
-            ) {
-                val snapshotClassName = it.first
-                "- [$snapshotClassName]($snapshotClassName.md)"
-            }
-        snapshotClassNameMapWithSnapshotsMdContents.forEach { (className, snapshotListMdContent) ->
+        val snapshotTypesMdContent = snapshotClassNameMapWithSnapshotsMdContents.joinToString(
+            separator = "\n",
+            prefix = "# Duckie Quack-Quack UI 스냅샷\n\n",
+            postfix = "\n\n#### ${getCreatedDate()}",
+        ) {
+            val snapshotClassName = it.first
+            "- [$snapshotClassName]($snapshotClassName.md)"
+        }
+        snapshotClassNameMapWithSnapshotsMdContents.forEach { (className, snapshotsMdContent) ->
             File("$rootFolderPath/$className.md").run {
                 writeText(
                     """
                     |# $className
 
-                    |$snapshotListMdContent
+                    |$snapshotsMdContent
 
                     |#### [🏠](README.md)
                 """.trimMargin()
@@ -284,7 +283,7 @@ tasks.register("configurationUiComponentsSnapshotDeploy") {
                 |title: null
             """.trimMargin()
         )
-        readme.writeText(snapshotTypeListMdContent)
+        readme.writeText(snapshotTypesMdContent)
         cname.createNewFile()
         readme.createNewFile()
     } catch (exception: IndexOutOfBoundsException) {
