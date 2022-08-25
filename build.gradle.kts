@@ -185,7 +185,7 @@ val String.className get() = split("_")[1]
 val String.functionName get() = split("_")[2].split("[").first()
 val String.parameterizedValues get() = split("_").last().removeSuffix(".png").replace(":", ": ")
 
-fun getCurrentDate(): String {
+fun getCreatedDate(): String {
     val formatter = SimpleDateFormat("yyyy.MM.dd HH:mm:ss 에 생성됨")
     return formatter.format(Date())
 }
@@ -210,14 +210,14 @@ tasks.register("configurationUiComponentsSnapshotDeploy") {
         val readme = File("$rootFolderPath/README.md")
         val snapshots = (rootFolder.list() ?: emptyArray()).filter { file ->
             file.endsWith("png")
-        }
+        }.sortedDescending()
         val snapshotClassNameMapWithSnapshotsMdContents = snapshots.groupBy { snapshot ->
             snapshot.className
         }.map { snapshotMap ->
             val (className, _snapshots) = snapshotMap
             val snapshotFunctionNameMapWithSnapshotsMdContents = _snapshots.groupBy { snapshot ->
                 snapshot.functionName
-            }.toSortedMap().map { (snapshotFunctionName, snapshots) ->
+            }.map { (snapshotFunctionName, snapshots) ->
                 val snapshotContents = snapshots.joinToString("\n\n") { snapshot ->
                     val snapshotPath = snapshot.replace(" ", "%20")
                     // original: [color: orange]-[textstyle: small]
@@ -226,7 +226,6 @@ tasks.register("configurationUiComponentsSnapshotDeploy") {
                     // - textstyle: small
                     val snapshotParameterizedValues = snapshot.parameterizedValues
                         .split("-")
-                        .sorted()
                         .joinToString("\n") { value ->
                             value.replace("[", "- ").replace("]", "")
                         }
@@ -254,7 +253,7 @@ tasks.register("configurationUiComponentsSnapshotDeploy") {
             snapshotClassNameMapWithSnapshotsMdContents.joinToString(
                 separator = "\n",
                 prefix = "# Duckie Quack-Quack UI 스냅샷\n\n",
-                postfix = "\n\n#### ${getCurrentDate()}",
+                postfix = "\n\n#### ${getCreatedDate()}",
             ) {
                 val snapshotClassName = it.first
                 "- [$snapshotClassName]($snapshotClassName.md)"
