@@ -1,7 +1,7 @@
 [versions]
 # plugins
 dokka = "1.7.10"
-ktlint-gradle = "10.3.0"
+ktlint-gradle = "11.0.0"
 # https://github.com/JLLeitschuh/ktlint-gradle/issues/589
 # klint 최신 버전과 사용 불가
 ktlint-source = "0.45.2"
