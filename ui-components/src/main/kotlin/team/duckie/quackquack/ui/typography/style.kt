@@ -17,6 +17,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import team.duckie.quackquack.ui.R
@@ -25,7 +26,7 @@ import team.duckie.quackquack.ui.color.QuackColor
 // copy 사용을 방지하기 위해 data class 미사용
 @Immutable
 class QuackTextStyle private constructor(
-    val color: QuackColor,
+    val color: QuackColor = QuackColor.Black,
     val size: TextUnit,
     val weight: FontWeight,
     val letterSpacing: TextUnit,
@@ -41,17 +42,74 @@ class QuackTextStyle private constructor(
         fontFamily = suit,
         fontWeight = weight,
         letterSpacing = letterSpacing,
+        textAlign = TextAlign.Center,
         lineHeight = lineHeight,
     )
 
     companion object {
+
         @Stable
-        val M1420 = QuackTextStyle(
-            color = QuackColor.Black,
+        val HeadLine1 = QuackTextStyle(
+            size = 20.sp,
+            weight = FontWeight.Bold,
+            letterSpacing = (-0.01).sp,
+            lineHeight = 26.sp
+        )
+
+        @Stable
+        val HeadLine2 = QuackTextStyle(
+            size = 16.sp,
+            weight = FontWeight.Bold,
+            letterSpacing = (-0.01).sp,
+            lineHeight = 22.sp
+        )
+
+        @Stable
+        val Title1 = QuackTextStyle(
+            size = 16.sp,
+            weight = FontWeight.Normal,
+            letterSpacing = (-0.01).sp,
+            lineHeight = 22.sp
+        )
+
+        @Stable
+        val Title2 = QuackTextStyle(
+            size = 14.sp,
+            weight = FontWeight.Bold,
+            letterSpacing = 0.sp,
+            lineHeight = 20.sp
+        )
+
+        @Stable
+        val Subtitle = QuackTextStyle(
             size = 14.sp,
             weight = FontWeight.Medium,
             letterSpacing = 0.sp,
             lineHeight = 20.sp,
+        )
+
+        @Stable
+        val Body1 = QuackTextStyle(
+            size = 14.sp,
+            weight = FontWeight.Normal,
+            letterSpacing = 0.sp,
+            lineHeight = 20.sp,
+        )
+
+        @Stable
+        val Body2 = QuackTextStyle(
+            size = 12.sp,
+            weight = FontWeight.Normal,
+            letterSpacing = 0.sp,
+            lineHeight = 15.sp,
+        )
+
+        @Stable
+        val Body3 = QuackTextStyle(
+            size = 10.sp,
+            weight = FontWeight.Normal,
+            letterSpacing = 0.sp,
+            lineHeight = 13.sp,
         )
     }
 
