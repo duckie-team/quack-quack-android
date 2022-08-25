@@ -11,6 +11,7 @@
 
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.TimeZone
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -186,7 +187,9 @@ val String.functionName get() = split("_")[2].split("[").first()
 val String.parameterizedValues get() = split("_").last().removeSuffix(".png").replace(":", ": ")
 
 fun getCreatedDate(): String {
-    val formatter = SimpleDateFormat("yyyy.MM.dd HH:mm:ss 에 생성됨")
+    val formatter = SimpleDateFormat("yyyy.MM.dd HH:mm:ss 에 생성됨").apply {
+        timeZone = TimeZone.getTimeZone("Asia/Seoul")
+    }
     return formatter.format(Date())
 }
 
