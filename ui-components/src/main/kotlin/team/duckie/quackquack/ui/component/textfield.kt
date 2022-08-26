@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -200,6 +201,7 @@ private fun QuackBasicTextField(
     style: QuackTextStyle = QuackTextStyle.Body1
 ) {
     BasicTextField(
+        modifier = Modifier.testTag("TextFieldTag"),
         value = text,
         onValueChange = onTextChanged,
         textStyle = style.toComposeStyle(
@@ -213,7 +215,7 @@ private fun QuackBasicTextField(
             Column {
                 QuackSurface(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth() //applyQuackSize로 변경 해야함
                         .height(
                             height = height,
                         )
