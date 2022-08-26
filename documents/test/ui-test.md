@@ -11,7 +11,7 @@
 
 ### Finder
 
-모든 컴포저블은 테스트 코드에서 쉬고 명확한 접근을 위해 Finder 중에서 [`onNodeWithTag`](https://developer.android.com/reference/kotlin/androidx/compose/ui/test/package-summary#(androidx.compose.ui.test.SemanticsNodeInteractionsProvider).onNodeWithTag(kotlin.String,kotlin.Boolean)) 또는 [`onAllNodesWithTag`](https://developer.android.com/reference/kotlin/androidx/compose/ui/test/package-summary#(androidx.compose.ui.test.SemanticsNodeInteractionsProvider).onAllNodesWithTag(kotlin.String,kotlin.Boolean)) 만을 사용해야 합니다. 따라서 테스트가 필요한 모든 컴포저블에는 [`Modifier.testTag`](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier#(androidx.compose.ui.Modifier).testTag(kotlin.String)) 가 강제됩니다.
+모든 컴포저블은 테스트 코드에서 쉽고 명확한 접근을 위해 Finder 중에서 [`onNodeWithTag`](https://developer.android.com/reference/kotlin/androidx/compose/ui/test/package-summary#(androidx.compose.ui.test.SemanticsNodeInteractionsProvider).onNodeWithTag(kotlin.String,kotlin.Boolean)) 또는 [`onAllNodesWithTag`](https://developer.android.com/reference/kotlin/androidx/compose/ui/test/package-summary#(androidx.compose.ui.test.SemanticsNodeInteractionsProvider).onAllNodesWithTag(kotlin.String,kotlin.Boolean)) 만을 사용해야 합니다. 따라서 테스트가 필요한 모든 컴포저블에는 [`Modifier.testTag`](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier#(androidx.compose.ui.Modifier).testTag(kotlin.String)) 가 강제됩니다.
 
 ### Modifier.testTag
 
