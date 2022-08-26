@@ -196,6 +196,7 @@ private fun QuackBasicTextField(
     iconSpacing: Dp = QuackTextFieldDefaults.iconSpacing,
     singleLine: Boolean = true,
     colors: QuackTextFieldColors = QuackTextFieldDefaults.textFieldColors(),
+    shape: Shape = QuackTextFieldDefaults.TextFieldShape,
     style: QuackTextStyle = QuackTextStyle.Body1
 ) {
     BasicTextField(

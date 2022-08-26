@@ -56,6 +56,16 @@ object QuackTextFieldDefaults {
 
     private val errorIndicatorThickness = 1.dp
 
+    val TextFieldShape: Shape
+        @Composable
+        @ReadOnlyComposable
+        get() = RectangleShape
+
+    val InnerTextFieldShape: Shape
+        @Composable
+        @ReadOnlyComposable
+        get() = SmallShape
+
     @Composable
     fun textFieldColors(
         textColor: QuackColor = QuackColor.Black,
