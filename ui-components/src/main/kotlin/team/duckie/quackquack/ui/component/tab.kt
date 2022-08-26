@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
@@ -239,4 +238,26 @@ private fun QuackTabUnderBar(
             .height(QuackTabUnderBarHeight)
             .background(color.value)
     )
+}
+
+@Preview
+@Composable
+private fun QuackMainTabPreview() {
+    val selectedMainTabIndex = remember { mutableStateOf(1) }
+    QuackMainTab(selectedTabIndex = selectedMainTabIndex.value, tabTitles = listOf(
+        "판매중", "거래완료", "숨김"
+    ), onTabSelected = {
+        selectedMainTabIndex.value = it
+    })
+}
+
+@Preview
+@Composable
+private fun QuackSubTabPreview() {
+    val selectedSubTabIndex = remember { mutableStateOf(1) }
+    QuackSubTab(selectedTabIndex = selectedSubTabIndex.value, tabTitles = listOf(
+        "피드", "컬렉션", "좋아요"
+    ), onTabSelected = {
+        selectedSubTabIndex.value = it
+    })
 }
