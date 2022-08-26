@@ -10,7 +10,7 @@ paparazzi = "1.0.0"
 ksp = "1.7.10-1.0.6"
 
 # build
-gradle = "7.4.0-alpha09"
+gradle = "7.4.0-alpha10"
 kotlin = "1.7.10"
 kotlin-metadata = "0.5.0"
 
