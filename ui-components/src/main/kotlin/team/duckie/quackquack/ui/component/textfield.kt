@@ -14,9 +14,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -182,7 +185,6 @@ private fun QuackBasicTextField(
     text: String,
     onTextChanged: (text: String) -> Unit,
     placeholder: String,
-    width: Dp = QuackTextFieldDefaults.width,
     height: Dp = QuackTextFieldDefaults.height,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
@@ -210,10 +212,11 @@ private fun QuackBasicTextField(
             Column {
                 QuackSurface(
                     modifier = Modifier
-                        .size(
-                            width = width,
+                        .fillMaxWidth()
+                        .height(
                             height = height,
                         )
+                        .clip(shape)
                         .bottomIndicatorLine(
                             QuackTextFieldDefaults.indicatorStroke(
                                 isError = isError
