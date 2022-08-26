@@ -65,30 +65,30 @@ fun QuackLimitedTextField(
             ) {
                 QuackBody1(
                     text = "${text.length}",
-                    color = currentLengthTextColor
+                    color = currentLengthTextColor,
                 )
                 Spacer(
                     modifier = Modifier.width(
-                        width = QuackTextFieldDefaults.lengthTextSpacing
-                    )
+                        width = QuackTextFieldDefaults.lengthTextSpacing,
+                    ),
                 )
                 QuackBody1(
                     text = "/",
-                    color = QuackColor.Greyish
+                    color = QuackColor.Greyish,
                 )
                 Spacer(
                     modifier = Modifier.width(
-                        width = QuackTextFieldDefaults.lengthTextSpacing
-                    )
+                        width = QuackTextFieldDefaults.lengthTextSpacing,
+                    ),
                 )
                 QuackBody1(
                     text = "$maxLength",
-                    color = QuackColor.Greyish
+                    color = QuackColor.Greyish,
                 )
                 if (text.isNotEmpty()) {
                     Spacer(
                         modifier = Modifier.width(
-                            width = QuackTextFieldDefaults.smallIconSpacing
+                            width = QuackTextFieldDefaults.smallIconSpacing,
                         )
                     )
                     QuackSimpleIconImage(
@@ -111,7 +111,7 @@ fun QuackTrailingTextField(
     onTextChanged: (text: String) -> Unit,
     buttonText: String,
     placeholder: String,
-    onClickButton: () -> Unit
+    onClickButton: () -> Unit,
 ) {
     QuackBasicTextField(
         text = text,
@@ -133,7 +133,7 @@ fun QuackTrailingTextField(
                     QuackColor.Greyish
                 } else {
                     QuackColor.DuckieOrange
-                }
+                },
             )
         },
     )
@@ -144,7 +144,7 @@ fun QuackIconTextField(
     text: String,
     onTextChanged: (text: String) -> Unit,
     icon: QuackIcon,
-    placeholder: String
+    placeholder: String,
 ) {
     QuackBasicTextField(
         text = text,
@@ -172,7 +172,7 @@ fun QuackIconTextField(
 fun QuackTextField(
     text: String,
     onTextChanged: (text: String) -> Unit,
-    placeholder: String
+    placeholder: String,
 ) {
     QuackBasicTextField(
         text = text,
@@ -198,16 +198,20 @@ private fun QuackBasicTextField(
     singleLine: Boolean = true,
     colors: QuackTextFieldColors = QuackTextFieldDefaults.textFieldColors(),
     shape: Shape = QuackTextFieldDefaults.TextFieldShape,
-    style: QuackTextStyle = QuackTextStyle.Body1
+    style: QuackTextStyle = QuackTextStyle.Body1,
 ) {
     BasicTextField(
-        modifier = Modifier.testTag("TextFieldTag"),
+        modifier = Modifier.testTag(
+            tag = "TextFieldTag"
+        ),
         value = text,
         onValueChange = onTextChanged,
         textStyle = style.toComposeStyle(
-            textAlign = TextAlign.Left
+            textAlign = TextAlign.Left,
         ),
-        cursorBrush = SolidColor(colors.cursorColor().value),
+        cursorBrush = SolidColor(
+            value = colors.cursorColor().value,
+        ),
         singleLine = singleLine,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
@@ -222,7 +226,7 @@ private fun QuackBasicTextField(
                         .clip(shape)
                         .bottomIndicatorLine(
                             QuackTextFieldDefaults.indicatorStroke(
-                                isError = isError
+                                isError = isError,
                             )
                         ),
                     contentAlignment = Alignment.CenterStart,
@@ -231,16 +235,24 @@ private fun QuackBasicTextField(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(margin),
+                            .padding(
+                                paddingValues = margin,
+                            ),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Row(
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier.weight(
+                                weight = 1f,
+                            ),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             icon?.run {
                                 this()
-                                Spacer(modifier = Modifier.width(iconSpacing))
+                                Spacer(
+                                    modifier = Modifier.width(
+                                        width = iconSpacing,
+                                    ),
+                                )
                             }
                             Box {
                                 if (text.isEmpty()) {
@@ -253,13 +265,21 @@ private fun QuackBasicTextField(
                             }
                         }
                         trailing?.run {
-                            Spacer(modifier = Modifier.width(iconSpacing))
+                            Spacer(
+                                modifier = Modifier.width(
+                                    iconSpacing,
+                                )
+                            )
                             this()
                         }
                     }
                 }
                 if (isError) {
-                    Spacer(modifier = Modifier.height(QuackTextFieldDefaults.errorTextSpacing))
+                    Spacer(
+                        modifier = Modifier.height(
+                            QuackTextFieldDefaults.errorTextSpacing,
+                        ),
+                    )
                     QuackBody1(
                         text = errorText,
                         color = QuackColor.OrangeRed,

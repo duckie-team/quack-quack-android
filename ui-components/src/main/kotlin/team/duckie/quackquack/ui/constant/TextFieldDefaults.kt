@@ -39,10 +39,14 @@ interface QuackTextFieldColors {
     fun cursorColor(): QuackColor
 
     @Composable
-    fun indicatorColor(isError: Boolean): QuackColor
+    fun indicatorColor(
+        isError: Boolean,
+    ): QuackColor
 
     @Composable
-    fun changeBackgroundColor(backgroundColor: QuackColor): QuackTextFieldColors
+    fun changeBackgroundColor(
+        backgroundColor: QuackColor,
+    ): QuackTextFieldColors
 }
 
 @Immutable
@@ -78,7 +82,7 @@ object QuackTextFieldDefaults {
         trailingIconColor: QuackColor = QuackColor.Greyish,
         cursorColor: QuackColor = QuackColor.DuckieOrange,
         indicatorColor: QuackColor = QuackColor.Unspecified,
-        errorIndicatorColor: QuackColor = QuackColor.OrangeRed
+        errorIndicatorColor: QuackColor = QuackColor.OrangeRed,
     ): QuackTextFieldColors =
         QuackDefaultTextFieldColors(
             textColor = textColor,
@@ -95,8 +99,13 @@ object QuackTextFieldDefaults {
         start: Dp = horizontalPadding,
         end: Dp = horizontalPadding,
         top: Dp = topPadding,
-        bottom: Dp = bottomPadding
-    ): PaddingValues = PaddingValues(start, top, end, bottom)
+        bottom: Dp = bottomPadding,
+    ): PaddingValues = PaddingValues(
+        start = start,
+        top = top,
+        end = end,
+        bottom = bottom,
+    )
 
     @Composable
     internal fun indicatorStroke(
@@ -147,7 +156,9 @@ private class QuackDefaultTextFieldColors(
     }
 
     @Composable
-    override fun changeBackgroundColor(backgroundColor: QuackColor): QuackTextFieldColors =
+    override fun changeBackgroundColor(
+        backgroundColor: QuackColor,
+    ): QuackTextFieldColors =
         QuackDefaultTextFieldColors(
             textColor = textColor,
             backgroundColor = backgroundColor,
