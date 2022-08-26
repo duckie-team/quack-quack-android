@@ -21,7 +21,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -44,11 +43,11 @@ private val QuackMainTabTextInnerPadding = 2.dp
 @Composable
 fun QuackMainTab(
     selectedTabIndex: Int,
-    tabTitleResources: List<Int>,
+    tabTitles: List<String>,
     onTabSelected: (index: Int) -> Unit,
 ) {
     val density = LocalDensity.current
-    val size = tabTitleResources.size
+    val size = tabTitles.size
     val underBarWidths = remember { mutableStateOf(Array(size) { 0.dp }) }
     val underBarStartPaddingPosition = remember { mutableStateOf(Array(size + 1) { 0.dp }) }.apply {
         value[0] = QuackTabHorizontalPadding
@@ -85,7 +84,7 @@ fun QuackMainTab(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .padding(MainTabPadding),
-                tabTitleResources = tabTitleResources,
+                tabTitles = tabTitles,
                 onTabSelected = onTabSelected,
                 selectedTabIndex = selectedTabIndex,
                 spacedBy = QuackMainTabSpacedBy + QuackMainTabTextInnerPadding * 2,
@@ -94,7 +93,7 @@ fun QuackMainTab(
                         underBarWidths.value[index] =
                             (intSize.width.toDp() + QuackMainTabTextInnerPadding * 2)
                         underBarStartPaddingPosition.value[index + 1] =
-                            underBarStartPaddingPosition.value[index] + underBarWidths.value[index] +  QuackMainTabSpacedBy
+                            underBarStartPaddingPosition.value[index] + underBarWidths.value[index] + QuackMainTabSpacedBy
                     }
                 }
             )
@@ -113,7 +112,7 @@ fun QuackMainTab(
 @Composable
 private fun QuackMainTabTextRow(
     modifier: Modifier,
-    tabTitleResources: List<Int>,
+    tabTitles: List<String>,
     onTabSelected: (index: Int) -> Unit,
     selectedTabIndex: Int,
     spacedBy: Dp = 0.dp,
@@ -124,8 +123,7 @@ private fun QuackMainTabTextRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(spacedBy)
     ) {
-        tabTitleResources.forEachIndexed { index, titleResource ->
-            val text = stringResource(titleResource)
+        tabTitles.forEachIndexed { index, title ->
             val textModifier = Modifier
                 .clickable {
                     onTabSelected(index)
@@ -134,9 +132,9 @@ private fun QuackMainTabTextRow(
                     onSizeChanged(it, index)
                 }
             if (index == selectedTabIndex) {
-                QuackTitle2(text = text, modifier = textModifier)
+                QuackTitle2(text = title, modifier = textModifier)
             } else {
-                QuackSubtitle(text = text, modifier = textModifier)
+                QuackSubtitle(text = title, modifier = textModifier)
             }
         }
     }
