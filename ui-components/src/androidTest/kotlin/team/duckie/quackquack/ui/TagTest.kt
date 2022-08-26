@@ -13,11 +13,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.test.assertLeftPositionInRootIsEqualTo
-import androidx.compose.ui.test.assertTopPositionInRootIsEqualTo
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
@@ -36,7 +33,7 @@ class TagTest {
     val composeTestRule = createComposeRule()
 
     /**
-     * TODO : Border, Padding 관련 테스트 코드 작성
+     * TODO : Border 관련 테스트 코드 작성
      */
     @Test
     fun `quack_bold_tag_test`() {
@@ -53,6 +50,7 @@ class TagTest {
         }
 
         composeTestRule.onNodeWithText(TEST_TAG)
+            .assertHasClickAction()
             .assertHorizontallyCenterInRoot()
             .assertVerticallyCenterInRoot()
             .assertLeftPositionInRootIsEqualTo(SimpleTagPadding.calculateLeftPadding(LayoutDirection.Ltr))
@@ -62,6 +60,7 @@ class TagTest {
             .assertTextColor(QuackColor.Black)
             .performClick()
             .assertTextColor(QuackColor.PumpkinOrange)
+            .assertBackgroundColor(QuackColor.White)
     }
     @Test
     fun `default_icon_tag_test`() {

@@ -11,6 +11,7 @@ package team.duckie.quackquack.ui
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PixelMap
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsNode
 import androidx.compose.ui.semantics.SemanticsProperties
@@ -22,11 +23,20 @@ import junit.framework.TestCase.assertEquals
 import team.duckie.quackquack.ui.color.QuackColor
 
 /**
- * For Background Color Test
+ * TODO : 좀 더 효율적인 Background Test 필요함
  */
-fun SemanticsNodeInteraction.assertBackgroundColor(expectedBackground: QuackColor) {
-    val capturedName = captureToImage().colorSpace.name
-    assertEquals(expectedBackground.value.colorSpace.name, capturedName)
+fun SemanticsNodeInteraction.assertBackgroundColor(tint: QuackColor): SemanticsNodeInteraction {
+    val imageBitmap = captureToImage()
+    val buffer = IntArray(imageBitmap.width * imageBitmap.height)
+    imageBitmap.readPixels(buffer, 0, 0, imageBitmap.width - 1, imageBitmap.height - 1)
+    val pixelColors = PixelMap(buffer, 0, 0, imageBitmap.width - 1, imageBitmap.height - 1)
+
+    (0 until imageBitmap.width).forEach { x ->
+        (0 until imageBitmap.height).forEach { y ->
+            if (pixelColors[x, y] == tint.value) return this
+        }
+    }
+    throw AssertionError("Assert failed: The component does not contain the color")
 }
 
 /**
