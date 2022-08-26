@@ -148,7 +148,7 @@ private fun getIconColor(isSelected: Boolean): QuackColor {
 
 @Preview
 @Composable
-fun QuackBoldTagPreview() {
+private fun QuackBoldTagPreview() {
     val text = "더키"
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -160,7 +160,7 @@ fun QuackBoldTagPreview() {
 
 @Preview
 @Composable
-fun QuackSimpleTagPreview() {
+private fun QuackSimpleTagPreview() {
     val text = "시간 약속을 잘 지켜요"
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -173,7 +173,7 @@ fun QuackSimpleTagPreview() {
 
 @Preview
 @Composable
-fun QuackIconTagPreview() {
+private fun QuackIconTagPreview() {
     val text = "더키"
     val icon = QuackIcon.Close
     Row(
