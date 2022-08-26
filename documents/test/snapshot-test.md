@@ -48,7 +48,11 @@ class Paparazzi {
 
 - PNG 로 repository 의 사이즈가 커지는 걸 방지하기 위함
 
-따라서 로컬에서 golden image 를 캡처해서 보관하는 식으로 진행해야 합니다.
+따라서 로컬에서 golden image 를 캡처해서 보관하는 식으로 진행해야 합니다. 또한 아래 font scale 은 필수로 테스트를 진행해야 합니다
+
+- x 0.5
+- x 1.5
+- x 2.0
 
 ### CI 에서의 스냅샷
 
@@ -141,5 +145,4 @@ class TextStyleVariant(value: ShowkaseBrowserTypography) {
     val name = value.typographyName
     override fun toString() = "typography"
 }
-
 ```
