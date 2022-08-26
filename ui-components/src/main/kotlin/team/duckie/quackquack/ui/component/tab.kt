@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -143,7 +144,7 @@ private fun QuackMainTabTextRow(
 @Composable
 fun QuackSubTab(
     selectedTabIndex: Int,
-    tabTitleResources: List<Int>,
+    tabTitles: List<String>,
     onTabSelected: (index: Int) -> Unit,
 ) {
     val density = LocalDensity.current
@@ -171,7 +172,7 @@ fun QuackSubTab(
         ) {
             QuackSubTabTextRow(
                 modifier = Modifier.align(Alignment.CenterStart),
-                tabTitleResources = tabTitleResources,
+                tabTitles = tabTitles,
                 onTabSelected = onTabSelected,
                 selectedTabIndex = selectedTabIndex
             )
@@ -190,7 +191,7 @@ fun QuackSubTab(
 @Composable
 private fun QuackSubTabTextRow(
     modifier: Modifier,
-    tabTitleResources: List<Int>,
+    tabTitles: List<String>,
     onTabSelected: (index: Int) -> Unit,
     selectedTabIndex: Int
 ) {
@@ -198,17 +199,16 @@ private fun QuackSubTabTextRow(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        tabTitleResources.forEachIndexed { index, titleResource ->
-            val text = stringResource(titleResource)
+        tabTitles.forEachIndexed { index, title ->
             val textModifier = Modifier
                 .width(QuackSubTabWidth)
                 .clickable {
                     onTabSelected(index)
                 }
             if (index == selectedTabIndex) {
-                QuackTitle2(text = text, modifier = textModifier)
+                QuackTitle2(text = title, modifier = textModifier)
             } else {
-                QuackSubtitle(text = text, modifier = textModifier)
+                QuackSubtitle(text = title, modifier = textModifier)
             }
         }
     }
