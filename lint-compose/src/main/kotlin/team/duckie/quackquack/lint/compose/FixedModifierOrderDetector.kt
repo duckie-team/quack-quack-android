@@ -78,12 +78,18 @@ class FixedModifierOrderDetector : Detector(), SourceCodeScanner {
         override fun visitMethod(node: UMethod) {
             if (!node.isComposable || !node.isReturnsUnit) return
 
+            // 함수 내에 Modifier 타입 파라미터가 존재하는지 확인
+            val modifierParameterExists = node.uastParameters.any { parameter ->
+                (parameter.sourcePsi as? KtParameter)?.typeReference?.text == "Modifier"
+            }
+
             val firstParameter =
                 node.uastParameters.firstOrNull()?.sourcePsi as? KtParameter ?: return
             val firstParameterType = firstParameter.typeReference ?: return
             val firstParameterTypeName = firstParameterType.text ?: return
 
-            if (!firstParameterTypeName.lowercase().contains("modifier")) {
+            // Modifier 타입 파라미터가 존재하는데, 첫 번쨰 인자 타입이 Modifier 가 아닌 경우 에러 발생
+            if (modifierParameterExists && firstParameterTypeName != "Modifier") {
                 return context.report(
                     issue = FixedModifierOrderIssue,
                     scope = firstParameterType,
