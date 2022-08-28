@@ -7,13 +7,17 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("UnstableApiUsage")
+@file:Suppress(
+    "UnstableApiUsage",
+    "DSL_SCOPE_VIOLATION",
+)
 
 plugins {
     id(PluginEnum.AndroidApplication)
     id(PluginEnum.AndroidApplicationCompose)
     id(PluginEnum.JvmKover)
     id(PluginEnum.JvmDokka)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -33,6 +37,13 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
 
+        sourceSets.getByName("debug") {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        sourceSets.getByName("release") {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+
         create("benchmark") {
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += listOf("release")
@@ -46,9 +57,14 @@ android {
 }
 
 dependencies {
-    implementations(projects.uiComponents)
+    implementations(
+        projects.common,
+        projects.uiComponents,
+        projects.lintCustomRuleAnnotation,
+    )
     customLints(
         projects.lintQuack,
         projects.lintCompose,
     )
+    ksp(projects.lintCustomRuleProcessor)
 }

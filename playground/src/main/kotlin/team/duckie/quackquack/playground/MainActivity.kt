@@ -16,6 +16,7 @@
 package team.duckie.quackquack.playground
 
 import androidx.activity.ComponentActivity
+import androidx.compose.runtime.Composable
 
 class MainActivity : ComponentActivity()
 
@@ -39,3 +40,11 @@ fun PreferredMutableCollection(
 ) {
     // stub!
 }*/
+
+@Composable
+fun PreferredMutableCollection(
+    mutableList: List<Any>,
+    immutableList: ImmutableListWrapper,
+) {
+    // stub!
+}
