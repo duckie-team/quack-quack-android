@@ -27,6 +27,7 @@ import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.uast.UMethod
 import team.duckie.quackquack.common.lint.compose.isComposable
 import team.duckie.quackquack.common.lint.compose.isReturnsUnit
+import team.duckie.quackquack.common.lint.isMutableCollection
 
 private const val BriefDescription = "MutableCollections 사용 감지됨"
 private const val Explanation = "Skippable 을 위해 ImmutableCollections 사용을 지향해야 합니다."
@@ -42,27 +43,6 @@ val PreferredImmutableCollectionsIssue = Issue.create(
         PreferredImmutableCollectionsDetector::class.java,
         Scope.JAVA_FILE_SCOPE
     )
-)
-
-/**
- * MutableCollections 접미사
- *
- * kotlin.collection 패키지에 있는 Collections 들 입니다.
- */
-private val CollectionNames = listOf(
-    "List",
-    "Map",
-    "Set",
-)
-
-/**
- * ImmutableCollections 접두사
- *
- * kotlinx.collections 패키지에 있는 Collections 들 입니다.
- */
-private val ImmutableNames = listOf(
-    "Immutable",
-    "Persistent",
 )
 
 /**
@@ -105,14 +85,7 @@ class PreferredImmutableCollectionsDetector : Detector(), SourceCodeScanner {
             for (parameter in node.uastParameters) {
                 val ktParameter = parameter.sourcePsi as? KtParameter ?: continue
                 val parameterType = ktParameter.typeReference ?: continue
-                val parameterTypeName = parameterType.text
-                val isCollection = CollectionNames.any { collectionName ->
-                    parameterTypeName.contains(collectionName)
-                }
-                val isImmutable = ImmutableNames.any { immutableName ->
-                    parameterTypeName.contains(immutableName)
-                }
-                if (isCollection && !isImmutable) {
+                if (parameterType.isMutableCollection) {
                     context.report(
                         issue = PreferredImmutableCollectionsIssue,
                         scope = parameterType,

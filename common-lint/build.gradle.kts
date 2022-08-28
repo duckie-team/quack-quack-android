@@ -13,3 +13,7 @@ plugins {
     id(PluginEnum.JvmKover)
     id(PluginEnum.JvmDokka)
 }
+
+dependencies {
+    implementation(libs.kotlin.stdlib)
+}
