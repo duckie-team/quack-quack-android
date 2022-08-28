@@ -28,9 +28,10 @@ import org.jetbrains.uast.UMethod
 import team.duckie.quackquack.common.lint.compose.isComposable
 import team.duckie.quackquack.common.lint.compose.isReturnsUnit
 
-private const val BriefDescription = "Modifier 인자를 첫 번째 위치 고정해야 함"
-private const val Explanation =
-    "Modifier 은 컴포저블의 필수 인자이므로, 매개변수 첫 번째 위치에 고정하여 도메인적 의미를 강조해야 합니다.\n(가장 많이 찾는 인자가 될 가능성이 높으니 첫 번째로 위치 고정을 함으로써 그 의미를 강화합니다.)"
+private const val BriefDescription = "Modifier 인자를 첫 번째 위치로 고정해야 함"
+private const val Explanation = "Modifier 은 컴포저블의 필수 인자이므로, " +
+        "매개변수 첫 번째 위치에 고정하여 도메인적 의미를 강조해야 합니다.\n" +
+        "(가장 많이 찾는 인자가 될 가능성이 높으니 첫 번째로 위치 고정을 함으로써 그 의미를 강화합니다.)"
 
 val FixedModifierOrderIssue = Issue.create(
     id = "FixedModifierOrder",
@@ -55,7 +56,7 @@ val FixedModifierOrderIssue = Issue.create(
  *
  * 다음과 같은 조건에서 린트 에러가 발생합니다.
  *
- * 1. 컴포저블 함수에서 1번째 인자가 Modifier 타입 변수가 아닐 경우 (Modifier 타입 변수가 인자로 없는 경우는 고려하지 않음)
+ * 1. 컴포저블 함수에서 첫 번째 인자가 Modifier 타입 변수가 아닐 경우 (Modifier 타입 변수가 인자로 없는 경우는 고려하지 않음)
  *
  * 현재 이 규칙은 인자 타입의 이름만을 이용하여 검사하도록 구현됐습니다.
  * 따라서 아래와 같이 첫 번째 인자의 타입 네임을 체크하여
