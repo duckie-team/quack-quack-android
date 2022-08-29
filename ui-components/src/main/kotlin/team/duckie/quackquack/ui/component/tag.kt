@@ -154,7 +154,7 @@ private fun QuackBoldTagPreview() {
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         QuackBoldTag(isSelected = false, text = text, onClick = {})
-        QuackBoldTag(isSelected = true, text = "더키", onClick = {})
+        QuackBoldTag(isSelected = true, text = text, onClick = {})
     }
 }
 
