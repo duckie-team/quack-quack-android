@@ -153,8 +153,8 @@ private fun QuackBoldTagPreview() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        QuackBoldTag(isSelected = false, text = text) {}
-        QuackBoldTag(isSelected = true, text = "더키") {}
+        QuackBoldTag(isSelected = false, text = text, onClick = {})
+        QuackBoldTag(isSelected = true, text = "더키", onClick = {})
     }
 }
 
@@ -165,8 +165,8 @@ private fun QuackSimpleTagPreview() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        QuackSimpleTag(isSelected = false, text = text, {})
-        QuackSimpleTag(isSelected = true, text = text, {})
+        QuackSimpleTag(isSelected = false, text = text, onClick = {})
+        QuackSimpleTag(isSelected = true, text = text, onClick = {})
     }
 }
 
@@ -179,7 +179,7 @@ private fun QuackIconTagPreview() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        QuackIconTag(isSelected = false, text = text, icon = icon, {}, {})
-        QuackIconTag(isSelected = true, text = text, icon = icon, {}, {})
+        QuackIconTag(isSelected = false, text = text, icon = icon, onClickTag = {}, onClickIcon = {})
+        QuackIconTag(isSelected = true, text = text, icon = icon, onClickTag = {}, onClickIcon = {})
     }
 }
