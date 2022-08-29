@@ -151,7 +151,7 @@ private fun getIconColor(isSelected: Boolean): QuackColor {
 private fun QuackBoldTagPreview() {
     val text = "더키"
     Row(
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         QuackBoldTag(isSelected = false, text = text) {}
         QuackBoldTag(isSelected = true, text = "더키") {}
@@ -163,7 +163,7 @@ private fun QuackBoldTagPreview() {
 private fun QuackSimpleTagPreview() {
     val text = "시간 약속을 잘 지켜요"
     Row(
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         QuackSimpleTag(isSelected = false, text = text, {})
         QuackSimpleTag(isSelected = true, text = text, {})
@@ -177,7 +177,7 @@ private fun QuackIconTagPreview() {
     val text = "더키"
     val icon = QuackIcon.Close
     Row(
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         QuackIconTag(isSelected = false, text = text, icon = icon, {}, {})
         QuackIconTag(isSelected = true, text = text, icon = icon, {}, {})

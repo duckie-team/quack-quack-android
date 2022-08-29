@@ -24,6 +24,6 @@ internal fun QuackText(
     BasicText(
         modifier = modifier,
         text = text,
-        style = style.toComposeStyle()
+        style = style.toComposeStyle(),
     )
 }

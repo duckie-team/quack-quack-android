@@ -33,7 +33,7 @@ internal val IconTagPadding = PaddingValues(
 )
 @Stable
 internal val MainTabPadding = PaddingValues(
-    horizontal = 18.dp
+    horizontal = 18.dp,
 )
 @Stable
 internal val SubTabPadding = PaddingValues(

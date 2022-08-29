@@ -56,12 +56,12 @@ fun QuackMainTab(
 
     val underBarStartPadding: Dp by animateDpAsState(
         targetValue = underBarStartPaddingPosition.value[selectedTabIndex],
-        animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing)
+        animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing),
     )
 
     val underBarWidth: Dp by animateDpAsState(
         targetValue = underBarWidths.value[selectedTabIndex],
-        animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing)
+        animationSpec = tween(durationMillis = 100, easing = LinearOutSlowInEasing),
     )
 
 
@@ -116,7 +116,7 @@ private fun QuackMainTabTextRow(
     onTabSelected: (index: Int) -> Unit,
     selectedTabIndex: Int,
     spacedBy: Dp = 0.dp,
-    onSizeChanged: (IntSize, Int) -> Unit = { _: IntSize, _: Int -> }
+    onSizeChanged: (IntSize, Int) -> Unit = { _: IntSize, _: Int -> },
 ) {
     Row(
         modifier = modifier,
@@ -192,7 +192,7 @@ private fun QuackSubTabTextRow(
     modifier: Modifier,
     tabTitles: List<String>,
     onTabSelected: (index: Int) -> Unit,
-    selectedTabIndex: Int
+    selectedTabIndex: Int,
 ) {
     Row(
         modifier = modifier,
@@ -215,7 +215,7 @@ private fun QuackSubTabTextRow(
 
 @Composable
 private fun QuackUnderDivider(
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     Box(
         modifier = modifier

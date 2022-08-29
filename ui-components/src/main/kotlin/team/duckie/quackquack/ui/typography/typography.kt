@@ -18,12 +18,12 @@ import team.duckie.quackquack.ui.component.QuackText
 fun QuackHeadLine1(
     modifier: Modifier = Modifier,
     text: String,
-    color: QuackColor = QuackColor.Black
+    color: QuackColor = QuackColor.Black,
 ) {
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.HeadLine1.changeColor(color)
+        style = QuackTextStyle.HeadLine1.changeColor(color),
     )
 }
 
@@ -31,12 +31,12 @@ fun QuackHeadLine1(
 fun QuackHeadLine2(
     modifier: Modifier = Modifier,
     text: String,
-    color: QuackColor = QuackColor.Black
+    color: QuackColor = QuackColor.Black,
 ) {
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.HeadLine2.changeColor(color)
+        style = QuackTextStyle.HeadLine2.changeColor(color),
     )
 }
 
@@ -44,12 +44,12 @@ fun QuackHeadLine2(
 fun QuackTitle1(
     modifier: Modifier = Modifier,
     text: String,
-    color: QuackColor = QuackColor.Black
+    color: QuackColor = QuackColor.Black,
 ) {
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.Title1.changeColor(color)
+        style = QuackTextStyle.Title1.changeColor(color),
     )
 }
 
@@ -57,12 +57,12 @@ fun QuackTitle1(
 fun QuackTitle2(
     modifier: Modifier = Modifier,
     text: String,
-    color: QuackColor = QuackColor.Black
+    color: QuackColor = QuackColor.Black,
 ) {
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.Title2.changeColor(color)
+        style = QuackTextStyle.Title2.changeColor(color),
     )
 }
 
@@ -70,12 +70,12 @@ fun QuackTitle2(
 fun QuackSubtitle(
     modifier: Modifier = Modifier,
     text: String,
-    color: QuackColor = QuackColor.Black
+    color: QuackColor = QuackColor.Black,
 ) {
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.Subtitle.changeColor(color)
+        style = QuackTextStyle.Subtitle.changeColor(color),
     )
 }
 
@@ -83,12 +83,12 @@ fun QuackSubtitle(
 fun QuackBody1(
     modifier: Modifier = Modifier,
     text: String,
-    color: QuackColor = QuackColor.Black
+    color: QuackColor = QuackColor.Black,
 ) {
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.Body1.changeColor(color)
+        style = QuackTextStyle.Body1.changeColor(color),
     )
 }
 
@@ -96,12 +96,12 @@ fun QuackBody1(
 fun QuackBody2(
     modifier: Modifier = Modifier,
     text: String,
-    color: QuackColor = QuackColor.Black
+    color: QuackColor = QuackColor.Black,
 ) {
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.Body2.changeColor(color)
+        style = QuackTextStyle.Body2.changeColor(color),
     )
 }
 
@@ -109,11 +109,11 @@ fun QuackBody2(
 fun QuackBody3(
     modifier: Modifier = Modifier,
     text: String,
-    color: QuackColor = QuackColor.Black
+    color: QuackColor = QuackColor.Black,
 ) {
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.Body3.changeColor(color)
+        style = QuackTextStyle.Body3.changeColor(color),
     )
 }
