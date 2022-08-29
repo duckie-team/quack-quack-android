@@ -64,8 +64,8 @@ val FixedModifierOrderIssue = Issue.create(
  *
  * ```
  * @Composable
- * fun MyComposable(params: not Modifier, modifier: Modifier) {}
- * //                       ~~~~~~~~~~~~ <- 첫 번째 인자 타입이 Modifier 가 아님
+ * fun MyComposable(wrapperModifier: WrapperModifier, modifier: Modifier) {}
+ * //                                ~~~~~~~~~~~~~~~ <- 첫 번째 인자 타입이 Modifier 가 아님
  * // 첫 번째 인자 타입이 Modifier 가 아님을 인지하고 린트 에러가 발생함
  * ```
  *
