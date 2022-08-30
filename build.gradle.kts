@@ -13,6 +13,9 @@ import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.TimeZone
 
 plugins {
     alias(libs.plugins.detekt)
@@ -175,6 +178,78 @@ tasks.register("configurationTestCoverageHtmlReport") {
     readme.createNewFile()
 }
 
+@Suppress("EXPERIMENTAL_FEATURE_WARNING")
+inline class SnapshotName(val name: String) {
+    // team.duckie.quackquack.ui_Toggle_QuackToggle[1.color,2.typography]_[color:orange]-[textstyle:small].png
+    // [테스트 폴더 패키지명]_[테스트 클래스명]_[테스트 함수명][ParameterizedTest label]_[Paparazzi#snapshot 의 name 인자]
+
+    fun packageName() = name.split("_").first()
+    fun className() = name.split("_")[1]
+    fun functionName() = name.split("_")[2].split("[").first()
+    fun parameterizedValues() = name.split("_").last().removeSuffix(".png").replace(":", ": ")
+}
+
+fun List<SnapshotName>.createSnapshotListToMdContent() = joinToString("\n\n") { snapshot ->
+    try {
+        val snapshotPath = snapshot.name.replace(" ", "%20")
+        // original: [color: orange]-[textstyle: small]
+        // [transformed]
+        // - color: orange
+        // - textstyle: small
+        val snapshotParameterizedValues = snapshot.parameterizedValues()
+            .split("-")
+            .joinToString("\n") { value ->
+                value.replace("[", "- ").replace("]", "")
+            }
+        val snapshotMdContent = """
+        |<a href="$snapshotPath"><img src="$snapshotPath" width="50%"/></a>
+
+        |$snapshotParameterizedValues
+        """.trimMargin()
+        snapshotMdContent
+    } catch (ignored: IndexOutOfBoundsException) {
+        "스냅샷 파싱에 실패했습니다.\n\n${snapshot.name}"
+    }
+}
+
+fun Map.Entry<String, List<SnapshotName>>.toSnapshotFunctionNameWithSnapshotListMdContent(): Pair<String, String> {
+    val (className, _snapshots) = this
+    val snapshotFunctionNameParsingFailureMessage = "스냅샷 함수명 파싱에 실패했습니다."
+    val snapshotFunctionNameWithSnapshotsMdContent = _snapshots.groupBy { snapshot ->
+        try {
+            snapshot.functionName()
+        } catch (ignored: IndexOutOfBoundsException) {
+            "$snapshotFunctionNameParsingFailureMessage\n\n${snapshot.name}"
+        }
+    }.map { (snapshotFunctionName, snapshots) ->
+        if (snapshotFunctionName.contains(snapshotFunctionNameParsingFailureMessage)) {
+            snapshotFunctionName
+        } else {
+            """
+            |### $snapshotFunctionName
+
+            |${snapshots.createSnapshotListToMdContent()}
+            """.trimMargin()
+        }
+    }.joinToString("\n\n")
+    return className to snapshotFunctionNameWithSnapshotsMdContent
+}
+
+fun getCreatedDate(): String {
+    val formatter = SimpleDateFormat("yyyy.MM.dd HH:mm:ss 에 생성됨").apply {
+        timeZone = TimeZone.getTimeZone("Asia/Seoul")
+    }
+    return formatter.format(Date())
+}
+
+/**
+ * 스냅샷 이미지 HTML 리포트 생성 규칙
+ *
+ * - README.md 에는 클래스명만 리스트업
+ * - 테스트 클래스명으로 개별 MD 파일 생성
+ * - 개별 테스트 클래스명 파일 안에 테스트 함수명으로 개별 이미지 세션 추가
+ * - 개별 이미지 세션에 함수명과 ParameterizedValues 를 label 로 기재
+ */
 tasks.register("configurationUiComponentsSnapshotDeploy") {
     val rootFolderPath = "$rootDir/ui-components/src/test/snapshots/images"
     val rootFolder = File(rootFolderPath)
@@ -183,18 +258,52 @@ tasks.register("configurationUiComponentsSnapshotDeploy") {
     }
 
     val cname = File("$rootFolderPath/CNAME")
+    val config = File("$rootFolderPath/_config.yml")
     val readme = File("$rootFolderPath/README.md")
-    val snapshots = rootFolder.list() ?: emptyArray()
-    val snapshotsReadme = snapshots.mapNotNull { snapshotName ->
-        val snapshotShortName = snapshotName.substringAfterLast("_").replace(" ", "_")
-        val snapshotPath = snapshotName.replace(" ", "%20")
-        "- [$snapshotShortName](https://quack-ui.duckie.team/$snapshotPath)".takeIf {
-            snapshotName.endsWith("png")
+
+    val snapshots = (rootFolder.list() ?: emptyArray()).filter { file ->
+        file.endsWith("png")
+    }.sortedDescending().map(::SnapshotName)
+
+    val snapshotClassNameMapWithSnapshotsMdContents = snapshots.groupBy { snapshot ->
+        snapshot.className()
+    }.map { snapshotClassNameWithSnapshots ->
+        snapshotClassNameWithSnapshots.toSnapshotFunctionNameWithSnapshotListMdContent()
+    }
+
+    val snapshotTypesMdContent = snapshotClassNameMapWithSnapshotsMdContents.joinToString(
+        separator = "\n",
+        prefix = "# Duckie Quack-Quack UI 스냅샷\n\n",
+        postfix = "\n\n#### ${getCreatedDate()}",
+    ) { snapshotClassNameWithSnapshots ->
+        val snapshotClassName = snapshotClassNameWithSnapshots.first
+        "- [$snapshotClassName]($snapshotClassName.md)"
+    }
+
+    snapshotClassNameMapWithSnapshotsMdContents.forEach { (className, snapshotsMdContent) ->
+        File("$rootFolderPath/$className.md").run {
+            writeText(
+                """
+                |# $className
+
+                |$snapshotsMdContent
+
+                |#### [🏠](README.md)
+                """.trimMargin()
+            )
+            createNewFile()
         }
     }
 
     cname.writeText("quack-ui.duckie.team")
-    readme.writeText(snapshotsReadme.joinToString("\n"))
+    config.writeText(
+        """
+        |name: Quack-Quack UI Snapshots
+        |title: null
+        """.trimMargin()
+    )
+    readme.writeText(snapshotTypesMdContent)
+
     cname.createNewFile()
     readme.createNewFile()
 }

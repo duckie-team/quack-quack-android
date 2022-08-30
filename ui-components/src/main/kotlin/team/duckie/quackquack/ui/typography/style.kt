@@ -55,7 +55,7 @@ class QuackTextStyle private constructor(
             size = 20.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.01).sp,
-            lineHeight = 26.sp
+            lineHeight = 26.sp,
         )
 
         @Stable
@@ -63,7 +63,7 @@ class QuackTextStyle private constructor(
             size = 16.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.01).sp,
-            lineHeight = 22.sp
+            lineHeight = 22.sp,
         )
 
         @Stable
@@ -71,7 +71,7 @@ class QuackTextStyle private constructor(
             size = 16.sp,
             weight = FontWeight.Normal,
             letterSpacing = (-0.01).sp,
-            lineHeight = 22.sp
+            lineHeight = 22.sp,
         )
 
         @Stable

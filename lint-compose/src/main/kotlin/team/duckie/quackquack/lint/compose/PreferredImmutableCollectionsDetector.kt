@@ -45,27 +45,6 @@ val PreferredImmutableCollectionsIssue = Issue.create(
 )
 
 /**
- * MutableCollections 접미사
- *
- * kotlin.collection 패키지에 있는 Collections 들 입니다.
- */
-private val CollectionNames = listOf(
-    "List",
-    "Map",
-    "Set",
-)
-
-/**
- * ImmutableCollections 접두사
- *
- * kotlinx.collections 패키지에 있는 Collections 들 입니다.
- */
-private val ImmutableNames = listOf(
-    "Immutable",
-    "Persistent",
-)
-
-/**
  * QuackQuack 린트의 PreferredImmutableCollections 규칙을 구현합니다.
  *
  * 다음과 같은 조건에서 린트 검사를 진행합니다.
@@ -95,6 +74,30 @@ private val ImmutableNames = listOf(
  *
  * 인자 타입의 패키지를 이용하여 검사하는 것으로 구현이 개선돼야 합니다.
  */
+
+// TODO: [#73](https://github.com/sungbinland/duckie-quack-quack/pull/73)
+
+/**
+ * MutableCollections 접미사
+ *
+ * kotlin.collection 패키지에 있는 Collections 들 입니다.
+ */
+private val CollectionNames = listOf(
+    "List",
+    "Map",
+    "Set",
+)
+
+/**
+ * ImmutableCollections 접두사
+ *
+ * kotlinx.collections 패키지에 있는 Collections 들 입니다.
+ */
+private val ImmutableNames = listOf(
+    "Immutable",
+    "Persistent",
+)
+
 class PreferredImmutableCollectionsDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes() = listOf(UMethod::class.java)
 

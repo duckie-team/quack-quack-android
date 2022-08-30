@@ -39,3 +39,13 @@ fun PreferredMutableCollection(
 ) {
     // stub!
 }*/
+
+/*
+@Composable
+fun PreferredMutableCollection(
+    mutableList: List<Any>,
+    immutableList: ImmutableListWrapper,
+) {
+    // stub!
+}
+*/

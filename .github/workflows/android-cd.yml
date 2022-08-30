@@ -6,7 +6,7 @@ on:
 
 jobs:
   android-deploy:
-    if: ${{ github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+    if: ${{ github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'release') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
 
     runs-on: ubuntu-latest
 
