@@ -37,7 +37,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
@@ -325,24 +324,6 @@ private fun QuackSelectedTabUnderBar(
             .height(height = QuackTabUnderBarHeight)
             .background(color = color.value)
             .offset(offsetProvider)
-    )
-}
-
-@Preview(backgroundColor = 0xFFFFFFFF)
-@Composable
-private fun QuackMainTabPreview() {
-    var selectedMainTabIndex by remember { mutableStateOf(0) }
-
-    QuackMainTab(
-        selectedTabIndex = selectedMainTabIndex,
-        titles = listOf(
-            "판매중",
-            "거래완료",
-            "숨김",
-        ),
-        onTabSelected = { tabIndex ->
-            selectedMainTabIndex = tabIndex
-        }
     )
 }
 
