@@ -1,7 +1,7 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [padding.kt] created by Ji Sungbin on 22. 8. 15. 오전 12:06
+ * [padding.kt] created by Ji Sungbin on 22. 8. 31. 오전 5:36
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
@@ -13,29 +13,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.unit.dp
 
+/**
+ * 패딩이 없는 상태를 도메인적으로 나타내기 위해 사용됩니다.
+ */
 @Stable
 internal val NoPadding = PaddingValues(
     all = 0.dp,
-)
-
-@Stable
-internal val SimpleTagPadding = PaddingValues(
-    horizontal = 12.dp,
-    vertical = 8.dp,
-)
-
-@Stable
-internal val IconTagPadding = PaddingValues(
-    start = 16.dp,
-    end = 10.dp,
-    top = 8.dp,
-    bottom = 8.dp,
-)
-@Stable
-internal val MainTabPadding = PaddingValues(
-    horizontal = 18.dp,
-)
-@Stable
-internal val SubTabPadding = PaddingValues(
-    horizontal = 16.dp,
 )
