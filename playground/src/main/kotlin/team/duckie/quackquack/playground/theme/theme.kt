@@ -15,7 +15,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
-private val LightColors = lightColorScheme(
+private val PlaygroundLightColors = lightColorScheme(
     primary = md_theme_light_primary,
     onPrimary = md_theme_light_onPrimary,
     primaryContainer = md_theme_light_primaryContainer,
@@ -45,7 +45,7 @@ private val LightColors = lightColorScheme(
     surfaceTint = md_theme_light_surfaceTint,
 )
 
-private val DarkColors = darkColorScheme(
+private val PlaygroundDarkColors = darkColorScheme(
     primary = md_theme_dark_primary,
     onPrimary = md_theme_dark_onPrimary,
     primaryContainer = md_theme_dark_primaryContainer,
@@ -80,13 +80,14 @@ fun PlaygroundTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = when (!useDarkTheme) {
-        true -> LightColors
-        else -> DarkColors
+    val colorScheme = when (!useDarkTheme) {
+        true -> PlaygroundLightColors
+        else -> PlaygroundDarkColors
     }
 
     MaterialTheme(
-        colorScheme = colors,
+        colorScheme = colorScheme,
+        typography = PlaygroundTypography,
         content = content,
     )
 }
