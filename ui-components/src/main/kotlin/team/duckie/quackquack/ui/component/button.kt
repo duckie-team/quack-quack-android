@@ -54,7 +54,7 @@ fun QuackLargeButton(
         },
         radius = 8.dp,
         text = text,
-        textStyle = QuackTextStyle.M1420.changeColor(
+        textStyle = QuackTextStyle.Subtitle.changeColor(
             newColor = QuackColor.White,
         ),
         onClick = onClick
@@ -74,7 +74,7 @@ internal fun QuackBasicButton(
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor = QuackColor.Unspecified,
     text: String,
-    textStyle: QuackTextStyle = QuackTextStyle.M1420,
+    textStyle: QuackTextStyle = QuackTextStyle.Subtitle,
     textPadding: PaddingValues = NoPadding,
     onClick: () -> Unit,
 ) {
