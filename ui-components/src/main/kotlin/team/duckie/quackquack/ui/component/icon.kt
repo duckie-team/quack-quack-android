@@ -11,41 +11,25 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import team.duckie.quackquack.ui.R
 import team.duckie.quackquack.ui.color.QuackColor
-
-@Immutable
-@JvmInline
-value class QuackIcon private constructor(
-    val value: Int,
-) {
-    companion object {
-        @Stable
-        val Close = QuackIcon(
-            value = R.drawable.ic_close_24
-        )
-    }
-
-}
+import team.duckie.quackquack.ui.icon.QuackIcon
+import team.duckie.quackquack.ui.modifier.quackClickable
 
 @Composable
-internal fun QuackSimpleIconImage(
-    modifier: Modifier = Modifier,
+internal fun QuackSimpleIcon(
+    onClick: () -> Unit = {},
     icon: QuackIcon,
-    color: QuackColor = QuackColor.Black,
-    contentDescription: String,
+    tint: QuackColor = QuackColor.Black,
 ) {
     Image(
-        modifier = modifier,
-        painter = painterResource(icon.value),
-        contentDescription = contentDescription,
-        colorFilter = ColorFilter.tint(color.value),
+        modifier = Modifier.quackClickable(
+            onClick = onClick,
+        ),
+        painter = painterResource(icon.drawableId),
+        contentDescription = null,
+        colorFilter = ColorFilter.tint(tint.value),
     )
-
 }
