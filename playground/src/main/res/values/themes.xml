@@ -9,5 +9,5 @@
 
 <resources>
 
-    <style name="Theme.Quackquack" parent="android:Theme.Holo.Light" />
+    <style name="Theme.Quackquack" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
