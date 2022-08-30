@@ -11,7 +11,6 @@
 
 package team.duckie.quackquack.ui.component
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,8 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.common.runIf
-import team.duckie.quackquack.ui.animation.quackTween
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.constant.NoPadding
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
@@ -50,7 +49,7 @@ fun QuackLargeButton(
         imeAnimation = imeAnimation,
         backgroundColor = when (enabled) {
             true -> QuackColor.DuckieOrange
-            else -> QuackColor.Greyish
+            else -> QuackColor.Gray2
         },
         radius = 8.dp,
         text = text,
@@ -78,9 +77,8 @@ internal fun QuackBasicButton(
     textPadding: PaddingValues = NoPadding,
     onClick: () -> Unit,
 ) {
-    val animatedBackgroundColor by animateColorAsState(
-        targetValue = backgroundColor.value,
-        animationSpec = quackTween(),
+    val animatedBackgroundColor by animateQuackColorAsState(
+        targetValue = backgroundColor,
     )
 
     QuackSurface(
@@ -103,7 +101,7 @@ internal fun QuackBasicButton(
         ),
         backgroundColor = animatedBackgroundColor,
         rippleEnabled = rippleEnabled,
-        rippleColor = rippleColor.value,
+        rippleColor = rippleColor,
         onClick = onClick,
     ) {
         Row(
