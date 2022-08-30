@@ -9,56 +9,44 @@
 
 package team.duckie.quackquack.lint.custom.rule.processor
 
-import com.google.devtools.ksp.processing.CodeGenerator
-import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import java.io.File
 import java.io.IOException
-import java.io.OutputStreamWriter
 import team.duckie.quackquack.lint.custom.rule.annotation.NewCollection
 import team.duckie.quackquack.lint.custom.rule.annotation.NewImmutableCollection
 import team.duckie.quackquack.lint.custom.rule.annotation.NewModifier
 
-@Suppress("SameParameterValue")
 private fun createCustomRuleFile(
     ruleName: String,
     allowList: Set<String>,
     logger: KSPLogger,
-    codeGenerator: CodeGenerator,
+    rootPath: String,
 ) {
     logger.warn("Creating custom rule file for $ruleName")
-    try {
-        val fileName = "Custom_$ruleName"
-        val allowListByString = allowList.joinToString { allow -> "\"$allow\"" }
-        val file = codeGenerator.createNewFile(
-            dependencies = Dependencies(aggregating = false),
-            packageName = "team.duckie.quackquack.lint.custom.rule",
-            fileName = fileName,
-        )
-        OutputStreamWriter(file, "UTF-8").use { stream ->
-            stream.write(
-                """
-                package team.duckie.quackquack.lint.custom.rule
-
-                class $fileName {
-                    val allowList = listOf<String>($allowListByString)
-                }
-                """.trimIndent()
-            )
+    val fileName = "Custom_$ruleName.txt"
+    val allowListByString = allowList.joinToString("\n")
+    val file = File("$rootPath/quack-lint-custom-rule", fileName).also { file ->
+        if (!file.exists()) {
+            file.parentFile.mkdirs()
         }
+    }
+    try {
+        file.writeText(allowListByString)
+        file.createNewFile()
     } catch (exception: IOException) {
         logger.error("Failed to create custom rule file for $ruleName. exception message: ${exception.message}")
     } finally {
-        logger.warn("Finished creating custom rule file for $ruleName")
+        logger.warn("Finished creating custom rule file for $ruleName at ${file.absolutePath}")
     }
 }
 
 class CustomRuleProcessor(
     private val logger: KSPLogger,
-    private val codeGenerator: CodeGenerator,
+    private val options: Map<String, String>,
 ) : SymbolProcessor {
     private val newModifiers = mutableSetOf<String>()
     private val newCollections = mutableSetOf<String>()
@@ -94,7 +82,8 @@ class CustomRuleProcessor(
                 ruleName = ruleName,
                 allowList = allowList,
                 logger = logger,
-                codeGenerator = codeGenerator
+                rootPath = options["path"]
+                    ?: throw IllegalStateException("project path is not defined")
             )
         }
     }

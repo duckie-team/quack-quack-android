@@ -18,3 +18,4 @@ keystore
 /report
 /ui-components/src/test/snapshots
 /ui-components/out/
+/lint-compose/quack-lint-custom-rule

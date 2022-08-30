@@ -9,58 +9,41 @@
 
 package team.duckie.quackquack.common.lint
 
+import java.io.File
+import java.io.IOException
+import java.nio.file.Paths
+import kotlin.io.path.absolutePathString
+
 internal object CustomRule {
+    private val rootPath = Paths.get("").absolutePathString()
+    private val defaultPath = "$rootPath/quack-lint-custom-rule"
+
     @Suppress("UNCHECKED_CAST")
     private fun getAllowList(
-        customRuleClass: Class<*>,
-        customRule: Any,
-    ): List<String> {
-        val getAllowList = customRuleClass.getDeclaredMethod("getAllowList")
-        return getAllowList(customRule) as List<String>
-    }
+        ruleName: String,
+    ) = File(defaultPath, "Custom_$ruleName.txt").also { println(it.absolutePath) }.readText().split("\n")
 
     val Modifier = try {
-        val customRuleClass =
-            Class.forName("team.duckie.quackquack.lint.custom.rule.Custom_Modifier")
-        val customRule = customRuleClass.getDeclaredConstructor().newInstance()
-        getAllowList(
-            customRuleClass = customRuleClass,
-            customRule = customRule,
-        ).also { allowModifiers ->
-            println("사용자 추가 Modifier: ${allowModifiers.joinToString()}")
-        }
-    } catch (ignored: ClassNotFoundException) {
+        getAllowList("Modifier")
+    } catch (ignored: IOException) {
         println("사용자 추가 Modifier 를 찾지 못했습니다. 기본값을 그대로 사용합니다.")
         emptyList()
     }
 
     val Collection = try {
-        val customRuleClass =
-            Class.forName("team.duckie.quackquack.lint.custom.rule.Custom_Collection")
-        val customRule = customRuleClass.getDeclaredConstructor().newInstance()
-        getAllowList(
-            customRuleClass = customRuleClass,
-            customRule = customRule,
-        ).also { allowCollections ->
-            println("사용자 추가 Collection: ${allowCollections.joinToString()}")
-        }
-    } catch (ignored: ClassNotFoundException) {
+        getAllowList("Collection")
+    } catch (ignored: IOException) {
         println("사용자 추가 MutableCollection 을 찾지 못했습니다. 기본값을 그대로 사용합니다.")
         emptyList()
     }
 
     val ImmutableCollection = try {
-        val customRuleClass =
-            Class.forName("team.duckie.quackquack.lint.custom.rule.Custom_ImmutableCollection")
-        val customRule = customRuleClass.getDeclaredConstructor().newInstance()
-        getAllowList(
-            customRuleClass = customRuleClass,
-            customRule = customRule,
-        ).also { allowImmutableCollections ->
-            println("사용자 추가 ImmutableCollection: ${allowImmutableCollections.joinToString()}")
+        getAllowList("ImmutableCollection").also {
+            println("사용자 추가 ImmutableListWrapper: $it")
         }
-    } catch (ignored: ClassNotFoundException) {
+    } catch (ignored: IOException) {
         println("사용자 추가 ImmutableCollection 을 찾지 못했습니다. 기본값을 그대로 사용합니다.")
+        println(ignored.message)
         emptyList()
     }
 }

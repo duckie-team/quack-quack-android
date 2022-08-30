@@ -15,6 +15,6 @@ import com.google.devtools.ksp.processing.SymbolProcessorProvider
 class CustomRuleProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment) = CustomRuleProcessor(
         logger = environment.logger,
-        codeGenerator = environment.codeGenerator,
+        options = environment.options,
     )
 }

@@ -54,6 +54,10 @@ android {
     lint {
         disable.add("NotificationPermission")
     }
+
+    ksp {
+        arg("path", "/Users/jisungbin/AndroidStudioProjects/duckie-quack-quack/lint-compose")
+    }
 }
 
 dependencies {
