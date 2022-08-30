@@ -17,7 +17,7 @@ plugins {
     id(PluginEnum.AndroidApplicationCompose)
     id(PluginEnum.JvmKover)
     id(PluginEnum.JvmDokka)
-    alias(libs.plugins.ksp)
+    // alias(libs.plugins.ksp)
 }
 
 android {
@@ -55,9 +55,9 @@ android {
         disable.add("NotificationPermission")
     }
 
-    ksp {
+    /*ksp {
         arg("path", "/Users/jisungbin/AndroidStudioProjects/duckie-quack-quack/lint-compose")
-    }
+    }*/
 }
 
 dependencies {
@@ -70,5 +70,5 @@ dependencies {
         projects.lintQuack,
         projects.lintCompose,
     )
-    ksp(projects.lintCustomRuleProcessor)
+    // ksp(projects.lintCustomRuleProcessor)
 }
