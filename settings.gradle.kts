@@ -33,4 +33,6 @@ include(
     ":lint-writing",
     ":ui-components",
     ":benchmark",
+    ":lint-custom-rule-annotation",
+    ":lint-custom-rule-processor",
 )
