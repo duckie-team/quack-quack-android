@@ -34,12 +34,14 @@ internal fun Modifier.applyQuackSize(
             width = width.width,
         )
     }
-    modifier = when (height) {
-        QuackHeight.Fill -> fillMaxHeight()
-        QuackHeight.Wrap -> wrapContentHeight()
-        is QuackHeight.Custom -> height(
-            height = height.height,
-        )
-    }
+    modifier.then(
+        when (height) {
+            QuackHeight.Fill -> fillMaxHeight()
+            QuackHeight.Wrap -> wrapContentHeight()
+            is QuackHeight.Custom -> height(
+                height = height.height,
+            )
+        }
+    )
     return modifier
 }
