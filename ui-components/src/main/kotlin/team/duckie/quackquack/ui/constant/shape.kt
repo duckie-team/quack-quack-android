@@ -10,8 +10,24 @@
 package team.duckie.quackquack.ui.constant
 
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.unit.dp
 
-internal val QuackTagShape = RoundedCornerShape(18.dp)
+/**
+ * Tag 컴포넌트의 Shape 모음
+ */
+@Immutable
+internal object TagShape {
+    /**
+     * 원형 테두리의 Shape
+     */
+    @Stable
+    internal val QuackRoundTagShape = RoundedCornerShape(18.dp)
 
-internal val QuackRectangleTagShape = RoundedCornerShape(12.dp)
+    /**
+     * 약간 둥근 테두리의 Shape
+     */
+    @Stable
+    internal val QuackRectangleTagShape = RoundedCornerShape(12.dp)
+}

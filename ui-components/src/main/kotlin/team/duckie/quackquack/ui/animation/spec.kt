@@ -10,12 +10,18 @@
 package team.duckie.quackquack.ui.animation
 
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Stable
 
-@Stable
+/**
+ * 덕키에서 사용할 애니메이션의 지속 시간
+ */
 private const val DefaultAnimationMills = 250
 
+/**
+ * 덕키에서 사용할 애니메이션 중 [Tween][TweenSpec] 의 기본 스팩
+ */
 @Stable
 internal fun <T> quackTween() = tween<T>(
     durationMillis = DefaultAnimationMills,
