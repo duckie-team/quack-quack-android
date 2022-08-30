@@ -27,7 +27,6 @@ import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.uast.UMethod
 import team.duckie.quackquack.common.lint.compose.isComposable
 import team.duckie.quackquack.common.lint.compose.isReturnsUnit
-import team.duckie.quackquack.common.lint.isMutableCollection
 
 private const val BriefDescription = "MutableCollections 사용 감지됨"
 private const val Explanation = "Skippable 을 위해 ImmutableCollections 사용을 지향해야 합니다."
@@ -75,6 +74,30 @@ val PreferredImmutableCollectionsIssue = Issue.create(
  *
  * 인자 타입의 패키지를 이용하여 검사하는 것으로 구현이 개선돼야 합니다.
  */
+
+// TODO: [#73](https://github.com/sungbinland/duckie-quack-quack/pull/73)
+
+/**
+ * MutableCollections 접미사
+ *
+ * kotlin.collection 패키지에 있는 Collections 들 입니다.
+ */
+private val CollectionNames = listOf(
+    "List",
+    "Map",
+    "Set",
+)
+
+/**
+ * ImmutableCollections 접두사
+ *
+ * kotlinx.collections 패키지에 있는 Collections 들 입니다.
+ */
+private val ImmutableNames = listOf(
+    "Immutable",
+    "Persistent",
+)
+
 class PreferredImmutableCollectionsDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes() = listOf(UMethod::class.java)
 
@@ -85,7 +108,14 @@ class PreferredImmutableCollectionsDetector : Detector(), SourceCodeScanner {
             for (parameter in node.uastParameters) {
                 val ktParameter = parameter.sourcePsi as? KtParameter ?: continue
                 val parameterType = ktParameter.typeReference ?: continue
-                if (parameterType.isMutableCollection) {
+                val parameterTypeName = parameterType.text
+                val isCollection = CollectionNames.any { collectionName ->
+                    parameterTypeName.contains(collectionName)
+                }
+                val isImmutable = ImmutableNames.any { immutableName ->
+                    parameterTypeName.contains(immutableName)
+                }
+                if (isCollection && !isImmutable) {
                     context.report(
                         issue = PreferredImmutableCollectionsIssue,
                         scope = parameterType,

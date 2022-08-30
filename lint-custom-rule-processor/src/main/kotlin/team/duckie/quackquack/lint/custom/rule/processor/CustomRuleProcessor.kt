@@ -82,8 +82,7 @@ class CustomRuleProcessor(
                 ruleName = ruleName,
                 allowList = allowList,
                 logger = logger,
-                rootPath = options["path"]
-                    ?: throw IllegalStateException("project path is not defined")
+                rootPath = checkNotNull(options["path"]) { "project path is not defined" }
             )
         }
     }
