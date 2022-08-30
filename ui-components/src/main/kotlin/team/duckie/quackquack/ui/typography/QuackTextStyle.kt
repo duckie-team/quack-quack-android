@@ -44,6 +44,7 @@ class QuackTextStyle private constructor(
     val letterSpacing: TextUnit,
     val lineHeight: TextUnit,
 ) {
+    @Stable
     private val suit = FontFamily(Font(R.font.suit_variable))
 
     @Stable
