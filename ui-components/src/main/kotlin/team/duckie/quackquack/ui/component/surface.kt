@@ -11,34 +11,29 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.common.runIf
 import team.duckie.quackquack.ui.animation.quackTween
+import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.modifier.surface
 
 @Composable
 internal fun QuackSurface(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
-    backgroundColor: Color,
+    backgroundColor: QuackColor = QuackColor.Unspecified,
     border: BorderStroke? = null,
     elevation: Dp = 0.dp,
     rippleEnabled: Boolean = true,
-    rippleColor: Color = Color.Unspecified,
+    rippleColor: QuackColor = QuackColor.Unspecified,
     onClick: (() -> Unit)? = null,
     contentAlignment: Alignment = Alignment.Center,
     content: @Composable BoxScope.() -> Unit,
@@ -51,20 +46,11 @@ internal fun QuackSurface(
                 border = border,
                 elevation = elevation,
             )
-            .runIf(onClick != null) {
-                clickable(
-                    interactionSource = remember {
-                        MutableInteractionSource()
-                    },
-                    indication = rememberRipple(
-                        color = rippleColor,
-                    ).takeIf {
-                        rippleEnabled
-                    },
-                    role = Role.Button,
-                    onClick = onClick!!,
-                )
-            }
+            .quackClickable(
+                onClick = onClick,
+                rippleEnabled = rippleEnabled,
+                rippleColor = rippleColor,
+            )
             .animateContentSize(
                 animationSpec = quackTween(),
             ),
