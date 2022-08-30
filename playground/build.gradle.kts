@@ -17,7 +17,6 @@ plugins {
     id(PluginEnum.AndroidApplicationCompose)
     id(PluginEnum.JvmKover)
     id(PluginEnum.JvmDokka)
-    // alias(libs.plugins.ksp)
 }
 
 android {
@@ -54,21 +53,19 @@ android {
     lint {
         disable.add("NotificationPermission")
     }
-
-    /*ksp {
-        arg("path", "/Users/jisungbin/AndroidStudioProjects/duckie-quack-quack/lint-compose")
-    }*/
 }
 
 dependencies {
     implementations(
         projects.common,
         projects.uiComponents,
-        projects.lintCustomRuleAnnotation,
+        libs.ktx.core,
+        libs.util.systemuicontroller,
+        libs.compose.material3,
+        libs.kotlin.collections.immutable,
     )
     customLints(
-        projects.lintQuack,
+        projects.lintCore,
         projects.lintCompose,
     )
-    // ksp(projects.lintCustomRuleProcessor)
 }
