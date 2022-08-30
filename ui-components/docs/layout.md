@@ -168,3 +168,5 @@ class EmptyActivity : ComponentActivity() {
 ```
 
 이렇게 Modifier.weight 를 이용해 계층 구분을 해주면 ConstraintLayout 없이 ColumnScope 를 그대로 사용하면서 구현할 수 있음.
+
+https://gist.github.com/jisungbin/9aaf5e24c174d6910b178cfc5144bee5
