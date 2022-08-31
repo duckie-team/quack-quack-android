@@ -29,23 +29,33 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 import kotlinx.collections.immutable.PersistentList
+import team.duckie.quackquack.ui.animation.QuackAnimationMills
 
 private inline fun Activity.startActivityWithAnimation(
     withFinish: Boolean = false,
@@ -61,9 +71,17 @@ fun PlaygroundSection(
     title: String,
     items: PersistentList<Pair<String, @Composable () -> Unit>>
 ) {
+    var animationDurationSettingAlertVisible by remember { mutableStateOf(false) }
     val previewVisibleStates = remember(items) {
         mutableStateListOf(*Array(items.size) { false })
     }
+
+    AnimationDurationSettingAlert(
+        visible = animationDurationSettingAlertVisible,
+        onDismissRequest = {
+            animationDurationSettingAlertVisible = false
+        }
+    )
 
     items.forEachIndexed { index, (_, composable) ->
         PreviewAlert(
@@ -99,6 +117,17 @@ fun PlaygroundSection(
                 all = 16.dp,
             ),
         ) {
+            item {
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        animationDurationSettingAlertVisible = true
+                    },
+                ) {
+                    Text(text = "애니메이션 지속 시간 설정")
+                }
+            }
+
             itemsIndexed(
                 items = items,
                 key = { index, _ -> index }
@@ -121,7 +150,15 @@ fun PlaygroundActivities(
     title: String = "QuackQuack Playground",
     activities: PersistentList<KClass<*>>,
 ) {
+    var animationDurationSettingAlertVisible by remember { mutableStateOf(false) }
     val currentActivity = LocalContext.current as Activity
+
+    AnimationDurationSettingAlert(
+        visible = animationDurationSettingAlertVisible,
+        onDismissRequest = {
+            animationDurationSettingAlertVisible = false
+        }
+    )
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -149,6 +186,17 @@ fun PlaygroundActivities(
                 all = 16.dp,
             ),
         ) {
+            item {
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        animationDurationSettingAlertVisible = true
+                    },
+                ) {
+                    Text(text = "애니메이션 지속 시간 설정")
+                }
+            }
+
             items(
                 items = activities,
                 key = { activity -> activity.simpleName ?: activity }
@@ -181,6 +229,61 @@ private fun Modifier.statusBarPadding() = composed {
             sides = WindowInsetsSides.Top,
         ),
     )
+}
+
+@Composable
+private fun AnimationDurationSettingAlert(
+    visible: Boolean,
+    onDismissRequest: () -> Unit,
+) {
+    var textFieldState by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = (QuackAnimationMills.toDouble() / 1000.toDouble()).toString(),
+            )
+        )
+    }
+
+    if (visible) {
+        fun dismiss() {
+            QuackAnimationMills = (textFieldState.text.toDouble() * 1000.toDouble()).roundToInt()
+            onDismissRequest()
+        }
+
+        AlertDialog(
+            title = {
+                Text(
+                    text = "애니메이션 지속 시간 설정 (단위: 초)",
+                )
+            },
+            text = {
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = textFieldState,
+                    onValueChange = { newTextField ->
+                        textFieldState = newTextField
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                    ),
+                )
+            },
+            onDismissRequest = {
+                dismiss()
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        dismiss()
+                    }
+                ) {
+                    Text(
+                        text = "저장",
+                    )
+                }
+            }
+        )
+    }
 }
 
 @Composable

@@ -1,4 +1,4 @@
-/*
+ /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * [spec.kt] created by Ji Sungbin on 22. 8. 14. 오후 8:13
@@ -23,8 +23,10 @@ import androidx.compose.runtime.setValue
  * 애니메이션 디버깅 용도로 수정 허용. Transition API 를 사용하는
  * 방법도 있지만 컴포즈에서 Preview 가 최적하게 돌아가지 않아
  * 수동 애니메이션 디버깅을 선호함.
+ *
+ * Playground 에서 자유로운 디버깅을 위해 public 으로 설정함
  */
-internal var DefaultAnimationMills by mutableStateOf(250)
+var QuackAnimationMills by mutableStateOf(250)
 
 /**
  * 덕키에서 사용할 애니메이션 중 [Tween][TweenSpec] 의 기본 스팩
@@ -33,6 +35,6 @@ internal var DefaultAnimationMills by mutableStateOf(250)
  */
 @Stable
 internal fun <T> quackTween() = tween<T>(
-    durationMillis = DefaultAnimationMills,
+    durationMillis = QuackAnimationMills,
     easing = FastOutSlowInEasing,
 )
