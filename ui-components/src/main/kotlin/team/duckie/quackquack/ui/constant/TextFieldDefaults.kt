@@ -11,15 +11,12 @@ package team.duckie.quackquack.ui.constant
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.shape.ZeroCornerSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.color.QuackColor
-import team.duckie.quackquack.ui.typography.QuackTextStyle
 
 @Stable
 interface QuackTextFieldColors {
@@ -57,6 +54,9 @@ object QuackTextFieldDefaults {
     internal val smallIconSpacing = 4.dp
     internal val errorTextSpacing = 4.dp
     internal val lengthTextSpacing = 2.dp
+
+    internal val iconHorizontalPadding = 12.dp
+    internal val iconVerticalPadding = 14.dp
 
     private val horizontalPadding = 0.dp
     private val topPadding = 18.dp

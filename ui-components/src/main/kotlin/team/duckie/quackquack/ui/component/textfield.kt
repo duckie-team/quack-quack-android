@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +32,49 @@ import team.duckie.quackquack.ui.modifier.bottomIndicatorLine
 import team.duckie.quackquack.ui.typography.QuackBody1
 import team.duckie.quackquack.ui.typography.QuackSubtitle
 import team.duckie.quackquack.ui.typography.QuackTextStyle
+
+@Composable
+fun QuackAddSendTextField(
+    text: String,
+    onTextChanged: (text: String) -> Unit,
+    leadingIcon: QuackIcon,
+    trailingIcon: QuackIcon,
+    onLeadingClick: () -> Unit,
+    onTrailingClick: () -> Unit,
+) {
+    QuackBasicTextField(
+        text = text,
+        onTextChanged = onTextChanged,
+        leading = {
+            QuackSimpleIconImage(
+                modifier = Modifier.clickable {
+                    onLeadingClick()
+                },
+                icon = leadingIcon,
+                color = QuackColor.Gray2,
+                contentDescription = "textFieldIcon",
+            )
+        },
+        trailing = {
+            QuackSimpleIconImage(
+                modifier = Modifier.clickable {
+                    onTrailingClick()
+                },
+                icon = trailingIcon,
+                color = if (text.isEmpty()) {
+                    QuackColor.Gray2
+                } else {
+                    QuackColor.DuckieOrange
+                },
+                contentDescription = "textFieldIcon",
+            )
+        },
+        margin = PaddingValues(
+            horizontal = QuackTextFieldDefaults.iconHorizontalPadding,
+            vertical = QuackTextFieldDefaults.iconVerticalPadding
+        )
+    )
+}
 
 @Composable
 fun QuackLimitedTextField(
@@ -155,7 +197,7 @@ fun QuackIconTextField(
             QuackIcon.Won -> QuackTextFieldDefaults.smallIconSpacing
             else -> QuackTextFieldDefaults.iconSpacing
         },
-        icon = {
+        leading = {
             QuackSimpleIconImage(
                 icon = icon,
                 color = if (text.isEmpty()) {
@@ -186,13 +228,13 @@ fun QuackTextField(
 private fun QuackBasicTextField(
     text: String,
     onTextChanged: (text: String) -> Unit,
-    placeholder: String,
+    placeholder: String = "",
     width: QuackWidth = QuackWidth.Fill,
     height: QuackHeight = QuackHeight.Custom(QuackTextFieldDefaults.height),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
     trailing: @Composable (() -> Unit)? = null,
-    icon: @Composable (() -> Unit)? = null,
+    leading: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
     errorText: String = "",
     margin: PaddingValues = QuackTextFieldDefaults.textFieldPadding(),
@@ -224,7 +266,7 @@ private fun QuackBasicTextField(
                 width = width,
                 height = height,
                 trailing = trailing,
-                icon = icon,
+                icon = leading,
                 isError = isError,
                 margin = margin,
                 errorText = errorText,
@@ -260,7 +302,9 @@ private fun QuackCommonDecorationBox(
                     width = width,
                     height = height,
                 )
-                .clip(shape)
+                .clip(
+                    shape = shape,
+                )
                 .bottomIndicatorLine(
                     QuackTextFieldDefaults.indicatorStroke(
                         isError = isError,
@@ -397,5 +441,19 @@ fun QuackLimitedTextFieldPreview() {
         isError = isError,
         maxLength = maxLength,
         onClickButton = {}
+    )
+}
+
+@Composable
+@Preview
+fun QuackAddSendTextFieldPreview() {
+    val (text, setText) = remember { mutableStateOf("") }
+    QuackAddSendTextField(
+        text = text,
+        onTextChanged = setText,
+        leadingIcon = QuackIcon.Plus,
+        trailingIcon = QuackIcon.ArrowSend,
+        onTrailingClick = {},
+        onLeadingClick = {}
     )
 }
