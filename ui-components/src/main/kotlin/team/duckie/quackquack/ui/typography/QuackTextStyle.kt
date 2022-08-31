@@ -164,7 +164,7 @@ class QuackTextStyle internal constructor(
 
 @Stable
 private operator fun TextUnit.times(times: Long) = TextUnit(
-    value = value * times,
+    value = (value.toDouble() * times.toDouble()).toFloat(),
     type = type,
 )
 
