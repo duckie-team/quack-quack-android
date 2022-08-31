@@ -50,4 +50,31 @@ class QuackTab {
             }
         }
     }
+
+    @Test
+    fun QuackMainTabOverflow(
+        @TestParameter("0", "1", "2", "3", "4") selectedTabIndex: Int,
+        @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
+    ) {
+        paparazzi.snapshot(
+            name = "[selectedTabIndex:$selectedTabIndex]-[fontScale:$fontScale]",
+        ) {
+            CompositionLocalProvider(
+                LocalQuackFontScale provides fontScale.toLong(),
+            ) {
+                team.duckie.quackquack.ui.component.QuackMainTab(
+                    titles = listOf(
+                        "판매중",
+                        "거래완료",
+                        "숨김",
+                        "더보기",
+                        "내정보",
+                    ),
+                    tabStartHorizontalPadding = 16.dp,
+                    selectedTabIndex = selectedTabIndex,
+                    onTabSelected = {},
+                )
+            }
+        }
+    }
 }
