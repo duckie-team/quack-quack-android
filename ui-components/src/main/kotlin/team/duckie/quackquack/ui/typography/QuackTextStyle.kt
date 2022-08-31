@@ -8,6 +8,7 @@
  */
 
 @file:Suppress("MemberVisibilityCanBePrivate")
+@file:OptIn(ExperimentalUnitApi::class)
 
 package team.duckie.quackquack.ui.typography
 
@@ -19,11 +20,13 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.combine
@@ -33,6 +36,8 @@ import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.util.toFlow
 import team.duckie.quackquack.ui.util.toSp
+
+val LocalQuackFontScale = staticCompositionLocalOf { 1L }
 
 /**
  * 덕키에서 사용할 텍스트 스타일을 정의합니다. 추상화를 위해 컴포즈의 [TextStyle] 를 그대로 사용하는게 아닌
@@ -59,9 +64,10 @@ class QuackTextStyle internal constructor(
     private val suit = FontFamily(Font(R.font.suit_variable))
 
     @Stable
+    @Composable
     internal fun asComposeStyle() = TextStyle(
         color = color.value,
-        fontSize = size,
+        fontSize = size * LocalQuackFontScale.current,
         fontFamily = suit,
         fontWeight = weight,
         letterSpacing = letterSpacing,
@@ -155,6 +161,12 @@ class QuackTextStyle internal constructor(
         lineHeight = lineHeight,
     )
 }
+
+@Stable
+private operator fun TextUnit.times(times: Long) = TextUnit(
+    value = value * times,
+    type = type,
+)
 
 /**
  * [QuackTextStyle] 에 변경이 있을 때 애니메이션을 적용합니다.
