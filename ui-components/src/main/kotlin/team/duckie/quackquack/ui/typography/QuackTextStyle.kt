@@ -20,6 +20,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -28,14 +29,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.combine
 import team.duckie.quackquack.ui.R
 import team.duckie.quackquack.ui.animation.quackTween
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
-import team.duckie.quackquack.ui.util.toFlow
-import team.duckie.quackquack.ui.util.toSp
 
 val LocalQuackFontScale = staticCompositionLocalOf { 1L }
 
@@ -167,6 +167,23 @@ private operator fun TextUnit.times(times: Long) = TextUnit(
     value = value * times,
     type = type,
 )
+
+/**
+ * Float 를 Sp 로 변환합니다.
+ */
+@Stable
+private fun Float.toSp() = TextUnit(
+    value = this,
+    type = TextUnitType.Sp,
+)
+
+/**
+ * State 를 Flow 로 변환합니다.
+ *
+ * @receiver 기존 State<T> 객체
+ * @return Flow 로 바뀐 State<T> 객체
+ */
+private fun <T> State<T>.toFlow() = snapshotFlow { this }
 
 /**
  * [QuackTextStyle] 에 변경이 있을 때 애니메이션을 적용합니다.
