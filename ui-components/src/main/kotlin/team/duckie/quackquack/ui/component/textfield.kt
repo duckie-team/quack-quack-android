@@ -10,11 +10,22 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,55 +37,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.color.QuackColor
-import team.duckie.quackquack.ui.constant.*
+import team.duckie.quackquack.ui.constant.QuackHeight
+import team.duckie.quackquack.ui.constant.QuackTextFieldColors
+import team.duckie.quackquack.ui.constant.QuackTextFieldDefaults
+import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.modifier.bottomIndicatorLine
 import team.duckie.quackquack.ui.typography.QuackBody1
 import team.duckie.quackquack.ui.typography.QuackSubtitle
 import team.duckie.quackquack.ui.typography.QuackTextStyle
 
-@Composable
-fun QuackAddSendTextField(
-    text: String,
-    onTextChanged: (text: String) -> Unit,
-    leadingIcon: QuackIcon,
-    trailingIcon: QuackIcon,
-    onLeadingClick: () -> Unit,
-    onTrailingClick: () -> Unit,
-) {
-    QuackBasicTextField(
-        text = text,
-        onTextChanged = onTextChanged,
-        leading = {
-            QuackSimpleIconImage(
-                modifier = Modifier.clickable {
-                    onLeadingClick()
-                },
-                icon = leadingIcon,
-                color = QuackColor.Gray2,
-                contentDescription = "textFieldIcon",
-            )
-        },
-        trailing = {
-            QuackSimpleIconImage(
-                modifier = Modifier.clickable {
-                    onTrailingClick()
-                },
-                icon = trailingIcon,
-                color = if (text.isEmpty()) {
-                    QuackColor.Gray2
-                } else {
-                    QuackColor.DuckieOrange
-                },
-                contentDescription = "textFieldIcon",
-            )
-        },
-        margin = PaddingValues(
-            horizontal = QuackTextFieldDefaults.iconHorizontalPadding,
-            vertical = QuackTextFieldDefaults.iconVerticalPadding
-        )
-    )
-}
 
 @Composable
 fun QuackLimitedTextField(
@@ -225,7 +197,7 @@ fun QuackTextField(
 }
 
 @Composable
-private fun QuackBasicTextField(
+internal fun QuackBasicTextField(
     text: String,
     onTextChanged: (text: String) -> Unit,
     placeholder: String = "",
@@ -425,13 +397,15 @@ fun QuackTrailingTextFieldPreview() {
     )
 }
 
+private const val MaxLength = 30
+
 @Composable
 @Preview
 fun QuackLimitedTextFieldPreview() {
     val (text, setText) = remember { mutableStateOf("") }
     val placeholder = "placeholder"
     val errorText = "특수문자가 포함되어 있습니다"
-    val maxLength = 30
+    val maxLength = MaxLength
     val isError = text.endsWith("E")
     QuackLimitedTextField(
         text = text,
