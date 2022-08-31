@@ -7,6 +7,8 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("KDocUnresolvedReference")
+
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.core.animateDpAsState
@@ -75,6 +77,7 @@ private val QuackMainTabTextInnerPadding = 2.dp
  * 첫 번째와 마지막 탭은 화면에서 일정 사이즈 만큼 패딩이 적용되야 합니다.
  *
  * @param titles 탭 제목 리스트
+ * @param backgroundColor 탭의 배경 색상
  * @param tabStartHorizontalPadding 첫 번째와 마지막 탭의 가로 패딩
  * @param selectedTabIndex 현재 선택된 탭의 index
  * @param onTabSelected 새로운 탭이 선택됐을 때 호출되는 콜백 람다.
@@ -83,6 +86,7 @@ private val QuackMainTabTextInnerPadding = 2.dp
 @Composable
 fun QuackMainTab(
     titles: List<String>,
+    backgroundColor: QuackColor = QuackColor.White,
     tabStartHorizontalPadding: Dp = 16.dp,
     selectedTabIndex: Int,
     onTabSelected: (index: Int) -> Unit,
@@ -109,7 +113,11 @@ fun QuackMainTab(
     )
 
     Box(
-        modifier = Modifier.wrapContentSize(),
+        modifier = Modifier
+            .wrapContentSize()
+            .background(
+                color = backgroundColor.value,
+            ),
     ) {
         QuackMainTabTextLazyRow(
             modifier = Modifier.zIndex(
