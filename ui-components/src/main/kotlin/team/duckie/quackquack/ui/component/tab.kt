@@ -102,7 +102,7 @@ fun QuackMainTab(
                     .align(Alignment.BottomStart),
                 padding = underBarStartPadding,
                 width = underBarWidth,
-                color = QuackColor.PumpkinOrange
+                color = QuackColor.DuckieOrange
             )
         }
     }

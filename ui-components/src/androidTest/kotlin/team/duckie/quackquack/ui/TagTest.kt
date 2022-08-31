@@ -59,7 +59,7 @@ class TagTest {
             .assertBottomPositionInRootIsEqualTo(SimpleTagPadding.calculateBottomPadding())
             .assertTextColor(QuackColor.Black)
             .performClick()
-            .assertTextColor(QuackColor.PumpkinOrange)
+            .assertTextColor(QuackColor.DuckieOrange)
             .assertBackgroundColor(QuackColor.White)
     }
     @Test
@@ -93,7 +93,7 @@ class TagTest {
 
         composeTestRule.onNodeWithText(TEST_TAG)
             .assertTextColor(QuackColor.White)
-            .assertBackgroundColor(QuackColor.PumpkinOrange)
+            .assertBackgroundColor(QuackColor.DuckieOrange)
     }
 
     companion object {

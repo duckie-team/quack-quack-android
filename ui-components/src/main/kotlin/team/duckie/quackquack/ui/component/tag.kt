@@ -126,15 +126,15 @@ private fun Modifier.tagModifier(isSelected: Boolean, shape: Shape) = composed {
 }
 
 private fun getTagBorderColor(isSelected: Boolean): QuackColor {
-    return if (isSelected) QuackColor.PumpkinOrange else QuackColor.Gray3
+    return if (isSelected) QuackColor.DuckieOrange else QuackColor.Gray3
 }
 
 private fun getTagTextColor(isSelected: Boolean): QuackColor {
-    return if (isSelected) QuackColor.PumpkinOrange else QuackColor.Black
+    return if (isSelected) QuackColor.DuckieOrange else QuackColor.Black
 }
 
 private fun getTagBackground(isSelected: Boolean): QuackColor {
-    return if (isSelected) QuackColor.PumpkinOrange else QuackColor.White
+    return if (isSelected) QuackColor.DuckieOrange else QuackColor.White
 }
 
 private fun getIconTagTextColor(isSelected: Boolean): QuackColor {
