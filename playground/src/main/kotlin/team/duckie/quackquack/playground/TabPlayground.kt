@@ -39,7 +39,7 @@ class TabPlayground : BaseActivity() {
 }
 
 @Composable
-private fun QuackMainTab() {
+fun QuackMainTab() {
     var selectedMainTabIndex by remember { mutableStateOf(0) }
 
     team.duckie.quackquack.ui.component.QuackMainTab(
