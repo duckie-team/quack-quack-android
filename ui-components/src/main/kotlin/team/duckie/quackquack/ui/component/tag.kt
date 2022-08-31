@@ -9,6 +9,8 @@
 
 package team.duckie.quackquack.ui.component
 
+// TODO: 전체 리펙토링 필요
+
 /*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -38,11 +40,6 @@ import team.duckie.quackquack.ui.typography.QuackTitle2
 private val QuackTagBorderWidth = 1.dp
 private val QuackTagHeight = 34.dp
 private val QuackIconTagSpace = 8.dp
-
-*/
-/**
- * TODO: Ripple Effect 처리
- *//*
 
 @Composable
 fun QuackBoldTag(
