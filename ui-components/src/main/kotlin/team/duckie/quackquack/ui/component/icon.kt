@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import team.duckie.quackquack.ui.R
@@ -44,6 +43,16 @@ value class QuackIcon private constructor(
         @Stable
         val Delete = QuackIcon(
             value = R.drawable.delete_16
+        )
+
+        @Stable
+        val ArrowSend = QuackIcon(
+            value = R.drawable.arrow_send_24
+        )
+
+        @Stable
+        val Plus = QuackIcon(
+            value = R.drawable.plus_24
         )
     }
 
