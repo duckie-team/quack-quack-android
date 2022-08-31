@@ -33,9 +33,9 @@ import team.duckie.quackquack.ui.color.QuackColor
  */
 @Stable
 internal fun Modifier.quackClickable(
-    onClick: (() -> Unit)?,
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor? = null,
+    onClick: (() -> Unit)?,
 ) = when (onClick != null) {
     true -> composed {
         clickable(
