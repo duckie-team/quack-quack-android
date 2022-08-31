@@ -51,6 +51,6 @@ fun QuackMainTab() {
         selectedTabIndex = selectedMainTabIndex,
         onTabSelected = { tabIndex ->
             selectedMainTabIndex = tabIndex
-        }
+        },
     )
 }
