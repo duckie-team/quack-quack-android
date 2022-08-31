@@ -41,8 +41,6 @@ dependencies {
         libs.util.profileinstaller,
         libs.compose.material,
         libs.compose.glide,
-        libs.showkase.core,
     )
-    ksp(libs.showkase.processor)
     testImplementation(libs.test.parameter.injector)
 }
