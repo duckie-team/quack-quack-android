@@ -7,20 +7,26 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class,
+)
 
 package team.duckie.quackquack.playground
 
 import android.app.Activity
 import android.content.Intent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
@@ -117,7 +123,7 @@ fun PlaygroundSection(
                 all = 16.dp,
             ),
         ) {
-            item {
+            stickyHeader {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
@@ -186,7 +192,7 @@ fun PlaygroundActivities(
                 all = 16.dp,
             ),
         ) {
-            item {
+            stickyHeader {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
@@ -296,14 +302,26 @@ private fun PreviewAlert(
         Dialog(
             onDismissRequest = onDismissRequest,
             content = {
-                Box(
+                Column(
                     modifier = Modifier
                         .wrapContentSize()
                         .background(
                             color = Color.White,
                         ),
                 ) {
+                    Spacer(
+                        modifier = Modifier
+                            .height(
+                                height = 10.dp,
+                            )
+                    )
                     content()
+                    Spacer(
+                        modifier = Modifier
+                            .height(
+                                height = 10.dp,
+                            )
+                    )
                 }
             },
         )
