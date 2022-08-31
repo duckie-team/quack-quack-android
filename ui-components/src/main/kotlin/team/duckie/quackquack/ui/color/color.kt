@@ -9,6 +9,7 @@
 
 package team.duckie.quackquack.ui.color
 
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector4D
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
@@ -22,6 +23,7 @@ import androidx.compose.ui.graphics.colorspace.ColorSpace
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
 import kotlin.math.pow
 import kotlin.reflect.KProperty
+import team.duckie.quackquack.common.AllowMagicNumber
 import team.duckie.quackquack.ui.animation.quackTween
 
 /**
@@ -112,6 +114,7 @@ value class QuackColor private constructor(
             1.202023f,
         )
 
+        @AllowMagicNumber
         private fun multiplyColumn(
             column: Int,
             x: Float,
@@ -120,6 +123,7 @@ value class QuackColor private constructor(
             matrix: FloatArray
         ) = x * matrix[column] + y * matrix[3 + column] + z * matrix[6 + column]
 
+        // copied from compose original implementation
         internal val VectorConverter: (colorSpace: ColorSpace) -> TwoWayConverter<QuackColor, AnimationVector4D> =
             { colorSpace ->
                 TwoWayConverter(
@@ -133,6 +137,7 @@ value class QuackColor private constructor(
                         val y = colorXyz.green
                         val z = colorXyz.blue
 
+                        @AllowMagicNumber
                         val l = multiplyColumn(
                             column = 0,
                             x = x,
@@ -141,6 +146,7 @@ value class QuackColor private constructor(
                             matrix = M1,
                         ).pow(x = 1f / 3f)
 
+                        @AllowMagicNumber
                         val a = multiplyColumn(
                             column = 1,
                             x = x,
@@ -149,6 +155,7 @@ value class QuackColor private constructor(
                             matrix = M1,
                         ).pow(x = 1f / 3f)
 
+                        @AllowMagicNumber
                         val b = multiplyColumn(
                             column = 2,
                             x = x,
@@ -222,9 +229,18 @@ value class QuackColor private constructor(
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = value
 }
 
+/**
+ * [QuackColor] 에 색상에 변경이 있을 때 애니메이션을 적용합니다.
+ *
+ * @param targetValue 색상 변경을 감지할 [QuackColor]
+ * @param animationSpec 색상 변경을 감지했을 때 적용할 애니메이션 스팩
+ *
+ * @return 색상이 변경됐을 때 색상이 변경되는 애니메이션의 [State] 객체
+ */
 @Composable
 fun animateQuackColorAsState(
     targetValue: QuackColor,
+    animationSpec: AnimationSpec<QuackColor> = quackTween(),
 ): State<QuackColor> {
     val converter = remember(targetValue.value.colorSpace) {
         (QuackColor.VectorConverter)(targetValue.value.colorSpace)
@@ -232,7 +248,7 @@ fun animateQuackColorAsState(
     return animateValueAsState(
         targetValue = targetValue,
         typeConverter = converter,
-        animationSpec = quackTween(),
+        animationSpec = animationSpec,
         finishedListener = null,
     )
 }
