@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
@@ -37,10 +38,9 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -136,24 +136,25 @@ fun QuackMainTab(
                 tabWidths[index] = size.width.toDp()
             }
         )
-        QuackTabDividerByPadding(
-            modifier = Modifier.zIndex(
-                zIndex = 2f,
-            ),
-            topPaddingProvider = {
-                (tabHeight.toDp() - QuackTabDividerHeight).coerceAtLeast(
-                    minimumValue = 0.dp,
+        QuackTabDivider(
+            zIndex = 2f,
+            offsetProvider = {
+                IntOffset(
+                    x = 0,
+                    y = (tabHeight - QuackTabDividerHeight.roundToPx()).coerceAtLeast(
+                        minimumValue = 0,
+                    )
                 )
             }
         )
-        QuackSelectedTabUnderBarByPadding(
+        QuackSelectedTabUnderBar(
             color = QuackColor.DuckieOrange,
             zIndex = 3f,
             offsetProvider = {
-                DpOffset(
-                    x = currentTabUnderBarXOffsetAnimation.toDp(),
-                    y = (tabHeight.toDp() - QuackSelectedTabUnderBarHeight).coerceAtLeast(
-                        minimumValue = 0.dp,
+                IntOffset(
+                    x = currentTabUnderBarXOffsetAnimation,
+                    y = (tabHeight - QuackSelectedTabUnderBarHeight.roundToPx()).coerceAtLeast(
+                        minimumValue = 0,
                     ),
                 )
             },
@@ -342,57 +343,24 @@ private fun QuackSubTabTextRow(
 /**
  * QuackTab 의 전체 가로 길이 만큼 표시하는 Divider 인
  * QuackTabDivider 를 Offset 을 이용하여 구현합니다.
- * 하지만 컴포저블의 backgroundColor 가 바뀐 Offset 에 반영되지
- * 않는 문제가 있어서 padding 으로 구현한 [QuackTabDividerByPadding] 을
- * 대신 사용합니다. 추후 Offset 을 이용한 방법의 문제가 사라지면
- * 이 컴포저블을 사용해야 합니다.
  *
  * @param modifier 이 컴포저블이 사용할 [Modifier]
  * @param offsetProvider 이 컴포저블이 배치될 [Offset].
  * Y 위치가 동적으로 계산되므로 이 인자를 통해 해당 값을 제공받아야 합니다.
  * 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
- *
- * @see <a href="https://is.gd/hm85Ye">kotlinlang question</a>
- */
-// @Composable
-// private fun QuackTabDividerByOffset(
-//     modifier: Modifier = Modifier,
-//     offsetProvider: Density.() -> IntOffset,
-// ) {
-//     Box(
-//         modifier = Modifier
-//             .then(other = modifier)
-//             .fillMaxWidth()
-//             .height(height = QuackTabDividerHeight)
-//             .offset(offsetProvider)
-//             .background(color = QuackColor.Gray3.value)
-//     )
-// }
-
-/**
- * QuackTab 의 전체 가로 길이 만큼 표시하는 Divider 인
- * QuackTabDivider 를 Offset 을 이용하여 구현합니다.
- *
- * @param modifier 이 컴포저블이 사용할 [Modifier]
- * @param topPaddingProvider 이 컴포저블이 배치될 Y 값.
- * Y 위치가 동적으로 계산되므로 이 인자를 통해 해당 값을 제공받아야 합니다.
- * 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
- * 해당 값 만큼 Top 에 패딩을 적용하여 Divider 의 위치를 조정합니다.
- *
- * @see QuackTabDividerByOffset
  */
 @Composable
-private fun QuackTabDividerByPadding(
+private fun QuackTabDivider(
     modifier: Modifier = Modifier,
-    topPaddingProvider: Density.() -> Dp,
+    zIndex: Float,
+    offsetProvider: Density.() -> IntOffset,
 ) {
-    val density = LocalDensity.current
-
     Box(
         modifier = modifier
-            .padding(top = density.topPaddingProvider())
             .fillMaxWidth()
             .height(height = QuackTabDividerHeight)
+            .zIndex(zIndex)
+            .offset(offsetProvider)
             .background(color = QuackColor.Gray3.value)
     )
 }
@@ -400,10 +368,6 @@ private fun QuackTabDividerByPadding(
 /**
  * QuackTab 의 현재 선택된 탭의 가로 길이 만큼 표시하는 Divider 인
  * QuackSelectedTabUnderBar 를 Offset 을 이용하여 구현합니다.
- * 하지만 컴포저블의 backgroundColor 가 바뀐 Offset 에 반영되지
- * 않는 문제가 있어서 padding 으로 구현한 [QuackSelectedTabUnderBarByPadding] 을
- * 대신 사용합니다. 추후 Offset 을 이용한 방법의 문제가 사라지면
- * 이 컴포저블을 사용해야 합니다.
  *
  * @param modifier 이 컴포저블이 사용할 [Modifier]
  * @param color 이 컴포저블이 표시할 언더바의 색상
@@ -415,92 +379,24 @@ private fun QuackTabDividerByPadding(
  * 선택된 탭의 가로 길이에 추가로 값을 더해서 가로 길이가 계산됩니다.
  * 선택된 탭의 따라 동적으로 변화는 값이므로 인자를 통해 매번 새로운 값을
  * 제공받아야 합니다. 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
- *
- * @see <a href="https://is.gd/hm85Ye">kotlinlang question</a>
- */
-// @Composable
-// private fun QuackSelectedTabUnderBarByOffset(
-//     modifier: Modifier = Modifier,
-//     color: QuackColor,
-//     zIndex: Float,
-//     offsetProvider: Density.() -> IntOffset,
-//     widthProvider: Density.() -> Int,
-// ) {
-//     Box(
-//         modifier = modifier
-//             .background(color = color.value)
-//             .layout { measurable, _ ->
-//                 val width = widthProvider()
-//                 val height = QuackSelectedTabUnderBarHeight.roundToPx()
-//                 val offset = offsetProvider()
-//                 val placeable = measurable.measure(
-//                     constraints = Constraints(
-//                         minWidth = width,
-//                         maxWidth = width,
-//                         minHeight = height,
-//                         maxHeight = height,
-//                     )
-//                 )
-//                 layout(
-//                     width = placeable.width,
-//                     height = placeable.height,
-//                 ) {
-//                     placeable.placeRelative(
-//                         // position = offsetProvider(),
-//                         x = offset.x,
-//                         y = offset.y,
-//                         zIndex = zIndex,
-//                     )
-//                 }
-//             }
-//     )
-// }
-
-/**
- * QuackTab 의 현재 선택된 탭의 가로 길이 만큼 표시하는 Divider 인
- * QuackSelectedTabUnderBar 를 패딩을 이용하여 구현합니다.
- *
- * @param modifier 이 컴포저블이 사용할 [Modifier]
- * @param color 이 컴포저블이 표시할 언더바의 색상
- * @param zIndex 이 컴포저블의 우선 순위. 높을수록 상위에 배치됩니다.
- * @param offsetProvider 이 컴포저블이 배치될 [Offset].
- * X 와 Y 위치가 동적으로 계산되므로 이 인자를 통해 해당 값을 제공받아야 합니다.
- * 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
- * @param widthProvider 이 컴포저블의 가로 길이.
- * 선택된 탭의 가로 길이에 추가로 값을 더해서 가로 길이가 계산됩니다.
- * 선택된 탭의 따라 동적으로 변화는 값이므로 인자를 통해 매번 새로운 값을
- * 제공받아야 합니다. 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
- *
- * @see QuackSelectedTabUnderBarByPadding
  */
 @Composable
-private fun QuackSelectedTabUnderBarByPadding(
+private fun QuackSelectedTabUnderBar(
     modifier: Modifier = Modifier,
     color: QuackColor,
     zIndex: Float,
-    offsetProvider: Density.() -> DpOffset,
+    offsetProvider: Density.() -> IntOffset,
     widthProvider: Density.() -> Int,
 ) {
-    val offset = with(LocalDensity.current) {
-        offsetProvider()
-    }
-
     Box(
         modifier = modifier
-            .padding(
-                top = offset.y,
-                start = offset.x,
-            )
-            .background(color = color.value)
-            .layout { measurable, _ ->
+            .height(height = QuackSelectedTabUnderBarHeight)
+            .layout { measurable, constraints ->
                 val width = widthProvider()
-                val height = QuackSelectedTabUnderBarHeight.roundToPx()
                 val placeable = measurable.measure(
-                    constraints = Constraints(
+                    constraints = constraints.copy(
                         minWidth = width,
                         maxWidth = width,
-                        minHeight = height,
-                        maxHeight = height,
                     )
                 )
                 layout(
@@ -508,31 +404,11 @@ private fun QuackSelectedTabUnderBarByPadding(
                     height = placeable.height,
                 ) {
                     placeable.placeRelative(
-                        x = 0,
-                        y = 0,
+                        position = offsetProvider(),
                         zIndex = zIndex,
                     )
                 }
             }
+            .background(color = color.value)
     )
 }
-
-/*
-@Preview
-@Composable
-private fun QuackSubTabPreview() {
-    var selectedSubTabIndex by remember { mutableStateOf(1) }
-
-    QuackSubTab(
-        selectedTabIndex = selectedSubTabIndex,
-        tabTitles = listOf(
-            "피드",
-            "컬렉션",
-            "좋아요",
-        ),
-        onTabSelected = { tabIndex ->
-            selectedSubTabIndex = tabIndex
-        }
-    )
-}
-*/
