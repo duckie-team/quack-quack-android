@@ -40,7 +40,20 @@ import team.duckie.quackquack.ui.animation.quackTween
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 
-val LocalQuackFontScale = compositionLocalOf { 1L }
+/**
+ * 덕키에서 사용할 [QuackTextStyle] 의 기본 font scale
+ *
+ * Playground 에서 [LocalQuackFontScale] 편집 후 기본값으로 되돌리고
+ * 싶을 때 기본값을 참조하기 위해 public 으로 설정함
+ */
+const val QuackDefaultFontScale = 1.0
+
+/**
+ * 덕키에서 사용할 [QuackTextStyle] 의 font scale
+ *
+ * Playground 에서 자유로운 font scale 편집으로 쉬운 디버깅을 위해 public 으로 설정함
+ */
+val LocalQuackFontScale = compositionLocalOf { QuackDefaultFontScale }
 
 /**
  * 덕키에서 사용할 텍스트 스타일을 정의합니다. 추상화를 위해 컴포즈의
@@ -176,20 +189,6 @@ internal class QuackTextStyle(
         lineHeight = lineHeight,
     )
 }
-
-/**
- * TextUnit 에 Long 곱셈을 구현합니다.
- *
- * @receiver 곱셈의 대상이 될 원본 TextUnit
- * @param times 곱할 소숫점 값
- * @return receiver 로 받은 [TextUnit] 의 값에
- * [times] 를 곱한 새로운 [TextUnit] 값
- */
-@Stable
-private operator fun TextUnit.times(times: Long) = TextUnit(
-    value = (value.toDouble() * times.toDouble()).toFloat(),
-    type = type,
-)
 
 /**
  * Float 를 Sp 로 변환합니다.
