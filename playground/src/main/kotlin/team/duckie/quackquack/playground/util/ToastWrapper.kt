@@ -23,17 +23,18 @@ import java.lang.ref.WeakReference
 class ToastWrapper(context: Context) {
     private val contextWrapper = WeakReference(context)
     private val _context get() = contextWrapper.get()!!
+
+    // TODO: 토스트 폰트 변경 (가능?)
+    // 시도해 본 방법: https://stackoverflow.com/questions/2940465/change-toast-font 하지만 작동 X
     private val toastInstance = Toast.makeText(_context, "", Toast.LENGTH_SHORT)
 
     operator fun invoke(
         message: String,
         length: Int = Toast.LENGTH_SHORT,
-    ) {
-        toastInstance.run {
-            setText(message)
-            duration = length
-            show()
-        }
+    ) = toastInstance.run {
+        setText(message)
+        duration = length
+        show()
     }
 }
 
