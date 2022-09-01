@@ -24,8 +24,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,9 +32,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.R
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.constant.QuackHeight
@@ -192,7 +188,7 @@ fun QuackTextField(
 internal fun QuackBasicTextField(
     text: String,
     onTextChanged: (text: String) -> Unit,
-    placeholder: String,
+    placeholder: String = "",
     width: QuackWidth = QuackWidth.Fill,
     height: QuackHeight = QuackHeight.Custom(QuackTextFieldDefaults.height),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
