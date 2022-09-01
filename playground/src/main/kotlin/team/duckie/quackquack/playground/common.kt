@@ -75,10 +75,12 @@ private inline fun Activity.startActivityWithAnimation(
 @Composable
 fun PlaygroundSection(
     title: String,
-    items: PersistentList<Pair<String, @Composable () -> Unit>>
+    items: PersistentList<Pair<String, @Composable () -> Unit>>,
 ) {
     var animationDurationSettingAlertVisible by remember { mutableStateOf(false) }
-    val previewVisibleStates = remember(items) {
+    val previewVisibleStates = remember(
+        key1 = items,
+    ) {
         mutableStateListOf(*Array(items.size) { false })
     }
 
@@ -86,7 +88,7 @@ fun PlaygroundSection(
         visible = animationDurationSettingAlertVisible,
         onDismissRequest = {
             animationDurationSettingAlertVisible = false
-        }
+        },
     )
 
     items.forEachIndexed { index, (_, composable) ->
@@ -108,7 +110,7 @@ fun PlaygroundSection(
                     )
                 },
             )
-        }
+        },
     ) { contentPadding ->
         LazyColumn(
             modifier = Modifier
@@ -142,7 +144,7 @@ fun PlaygroundSection(
 
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = { previewVisibleStates[index] = true }
+                    onClick = { previewVisibleStates[index] = true },
                 ) {
                     Text(text = contentTitle)
                 }
@@ -163,7 +165,7 @@ fun PlaygroundActivities(
         visible = animationDurationSettingAlertVisible,
         onDismissRequest = {
             animationDurationSettingAlertVisible = false
-        }
+        },
     )
 
     Scaffold(
@@ -177,7 +179,7 @@ fun PlaygroundActivities(
                     )
                 },
             )
-        }
+        },
     ) { contentPadding ->
         LazyColumn(
             modifier = Modifier
@@ -216,7 +218,7 @@ fun PlaygroundActivities(
                                 activity.java,
                             )
                         }
-                    }
+                    },
                 ) {
                     Text(
                         text = (activity.simpleName ?: activity.toString())
@@ -281,13 +283,13 @@ private fun AnimationDurationSettingAlert(
                 Button(
                     onClick = {
                         dismiss()
-                    }
+                    },
                 ) {
                     Text(
                         text = "저장",
                     )
                 }
-            }
+            },
         )
     }
 }
