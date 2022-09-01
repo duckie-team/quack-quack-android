@@ -46,7 +46,6 @@ import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -69,13 +68,12 @@ import kotlin.reflect.KClass
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.coroutines.launch
 import team.duckie.quackquack.playground.util.PreferenceConfigs
-import team.duckie.quackquack.playground.util.QuackFontScale
 import team.duckie.quackquack.playground.util.dataStore
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
-import team.duckie.quackquack.ui.textstyle.LocalQuackFontScale
 import team.duckie.quackquack.ui.textstyle.QuackDefaultFontScale
+import team.duckie.quackquack.ui.textstyle.QuackFontScale
 
 private inline fun Activity.startActivityWithAnimation(
     withFinish: Boolean = false,
@@ -264,28 +262,32 @@ private fun PlaygroundSettingAlert(
     visible: Boolean,
     onDismissRequest: () -> Unit,
 ) {
-    val toast = rememberToast()
-    val context = LocalContext.current.applicationContext
-    val coroutineScope = rememberCoroutineScope()
-
-    var animationDurationInputState by remember {
-        mutableStateOf((QuackAnimationMillis.toDouble() / 1000.toDouble()).toString())
-    }
-    var fontScaleInputState by remember {
-        mutableStateOf(QuackFontScale.toString())
-    }
-
     if (visible) {
+        val toast = rememberToast()
+        val context = LocalContext.current.applicationContext
+        val coroutineScope = rememberCoroutineScope()
+
+        var animationDurationInputState by remember {
+            mutableStateOf((QuackAnimationMillis.toDouble() / 1000.toDouble()).toString())
+        }
+        var fontScaleInputState by remember {
+            mutableStateOf(QuackFontScale.toString())
+        }
+
         fun dismiss(reset: Boolean = false) {
             coroutineScope.launch {
                 context.dataStore.edit { preference ->
                     preference[PreferenceConfigs.AnimationDurationKey] = when (reset) {
                         true -> QuackDefaultAnimationMillis
                         else -> (animationDurationInputState.toDouble() * 1000.toDouble()).roundToInt()
+                    }.also { newAnimationMillis ->
+                        QuackAnimationMillis = newAnimationMillis.coerceAtLeast(minimumValue = 0)
                     }
                     preference[PreferenceConfigs.FontScaleKey] = when (reset) {
                         true -> QuackDefaultFontScale
                         else -> fontScaleInputState.toDouble()
+                    }.also { newFontScale ->
+                        QuackFontScale = newFontScale.coerceAtLeast(minimumValue = 0.0)
                     }
                 }
             }
@@ -370,12 +372,13 @@ private fun PreviewAlert(
     onDismissRequest: () -> Unit,
     content: @Composable () -> Unit,
 ) {
-    val alertShape = remember {
-        RoundedCornerShape(
-            size = 15.dp,
-        )
-    }
     if (visible) {
+        val alertShape = remember {
+            RoundedCornerShape(
+                size = 15.dp,
+            )
+        }
+
         Dialog(
             onDismissRequest = onDismissRequest,
             content = {
@@ -391,10 +394,7 @@ private fun PreviewAlert(
                         ),
                     contentAlignment = Alignment.Center,
                 ) {
-                    CompositionLocalProvider(
-                        LocalQuackFontScale provides QuackFontScale,
-                        content = content,
-                    )
+                    content()
                 }
             },
         )

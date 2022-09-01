@@ -11,12 +11,18 @@ package team.duckie.quackquack.playground
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.LaunchedEffect
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundActivities
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
 import team.duckie.quackquack.playground.realworld.TabPlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
+import team.duckie.quackquack.playground.util.PreferenceConfigs
+import team.duckie.quackquack.playground.util.dataStore
+import team.duckie.quackquack.ui.animation.QuackAnimationMillis
+import team.duckie.quackquack.ui.textstyle.QuackFontScale
 
 class MainActivity : BaseActivity() {
     private val playgroundActivities = persistentListOf(
@@ -27,6 +33,14 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            LaunchedEffect(Unit) {
+                applicationContext.dataStore.data.first().let { preference ->
+                    QuackAnimationMillis = (preference[PreferenceConfigs.AnimationDurationKey]
+                        ?: QuackAnimationMillis).coerceAtLeast(minimumValue = 0)
+                    QuackFontScale = (preference[PreferenceConfigs.FontScaleKey]
+                        ?: QuackFontScale).coerceAtLeast(minimumValue = 0.0)
+                }
+            }
             PlaygroundTheme {
                 PlaygroundActivities(
                     activities = playgroundActivities,
