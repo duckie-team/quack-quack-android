@@ -21,7 +21,7 @@ import team.duckie.quackquack.common.lint.test.composableTestFile
  * 1. Composable 함수여야 함
  * 2. 매개변수에서 후행 ','를 사용해야 함
  * 3. 인자에서 후행 ','를 사용해야 함
- * 4. 인자가 최대 [LimitParameterNumber] [LimitArgumentNumber] 일 경우 예외를 발생하지 않음
+ * 4. 인자가 [LimitParameterNumber] [LimitArgumentNumber] 보다 더 적게 있을 경우 린트가 작동하지 않음
  */
 
 class TrailingCommaTest {

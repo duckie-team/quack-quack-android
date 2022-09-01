@@ -24,8 +24,9 @@ import com.android.tools.lint.detector.api.Detector
 class ComposeIssueRegistry : IssueRegistry() {
     override val issues = listOf(
         PreferredImmutableCollectionsIssue,
-        TrailingCommaIssue
+        TrailingCommaIssue,
         FixedModifierOrderIssue,
+        TrailingCommaIssue,
     )
 
     override val api = CURRENT_API

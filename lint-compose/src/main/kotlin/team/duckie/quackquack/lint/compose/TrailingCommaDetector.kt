@@ -30,7 +30,7 @@ private const val BriefDescription = "후행 ',' 필수 사용"
 private const val Explanation = "후행 ',' 는 필수적으로 사용해야합니다"
 
 /**
- * [TrailingCommaDetector]가 적용되지 않는 최대 Argument, Parameter 개수를 정의합니다.
+ * [TrailingCommaDetector]가 작동되기 위한 최소한의 Argument, Parameter 개수를 정의합니다.
  */
 private const val LimitArgumentNumber = 2
 private const val LimitParameterNumber = 2
@@ -40,15 +40,13 @@ private const val LimitParameterNumber = 2
  *
  * 다음과 같은 조건에서 린트를 검사합니다.
  *
- * 1. 컴포저플 함수여야 함
+ * 1. 컴포저블 함수여야 함
+ * 2. 인자와 파라미터의 최소한의 개수가 [LimitArgumentNumber] [LimitParameterNumber] 일 경우에 동작해야 함
  *
  * 다음과 같은 조건에서 린트 에러가 발생합니다.
  *
  * 1. 매개변수 뒤에 ','가 오지 않는 경우
  * 2. 인자 뒤에 ','가 오지 않는 경우
- *
- * 예외적으로, 인자와 파라미터 개수가 최대 [LimitArgumentNumber] [LimitParameterNumber]
- * 일 경우에는 예외를 발생시키지 않습니다.
  */
 val TrailingCommaIssue = Issue.create(
     id = "TrailingComma",
@@ -80,13 +78,11 @@ class TrailingCommaDetector : Detector(), SourceCodeScanner {
 
             if (valueArgumentSize < LimitArgumentNumber) return
 
-            valueArgumentList.map { argument ->
-                val argumentSourcePsi = argument.sourcePsi
-                val argumentNode = argumentSourcePsi?.node
-                val argumentTreeParent = argumentNode?.treeParent
-                val argumentNextSibling = argumentTreeParent?.psi?.nextSibling ?: return
+            valueArgumentList.forEach { argument ->
+                val argumentNode = argument.sourcePsi?.node
+                val lastParameterNextSibling = argumentNode?.treeParent?.psi?.nextSibling ?: return
 
-                if (!argumentNextSibling.textContains(',')) {
+                if (!lastParameterNextSibling.textContains(',')) {
                     context.report(
                         issue = TrailingCommaIssue,
                         scope = argumentNode.psi,
