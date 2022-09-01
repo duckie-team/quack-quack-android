@@ -7,23 +7,14 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:OptIn(ExperimentalAnimationApi::class)
-
 package team.duckie.quackquack.ui.component
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
-import team.duckie.quackquack.ui.animation.quackTween
+import team.duckie.quackquack.ui.animation.AnimatedContentTransform
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.textstyle.animateQuackTextStyleAsState
 
@@ -42,7 +33,6 @@ import team.duckie.quackquack.ui.textstyle.animateQuackTextStyleAsState
  * @param singleLine 텍스트를 한 줄로 표시할지 여부
  */
 @Composable
-@NonRestartableComposable
 internal fun QuackText(
     modifier: Modifier = Modifier,
     text: String,
@@ -53,21 +43,9 @@ internal fun QuackText(
         targetValue = style,
     )
 
-    AnimatedContent(
+    AnimatedContentTransform(
         modifier = modifier,
         targetState = text,
-        transitionSpec = {
-            fadeIn(
-                animationSpec = quackTween(),
-            ) with fadeOut(
-                animationSpec = quackTween(),
-            ) using SizeTransform(
-                clip = false,
-                sizeAnimationSpec = { _, _ ->
-                    quackTween()
-                },
-            )
-        },
     ) { animatedText ->
         BasicText(
             text = animatedText,
