@@ -22,25 +22,29 @@ import team.duckie.quackquack.ui.modifier.quackClickable
 /**
  * 아이콘 하나만 표시하는 컴포넌트
  *
- * @param icon 표시할 아이콘의 drawable 아이디
+ * @param icon 표시할 아이콘의 drawable 아이디.
+ * 만약 null 이 들어온다면 아이콘을 그리지 않습니다.
  * @param tint 아이콘에 적용할 틴트 값
  * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
  */
 @Composable
 @NonRestartableComposable
 internal fun QuackImage(
-    icon: QuackIcon,
+    icon: QuackIcon?,
     tint: QuackColor = QuackColor.Black,
     onClick: () -> Unit = {},
-) = Image(
-    modifier = Modifier.quackClickable(
-        onClick = onClick,
-    ),
-    painter = painterResource(
-        id = icon.drawableId,
-    ),
-    contentDescription = null,
-    colorFilter = ColorFilter.tint(
-        color = tint.value,
-    ),
-)
+) {
+    if (icon == null) return
+    Image(
+        modifier = Modifier.quackClickable(
+            onClick = onClick,
+        ),
+        painter = painterResource(
+            id = icon.drawableId,
+        ),
+        contentDescription = null,
+        colorFilter = ColorFilter.tint(
+            color = tint.value,
+        ),
+    )
+}
