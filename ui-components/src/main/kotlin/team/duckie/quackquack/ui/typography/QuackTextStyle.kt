@@ -236,7 +236,7 @@ private val TextAlign.Companion.VectorConverter
  * @return receiver 로 받은 [List] 의 6번째 요소
  */
 @AllowMagicNumber
-private operator fun <T> List<T>.component6() = get(6)
+private operator fun <T> List<T>.component6() = get(5)
 
 /**
  * [QuackTextStyle] 에 변경이 있을 때 애니메이션을 적용합니다.
