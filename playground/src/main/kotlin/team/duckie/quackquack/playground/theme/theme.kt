@@ -9,15 +9,11 @@
 
 package team.duckie.quackquack.playground.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 
 private val PlaygroundLightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -79,7 +75,9 @@ private val PlaygroundDarkColors = darkColorScheme(
     surfaceTint = md_theme_dark_surfaceTint,
 )
 
-@Composable
+// 왜??
+// java.lang.NoSuchMethodError: No static method PlaygroundTheme
+/*@Composable
 fun PlaygroundTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     useDynamicColor: Boolean = false, // 더 못생겨져서 비활성화
@@ -99,4 +97,22 @@ fun PlaygroundTheme(
         typography = PlaygroundTypography,
         content = content,
     )
+}*/
+
+@Composable
+fun PlaygroundTheme(
+    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit,
+) {
+    val colorScheme = when (!useDarkTheme) {
+        true -> PlaygroundLightColors
+        else -> PlaygroundDarkColors
+    }
+
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = PlaygroundTypography,
+        content = content,
+    )
 }
+
