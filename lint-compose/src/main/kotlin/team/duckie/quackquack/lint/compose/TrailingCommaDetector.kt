@@ -27,7 +27,7 @@ import team.duckie.quackquack.common.lint.compose.isComposable
 import team.duckie.quackquack.common.lint.compose.isInvokedWithinComposable
 
 private const val BriefDescription = "후행 ',' 필수 사용"
-private const val Explanation = "후행 ',' 는 필수적으로 사용해야합니다"
+private const val Explanation = "후행 ',' 는 필수적으로 사용해야 합니다"
 
 /**
  * [TrailingCommaDetector]가 작동되기 위한 최소한의 Argument, Parameter 개수를 정의합니다.
@@ -65,7 +65,7 @@ class TrailingCommaDetector : Detector(), SourceCodeScanner {
 
     override fun getApplicableUastTypes() = listOf(
         UMethod::class.java,
-        UExpression::class.java
+        UExpression::class.java,
     )
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
@@ -105,7 +105,7 @@ class TrailingCommaDetector : Detector(), SourceCodeScanner {
             val lastParameterSourcePsi = lastParameter?.sourcePsi
             val lastParameterNextSibling = lastParameterSourcePsi?.node?.psi?.nextSibling ?: return
 
-            if (!(lastParameterNextSibling.textContains(','))) {
+            if (!lastParameterNextSibling.textContains(',')) {
                 context.report(
                     issue = TrailingCommaIssue,
                     scope = lastParameterSourcePsi,
