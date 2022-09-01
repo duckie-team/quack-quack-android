@@ -166,6 +166,18 @@ class QuackTextStyle internal constructor(
         letterSpacing = letterSpacing,
         lineHeight = lineHeight,
     )
+
+    @Stable
+    internal fun changeTextAlign(
+        newTextAlign: TextAlign,
+    ) = QuackTextStyle(
+        color = color,
+        size = size,
+        weight = weight,
+        letterSpacing = letterSpacing,
+        lineHeight = lineHeight,
+        textAlign = newTextAlign,
+    )
 }
 
 /**
