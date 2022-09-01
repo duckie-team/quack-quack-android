@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 
 @Stable
 internal fun Modifier.bottomIndicatorLine(
-    indicatorBorder: BorderStroke
+    indicatorBorder: BorderStroke,
 ): Modifier = drawWithContent {
     drawContent()
     clipRect {
@@ -29,8 +29,13 @@ internal fun Modifier.bottomIndicatorLine(
             brush = indicatorBorder.brush,
             strokeWidth = strokeWidth,
             cap = StrokeCap.Square,
-            start = Offset.Zero.copy(y = y),
-            end = Offset(x = size.width, y = y)
+            start = Offset.Zero.copy(
+                y = y,
+            ),
+            end = Offset(
+                x = size.width,
+                y = y,
+            ),
         )
     }
 }

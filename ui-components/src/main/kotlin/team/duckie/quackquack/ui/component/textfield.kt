@@ -76,7 +76,7 @@ fun QuackLimitedTextField(
                 QuackBody1(
                     text = text.length.toString(),
                     color = QuackTextFieldDefaults.textFieldColors().textColor(
-                        isFocused = text.isNotEmpty()
+                        isFocused = text.isNotEmpty(),
                     )
                 )
                 Spacer(
@@ -110,7 +110,7 @@ fun QuackLimitedTextField(
                 }
             }
         },
-        style = QuackTextStyle.Title1
+        style = QuackTextStyle.Title1,
     )
 }
 
@@ -133,12 +133,14 @@ fun QuackTrailingTextField(
         ),
         trailing = {
             QuackSubtitle(
-                modifier = Modifier.clickable(text.isNotEmpty()) {
+                modifier = Modifier.clickable(
+                    enabled = text.isNotEmpty(),
+                ) {
                     onClickButton()
                 },
                 text = buttonText,
                 color = QuackTextFieldDefaults.textFieldColors().trailingIconColor(
-                    isFocused = text.isNotEmpty()
+                    isFocused = text.isNotEmpty(),
                 ),
             )
         },
@@ -164,7 +166,7 @@ fun QuackIconTextField(
             QuackSimpleIcon(
                 icon = icon,
                 tint = QuackTextFieldDefaults.textFieldColors().textColor(
-                    isFocused = text.isNotEmpty()
+                    isFocused = text.isNotEmpty(),
                 ),
             )
         },

@@ -11,9 +11,6 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.tooling.preview.Preview
 import team.duckie.quackquack.ui.constant.QuackTextFieldDefaults
 import team.duckie.quackquack.ui.icon.QuackIcon
 
@@ -27,7 +24,8 @@ fun QuackAddSendTextField(
     onTrailingClick: () -> Unit,
 ) {
     QuackBasicTextField(
-        text = text, onTextChanged = onTextChanged,
+        text = text,
+        onTextChanged = onTextChanged,
         leading = {
             QuackSimpleIcon(
                 icon = leadingIcon,
@@ -38,7 +36,7 @@ fun QuackAddSendTextField(
             QuackSimpleIcon(
                 icon = trailingIcon,
                 tint = QuackTextFieldDefaults.textFieldColors().trailingIconColor(
-                    isFocused = text.isNotEmpty()
+                    isFocused = text.isNotEmpty(),
                 ),
                 onClick = onTrailingClick,
             )

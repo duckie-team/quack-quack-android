@@ -90,7 +90,7 @@ object QuackTextFieldDefaults {
     ): BorderStroke = BorderStroke(
         width = width,
         color = colors.indicatorColor(
-            isError = isError
+            isError = isError,
         ).value
     )
 }
