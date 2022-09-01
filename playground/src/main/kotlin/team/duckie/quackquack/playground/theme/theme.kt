@@ -78,7 +78,7 @@ private val PlaygroundDarkColors = darkColorScheme(
 @Composable
 fun PlaygroundTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colorScheme = when (!useDarkTheme) {
         true -> PlaygroundLightColors
