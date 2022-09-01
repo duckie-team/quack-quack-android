@@ -52,6 +52,18 @@ value class QuackColor private constructor(
         val Black = QuackColor(
             value = Color.Black,
         )
+        @Stable
+        val Gray2 = QuackColor(
+            value = Color(0xFFA8A8A8),
+        )
+        @Stable
+        val Gray3 = QuackColor(
+            value = Color(0xFFEFEFEF),
+        )
+        @Stable
+        val Gray4 = QuackColor(
+            value = Color(0xF6F6F6),
+        )
     }
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = value

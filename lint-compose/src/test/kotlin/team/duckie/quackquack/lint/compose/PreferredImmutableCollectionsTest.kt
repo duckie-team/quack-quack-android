@@ -28,6 +28,7 @@ class PreferredImmutableCollectionsTest {
     @get:Rule
     val lintTestRule = LintTestRule()
 
+    // TODO (riflockle7) 추후 성빈님 리펙터링 필요
     @Test
     fun `Composable function`() {
         lintTestRule
@@ -47,6 +48,7 @@ class PreferredImmutableCollectionsTest {
             )
     }
 
+    // TODO (riflockle7) 추후 성빈님 리펙터링 필요
     @Test
     fun `Composable function but not emitting composable`() {
         lintTestRule

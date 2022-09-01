@@ -25,6 +25,7 @@ class ComposeIssueRegistry : IssueRegistry() {
     override val issues = listOf(
         PreferredImmutableCollectionsIssue,
         TrailingCommaIssue
+        FixedModifierOrderIssue,
     )
 
     override val api = CURRENT_API
