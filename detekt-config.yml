@@ -1,11 +1,18 @@
 complexity:
+  LongMethod:
+    threshold: 100
   LongParameterList:
+    active: false
+
+performance:
+  SpreadOperator:
     active: false
 
 style:
   MagicNumber:
     ignorePropertyDeclaration: true
     ignoreCompanionObjectPropertyDeclaration: true
+    ignoreAnnotated: [ 'AllowMagicNumber' ]
   ForbiddenComment:
     active: false
   UnusedPrivateMember:
@@ -15,6 +22,8 @@ style:
   ReturnCount:
     active: false
   LoopWithTooManyJumpStatements:
+    active: false
+  DestructuringDeclarationWithTooManyEntries:
     active: false
 
 naming:
