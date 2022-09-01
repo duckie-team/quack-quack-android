@@ -85,14 +85,16 @@ fun PlaygroundSection(
     AnimationDurationSettingAlert(
         visible = animationDurationSettingAlertVisible,
         onDismissRequest = {
-            animationDurationSettingAlertVisible = false
+            animationDurationSettingAlertVisible = !animationDurationSettingAlertVisible
         }
     )
 
     items.forEachIndexed { index, (_, composable) ->
         PreviewAlert(
             visible = previewVisibleStates[index],
-            onDismissRequest = { previewVisibleStates[index] = false },
+            onDismissRequest = {
+                previewVisibleStates[index] = !previewVisibleStates[index]
+            },
             content = composable,
         )
     }
@@ -162,7 +164,7 @@ fun PlaygroundActivities(
     AnimationDurationSettingAlert(
         visible = animationDurationSettingAlertVisible,
         onDismissRequest = {
-            animationDurationSettingAlertVisible = false
+            animationDurationSettingAlertVisible = !animationDurationSettingAlertVisible
         }
     )
 
