@@ -9,11 +9,15 @@
 
 package team.duckie.quackquack.playground.theme
 
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 
 private val PlaygroundLightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -78,11 +82,16 @@ private val PlaygroundDarkColors = darkColorScheme(
 @Composable
 fun PlaygroundTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
+    useDynamicColor: Boolean = false, // 더 못생겨져서 비활성화
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when (!useDarkTheme) {
-        true -> PlaygroundLightColors
-        else -> PlaygroundDarkColors
+    val context = LocalContext.current
+    val isDynamicColor = useDynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    val colorScheme = when {
+        useDarkTheme && isDynamicColor -> dynamicDarkColorScheme(context)
+        useDarkTheme && !isDynamicColor -> PlaygroundDarkColors
+        !useDarkTheme && isDynamicColor -> dynamicLightColorScheme(context)
+        else -> PlaygroundLightColors // !useDarkTheme && !supportsDynamicColor
     }
 
     MaterialTheme(
