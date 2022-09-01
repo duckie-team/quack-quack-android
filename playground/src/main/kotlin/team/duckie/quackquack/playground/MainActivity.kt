@@ -17,6 +17,7 @@ import team.duckie.quackquack.playground.theme.PlaygroundTheme
 class MainActivity : BaseActivity() {
     private val playgroundActivities = persistentListOf(
         TabPlayground::class,
+        ButtonPlayground::class,
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
