@@ -16,7 +16,15 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.addCallback
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import land.sungbin.systemuicontroller.setSystemBarsColor
+import team.duckie.quackquack.playground.util.PreferenceConfigs
+import team.duckie.quackquack.playground.util.QuackFontScale
+import team.duckie.quackquack.playground.util.dataStore
+import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 
 open class BaseActivity : ComponentActivity() {
     private val isDarkMode by lazy {
@@ -26,19 +34,33 @@ open class BaseActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.addFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+
         setSystemBarsColor(
             color = Color.TRANSPARENT,
             darkIcons = !isDarkMode
         )
+
         onBackPressedDispatcher.addCallback(
             owner = this,
         ) {
             finish()
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+
+        lifecycleScope.launch {
+            // whenStateAtLeast?
+            // withStateAtLeast?
+            // Coroutines + Lifecycle 학습 필요, 지금은 후순위
+            repeatOnLifecycle(state = Lifecycle.State.CREATED) {
+                applicationContext.dataStore.data.collect { preference ->
+                    QuackAnimationMillis = (preference[PreferenceConfigs.AnimationDurationKey]
+                        ?: QuackAnimationMillis).coerceAtLeast(minimumValue = 0)
+                    QuackFontScale = (preference[PreferenceConfigs.FontScaleKey]
+                        ?: QuackFontScale).coerceAtLeast(minimumValue = 0.0)
+                }
+            }
         }
     }
 }

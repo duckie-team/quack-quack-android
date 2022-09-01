@@ -20,6 +20,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -37,17 +38,21 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,13 +61,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.datastore.preferences.core.edit
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 import kotlinx.collections.immutable.PersistentList
-import team.duckie.quackquack.ui.animation.QuackAnimationMills
+import kotlinx.coroutines.launch
+import team.duckie.quackquack.playground.util.PreferenceConfigs
+import team.duckie.quackquack.playground.util.QuackFontScale
+import team.duckie.quackquack.playground.util.dataStore
+import team.duckie.quackquack.playground.util.rememberToast
+import team.duckie.quackquack.ui.animation.QuackAnimationMillis
+import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
+import team.duckie.quackquack.ui.textstyle.LocalQuackFontScale
+import team.duckie.quackquack.ui.textstyle.QuackDefaultFontScale
 
 private inline fun Activity.startActivityWithAnimation(
     withFinish: Boolean = false,
@@ -74,19 +87,99 @@ private inline fun Activity.startActivityWithAnimation(
 }
 
 @Composable
+fun PlaygroundActivities(
+    title: String = "QuackQuack Playground",
+    activities: PersistentList<KClass<*>>,
+) {
+    var playgroundSettingAlertVisible by remember { mutableStateOf(false) }
+    val currentActivity = LocalContext.current as Activity
+
+    PlaygroundSettingAlert(
+        visible = playgroundSettingAlertVisible,
+        onDismissRequest = {
+            playgroundSettingAlertVisible = !playgroundSettingAlertVisible
+        }
+    )
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            SmallTopAppBar(
+                title = {
+                    Text(
+                        modifier = Modifier.statusBarPadding(),
+                        text = title,
+                    )
+                },
+            )
+        }
+    ) { contentPadding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    paddingValues = contentPadding,
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                space = 8.dp,
+            ),
+            contentPadding = PaddingValues(
+                all = 16.dp,
+            ),
+        ) {
+            stickyHeader {
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        playgroundSettingAlertVisible = true
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                    ),
+                ) {
+                    Text(text = "Playground 설정")
+                }
+            }
+
+            items(
+                items = activities,
+                key = { activity -> activity.simpleName ?: activity }
+            ) { activity ->
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        currentActivity.startActivityWithAnimation {
+                            Intent(
+                                currentActivity,
+                                activity.java,
+                            )
+                        }
+                    }
+                ) {
+                    Text(
+                        text = (activity.simpleName ?: activity.toString())
+                            .removeSuffix(suffix = "Playground"),
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun PlaygroundSection(
     title: String,
     items: PersistentList<Pair<String, @Composable () -> Unit>>
 ) {
-    var animationDurationSettingAlertVisible by remember { mutableStateOf(false) }
+    var playgroundSettingAlertVisible by remember { mutableStateOf(false) }
     val previewVisibleStates = remember(items) {
         mutableStateListOf(*Array(items.size) { false })
     }
 
-    AnimationDurationSettingAlert(
-        visible = animationDurationSettingAlertVisible,
+    PlaygroundSettingAlert(
+        visible = playgroundSettingAlertVisible,
         onDismissRequest = {
-            animationDurationSettingAlertVisible = !animationDurationSettingAlertVisible
+            playgroundSettingAlertVisible = !playgroundSettingAlertVisible
         }
     )
 
@@ -130,10 +223,13 @@ fun PlaygroundSection(
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                        animationDurationSettingAlertVisible = true
+                        playgroundSettingAlertVisible = true
                     },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                    ),
                 ) {
-                    Text(text = "애니메이션 지속 시간 설정")
+                    Text(text = "Playground 설정")
                 }
             }
 
@@ -154,83 +250,6 @@ fun PlaygroundSection(
     }
 }
 
-@Composable
-fun PlaygroundActivities(
-    title: String = "QuackQuack Playground",
-    activities: PersistentList<KClass<*>>,
-) {
-    var animationDurationSettingAlertVisible by remember { mutableStateOf(false) }
-    val currentActivity = LocalContext.current as Activity
-
-    AnimationDurationSettingAlert(
-        visible = animationDurationSettingAlertVisible,
-        onDismissRequest = {
-            animationDurationSettingAlertVisible = !animationDurationSettingAlertVisible
-        }
-    )
-
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            SmallTopAppBar(
-                title = {
-                    Text(
-                        modifier = Modifier.statusBarPadding(),
-                        text = title,
-                    )
-                },
-            )
-        }
-    ) { contentPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    paddingValues = contentPadding,
-                ),
-            verticalArrangement = Arrangement.spacedBy(
-                space = 8.dp,
-            ),
-            contentPadding = PaddingValues(
-                all = 16.dp,
-            ),
-        ) {
-            stickyHeader {
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        animationDurationSettingAlertVisible = true
-                    },
-                ) {
-                    Text(text = "애니메이션 지속 시간 설정")
-                }
-            }
-
-            items(
-                items = activities,
-                key = { activity -> activity.simpleName ?: activity }
-            ) { activity ->
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        currentActivity.startActivityWithAnimation {
-                            Intent(
-                                currentActivity,
-                                activity.java,
-                            )
-                        }
-                    }
-                ) {
-                    Text(
-                        text = (activity.simpleName ?: activity.toString())
-                            .removeSuffix(suffix = "Playground"),
-                    )
-                }
-            }
-        }
-    }
-}
-
 @Stable
 private fun Modifier.statusBarPadding() = composed {
     windowInsetsPadding(
@@ -241,55 +260,104 @@ private fun Modifier.statusBarPadding() = composed {
 }
 
 @Composable
-private fun AnimationDurationSettingAlert(
+private fun PlaygroundSettingAlert(
     visible: Boolean,
     onDismissRequest: () -> Unit,
 ) {
-    var textFieldState by remember {
-        mutableStateOf(
-            TextFieldValue(
-                text = (QuackAnimationMills.toDouble() / 1000.toDouble()).toString(),
-            )
-        )
+    val toast = rememberToast()
+    val context = LocalContext.current.applicationContext
+    val coroutineScope = rememberCoroutineScope()
+
+    var animationDurationInputState by remember {
+        mutableStateOf((QuackAnimationMillis.toDouble() / 1000.toDouble()).toString())
+    }
+    var fontScaleInputState by remember {
+        mutableStateOf(QuackFontScale.toString())
     }
 
     if (visible) {
-        fun dismiss() {
-            QuackAnimationMills = (textFieldState.text.toDouble() * 1000.toDouble()).roundToInt()
+        fun dismiss(reset: Boolean = false) {
+            coroutineScope.launch {
+                context.dataStore.edit { preference ->
+                    preference[PreferenceConfigs.AnimationDurationKey] = when (reset) {
+                        true -> QuackDefaultAnimationMillis
+                        else -> (animationDurationInputState.toDouble() * 1000.toDouble()).roundToInt()
+                    }
+                    preference[PreferenceConfigs.FontScaleKey] = when (reset) {
+                        true -> QuackDefaultFontScale
+                        else -> fontScaleInputState.toDouble()
+                    }
+                }
+            }
             onDismissRequest()
         }
 
         AlertDialog(
             modifier = Modifier.wrapContentSize(),
             title = {
-                Text(
-                    text = "애니메이션 지속 시간 설정 (단위: 초)",
-                )
+                Text(text = "Playground 설정")
             },
             text = {
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = textFieldState,
-                    onValueChange = { newTextField ->
-                        textFieldState = newTextField
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                    ),
-                )
+                Column(modifier = Modifier.wrapContentSize()) {
+                    Text(text = "애니메이션 지속 시간")
+                    TextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 4.dp),
+                        value = animationDurationInputState,
+                        onValueChange = { newAnimationDuration ->
+                            animationDurationInputState = newAnimationDuration
+                        },
+                        singleLine = true,
+                        trailingIcon = {
+                            Text(
+                                modifier = Modifier.padding(end = 16.dp),
+                                text = "단위: 초",
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                        ),
+                    )
+                    Text(
+                        modifier = Modifier.padding(top = 20.dp),
+                        text = "Font Scale",
+                    )
+                    TextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 4.dp),
+                        value = fontScaleInputState,
+                        onValueChange = { newFontScale ->
+                            fontScaleInputState = newFontScale
+                        },
+                        singleLine = true,
+                        trailingIcon = {
+                            Text(
+                                modifier = Modifier.padding(end = 16.dp),
+                                text = "배수",
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                        ),
+                    )
+                }
             },
-            onDismissRequest = {
-                dismiss()
-            },
+            onDismissRequest = ::dismiss,
             confirmButton = {
+                Button(onClick = ::dismiss) {
+                    Text(text = "저장")
+                }
+            },
+            dismissButton = {
                 Button(
                     onClick = {
-                        dismiss()
+                        dismiss(reset = true)
+                        toast("Playground 설정을 초기화 했어요")
                     }
                 ) {
-                    Text(
-                        text = "저장",
-                    )
+                    Text(text = "초기화")
                 }
             }
         )
@@ -323,7 +391,10 @@ private fun PreviewAlert(
                         ),
                     contentAlignment = Alignment.Center,
                 ) {
-                    content()
+                    CompositionLocalProvider(
+                        LocalQuackFontScale provides QuackFontScale,
+                        content = content,
+                    )
                 }
             },
         )
