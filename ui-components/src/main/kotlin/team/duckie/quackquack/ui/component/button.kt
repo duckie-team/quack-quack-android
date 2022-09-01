@@ -12,8 +12,8 @@ package team.duckie.quackquack.ui.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
@@ -122,9 +122,7 @@ fun QuackLargeWhiteButton(
     shape = QuackLargeButtonShape,
     leadingIcon = leadingIcon,
     text = text,
-    textStyle = QuackTextStyle.Subtitle.change(
-        newColor = QuackColor.White,
-    ),
+    textStyle = QuackTextStyle.Subtitle,
     textPadding = QuackLargeButtonTextPadding,
     backgroundColor = QuackColor.White,
     border = QuackBorder(
@@ -142,9 +140,7 @@ fun QuackLarge40WhiteButton(
     width = QuackWidth.Fill,
     shape = QuackLargeButtonShape,
     text = text,
-    textStyle = QuackTextStyle.Subtitle.change(
-        newColor = QuackColor.White,
-    ),
+    textStyle = QuackTextStyle.Subtitle,
     textPadding = QuackLargeButton40TextPadding,
     backgroundColor = QuackColor.White,
     border = QuackBorder(
@@ -160,7 +156,6 @@ fun QuackMediumBorderToggleButton(
     selected: Boolean,
     onClick: () -> Unit,
 ) = QuackBasicButton(
-    width = QuackWidth.Wrap,
     shape = QuackMediumButtonShape,
     text = text,
     textStyle = QuackTextStyle.Body1.change(
@@ -191,7 +186,6 @@ fun QuackSmallButton(
     enabled: Boolean,
     onClick: () -> Unit,
 ) = QuackBasicButton(
-    width = QuackWidth.Wrap,
     shape = QuackSmallButtonShape,
     text = text,
     textStyle = QuackTextStyle.Body1.change(
@@ -211,7 +205,6 @@ fun QuackSmallBorderToggleButton(
     selected: Boolean,
     onClick: () -> Unit,
 ) = QuackBasicButton(
-    width = QuackWidth.Wrap,
     shape = QuackSmallButtonShape,
     text = text,
     textStyle = QuackTextStyle.Body1.change(
@@ -241,7 +234,6 @@ fun QuackToggleChip(
     selected: Boolean,
     onClick: () -> Unit,
 ) = QuackBasicButton(
-    width = QuackWidth.Wrap,
     shape = QuackChipShape,
     text = text,
     textStyle = QuackTextStyle.Body2.change(
@@ -271,7 +263,7 @@ fun QuackToggleChip(
 @Composable
 private fun QuackBasicButton(
     modifier: Modifier = Modifier,
-    width: QuackWidth,
+    width: QuackWidth = QuackWidth.Wrap,
     height: QuackHeight = QuackHeight.Wrap,
     elevation: Dp = 0.dp,
     shape: Shape = RectangleShape,
@@ -307,7 +299,7 @@ private fun QuackBasicButton(
         onClick = onClick,
     ) {
         Row(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.wrapContentSize(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
