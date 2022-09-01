@@ -1,7 +1,7 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [textfieldDefaults.kt] created by EvergreenTree97 on 22. 8. 21. 오후 5:48
+ * [TextfieldDefaults.kt] created by EvergreenTree97 on 22. 8. 21. 오후 5:48
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE

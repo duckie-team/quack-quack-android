@@ -49,39 +49,6 @@ import team.duckie.quackquack.ui.typography.QuackSubtitle
 import team.duckie.quackquack.ui.typography.QuackTextStyle
 
 @Composable
-fun QuackAddSendTextField(
-    text: String,
-    onTextChanged: (text: String) -> Unit,
-    leadingIcon: QuackIcon,
-    trailingIcon: QuackIcon,
-    onLeadingClick: () -> Unit,
-    onTrailingClick: () -> Unit,
-) {
-    QuackBasicTextField(
-        text = text, onTextChanged = onTextChanged,
-        leading = {
-            QuackSimpleIcon(
-                icon = leadingIcon,
-                onClick = onLeadingClick,
-            )
-        },
-        trailing = {
-            QuackSimpleIcon(
-                icon = trailingIcon,
-                tint = QuackTextFieldDefaults.textFieldColors().trailingIconColor(
-                    isFocused = text.isNotEmpty()
-                ),
-                onClick = onTrailingClick,
-            )
-        },
-        margin = PaddingValues(
-            horizontal = QuackTextFieldDefaults.iconHorizontalPadding,
-            vertical = QuackTextFieldDefaults.iconVerticalPadding,
-        ),
-    )
-}
-
-@Composable
 fun QuackLimitedTextField(
     text: String,
     onTextChanged: (text: String) -> Unit,
@@ -425,23 +392,13 @@ fun QuackLimitedTextFieldPreview() {
     val errorText = "특수문자가 포함되어 있습니다"
     val maxLength = MaxLength
     val isError = text.endsWith("E")
-    QuackLimitedTextField(text = text,
+    QuackLimitedTextField(
+        text = text,
         onTextChanged = setText,
         placeholder = placeholder,
         errorText = errorText,
         isError = isError,
         maxLength = maxLength,
-        onClickButton = {})
-}
-
-@Composable
-@Preview
-fun QuackAddSendTextFieldPreview() {
-    val (text, setText) = remember { mutableStateOf("") }
-    QuackAddSendTextField(text = text,
-        onTextChanged = setText,
-        leadingIcon = QuackIcon.Plus,
-        trailingIcon = QuackIcon.ArrowSend,
-        onTrailingClick = {},
-        onLeadingClick = {})
+        onClickButton = {},
+    )
 }
