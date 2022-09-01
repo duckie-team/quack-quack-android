@@ -13,8 +13,11 @@
 package team.duckie.quackquack.ui.typography
 
 import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.AnimationVector1D
+import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
@@ -31,6 +34,7 @@ import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
+import kotlin.math.roundToInt
 import kotlinx.coroutines.flow.combine
 import team.duckie.quackquack.ui.R
 import team.duckie.quackquack.ui.animation.quackTween
@@ -59,6 +63,7 @@ class QuackTextStyle internal constructor(
     val weight: FontWeight,
     val letterSpacing: TextUnit,
     val lineHeight: TextUnit,
+    val textAlign: TextAlign = TextAlign.Center,
 ) {
     @Stable
     private val suit = FontFamily(Font(R.font.suit_variable))
@@ -71,7 +76,7 @@ class QuackTextStyle internal constructor(
         fontFamily = suit,
         fontWeight = weight,
         letterSpacing = letterSpacing,
-        textAlign = TextAlign.Center,
+        textAlign = textAlign,
         lineHeight = lineHeight,
     )
 
@@ -162,6 +167,14 @@ class QuackTextStyle internal constructor(
     )
 }
 
+/**
+ * TextUnit 에 Long 곱셈을 구현합니다.
+ *
+ * @receiver 곱셈의 대상이 될 원본 TextUnit
+ * @param times 곱할 소숫점 값
+ * @return receiver 로 받은 [TextUnit] 의 값에
+ * [times] 를 곱한 새로운 [TextUnit] 값
+ */
 @Stable
 private operator fun TextUnit.times(times: Long) = TextUnit(
     value = (value.toDouble() * times.toDouble()).toFloat(),
@@ -170,6 +183,9 @@ private operator fun TextUnit.times(times: Long) = TextUnit(
 
 /**
  * Float 를 Sp 로 변환합니다.
+ *
+ * @receiver Sp 로 변환할 [Float]
+ * @return receiver 로 받은 [Float] 를 [TextUnit] 중 Sp 로 변환한 값
  */
 @Stable
 private fun Float.toSp() = TextUnit(
@@ -186,6 +202,45 @@ private fun Float.toSp() = TextUnit(
 private fun <T> State<T>.toFlow() = snapshotFlow { this }
 
 /**
+ * TextAlign 의 TwoWayConverter 를 구현합니다.
+ *
+ * TextAlign 의 생성자와 필드가 다 internal 로 돼있어서
+ *
+ * ```kotlin
+ * value class TextAlign internal constructor(internal val value: Int)
+ * ```
+ *
+ * TextAlign 의 인자 값으로 될 수 있는 1 ~ 6 까지의 Int 값을
+ * 애니메이션 하여 각각 값에 맞는 TextAlign 을 찾아서 생성하는
+ * 식으로 구현하였습니다.
+ */
+private val TextAlign.Companion.VectorConverter
+    get() = object : TwoWayConverter<TextAlign, AnimationVector1D> {
+        override val convertFromVector: (vector: AnimationVector1D) -> TextAlign
+            get() = { vector ->
+                val index = vector.value.roundToInt().coerceIn(
+                    // TextAlign 의 값이 1 부터 시작
+                    range = 1..6,
+                )
+                values()[index]
+            }
+        override val convertToVector: (value: TextAlign) -> AnimationVector1D
+            get() = { value ->
+                // TextAlign 의 값이 1 부터 시작해서 +1
+                AnimationVector1D(values().indexOf(value) + 1f)
+            }
+    }
+
+/**
+ * [Array] 에 대한 component 정의가 5 까지만 있어서
+ * 6번째 component 를 추가로 정의합니다.
+ *
+ * @receiver 구조분해 할당의 대상이 될 Array 객체
+ * @return receiver 로 받은 [Array] 의 6번째 요소
+ */
+private operator fun <T> Array<T>.component6() = get(6)
+
+/**
  * [QuackTextStyle] 에 변경이 있을 때 애니메이션을 적용합니다.
  *
  * @param targetValue 변경을 감지할 [QuackTextStyle]
@@ -193,7 +248,10 @@ private fun <T> State<T>.toFlow() = snapshotFlow { this }
  *
  * @return Typography 가 변경됐을 때 변경되는 애니메이션의 [State] 객체
  *
- * // FIXME: 현재 weight 애니메이션이 제대로 적용되지 않습니다.
+ * FIXME: 현재 weight 애니메이션이 적용되지 않습니다.
+ *        weight 는 100 단위로 증가하기 때문에 100 ~ n00 으로
+ *        애니메이션 되는 weight 가 구현돼 있지 않아 생기는
+ *        이슈 입니다. 이를 해결하는건 불가능한 것으로 보입니다.
  */
 @Suppress("UNCHECKED_CAST")
 @Composable
@@ -221,6 +279,11 @@ fun animateQuackTextStyleAsState(
         targetValue = targetValue.lineHeight.value,
         animationSpec = animationSpec as AnimationSpec<Float>,
     ).toFlow()
+    val targetTextAlignAnimationFlow = animateValueAsState(
+        targetValue = targetValue.textAlign,
+        typeConverter = TextAlign.VectorConverter,
+        animationSpec = animationSpec as AnimationSpec<TextAlign>,
+    ).toFlow()
 
     return combine(
         targetColorAnimationFlow,
@@ -228,14 +291,26 @@ fun animateQuackTextStyleAsState(
         targetWeightAnimationFlow,
         targetLetterSpacingAnimationFlow,
         targetLineHeightAnimationFlow,
+        targetTextAlignAnimationFlow,
     ) { animationFlows ->
-        val (color, size, weight, letterSpacing, lineHeight) = animationFlows
+        val (
+            color,
+            size,
+            weight,
+            letterSpacing,
+            lineHeight,
+            textAlign,
+        ) = animationFlows
         QuackTextStyle(
             color = color.value as QuackColor,
             size = (size.value as Float).toSp(),
             weight = FontWeight(weight.value as Int),
             letterSpacing = (letterSpacing.value as Float).toSp(),
             lineHeight = (lineHeight.value as Float).toSp(),
+            textAlign = textAlign.value as TextAlign,
         )
-    }.collectAsState(initial = targetValue)
+    }.collectAsState(
+        initial = targetValue,
+    )
 }
+
