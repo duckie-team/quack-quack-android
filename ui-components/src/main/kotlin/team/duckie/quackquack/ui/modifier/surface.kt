@@ -22,7 +22,8 @@ import team.duckie.quackquack.common.runIf
 import team.duckie.quackquack.ui.color.QuackColor
 
 /**
- * 컴포넌트에 기본 테마를 입힙니다. 최하위 Modifier 이므로 인자들의 기본값이 정의되지 않았습니다.
+ * 컴포넌트에 기본 테마를 입힙니다.
+ * 최하위 Modifier 이므로 인자들의 기본값이 정의되지 않았습니다.
  *
  * @param shape 컴포넌트의 모양
  * @param backgroundColor 컴포넌트의 색상

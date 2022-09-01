@@ -70,6 +70,12 @@ internal class QuackTextStyle(
     @Stable
     private val suit = FontFamily(Font(R.font.suit_variable))
 
+    /**
+     * [QuackTextStyle] 을 컴포즈 기본 컴포넌트에 사용하기 위해
+     * [TextStyle] 로 변환합니다.
+     *
+     * @return 변환된 [TextStyle]
+     */
     @Stable
     @Composable
     internal fun asComposeStyle() = TextStyle(
@@ -241,10 +247,13 @@ private operator fun <T> List<T>.component6() = get(5)
 /**
  * [QuackTextStyle] 에 변경이 있을 때 애니메이션을 적용합니다.
  *
+ * [QuackTextStyle.color], [QuackTextStyle.size], [QuackTextStyle.weight],
+ * [QuackTextStyle.letterSpacing], [QuackTextStyle.lineHeight], [QuackTextStyle.textAlign]
+ * 에 애니메이션을 적용합니다.
+ *
  * 현재 weight 애니메이션이 적용되지 않습니다. weight 는
  * 100 단위로 증가하기 때문에 100 ~ n00 으로 애니메이션 되는
- * weight 가 구현돼 있지 않아 생기는 이슈 입니다. 이를 해결하는건
- * 불가능한 것으로 보입니다.
+ * weight 가 구현돼 있지 않아 생기는 이슈 입니다.
  *
  * @param targetValue 변경을 감지할 [QuackTextStyle]
  * @param animationSpec 변경을 감지했을 때 적용할 애니메이션 스팩
