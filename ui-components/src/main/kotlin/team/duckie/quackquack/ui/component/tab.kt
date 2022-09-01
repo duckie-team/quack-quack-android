@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -239,14 +240,13 @@ private fun QuackMainTabTextLazyRow(
             }
             val tabTypography by animateQuackTextStyleAsState(
                 targetValue = when (index == selectedTabIndex) {
-                    true -> QuackTextStyle.Title2.changeColor(
+                    true -> QuackTextStyle.Title2.change(
                         newColor = QuackColor.Black,
                     )
-                    else -> QuackTextStyle.Subtitle.changeColor(
+                    else -> QuackTextStyle.Subtitle.change(
                         newColor = QuackColor.Gray1,
                     )
                 },
-                animationSpec = quackTween(),
             )
             QuackText(
                 modifier = tabModifier,
@@ -348,20 +348,19 @@ private fun QuackSubTabTextRow(
  * 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
  */
 @Composable
+@NonRestartableComposable
 private fun QuackTabDivider(
     modifier: Modifier = Modifier,
     zIndex: Float,
     offsetProvider: Density.() -> IntOffset,
-) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(height = QuackTabDividerHeight)
-            .zIndex(zIndex)
-            .offset(offsetProvider)
-            .background(color = QuackColor.Gray3.value)
-    )
-}
+) = Box(
+    modifier = modifier
+        .fillMaxWidth()
+        .height(height = QuackTabDividerHeight)
+        .zIndex(zIndex)
+        .offset(offsetProvider)
+        .background(color = QuackColor.Gray3.value)
+)
 
 /**
  * QuackTab 의 현재 선택된 탭의 가로 길이 만큼 표시하는 Divider 인
@@ -379,34 +378,33 @@ private fun QuackTabDivider(
  * 제공받아야 합니다. 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
  */
 @Composable
+@NonRestartableComposable
 private fun QuackSelectedTabUnderBar(
     modifier: Modifier = Modifier,
     color: QuackColor,
     zIndex: Float,
     offsetProvider: Density.() -> IntOffset,
     widthProvider: Density.() -> Int,
-) {
-    Box(
-        modifier = modifier
-            .height(height = QuackSelectedTabUnderBarHeight)
-            .layout { measurable, constraints ->
-                val width = widthProvider()
-                val placeable = measurable.measure(
-                    constraints = constraints.copy(
-                        minWidth = width,
-                        maxWidth = width,
-                    )
+) = Box(
+    modifier = modifier
+        .height(height = QuackSelectedTabUnderBarHeight)
+        .layout { measurable, constraints ->
+            val width = widthProvider()
+            val placeable = measurable.measure(
+                constraints = constraints.copy(
+                    minWidth = width,
+                    maxWidth = width,
+                ),
+            )
+            layout(
+                width = placeable.width,
+                height = placeable.height,
+            ) {
+                placeable.placeRelative(
+                    position = offsetProvider(),
+                    zIndex = zIndex,
                 )
-                layout(
-                    width = placeable.width,
-                    height = placeable.height,
-                ) {
-                    placeable.placeRelative(
-                        position = offsetProvider(),
-                        zIndex = zIndex,
-                    )
-                }
             }
-            .background(color = color.value)
-    )
-}
+        }
+        .background(color = color.value)
+)

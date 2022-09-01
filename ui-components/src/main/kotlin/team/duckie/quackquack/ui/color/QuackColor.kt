@@ -1,7 +1,7 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [color.kt] created by Ji Sungbin on 22. 8. 14. 오후 7:48
+ * [QuackColor.kt] created by Ji Sungbin on 22. 8. 14. 오후 7:48
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
@@ -238,7 +238,7 @@ value class QuackColor private constructor(
  * @return 색상이 변경됐을 때 색상이 변경되는 애니메이션의 [State] 객체
  */
 @Composable
-fun animateQuackColorAsState(
+internal fun animateQuackColorAsState(
     targetValue: QuackColor,
     animationSpec: AnimationSpec<QuackColor> = quackTween(),
 ): State<QuackColor> {
