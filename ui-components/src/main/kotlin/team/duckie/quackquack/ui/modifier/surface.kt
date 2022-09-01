@@ -36,6 +36,9 @@ internal fun Modifier.surface(
     border: BorderStroke?,
     elevation: Dp,
 ) = this
+    .clip(
+        shape = shape,
+    )
     .shadow(
         elevation = elevation,
         shape = shape,
@@ -49,8 +52,5 @@ internal fun Modifier.surface(
     }
     .background(
         color = backgroundColor.value,
-        shape = shape,
-    )
-    .clip(
         shape = shape,
     )
