@@ -219,7 +219,9 @@ value class QuackColor private constructor(
                         )
 
                         QuackColor(
-                            value = colorXyz.convert(colorSpace),
+                            value = colorXyz.convert(
+                                colorSpace = colorSpace,
+                            ),
                         )
                     }
                 )
