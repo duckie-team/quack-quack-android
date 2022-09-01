@@ -32,8 +32,8 @@ private const val Explanation = "후행 ',' 는 필수적으로 사용해야합�
 /**
  * [TrailingCommaDetector]가 적용되지 않는 최대 Argument, Parameter 개수를 정의합니다.
  */
-private const val LIMIT_ARGUMENT_NUMBER = 2
-private const val LIMIT_PARAMETER_NUMBER = 2
+private const val LimitArgumentNumber = 2
+private const val LimitParameterNumber = 2
 
 /**
  * QuackQuack 린트의 [TrailingCommaDetector] 규칙을 정의합니다.
@@ -47,7 +47,7 @@ private const val LIMIT_PARAMETER_NUMBER = 2
  * 1. 매개변수 뒤에 ','가 오지 않는 경우
  * 2. 인자 뒤에 ','가 오지 않는 경우
  *
- * 예외적으로, 인자와 파라미터 개수가 최대 [LIMIT_ARGUMENT_NUMBER] [LIMIT_PARAMETER_NUMBER]
+ * 예외적으로, 인자와 파라미터 개수가 최대 [LimitArgumentNumber] [LimitParameterNumber]
  * 일 경우에는 예외를 발생시키지 않습니다.
  */
 val TrailingCommaIssue = Issue.create(
@@ -78,7 +78,7 @@ class TrailingCommaDetector : Detector(), SourceCodeScanner {
             val valueArgumentSize = node.valueArgumentCount
             val valueArgumentList = node.valueArguments
 
-            if (valueArgumentSize < LIMIT_ARGUMENT_NUMBER) return
+            if (valueArgumentSize < LimitArgumentNumber) return
 
             valueArgumentList.map { argument ->
                 val argumentSourcePsi = argument.sourcePsi
@@ -103,7 +103,7 @@ class TrailingCommaDetector : Detector(), SourceCodeScanner {
 
             val parameterSize = node.uastParameters.size
 
-            if (parameterSize < LIMIT_PARAMETER_NUMBER) return
+            if (parameterSize < LimitParameterNumber) return
 
             val lastParameter = node.uastParameters.lastOrNull()
             val lastParameterSourcePsi = lastParameter?.sourcePsi
