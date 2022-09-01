@@ -33,5 +33,30 @@ value class QuackIcon private constructor(
         val Close = QuackIcon(
             drawableId = R.drawable.ic_close_24,
         )
+
+        @Stable
+        val Search = QuackIcon(
+            drawableId = R.drawable.search_16
+        )
+
+        @Stable
+        val Won = QuackIcon(
+            drawableId = R.drawable.won_16
+        )
+
+        @Stable
+        val Delete = QuackIcon(
+            drawableId = R.drawable.delete_16
+        )
+
+        @Stable
+        val ArrowSend = QuackIcon(
+            drawableId = R.drawable.arrow_send_24
+        )
+
+        @Stable
+        val Plus = QuackIcon(
+            drawableId = R.drawable.plus_24
+        )
     }
 }
