@@ -13,6 +13,7 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
@@ -30,9 +31,8 @@ import team.duckie.quackquack.ui.typography.animateQuackTextStyleAsState
  * 주어진 조건에 따라 텍스트를 표시합니다. 꽥꽥에서 텍스트를 표시하는데
  * 사용되는 최하위 컴포넌트 입니다.
  *
- * **애니메이션 가능한 모든 요소들에는 자동으로
- * 애니메이션이 적용됩니다.** 현재 애니메이션이
- * 적용되는 요소들은 다음과 같습니다.
+ * **애니메이션 가능한 모든 요소들에는 자동으로 애니메이션이 적용됩니다.**
+ * 현재 애니메이션이 적용되는 요소들은 다음과 같습니다.
  *
  * [text], [style]
  *
@@ -59,11 +59,16 @@ internal fun QuackText(
                 animationSpec = quackTween(),
             ) with fadeOut(
                 animationSpec = quackTween(),
+            ) using SizeTransform(
+                clip = false,
+                sizeAnimationSpec = { _, _ ->
+                    quackTween()
+                },
             )
         },
-    ) {
+    ) { animatedText ->
         BasicText(
-            text = text,
+            text = animatedText,
             style = styleAnimationState.asComposeStyle(),
         )
     }
