@@ -14,9 +14,17 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.clipRect
 
+/**
+ * 사각형 컴포넌트에 Bottom Line 색상을 입히는 [Modifier] 입니다.
+ *
+ * [BorderStroke] 의 width, brush를 통해 원하는 색상과 너비를 제공할 수 있습니다.
+ *
+ * @param indicatorBorder 의 width와 brush를 포함하는 [BorderStroke]
+ */
 @Stable
 internal fun Modifier.bottomIndicatorLine(
     indicatorBorder: BorderStroke,

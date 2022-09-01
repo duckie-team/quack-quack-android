@@ -48,6 +48,25 @@ import team.duckie.quackquack.ui.typography.QuackTextStyle
 
 const val TextFieldTestTag = "TextFieldTag"
 
+/**
+ * 글자 수를 제한할 수 있는 TextField 입니다.
+ *
+ * [maxLength]를 지정하여, 최대로 입력할 수 있는 Length를 표시합니다.
+ * 또한 현재까지 입력한 텍스트의 Length를 확인할 수 있습니다.
+ *
+ * error 여부를 [isError]에 제공할 수 있으며,
+ * true인 경우 bottom Line이 표시되며 메시지가 출력됩니다.
+ *
+ * @param text TextField 에 표시할 input [String]
+ * @param onTextChanged Text가 업데이트 될 때 마다 트리거 되는 콜백,
+ * 업데이트 된 텍스트가 콜백의 매개변수로 들어옴
+ * @param placeholder Text가 비어있을 때 보여지는 holder text
+ * @param isError TextField 현재 값이 오류인지 여부
+ * @param errorText [isError]가 true일 때 표시 될 Text
+ * @param MaxLength TextField의 최대 입력 길이
+ * @param icon TextField의 끝 부분에 표시할 아이콘
+ * @param onClickIcon [icon]을 클릭했을 때 발생하는 이벤트
+ */
 @Composable
 fun QuackLimitedTextField(
     text: String,
@@ -57,7 +76,7 @@ fun QuackLimitedTextField(
     errorText: String,
     maxLength: Int,
     icon: QuackIcon = QuackIcon.Delete,
-    onClickButton: () -> Unit,
+    onClickIcon: () -> Unit,
 ) {
     QuackBasicTextField(
         text = text,
@@ -105,7 +124,7 @@ fun QuackLimitedTextField(
                     )
                     QuackSimpleIcon(
                         icon = icon,
-                        onClick = onClickButton,
+                        onClick = onClickIcon,
                     )
                 }
             }
@@ -114,13 +133,25 @@ fun QuackLimitedTextField(
     )
 }
 
+/**
+ * Trailing Text를 제공할 수 있는 TextField 입니다.
+ *
+ * [buttonText]를 통해 TextField의 끝에 클릭 가능한 text를 제공합니다.
+ *
+ * @param text TextField 에 표시할 input [String]
+ * @param onTextChanged Text가 업데이트 될 때 마다 트리거 되는 콜백,
+ * 업데이트 된 텍스트가 콜백의 매개변수로 들어옴
+ * @param buttonText TextField의 끝에 배치 될 text, 클릭 이벤트 적용 가능
+ * @param placeholder Text가 비어있을 때 보여지는 holder text
+ * @param onClickText [buttonText]를 클릭했을 때 발생하는 이벤트
+ */
 @Composable
 fun QuackTrailingTextField(
     text: String,
     onTextChanged: (text: String) -> Unit,
     buttonText: String,
     placeholder: String,
-    onClickButton: () -> Unit,
+    onClickText: () -> Unit,
 ) {
     QuackBasicTextField(
         text = text,
@@ -128,7 +159,7 @@ fun QuackTrailingTextField(
         placeholder = placeholder,
         keyboardActions = KeyboardActions(
             onDone = {
-                onClickButton()
+                onClickText()
             },
         ),
         trailing = {
@@ -136,7 +167,7 @@ fun QuackTrailingTextField(
                 modifier = Modifier.clickable(
                     enabled = text.isNotEmpty(),
                 ) {
-                    onClickButton()
+                    onClickText()
                 },
                 text = buttonText,
                 color = QuackTextFieldDefaults.textFieldColors().trailingIconColor(
@@ -147,6 +178,17 @@ fun QuackTrailingTextField(
     )
 }
 
+/**
+ * Leading Icon을 제공할 수 있는 TextField 입니다.
+ *
+ * [icon]을 통해 TextField의 앞 부분에 QuackIcon을 제공할 수 있습니다.
+ *
+ * @param text TextField 에 표시할 input [String]
+ * @param onTextChanged Text가 업데이트 될 때 마다 트리거 되는 콜백,
+ * 업데이트 된 텍스트가 콜백의 매개변수로 들어옴
+ * @param icon TextField의 앞 부분에 표시되는 [QuackIcon]
+ * @param placeholder Text가 비어있을 때 보여지는 holder text
+ */
 @Composable
 fun QuackIconTextField(
     text: String,
@@ -173,6 +215,14 @@ fun QuackIconTextField(
     )
 }
 
+/**
+ * 값을 입력할 수 있는 기본적인 TextField 입니다.
+ *
+ * @param text TextField 에 표시할 input [String]
+ * @param onTextChanged Text가 업데이트 될 때 마다 트리거 되는 콜백,
+ * 업데이트 된 텍스트가 콜백의 매개변수로 들어옴
+ * @param placeholder Text가 비어있을 때 보여지는 holder text
+ */
 @Composable
 fun QuackTextField(
     text: String,
@@ -186,6 +236,35 @@ fun QuackTextField(
     )
 }
 
+/**
+ * QuackTextField의 기반이 되는 컴포넌트 입니다.
+ *
+ * 기본적으로 [text]만 주어지며
+ * 상황에 따라 [trailing], [leading] 등을 제공할 수 있습니다.
+ *
+ * @param text TextField 에 표시할 input [String]
+ * @param onTextChanged Text가 업데이트 될 때 마다 트리거 되는 콜백,
+ * 업데이트 된 텍스트가 콜백의 매개변수로 들어옴
+ * @param placeholder Text가 비어있을 때 보여지는 holder text
+ * @param width TextField의 가로 길이
+ * @param height TextField의 높이
+ * @param keyboardOptions 소프트웨어 키보드 옵션 및 ImeAction
+ * @param keyboardActions 입력 서비스가 IME 작업을 실행하면 실행되는 콜백,
+ * [KeyboardOptions.imeAction] 에서 지정한 Action과 다를 수 있음
+ * @param trailing TextField 컨테이너의 끝에 표시할 요소
+ * @param leading TextField 컨테이너의 시작 부분에 표시할 요소
+ * @param isError TextField 현재 값이 오류인지 여부,
+ * true를 제공하면 기본적으로 하단 바 색깔과, 에러 메시지를 표시
+ * @param errorText [isError]가 true일 때 보여지는 메시지
+ * @param margin TextField 안쪽 여백
+ * @param iconSpacing [trailing], [leading]과의 간격
+ * @param singleLine true일 때, 단일 수평으로 스크롤 되는 텍스트 필드가 됨
+ * @param colors TextField의 다양한 상태에 대한 색을 제공
+ * (label 색상, placeholder 색상 등을 포함)
+ * @param shape TextField 컨테이너의 모양
+ * @param style 입력 텍스트에 적용할 스타일
+ * @see QuackTextFieldDefaults
+ */
 @Composable
 internal fun QuackBasicTextField(
     text: String,
@@ -226,7 +305,7 @@ internal fun QuackBasicTextField(
                 width = width,
                 height = height,
                 trailing = trailing,
-                icon = leading,
+                leading = leading,
                 isError = isError,
                 margin = margin,
                 errorText = errorText,
@@ -239,6 +318,29 @@ internal fun QuackBasicTextField(
     )
 }
 
+/**
+ * TextField에 Custom Design을 제공하기 위한 DecorationBox 입니다.
+ *
+ *
+ * @param text TextField 에 표시할 input [String]
+ * 업데이트 된 텍스트가 콜백의 매개변수로 들어옴
+ * @param placeholder Text가 비어있을 때 보여지는 holder text
+ * @param width TextField의 가로 길이
+ * @param height TextField의 높이
+ * @param innerTextField 해당 [QuackCommonDecorationBox]가 감싸는 TextField,
+ * decorationBox 람다에서 이를 전달
+ * @param trailing TextField 컨테이너의 끝에 표시할 요소
+ * @param leading TextField 컨테이너의 시작 부분에 표시할 요소
+ * @param isError TextField 현재 값이 오류인지 여부,
+ * true를 제공하면 기본적으로 하단 바 색깔과, 에러 메시지를 표시
+ * @param errorText [isError]가 true일 때 보여지는 메시지
+ * @param margin TextField 안쪽 여백
+ * @param iconSpacing [trailing], [leading]과의 간격
+ * @param colors TextField의 다양한 상태에 대한 색을 제공
+ * (label 색상, placeholder 색상 등을 포함)
+ * @param shape TextField 컨테이너의 모양
+ * @see QuackTextFieldDefaults
+ */
 @Composable
 private fun QuackCommonDecorationBox(
     text: String,
@@ -246,7 +348,7 @@ private fun QuackCommonDecorationBox(
     height: QuackHeight,
     innerTextField: @Composable () -> Unit,
     trailing: @Composable (() -> Unit)?,
-    icon: @Composable (() -> Unit)?,
+    leading: @Composable (() -> Unit)?,
     isError: Boolean,
     errorText: String,
     placeholder: String,
@@ -287,8 +389,8 @@ private fun QuackCommonDecorationBox(
                     ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    icon?.run {
-                        this()
+                    leading?.also { leadingContent ->
+                        leadingContent()
                         Spacer(
                             modifier = Modifier.width(
                                 width = iconSpacing,
@@ -305,13 +407,13 @@ private fun QuackCommonDecorationBox(
                         innerTextField()
                     }
                 }
-                trailing?.run {
+                trailing?.also { trailingContent ->
                     Spacer(
                         modifier = Modifier.width(
                             iconSpacing,
                         )
                     )
-                    this()
+                    trailingContent()
                 }
             }
         }
