@@ -32,10 +32,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import team.duckie.quackquack.ui.R
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackTextFieldColors
@@ -47,6 +49,8 @@ import team.duckie.quackquack.ui.modifier.bottomIndicatorLine
 import team.duckie.quackquack.ui.typography.QuackBody1
 import team.duckie.quackquack.ui.typography.QuackSubtitle
 import team.duckie.quackquack.ui.typography.QuackTextStyle
+
+const val TextFieldTestTag = "TextFieldTag"
 
 @Composable
 fun QuackLimitedTextField(
@@ -74,7 +78,7 @@ fun QuackLimitedTextField(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 QuackBody1(
-                    text = "${text.length}",
+                    text = text.length.toString(),
                     color = QuackTextFieldDefaults.textFieldColors().textColor(
                         isFocused = text.isNotEmpty()
                     )
@@ -85,7 +89,7 @@ fun QuackLimitedTextField(
                     ),
                 )
                 QuackBody1(
-                    text = "/",
+                    text = stringResource(id = R.string.slash),
                     color = QuackColor.Gray2,
                 )
                 Spacer(
@@ -94,7 +98,7 @@ fun QuackLimitedTextField(
                     ),
                 )
                 QuackBody1(
-                    text = "$maxLength",
+                    text = maxLength.toString(),
                     color = QuackColor.Gray2,
                 )
                 if (text.isNotEmpty()) {
@@ -188,7 +192,7 @@ fun QuackTextField(
 internal fun QuackBasicTextField(
     text: String,
     onTextChanged: (text: String) -> Unit,
-    placeholder: String = "",
+    placeholder: String,
     width: QuackWidth = QuackWidth.Fill,
     height: QuackHeight = QuackHeight.Custom(QuackTextFieldDefaults.height),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -206,7 +210,7 @@ internal fun QuackBasicTextField(
 ) {
     BasicTextField(
         modifier = Modifier.testTag(
-            tag = "TextFieldTag"
+            tag = TextFieldTestTag
         ),
         value = text,
         onValueChange = onTextChanged,
@@ -325,79 +329,4 @@ private fun QuackCommonDecorationBox(
             )
         }
     }
-}
-
-@Composable
-@Preview
-fun QuackTextFieldPreview() {
-    val (text, setText) = remember { mutableStateOf("") }
-    val placeholder = "placeholder"
-    QuackTextField(
-        text = text,
-        onTextChanged = setText,
-        placeholder = placeholder,
-    )
-}
-
-@Composable
-@Preview
-fun QuackIconTextFieldPreview() {
-    val (text, setText) = remember { mutableStateOf("") }
-    val placeholder = "placeholder"
-    val placeholder2 = "가격(필수 입력)"
-    Column {
-        QuackIconTextField(
-            text = text,
-            onTextChanged = setText,
-            icon = QuackIcon.Search,
-            placeholder = placeholder,
-        )
-        Spacer(
-            modifier = Modifier.height(
-                height = 20.dp,
-            ),
-        )
-        QuackIconTextField(
-            text = text,
-            onTextChanged = setText,
-            icon = QuackIcon.Won,
-            placeholder = placeholder2,
-        )
-    }
-}
-
-@Composable
-@Preview
-fun QuackTrailingTextFieldPreview() {
-    val (text, setText) = remember { mutableStateOf("") }
-    val placeholder = "placeholder"
-    val buttonText = "등록"
-    QuackTrailingTextField(
-        text = text,
-        onTextChanged = setText,
-        buttonText = buttonText,
-        placeholder = placeholder,
-        onClickButton = {},
-    )
-}
-
-private const val MaxLength = 30
-
-@Composable
-@Preview
-fun QuackLimitedTextFieldPreview() {
-    val (text, setText) = remember { mutableStateOf("") }
-    val placeholder = "placeholder"
-    val errorText = "특수문자가 포함되어 있습니다"
-    val maxLength = MaxLength
-    val isError = text.endsWith("E")
-    QuackLimitedTextField(
-        text = text,
-        onTextChanged = setText,
-        placeholder = placeholder,
-        errorText = errorText,
-        isError = isError,
-        maxLength = maxLength,
-        onClickButton = {},
-    )
 }

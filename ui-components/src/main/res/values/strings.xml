@@ -7,4 +7,6 @@
   ~ Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
   -->
 
-<resources></resources>
+<resources>
+    <string name="slash">/</string>
+</resources>

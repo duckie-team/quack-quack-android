@@ -49,17 +49,3 @@ fun QuackAddSendTextField(
         ),
     )
 }
-
-@Composable
-@Preview
-fun QuackAddSendTextFieldPreview() {
-    val (text, setText) = remember { mutableStateOf("") }
-    QuackAddSendTextField(
-        text = text,
-        onTextChanged = setText,
-        leadingIcon = QuackIcon.Plus,
-        trailingIcon = QuackIcon.ArrowSend,
-        onTrailingClick = {},
-        onLeadingClick = {},
-    )
-}
