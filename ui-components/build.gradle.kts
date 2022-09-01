@@ -42,4 +42,8 @@ dependencies {
         libs.compose.glide,
     )
     testImplementation(libs.test.parameter.injector)
+    customLints(
+        projects.lintCore,
+        projects.lintCompose,
+    )
 }
