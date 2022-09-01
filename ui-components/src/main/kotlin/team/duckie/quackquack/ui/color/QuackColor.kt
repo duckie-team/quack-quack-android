@@ -11,8 +11,11 @@ package team.duckie.quackquack.ui.color
 
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector4D
+import androidx.compose.animation.core.SpringSpec
+import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
@@ -39,7 +42,7 @@ import team.duckie.quackquack.ui.animation.quackTween
  */
 @Immutable
 @JvmInline
-value class QuackColor private constructor(
+value class QuackColor internal constructor(
     val value: Color,
 ) {
     companion object {
@@ -232,6 +235,31 @@ value class QuackColor private constructor(
 }
 
 /**
+ * [TweenSpec] 의 durationMillis 를 2로 나눈 값을 반환합니다.
+ *
+ * 색상 애니메이션은 애니메이션 뒷쪽에 색상 변화가 몰려있기 때문에
+ * 다른 애니메이션과 조화를 위해선 색상 애니메이션을
+ * 일찍 진행해야 합니다. 따라서 입력받은 [AnimationSpec] 의
+ * 진행 시간을 2로 나눠서 다른 애니메이션 보다 일찍 진행합니다.
+ *
+ * 현재 덕키에서 애니메이션은 모두 [TweenSpec] 을 사용하기로
+ * 합의가 됐기에 이 구현은 [TweenSpec] 에 있어서만 유효합니다.
+ * 만약 예외 케이스로 [SpringSpec] 을 사용해야 한다면
+ * [SpringSpec] 을 구현하는 새로운 로직을 추가해야 합니다.
+ *
+ * @receiver 애니메이션에 사용할 [AnimationSpec]
+ * @return receiver 의 durationMillis 를 2로 나눈 새로운 [AnimationSpec]
+ */
+private fun <T> AnimationSpec<T>.toColorTweenSpec(): AnimationSpec<T> {
+    val tweenSpec = this as TweenSpec<T>
+    return tween(
+        durationMillis = tweenSpec.durationMillis / 2,
+        delayMillis = tweenSpec.delay,
+        easing = tweenSpec.easing,
+    )
+}
+
+/**
  * [QuackColor] 에 색상에 변경이 있을 때 애니메이션을 적용합니다.
  *
  * @param targetValue 색상 변경을 감지할 [QuackColor]
@@ -250,7 +278,7 @@ internal fun animateQuackColorAsState(
     return animateValueAsState(
         targetValue = targetValue,
         typeConverter = converter,
-        animationSpec = animationSpec,
+        animationSpec = animationSpec.toColorTweenSpec(),
         finishedListener = null,
     )
 }
