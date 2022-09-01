@@ -67,15 +67,15 @@ fun QuackLargeButtonDemo() {
 
 @Composable
 fun QuackLargeWhiteButtonDemo() {
-    var icon by remember {
+    var leadingIcon by remember {
         mutableStateOf<QuackIcon?>(QuackIcon.Close)
     }
 
     QuackLargeWhiteButton(
-        text = "leadingIcon: ${icon != null}",
-        leadingIcon = QuackIcon.Close,
+        text = "leadingIcon: ${leadingIcon != null}",
+        leadingIcon = leadingIcon,
         onClick = {
-            icon = when (icon != null) {
+            leadingIcon = when (leadingIcon != null) {
                 true -> null
                 else -> QuackIcon.Close
             }
