@@ -24,12 +24,24 @@ import team.duckie.quackquack.ui.animation.quackTween
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 
+/**
+ * [BorderStroke] 에서 [BorderStroke.brush] 값을 [QuackColor] 로 받기 위한
+ * [BorderStroke] 의 wrapper 클래스 입니다.
+ *
+ * @param width border 의 굵기
+ * @param color border 의 색상
+ */
 // 기본 값으로 정해진게 없기에 internal constructor
 @Immutable
 internal class QuackBorder(
     val width: Dp = 1.dp,
     val color: QuackColor,
 ) {
+    /**
+     * [QuackBorder] 를 [BorderStroke] 로 변환합니다.
+     *
+     * @return 변환된 [BorderStroke]
+     */
     @Stable
     fun asComposeBorder() = BorderStroke(
         width = width,
@@ -39,6 +51,14 @@ internal class QuackBorder(
     )
 }
 
+/**
+ * [QuackBorder] 의 변화에 애니메이션을 적용합니다.
+ * [QuackBorder.width] 와 [QuackBorder.color] 모두
+ * 애니메이션이 적용됩니다.
+ *
+ * @param targetValue 애니메이션을 적용할 [QuackBorder]
+ * @param animationSpec 애니메이션에 사용할 [AnimationSpec]
+ */
 @Suppress("UNCHECKED_CAST")
 @Composable
 internal fun animateQuackBorderAsState(

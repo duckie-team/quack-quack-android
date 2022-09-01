@@ -15,6 +15,15 @@ import androidx.compose.ui.Modifier
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 
+/**
+ * [QuackText] 에 [QuackTextStyle.HeadLine1] 스타일을 적용하여
+ * 주어진 텍스트를 표시합니다.
+ *
+ * @param modifier 이 컴포넌트에서 사용할 [Modifier].
+ * 추후 필요한 정보만 받게 수정돼야 합니다.
+ * @param text 표시할 텍스트
+ * @param color 텍스트의 색상
+ */
 @Composable
 @NonRestartableComposable
 fun QuackHeadLine1(
@@ -29,6 +38,15 @@ fun QuackHeadLine1(
     ),
 )
 
+/**
+ * [QuackText] 에 [QuackTextStyle.HeadLine2] 스타일을 적용하여
+ * 주어진 텍스트를 표시합니다.
+ *
+ * @param modifier 이 컴포넌트에서 사용할 [Modifier].
+ * 추후 필요한 정보만 받게 수정돼야 합니다.
+ * @param text 표시할 텍스트
+ * @param color 텍스트의 색상
+ */
 @Composable
 @NonRestartableComposable
 fun QuackHeadLine2(
@@ -43,6 +61,15 @@ fun QuackHeadLine2(
     ),
 )
 
+/**
+ * [QuackText] 에 [QuackTextStyle.Title1] 스타일을 적용하여
+ * 주어진 텍스트를 표시합니다.
+ *
+ * @param modifier 이 컴포넌트에서 사용할 [Modifier].
+ * 추후 필요한 정보만 받게 수정돼야 합니다.
+ * @param text 표시할 텍스트
+ * @param color 텍스트의 색상
+ */
 @Composable
 @NonRestartableComposable
 fun QuackTitle1(
@@ -57,6 +84,15 @@ fun QuackTitle1(
     ),
 )
 
+/**
+ * [QuackText] 에 [QuackTextStyle.Title2] 스타일을 적용하여
+ * 주어진 텍스트를 표시합니다.
+ *
+ * @param modifier 이 컴포넌트에서 사용할 [Modifier].
+ * 추후 필요한 정보만 받게 수정돼야 합니다.
+ * @param text 표시할 텍스트
+ * @param color 텍스트의 색상
+ */
 @Composable
 @NonRestartableComposable
 fun QuackTitle2(
@@ -71,6 +107,15 @@ fun QuackTitle2(
     ),
 )
 
+/**
+ * [QuackText] 에 [QuackTextStyle.Subtitle] 스타일을 적용하여
+ * 주어진 텍스트를 표시합니다.
+ *
+ * @param modifier 이 컴포넌트에서 사용할 [Modifier].
+ * 추후 필요한 정보만 받게 수정돼야 합니다.
+ * @param text 표시할 텍스트
+ * @param color 텍스트의 색상
+ */
 @Composable
 @NonRestartableComposable
 fun QuackSubtitle(
@@ -85,6 +130,15 @@ fun QuackSubtitle(
     ),
 )
 
+/**
+ * [QuackText] 에 [QuackTextStyle.Body1] 스타일을 적용하여
+ * 주어진 텍스트를 표시합니다.
+ *
+ * @param modifier 이 컴포넌트에서 사용할 [Modifier].
+ * 추후 필요한 정보만 받게 수정돼야 합니다.
+ * @param text 표시할 텍스트
+ * @param color 텍스트의 색상
+ */
 @Composable
 @NonRestartableComposable
 fun QuackBody1(
@@ -99,6 +153,15 @@ fun QuackBody1(
     ),
 )
 
+/**
+ * [QuackText] 에 [QuackTextStyle.Body2] 스타일을 적용하여
+ * 주어진 텍스트를 표시합니다.
+ *
+ * @param modifier 이 컴포넌트에서 사용할 [Modifier].
+ * 추후 필요한 정보만 받게 수정돼야 합니다.
+ * @param text 표시할 텍스트
+ * @param color 텍스트의 색상
+ */
 @Composable
 @NonRestartableComposable
 fun QuackBody2(
@@ -113,6 +176,15 @@ fun QuackBody2(
     ),
 )
 
+/**
+ * [QuackText] 에 [QuackTextStyle.Body3] 스타일을 적용하여
+ * 주어진 텍스트를 표시합니다.
+ *
+ * @param modifier 이 컴포넌트에서 사용할 [Modifier].
+ * 추후 필요한 정보만 받게 수정돼야 합니다.
+ * @param text 표시할 텍스트
+ * @param color 텍스트의 색상
+ */
 @Composable
 @NonRestartableComposable
 fun QuackBody3(
