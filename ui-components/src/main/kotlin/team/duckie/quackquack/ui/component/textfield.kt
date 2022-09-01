@@ -282,7 +282,8 @@ private fun QuackCommonDecorationBox(
                 Row(
                     modifier = Modifier.weight(
                         weight = 1f,
-                    ), verticalAlignment = Alignment.CenterVertically
+                    ),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     icon?.run {
                         this()
@@ -326,7 +327,6 @@ private fun QuackCommonDecorationBox(
     }
 }
 
-
 @Composable
 @Preview
 fun QuackTextFieldPreview() {
@@ -364,7 +364,6 @@ fun QuackIconTextFieldPreview() {
             placeholder = placeholder2,
         )
     }
-
 }
 
 @Composable
