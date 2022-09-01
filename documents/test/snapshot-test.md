@@ -51,6 +51,7 @@ class Paparazzi {
 따라서 로컬에서 golden image 를 캡처해서 보관하는 식으로 진행해야 합니다. 또한 아래 font scale 은 필수로 테스트를 진행해야 합니다
 
 - x 0.5
+- x 1.0
 - x 1.5
 - x 2.0
 

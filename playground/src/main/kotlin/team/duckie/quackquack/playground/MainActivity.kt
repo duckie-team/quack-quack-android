@@ -7,45 +7,26 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress(
-    "UNUSED_VARIABLE",
-    "unused",
-    "UNUSED_PARAMETER",
-)
-
 package team.duckie.quackquack.playground
 
-import androidx.activity.ComponentActivity
+import android.os.Bundle
+import androidx.activity.compose.setContent
+import kotlinx.collections.immutable.persistentListOf
+import team.duckie.quackquack.playground.theme.PlaygroundTheme
 
-class MainActivity : ComponentActivity()
+class MainActivity : BaseActivity() {
+    private val playgroundActivities = persistentListOf(
+        TabPlayground::class,
+    )
 
-/*@Composable
-fun Button() {
-    // stub!
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            PlaygroundTheme {
+                PlaygroundActivities(
+                    activities = playgroundActivities,
+                )
+            }
+        }
+    }
 }
-
-@Composable
-fun DesignSystem() {
-    Button()
-}
-
-interface ImmutableList<T>
-
-@Composable
-fun PreferredMutableCollection(
-    list: List<Any>,
-    list2: MutableList<Any>,
-    list3: ImmutableList<Any>
-) {
-    // stub!
-}*/
-
-/*
-@Composable
-fun PreferredMutableCollection(
-    mutableList: List<Any>,
-    immutableList: ImmutableListWrapper,
-) {
-    // stub!
-}
-*/

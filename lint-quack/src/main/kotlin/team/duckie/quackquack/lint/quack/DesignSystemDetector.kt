@@ -25,7 +25,7 @@ import org.jetbrains.uast.UElement
 import team.duckie.quackquack.common.lint.compose.isInvokedWithinComposable
 
 private const val BriefDescription = "컴포즈 기본 디자인 컴포넌트 사용 감지됨"
-private const val Explanation = "Jetpack Compose 의 foundation 컴포저블 대신에 " +
+private const val Explanation = "Jetpack Compose 의 기본 컴포저블 대신에 " +
         "QuackQuack 디자인 시스템의 컴포저블을 사용해야 합니다."
 
 val DesignSystemIssue = Issue.create(

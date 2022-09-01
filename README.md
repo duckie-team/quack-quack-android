@@ -5,7 +5,7 @@
 <h5 align="center"><a href="https://github.com/sungbinland/duckie">덕키</a> 디자인 시스템</h5>
 <p align="center">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-blue"/></a>
-  <a href="https://developer.android.com/about/versions/lollipop"><img alt="API 21+" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg"/></a>
+  <a href="https://developer.android.com/about/versions/marshmallow"><img alt="API 23+" src="https://img.shields.io/badge/API-23%2B-brightgreen.svg"/></a>
   <a href="https://codecov.io/gh/sungbinland/duckie-quack-quack" > <img src="https://codecov.io/gh/sungbinland/duckie-quack-quack/branch/develop/graph/badge.svg?token=ACRJ1R22YD"/></a>
 </p>
 

@@ -16,15 +16,23 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import team.duckie.quackquack.common.runIf
+import team.duckie.quackquack.ui.color.QuackColor
 
+/**
+ * 컴포넌트에 기본 테마를 입힙니다. 최하위 Modifier 이므로 인자들의 기본값이 정의되지 않았습니다.
+ *
+ * @param shape 컴포넌트의 모양
+ * @param backgroundColor 컴포넌트의 색상
+ * @param border 컴포넌트의 테두리. 테두리는 없을 수 있음으로 null 을 허용합니다.
+ * @param elevation 컴포넌트의 그림자 크기
+ */
 @Stable
 internal fun Modifier.surface(
     shape: Shape,
-    backgroundColor: Color,
+    backgroundColor: QuackColor,
     border: BorderStroke?,
     elevation: Dp,
 ) = this
@@ -40,7 +48,7 @@ internal fun Modifier.surface(
         )
     }
     .background(
-        color = backgroundColor,
+        color = backgroundColor.value,
         shape = shape,
     )
     .clip(

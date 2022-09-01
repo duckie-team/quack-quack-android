@@ -11,41 +11,32 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import team.duckie.quackquack.ui.R
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.icon.QuackIcon
+import team.duckie.quackquack.ui.modifier.quackClickable
 
-@Immutable
-@JvmInline
-value class QuackIcon private constructor(
-    val value: Int,
-) {
-    companion object {
-        @Stable
-        val Close = QuackIcon(
-            value = R.drawable.ic_close_24
-        )
-    }
-
-}
-
+/**
+ * 아이콘 하나만 표시하는 컴포넌트
+ *
+ * @param icon 표시할 아이콘의 drawable 아이디
+ * @param tint 아이콘에 적용할 틴트 값
+ * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
+ */
 @Composable
-internal fun QuackSimpleIconImage(
-    modifier: Modifier = Modifier,
+internal fun QuackSimpleIcon(
     icon: QuackIcon,
-    color: QuackColor = QuackColor.Black,
-    contentDescription: String,
+    tint: QuackColor = QuackColor.Black,
+    onClick: () -> Unit = {},
 ) {
     Image(
-        modifier = modifier,
-        painter = painterResource(icon.value),
-        contentDescription = contentDescription,
-        colorFilter = ColorFilter.tint(color.value),
+        modifier = Modifier.quackClickable(
+            onClick = onClick,
+        ),
+        painter = painterResource(icon.drawableId),
+        contentDescription = null,
+        colorFilter = ColorFilter.tint(tint.value),
     )
-
 }

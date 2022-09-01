@@ -1,7 +1,7 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [Extension.kt] created by Ji Sungbin on 22. 8. 21. 오후 2:17
+ * [extension.kt] created by Ji Sungbin on 22. 8. 21. 오후 2:17
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
@@ -16,14 +16,27 @@ import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsNode
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertIsEqualTo
+import androidx.compose.ui.test.captureToImage
+import androidx.compose.ui.test.getUnclippedBoundsInRoot
+import androidx.compose.ui.test.onAncestors
+import androidx.compose.ui.test.onLast
 import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.unit.*
-import junit.framework.TestCase.assertEquals
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpRect
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.height
+import androidx.compose.ui.unit.toSize
+import androidx.compose.ui.unit.width
 import team.duckie.quackquack.ui.color.QuackColor
 
+// 필요 할까?
+
 /**
- * TODO : 좀 더 효율적인 Background Test 필요함
+ * TODO: 좀 더 효율적인 Background Test 필요함
  */
 fun SemanticsNodeInteraction.assertBackgroundColor(tint: QuackColor): SemanticsNodeInteraction {
     val imageBitmap = captureToImage()

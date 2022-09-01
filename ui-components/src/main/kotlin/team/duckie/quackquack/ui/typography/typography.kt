@@ -23,7 +23,9 @@ fun QuackHeadLine1(
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.HeadLine1.changeColor(color),
+        style = QuackTextStyle.HeadLine1.changeColor(
+            newColor = color,
+        ),
     )
 }
 
@@ -36,7 +38,9 @@ fun QuackHeadLine2(
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.HeadLine2.changeColor(color),
+        style = QuackTextStyle.HeadLine2.changeColor(
+            newColor = color,
+        ),
     )
 }
 
@@ -49,7 +53,9 @@ fun QuackTitle1(
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.Title1.changeColor(color),
+        style = QuackTextStyle.Title1.changeColor(
+            newColor = color,
+        ),
     )
 }
 
@@ -62,7 +68,9 @@ fun QuackTitle2(
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.Title2.changeColor(color),
+        style = QuackTextStyle.Title2.changeColor(
+            newColor = color,
+        ),
     )
 }
 
@@ -75,7 +83,9 @@ fun QuackSubtitle(
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.Subtitle.changeColor(color),
+        style = QuackTextStyle.Subtitle.changeColor(
+            newColor = color,
+        ),
     )
 }
 
@@ -88,7 +98,9 @@ fun QuackBody1(
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.Body1.changeColor(color),
+        style = QuackTextStyle.Body1.changeColor(
+            newColor = color,
+        ),
     )
 }
 
@@ -101,7 +113,9 @@ fun QuackBody2(
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.Body2.changeColor(color),
+        style = QuackTextStyle.Body2.changeColor(
+            newColor = color,
+        ),
     )
 }
 
@@ -114,6 +128,8 @@ fun QuackBody3(
     QuackText(
         modifier = modifier,
         text = text,
-        style = QuackTextStyle.Body3.changeColor(color),
+        style = QuackTextStyle.Body3.changeColor(
+            newColor = color,
+        ),
     )
 }

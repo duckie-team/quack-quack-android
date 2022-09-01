@@ -12,9 +12,16 @@ package team.duckie.quackquack.ui.component
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import team.duckie.quackquack.ui.typography.QuackTextStyle
 
-// TODO: AnimatedContent 를 사용해서 텍스트 변경 애니메이션 지원
+/**
+ * 주어진 조건에 따라 텍스트를 표시합니다.
+ *
+ * @param modifier 이 컴포저블에서 사용할 [Modifier]
+ * @param text 표시할 텍스트 내용
+ * @param style 텍스트를 그릴 [TextStyle] 의 QuackQuack 버전
+ */
 @Composable
 internal fun QuackText(
     modifier: Modifier = Modifier,
@@ -24,6 +31,6 @@ internal fun QuackText(
     BasicText(
         modifier = modifier,
         text = text,
-        style = style.toComposeStyle(),
+        style = style.asComposeStyle(),
     )
 }
