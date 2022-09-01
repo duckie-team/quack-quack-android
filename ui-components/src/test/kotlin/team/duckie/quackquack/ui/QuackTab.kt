@@ -18,7 +18,7 @@ import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import team.duckie.quackquack.ui.typography.LocalQuackFontScale
+import team.duckie.quackquack.ui.textstyle.LocalQuackFontScale
 
 @RunWith(TestParameterInjector::class)
 class QuackTab {

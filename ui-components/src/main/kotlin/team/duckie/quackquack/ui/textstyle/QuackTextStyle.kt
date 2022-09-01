@@ -10,7 +10,7 @@
 @file:Suppress("MemberVisibilityCanBePrivate")
 @file:OptIn(ExperimentalUnitApi::class)
 
-package team.duckie.quackquack.ui.typography
+package team.duckie.quackquack.ui.textstyle
 
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector1D
@@ -153,19 +153,19 @@ internal class QuackTextStyle(
      * 이를 대응하기 위해 현재 텍스트 스타일에서 변경을 허용하는
      * 필드만 변경하여 새로운 텍스트 스타일을 반환합니다.
      *
-     * @param newColor 변경할 색상
-     * @param newWeight 변결할 weight
+     * @param color 변경할 색상
+     * @param weight 변결할 weight
      *
      * @return 새로운 색상이 적용된 [QuackTextStyle]
      */
     @Stable
     internal fun change(
-        newColor: QuackColor = color,
-        newWeight: FontWeight = weight,
+        color: QuackColor = this.color,
+        weight: FontWeight = this.weight,
     ) = QuackTextStyle(
-        color = newColor,
+        color = color,
         size = size,
-        weight = newWeight,
+        weight = weight,
         letterSpacing = letterSpacing,
         lineHeight = lineHeight,
     )

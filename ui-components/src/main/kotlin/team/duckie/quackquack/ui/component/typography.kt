@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import team.duckie.quackquack.ui.color.QuackColor
-import team.duckie.quackquack.ui.typography.QuackTextStyle
+import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 
 @Composable
 @NonRestartableComposable
@@ -25,7 +25,7 @@ fun QuackHeadLine1(
     modifier = modifier,
     text = text,
     style = QuackTextStyle.HeadLine1.change(
-        newColor = color,
+        color = color,
     ),
 )
 
@@ -39,7 +39,7 @@ fun QuackHeadLine2(
     modifier = modifier,
     text = text,
     style = QuackTextStyle.HeadLine2.change(
-        newColor = color,
+        color = color,
     ),
 )
 
@@ -53,7 +53,7 @@ fun QuackTitle1(
     modifier = modifier,
     text = text,
     style = QuackTextStyle.Title1.change(
-        newColor = color,
+        color = color,
     ),
 )
 
@@ -67,7 +67,7 @@ fun QuackTitle2(
     modifier = modifier,
     text = text,
     style = QuackTextStyle.Title2.change(
-        newColor = color,
+        color = color,
     ),
 )
 
@@ -81,7 +81,7 @@ fun QuackSubtitle(
     modifier = modifier,
     text = text,
     style = QuackTextStyle.Subtitle.change(
-        newColor = color,
+        color = color,
     ),
 )
 
@@ -95,7 +95,7 @@ fun QuackBody1(
     modifier = modifier,
     text = text,
     style = QuackTextStyle.Body1.change(
-        newColor = color,
+        color = color,
     ),
 )
 
@@ -109,7 +109,7 @@ fun QuackBody2(
     modifier = modifier,
     text = text,
     style = QuackTextStyle.Body2.change(
-        newColor = color,
+        color = color,
     ),
 )
 
@@ -123,6 +123,6 @@ fun QuackBody3(
     modifier = modifier,
     text = text,
     style = QuackTextStyle.Body3.change(
-        newColor = color,
+        color = color,
     ),
 )

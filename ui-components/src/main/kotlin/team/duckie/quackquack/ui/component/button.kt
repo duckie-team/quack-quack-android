@@ -33,8 +33,8 @@ import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.applyQuackSize
-import team.duckie.quackquack.ui.typography.QuackTextStyle
-import team.duckie.quackquack.ui.typography.animateQuackTextStyleAsState
+import team.duckie.quackquack.ui.textstyle.QuackTextStyle
+import team.duckie.quackquack.ui.textstyle.animateQuackTextStyleAsState
 
 @Stable
 private val QuackLargeButtonShape = RoundedCornerShape(
@@ -103,7 +103,7 @@ fun QuackLargeButton(
     text = text,
     textPadding = QuackLargeButtonTextPadding,
     textStyle = QuackTextStyle.Subtitle.change(
-        newColor = QuackColor.White,
+        color = QuackColor.White,
     ),
     backgroundColor = quackButtonStandardBackgroundColorFor(
         enabled = active,
@@ -159,11 +159,11 @@ fun QuackMediumBorderToggleButton(
     shape = QuackMediumButtonShape,
     text = text,
     textStyle = QuackTextStyle.Body1.change(
-        newColor = when (selected) {
+        color = when (selected) {
             true -> QuackColor.DuckieOrange
             else -> QuackColor.Black
         },
-        newWeight = when (selected) {
+        weight = when (selected) {
             true -> FontWeight.Bold
             else -> FontWeight.Normal
         },
@@ -189,7 +189,7 @@ fun QuackSmallButton(
     shape = QuackSmallButtonShape,
     text = text,
     textStyle = QuackTextStyle.Body1.change(
-        newColor = QuackColor.White,
+        color = QuackColor.White,
     ),
     textPadding = QuackSmallButtonTextPadding,
     backgroundColor = quackButtonStandardBackgroundColorFor(
@@ -208,7 +208,7 @@ fun QuackSmallBorderToggleButton(
     shape = QuackSmallButtonShape,
     text = text,
     textStyle = QuackTextStyle.Body1.change(
-        newColor = when (selected) {
+        color = when (selected) {
             true -> QuackColor.Gray2
             else -> QuackColor.DuckieOrange
         },
@@ -237,11 +237,11 @@ fun QuackToggleChip(
     shape = QuackChipShape,
     text = text,
     textStyle = QuackTextStyle.Body2.change(
-        newColor = when (selected) {
+        color = when (selected) {
             true -> QuackColor.Gray2
             else -> QuackColor.DuckieOrange
         },
-        newWeight = FontWeight.Medium,
+        weight = FontWeight.Medium,
     ),
     textPadding = QuackChipTextPadding,
     backgroundColor = when (selected) {

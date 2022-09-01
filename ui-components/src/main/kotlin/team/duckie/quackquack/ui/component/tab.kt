@@ -49,8 +49,8 @@ import kotlin.math.roundToInt
 import team.duckie.quackquack.ui.animation.quackTween
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.modifier.quackClickable
-import team.duckie.quackquack.ui.typography.QuackTextStyle
-import team.duckie.quackquack.ui.typography.animateQuackTextStyleAsState
+import team.duckie.quackquack.ui.textstyle.QuackTextStyle
+import team.duckie.quackquack.ui.textstyle.animateQuackTextStyleAsState
 
 private val QuackTabDividerHeight = 1.dp
 private val QuackSelectedTabUnderBarHeight = 2.dp
@@ -241,10 +241,10 @@ private fun QuackMainTabTextLazyRow(
             val tabTypography by animateQuackTextStyleAsState(
                 targetValue = when (index == selectedTabIndex) {
                     true -> QuackTextStyle.Title2.change(
-                        newColor = QuackColor.Black,
+                        color = QuackColor.Black,
                     )
                     else -> QuackTextStyle.Subtitle.change(
-                        newColor = QuackColor.Gray1,
+                        color = QuackColor.Gray1,
                     )
                 },
             )
