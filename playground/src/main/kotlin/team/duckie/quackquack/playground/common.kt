@@ -259,6 +259,7 @@ private fun AnimationDurationSettingAlert(
         }
 
         AlertDialog(
+            modifier = Modifier.wrapContentSize(),
             title = {
                 Text(
                     text = "애니메이션 지속 시간 설정 (단위: 초)",
