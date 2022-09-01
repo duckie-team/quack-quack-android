@@ -18,11 +18,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
+import team.duckie.quackquack.ui.component.QuackMainTab
 
 class TabPlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
-        "QuackMainTab" to { QuackMainTab() }
+        "QuackMainTab" to { QuackMainTabDemo() },
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,10 +40,10 @@ class TabPlayground : BaseActivity() {
 }
 
 @Composable
-fun QuackMainTab() {
+fun QuackMainTabDemo() {
     var selectedMainTabIndex by remember { mutableStateOf(0) }
 
-    team.duckie.quackquack.ui.component.QuackMainTab(
+    QuackMainTab(
         titles = listOf(
             "판매중",
             "거래완료",
