@@ -40,7 +40,9 @@ class ToastWrapper(context: Context) {
 @Composable
 fun rememberToast(): ToastWrapper {
     val context = LocalContext.current.applicationContext
-    return remember(context) {
+    return remember(
+        key1 = context,
+    ) {
         ToastWrapper(context)
     }
 }
