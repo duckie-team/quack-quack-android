@@ -7,8 +7,6 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("ModifierParameter")
-
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.BorderStroke
@@ -36,35 +34,41 @@ import team.duckie.quackquack.ui.typography.QuackTextStyle
 
 @Composable
 fun QuackLargeButton(
-    enabled: Boolean = true,
     text: String,
+    enabled: Boolean = true,
     imeAnimation: Boolean = false,
     onClick: () -> Unit,
 ) {
+    val backgroundColorAnimation by animateQuackColorAsState(
+        targetValue = when (enabled) {
+            true -> QuackColor.DuckieOrange
+            else -> QuackColor.Gray2
+        },
+    )
     QuackBasicButton(
         width = QuackWidth.Fill,
         height = QuackHeight.Custom(
             height = 44.dp,
         ),
         imeAnimation = imeAnimation,
-        backgroundColor = when (enabled) {
-            true -> QuackColor.DuckieOrange
-            else -> QuackColor.Gray2
-        },
+        backgroundColor = backgroundColorAnimation,
         radius = 8.dp,
         text = text,
         textStyle = QuackTextStyle.Subtitle.changeColor(
             newColor = QuackColor.White,
         ),
-        onClick = onClick
+        onClick = onClick,
     )
 }
 
 @Composable
-internal fun QuackBasicButton(
+private fun QuackBasicButton(
     width: QuackWidth,
     height: QuackHeight,
     margin: PaddingValues = NoPadding,
+    text: String,
+    textStyle: QuackTextStyle = QuackTextStyle.Subtitle,
+    textPadding: PaddingValues = NoPadding,
     imeAnimation: Boolean = false,
     backgroundColor: QuackColor = QuackColor.Unspecified,
     border: BorderStroke? = null,
@@ -72,15 +76,8 @@ internal fun QuackBasicButton(
     radius: Dp = 0.dp,
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor = QuackColor.Unspecified,
-    text: String,
-    textStyle: QuackTextStyle = QuackTextStyle.Subtitle,
-    textPadding: PaddingValues = NoPadding,
     onClick: () -> Unit,
 ) {
-    val animatedBackgroundColor by animateQuackColorAsState(
-        targetValue = backgroundColor,
-    )
-
     QuackSurface(
         modifier = Modifier
             .applyQuackSize(
@@ -99,7 +96,7 @@ internal fun QuackBasicButton(
         shape = RoundedCornerShape(
             size = radius,
         ),
-        backgroundColor = animatedBackgroundColor,
+        backgroundColor = backgroundColor,
         rippleEnabled = rippleEnabled,
         rippleColor = rippleColor,
         onClick = onClick,
