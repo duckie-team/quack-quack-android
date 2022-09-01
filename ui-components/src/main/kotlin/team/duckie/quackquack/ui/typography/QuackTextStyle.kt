@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
 import kotlin.math.roundToInt
 import kotlinx.coroutines.flow.combine
+import team.duckie.quackquack.common.AllowMagicNumber
 import team.duckie.quackquack.ui.R
 import team.duckie.quackquack.ui.animation.quackTween
 import team.duckie.quackquack.ui.color.QuackColor
@@ -218,6 +219,7 @@ private val TextAlign.Companion.VectorConverter
     get() = object : TwoWayConverter<TextAlign, AnimationVector1D> {
         override val convertFromVector: (vector: AnimationVector1D) -> TextAlign
             get() = { vector ->
+                @AllowMagicNumber
                 val index = vector.value.roundToInt().coerceIn(
                     // TextAlign 의 값이 1 부터 시작
                     range = 1..6,
@@ -238,6 +240,7 @@ private val TextAlign.Companion.VectorConverter
  * @receiver 구조분해 할당의 대상이 될 Array 객체
  * @return receiver 로 받은 [Array] 의 6번째 요소
  */
+@AllowMagicNumber
 private operator fun <T> Array<T>.component6() = get(6)
 
 /**
@@ -313,4 +316,3 @@ fun animateQuackTextStyleAsState(
         initial = targetValue,
     )
 }
-
