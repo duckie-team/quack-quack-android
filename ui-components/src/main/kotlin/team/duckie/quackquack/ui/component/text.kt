@@ -24,8 +24,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import team.duckie.quackquack.ui.animation.quackTween
-import team.duckie.quackquack.ui.typography.QuackTextStyle
-import team.duckie.quackquack.ui.typography.animateQuackTextStyleAsState
+import team.duckie.quackquack.ui.textstyle.QuackTextStyle
+import team.duckie.quackquack.ui.textstyle.animateQuackTextStyleAsState
 
 /**
  * 주어진 조건에 따라 텍스트를 표시합니다. 꽥꽥에서 텍스트를 표시하는데
@@ -39,6 +39,7 @@ import team.duckie.quackquack.ui.typography.animateQuackTextStyleAsState
  * @param modifier 이 컴포저블에서 사용할 [Modifier]
  * @param text 표시할 텍스트 내용
  * @param style 텍스트를 그릴 [TextStyle] 의 QuackQuack 버전
+ * @param singleLine 텍스트를 한 줄로 표시할지 여부
  */
 @Composable
 @NonRestartableComposable
@@ -46,6 +47,7 @@ internal fun QuackText(
     modifier: Modifier = Modifier,
     text: String,
     style: QuackTextStyle,
+    singleLine: Boolean = true,
 ) {
     val styleAnimationState by animateQuackTextStyleAsState(
         targetValue = style,
@@ -70,6 +72,10 @@ internal fun QuackText(
         BasicText(
             text = animatedText,
             style = styleAnimationState.asComposeStyle(),
+            maxLines = when (singleLine) {
+                true -> 1
+                else -> Int.MAX_VALUE
+            },
         )
     }
 }
