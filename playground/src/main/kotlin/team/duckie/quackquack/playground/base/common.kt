@@ -12,7 +12,7 @@
     ExperimentalFoundationApi::class,
 )
 
-package team.duckie.quackquack.playground
+package team.duckie.quackquack.playground.base
 
 import android.app.Activity
 import android.content.Intent

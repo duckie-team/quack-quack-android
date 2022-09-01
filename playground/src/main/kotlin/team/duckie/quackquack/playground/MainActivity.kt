@@ -12,6 +12,10 @@ package team.duckie.quackquack.playground
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import kotlinx.collections.immutable.persistentListOf
+import team.duckie.quackquack.playground.base.BaseActivity
+import team.duckie.quackquack.playground.base.PlaygroundActivities
+import team.duckie.quackquack.playground.realworld.ButtonPlayground
+import team.duckie.quackquack.playground.realworld.TabPlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 
 class MainActivity : BaseActivity() {

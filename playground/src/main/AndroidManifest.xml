@@ -30,8 +30,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".TabPlayground" />
-        <activity android:name=".ButtonPlayground" />
+        <activity android:name=".realworld.TabPlayground" />
+        <activity android:name=".realworld.ButtonPlayground" />
 
     </application>
 

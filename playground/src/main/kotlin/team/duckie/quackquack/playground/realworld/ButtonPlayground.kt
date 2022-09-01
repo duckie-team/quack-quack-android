@@ -7,7 +7,7 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.playground
+package team.duckie.quackquack.playground.realworld
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -17,6 +17,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import kotlinx.collections.immutable.persistentListOf
+import team.duckie.quackquack.playground.base.BaseActivity
+import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.ui.component.QuackLarge40WhiteButton
 import team.duckie.quackquack.ui.component.QuackLargeButton

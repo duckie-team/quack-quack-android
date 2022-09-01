@@ -10,7 +10,7 @@
 @file:Suppress("MemberVisibilityCanBePrivate")
 @file:NoLiveLiterals
 
-package team.duckie.quackquack.playground
+package team.duckie.quackquack.playground.util
 
 import android.content.Context
 import android.widget.Toast
