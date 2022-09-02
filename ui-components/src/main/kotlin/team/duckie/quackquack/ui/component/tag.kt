@@ -33,8 +33,6 @@ import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
-import team.duckie.quackquack.ui.typography.QuackBody1
-import team.duckie.quackquack.ui.typography.QuackTitle2
 
 private val QuackTagHeight = 34.dp
 private val QuackTagBorderWidth = 1.dp
@@ -163,7 +161,7 @@ fun QuackIconTag(
                     width = QuackIconTagSpace,
                 ),
             )
-            QuackSimpleIcon(
+            QuackImage(
                 icon = icon,
                 tint = getIconColor(isSelected),
                 onClick = onClickIcon,

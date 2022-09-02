@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -45,11 +46,12 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlin.math.roundToInt
-import team.duckie.quackquack.ui.animation.quackTween
+import kotlinx.collections.immutable.PersistentList
+import team.duckie.quackquack.ui.animation.quackSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.modifier.quackClickable
-import team.duckie.quackquack.ui.typography.QuackTextStyle
-import team.duckie.quackquack.ui.typography.animateQuackTextStyleAsState
+import team.duckie.quackquack.ui.textstyle.QuackTextStyle
+import team.duckie.quackquack.ui.textstyle.animateQuackTextStyleAsState
 
 private val QuackTabDividerHeight = 1.dp
 private val QuackSelectedTabUnderBarHeight = 2.dp
@@ -84,30 +86,38 @@ private val QuackMainTabTextInnerPadding = 2.dp
  */
 @Composable
 fun QuackMainTab(
-    titles: List<String>,
+    titles: PersistentList<String>,
     tabStartHorizontalPadding: Dp = 16.dp,
     selectedTabIndex: Int,
     onTabSelected: (index: Int) -> Unit,
 ) {
-    val titleSize = remember(titles) {
+    val titleSize = remember(
+        key1 = titles,
+    ) {
         titles.size
     }
-    var tabHeight by remember(titles) {
+    var tabHeight by remember(
+        key1 = titles,
+    ) {
         mutableStateOf(0)
     }
-    val tabUnderBarXOffsets = remember(titles) {
+    val tabUnderBarXOffsets = remember(
+        key1 = titles,
+    ) {
         mutableStateListOf(*Array(titleSize) { 0 })
     }
     val currentTabUnderBarXOffsetAnimation by animateIntAsState(
         targetValue = tabUnderBarXOffsets[selectedTabIndex],
-        animationSpec = quackTween(),
+        animationSpec = quackSpec(),
     )
-    val tabWidths = remember(titles) {
+    val tabWidths = remember(
+        key1 = titles,
+    ) {
         mutableStateListOf(*Array(titleSize) { 0.dp })
     }
     val currentTabUnderBarWidthAnimation by animateDpAsState(
         targetValue = tabWidths[selectedTabIndex] + QuackMainTabTextInnerPadding * 2,
-        animationSpec = quackTween(),
+        animationSpec = quackSpec(),
     )
 
     Box(
@@ -182,7 +192,7 @@ fun QuackMainTab(
 @Composable
 private fun QuackMainTabTextLazyRow(
     modifier: Modifier = Modifier,
-    tabTitles: List<String>,
+    tabTitles: PersistentList<String>,
     tabStartHorizontalPadding: Dp,
     onTabContainerSizeChanged: Density.(
         size: IntSize,
@@ -211,7 +221,7 @@ private fun QuackMainTabTextLazyRow(
         horizontalArrangement = Arrangement.spacedBy(
             space = QuackMainTabSpacedBy,
             alignment = Alignment.CenterHorizontally,
-        )
+        ),
     ) {
         itemsIndexed(
             items = tabTitles,
@@ -239,14 +249,13 @@ private fun QuackMainTabTextLazyRow(
             }
             val tabTypography by animateQuackTextStyleAsState(
                 targetValue = when (index == selectedTabIndex) {
-                    true -> QuackTextStyle.Title2.changeColor(
-                        newColor = QuackColor.Black,
+                    true -> QuackTextStyle.Title2.change(
+                        color = QuackColor.Black,
                     )
-                    else -> QuackTextStyle.Subtitle.changeColor(
-                        newColor = QuackColor.Gray1,
+                    else -> QuackTextStyle.Subtitle.change(
+                        color = QuackColor.Gray1,
                     )
                 },
-                animationSpec = quackTween(),
             )
             QuackText(
                 modifier = tabModifier,
@@ -348,20 +357,19 @@ private fun QuackSubTabTextRow(
  * 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
  */
 @Composable
+@NonRestartableComposable
 private fun QuackTabDivider(
     modifier: Modifier = Modifier,
     zIndex: Float,
     offsetProvider: Density.() -> IntOffset,
-) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(height = QuackTabDividerHeight)
-            .zIndex(zIndex)
-            .offset(offsetProvider)
-            .background(color = QuackColor.Gray3.value)
-    )
-}
+) = Box(
+    modifier = modifier
+        .fillMaxWidth()
+        .height(height = QuackTabDividerHeight)
+        .zIndex(zIndex)
+        .offset(offsetProvider)
+        .background(color = QuackColor.Gray3.value)
+)
 
 /**
  * QuackTab 의 현재 선택된 탭의 가로 길이 만큼 표시하는 Divider 인
@@ -379,34 +387,33 @@ private fun QuackTabDivider(
  * 제공받아야 합니다. 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
  */
 @Composable
+@NonRestartableComposable
 private fun QuackSelectedTabUnderBar(
     modifier: Modifier = Modifier,
     color: QuackColor,
     zIndex: Float,
     offsetProvider: Density.() -> IntOffset,
     widthProvider: Density.() -> Int,
-) {
-    Box(
-        modifier = modifier
-            .height(height = QuackSelectedTabUnderBarHeight)
-            .layout { measurable, constraints ->
-                val width = widthProvider()
-                val placeable = measurable.measure(
-                    constraints = constraints.copy(
-                        minWidth = width,
-                        maxWidth = width,
-                    )
+) = Box(
+    modifier = modifier
+        .height(height = QuackSelectedTabUnderBarHeight)
+        .layout { measurable, constraints ->
+            val width = widthProvider()
+            val placeable = measurable.measure(
+                constraints = constraints.copy(
+                    minWidth = width,
+                    maxWidth = width,
+                ),
+            )
+            layout(
+                width = placeable.width,
+                height = placeable.height,
+            ) {
+                placeable.placeRelative(
+                    position = offsetProvider(),
+                    zIndex = zIndex,
                 )
-                layout(
-                    width = placeable.width,
-                    height = placeable.height,
-                ) {
-                    placeable.placeRelative(
-                        position = offsetProvider(),
-                        zIndex = zIndex,
-                    )
-                }
             }
-            .background(color = color.value)
-    )
-}
+        }
+        .background(color = color.value)
+)

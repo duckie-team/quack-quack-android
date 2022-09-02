@@ -7,7 +7,7 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.playground
+package team.duckie.quackquack.playground.base
 
 import android.content.res.Configuration
 import android.graphics.Color
@@ -26,14 +26,14 @@ open class BaseActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.addFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+
         setSystemBarsColor(
             color = Color.TRANSPARENT,
             darkIcons = !isDarkMode
         )
+
         onBackPressedDispatcher.addCallback(
             owner = this,
         ) {

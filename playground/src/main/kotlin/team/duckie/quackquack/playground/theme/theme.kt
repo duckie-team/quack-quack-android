@@ -75,10 +75,34 @@ private val PlaygroundDarkColors = darkColorScheme(
     surfaceTint = md_theme_dark_surfaceTint,
 )
 
+// 왜??
+// java.lang.NoSuchMethodError: No static method PlaygroundTheme
+/*@Composable
+fun PlaygroundTheme(
+    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    useDynamicColor: Boolean = false, // 더 못생겨져서 비활성화
+    content: @Composable () -> Unit
+) {
+    val context = LocalContext.current
+    val isDynamicColor = useDynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    val colorScheme = when {
+        useDarkTheme && isDynamicColor -> dynamicDarkColorScheme(context)
+        useDarkTheme && !isDynamicColor -> PlaygroundDarkColors
+        !useDarkTheme && isDynamicColor -> dynamicLightColorScheme(context)
+        else -> PlaygroundLightColors // !useDarkTheme && !supportsDynamicColor
+    }
+
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = PlaygroundTypography,
+        content = content,
+    )
+}*/
+
 @Composable
 fun PlaygroundTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colorScheme = when (!useDarkTheme) {
         true -> PlaygroundLightColors
