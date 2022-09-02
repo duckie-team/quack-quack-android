@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.ui.animation.quackTween
+import team.duckie.quackquack.ui.animation.quackSpec
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.border.animateQuackBorderAsState
 import team.duckie.quackquack.ui.color.QuackColor
@@ -100,7 +100,7 @@ internal fun QuackSurface(
                 rippleColor = rippleColor,
             )
             .animateContentSize(
-                animationSpec = quackTween(),
+                animationSpec = quackSpec(),
             ),
         propagateMinConstraints = true,
         contentAlignment = contentAlignment,
