@@ -96,7 +96,7 @@ fun PlaygroundActivities(
         visible = playgroundSettingAlertVisible,
         onDismissRequest = {
             playgroundSettingAlertVisible = !playgroundSettingAlertVisible
-        }
+        },
     )
 
     Scaffold(
@@ -110,7 +110,7 @@ fun PlaygroundActivities(
                     )
                 },
             )
-        }
+        },
     ) { contentPadding ->
         LazyColumn(
             modifier = Modifier
@@ -152,7 +152,7 @@ fun PlaygroundActivities(
                                 activity.java,
                             )
                         }
-                    }
+                    },
                 ) {
                     Text(
                         text = (activity.simpleName ?: activity.toString())
@@ -167,10 +167,12 @@ fun PlaygroundActivities(
 @Composable
 fun PlaygroundSection(
     title: String,
-    items: PersistentList<Pair<String, @Composable () -> Unit>>
+    items: PersistentList<Pair<String, @Composable () -> Unit>>,
 ) {
     var playgroundSettingAlertVisible by remember { mutableStateOf(false) }
-    val previewVisibleStates = remember(items) {
+    val previewVisibleStates = remember(
+        key1 = items,
+    ) {
         mutableStateListOf(*Array(items.size) { false })
     }
 
@@ -178,7 +180,7 @@ fun PlaygroundSection(
         visible = playgroundSettingAlertVisible,
         onDismissRequest = {
             playgroundSettingAlertVisible = !playgroundSettingAlertVisible
-        }
+        },
     )
 
     items.forEachIndexed { index, (_, composable) ->
@@ -202,7 +204,7 @@ fun PlaygroundSection(
                     )
                 },
             )
-        }
+        },
     ) { contentPadding ->
         LazyColumn(
             modifier = Modifier
@@ -239,7 +241,9 @@ fun PlaygroundSection(
 
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = { previewVisibleStates[index] = true }
+                    onClick = {
+                        previewVisibleStates[index] = true
+                    },
                 ) {
                     Text(text = contentTitle)
                 }
@@ -300,7 +304,9 @@ private fun PlaygroundSettingAlert(
                 Text(text = "Playground 설정")
             },
             text = {
-                Column(modifier = Modifier.wrapContentSize()) {
+                Column(
+                    modifier = Modifier.wrapContentSize(),
+                ) {
                     Text(text = "애니메이션 지속 시간")
                     TextField(
                         modifier = Modifier
@@ -348,7 +354,9 @@ private fun PlaygroundSettingAlert(
             },
             onDismissRequest = ::dismiss,
             confirmButton = {
-                Button(onClick = ::dismiss) {
+                Button(
+                    onClick = ::dismiss,
+                ) {
                     Text(text = "저장")
                 }
             },
@@ -357,11 +365,11 @@ private fun PlaygroundSettingAlert(
                     onClick = {
                         dismiss(reset = true)
                         toast("Playground 설정을 초기화 했어요")
-                    }
+                    },
                 ) {
                     Text(text = "초기화")
                 }
-            }
+            },
         )
     }
 }

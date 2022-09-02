@@ -33,12 +33,17 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            LaunchedEffect(Unit) {
+            LaunchedEffect(
+                key1 = Unit,
+            ) {
                 applicationContext.dataStore.data.first().let { preference ->
-                    QuackAnimationMillis = (preference[PreferenceConfigs.AnimationDurationKey]
-                        ?: QuackAnimationMillis).coerceAtLeast(minimumValue = 0)
-                    QuackFontScale = (preference[PreferenceConfigs.FontScaleKey]
-                        ?: QuackFontScale).coerceAtLeast(minimumValue = 0.0)
+                    QuackAnimationMillis = (
+                            preference[PreferenceConfigs.AnimationDurationKey]
+                                ?: QuackAnimationMillis
+                            ).coerceAtLeast(minimumValue = 0)
+                    QuackFontScale = (
+                            preference[PreferenceConfigs.FontScaleKey] ?: QuackFontScale
+                            ).coerceAtLeast(minimumValue = 0.0)
                 }
             }
             PlaygroundTheme {

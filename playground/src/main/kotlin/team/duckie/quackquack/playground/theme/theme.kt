@@ -115,4 +115,3 @@ fun PlaygroundTheme(
         content = content,
     )
 }
-

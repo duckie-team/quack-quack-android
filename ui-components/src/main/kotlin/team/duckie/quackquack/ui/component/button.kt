@@ -396,7 +396,6 @@ private fun QuackBasicButton(
                 width = width,
                 height = height,
             )
-            // 컴포넌트 사이즈와 마진이 먼저 적용돼야 함
             .then(
                 other = modifier,
             ),
