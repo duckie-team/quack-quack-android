@@ -79,4 +79,3 @@ internal fun QuackImage(
         ),
     )
 }
-
