@@ -38,7 +38,7 @@ import kotlin.math.roundToInt
 import team.duckie.quackquack.common.AllowMagicNumber
 import team.duckie.quackquack.ui.R
 import team.duckie.quackquack.ui.animation.animateQuackAsState
-import team.duckie.quackquack.ui.animation.quackTween
+import team.duckie.quackquack.ui.animation.quackSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 
@@ -265,7 +265,7 @@ private operator fun <T> List<T>.component6() = get(5)
 @Composable
 internal fun animateQuackTextStyleAsState(
     targetValue: QuackTextStyle,
-    animationSpec: AnimationSpec<Any> = quackTween(),
+    animationSpec: AnimationSpec<Any> = quackSpec(),
 ): State<QuackTextStyle> {
     val targetColorAnimationState = animateQuackColorAsState(
         targetValue = targetValue.color,
@@ -320,6 +320,6 @@ internal fun animateQuackTextStyleAsState(
                 lineHeight = (lineHeight as Float).toSp(),
                 textAlign = textAlign as TextAlign,
             )
-        }
+        },
     )
 }

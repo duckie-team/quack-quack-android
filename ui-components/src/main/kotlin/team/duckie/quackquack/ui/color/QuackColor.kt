@@ -11,7 +11,7 @@ package team.duckie.quackquack.ui.color
 
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector4D
-import androidx.compose.animation.core.SpringSpec
+import androidx.compose.animation.core.SnapSpec
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.colorspace.ColorSpaces
 import kotlin.math.pow
 import kotlin.reflect.KProperty
 import team.duckie.quackquack.common.AllowMagicNumber
-import team.duckie.quackquack.ui.animation.quackTween
+import team.duckie.quackquack.ui.animation.quackSpec
 
 /**
  * 덕키에서 사용할 색상을 정의합니다. 추상화를 위해 컴포즈의 [Color] 를 그대로 사용하는게 아닌
@@ -242,16 +242,15 @@ value class QuackColor internal constructor(
  * 일찍 진행해야 합니다. 따라서 입력받은 [AnimationSpec] 의
  * 진행 시간을 2로 나눠서 다른 애니메이션 보다 일찍 진행합니다.
  *
- * 현재 덕키에서 애니메이션은 모두 [TweenSpec] 을 사용하기로
- * 합의가 됐기에 이 구현은 [TweenSpec] 에 있어서만 유효합니다.
- * 만약 예외 케이스로 [SpringSpec] 을 사용해야 한다면
- * [SpringSpec] 을 구현하는 새로운 로직을 추가해야 합니다.
+ * QuackQuack 에서는 [AnimationSpec] 을 [TweenSpec], [SnapSpec]
+ * 이렇게 2개만 사용합니다. 따라서 [SnapSpec] 을 사용중일 때는
+ * 작업을 진행하지 않고 원본 [AnimationSpec] 을 그대로 반환합니다.
  *
  * @receiver 애니메이션에 사용할 [AnimationSpec]
  * @return receiver 의 durationMillis 를 2로 나눈 새로운 [AnimationSpec]
  */
-private fun <T> AnimationSpec<T>.toColorTweenSpec(): AnimationSpec<T> {
-    val tweenSpec = this as TweenSpec<T>
+private fun <T> AnimationSpec<T>.toColorSpec(): AnimationSpec<T> {
+    val tweenSpec = this as? TweenSpec<T> ?: return this
     return tween(
         durationMillis = tweenSpec.durationMillis / 2,
         delayMillis = tweenSpec.delay,
@@ -270,15 +269,17 @@ private fun <T> AnimationSpec<T>.toColorTweenSpec(): AnimationSpec<T> {
 @Composable
 internal fun animateQuackColorAsState(
     targetValue: QuackColor,
-    animationSpec: AnimationSpec<QuackColor> = quackTween(),
+    animationSpec: AnimationSpec<QuackColor> = quackSpec(),
 ): State<QuackColor> {
-    val converter = remember(targetValue.value.colorSpace) {
+    val converter = remember(
+        key1 = targetValue.value.colorSpace,
+    ) {
         (QuackColor.VectorConverter)(targetValue.value.colorSpace)
     }
     return animateValueAsState(
         targetValue = targetValue,
         typeConverter = converter,
-        animationSpec = animationSpec.toColorTweenSpec(),
+        animationSpec = animationSpec.toColorSpec(),
         finishedListener = null,
     )
 }

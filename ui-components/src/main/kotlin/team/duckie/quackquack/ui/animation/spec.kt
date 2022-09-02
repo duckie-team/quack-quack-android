@@ -10,7 +10,9 @@
 package team.duckie.quackquack.ui.animation
 
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.SnapSpec
 import androidx.compose.animation.core.TweenSpec
+import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -37,12 +39,34 @@ const val QuackDefaultAnimationMillis = 250
 var QuackAnimationMillis by mutableStateOf(QuackDefaultAnimationMillis)
 
 /**
- * 덕키에서 사용할 애니메이션 중 [Tween][TweenSpec] 의 기본 스팩
+ * [isSnapshotMode] 의 receiver 입니다.
+ */
+internal object QuackAnimationSpec
+
+/**
+ * 스냅샷 캡처 환경에서는 애니메이션이 진행중인 현황을 캡처하지 못합니다.
+ * 따라서 스냅샷 캡처 환경에서는 애니메이션이 진행 시간 없이
+ * 바로 완료돼야 합니다. 이 값은 현재 컴포저블이 실행중인 환경이
+ * 스냅샷 캡처 환경인지를 나타냅니다. 스냅샷 캡처는 QuackQuack 내부 테스트
+ * 에서만 진행되므로 internal 로 제한합니다.
+ */
+internal var QuackAnimationSpec.isSnapshotMode by mutableStateOf(false)
+
+/**
+ * 덕키에서 사용할 애니메이션의 기본 스팩
  *
- * @return 덕키에서 사용할 [TweenSpec] 의 기본 스팩
+ * @return 덕키에서 사용할 애니메이션의 기본 스팩.
+ * [isSnapshotMode] 에 따라 반환값이 달라집니다. false 라면
+ * 덕키에서 사용하는 애니메이션 스팩인 [TweenSpec] 이 반환되고,
+ * true 라면 [SnapSpec] 이 반환됩니다.
+ *
+ * @see isSnapshotMode
  */
 @Stable
-internal fun <T> quackTween() = tween<T>(
-    durationMillis = QuackAnimationMillis,
-    easing = FastOutSlowInEasing,
-)
+internal fun <T> quackSpec() = when (QuackAnimationSpec.isSnapshotMode) {
+    true -> snap()
+    else -> tween<T>(
+        durationMillis = QuackAnimationMillis,
+        easing = FastOutSlowInEasing,
+    )
+}

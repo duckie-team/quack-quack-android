@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.IntSize
 internal fun <T> AnimatedContentTransform(
     modifier: Modifier = Modifier,
     targetState: T,
-    animationSpec: AnimationSpec<Any> = quackTween(),
+    animationSpec: AnimationSpec<Any> = quackSpec(),
     content: @Composable AnimatedVisibilityScope.(animatedTargetState: T) -> Unit,
 ) {
     AnimatedContent(

@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.animation.animateQuackAsState
-import team.duckie.quackquack.ui.animation.quackTween
+import team.duckie.quackquack.ui.animation.quackSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 
@@ -63,7 +63,7 @@ internal class QuackBorder(
 @Composable
 internal fun animateQuackBorderAsState(
     targetValue: QuackBorder,
-    animationSpec: AnimationSpec<Any> = quackTween(),
+    animationSpec: AnimationSpec<Any> = quackSpec(),
 ): State<QuackBorder> {
     val widthAnimationState = animateDpAsState(
         targetValue = targetValue.width,

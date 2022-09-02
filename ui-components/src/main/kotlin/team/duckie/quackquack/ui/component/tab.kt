@@ -46,7 +46,8 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlin.math.roundToInt
-import team.duckie.quackquack.ui.animation.quackTween
+import kotlinx.collections.immutable.PersistentList
+import team.duckie.quackquack.ui.animation.quackSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
@@ -85,30 +86,38 @@ private val QuackMainTabTextInnerPadding = 2.dp
  */
 @Composable
 fun QuackMainTab(
-    titles: List<String>,
+    titles: PersistentList<String>,
     tabStartHorizontalPadding: Dp = 16.dp,
     selectedTabIndex: Int,
     onTabSelected: (index: Int) -> Unit,
 ) {
-    val titleSize = remember(titles) {
+    val titleSize = remember(
+        key1 = titles,
+    ) {
         titles.size
     }
-    var tabHeight by remember(titles) {
+    var tabHeight by remember(
+        key1 = titles,
+    ) {
         mutableStateOf(0)
     }
-    val tabUnderBarXOffsets = remember(titles) {
+    val tabUnderBarXOffsets = remember(
+        key1 = titles,
+    ) {
         mutableStateListOf(*Array(titleSize) { 0 })
     }
     val currentTabUnderBarXOffsetAnimation by animateIntAsState(
         targetValue = tabUnderBarXOffsets[selectedTabIndex],
-        animationSpec = quackTween(),
+        animationSpec = quackSpec(),
     )
-    val tabWidths = remember(titles) {
+    val tabWidths = remember(
+        key1 = titles,
+    ) {
         mutableStateListOf(*Array(titleSize) { 0.dp })
     }
     val currentTabUnderBarWidthAnimation by animateDpAsState(
         targetValue = tabWidths[selectedTabIndex] + QuackMainTabTextInnerPadding * 2,
-        animationSpec = quackTween(),
+        animationSpec = quackSpec(),
     )
 
     Box(
@@ -183,7 +192,7 @@ fun QuackMainTab(
 @Composable
 private fun QuackMainTabTextLazyRow(
     modifier: Modifier = Modifier,
-    tabTitles: List<String>,
+    tabTitles: PersistentList<String>,
     tabStartHorizontalPadding: Dp,
     onTabContainerSizeChanged: Density.(
         size: IntSize,
@@ -212,7 +221,7 @@ private fun QuackMainTabTextLazyRow(
         horizontalArrangement = Arrangement.spacedBy(
             space = QuackMainTabSpacedBy,
             alignment = Alignment.CenterHorizontally,
-        )
+        ),
     ) {
         itemsIndexed(
             items = tabTitles,
