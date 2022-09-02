@@ -53,7 +53,8 @@ class RequireModifierTest {
                         fun failed2(
                             modifier: String,
                         ) {}
-                """.trimIndent())
+                """.trimIndent()
+                )
             ),
             issues = listOf(
                 RequireModifierIssue,
