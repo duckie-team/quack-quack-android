@@ -13,17 +13,22 @@ package team.duckie.quackquack.ui
 
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
+import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import team.duckie.quackquack.ui.rule.AnimationTestRule
 import team.duckie.quackquack.ui.textstyle.QuackFontScale
 import team.duckie.quackquack.ui.util.boxSnapshot
-import team.duckie.quackquack.ui.util.paparazzi
+import team.duckie.quackquack.ui.util.buildPaparazzi
 
 @RunWith(TestParameterInjector::class)
 class QuackTab {
     @get:Rule
-    val paparazzi = paparazzi()
+    val paparazzi = buildPaparazzi()
+
+    @get:Rule
+    val animationTest = AnimationTestRule()
 
     @Test
     fun QuackMainTab(
@@ -35,7 +40,7 @@ class QuackTab {
         ) {
             QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackMainTab(
-                titles = listOf(
+                titles = persistentListOf(
                     "판매중",
                     "거래완료",
                     "숨김",

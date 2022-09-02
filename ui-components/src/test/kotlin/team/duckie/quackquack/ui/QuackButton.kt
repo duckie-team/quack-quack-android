@@ -17,15 +17,19 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.provider.QuackIconProvider
+import team.duckie.quackquack.ui.rule.AnimationTestRule
 import team.duckie.quackquack.ui.textstyle.QuackFontScale
 import team.duckie.quackquack.ui.util.boxSnapshot
-import team.duckie.quackquack.ui.util.paparazzi
+import team.duckie.quackquack.ui.util.buildPaparazzi
 import team.duckie.quackquack.ui.wrapper.QuackIconWrapper
 
 @RunWith(TestParameterInjector::class)
 class QuackButton {
     @get:Rule
-    val paparazzi = paparazzi()
+    val paparazzi = buildPaparazzi()
+
+    @get:Rule
+    val animationTest = AnimationTestRule()
 
     @Test
     fun QuackLargeButton(
