@@ -46,7 +46,7 @@ fun QuackMainTabDemo() {
     var selectedMainTabIndex by remember { mutableStateOf(0) }
 
     QuackMainTab(
-        titles = listOf(
+        titles = persistentListOf(
             "판매중",
             "거래완료",
             "숨김",
