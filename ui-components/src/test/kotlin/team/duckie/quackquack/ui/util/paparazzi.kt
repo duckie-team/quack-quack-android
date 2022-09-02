@@ -21,24 +21,36 @@ import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.Paparazzi
 import app.cash.paparazzi.androidHome
 import app.cash.paparazzi.detectEnvironment
+import team.duckie.quackquack.common.QuackDsl
+
+/**
+ * [Paparazzi] 의 추가 설정을 위한 DSL 객체
+ *
+ * @param screenHeight 스냅샷의 세로 길이. 기존의 방법이였던
+ * 1로 고정하면 스냅샷이 올바르게 찍히지 않아 조정하였습니다.
+ */
+data class PaparazziConfig(var screenHeight: Int = 200)
 
 /**
  * 덕키 디자인 시스템의 스냅샷 테스트를 위한
  * 맞춤 설정을 마친 [Paparazzi] 객체를 생성합니다.
  *
- * @param screenHeight 스냅샷의 세로 길이. 기존의 방법이였던
- * 1로 고정하면 스냅샷이 올바르게 찍히지 않아 조정하였습니다.
+ * @param config [Paparazzi] 의 추가 설정
+ * @return 스냅샷을 찍기 위한 준비를 마친 [Paparazzi] 객체
  */
-fun paparazzi(screenHeight: Int = 200) = Paparazzi(
-    environment = detectEnvironment().copy(
-        platformDir = "${androidHome()}/platforms/android-32",
-        compileSdkVersion = 32,
-    ),
-    deviceConfig = DeviceConfig.PIXEL_5.copy(
-        softButtons = false,
-        screenHeight = screenHeight,
-    ),
-)
+fun buildPaparazzi(@QuackDsl config: PaparazziConfig.() -> Unit = {}): Paparazzi {
+    val paparazziConfig = PaparazziConfig().apply(config)
+    return Paparazzi(
+        environment = detectEnvironment().copy(
+            platformDir = "${androidHome()}/platforms/android-32",
+            compileSdkVersion = 32,
+        ),
+        deviceConfig = DeviceConfig.PIXEL_5.copy(
+            softButtons = false,
+            screenHeight = paparazziConfig.screenHeight,
+        ),
+    )
+}
 
 /**
  * [Paparazzi.snapshot] 을 진행할 때 캡처할 컴포저블을 [Box] 로 감싸고
