@@ -13,7 +13,6 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,9 +32,8 @@ import team.duckie.quackquack.ui.modifier.surface
  * 모든 Quack 컴포넌트에서 최하위로 사용되는 컴포넌트입니다.
  * 컴포넌트의 기본 모양을 정의합니다.
  *
- * **애니메이션 가능한 모든 요소들에는 자동으로
- * 애니메이션이 적용됩니다.** 현재 애니메이션이
- * 적용되는 요소들은 다음과 같습니다.
+ * **애니메이션 가능한 모든 요소들에는 자동으로 애니메이션이 적용됩니다.**
+ * 현재 애니메이션이 적용되는 요소들은 다음과 같습니다.
  *
  * [backgroundColor], [border]
  *
@@ -63,7 +61,7 @@ import team.duckie.quackquack.ui.modifier.surface
  * @param content 표시할 컴포저블. BoxScope 를 receive 로 받습니다.
  */
 @Composable
-@NonRestartableComposable
+// @NonRestartableComposable; 여기서 사용하는 Box 는 inline 됨
 internal fun QuackSurface(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
