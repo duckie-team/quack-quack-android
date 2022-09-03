@@ -165,6 +165,8 @@ private fun notFoundRequiredLayoutIdForQuackTextFieldMessage(
 
 따라서 `Modifier.layout`을 통해 레이아웃 계산을 처음부터 다시 하는 방법을 채택함. 이는 QuackTab 에서도 사용하고 있는 방식임.
 
+-> 6시간 고민 끝에 이 생각이 잘못됐음을 알아냄! 이 방법이 맞았음.
+
 ### 현재 구현의 한계
 
 TextField 의 사이즈는 font scale 에 맞게 대응이 되나, decoration box 에 들어가는 아이콘들은 font scale 배수에 대응되지 않음.
