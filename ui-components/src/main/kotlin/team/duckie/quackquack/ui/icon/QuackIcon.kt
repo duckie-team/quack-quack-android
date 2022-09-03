@@ -30,8 +30,153 @@ value class QuackIcon private constructor(
 ) {
     companion object {
         @Stable
+        val Share = QuackIcon(
+            drawableId = R.drawable.ic_share_24,
+        )
+
+        @Stable
+        val ImageEdit = QuackIcon(
+            drawableId = R.drawable.ic_image_edit_24,
+        )
+
+        @Stable
+        val Sell = QuackIcon(
+            drawableId = R.drawable.ic_sell_24,
+        )
+
+        @Stable
+        val Bookmark = QuackIcon(
+            drawableId = R.drawable.ic_bookmark_24,
+        )
+
+        @Stable
+        val ArrowRight = QuackIcon(
+            drawableId = R.drawable.ic_arrow_right_24,
+        )
+
+        @Stable
+        val Badge = QuackIcon(
+            drawableId = R.drawable.ic_badge_24,
+        )
+
+        @Stable
+        val Plus = QuackIcon(
+            drawableId = R.drawable.ic_plus_24,
+        )
+
+        @Stable
+        val ArrowDown = QuackIcon(
+            drawableId = R.drawable.ic_arrow_down_24,
+        )
+
+        @Stable
+        val NoticeAdd = QuackIcon(
+            drawableId = R.drawable.ic_notice_add_24,
+        )
+
+        @Stable
+        val Filter = QuackIcon(
+            drawableId = R.drawable.ic_filter_24,
+        )
+
+        @Stable
+        val MarketPrice = QuackIcon(
+            drawableId = R.drawable.ic_marketprice_24,
+        )
+
+        @Stable
+        val Camera = QuackIcon(
+            drawableId = R.drawable.ic_camera_24,
+        )
+
+        @Stable
+        val Search = QuackIcon(
+            drawableId = R.drawable.ic_search_24,
+        )
+
+        @Stable
+        val ArrowSend = QuackIcon(
+            drawableId = R.drawable.ic_arrow_send_24,
+        )
+
+        @Stable
+        val ArrowBack = QuackIcon(
+            drawableId = R.drawable.ic_arrow_back_24,
+        )
+
+        @Stable
+        val Image = QuackIcon(
+            drawableId = R.drawable.ic_image_24,
+        )
+
+        @Stable
+        val Tag = QuackIcon(
+            drawableId = R.drawable.ic_tag_24,
+        )
+
+        @Stable
+        val Area = QuackIcon(
+            drawableId = R.drawable.ic_area_24,
+        )
+
+        @Stable
+        val Place = QuackIcon(
+            drawableId = R.drawable.ic_place_24,
+        )
+
+        @Stable
+        val Buy = QuackIcon(
+            drawableId = R.drawable.ic_buy_24,
+        )
+
+        @Stable
+        val More = QuackIcon(
+            drawableId = R.drawable.ic_more_24,
+        )
+
+        @Stable
         val Close = QuackIcon(
             drawableId = R.drawable.ic_close_24,
+        )
+
+        @Stable
+        val Delete = QuackIcon(
+            drawableId = R.drawable.ic_delete_24,
+        )
+
+        @Stable
+        val DeleteBg = QuackIcon(
+            drawableId = R.drawable.ic_delete_bg_24,
+        )
+
+        @Stable
+        val Setting = QuackIcon(
+            drawableId = R.drawable.ic_setting_24,
+        )
+
+        @Stable
+        val Won = QuackIcon(
+            drawableId = R.drawable.ic_won_24,
+        )
+
+        @Stable
+        val Comment = QuackIcon(
+            drawableId = R.drawable.ic_comment_24,
+        )
+
+        @Stable
+        val ImageEditBg = QuackIcon(
+            drawableId = R.drawable.ic_image_edit_bg_24,
+        )
+
+        @Stable
+        val Profile = QuackIcon(
+            drawableId = R.drawable.ic_profile_24,
+        )
+
+        @Stable
+        val Heart = QuackIcon(
+            drawableId = R.drawable.ic_heart_24,
         )
     }
 }

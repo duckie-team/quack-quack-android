@@ -1,7 +1,7 @@
 <!--
   ~ Designed and developed by 2022 SungbinLand, Team Duckie
   ~
-  ~ [ic_close_24.xml] created by Ji Sungbin on 22. 9. 3. 오전 6:04
+  ~ [ic_search_16.xml] created by Ji Sungbin on 22. 9. 3. 오전 6:04
   ~
   ~ Licensed under the MIT.
   ~ Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
@@ -10,18 +10,18 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
+    android:viewportWidth="16"
+    android:viewportHeight="16">
     <path
         android:fillColor="#00000000"
-        android:pathData="M16.717,7.283L7.284,16.716"
+        android:pathData="M7.11,7.111m-4.584,0a4.584,4.584 0,1 1,9.168 0a4.584,4.584 0,1 1,-9.168 0"
         android:strokeWidth="1.5"
         android:strokeColor="#222"
         android:strokeLineCap="round"
         android:strokeLineJoin="round" />
     <path
         android:fillColor="#00000000"
-        android:pathData="M7.284,7.283L16.717,16.716"
+        android:pathData="M10.351,10.353L13.354,13.356"
         android:strokeWidth="1.5"
         android:strokeColor="#222"
         android:strokeLineCap="round"

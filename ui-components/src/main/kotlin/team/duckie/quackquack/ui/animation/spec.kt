@@ -63,7 +63,7 @@ internal var QuackAnimationSpec.isSnapshotMode by mutableStateOf(false)
  * @see isSnapshotMode
  */
 @Stable
-internal fun <T> quackSpec() = when (QuackAnimationSpec.isSnapshotMode) {
+internal fun <T> quackAnimationSpec() = when (QuackAnimationSpec.isSnapshotMode) {
     true -> snap()
     else -> tween<T>(
         durationMillis = QuackAnimationMillis,

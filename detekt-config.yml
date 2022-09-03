@@ -1,6 +1,8 @@
 complexity:
   LongMethod:
-    threshold: 100
+    threshold: 150
+  ComplexMethod:
+    threshold: 20
   LongParameterList:
     active: false
 

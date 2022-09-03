@@ -21,13 +21,15 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.colorspace.ColorSpace
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
 import kotlin.math.pow
 import kotlin.reflect.KProperty
 import team.duckie.quackquack.common.AllowMagicNumber
-import team.duckie.quackquack.ui.animation.quackSpec
+import team.duckie.quackquack.ui.animation.quackAnimationSpec
 
 /**
  * 덕키에서 사용할 색상을 정의합니다. 추상화를 위해 컴포즈의 [Color] 를 그대로 사용하는게 아닌
@@ -45,6 +47,15 @@ import team.duckie.quackquack.ui.animation.quackSpec
 value class QuackColor internal constructor(
     val value: Color,
 ) {
+    /**
+     * [QuackColor] 를 [Brush] 로 변환합니다.
+     *
+     * @return 현재 [QuackColor] 를 [Brush] 로 변환한 값
+     */
+    fun toBrush() = SolidColor(
+        value = value,
+    )
+
     companion object {
         // Unspecified 는 색상의 기본 인자 값으로만 사용되야 하며,
         // 실제 컴포넌트에서는 사용되서는 안됩니다.
@@ -269,7 +280,7 @@ private fun <T> AnimationSpec<T>.toColorSpec(): AnimationSpec<T> {
 @Composable
 internal fun animateQuackColorAsState(
     targetValue: QuackColor,
-    animationSpec: AnimationSpec<QuackColor> = quackSpec(),
+    animationSpec: AnimationSpec<QuackColor> = quackAnimationSpec(),
 ): State<QuackColor> {
     val converter = remember(
         key1 = targetValue.value.colorSpace,

@@ -1,0 +1,25 @@
+<!--
+  ~ Designed and developed by 2022 SungbinLand, Team Duckie
+  ~
+  ~ [ic_heart_24.xml] created by Ji Sungbin on 22. 9. 3. 오전 6:04
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <group>
+        <clip-path android:pathData="M2.729,3.508h18.542v17.04h-18.542z" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M20.243,9.184L20.243,9.143a5.04,5.04 0,0 0,-0.325 -1.794A4.143,4.143 0,0 0,16.122 4.534,4.3 4.3,0 0,0 12.046,8.449a0.047,0.047 0,0 1,-0.093 0A4.3,4.3 0,0 0,7.878 4.534a4.144,4.144 0,0 0,-3.8 2.815A5.07,5.07 0,0 0,3.756 9.143L3.756,9.184a3.133,3.133 0,0 0,0.074 0.726C4.106,11.665 5.338,15.184 10.985,19.141l0.011,0.007a1.3,1.3 0,0 0,1 0.37A1.3,1.3 0,0 0,13.006 19.147l0.011,-0.007c5.646,-3.955 6.882,-7.475 7.152,-9.226A3.164,3.164 0,0 0,20.243 9.184Z"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+</vector>

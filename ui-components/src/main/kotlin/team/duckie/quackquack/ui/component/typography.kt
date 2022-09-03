@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 
+// TODO: 인자에서 Modifier 제거
+
 /**
  * [QuackText] 에 [QuackTextStyle.HeadLine1] 스타일을 적용하여
  * 주어진 텍스트를 표시합니다.

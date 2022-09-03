@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
@@ -81,7 +82,9 @@ private inline fun Activity.startActivityWithAnimation(
 ) {
     startActivity(intentBuilder())
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-    if (withFinish) finish()
+    if (withFinish) {
+        finish()
+    }
 }
 
 @Composable
@@ -271,8 +274,10 @@ private fun PlaygroundSettingAlert(
         val context = LocalContext.current.applicationContext
         val coroutineScope = rememberCoroutineScope()
 
+        fun Int.msToSecondString() = (toDouble() / 1000.toDouble()).toString()
+
         var animationDurationInputState by remember {
-            mutableStateOf((QuackAnimationMillis.toDouble() / 1000.toDouble()).toString())
+            mutableStateOf(QuackAnimationMillis.msToSecondString())
         }
         var fontScaleInputState by remember {
             mutableStateOf(QuackFontScale.toString())
@@ -280,6 +285,13 @@ private fun PlaygroundSettingAlert(
 
         fun dismiss(reset: Boolean = false) {
             coroutineScope.launch {
+                if (animationDurationInputState.isEmpty()) {
+                    animationDurationInputState = QuackDefaultAnimationMillis.msToSecondString()
+                }
+                if (fontScaleInputState.isEmpty()) {
+                    fontScaleInputState = QuackDefaultFontScale.toString()
+                }
+
                 context.dataStore.edit { preference ->
                     preference[PreferenceConfigs.AnimationDurationKey] = when (reset) {
                         true -> QuackDefaultAnimationMillis
@@ -395,10 +407,15 @@ private fun PreviewAlert(
                         .clip(
                             shape = alertShape,
                         )
-                        .fillMaxSize()
+                        .fillMaxWidth()
+                        .height(
+                            height = 500.dp,
+                        )
                         .background(
                             color = Color.White,
-                            shape = alertShape,
+                        )
+                        .padding(
+                            horizontal = 16.dp,
                         ),
                     contentAlignment = Alignment.Center,
                 ) {
