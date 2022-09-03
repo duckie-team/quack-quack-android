@@ -49,6 +49,7 @@ import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
+import team.duckie.quackquack.ui.util.copy
 
 private val QuackTabDividerHeight = 1.dp
 private val QuackTabDividerColor = QuackColor.Gray3
@@ -405,8 +406,7 @@ private fun QuackSelectedTabUnderBar(
             val width = widthProvider()
             val placeable = measurable.measure(
                 constraints = constraints.copy(
-                    minWidth = width,
-                    maxWidth = width,
+                    width = width,
                 ),
             )
             layout(
