@@ -30,14 +30,15 @@ import team.duckie.quackquack.ui.modifier.quackClickable
  */
 @Composable
 @NonRestartableComposable
-internal fun QuackImage(
+fun QuackImage(
+    modifier: Modifier = Modifier,
     icon: QuackIcon?,
     tint: QuackColor = QuackColor.Black,
-    onClick: () -> Unit = {},
+    onClick: (() -> Unit)? = null,
 ) {
     if (icon == null) return
     Image(
-        modifier = Modifier.quackClickable(
+        modifier = modifier.quackClickable(
             onClick = onClick,
         ),
         painter = painterResource(
@@ -62,11 +63,11 @@ internal fun QuackImage(
 // TODO: 로딩 effect
 @Composable
 @NonRestartableComposable
-internal fun QuackImage(
+fun QuackImage(
     modifier: Modifier = Modifier,
     image: Any?,
     tint: QuackColor = QuackColor.Black,
-    onClick: () -> Unit = {},
+    onClick: (() -> Unit)? = null,
 ) {
     if (image == null) return
     GlideImage(
