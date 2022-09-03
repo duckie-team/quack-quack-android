@@ -50,14 +50,39 @@ class KDocFieldsTest {
                         }
 
                         /**
-                         * @description "params" 어노테이션이 없는 함수 예제
+                         * @description 즉시 반환형인 함수
                          *
+                         * @param ex1 테스트 용 문자열
+                         * @param efg 테스트 용 숫자
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        fun `None parameter function Example`() {
+                        fun `Reference_Expression Example`(ex1: String, efg: Int) {
                             throw Exception()
                         }
+
+                        /**
+                         * @description Composable 함수
+                         *
+                         * @return 반환값은 없습니다.
+                         * @param list 테스트 용 리스트
+                         * @throws Exception
+                         */
+                        @Composable
+                        operator fun `Compose Function With Block Example`(list: MutableList<Any>) {
+                            throw Exception()
+                        }
+
+                        /**
+                         * @description 즉시 반환 형인 Composable 함수
+                         *
+                         * @return 반환값은 없습니다.
+                         * @param list 테스트 용 리스트
+                         */
+                        @Composable
+                        operator fun `Compose Function With Reference_Expression Example`(
+                            list: MutableList<Any>
+                        ) = list
 
                         /**
                          * @description 예외를 방출하지 않는 함수 예제
@@ -66,6 +91,13 @@ class KDocFieldsTest {
                          */
                         fun `Not Emit throw Exception function Example`() {
                         }
+
+                        /**
+                         * @description 추상 함수 예제
+                         *
+                         * @return 반환값은 없습니다.
+                         */
+                        abstract fun `abstract function Example`()
                         """
                 ),
             ),

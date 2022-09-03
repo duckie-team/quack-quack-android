@@ -26,7 +26,9 @@ import com.android.tools.lint.detector.api.SourceCodeScanner
 import org.jetbrains.kotlin.KtNodeTypes
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
+import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtParameter
+import org.jetbrains.kotlin.psi.KtReferenceExpression
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.toUElement
 
@@ -57,6 +59,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes() = listOf(
         UMethod::class.java,
     )
+
     /**
      * QuackQuack 린트의 함수에 KDoc 스타일 규칙을 구현합니다.
      *
@@ -170,10 +173,12 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
         override fun visitMethod(node: UMethod) {
             val kDocArea = node.sourcePsi?.firstChild
-            val blockArea = node.sourcePsi?.lastChild
+            // expression 형태로 처리되는 경우도 있으므로
+            val blockArea = node.sourcePsi?.lastChild as? KtBlockExpression
+                ?: node.sourcePsi?.lastChild as? KtReferenceExpression
             val isThrowsOptional = blockArea?.children
-                ?.filter { it.node.elementType == KtNodeTypes.THROW }
-                .isNullOrEmpty()
+                ?.none { it.node.elementType == KtNodeTypes.THROW }
+                ?: true
 
             // kDoc 으로 치환될 수 있는 주석이 없다면 에러를 발생 시킨다.
 
