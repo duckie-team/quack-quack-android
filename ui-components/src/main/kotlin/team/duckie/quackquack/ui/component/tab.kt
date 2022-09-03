@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [tab.kt] created by goddoro on 22. 8. 21. 오후 4:26
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -37,7 +35,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.layout.positionInWindow
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
@@ -47,14 +45,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlin.math.roundToInt
 import kotlinx.collections.immutable.PersistentList
-import team.duckie.quackquack.ui.animation.quackSpec
+import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
-import team.duckie.quackquack.ui.textstyle.animateQuackTextStyleAsState
 
 private val QuackTabDividerHeight = 1.dp
+private val QuackTabDividerColor = QuackColor.Gray3
+
 private val QuackSelectedTabUnderBarHeight = 2.dp
+private val QuackSelectedTabUnderBarColor = QuackColor.DuckieOrange
+
+private inline val QuackSelectedTabTextStyle: (isSelected: Boolean) -> QuackTextStyle
+    get() = { isSelected ->
+        when (isSelected) {
+            true -> QuackTextStyle.Title2.change(
+                color = QuackColor.Black,
+            )
+            else -> QuackTextStyle.Subtitle.change(
+                color = QuackColor.Gray1,
+            )
+        }
+    }
 
 private val QuackTabVerticalPadding = 9.dp
 
@@ -108,7 +120,7 @@ fun QuackMainTab(
     }
     val currentTabUnderBarXOffsetAnimation by animateIntAsState(
         targetValue = tabUnderBarXOffsets[selectedTabIndex],
-        animationSpec = quackSpec(),
+        animationSpec = quackAnimationSpec(),
     )
     val tabWidths = remember(
         key1 = titles,
@@ -117,7 +129,7 @@ fun QuackMainTab(
     }
     val currentTabUnderBarWidthAnimation by animateDpAsState(
         targetValue = tabWidths[selectedTabIndex] + QuackMainTabTextInnerPadding * 2,
-        animationSpec = quackSpec(),
+        animationSpec = quackAnimationSpec(),
     )
 
     Box(
@@ -156,7 +168,7 @@ fun QuackMainTab(
             },
         )
         QuackSelectedTabUnderBar(
-            color = QuackColor.DuckieOrange,
+            color = QuackSelectedTabUnderBarColor,
             zIndex = 3f,
             offsetProvider = {
                 IntOffset(
@@ -229,13 +241,15 @@ private fun QuackMainTabTextLazyRow(
         ) { index, title ->
             val tabModifier = remember {
                 Modifier
+                    .quackClickable(
+                        rippleEnabled = false,
+                    ) {
+                        onTabSelected(index)
+                    }
                     .padding(
                         vertical = QuackTabVerticalPadding,
                         horizontal = QuackMainTabTextInnerPadding,
                     )
-                    .quackClickable(rippleEnabled = false) {
-                        onTabSelected(index)
-                    }
                     .onGloballyPositioned { layoutCoordinates ->
                         density.onSelectedTabPositionChanged(
                             /*index = */
@@ -243,24 +257,14 @@ private fun QuackMainTabTextLazyRow(
                             /*size = */
                             layoutCoordinates.size,
                             /*position = */
-                            layoutCoordinates.positionInWindow(),
+                            layoutCoordinates.positionInParent(),
                         )
                     }
             }
-            val tabTypography by animateQuackTextStyleAsState(
-                targetValue = when (index == selectedTabIndex) {
-                    true -> QuackTextStyle.Title2.change(
-                        color = QuackColor.Black,
-                    )
-                    else -> QuackTextStyle.Subtitle.change(
-                        color = QuackColor.Gray1,
-                    )
-                },
-            )
             QuackText(
                 modifier = tabModifier,
                 text = title,
-                style = tabTypography,
+                style = QuackSelectedTabTextStyle(index == selectedTabIndex),
             )
         }
     }
@@ -368,7 +372,7 @@ private fun QuackTabDivider(
         .height(height = QuackTabDividerHeight)
         .zIndex(zIndex)
         .offset(offsetProvider)
-        .background(color = QuackColor.Gray3.value)
+        .background(color = QuackTabDividerColor.value)
 )
 
 /**
@@ -409,7 +413,7 @@ private fun QuackSelectedTabUnderBar(
                 width = placeable.width,
                 height = placeable.height,
             ) {
-                placeable.placeRelative(
+                placeable.place(
                     position = offsetProvider(),
                     zIndex = zIndex,
                 )
