@@ -233,8 +233,8 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
                     if (!isDeleted)
                         return sendErrorReport(context, node, ExplanationParamNotCompleted2)
                     else if (
-                        kDocParameterTag.getContent().isBlank()
-                        || kDocParameterTag.getContent().isEmpty()
+                        kDocParameterTag.getContent().isBlank() ||
+                        kDocParameterTag.getContent().isEmpty()
                     ) {
                         // TODO (riflockle7) 어노테이션 명세는 있으나, 내용 명세가 없는 경우에 대한 정책 확인 필요
                         println("어노태이션 대응 내용 중 빈 내용 존재")
