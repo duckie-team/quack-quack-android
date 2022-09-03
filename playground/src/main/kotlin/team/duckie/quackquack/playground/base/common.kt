@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
@@ -395,10 +396,15 @@ private fun PreviewAlert(
                         .clip(
                             shape = alertShape,
                         )
-                        .fillMaxSize()
+                        .fillMaxWidth()
+                        .height(
+                            height = 500.dp,
+                        )
                         .background(
                             color = Color.White,
-                            shape = alertShape,
+                        )
+                        .padding(
+                            horizontal = 16.dp,
                         ),
                     contentAlignment = Alignment.Center,
                 ) {
