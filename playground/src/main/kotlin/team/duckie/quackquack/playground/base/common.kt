@@ -82,7 +82,9 @@ private inline fun Activity.startActivityWithAnimation(
 ) {
     startActivity(intentBuilder())
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-    if (withFinish) finish()
+    if (withFinish) {
+        finish()
+    }
 }
 
 @Composable
@@ -272,8 +274,10 @@ private fun PlaygroundSettingAlert(
         val context = LocalContext.current.applicationContext
         val coroutineScope = rememberCoroutineScope()
 
+        fun Int.msToSecondString() = (toDouble() / 1000.toDouble()).toString()
+
         var animationDurationInputState by remember {
-            mutableStateOf((QuackAnimationMillis.toDouble() / 1000.toDouble()).toString())
+            mutableStateOf(QuackAnimationMillis.msToSecondString())
         }
         var fontScaleInputState by remember {
             mutableStateOf(QuackFontScale.toString())
@@ -281,6 +285,13 @@ private fun PlaygroundSettingAlert(
 
         fun dismiss(reset: Boolean = false) {
             coroutineScope.launch {
+                if (animationDurationInputState.isEmpty()) {
+                    animationDurationInputState = QuackDefaultAnimationMillis.msToSecondString()
+                }
+                if (fontScaleInputState.isEmpty()) {
+                    fontScaleInputState = QuackDefaultFontScale.toString()
+                }
+
                 context.dataStore.edit { preference ->
                     preference[PreferenceConfigs.AnimationDurationKey] = when (reset) {
                         true -> QuackDefaultAnimationMillis
