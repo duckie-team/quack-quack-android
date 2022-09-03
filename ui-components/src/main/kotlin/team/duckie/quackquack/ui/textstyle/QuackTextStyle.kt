@@ -13,11 +13,7 @@
 package team.duckie.quackquack.ui.textstyle
 
 import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.AnimationVector1D
-import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.animateIntAsState
-import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
@@ -34,11 +30,10 @@ import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
-import kotlin.math.roundToInt
 import team.duckie.quackquack.common.AllowMagicNumber
 import team.duckie.quackquack.ui.R
 import team.duckie.quackquack.ui.animation.animateQuackAsState
-import team.duckie.quackquack.ui.animation.quackSpec
+import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 
@@ -86,13 +81,12 @@ internal class QuackTextStyle(
     private val suit = FontFamily(Font(R.font.suit_variable))
 
     /**
-     * [QuackTextStyle] 을 컴포즈 기본 컴포넌트에 사용하기 위해
+     * [QuackTextStyle] 을 컴포즈 Text 컴포넌트에 사용하기 위해
      * [TextStyle] 로 변환합니다.
      *
      * @return 변환된 [TextStyle]
      */
     @Stable
-    @Composable
     internal fun asComposeStyle() = TextStyle(
         color = color.value,
         fontSize = size * QuackFontScale,
@@ -183,12 +177,14 @@ internal class QuackTextStyle(
     internal fun change(
         color: QuackColor = this.color,
         weight: FontWeight = this.weight,
+        textAlign: TextAlign = this.textAlign,
     ) = QuackTextStyle(
         color = color,
         size = size,
         weight = weight,
         letterSpacing = letterSpacing,
         lineHeight = lineHeight,
+        textAlign = textAlign,
     )
 }
 
@@ -204,36 +200,36 @@ private fun Float.toSp() = TextUnit(
     type = TextUnitType.Sp,
 )
 
-/**
- * TextAlign 의 TwoWayConverter 를 구현합니다.
- *
- * TextAlign 의 생성자와 필드가 다 internal 로 돼있어서
- *
- * ```kotlin
- * value class TextAlign internal constructor(internal val value: Int)
- * ```
- *
- * TextAlign 의 인자 값으로 될 수 있는 1 ~ 6 까지의 Int 값을
- * 애니메이션 하여 각각 값에 맞는 TextAlign 을 찾아서 생성하는
- * 식으로 구현하였습니다.
- */
-private val TextAlign.Companion.VectorConverter
-    get() = object : TwoWayConverter<TextAlign, AnimationVector1D> {
-        override val convertFromVector: (vector: AnimationVector1D) -> TextAlign
-            get() = { vector ->
-                @AllowMagicNumber
-                val index = vector.value.roundToInt().coerceIn(
-                    // TextAlign 의 값이 1 부터 시작
-                    range = 1..6,
-                )
-                values()[index]
-            }
-        override val convertToVector: (value: TextAlign) -> AnimationVector1D
-            get() = { value ->
-                // TextAlign 의 값이 1 부터 시작해서 +1
-                AnimationVector1D(values().indexOf(value) + 1f)
-            }
-    }
+// /**
+//  * TextAlign 의 TwoWayConverter 를 구현합니다.
+//  *
+//  * TextAlign 의 생성자와 필드가 다 internal 로 돼있어서
+//  *
+//  * ```kotlin
+//  * value class TextAlign internal constructor(internal val value: Int)
+//  * ```
+//  *
+//  * TextAlign 의 인자 값으로 될 수 있는 1 ~ 6 까지의 Int 값을
+//  * 애니메이션 하여 각각 값에 맞는 TextAlign 을 찾아서 생성하는
+//  * 식으로 구현하였습니다.
+//  */
+// private val TextAlign.Companion.VectorConverter
+//     get() = object : TwoWayConverter<TextAlign, AnimationVector1D> {
+//         override val convertFromVector: (vector: AnimationVector1D) -> TextAlign
+//             get() = { vector ->
+//                 @AllowMagicNumber
+//                 val index = vector.value.roundToInt().coerceIn(
+//                     // TextAlign 의 값이 1 부터 시작
+//                     range = 1..6,
+//                 )
+//                 values()[index]
+//             }
+//         override val convertToVector: (value: TextAlign) -> AnimationVector1D
+//             get() = { value ->
+//                 // TextAlign 의 값이 1 부터 시작해서 +1
+//                 AnimationVector1D(values().indexOf(value) + 1f)
+//             }
+//     }
 
 /**
  * [List] 에 대한 component 정의가 5 까지만 있어서
@@ -248,24 +244,38 @@ private operator fun <T> List<T>.component6() = get(5)
 /**
  * [QuackTextStyle] 에 변경이 있을 때 애니메이션을 적용합니다.
  *
- * [QuackTextStyle.color], [QuackTextStyle.size], [QuackTextStyle.weight],
- * [QuackTextStyle.letterSpacing], [QuackTextStyle.lineHeight], [QuackTextStyle.textAlign]
- * 에 애니메이션을 적용합니다.
- *
- * 현재 weight 애니메이션이 적용되지 않습니다. weight 는
- * 100 단위로 증가하기 때문에 100 ~ n00 으로 애니메이션 되는
- * weight 가 구현돼 있지 않아 생기는 이슈 입니다.
+ * [QuackTextStyle.color], [QuackTextStyle.size] 에 애니메이션을 적용합니다.
  *
  * @param targetValue 변경을 감지할 [QuackTextStyle]
  * @param animationSpec 변경을 감지했을 때 적용할 애니메이션 스팩
  *
- * @return Typography 가 변경됐을 때 변경되는 애니메이션의 [State] 객체
+ * @return [targetValue] 가 변경됐을 때 변경되는 애니메이션의 [State] 객체
  */
+// /**
+//  * [QuackTextStyle] 에 변경이 있을 때 애니메이션을 적용합니다.
+//  *
+//  * [QuackTextStyle.color], [QuackTextStyle.size], [QuackTextStyle.weight],
+//  * [QuackTextStyle.letterSpacing], [QuackTextStyle.lineHeight], [QuackTextStyle.textAlign]
+//  * 에 애니메이션을 적용합니다.
+//  *
+//  * 현재 weight 애니메이션이 적용되지 않습니다. weight 는
+//  * 100 단위로 증가하기 때문에 100 ~ n00 으로 애니메이션 되는
+//  * weight 가 구현돼 있지 않아 생기는 이슈 입니다.
+//  *
+//  * @param targetValue 변경을 감지할 [QuackTextStyle]
+//  * @param animationSpec 변경을 감지했을 때 적용할 애니메이션 스팩
+//  *
+//  * @return Typography 가 변경됐을 때 변경되는 애니메이션의 [State] 객체
+//  */
+// FIXME: [QuackTextStyle.color], [QuackTextStyle.size] 의외에 애니메이션을 적용하면
+//        애니메이션이 정상적으로 진행되지 않을 뿐더러, 올바른 리컴포지션 타이밍에
+//        값 갱신이 되지 않고, 추후 두 번째 리컴포지션 때 값 변경이 반영됩니다.
+//        따라서 현재는 [QuackTextStyle.color], [QuackTextStyle.size] 에만 애니메이션을 적용합니다.
 @Suppress("UNCHECKED_CAST")
 @Composable
 internal fun animateQuackTextStyleAsState(
     targetValue: QuackTextStyle,
-    animationSpec: AnimationSpec<Any> = quackSpec(),
+    animationSpec: AnimationSpec<Any> = quackAnimationSpec(),
 ): State<QuackTextStyle> {
     val targetColorAnimationState = animateQuackColorAsState(
         targetValue = targetValue.color,
@@ -275,7 +285,7 @@ internal fun animateQuackTextStyleAsState(
         targetValue = targetValue.size.value,
         animationSpec = animationSpec as AnimationSpec<Float>,
     )
-    val targetWeightAnimationState = animateIntAsState(
+    /*val targetWeightAnimationState = animateIntAsState(
         targetValue = targetValue.weight.weight,
         animationSpec = animationSpec as AnimationSpec<Int>,
     )
@@ -291,34 +301,38 @@ internal fun animateQuackTextStyleAsState(
         targetValue = targetValue.textAlign,
         typeConverter = TextAlign.VectorConverter,
         animationSpec = animationSpec as AnimationSpec<TextAlign>,
-    )
+    )*/
 
     return animateQuackAsState(
         initialValue = targetValue,
         animationStates = listOf(
             targetColorAnimationState,
             targetSizeAnimationState,
-            targetWeightAnimationState,
+            /*targetWeightAnimationState,
             targetLetterSpacingAnimationState,
             targetLineHeightAnimationState,
-            targetTextAlignAnimationState,
+            targetTextAlignAnimationState,*/
         ),
         targetBuilder = { animateValues ->
             val (
                 color,
                 size,
-                weight,
-                letterSpacing,
-                lineHeight,
-                textAlign,
+                    /*weight,
+                    letterSpacing,
+                    lineHeight,
+                    textAlign,*/
             ) = animateValues
             QuackTextStyle(
                 color = color as QuackColor,
                 size = (size as Float).toSp(),
-                weight = FontWeight(weight as Int),
+                /*weight = FontWeight(weight as Int),
                 letterSpacing = (letterSpacing as Float).toSp(),
                 lineHeight = (lineHeight as Float).toSp(),
-                textAlign = textAlign as TextAlign,
+                textAlign = textAlign as TextAlign,*/
+                weight = targetValue.weight,
+                letterSpacing = targetValue.letterSpacing,
+                lineHeight = targetValue.lineHeight,
+                textAlign = targetValue.textAlign,
             )
         },
     )
