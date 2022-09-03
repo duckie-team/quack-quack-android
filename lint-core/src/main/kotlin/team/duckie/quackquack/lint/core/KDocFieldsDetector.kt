@@ -173,6 +173,10 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
         override fun visitMethod(node: UMethod) {
             val kDocArea = node.sourcePsi?.firstChild
+            val kDocTags = kDocArea?.children
+                ?.filterIsInstance<KDocSection>()
+                ?.firstOrNull()?.children
+
             // expression 형태로 처리되는 경우도 있으므로
             val blockArea = node.sourcePsi?.lastChild as? KtBlockExpression
                 ?: node.sourcePsi?.lastChild as? KtReferenceExpression
@@ -181,9 +185,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
                 ?: true
 
             // kDoc 으로 치환될 수 있는 주석이 없다면 에러를 발생 시킨다.
-
-            if (kDocArea != null && kDocArea.children.isNotEmpty()) {
-                val kDocTags = kDocArea.children.filterIsInstance<KDocSection>().first().children
+            if (!kDocTags.isNullOrEmpty()) {
                 // kDocTag 들을 분류한다.
                 // ("param" 을 name 으로 가지지 않는 kDocTags, "param" 을 name 으로 가진 kDocTags)
                 val (kDocNotParamTags, kDocParamTags) = kDocTags
