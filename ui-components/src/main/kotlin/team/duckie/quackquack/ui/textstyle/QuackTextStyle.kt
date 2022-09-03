@@ -69,7 +69,7 @@ var QuackFontScale by mutableStateOf(QuackDefaultFontScale)
  */
 // animateQuackTextStyleAsState() 있어서 internal constructor
 @Immutable
-internal class QuackTextStyle(
+class QuackTextStyle internal constructor(
     val color: QuackColor = QuackColor.Black,
     val size: TextUnit,
     val weight: FontWeight,
