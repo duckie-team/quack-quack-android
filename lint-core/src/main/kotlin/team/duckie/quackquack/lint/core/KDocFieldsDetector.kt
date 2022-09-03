@@ -27,6 +27,7 @@ import org.jetbrains.kotlin.KtNodeTypes
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.psi.KtBlockExpression
+import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.kotlin.psi.KtReferenceExpression
 import org.jetbrains.uast.UMethod
@@ -172,16 +173,17 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
         override fun visitMethod(node: UMethod) {
-            val kDocArea = node.sourcePsi?.firstChild
-            val kDocTags = kDocArea?.children
-                ?.filterIsInstance<KDocSection>()
-                ?.firstOrNull()?.children
+            val kDocArea = (node.sourcePsi as? KtNamedFunction)?.firstChild ?: return
+            val kDocTags = kDocArea.children
+                .filterIsInstance<KDocSection>()
+                .firstOrNull()?.children
 
-            // expression 형태로 처리되는 경우도 있으므로
-            val blockArea = node.sourcePsi?.lastChild as? KtBlockExpression
+            val bodyArea = node.sourcePsi?.lastChild as? KtBlockExpression
                 ?: node.sourcePsi?.lastChild as? KtReferenceExpression
-            val isThrowsOptional = blockArea?.children
-                ?.none { it.node.elementType == KtNodeTypes.THROW }
+            val isThrowsOptional = bodyArea?.children
+                ?.none {
+                    it.node.elementType == KtNodeTypes.THROW
+                }
                 ?: true
 
             // kDoc 으로 치환될 수 있는 주석이 없다면 에러를 발생 시킨다.
@@ -201,7 +203,9 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
                 val mustExistAnnotations = mutableListOf(
                     "description",
                     "return",
-                ).apply { if (!isThrowsOptional) add("throws") }
+                ).apply {
+                    if (!isThrowsOptional) add("throws")
+                }
 
                 // "param" 을 제외한 각 KDocTag 내용에 대해 분석한다.
                 kDocNotParamTags.forEach { kDocTag ->
@@ -220,8 +224,9 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
                 if (mustExistAnnotations.isNotEmpty())
                     return sendErrorReport(context, node, ExplanationParamNotCompleted1)
 
-                val methodParameterNames = node.uastParameters
-                    .mapNotNull { (it.sourcePsi as? KtParameter)?.name }.toMutableList()
+                val methodParameterNames = node.uastParameters.mapNotNull {
+                    (it.sourcePsi as? KtParameter)?.name
+                }.toMutableList()
 
                 // kDoc 에 명세된 "param" 개수와, 실제 매개변수 개수가 다르면 에러를 발생 시킨다.
                 if (kDocParamTags.size != methodParameterNames.size)
