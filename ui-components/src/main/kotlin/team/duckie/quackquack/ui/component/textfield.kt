@@ -27,7 +27,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -236,18 +238,27 @@ fun QuackBasicTextField(
     }
 
     BasicTextField(
-        modifier = modifier.applyQuackSize(
-            width = width,
-            height = height,
-        ),
+        modifier = modifier
+            .applyQuackSize(
+                width = width,
+                height = height,
+            )
+            .onPlaced { layoutCoordinates ->
+                println("onPlaced: ${layoutCoordinates.size}")
+                // size 에서 height 가 0으로 나옴
+                textFieldSize = layoutCoordinates.size
+            },
         value = text,
         onValueChange = onTextChanged,
+        // TextField 는 애니메이션 적용 X
         textStyle = textStyle.asComposeStyle(),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         singleLine = true,
         onTextLayout = { layoutResult ->
-            textFieldSize = layoutResult.size
+            // textFieldSize = layoutResult.size
+            // size 에서 height 가 0으로 나옴
+            println("onTextLayout: ${layoutResult.size}")
         },
         decorationBox = { textField ->
             QuackTextFieldDecorationBox(
@@ -264,6 +275,9 @@ private const val QuackTextFieldLayoutId = "QuackTextFieldContent"
 private const val QuackTextFieldLeadingContentLayoutId = "QuackTextFieldLeadingContent"
 private const val QuackTextFieldTrailingContentLayoutId = "QuackTextFieldTrailingContent"
 
+private fun Placeable.toDebugString() =
+    "$width x $height / measured: $measuredWidth x $measuredHeight"
+
 @Composable
 private fun QuackTextFieldDecorationBox(
     textFieldSize: IntSize,
@@ -271,6 +285,7 @@ private fun QuackTextFieldDecorationBox(
     leadingContent: @Composable (() -> Unit)?,
     trailingContent: @Composable (() -> Unit)?,
 ) {
+    println("textFieldSize: $textFieldSize")
     val density = LocalDensity.current
     // QuackTextFieldDecorationContentHorizontalPadding 는 상수 값이라
     // remember 에 key 필요 없음
@@ -288,12 +303,16 @@ private fun QuackTextFieldDecorationBox(
                 width = with(
                     receiver = density,
                 ) {
-                    textFieldSize.width.toDp()
+                    textFieldSize.width.toDp().also {
+                        println("textFieldSize.width.toDp(): $it")
+                    }
                 },
                 height = with(
                     receiver = density,
                 ) {
-                    textFieldSize.height.toDp()
+                    textFieldSize.height.toDp().also {
+                        println("textFieldSize.height.toDp(): $it")
+                    }
                 },
             ),
         content = {
@@ -335,20 +354,32 @@ private fun QuackTextFieldDecorationBox(
                 }
             }
         },
-    ) { measurables, constraints ->
+    ) { measurables, _ ->
+        // 왜 measurePolicy 의 인자로 들어오는 constraints 가 Layout 의
+        // constraints 와 다른지 모르겠음. 그래서 직접 Layout 의 constraints
+        // 에 맞는 Constraints 를 만들어서 사용함.
+        val constraints = Constraints.fixed(
+            width = textFieldSize.width,
+            height = textFieldSize.height,
+        )
+        println("constraints: $constraints")
         // leading content
         val leadingContentPlaceable = measurables.find { measurable ->
             measurable.layoutId == QuackTextFieldLeadingContentLayoutId
         }?.measure(
             constraints = constraints,
-        )
+        )?.also {
+            println("leadingContentPlaceable: ${it.toDebugString()}")
+        }
 
         // trailing content
         val trailingContentPlaceable = measurables.find { measurable ->
             measurable.layoutId == QuackTextFieldTrailingContentLayoutId
         }?.measure(
             constraints = constraints,
-        )
+        )?.also {
+            println("trailingContentPlaceable: ${it.toDebugString()}")
+        }
 
         // TextField
         val textFieldPlaceable = measurables.find { measurable ->
@@ -375,7 +406,9 @@ private fun QuackTextFieldDecorationBox(
                 ),
                 height = constraints.minHeight,
             )
-        ) ?: npe(
+        )?.also {
+            println("textFieldPlaceable: ${it.toDebugString()}")
+        } ?: npe(
             lazyMessage = {
                 notFoundRequiredLayoutIdForQuackTextFieldMessage(
                     layoutId = QuackTextFieldLayoutId,
@@ -396,11 +429,15 @@ private fun QuackTextFieldDecorationBox(
                 y = 0,
             )
             textFieldPlaceable.place(
-                x = textFieldStartOffset,
+                x = textFieldStartOffset.also {
+                    println("textFieldStartOffset: $it")
+                },
                 y = 0,
             )
             trailingContentPlaceable?.place(
-                x = constraints.minWidth - trailingContentPlaceable.width,
+                x = (constraints.minWidth - trailingContentPlaceable.width).also {
+                    println("trailingContentPlaceable x: $it")
+                },
                 y = 0,
             )
         }
