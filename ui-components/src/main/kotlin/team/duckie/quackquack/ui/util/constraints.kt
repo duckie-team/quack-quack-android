@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.Constraints
  * @see Constraints
  */
 @Stable
-internal fun Constraints.copy(
+internal fun Constraints.fixedCopy(
     width: Int? = null,
     height: Int? = null,
 ) = Constraints(
@@ -33,23 +33,4 @@ internal fun Constraints.copy(
     maxWidth = width ?: this.maxWidth,
     minHeight = height ?: this.minHeight,
     maxHeight = height ?: this.maxHeight,
-)
-
-/**
- * 주어진 사이즈로 고정된 [Constraints] 를 생성합니다.
- *
- * @param width [Constraints] 의 고정된 width 사이즈
- * @param height [Constraints] 의 고정된 height 사이즈
- *
- * @see Constraints
- */
-@Stable
-internal fun Constraints(
-    width: Int,
-    height: Int,
-) = Constraints(
-    minWidth = width,
-    maxWidth = width,
-    minHeight = height,
-    maxHeight = height,
 )
