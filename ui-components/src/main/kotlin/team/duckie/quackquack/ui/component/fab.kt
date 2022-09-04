@@ -9,6 +9,7 @@
 
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -32,21 +34,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.layout.boundsInRoot
-import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInParent
-import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.layout.positionInWindow
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
@@ -55,13 +52,13 @@ import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 
-private val QuackFloatingActionButtonSize = 48.dp
+private val QuackFabSize = 48.dp
 
-private val QuackFloatingActionButtonShape = CircleShape
+private val QuackFabShape = CircleShape
 private val QuackPopUpMenuShape = RoundedCornerShape(12.dp)
 
-private val QuackFabTopPadding = 20.dp
-private val QuackFabHorizontalPadding = 16.dp
+private val QuackMenuTopPadding = 20.dp
+private val QuackMenuHorizontalPadding = 16.dp
 private val QuackFabItemPadding = 16.dp
 
 private val QuackFabItemSpacing = 8.dp
@@ -73,79 +70,92 @@ class QuackPopUpMenuItem(
     val onClick: () -> Unit,
 )
 
-private val dummyPopUpMenuItem = persistentListOf(
-    QuackPopUpMenuItem(
-        quackIcon = QuackIcon.Close,
-        text = "피드",
-        onClick = {}
-    ),
-    QuackPopUpMenuItem(
-        quackIcon = QuackIcon.Close,
-        text = "덕딜",
-        onClick = {}
-    ),
-)
-
+/**
+ * QuackMenuFloatingActionButton를 구현하였습니다.
+ *
+ * [QuackFloatingActionButton] 과는 다르게, 버튼을 클릭하였을 때
+ * DialogMenu가 출력됩니다.
+ * [QuackPopUpMenuItem]를 통해 메뉴 아이템에 들어갈 icon, text, onClick을 설정할 수 있습니다.
+ *
+ * @param items 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트[QuackPopUpMenuItem]
+ * @see QuackPopUpMenuItem
+ */
 @Composable
-fun FloatingMenuActionButton(
+fun QuackMenuFloatingActionButton(
     items: PersistentList<QuackPopUpMenuItem>,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var positionInRoot by remember { mutableStateOf(Offset.Zero) }
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        QuackText(
-            text = "${positionInRoot.x} , ${positionInRoot.y}}",
-            style = QuackTextStyle.Body1,
-        )
-    }
-    BasicFloatingActionButton(
+    var menuSize by remember { mutableStateOf(IntSize.Zero) }
+    var buttonSize by remember { mutableStateOf(IntSize.Zero) }
+    QuackBasicFloatingActionButton(
         modifier = Modifier
             .onGloballyPositioned { layoutCoordinates ->
-                positionInRoot = layoutCoordinates.positionInRoot()
+                positionInRoot = layoutCoordinates.positionInWindow()
+                buttonSize = layoutCoordinates.size
             },
+        icon = QuackIcon.Plus,
         onClick = {
             expanded = true
         },
     )
     if (expanded) {
-        Column {
-            QuackDialog(
-                buttonOffset = positionInRoot,
-                onDismissRequest = {
-                    expanded = false
+        QuackDialog(
+            buttonOffset = positionInRoot,
+            menuSize = menuSize,
+            buttonSize = buttonSize,
+            onDismissRequest = {
+                expanded = false
+            },
+        ) {
+            Column(
+                modifier = Modifier.onGloballyPositioned { layoutCoordinates ->
+                    menuSize = layoutCoordinates.size
                 },
+                horizontalAlignment = Alignment.End,
             ) {
-                Column(
-                    horizontalAlignment = Alignment.End,
-                ) {
-                    QuackDialogMenu(
-                        items = items,
-                    )
-                    Spacer(
-                        modifier = Modifier.height(
-                            height = QuackFabItemSpacing,
-                        ),
-                    )
-                    BasicFloatingActionButton(
-                        onClick = {
-                            expanded = true
-                        }
-                    )
-                }
+                QuackDialogMenu(
+                    items = items,
+                )
+                Spacer(
+                    modifier = Modifier.height(
+                        height = QuackFabItemSpacing,
+                    ),
+                )
+                QuackBasicFloatingActionButton(
+                    icon = QuackIcon.Close,
+                    onClick = {
+                        expanded = false
+                    },
+                )
             }
         }
-
     }
-
 }
 
+/**
+ * QuackMenuFloatingActionButton를 클릭했을 때 나오는 다이얼로그 입니다.
+ *
+ * Dialog는 내부적으로 Android Dialog로 구현되어있고, Compose View로 래핑되어 있습니다.
+ * 따라서 위치를 수동으로 조절할 수는 없고, Full Size Box에서 offset으로 조정되어야 합니다.
+ *
+ * 따라서 FloatingActionButton의 Offset을 구한 다음,
+ * Menu 크기만큼 더하고 Button 크기만큼 빼면 위치를 조정시킬 수 있습니다.
+ *
+ * dpOffsetX - menuWidth + buttonWidth
+ *
+ * @param buttonOffset FloatingActionButton의 offset
+ * @param menuSize menu container 크기
+ * @param buttonSize button container 크기
+ * @param onDismissRequest Menu를 닫으라는 명령이 떨어졌을 때의 동작
+ * @param content Dialog 내부에 들어갈 Composable
+ */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun QuackDialog(
     buttonOffset: Offset,
+    menuSize: IntSize,
+    buttonSize: IntSize,
     onDismissRequest: () -> Unit,
     content: @Composable () -> Unit,
 ) {
@@ -156,27 +166,51 @@ private fun QuackDialog(
             usePlatformDefaultWidth = false,
         ),
     ) {
+        val dpOffsetX = pixelToDp(
+            pixel = buttonOffset.x
+        )
+        val dpOffsetY = pixelToDp(
+            pixel = buttonOffset.y
+        )
+        val menuWidth = pixelToDp(
+            pixel = menuSize.width.toFloat()
+        )
+        val menuHeight = pixelToDp(
+            pixel = menuSize.height.toFloat()
+        )
+        val buttonWidth = pixelToDp(
+            pixel = buttonSize.width.toFloat()
+        )
+        val buttonHeight = pixelToDp(
+            pixel = buttonSize.height.toFloat()
+        )
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .clickable {
                     onDismissRequest()
-                },
+                }
+                .offset(
+                    x = dpOffsetX - menuWidth + buttonWidth,
+                    y = dpOffsetY - menuHeight + buttonHeight / 2,
+                ),
             contentAlignment = Alignment.TopStart,
         ) {
-            Box(
-                modifier = Modifier.offset(
-                    x = (buttonOffset.x).dp,
-                    y = (buttonOffset.y).dp,
-                ),
-            ) {
+            Box {
                 content()
             }
-
         }
     }
 }
 
+/**
+ * QuackDialogMenu를 구현하였습니다.
+ *
+ * 메뉴의 아이템 리스트를 보여주는 Composable 입니다.
+ *
+ * @param items 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트[QuackPopUpMenuItem]
+ * @see QuackPopUpMenuItem
+ */
 @Composable
 @NonRestartableComposable
 private fun QuackDialogMenu(
@@ -193,10 +227,10 @@ private fun QuackDialogMenu(
         Column(
             modifier = Modifier
                 .padding(
-                    horizontal = QuackFabHorizontalPadding,
+                    horizontal = QuackMenuHorizontalPadding,
                 )
                 .padding(
-                    top = QuackFabTopPadding
+                    top = QuackMenuTopPadding,
                 ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -217,7 +251,15 @@ private fun QuackDialogMenu(
     }
 }
 
-
+/**
+ * QuackDialogMenuContent를 구현하였습니다.
+ *
+ * 메뉴의 Item List Content 입니다.
+ *
+ * @param itemIcon item의 icon
+ * @param itemText item의 text
+ * @param onClickItem item의 클릭 이벤트
+ */
 @Composable
 @NonRestartableComposable
 internal fun QuackDialogMenuContent(
@@ -230,8 +272,7 @@ internal fun QuackDialogMenuContent(
             onClickItem()
         },
         verticalAlignment = Alignment.CenterVertically,
-    )
-    {
+    ) {
         QuackNonClickableImage(
             icon = itemIcon,
         )
@@ -242,45 +283,72 @@ internal fun QuackDialogMenuContent(
     }
 }
 
+/**
+ * QuackFloatingActionButton을 구현하였습니다.
+ *
+ * Box로 구현되어 있기 때문에, 다른 Composable 위에 배치될 수 있습니다.
+ *
+ * @param icon FloatingActionButton에 들어갈 icon
+ * @param onClick 버튼 클릭 이벤트
+ */
 @Composable
-fun FloatingActionButton(
+fun QuackFloatingActionButton(
+    icon: QuackIcon,
     onClick: () -> Unit,
 ) {
-    BasicFloatingActionButton(
+    QuackBasicFloatingActionButton(
+        icon = icon,
         onClick = onClick,
     )
 }
 
+/**
+ * QuackFloatingActionButton의 기초가 되는 Composable
+ *
+ * Content의 사이즈를 알아야 하는 경우로 인해 Modifier를 가집니다.
+ *
+ * @param modifier [Modifier]
+ * @param icon FloatingActionButton에 들어갈 icon
+ * @param onClick 버튼 클릭 이벤트
+ */
 @Composable
-private fun BasicFloatingActionButton(
+private fun QuackBasicFloatingActionButton(
     modifier: Modifier = Modifier,
+    icon: QuackIcon,
     onClick: () -> Unit,
 ) {
-    QuackSurface(
+    Box(
         modifier = modifier
-            .applyQuackSize(
-                width = QuackWidth.Custom(QuackFloatingActionButtonSize),
-                height = QuackHeight.Custom(QuackFloatingActionButtonSize),
-            ),
-        shape = QuackFloatingActionButtonShape,
-        backgroundColor = QuackColor.DuckieOrange,
+            .size(
+                QuackFabSize,
+            )
+            .clip(
+                shape = QuackFabShape,
+            )
+            .background(
+                color = QuackColor.DuckieOrange.value,
+            )
+            .clickable {
+                onClick()
+            },
+        contentAlignment = Alignment.Center,
     ) {
-        QuackImage(
-            icon = QuackIcon.Close,
-            onClick = onClick,
+        QuackNonClickableImage(
+            tint = QuackColor.White,
+            icon = icon,
         )
     }
 }
 
-@Preview
+/**
+ * pixel로 주어지는 offset을 dp로 변경하기 위한 function
+ *
+ * @param pixel dp로 변경할 pixel
+ */
 @Composable
-fun fabPreview() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.BottomCenter,
-    ) {
-        FloatingMenuActionButton(
-            items = dummyPopUpMenuItem,
-        )
-    }
+@Stable
+internal fun pixelToDp(pixel: Float) = with(
+    receiver = LocalDensity.current,
+) {
+    pixel.toDp()
 }
