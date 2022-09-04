@@ -10,23 +10,29 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.ui.animation.quackSpec
+import team.duckie.quackquack.common.runIf
+import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.border.animateQuackBorderAsState
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.modifier.quackClickable
-import team.duckie.quackquack.ui.modifier.surface
 
 /**
  * 모든 Quack 컴포넌트에서 최하위로 사용되는 컴포넌트입니다.
@@ -98,10 +104,45 @@ internal fun QuackSurface(
                 rippleColor = rippleColor,
             )
             .animateContentSize(
-                animationSpec = quackSpec(),
+                animationSpec = quackAnimationSpec(),
             ),
         propagateMinConstraints = true,
         contentAlignment = contentAlignment,
         content = content,
     )
 }
+
+/**
+ * 컴포넌트에 기본 테마를 입힙니다.
+ * 최하위 Modifier 이므로 인자들의 기본값이 정의되지 않았습니다.
+ *
+ * @param shape 컴포넌트의 모양
+ * @param backgroundColor 컴포넌트의 색상
+ * @param border 컴포넌트의 테두리. 테두리는 없을 수 있음으로 null 을 허용합니다.
+ * @param elevation 컴포넌트의 그림자 크기
+ */
+@Stable
+private fun Modifier.surface(
+    shape: Shape,
+    backgroundColor: QuackColor,
+    border: BorderStroke?,
+    elevation: Dp,
+) = this
+    .clip(
+        shape = shape,
+    )
+    .shadow(
+        elevation = elevation,
+        shape = shape,
+        clip = false,
+    )
+    .runIf(border != null) {
+        border(
+            border = border!!,
+            shape = shape,
+        )
+    }
+    .background(
+        color = backgroundColor.value,
+        shape = shape,
+    )

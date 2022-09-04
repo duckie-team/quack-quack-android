@@ -31,7 +31,7 @@ import team.duckie.quackquack.ui.modifier.applyQuackSize
  * @see Modifier.applyQuackSize
  */
 @Immutable
-internal sealed class QuackWidth {
+sealed class QuackWidth {
     /**
      * 현재 보이는 화면의 가로 사이즈로 꽉 채웁니다.
      * Modifier.fillMaxWidth() 와 동일합니다.
@@ -73,7 +73,7 @@ internal sealed class QuackWidth {
  * @see Modifier.applyQuackSize
  */
 @Immutable
-internal sealed class QuackHeight {
+sealed class QuackHeight {
     /**
      * 현재 보이는 화면의 세로 사이즈로 꽉 채웁니다.
      * Modifier.fillMaxHeight() 와 동일합니다.

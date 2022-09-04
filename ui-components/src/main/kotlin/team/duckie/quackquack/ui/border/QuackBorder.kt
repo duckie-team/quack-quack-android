@@ -16,11 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.animation.animateQuackAsState
-import team.duckie.quackquack.ui.animation.quackSpec
+import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 
@@ -38,6 +39,15 @@ internal class QuackBorder(
     val color: QuackColor,
 ) {
     /**
+     * [color] 를 [Brush] 로 변환합니다.
+     *
+     * @return [color] 를 [Brush] 로 변환한 값
+     */
+    val brush = SolidColor(
+        value = color.value,
+    )
+
+    /**
      * [QuackBorder] 를 [BorderStroke] 로 변환합니다.
      *
      * @return 변환된 [BorderStroke]
@@ -45,16 +55,13 @@ internal class QuackBorder(
     @Stable
     fun asComposeBorder() = BorderStroke(
         width = width,
-        brush = SolidColor(
-            value = color.value,
-        ),
+        brush = brush,
     )
 }
 
 /**
  * [QuackBorder] 의 변화에 애니메이션을 적용합니다.
- * [QuackBorder.width] 와 [QuackBorder.color] 모두
- * 애니메이션이 적용됩니다.
+ * [QuackBorder.width] 와 [QuackBorder.color] 모두 애니메이션이 적용됩니다.
  *
  * @param targetValue 애니메이션을 적용할 [QuackBorder]
  * @param animationSpec 애니메이션에 사용할 [AnimationSpec]
@@ -63,7 +70,7 @@ internal class QuackBorder(
 @Composable
 internal fun animateQuackBorderAsState(
     targetValue: QuackBorder,
-    animationSpec: AnimationSpec<Any> = quackSpec(),
+    animationSpec: AnimationSpec<Any> = quackAnimationSpec(),
 ): State<QuackBorder> {
     val widthAnimationState = animateDpAsState(
         targetValue = targetValue.width,

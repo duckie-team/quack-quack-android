@@ -1,0 +1,32 @@
+<!--
+  ~ Designed and developed by 2022 SungbinLand, Team Duckie
+  ~
+  ~ [ic_place_24.xml] created by Ji Sungbin on 22. 9. 3. 오전 5:47
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <group>
+        <clip-path android:pathData="M5.765,4.062h12.469v15.877h-12.469z" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M11.489,4.858c4.452,-0.439 7.429,4.568 5.243,8.471L12.22,19.102a0.136,0.136 0,0 1,-0.237 0l-4.679,-5.9A5.59,5.59 0,0 1,9.16 5.59,5.6 5.6,0 0,1 10.848,4.954 6.468,6.468 0,0 1,11.489 4.858Z"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M13.783,10.352A1.784,1.784 0,1 1,11.999 8.569,1.784 1.784,0 0,1 13.783,10.352Z"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+</vector>
