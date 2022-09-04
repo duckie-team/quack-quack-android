@@ -273,8 +273,9 @@ internal fun QuackDialogMenuContent(
         },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        QuackNonClickableImage(
+        QuackImage(
             icon = itemIcon,
+            onClick = null,
         )
         QuackText(
             text = itemText,
@@ -328,14 +329,15 @@ private fun QuackBasicFloatingActionButton(
             .background(
                 color = QuackColor.DuckieOrange.value,
             )
-            .clickable {
-                onClick()
-            },
+            .quackClickable(
+                onClick = onClick,
+            ),
         contentAlignment = Alignment.Center,
     ) {
-        QuackNonClickableImage(
+        QuackImage(
             tint = QuackColor.White,
             icon = icon,
+            onClick = null,
         )
     }
 }
