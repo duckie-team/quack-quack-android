@@ -1,7 +1,7 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [QuackFloatingActionButton.kt] created by Ji Sungbin on 22. 9. 4. 오전 2:23
+ * [QuackFab.kt] created by Ji Sungbin on 22. 9. 4. 오전 2:23
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
@@ -25,7 +25,7 @@ import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
 
 @RunWith(TestParameterInjector::class)
-class QuackFloatingActionButtonSnapShot {
+class QuackFab {
     @get:Rule
     val paparazzi = buildPaparazzi()
 
@@ -60,16 +60,15 @@ class QuackFloatingActionButtonSnapShot {
                     QuackPopUpMenuItem(
                         quackIcon = QuackIcon.WriteFeed,
                         text = "피드",
-                        onClick = {}
+                        onClick = {},
                     ),
                     QuackPopUpMenuItem(
                         quackIcon = QuackIcon.DrawerBuy,
                         text = "덕딜",
-                        onClick = {}
+                        onClick = {},
                     ),
-                )
+                ),
             )
         }
     }
 }
-
