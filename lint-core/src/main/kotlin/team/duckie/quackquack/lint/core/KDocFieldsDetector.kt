@@ -38,12 +38,12 @@ import org.jetbrains.uast.toUElement
 private const val BriefDescription = "함수에 KDoc 및 @param, @return, @throws 및 description 필수"
 private const val Explanation = "함수에 KDoc (/** and end with */)을 추가해야 합니다.\n" +
         "그리고 누락된 내용(@param, @return, @throws, @description) 이 없는지 체크해야 합니다."
-private const val kDoc_명세_필요 = "함수에는 KDoc 이 명시되어야 합니다."
-private const val param_개수와_매개변수_개수_불일치 = "@param 명세 개수가, 매개 변수 개수가 일치해야 합니다."
-private const val return_명세_필요 = "@return 이 반드시 명세되어야 합니다 "
-private const val throws_명세_필요 = "@throws 이 반드시 명세되어야 합니다 "
-private const val param_명세_필요 = "함수 내 모든 매개변수에 대하여, @param 는 반드시 명세되어야 합니다"
-private const val annotation에_대응하는_내용_없음 = "어노태이션에 대응하는 내용이 반드시 있어야 합니다."
+private const val KDoc_명세_필요 = "함수에는 KDoc 이 명시되어야 합니다."
+private const val Param_개수와_매개변수_개수_불일치 = "@param 명세 개수가, 매개 변수 개수가 일치해야 합니다."
+private const val Return_명세_필요 = "@return 이 반드시 명세되어야 합니다 "
+private const val Throws_명세_필요 = "@throws 이 반드시 명세되어야 합니다 "
+private const val Param_명세_필요 = "함수 내 모든 매개변수에 대하여, @param 는 반드시 명세되어야 합니다"
+private const val Annotation_에_대응하는_내용_없음 = "어노태이션에 대응하는 내용이 반드시 있어야 합니다."
 
 val KDocFieldsIssue = Issue.create(
     id = "KDocFields",
@@ -183,7 +183,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
 
             // kDoc 으로 치환될 수 있는 주석이 없다면 에러를 발생 시킨다.
             if (kDocSections.isNullOrEmpty()) {
-                return sendErrorReport(context, node, kDoc_명세_필요)
+                return sendErrorReport(context, node, KDoc_명세_필요)
             }
 
             // kDocTag 들을 어노테이션 이름 (name) 에 따라 분류하기
@@ -203,7 +203,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
             val isParamsOptional = methodParameterNames.isEmpty()
             // "params" 린트 검사
             if (methodParameterNames.size != (kDocTags["param"]?.size ?: 0))
-                return sendErrorReport(context, node, param_개수와_매개변수_개수_불일치)
+                return sendErrorReport(context, node, Param_개수와_매개변수_개수_불일치)
             if (!isParamsOptional) {
                 // 각 "param" KDocTag 내용에 대해 분석한다.
                 kDocTags["param"]?.forEach { kDocParameterTag ->
@@ -211,11 +211,11 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
                     val isDeleted = methodParameterNames.remove(kDocParameterTag.getSubjectName())
 
                     if (!isDeleted) {
-                        return sendErrorReport(context, node, param_명세_필요)
+                        return sendErrorReport(context, node, Param_명세_필요)
                     } else if (kDocParameterTag.getSubjectName().isNullOrBlank()) {
-                        return sendErrorReport(context, node, annotation에_대응하는_내용_없음)
+                        return sendErrorReport(context, node, Annotation_에_대응하는_내용_없음)
                     }
-                } ?: return sendErrorReport(context, node, param_명세_필요)
+                } ?: return sendErrorReport(context, node, Param_명세_필요)
             }
             kDocTags.remove("param")
 
@@ -227,11 +227,11 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
                 ?: true
             // "throws" 린트 검사
             if (!isThrowsOptional && kDocTags["throws"].isNullOrEmpty()) {
-                return sendErrorReport(context, node, throws_명세_필요)
+                return sendErrorReport(context, node, Throws_명세_필요)
             }
             kDocTags["throws"]?.forEach { kDocThrowsTag ->
                 if (kDocThrowsTag.getSubjectName().isNullOrBlank()) {
-                    return sendErrorReport(context, node, annotation에_대응하는_내용_없음)
+                    return sendErrorReport(context, node, Annotation_에_대응하는_내용_없음)
                 }
             }
             kDocTags.remove("throws")
@@ -240,11 +240,11 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
             val isReturnOptional = node.returnType == PsiType.VOID
             // "return" 린트 검사
             if (!isReturnOptional && kDocTags["return"].isNullOrEmpty()) {
-                return sendErrorReport(context, node, return_명세_필요)
+                return sendErrorReport(context, node, Return_명세_필요)
             }
             kDocTags["return"]?.forEach { kDocReturnTag ->
                 if (kDocReturnTag.getContent().isBlank()) {
-                    return sendErrorReport(context, node, annotation에_대응하는_내용_없음)
+                    return sendErrorReport(context, node, Annotation_에_대응하는_내용_없음)
                 }
             }
             kDocTags.remove("return")

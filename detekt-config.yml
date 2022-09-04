@@ -28,7 +28,7 @@ style:
 
 naming:
   TopLevelPropertyNaming:
-    constantPattern: '[A-Z가-힣][A-Za-z0-9가-힣]*'
+    constantPattern: '[A-Z가-힣][A-Za-z0-9가-힣_]*'
   FunctionNaming:
     ignoreAnnotated: [ 'Composable' ]
   MatchingDeclarationName:
