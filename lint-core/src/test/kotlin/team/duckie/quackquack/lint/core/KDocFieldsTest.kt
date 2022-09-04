@@ -17,12 +17,10 @@ import team.duckie.quackquack.common.lint.test.composableTestFile
 /**
  * 테스트 성공 조건
  * 1. 정상적인 케이스
- * 2. 오직 KDocSection 에 대해서만 체크해야 합니다. (공백 등은 체크하지 않음)
+ * 2. 오직 KDocSection 에 대해서만 체크해야 합니다. (필수 어노테이션이 아니거나, 공백은 체크하지 않음 )
  * 3. 함수에는 KDoc 이 명시되어야 합니다.
  * 4. @param 명세 개수가, 매개 변수 개수가 일치해야 합니다.
- * 5. @return, @throws, @description 에 오타가 없어야 합니다.
- * 6. @return, @description 은 반드시 명세되어야 합니다. (@throws 는 필요에 따라 명세되어야 합니다.)
- * 7. 함수 내 매개변수가 있을 시, @param 는 반드시 명세되어야 합니다
+ * 5. 필수 어노테이션은 반드시 명세되어야 합니다.
  */
 class KDocFieldsTest {
 
@@ -38,15 +36,18 @@ class KDocFieldsTest {
                         import java.lang.Exception
 
                         /**
-                         * @description 모든 어노테이션이 존재하는 함수 예제
+                         * 모든 어노테이션이 존재하는 함수 예제
                          *
                          * @param ex1 테스트 용 문자열
                          * @param efg 테스트 용 숫자
-                         * @return 반환값은 없습니다.
+                         * @return 무조건 0 입니다.
                          * @throws Exception
                          */
-                        fun `All annotations exist function Example`(ex1: String, efg: Int) {
-                            throw Exception()
+                        fun `All annotations exist function Example`(ex1: String, efg: Int): Int {
+                            if ("".isEmpty())
+                                return 0
+                            else
+                                throw Exception()
                         }
 
                         /**
@@ -54,10 +55,11 @@ class KDocFieldsTest {
                          *
                          * @param ex1 테스트 용 문자열
                          * @param efg 테스트 용 숫자
+                         * @see abcd
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        fun `Reference_Expression Example`(ex1: String, efg: Int) {
+                        override fun `Reference_Expression Example`(ex1: String, efg: Int) {
                             throw Exception()
                         }
 
@@ -80,7 +82,7 @@ class KDocFieldsTest {
                          * @param list 테스트 용 리스트
                          */
                         @Composable
-                        operator fun `Compose Function With Reference_Expression Example`(
+                        private fun `Compose Function With Reference_Expression Example`(
                             list: MutableList<Any>
                         ) = list
 
@@ -89,7 +91,7 @@ class KDocFieldsTest {
                          *
                          * @return 반환값은 없습니다.
                          */
-                        fun `Not Emit throw Exception function Example`() {
+                        open fun `Not Emit throw Exception function Example`() {
                         }
 
                         /**
@@ -230,7 +232,7 @@ class KDocFieldsTest {
     }
 
     @Test
-    fun `@return, @throws, @description must not contain invalid inputs`() {
+    fun `require annotations must be specified`() {
         lintTestRule.assertErrorCount(
             files = listOf(
                 composableTestFile(
@@ -238,75 +240,62 @@ class KDocFieldsTest {
                         import java.lang.Exception
 
                         /**
-                         * @ddescription 실패 케이스입니다.
+                         * @ddescription ddescription 오타가 있지만 필수 어노테이션이 아니므로 성공합니다.
                          *
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        fun failed1() {
+                        fun success1() {
                             throw Exception();
                         }
 
                         /**
-                         * @description 실패 케이스입니다.
+                         * description 이 없는 경우입니다. 필수 어노테이션이 아니므로 성공합니다.
                          *
-                         * @rreturn 반환값은 없습니다.
+                         * @param ex1 테스트 용 문자열
+                         * @param efg 테스트 용 숫자
+                         * @return 반환값은 없습니다.
                          * @throws Exception
+                         */
+                        override fun success2(ex1: String, efg: Int) {
+                            throw Exception()
+                        }
+
+                        /**
+                         * @description return 이 없는 경우입니다. 반환값이 없어 필수 어노테이션이 아니므로 성공합니다.
+                         *
+                         * @param ex1 테스트 용 문자열
+                         * @param efg 테스트 용 숫자
+                         */
+                        override fun success3(ex1: String, efg: Int) {
+                        }
+
+                        /**
+                         * @description return 명시가 제대로 되어있지 않아 실패합니다.
+                         *
+                         * @rreturn 빈 리스트를 반환합니다.
+                         * @throws Exception
+                         */
+                        fun failed1(): List<String> {
+                            throw Exception();
+                            if (mutableListOf("").isNotEmpty())
+                                throw Exception()
+                            else
+                                return emptyList()
+                        }
+
+                        /**
+                         * @description throws 명시가 제대로 되어있지 않아 실패합니다.
+                         *
+                         * @return 반환값은 없습니다.
+                         * @tthrows Exception
                          */
                         fun failed2() {
                             throw Exception();
                         }
 
                         /**
-                         * @description 실패 케이스입니다.
-                         *
-                         * @return 반환값은 없습니다.
-                         * @tthrows Exception
-                         */
-                        fun failed3() {
-                            throw Exception();
-                        }
-                        """
-                ),
-            ),
-            issues = listOf(
-                KDocFieldsIssue,
-            ),
-            expectedCount = 3,
-        )
-    }
-
-    @Test
-    fun `@return, @description must be specified (@throws is Optional)`() {
-        lintTestRule.assertErrorCount(
-            files = listOf(
-                composableTestFile(
-                    """
-                        import java.lang.Exception
-
-                        /**
-                         * description 이 없는 경우입니다.
-                         *
-                         * @param ex1 테스트 용 문자열
-                         * @param efg 테스트 용 숫자
-                         * @return 반환값은 없습니다.
-                         * @throws Exception
-                         */
-                        override fun failed1(ex1: String, efg: Int) {
-                            throw Exception()
-                        }
-
-                        /**
-                         * @description return 이 없는 경우입니다.
-                         *
-                         * @param ex1 테스트 용 문자열
-                         * @param efg 테스트 용 숫자
-                         */
-                        override fun failed2(ex1: String, efg: Int) {
-                        }
-
-                        /**
-                         * @description @throws 가 없는 경우입니다.
+                         * @description @throws 가 없는 경우입니다. throw 코드가 있어 필수 어노테이션이므로 실패합니다.
                          *
                          * @param ex1 테스트 용 문자열
                          * @param efg 테스트 용 숫자
@@ -314,23 +303,6 @@ class KDocFieldsTest {
                         override fun failed3(ex1: String, efg: Int) {
                             throw Exception()
                         }
-                        """
-                ),
-            ),
-            issues = listOf(
-                KDocFieldsIssue,
-            ),
-            expectedCount = 3,
-        )
-    }
-
-    @Test
-    fun `When there are parameters in a function, @param must be specified`() {
-        lintTestRule.assertErrorCount(
-            files = listOf(
-                composableTestFile(
-                    """
-                        import java.lang.Exception
 
                         /**
                          * @description param(ex1, efg) 명세가 없는 경우입니다.
@@ -338,7 +310,7 @@ class KDocFieldsTest {
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        override fun failed1(ex1: String, efg: Int) {
+                        override fun failed4(ex1: String, efg: Int) {
                             throw Exception()
                         }
 
@@ -349,7 +321,7 @@ class KDocFieldsTest {
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        override fun failed2(ex1: String, efg: Int) {
+                        override fun failed5(ex1: String, efg: Int) {
                             throw Exception()
                         }
 
@@ -361,7 +333,7 @@ class KDocFieldsTest {
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        override fun failed2(ex1: String, efg: Int) {
+                        override fun failed6(ex1: String, efg: Int) {
                             throw Exception()
                         }
                         """
@@ -370,7 +342,7 @@ class KDocFieldsTest {
             issues = listOf(
                 KDocFieldsIssue,
             ),
-            expectedCount = 3,
+            expectedCount = 6,
         )
     }
 }
