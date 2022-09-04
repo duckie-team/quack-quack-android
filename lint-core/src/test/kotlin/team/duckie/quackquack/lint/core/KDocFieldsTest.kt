@@ -232,7 +232,7 @@ class KDocFieldsTest {
     }
 
     @Test
-    fun `require annotations must be specified`() {
+    fun `require annotations must be specified (success)`() {
         lintTestRule.assertErrorCount(
             files = listOf(
                 composableTestFile(
@@ -240,7 +240,7 @@ class KDocFieldsTest {
                         import java.lang.Exception
 
                         /**
-                         * @ddescription ddescription 오타가 있지만 필수 어노테이션이 아니므로 성공합니다.
+                         * @ddescription 오타가 있지만, 필수 어노테이션이 아니므로 성공합니다.
                          *
                          * @return 반환값은 없습니다.
                          * @throws Exception
@@ -250,7 +250,7 @@ class KDocFieldsTest {
                         }
 
                         /**
-                         * description 이 없는 경우입니다. 필수 어노테이션이 아니므로 성공합니다.
+                         * description 이 없지만, 필수 어노테이션이 아니므로 성공합니다.
                          *
                          * @param ex1 테스트 용 문자열
                          * @param efg 테스트 용 숫자
@@ -262,16 +262,31 @@ class KDocFieldsTest {
                         }
 
                         /**
-                         * @description return 이 없는 경우입니다. 반환값이 없어 필수 어노테이션이 아니므로 성공합니다.
+                         * return 이 없지만, 반환값이 없어 필수 어노테이션이 아니므로 성공합니다.
                          *
                          * @param ex1 테스트 용 문자열
                          * @param efg 테스트 용 숫자
                          */
                         override fun success3(ex1: String, efg: Int) {
                         }
+                        """
+                ),
+            ),
+            issues = listOf(
+                KDocFieldsIssue,
+            ),
+            expectedCount = 0,
+        )
+    }
 
+    @Test
+    fun `require annotations must be specified (fail)`() {
+        lintTestRule.assertErrorCount(
+            files = listOf(
+                composableTestFile(
+                    """
                         /**
-                         * @description return 명시가 제대로 되어있지 않아 실패합니다.
+                         * @description return 이 필요하지만, 오타가 있으므로 실패합니다.
                          *
                          * @rreturn 빈 리스트를 반환합니다.
                          * @throws Exception
@@ -285,7 +300,7 @@ class KDocFieldsTest {
                         }
 
                         /**
-                         * @description throws 명시가 제대로 되어있지 않아 실패합니다.
+                         * throws 가 필요하지만, 오타가 있으므로 실패합니다.
                          *
                          * @return 반환값은 없습니다.
                          * @tthrows Exception
@@ -295,7 +310,7 @@ class KDocFieldsTest {
                         }
 
                         /**
-                         * @description @throws 가 없는 경우입니다. throw 코드가 있어 필수 어노테이션이므로 실패합니다.
+                         * throw 코드가 있어 필수 어노테이션이지만, 명세가 없어 실패합니다.
                          *
                          * @param ex1 테스트 용 문자열
                          * @param efg 테스트 용 숫자
@@ -305,7 +320,7 @@ class KDocFieldsTest {
                         }
 
                         /**
-                         * @description param(ex1, efg) 명세가 없는 경우입니다.
+                         * @description param(ex1, efg) 명세가 없어 실패합니다.
                          *
                          * @return 반환값은 없습니다.
                          * @throws Exception
@@ -315,7 +330,7 @@ class KDocFieldsTest {
                         }
 
                         /**
-                         * @description 일부 param(efg) 명세가 없는 경우입니다.
+                         * @description 일부 param(efg) 명세가 없어 실패합니다.
                          *
                          * @param ex1 테스트 용 문자열
                          * @return 반환값은 없습니다.
@@ -326,7 +341,7 @@ class KDocFieldsTest {
                         }
 
                         /**
-                         * @description 일부 param(efg) 명세에 오타가 있는 경우입니다.
+                         * @description 일부 param(ex2) 에 오타가 있어 실패합니다.
                          *
                          * @param ex2 테스트 용 문자열
                          * @param efg 테스트 용 숫자
