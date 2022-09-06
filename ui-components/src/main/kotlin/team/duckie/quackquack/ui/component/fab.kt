@@ -15,9 +15,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -63,7 +61,7 @@ private val QuackFabItemPadding = 16.dp
 private val QuackFabItemSpacing = 8.dp
 
 @Immutable
-class QuackPopUpMenuItem(
+class QuackDialogMenuItem(
     val icon: QuackIcon,
     val text: String,
     val onClick: () -> Unit,
@@ -74,17 +72,17 @@ class QuackPopUpMenuItem(
  *
  * [QuackFloatingActionButton] 과는 다르게, 버튼을 클릭하였을 때
  * DialogMenu 가 출력됩니다.
- * [QuackPopUpMenuItem] 을 통해 메뉴 아이템에 들어갈 icon, text, onClick 을 설정할 수 있습니다.
+ * [QuackDialogMenuItem] 을 통해 메뉴 아이템에 들어갈 icon, text, onClick 을 설정할 수 있습니다.
  *
- * @param items 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackPopUpMenuItem]
- * @see QuackPopUpMenuItem
+ * @param items 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackDialogMenuItem]
+ * @see QuackDialogMenuItem
  */
 @Composable
 fun QuackMenuFloatingActionButton(
     expanded: Boolean,
     onClickButton: () -> Unit,
     onDismissRequest: () -> Unit,
-    items: PersistentList<QuackPopUpMenuItem>,
+    items: PersistentList<QuackDialogMenuItem>,
 ) {
     var positionInRoot by remember { mutableStateOf(Offset.Zero) }
     var menuSize by remember { mutableStateOf(IntSize.Zero) }
@@ -225,13 +223,13 @@ private fun QuackDialog(
  *
  * 메뉴의 아이템 리스트를 보여주는 Composable 입니다.
  *
- * @param items 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackPopUpMenuItem]
- * @see QuackPopUpMenuItem
+ * @param items 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackDialogMenuItem]
+ * @see QuackDialogMenuItem
  */
 @Composable
 @NonRestartableComposable
 private fun QuackDialogMenu(
-    items: PersistentList<QuackPopUpMenuItem>,
+    items: PersistentList<QuackDialogMenuItem>,
 ) {
     QuackSurface(
         modifier = Modifier.applyQuackSize(
@@ -264,30 +262,30 @@ private fun QuackDialogMenu(
 /**
  * QuackDialogMenuContent 를 구현하였습니다.
  *
- * 메뉴의 Item List Content 입니다.
+ * DialogMenu 의 item 이 어떻게 구성되는지 정의합니다.
  *
- * @param itemIcon item 의 icon
- * @param itemText item 의 text
- * @param onClickItem item 의 클릭 이벤트
+ * @param item DialogMenu 에 들어갈 [QuackDialogMenuItem]
  */
 @Composable
 @NonRestartableComposable
 internal fun QuackDialogMenuContent(
-    itemIcon: QuackIcon,
-    itemText: String,
-    onClickItem: () -> Unit,
+    item: QuackDialogMenuItem,
 ) {
     Row(
-        modifier = Modifier.quackClickable(
-            onClick = onClickItem,
-        ),
+        modifier = Modifier
+            .padding(
+                bottom = QuackFabItemPadding,
+            )
+            .quackClickable(
+                onClick = item.onClick,
+            ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         QuackImage(
-            icon = itemIcon,
+            icon = item.icon,
         )
         QuackSubtitle(
-            text = itemText,
+            text = item.text,
         )
     }
 }
