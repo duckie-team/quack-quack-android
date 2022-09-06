@@ -163,7 +163,6 @@ private fun QuackDialog(
     Dialog(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(
-            dismissOnBackPress = true,
             usePlatformDefaultWidth = false,
         ),
     ) {
