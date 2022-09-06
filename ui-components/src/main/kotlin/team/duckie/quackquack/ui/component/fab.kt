@@ -68,7 +68,27 @@ class QuackDialogMenuItem(
     val icon: QuackIcon,
     val text: String,
     val onClick: () -> Unit,
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as QuackDialogMenuItem
+
+        if (icon != other.icon) return false
+        if (text != other.text) return false
+        if (onClick != other.onClick) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = icon.hashCode()
+        result = 31 * result + text.hashCode()
+        result = 31 * result + onClick.hashCode()
+        return result
+    }
+}
 
 /**
  * QuackMenuFloatingActionButton 를 구현하였습니다.
