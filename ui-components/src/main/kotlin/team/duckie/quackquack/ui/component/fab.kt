@@ -111,14 +111,12 @@ fun QuackMenuFloatingActionButton(
                     menuSize = layoutCoordinates.size
                 },
                 horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.spacedBy(
+                    space = QuackFabItemSpacing,
+                ),
             ) {
                 QuackDialogMenu(
                     items = items,
-                )
-                Spacer(
-                    modifier = Modifier.height(
-                        height = QuackFabItemSpacing,
-                    ),
                 )
                 QuackBasicFloatingActionButton(
                     icon = QuackIcon.Close,
@@ -254,16 +252,9 @@ private fun QuackDialogMenu(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            items.forEach { item: QuackPopUpMenuItem ->
+            items.forEach { item: QuackDialogMenuItem ->
                 QuackDialogMenuContent(
-                    itemIcon = item.icon,
-                    itemText = item.text,
-                    onClickItem = item.onClick,
-                )
-                Spacer(
-                    modifier = Modifier.height(
-                        height = QuackFabItemPadding,
-                    ),
+                    item = item,
                 )
             }
         }
