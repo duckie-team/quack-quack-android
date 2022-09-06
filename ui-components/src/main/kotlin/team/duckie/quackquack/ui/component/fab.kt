@@ -281,9 +281,9 @@ private fun QuackDialogMenu(
  *
  * 메뉴의 Item List Content 입니다.
  *
- * @param itemIcon item의 icon
- * @param itemText item의 text
- * @param onClickItem item의 클릭 이벤트
+ * @param itemIcon item 의 icon
+ * @param itemText item 의 text
+ * @param onClickItem item 의 클릭 이벤트
  */
 @Composable
 @NonRestartableComposable
@@ -301,9 +301,8 @@ internal fun QuackDialogMenuContent(
         QuackImage(
             icon = itemIcon,
         )
-        QuackText(
+        QuackSubtitle(
             text = itemText,
-            style = QuackTextStyle.Subtitle,
         )
     }
 }
