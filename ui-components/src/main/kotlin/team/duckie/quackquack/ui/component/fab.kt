@@ -9,6 +9,7 @@
 
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -120,7 +121,10 @@ fun QuackMenuFloatingActionButton(
         icon = QuackIcon.Plus,
         onClick = onClickButton,
     )
-    if (expanded) {
+
+    AnimatedVisibility(
+        visible = expanded,
+    ) {
         QuackDialog(
             buttonOffset = positionInRoot,
             menuSize = menuSize,
