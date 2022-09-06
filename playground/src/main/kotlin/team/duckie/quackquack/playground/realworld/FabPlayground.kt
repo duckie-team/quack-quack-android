@@ -56,7 +56,20 @@ fun QuackFloatingActionButtonDemo() {
 
 @Composable
 fun QuackMenuFloatingActionButtonDemo() {
+    var expanded by remember {
+        mutableStateOf(
+            value = false
+        )
+    }
+
     QuackMenuFloatingActionButton(
+        expanded = expanded,
+        onClickButton = {
+            expanded = true
+        },
+        onDismissRequest = {
+            expanded = false
+        },
         items = persistentListOf(
             QuackPopUpMenuItem(
                 icon = QuackIcon.WriteFeed,
@@ -68,6 +81,6 @@ fun QuackMenuFloatingActionButtonDemo() {
                 text = "덕딜",
                 onClick = {},
             ),
-        )
+        ),
     )
 }
