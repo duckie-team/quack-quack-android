@@ -68,7 +68,6 @@ private val QuackIconTextSpacing = 4.dp
 class QuackDialogMenuItem(
     val icon: QuackIcon,
     val text: String,
-    val onClick: () -> Unit,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -78,7 +77,6 @@ class QuackDialogMenuItem(
 
         if (icon != other.icon) return false
         if (text != other.text) return false
-        if (onClick != other.onClick) return false
 
         return true
     }
@@ -86,7 +84,6 @@ class QuackDialogMenuItem(
     override fun hashCode(): Int {
         var result = icon.hashCode()
         result = 31 * result + text.hashCode()
-        result = 31 * result + onClick.hashCode()
         return result
     }
 }
@@ -106,7 +103,8 @@ fun QuackMenuFloatingActionButton(
     expanded: Boolean,
     onClickButton: () -> Unit,
     onDismissRequest: () -> Unit,
-    items: PersistentList<QuackDialogMenuItem>,
+    menuItems: PersistentList<QuackDialogMenuItem>,
+    onClickMenuItem: (item: QuackDialogMenuItem) -> Unit,
 ) {
     var positionInRoot by remember { mutableStateOf(Offset.Zero) }
     var menuSize by remember { mutableStateOf(IntSize.Zero) }
@@ -121,7 +119,6 @@ fun QuackMenuFloatingActionButton(
         icon = QuackIcon.Plus,
         onClick = onClickButton,
     )
-
     AnimatedVisibility(
         visible = expanded,
     ) {
@@ -141,7 +138,9 @@ fun QuackMenuFloatingActionButton(
                 ),
             ) {
                 QuackDialogMenu(
-                    menuItems = items,
+                    menuItems = menuItems,
+                    onClickMenuItem = onClickMenuItem,
+                    onDismissRequest = onDismissRequest,
                 )
                 QuackBasicFloatingActionButton(
                     icon = QuackIcon.Close,
@@ -256,6 +255,8 @@ private fun QuackDialog(
 @Composable
 private fun QuackDialogMenu(
     menuItems: PersistentList<QuackDialogMenuItem>,
+    onClickMenuItem: (item: QuackDialogMenuItem) -> Unit,
+    onDismissRequest: () -> Unit,
 ) {
     QuackSurface(
         modifier = Modifier.applyQuackSize(
@@ -281,7 +282,9 @@ private fun QuackDialogMenu(
                 },
             ) { item: QuackDialogMenuItem ->
                 QuackDialogMenuContent(
-                    item = item,
+                    menuItem = item,
+                    onClickMenuItem = onClickMenuItem,
+                    onDismissRequest = onDismissRequest,
                 )
             }
         }
@@ -298,7 +301,9 @@ private fun QuackDialogMenu(
 @Composable
 @NonRestartableComposable
 internal fun QuackDialogMenuContent(
-    item: QuackDialogMenuItem,
+    menuItem: QuackDialogMenuItem,
+    onClickMenuItem: (item: QuackDialogMenuItem) -> Unit,
+    onDismissRequest: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -306,7 +311,10 @@ internal fun QuackDialogMenuContent(
                 bottom = QuackFabItemPadding,
             )
             .quackClickable(
-                onClick = item.onClick,
+                onClick = {
+                    onClickMenuItem(menuItem)
+                    onDismissRequest()
+                },
             ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
@@ -314,10 +322,10 @@ internal fun QuackDialogMenuContent(
         ),
     ) {
         QuackImage(
-            icon = item.icon,
+            icon = menuItem.icon,
         )
         QuackSubtitle(
-            text = item.text,
+            text = menuItem.text,
         )
     }
 }
