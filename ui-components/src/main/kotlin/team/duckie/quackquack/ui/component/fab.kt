@@ -57,8 +57,8 @@ private val QuackPopUpMenuShape = RoundedCornerShape(12.dp)
 private val QuackMenuTopPadding = 20.dp
 private val QuackMenuHorizontalPadding = 16.dp
 private val QuackFabItemPadding = 16.dp
-
 private val QuackFabItemSpacing = 8.dp
+private val QuackIconTextSpacing = 4.dp
 
 @Immutable
 class QuackDialogMenuItem(
@@ -280,6 +280,9 @@ internal fun QuackDialogMenuContent(
                 onClick = item.onClick,
             ),
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(
+            space = QuackIconTextSpacing,
+        ),
     ) {
         QuackImage(
             icon = item.icon,
