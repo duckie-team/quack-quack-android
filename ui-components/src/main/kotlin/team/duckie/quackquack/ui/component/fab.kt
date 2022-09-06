@@ -14,13 +14,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -226,11 +226,10 @@ private fun QuackDialog(
  *
  * 메뉴의 아이템 리스트를 보여주는 Composable 입니다.
  *
- * @param items 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackDialogMenuItem]
+ * @param menuItems 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackDialogMenuItem]
  * @see QuackDialogMenuItem
  */
 @Composable
-@NonRestartableComposable
 private fun QuackDialogMenu(
     menuItems: PersistentList<QuackDialogMenuItem>,
 ) {
@@ -246,8 +245,8 @@ private fun QuackDialogMenu(
             contentPadding = PaddingValues(
                 start = QuackMenuHorizontalPadding,
                 end = QuackMenuHorizontalPadding,
-                    top = QuackMenuTopPadding,
-                ),
+                top = QuackMenuTopPadding,
+            ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -308,6 +307,7 @@ internal fun QuackDialogMenuContent(
  * @param onClick 버튼 클릭 이벤트
  */
 @Composable
+@NonRestartableComposable
 fun QuackFloatingActionButton(
     icon: QuackIcon,
     onClick: () -> Unit,
@@ -328,6 +328,7 @@ fun QuackFloatingActionButton(
  * @param onClick 버튼 클릭 이벤트
  */
 @Composable
+@NonRestartableComposable
 private fun QuackBasicFloatingActionButton(
     modifier: Modifier = Modifier,
     icon: QuackIcon,
