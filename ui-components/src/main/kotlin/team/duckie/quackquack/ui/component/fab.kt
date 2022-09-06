@@ -369,7 +369,7 @@ private fun QuackBasicFloatingActionButton(
     Box(
         modifier = modifier
             .size(
-                QuackFabSize,
+                size = QuackFabSize,
             )
             .clip(
                 shape = QuackFabShape,
