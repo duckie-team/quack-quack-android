@@ -19,6 +19,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -114,7 +117,7 @@ fun QuackMenuFloatingActionButton(
                 ),
             ) {
                 QuackDialogMenu(
-                    items = items,
+                    menuItems = items,
                 )
                 QuackBasicFloatingActionButton(
                     icon = QuackIcon.Close,
@@ -229,7 +232,7 @@ private fun QuackDialog(
 @Composable
 @NonRestartableComposable
 private fun QuackDialogMenu(
-    items: PersistentList<QuackDialogMenuItem>,
+    menuItems: PersistentList<QuackDialogMenuItem>,
 ) {
     QuackSurface(
         modifier = Modifier.applyQuackSize(
@@ -239,18 +242,21 @@ private fun QuackDialogMenu(
         shape = QuackPopUpMenuShape,
         backgroundColor = QuackColor.White,
     ) {
-        Column(
-            modifier = Modifier
-                .padding(
-                    horizontal = QuackMenuHorizontalPadding,
-                )
-                .padding(
+        LazyColumn(
+            contentPadding = PaddingValues(
+                start = QuackMenuHorizontalPadding,
+                end = QuackMenuHorizontalPadding,
                     top = QuackMenuTopPadding,
                 ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            items.forEach { item: QuackDialogMenuItem ->
+            items(
+                items = menuItems,
+                key = { item: QuackDialogMenuItem ->
+                    item.text
+                },
+            ) { item: QuackDialogMenuItem ->
                 QuackDialogMenuContent(
                     item = item,
                 )
