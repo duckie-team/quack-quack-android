@@ -36,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
@@ -51,7 +50,6 @@ import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.modifier.quackClickable
-import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 
 private val QuackFabSize = 48.dp
 
@@ -83,9 +81,11 @@ class QuackPopUpMenuItem(
  */
 @Composable
 fun QuackMenuFloatingActionButton(
+    expanded: Boolean,
+    onClickButton: () -> Unit,
+    onDismissRequest: () -> Unit,
     items: PersistentList<QuackPopUpMenuItem>,
 ) {
-    var expanded by remember { mutableStateOf(false) }
     var positionInRoot by remember { mutableStateOf(Offset.Zero) }
     var menuSize by remember { mutableStateOf(IntSize.Zero) }
     var buttonSize by remember { mutableStateOf(IntSize.Zero) }
@@ -97,18 +97,14 @@ fun QuackMenuFloatingActionButton(
                 buttonSize = layoutCoordinates.size
             },
         icon = QuackIcon.Plus,
-        onClick = {
-            expanded = true
-        },
+        onClick = onClickButton,
     )
     if (expanded) {
         QuackDialog(
             buttonOffset = positionInRoot,
             menuSize = menuSize,
             buttonSize = buttonSize,
-            onDismissRequest = {
-                expanded = false
-            },
+            onDismissRequest = onDismissRequest,
         ) {
             Column(
                 modifier = Modifier.onGloballyPositioned { layoutCoordinates ->
@@ -126,9 +122,7 @@ fun QuackMenuFloatingActionButton(
                 )
                 QuackBasicFloatingActionButton(
                     icon = QuackIcon.Close,
-                    onClick = {
-                        expanded = false
-                    },
+                    onClick = onDismissRequest,
                 )
             }
         }
