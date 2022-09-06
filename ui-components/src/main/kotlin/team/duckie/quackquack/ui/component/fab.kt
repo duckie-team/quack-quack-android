@@ -10,9 +10,9 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -75,7 +75,7 @@ class QuackPopUpMenuItem(
  *
  * [QuackFloatingActionButton] 과는 다르게, 버튼을 클릭하였을 때
  * DialogMenu 가 출력됩니다.
- * [QuackPopUpMenuItem]를 통해 메뉴 아이템에 들어갈 icon, text, onClick 을 설정할 수 있습니다.
+ * [QuackPopUpMenuItem] 을 통해 메뉴 아이템에 들어갈 icon, text, onClick 을 설정할 수 있습니다.
  *
  * @param items 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackPopUpMenuItem]
  * @see QuackPopUpMenuItem
@@ -158,7 +158,7 @@ private fun QuackDialog(
     menuSize: IntSize,
     buttonSize: IntSize,
     onDismissRequest: () -> Unit,
-    content: @Composable () -> Unit,
+    content: @Composable BoxScope.() -> Unit,
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -188,18 +188,18 @@ private fun QuackDialog(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .clickable {
-                    onDismissRequest()
-                }
+                .quackClickable(
+                    onClick = onDismissRequest
+                )
                 .offset(
                     x = dpOffsetX - menuWidth + buttonWidth,
                     y = dpOffsetY - menuHeight + buttonHeight / 2,
                 ),
             contentAlignment = Alignment.TopStart,
         ) {
-            Box {
-                content()
-            }
+            Box(
+                content = content
+            )
         }
     }
 }
@@ -269,9 +269,9 @@ internal fun QuackDialogMenuContent(
     onClickItem: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.quackClickable {
-            onClickItem()
-        },
+        modifier = Modifier.quackClickable(
+            onClick = onClickItem,
+        ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         QuackImage(
