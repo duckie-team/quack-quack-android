@@ -26,7 +26,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.NonRestartableComposable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,8 +36,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -65,7 +66,7 @@ private val QuackFabItemSpacing = 8.dp
 
 @Immutable
 class QuackPopUpMenuItem(
-    val quackIcon: QuackIcon,
+    val icon: QuackIcon,
     val text: String,
     val onClick: () -> Unit,
 )
@@ -166,34 +167,58 @@ private fun QuackDialog(
             usePlatformDefaultWidth = false,
         ),
     ) {
-        val dpOffsetX = pixelToDp(
-            pixel = buttonOffset.x
-        )
-        val dpOffsetY = pixelToDp(
-            pixel = buttonOffset.y
-        )
-        val menuWidth = pixelToDp(
-            pixel = menuSize.width.toFloat()
-        )
-        val menuHeight = pixelToDp(
-            pixel = menuSize.height.toFloat()
-        )
-        val buttonWidth = pixelToDp(
-            pixel = buttonSize.width.toFloat()
-        )
-        val buttonHeight = pixelToDp(
-            pixel = buttonSize.height.toFloat()
-        )
+        val density = LocalDensity.current
+        val dpOffsetX = with(
+            receiver = density,
+        ) {
+            buttonOffset.x.toDp()
+        }
+        val dpOffsetY = with(
+            receiver = density,
+        ) {
+            buttonOffset.y.toDp()
+        }
+        val menuWidth = with(
+            receiver = density,
+        ) {
+            menuSize.width.toDp()
+        }
+        val menuHeight = with(
+            receiver = density,
+        ) {
+            menuSize.height.toDp()
+        }
+        val buttonWidth = with(
+            receiver = density,
+        ) {
+            buttonSize.width.toDp()
+        }
+        val buttonHeight = with(
+            receiver = density,
+        ) {
+            buttonSize.height.toDp()
+        }
+        var xOffset by remember {
+            mutableStateOf(0)
+        }
+        var yOffset by remember {
+            mutableStateOf(0)
+        }
+        xOffset = (dpOffsetX - menuWidth + buttonWidth).value.toInt()
+        yOffset = (dpOffsetY - menuHeight + buttonHeight).value.toInt()
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .quackClickable(
                     onClick = onDismissRequest
                 )
-                .offset(
-                    x = dpOffsetX - menuWidth + buttonWidth,
-                    y = dpOffsetY - menuHeight + buttonHeight / 2,
-                ),
+                .offset {
+                    IntOffset(
+                        x = xOffset,
+                        y = yOffset,
+                    )
+                },
             contentAlignment = Alignment.TopStart,
         ) {
             Box(
@@ -237,7 +262,7 @@ private fun QuackDialogMenu(
         ) {
             items.forEach { item: QuackPopUpMenuItem ->
                 QuackDialogMenuContent(
-                    itemIcon = item.quackIcon,
+                    itemIcon = item.icon,
                     itemText = item.text,
                     onClickItem = item.onClick,
                 )
@@ -340,17 +365,4 @@ private fun QuackBasicFloatingActionButton(
             onClick = null,
         )
     }
-}
-
-/**
- * pixel로 주어지는 offset 을 dp로 변경하기 위한 function
- *
- * @param pixel dp 로 변경할 pixel
- */
-@Composable
-@Stable
-internal fun pixelToDp(pixel: Float) = with(
-    receiver = LocalDensity.current,
-) {
-    pixel.toDp()
 }
