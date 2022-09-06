@@ -300,7 +300,6 @@ internal fun QuackDialogMenuContent(
     ) {
         QuackImage(
             icon = itemIcon,
-            onClick = null,
         )
         QuackText(
             text = itemText,
@@ -362,7 +361,6 @@ private fun QuackBasicFloatingActionButton(
         QuackImage(
             tint = QuackColor.White,
             icon = icon,
-            onClick = null,
         )
     }
 }
