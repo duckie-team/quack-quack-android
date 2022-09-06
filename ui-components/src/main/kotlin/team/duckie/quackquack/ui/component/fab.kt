@@ -93,9 +93,13 @@ class QuackDialogMenuItem(
  *
  * [QuackFloatingActionButton] 과는 다르게, 버튼을 클릭하였을 때
  * DialogMenu 가 출력됩니다.
- * [QuackDialogMenuItem] 을 통해 메뉴 아이템에 들어갈 icon, text, onClick 을 설정할 수 있습니다.
+ * [QuackDialogMenuItem] 을 통해 메뉴 아이템에 들어갈 icon, text 를 설정할 수 있습니다.
  *
- * @param items 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackDialogMenuItem]
+ * @param expanded 메뉴가 현재 열려 있고 사용자에게 표시되는지 여부
+ * @param onClickButton 버튼을 클릭했을 때 호출되는 콜백
+ * @param onDismissRequest 사용자가 메뉴 닫기를 요청할 때 호출되는 콜백
+ * @param menuItems 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackDialogMenuItem]
+ * @param onClickMenuItem 사용자가 메뉴 아이템을 클릭했을 때 호출되는 콜백
  * @see QuackDialogMenuItem
  */
 @Composable
@@ -152,7 +156,7 @@ fun QuackMenuFloatingActionButton(
 }
 
 /**
- * QuackMenuFloatingActionButton 를 클릭했을 때 나오는 다이얼로그 입니다.
+ * [QuackMenuFloatingActionButton] 를 클릭했을 때 나오는 다이얼로그 입니다.
  *
  * Dialog 는 내부적으로 Android Dialog 로 구현되어있고, Compose View 로 래핑되어 있습니다.
  * 따라서 위치를 수동으로 조절할 수는 없고, Full Size Box 에서 offset 으로 조정되어야 합니다.
@@ -165,7 +169,7 @@ fun QuackMenuFloatingActionButton(
  * @param buttonOffset FloatingActionButton 의 offset
  * @param menuSize menu container 크기
  * @param buttonSize button container 크기
- * @param onDismissRequest Menu 를 닫으라는 명령이 떨어졌을 때의 동작
+ * @param onDismissRequest 사용자가 메뉴 닫기를 요청할 때 호출되는 콜백
  * @param content Dialog 내부에 들어갈 Composable
  */
 @OptIn(ExperimentalComposeUiApi::class)
@@ -247,9 +251,11 @@ private fun QuackDialog(
 /**
  * QuackDialogMenu 를 구현하였습니다.
  *
- * 메뉴의 아이템 리스트를 보여주는 Composable 입니다.
+ * Dialog Menu 에 표시될 Item List 입니다.
  *
  * @param menuItems 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackDialogMenuItem]
+ * @param onClickMenuItem 사용자가 메뉴 아이템을 클릭했을 때 호출되는 콜백
+ * @param onDismissRequest 사용자가 메뉴 닫기를 요청할 때 호출되는 콜백
  * @see QuackDialogMenuItem
  */
 @Composable
@@ -296,7 +302,9 @@ private fun QuackDialogMenu(
  *
  * DialogMenu 의 item 이 어떻게 구성되는지 정의합니다.
  *
- * @param item DialogMenu 에 들어갈 [QuackDialogMenuItem]
+ * @param menuItem DialogMenu 에 들어갈 [QuackDialogMenuItem]
+ * @param onClickMenuItem 사용자가 메뉴 아이템을 클릭했을 때 호출되는 콜백
+ * @param onDismissRequest 사용자가 메뉴 닫기를 요청할 때 호출되는 콜백
  */
 @Composable
 @NonRestartableComposable
