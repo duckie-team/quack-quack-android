@@ -70,17 +70,16 @@ fun QuackMenuFloatingActionButtonDemo() {
         onDismissRequest = {
             expanded = false
         },
-        items = persistentListOf(
+        menuItems = persistentListOf(
             QuackDialogMenuItem(
                 icon = QuackIcon.WriteFeed,
                 text = "피드",
-                onClick = {},
             ),
             QuackDialogMenuItem(
                 icon = QuackIcon.DrawerBuy,
                 text = "덕딜",
-                onClick = {},
             ),
         ),
+        onClickMenuItem = {},
     )
 }

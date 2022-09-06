@@ -17,11 +17,10 @@ import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import team.duckie.quackquack.ui.component.QuackPopUpMenuItem
+import team.duckie.quackquack.ui.component.QuackDialogMenuItem
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.rule.AnimationTestRule
 import team.duckie.quackquack.ui.textstyle.QuackFontScale
-import team.duckie.quackquack.ui.util.PaparazziConfig
 import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
 
@@ -65,18 +64,17 @@ class QuackFab {
                 expanded = expanded,
                 onClickButton = {},
                 onDismissRequest = {},
-                items = persistentListOf(
-                    QuackPopUpMenuItem(
+                menuItems = persistentListOf(
+                    QuackDialogMenuItem(
                         icon = QuackIcon.WriteFeed,
                         text = "피드",
-                        onClick = {},
                     ),
-                    QuackPopUpMenuItem(
+                    QuackDialogMenuItem(
                         icon = QuackIcon.DrawerBuy,
                         text = "덕딜",
-                        onClick = {},
                     ),
                 ),
+                onClickMenuItem = {},
             )
         }
     }
