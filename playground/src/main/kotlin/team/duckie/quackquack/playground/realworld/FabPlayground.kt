@@ -20,9 +20,9 @@ import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
+import team.duckie.quackquack.ui.component.QuackDialogMenuItem
 import team.duckie.quackquack.ui.component.QuackFloatingActionButton
 import team.duckie.quackquack.ui.component.QuackMenuFloatingActionButton
-import team.duckie.quackquack.ui.component.QuackPopUpMenuItem
 import team.duckie.quackquack.ui.icon.QuackIcon
 
 class FabPlayground : BaseActivity() {
@@ -71,12 +71,12 @@ fun QuackMenuFloatingActionButtonDemo() {
             expanded = false
         },
         items = persistentListOf(
-            QuackPopUpMenuItem(
+            QuackDialogMenuItem(
                 icon = QuackIcon.WriteFeed,
                 text = "피드",
                 onClick = {},
             ),
-            QuackPopUpMenuItem(
+            QuackDialogMenuItem(
                 icon = QuackIcon.DrawerBuy,
                 text = "덕딜",
                 onClick = {},
