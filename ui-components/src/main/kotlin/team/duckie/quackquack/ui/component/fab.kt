@@ -71,13 +71,13 @@ class QuackPopUpMenuItem(
 )
 
 /**
- * QuackMenuFloatingActionButton를 구현하였습니다.
+ * QuackMenuFloatingActionButton 를 구현하였습니다.
  *
  * [QuackFloatingActionButton] 과는 다르게, 버튼을 클릭하였을 때
- * DialogMenu가 출력됩니다.
- * [QuackPopUpMenuItem]를 통해 메뉴 아이템에 들어갈 icon, text, onClick을 설정할 수 있습니다.
+ * DialogMenu 가 출력됩니다.
+ * [QuackPopUpMenuItem]를 통해 메뉴 아이템에 들어갈 icon, text, onClick 을 설정할 수 있습니다.
  *
- * @param items 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트[QuackPopUpMenuItem]
+ * @param items 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackPopUpMenuItem]
  * @see QuackPopUpMenuItem
  */
 @Composable
@@ -88,6 +88,7 @@ fun QuackMenuFloatingActionButton(
     var positionInRoot by remember { mutableStateOf(Offset.Zero) }
     var menuSize by remember { mutableStateOf(IntSize.Zero) }
     var buttonSize by remember { mutableStateOf(IntSize.Zero) }
+
     QuackBasicFloatingActionButton(
         modifier = Modifier
             .onGloballyPositioned { layoutCoordinates ->
@@ -134,20 +135,20 @@ fun QuackMenuFloatingActionButton(
 }
 
 /**
- * QuackMenuFloatingActionButton를 클릭했을 때 나오는 다이얼로그 입니다.
+ * QuackMenuFloatingActionButton 를 클릭했을 때 나오는 다이얼로그 입니다.
  *
- * Dialog는 내부적으로 Android Dialog로 구현되어있고, Compose View로 래핑되어 있습니다.
- * 따라서 위치를 수동으로 조절할 수는 없고, Full Size Box에서 offset으로 조정되어야 합니다.
+ * Dialog 는 내부적으로 Android Dialog 로 구현되어있고, Compose View 로 래핑되어 있습니다.
+ * 따라서 위치를 수동으로 조절할 수는 없고, Full Size Box 에서 offset 으로 조정되어야 합니다.
  *
- * 따라서 FloatingActionButton의 Offset을 구한 다음,
+ * 따라서 FloatingActionButton 의 Offset 을 구한 다음,
  * Menu 크기만큼 더하고 Button 크기만큼 빼면 위치를 조정시킬 수 있습니다.
  *
  * dpOffsetX - menuWidth + buttonWidth
  *
- * @param buttonOffset FloatingActionButton의 offset
+ * @param buttonOffset FloatingActionButton 의 offset
  * @param menuSize menu container 크기
  * @param buttonSize button container 크기
- * @param onDismissRequest Menu를 닫으라는 명령이 떨어졌을 때의 동작
+ * @param onDismissRequest Menu 를 닫으라는 명령이 떨어졌을 때의 동작
  * @param content Dialog 내부에 들어갈 Composable
  */
 @OptIn(ExperimentalComposeUiApi::class)
@@ -204,11 +205,11 @@ private fun QuackDialog(
 }
 
 /**
- * QuackDialogMenu를 구현하였습니다.
+ * QuackDialogMenu 를 구현하였습니다.
  *
  * 메뉴의 아이템 리스트를 보여주는 Composable 입니다.
  *
- * @param items 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트[QuackPopUpMenuItem]
+ * @param items 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackPopUpMenuItem]
  * @see QuackPopUpMenuItem
  */
 @Composable
@@ -252,7 +253,7 @@ private fun QuackDialogMenu(
 }
 
 /**
- * QuackDialogMenuContent를 구현하였습니다.
+ * QuackDialogMenuContent 를 구현하였습니다.
  *
  * 메뉴의 Item List Content 입니다.
  *
@@ -285,11 +286,11 @@ internal fun QuackDialogMenuContent(
 }
 
 /**
- * QuackFloatingActionButton을 구현하였습니다.
+ * QuackFloatingActionButton 을 구현하였습니다.
  *
- * Box로 구현되어 있기 때문에, 다른 Composable 위에 배치될 수 있습니다.
+ * Box 로 구현되어 있기 때문에, 다른 Composable 위에 배치될 수 있습니다.
  *
- * @param icon FloatingActionButton에 들어갈 icon
+ * @param icon FloatingActionButton 에 들어갈 icon
  * @param onClick 버튼 클릭 이벤트
  */
 @Composable
@@ -304,12 +305,12 @@ fun QuackFloatingActionButton(
 }
 
 /**
- * QuackFloatingActionButton의 기초가 되는 Composable
+ * QuackFloatingActionButton 의 기초가 되는 Composable
  *
- * Content의 사이즈를 알아야 하는 경우로 인해 Modifier를 가집니다.
+ * Content 의 사이즈를 알아야 하는 경우로 인해 Modifier 를 가집니다.
  *
  * @param modifier [Modifier]
- * @param icon FloatingActionButton에 들어갈 icon
+ * @param icon FloatingActionButton 에 들어갈 icon
  * @param onClick 버튼 클릭 이벤트
  */
 @Composable
@@ -343,9 +344,9 @@ private fun QuackBasicFloatingActionButton(
 }
 
 /**
- * pixel로 주어지는 offset을 dp로 변경하기 위한 function
+ * pixel로 주어지는 offset 을 dp로 변경하기 위한 function
  *
- * @param pixel dp로 변경할 pixel
+ * @param pixel dp 로 변경할 pixel
  */
 @Composable
 @Stable
