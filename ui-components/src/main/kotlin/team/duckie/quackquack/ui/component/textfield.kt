@@ -236,12 +236,16 @@ fun QuackBasicTextField(
         modifier = modifier
             .applyQuackSize(
                 width = width,
-                height = height,
+                height = QuackHeight.Custom(
+                    height = 300.dp,
+                ),
             )
             .onPlaced { layoutCoordinates ->
                 println("onPlaced: ${layoutCoordinates.size}")
                 // size 에서 height 가 0으로 나옴
                 textFieldSize = layoutCoordinates.size
+                // 1440 x 1050 ????!?!?!
+                // 사이즈가 이상하게 나오는 버그가 있음
             },
         value = text,
         onValueChange = onTextChanged,
