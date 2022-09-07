@@ -22,6 +22,7 @@ import com.android.tools.lint.detector.api.Detector
 class CoreIssueRegistry : IssueRegistry() {
     override val issues = listOf(
         MutableCollectionPublicIssue,
+        KDocFieldsIssue,
     )
 
     override val api = CURRENT_API
