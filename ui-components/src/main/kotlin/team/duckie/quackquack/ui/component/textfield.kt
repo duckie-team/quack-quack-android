@@ -7,16 +7,18 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:NoLiveLiterals
+
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NoLiveLiterals
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
@@ -231,6 +234,7 @@ fun QuackBasicTextField(
             value = IntSize.Zero,
         )
     }
+    val density = LocalDensity.current
 
     BasicTextField(
         modifier = modifier
@@ -240,12 +244,16 @@ fun QuackBasicTextField(
                     height = 300.dp,
                 ),
             )
+            .background(color = Color.Red)
             .onPlaced { layoutCoordinates ->
-                println("onPlaced: ${layoutCoordinates.size}")
-                // size 에서 height 가 0으로 나옴
-                textFieldSize = layoutCoordinates.size
-                // 1440 x 1050 ????!?!?!
-                // 사이즈가 이상하게 나오는 버그가 있음
+                with(density) {
+                    println("onPlaced: ${layoutCoordinates.size}")
+                    println("onPlacedHeight with Dp: ${layoutCoordinates.size.height.toDp()}")
+                    // size 에서 height 가 0으로 나옴
+                    textFieldSize = layoutCoordinates.size
+                    // 1440 x 1050 ????!?!?!
+                    // 사이즈가 이상하게 나오는 버그가 있음
+                }
             },
         value = text,
         onValueChange = onTextChanged,
@@ -317,12 +325,9 @@ private fun QuackTextFieldDecorationBox(
         content = {
             if (leadingContent != null) {
                 Box(
-                    modifier = Modifier
-                        .layoutId(
-                            layoutId = QuackTextFieldLeadingContentLayoutId,
-                        )
-                        .wrapContentWidth()
-                        .fillMaxHeight(),
+                    modifier = Modifier.layoutId(
+                        layoutId = QuackTextFieldLeadingContentLayoutId,
+                    ),
                     contentAlignment = Alignment.Center,
                 ) {
                     leadingContent()
@@ -330,23 +335,18 @@ private fun QuackTextFieldDecorationBox(
             }
             Box(
                 // width 는 measure 하면서 지정
-                modifier = Modifier
-                    .layoutId(
-                        layoutId = QuackTextFieldLayoutId,
-                    )
-                    .fillMaxHeight(),
+                modifier = Modifier.layoutId(
+                    layoutId = QuackTextFieldLayoutId,
+                ),
                 contentAlignment = Alignment.CenterStart,
             ) {
                 textField()
             }
             if (trailingContent != null) {
                 Box(
-                    modifier = Modifier
-                        .layoutId(
-                            layoutId = QuackTextFieldTrailingContentLayoutId,
-                        )
-                        .wrapContentWidth()
-                        .fillMaxHeight(),
+                    modifier = Modifier.layoutId(
+                        layoutId = QuackTextFieldTrailingContentLayoutId,
+                    ),
                     contentAlignment = Alignment.Center,
                 ) {
                     trailingContent()
@@ -354,19 +354,22 @@ private fun QuackTextFieldDecorationBox(
             }
         },
     ) { measurables, _ ->
-        // 왜 measurePolicy 의 인자로 들어오는 constraints 가 Layout 의
-        // constraints 와 다른지 모르겠음. 그래서 직접 Layout 의 constraints
-        // 에 맞는 Constraints 를 만들어서 사용함.
-        val constraints = Constraints.fixed(
-            width = textFieldSize.width,
-            height = textFieldSize.height,
-        )
-        println("constraints: $constraints")
+        // decoration items 들은 height 는 TextField 와 일치해야 하고,
+        // width 는 wrap_content 여야 함. 단, 최소 TextField 의 height 와는 같아야 함.
+        // TODO: wrapContentWidth() 를 구현해야 함..
+        val decorationItemConstraints = Constraints(
+            minWidth = textFieldSize.height,
+            maxWidth = Int.MAX_VALUE,
+            minHeight = textFieldSize.height,
+            maxHeight = textFieldSize.height,
+        ).also {
+            println("constraints: $it")
+        }
         // leading content
         val leadingContentPlaceable = measurables.find { measurable ->
             measurable.layoutId == QuackTextFieldLeadingContentLayoutId
         }?.measure(
-            constraints = constraints,
+            constraints = decorationItemConstraints,
         )?.also {
             println("leadingContentPlaceable: ${it.toDebugString()}")
         }
@@ -375,7 +378,7 @@ private fun QuackTextFieldDecorationBox(
         val trailingContentPlaceable = measurables.find { measurable ->
             measurable.layoutId == QuackTextFieldTrailingContentLayoutId
         }?.measure(
-            constraints = constraints,
+            constraints = decorationItemConstraints,
         )?.also {
             println("trailingContentPlaceable: ${it.toDebugString()}")
         }
@@ -391,7 +394,7 @@ private fun QuackTextFieldDecorationBox(
                 // 따라서 TextField 의 가로 길이에서 decoration 아이템의 가로 길이와
                 // TextField 와 decoration 아이템 사이에 들어갈 간격 만큼 제외한 값으로
                 // TextField 의 가로 길이로 설정함.
-                width = constraints.minWidth.let { _width ->
+                width = decorationItemConstraints.minWidth.let { _width ->
                     var width = _width
                     if (leadingContentPlaceable != null) {
                         width -= leadingContentPlaceable.width + decorationItemGap
@@ -403,7 +406,7 @@ private fun QuackTextFieldDecorationBox(
                 }.coerceAtLeast(
                     minimumValue = 0,
                 ),
-                height = constraints.minHeight,
+                height = decorationItemConstraints.minHeight,
             )
         )?.also {
             println("textFieldPlaceable: ${it.toDebugString()}")
@@ -416,8 +419,8 @@ private fun QuackTextFieldDecorationBox(
         )
 
         layout(
-            width = constraints.minWidth,
-            height = constraints.minHeight,
+            width = decorationItemConstraints.minWidth,
+            height = decorationItemConstraints.minHeight,
         ) {
             val textFieldStartOffset = leadingContentPlaceable?.width?.plus(
                 other = decorationItemGap,
@@ -434,7 +437,7 @@ private fun QuackTextFieldDecorationBox(
                 y = 0,
             )
             trailingContentPlaceable?.place(
-                x = (constraints.minWidth - trailingContentPlaceable.width).also {
+                x = (decorationItemConstraints.minWidth - trailingContentPlaceable.width).also {
                     println("trailingContentPlaceable x: $it")
                 },
                 y = 0,
