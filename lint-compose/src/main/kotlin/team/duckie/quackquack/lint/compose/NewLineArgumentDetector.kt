@@ -128,4 +128,3 @@ class NewLineArgumentDetector : Detector(), SourceCodeScanner {
     private fun String.isNewLine() =
         this.startsWith("\n")
 }
-
