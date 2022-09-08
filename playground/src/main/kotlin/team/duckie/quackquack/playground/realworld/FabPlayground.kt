@@ -58,7 +58,7 @@ fun QuackFloatingActionButtonDemo() {
 fun QuackMenuFloatingActionButtonDemo() {
     var expanded by remember {
         mutableStateOf(
-            value = false
+            value = false,
         )
     }
 
