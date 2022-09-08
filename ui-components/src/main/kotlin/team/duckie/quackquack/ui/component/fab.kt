@@ -108,14 +108,26 @@ fun QuackMenuFloatingActionButton(
     onClickButton: () -> Unit,
     onDismissRequest: () -> Unit,
     menuItems: PersistentList<QuackDialogMenuItem>,
-    onClickMenuItem: (item: QuackDialogMenuItem) -> Unit,
+    onClickMenuItem: (
+        item: QuackDialogMenuItem,
+    ) -> Unit,
 ) {
     val density = LocalDensity.current
-    var buttonXOffset by remember { mutableStateOf(0.dp) }
-    var buttonYOffset by remember { mutableStateOf(0.dp) }
-    var buttonWidth by remember { mutableStateOf(0) }
-    var dialogContentWidth by remember { mutableStateOf(0) }
-    var dialogContentHeight by remember { mutableStateOf(0) }
+    var buttonXOffset by remember {
+        mutableStateOf(0.dp)
+    }
+    var buttonYOffset by remember {
+        mutableStateOf(0.dp)
+    }
+    var buttonWidth by remember {
+        mutableStateOf(0)
+    }
+    var dialogContentWidth by remember {
+        mutableStateOf(0)
+    }
+    var dialogContentHeight by remember {
+        mutableStateOf(0)
+    }
 
     QuackBasicFloatingActionButton(
         modifier = Modifier
@@ -173,9 +185,12 @@ fun QuackMenuFloatingActionButton(
  * 따라서 위치를 수동으로 조절할 수는 없고, Full Size Box 에서 offset 으로 조정되어야 합니다.
  *
  * 따라서 FloatingActionButton 의 Offset 을 구한 다음,
- * Menu 크기만큼 더하고 Button 크기만큼 빼면 위치를 조정시킬 수 있습니다.
  *
- * dpOffsetX - menuWidth + buttonWidth
+ * xOffset = buttonXOffset - dialogContentWidth + buttonWidth / 2
+ *
+ * yOffset = buttonYOffset - dialogContentHeight
+ *
+ * 으로 위치를 조정시킬 수 있습니다.
  *
  * @param offsetProvider 내부 Composable 이 배치 될 offset
  * @param onDismissRequest 사용자가 메뉴 닫기를 요청할 때 호출되는 콜백
@@ -224,7 +239,9 @@ private fun QuackDialog(
 @Composable
 private fun QuackDialogMenu(
     menuItems: PersistentList<QuackDialogMenuItem>,
-    onClickMenuItem: (item: QuackDialogMenuItem) -> Unit,
+    onClickMenuItem: (
+        item: QuackDialogMenuItem,
+    ) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     QuackSurface(
@@ -273,7 +290,9 @@ private fun QuackDialogMenu(
 @NonRestartableComposable
 internal fun QuackDialogMenuContent(
     menuItem: QuackDialogMenuItem,
-    onClickMenuItem: (item: QuackDialogMenuItem) -> Unit,
+    onClickMenuItem: (
+        item: QuackDialogMenuItem,
+    ) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     Row(
@@ -356,26 +375,6 @@ private fun QuackBasicFloatingActionButton(
         QuackImage(
             tint = QuackColor.White,
             icon = icon,
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun Prev() {
-    var expanded by remember { mutableStateOf(false) }
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        QuackMenuFloatingActionButton(
-            expanded = expanded,
-            onClickButton = { expanded = true },
-            onDismissRequest = { expanded = false },
-            menuItems = persistentListOf(
-                QuackDialogMenuItem(QuackIcon.DrawerBuy, "2")
-            ),
-            onClickMenuItem = {},
         )
     }
 }
