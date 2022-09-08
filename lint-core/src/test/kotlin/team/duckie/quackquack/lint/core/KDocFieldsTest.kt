@@ -171,7 +171,7 @@ class KDocFieldsTest {
     }
 
     @Test
-    fun `Function must have a KDoc specified`() {
+    fun `Function have a KDoc specified`() {
         lintTestRule.assertErrorCount(
             files = listOf(
                 composableTestFile(
@@ -192,7 +192,7 @@ class KDocFieldsTest {
     }
 
     @Test
-    fun `the number @param's and the number of parameters must match`() {
+    fun `the number @param's and the number of parameters match`() {
         lintTestRule.assertErrorCount(
             files = listOf(
                 composableTestFile(
@@ -232,7 +232,7 @@ class KDocFieldsTest {
     }
 
     @Test
-    fun `require annotations must be specified (success)`() {
+    fun `require annotations be specified (success)`() {
         lintTestRule.assertErrorCount(
             files = listOf(
                 composableTestFile(
@@ -280,7 +280,7 @@ class KDocFieldsTest {
     }
 
     @Test
-    fun `require annotations must be specified (fail)`() {
+    fun `require annotations be specified (fail)`() {
         lintTestRule.assertErrorCount(
             files = listOf(
                 composableTestFile(

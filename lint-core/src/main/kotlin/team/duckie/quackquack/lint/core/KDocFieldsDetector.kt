@@ -23,6 +23,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiType
 import org.jetbrains.kotlin.KtNodeTypes
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
@@ -75,13 +76,13 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
      *
      * ```
      * /**
-     * * 모든 어노테이션이 존재하는 함수 예제
-     * *
-     * * @param ex1 테스트 용 문자열
-     * * @param efg 테스트 용 숫자
-     * * @return 무조건 0 입니다.
-     * * @throws Exception
-     * */
+     *  * 모든 어노테이션이 존재하는 함수 예제
+     *  *
+     *  * @param ex1 테스트 용 문자열
+     *  * @param efg 테스트 용 숫자
+     *  * @return 무조건 0 입니다.
+     *  * @throws Exception
+     *  */
      * fun fullMethod(ex1: String, efg: Int): Int {
      *     if ("".isEmpty())
      *         return 0
@@ -120,7 +121,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
      * ```
      * import java.lang.Exception
      *
-     * ~~~ <- KDoc 주석이 없음
+     * //  ~~~~~~~ <- KDoc 주석이 없음
      * fun failed1(ex1: String, efg: Int) { ... }
      *
      *
@@ -139,7 +140,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
      *  *
      *  * @param ex1 테스트 용 문자열
      *  * @param efg 명세되지 않은 params
-     *  //       ~~~ <- 명세되지 않은 params
+     *  *        ~~~ <- 명세되지 않은 params
      *  * @return 반환값은 없습니다.
      *  * @throws Exception
      *  */
@@ -147,19 +148,9 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
      *
      *
      * /**
-     *  * return 이 없는 경우입니다.
-     *  *
-     *  * @param ex1 테스트 용 문자열
-     *  * @param efg 테스트 용 숫자
-     *  // ~~ <- return 이 명세되지 않음
-     *  */
-     * abstract fun failed4(ex1: String, efg: Int)
-     *
-     *
-     * /**
      *  * 어노테이션에 대응되는 내용이 없는 경우입니다.
      *  *
-     *  * @param ex1 ~~ <- 내용이 명세되지 않음
+     *  * @param ex1 // ~~ <- 내용이 명세되지 않음
      *  * @return 반환값은 없습니다.
      *  * @throws Exception
      *  */
@@ -188,8 +179,8 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
 
             // kDocTag 들을 어노테이션 이름 (name) 에 따라 분류하기
             val kDocTags = kDocSections
-                .mapNotNull {
-                    it as? KDocTag
+                .mapNotNull { psiElement ->
+                    psiElement as? KDocTag
                 }
                 .groupBy { kDocTag ->
                     kDocTag.name
@@ -200,11 +191,11 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
             val methodParameterNames = node.uastParameters.mapNotNull {
                 (it.sourcePsi as? KtParameter)?.name
             }.toMutableList()
-            val isParamsOptional = methodParameterNames.isEmpty()
+            val isNoParams = methodParameterNames.isEmpty()
             // "params" 린트 검사
             if (methodParameterNames.size != (kDocTags["param"]?.size ?: 0))
                 return sendErrorReport(context, node, Param_개수와_매개변수_개수_불일치)
-            if (!isParamsOptional) {
+            if (!isNoParams) {
                 // 각 "param" KDocTag 내용에 대해 분석한다.
                 kDocTags["param"]?.forEach { kDocParameterTag ->
                     // 'variable name' 과 kDocParameterTag.getSubjectName() 이 같은지 체크한다.
@@ -215,18 +206,17 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
                     } else if (kDocParameterTag.getSubjectName().isNullOrBlank()) {
                         return sendErrorReport(context, node, Annotation_에_대응하는_내용_없음)
                     }
-                } ?: return sendErrorReport(context, node, Param_명세_필요)
+                }
             }
             kDocTags.remove("param")
 
             // "throws" 명세가 필요한 지 체크
-            val isThrowsOptional = bodyArea?.children
-                ?.none { bodyElement ->
+            val isThrowable = bodyArea?.children
+                ?.any { bodyElement ->
                     bodyElement.node.elementType == KtNodeTypes.THROW
-                }
-                ?: true
+                } ?: false
             // "throws" 린트 검사
-            if (!isThrowsOptional && kDocTags["throws"].isNullOrEmpty()) {
+            if (isThrowable && kDocTags["throws"].isNullOrEmpty()) {
                 return sendErrorReport(context, node, Throws_명세_필요)
             }
             kDocTags["throws"]?.forEach { kDocThrowsTag ->
