@@ -30,7 +30,7 @@ style:
 
 naming:
   TopLevelPropertyNaming:
-    constantPattern: '[A-Z가-힣][A-Za-z0-9가-힣_]*'
+    constantPattern: '[A-Z][A-Za-z0-9]*'
   FunctionNaming:
     ignoreAnnotated: [ 'Composable' ]
   MatchingDeclarationName:
