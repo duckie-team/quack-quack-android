@@ -23,7 +23,6 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
-import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiType
 import org.jetbrains.kotlin.KtNodeTypes
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
@@ -40,6 +39,7 @@ private const val BriefDescription = "함수에 KDoc 및 @param, @return, @throw
 private const val Explanation = "함수에 KDoc (/** and end with */)을 추가해야 합니다.\n" +
         "그리고 누락된 내용(@param, @return, @throws, @description) 이 없는지 체크해야 합니다."
 private const val KDoc_명세_필요 = "함수에는 KDoc 이 명시되어야 합니다."
+private const val Override_함수는_KDoc_이_없어야함 = "재정의 함수는 kDoc 이 없어야합니다"
 private const val Param_개수와_매개변수_개수_불일치 = "@param 명세 개수가, 매개 변수 개수가 일치해야 합니다."
 private const val Return_명세_필요 = "@return 이 반드시 명세되어야 합니다 "
 private const val Throws_명세_필요 = "@throws 이 반드시 명세되어야 합니다 "
@@ -165,6 +165,16 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
             val kDocArea = (node.sourcePsi as? KtNamedFunction)?.children?.firstOrNull {
                 it is KDoc
             }
+
+            // 재정의 함수는 주석 추가하지 않음 -> TODO (riflockle7) 의견 필요
+            if (node.modifierList.text == "override") {
+                if (kDocArea != null) {
+                    return sendErrorReport(context, node, Override_함수는_KDoc_이_없어야함)
+                } else {
+                    return
+                }
+            }
+
             val kDocSections = kDocArea?.children
                 ?.filterIsInstance<KDocSection>()
                 ?.firstOrNull()?.children

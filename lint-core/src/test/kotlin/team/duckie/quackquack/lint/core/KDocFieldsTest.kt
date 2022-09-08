@@ -35,6 +35,14 @@ class KDocFieldsTest {
                     """
                         import java.lang.Exception
 
+                        override fun `override function's KDocArea not exist `() {
+                            // 오버라이드 함수는 주석을 작성하지 않음
+                        }
+
+                        override fun onResume() {
+                            // 오버라이드 함수는 주석을 작성하지 않음
+                        }
+
                         /**
                          * 모든 어노테이션이 존재하는 함수 예제
                          *
@@ -59,7 +67,7 @@ class KDocFieldsTest {
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        override fun `Reference_Expression Example`(ex1: String, efg: Int) {
+                        fun `Reference_Expression Example`(ex1: String, efg: Int) {
                             throw Exception()
                         }
 
@@ -257,7 +265,7 @@ class KDocFieldsTest {
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        override fun success2(ex1: String, efg: Int) {
+                        fun success2(ex1: String, efg: Int) {
                             throw Exception()
                         }
 
@@ -267,7 +275,7 @@ class KDocFieldsTest {
                          * @param ex1 테스트 용 문자열
                          * @param efg 테스트 용 숫자
                          */
-                        override fun success3(ex1: String, efg: Int) {
+                        fun success3(ex1: String, efg: Int) {
                         }
                         """
                 ),
@@ -315,7 +323,7 @@ class KDocFieldsTest {
                          * @param ex1 테스트 용 문자열
                          * @param efg 테스트 용 숫자
                          */
-                        override fun failed3(ex1: String, efg: Int) {
+                        fun failed3(ex1: String, efg: Int) {
                             throw Exception()
                         }
 
@@ -325,7 +333,7 @@ class KDocFieldsTest {
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        override fun failed4(ex1: String, efg: Int) {
+                        fun failed4(ex1: String, efg: Int) {
                             throw Exception()
                         }
 
@@ -336,7 +344,7 @@ class KDocFieldsTest {
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        override fun failed5(ex1: String, efg: Int) {
+                        fun failed5(ex1: String, efg: Int) {
                             throw Exception()
                         }
 
@@ -348,7 +356,7 @@ class KDocFieldsTest {
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        override fun failed6(ex1: String, efg: Int) {
+                        fun failed6(ex1: String, efg: Int) {
                             throw Exception()
                         }
                         """
