@@ -241,7 +241,7 @@ fun QuackBasicTextField(
             .applyQuackSize(
                 width = width,
                 height = QuackHeight.Custom(
-                    height = 300.dp,
+                    height = 100.dp,
                 ),
             )
             .background(color = Color.Red)
@@ -338,7 +338,7 @@ private fun QuackTextFieldDecorationBox(
                 modifier = Modifier.layoutId(
                     layoutId = QuackTextFieldLayoutId,
                 ),
-                contentAlignment = Alignment.CenterStart,
+                contentAlignment = Alignment.TopStart,
             ) {
                 textField()
             }
@@ -357,14 +357,21 @@ private fun QuackTextFieldDecorationBox(
         // decoration items 들은 height 는 TextField 와 일치해야 하고,
         // width 는 wrap_content 여야 함. 단, 최소 TextField 의 height 와는 같아야 함.
         // TODO: wrapContentWidth() 를 구현해야 함..
-        val decorationItemConstraints = Constraints(
+        /*val decorationItemConstraints = Constraints(
             minWidth = textFieldSize.height,
             maxWidth = Int.MAX_VALUE,
             minHeight = textFieldSize.height,
             maxHeight = textFieldSize.height,
         ).also {
             println("constraints: $it")
+        }*/
+        val decorationItemConstraints = Constraints.fixed(
+            width = textFieldSize.height,
+            height = textFieldSize.height,
+        ).also {
+            println("constraints: $it")
         }
+
         // leading content
         val leadingContentPlaceable = measurables.find { measurable ->
             measurable.layoutId == QuackTextFieldLeadingContentLayoutId
@@ -394,7 +401,10 @@ private fun QuackTextFieldDecorationBox(
                 // 따라서 TextField 의 가로 길이에서 decoration 아이템의 가로 길이와
                 // TextField 와 decoration 아이템 사이에 들어갈 간격 만큼 제외한 값으로
                 // TextField 의 가로 길이로 설정함.
-                width = decorationItemConstraints.minWidth.let { _width ->
+
+                // FIXED: 지금은 width 가 매번 텍스트가 입력될 때마다 유동적으로 텍스트 길이에 맞게
+                // 변하고 있음. decoration item 사이로 match_content 가 되게 고정해야 함.
+                width = textFieldSize.width.let { _width ->
                     var width = _width
                     if (leadingContentPlaceable != null) {
                         width -= leadingContentPlaceable.width + decorationItemGap
@@ -419,8 +429,8 @@ private fun QuackTextFieldDecorationBox(
         )
 
         layout(
-            width = decorationItemConstraints.minWidth,
-            height = decorationItemConstraints.minHeight,
+            width = textFieldSize.width,
+            height = textFieldSize.height,
         ) {
             val textFieldStartOffset = leadingContentPlaceable?.width?.plus(
                 other = decorationItemGap,
@@ -437,7 +447,7 @@ private fun QuackTextFieldDecorationBox(
                 y = 0,
             )
             trailingContentPlaceable?.place(
-                x = (decorationItemConstraints.minWidth - trailingContentPlaceable.width).also {
+                x = (textFieldSize.width - trailingContentPlaceable.width).also {
                     println("trailingContentPlaceable x: $it")
                 },
                 y = 0,
