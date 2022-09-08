@@ -6,7 +6,6 @@
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
-
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
@@ -36,16 +35,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
@@ -98,7 +98,7 @@ class QuackDialogMenuItem(
  * @param expanded 메뉴가 현재 열려 있고 사용자에게 표시되는지 여부
  * @param onClickButton 버튼을 클릭했을 때 호출되는 콜백
  * @param onDismissRequest 사용자가 메뉴 닫기를 요청할 때 호출되는 콜백
- * @param menuItems 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackDialogMenuItem]
+ * @param menuItems 버튼을 클릭했을 때 나오는 메뉴의 [QuackDialogMenuItem] 리스트
  * @param onClickMenuItem 사용자가 메뉴 아이템을 클릭했을 때 호출되는 콜백
  * @see QuackDialogMenuItem
  */
@@ -110,15 +110,21 @@ fun QuackMenuFloatingActionButton(
     menuItems: PersistentList<QuackDialogMenuItem>,
     onClickMenuItem: (item: QuackDialogMenuItem) -> Unit,
 ) {
-    var positionInRoot by remember { mutableStateOf(Offset.Zero) }
-    var menuSize by remember { mutableStateOf(IntSize.Zero) }
-    var buttonSize by remember { mutableStateOf(IntSize.Zero) }
+    val density = LocalDensity.current
+    var buttonXOffset by remember { mutableStateOf(0.dp) }
+    var buttonYOffset by remember { mutableStateOf(0.dp) }
+    var buttonWidth by remember { mutableStateOf(0) }
+    var dialogContentWidth by remember { mutableStateOf(0) }
+    var dialogContentHeight by remember { mutableStateOf(0) }
 
     QuackBasicFloatingActionButton(
         modifier = Modifier
             .onGloballyPositioned { layoutCoordinates ->
-                positionInRoot = layoutCoordinates.positionInWindow()
-                buttonSize = layoutCoordinates.size
+                with(density) {
+                    buttonXOffset = layoutCoordinates.boundsInWindow().center.x.toDp()
+                    buttonYOffset = layoutCoordinates.boundsInWindow().center.y.toDp()
+                    buttonWidth = layoutCoordinates.size.width
+                }
             },
         icon = QuackIcon.Plus,
         onClick = onClickButton,
@@ -127,15 +133,20 @@ fun QuackMenuFloatingActionButton(
         visible = expanded,
     ) {
         QuackDialog(
-            buttonOffset = positionInRoot,
-            menuSize = menuSize,
-            buttonSize = buttonSize,
+            offsetProvider = {
+                IntOffset(
+                    x = buttonXOffset.roundToPx() - dialogContentWidth + buttonWidth / 2,
+                    y = buttonYOffset.roundToPx() - dialogContentHeight,
+                )
+            },
             onDismissRequest = onDismissRequest,
         ) {
             Column(
-                modifier = Modifier.onGloballyPositioned { layoutCoordinates ->
-                    menuSize = layoutCoordinates.size
-                },
+                modifier = Modifier
+                    .onGloballyPositioned { layoutCoordinates ->
+                        dialogContentWidth = layoutCoordinates.size.width
+                        dialogContentHeight = layoutCoordinates.size.height
+                    },
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.spacedBy(
                     space = QuackFabItemSpacing,
@@ -166,18 +177,14 @@ fun QuackMenuFloatingActionButton(
  *
  * dpOffsetX - menuWidth + buttonWidth
  *
- * @param buttonOffset FloatingActionButton 의 offset
- * @param menuSize menu container 크기
- * @param buttonSize button container 크기
+ * @param offsetProvider 내부 Composable 이 배치 될 offset
  * @param onDismissRequest 사용자가 메뉴 닫기를 요청할 때 호출되는 콜백
  * @param content Dialog 내부에 들어갈 Composable
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun QuackDialog(
-    buttonOffset: Offset,
-    menuSize: IntSize,
-    buttonSize: IntSize,
+    offsetProvider: Density.() -> IntOffset,
     onDismissRequest: () -> Unit,
     content: @Composable BoxScope.() -> Unit,
 ) {
@@ -187,62 +194,18 @@ private fun QuackDialog(
             usePlatformDefaultWidth = false,
         ),
     ) {
-        val density = LocalDensity.current
-        val dpOffsetX = with(
-            receiver = density,
-        ) {
-            buttonOffset.x.toDp()
-        }
-        val dpOffsetY = with(
-            receiver = density,
-        ) {
-            buttonOffset.y.toDp()
-        }
-        val menuWidth = with(
-            receiver = density,
-        ) {
-            menuSize.width.toDp()
-        }
-        val menuHeight = with(
-            receiver = density,
-        ) {
-            menuSize.height.toDp()
-        }
-        val buttonWidth = with(
-            receiver = density,
-        ) {
-            buttonSize.width.toDp()
-        }
-        val buttonHeight = with(
-            receiver = density,
-        ) {
-            buttonSize.height.toDp()
-        }
-        var xOffset by remember {
-            mutableStateOf(0)
-        }
-        var yOffset by remember {
-            mutableStateOf(0)
-        }
-        xOffset = (dpOffsetX - menuWidth + buttonWidth).value.toInt()
-        yOffset = (dpOffsetY - menuHeight + buttonHeight).value.toInt()
-
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .quackClickable(
                     onClick = onDismissRequest
-                )
-                .offset {
-                    IntOffset(
-                        x = xOffset,
-                        y = yOffset,
-                    )
-                },
-            contentAlignment = Alignment.TopStart,
+                ),
         ) {
             Box(
-                content = content
+                modifier = Modifier.offset(
+                    offset = offsetProvider,
+                ),
+                content = content,
             )
         }
     }
@@ -253,7 +216,7 @@ private fun QuackDialog(
  *
  * Dialog Menu 에 표시될 Item List 입니다.
  *
- * @param menuItems 버튼을 클릭했을 때 나오는 메뉴의 아이템 리스트 [QuackDialogMenuItem]
+ * @param menuItems 버튼을 클릭했을 때 나오는 메뉴의 [QuackDialogMenuItem] 리스트
  * @param onClickMenuItem 사용자가 메뉴 아이템을 클릭했을 때 호출되는 콜백
  * @param onDismissRequest 사용자가 메뉴 닫기를 요청할 때 호출되는 콜백
  * @see QuackDialogMenuItem
@@ -302,7 +265,7 @@ private fun QuackDialogMenu(
  *
  * DialogMenu 의 item 이 어떻게 구성되는지 정의합니다.
  *
- * @param menuItem DialogMenu 에 들어갈 [QuackDialogMenuItem]
+ * @param menuItem [QuackDialogMenu] 에 들어갈 [QuackDialogMenuItem]
  * @param onClickMenuItem 사용자가 메뉴 아이템을 클릭했을 때 호출되는 콜백
  * @param onDismissRequest 사용자가 메뉴 닫기를 요청할 때 호출되는 콜백
  */
@@ -393,6 +356,26 @@ private fun QuackBasicFloatingActionButton(
         QuackImage(
             tint = QuackColor.White,
             icon = icon,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Prev() {
+    var expanded by remember { mutableStateOf(false) }
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        QuackMenuFloatingActionButton(
+            expanded = expanded,
+            onClickButton = { expanded = true },
+            onDismissRequest = { expanded = false },
+            menuItems = persistentListOf(
+                QuackDialogMenuItem(QuackIcon.DrawerBuy, "2")
+            ),
+            onClickMenuItem = {},
         )
     }
 }
