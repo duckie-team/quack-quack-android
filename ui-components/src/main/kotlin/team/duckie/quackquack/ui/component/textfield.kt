@@ -12,7 +12,10 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -330,15 +333,19 @@ private inline fun QuackTextFieldDecorationBox(
                     leadingContent()
                 }
             }
-            Box(
-                // width 는 measure 하면서 지정
+            Column(
                 modifier = Modifier.layoutId(
                     layoutId = QuackTextFieldLayoutId,
                 ),
-                contentAlignment = Alignment.BottomCenter,
-                propagateMinConstraints = true,
+                verticalArrangement = Arrangement.Center,
             ) {
-                textField()
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                    propagateMinConstraints = true,
+                ) {
+                    textField()
+                }
             }
             if (trailingContent != null) {
                 Box(
@@ -389,11 +396,32 @@ private inline fun QuackTextFieldDecorationBox(
             println("trailingContentPlaceable: ${it.toDebugString()}")
         }
 
+        val textFieldWidth = textFieldSize.width.let { _width ->
+            var width = _width
+            if (leadingContentPlaceable != null) {
+                width -= leadingContentPlaceable.width + decorationItemGap
+            }
+            if (trailingContentPlaceable != null) {
+                width -= trailingContentPlaceable.width + decorationItemGap
+            }
+            width.also {
+                println(
+                    """
+                            ::: textFieldPlaceable debug :::
+                            textFieldSize width: ${textFieldSize.width}
+                            calc width int: $it
+                            calc with dp: ${it.toDp()}
+                            """.trimIndent()
+                )
+            }
+        }.coerceAtLeast(
+            minimumValue = 0,
+        )
         // TextField
         val textFieldPlaceable = measurables.find { measurable ->
             measurable.layoutId == QuackTextFieldLayoutId
         }?.measure(
-            constraints = Constraints.fixed(
+            constraints = Constraints(
                 // TextField 의 가로 길이는 기본적으로 decoration 아이템들의 가로 길이를
                 // 포함하고 있음. 만약 decoration 아이템이 존재한다면 TextField 의
                 // 가로 길이를 decoration 아이템의 가로 길이만큼 줄여야 함.
@@ -403,28 +431,10 @@ private inline fun QuackTextFieldDecorationBox(
 
                 // FIXED: 지금은 width 가 매번 텍스트가 입력될 때마다 유동적으로 텍스트 길이에 맞게
                 // 변하고 있음. decoration item 사이로 match_content 가 되게 고정해야 함.
-                width = textFieldSize.width.let { _width ->
-                    var width = _width
-                    if (leadingContentPlaceable != null) {
-                        width -= leadingContentPlaceable.width + decorationItemGap
-                    }
-                    if (trailingContentPlaceable != null) {
-                        width -= trailingContentPlaceable.width + decorationItemGap
-                    }
-                    width.also {
-                        println(
-                            """
-                            ::: textFieldPlaceable debug :::
-                            textFieldSize width: ${textFieldSize.width}
-                            calc width int: $it
-                            calc with dp: ${it.toDp()}
-                            """.trimIndent()
-                        )
-                    }
-                }.coerceAtLeast(
-                    minimumValue = 0,
-                ),
-                height = decorationItemConstraints.minHeight,
+                minWidth = textFieldWidth,
+                maxWidth = textFieldWidth,
+                minHeight = 0,
+                maxHeight = textFieldSize.height,
             )
         )?.also {
             println("textFieldPlaceable: ${it.toDebugString()}")
