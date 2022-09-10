@@ -13,13 +13,14 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NoLiveLiterals
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,13 +34,13 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.common.npe
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
-import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 
 // /**
@@ -214,7 +215,6 @@ private val QuackTextFieldDecorationContentHorizontalPadding = 8.dp
 // }
 
 @Composable
-@NonRestartableComposable
 fun QuackBasicTextField(
     modifier: Modifier = Modifier,
     text: String,
@@ -238,12 +238,8 @@ fun QuackBasicTextField(
 
     BasicTextField(
         modifier = modifier
-            .applyQuackSize(
-                width = width,
-                height = QuackHeight.Custom(
-                    height = 100.dp,
-                ),
-            )
+            .fillMaxWidth()
+            .height(100.dp)
             .background(color = Color.Red)
             .onPlaced { layoutCoordinates ->
                 with(density) {
@@ -258,7 +254,7 @@ fun QuackBasicTextField(
         value = text,
         onValueChange = onTextChanged,
         // TextField 는 애니메이션 적용 X
-        textStyle = textStyle.asComposeStyle(),
+        textStyle = textStyle.change(textAlign = TextAlign.Center).asComposeStyle(),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         singleLine = true,
@@ -286,11 +282,11 @@ private fun Placeable.toDebugString() =
     "$width x $height / measured: $measuredWidth x $measuredHeight"
 
 @Composable
-private fun QuackTextFieldDecorationBox(
+private inline fun QuackTextFieldDecorationBox(
     textFieldSize: IntSize,
     textField: @Composable () -> Unit,
-    leadingContent: @Composable (() -> Unit)?,
-    trailingContent: @Composable (() -> Unit)?,
+    noinline leadingContent: @Composable (() -> Unit)?,
+    noinline trailingContent: @Composable (() -> Unit)?,
 ) {
     println("textFieldSize: $textFieldSize")
     val density = LocalDensity.current
@@ -329,6 +325,7 @@ private fun QuackTextFieldDecorationBox(
                         layoutId = QuackTextFieldLeadingContentLayoutId,
                     ),
                     contentAlignment = Alignment.Center,
+                    propagateMinConstraints = true,
                 ) {
                     leadingContent()
                 }
@@ -338,7 +335,8 @@ private fun QuackTextFieldDecorationBox(
                 modifier = Modifier.layoutId(
                     layoutId = QuackTextFieldLayoutId,
                 ),
-                contentAlignment = Alignment.TopStart,
+                contentAlignment = Alignment.BottomCenter,
+                propagateMinConstraints = true,
             ) {
                 textField()
             }
@@ -348,6 +346,7 @@ private fun QuackTextFieldDecorationBox(
                         layoutId = QuackTextFieldTrailingContentLayoutId,
                     ),
                     contentAlignment = Alignment.Center,
+                    propagateMinConstraints = true,
                 ) {
                     trailingContent()
                 }
@@ -412,7 +411,16 @@ private fun QuackTextFieldDecorationBox(
                     if (trailingContentPlaceable != null) {
                         width -= trailingContentPlaceable.width + decorationItemGap
                     }
-                    width
+                    width.also {
+                        println(
+                            """
+                            ::: textFieldPlaceable debug :::
+                            textFieldSize width: ${textFieldSize.width}
+                            calc width int: $it
+                            calc with dp: ${it.toDp()}
+                            """.trimIndent()
+                        )
+                    }
                 }.coerceAtLeast(
                     minimumValue = 0,
                 ),
