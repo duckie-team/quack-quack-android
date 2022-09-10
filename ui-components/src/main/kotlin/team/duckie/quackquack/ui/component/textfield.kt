@@ -14,8 +14,8 @@ package team.duckie.quackquack.ui.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -243,7 +243,7 @@ fun QuackBasicTextField(
                 height = height,
             )*/
             .fillMaxWidth()
-            .wrapContentHeight()
+            .height(100.dp)
             .background(color = Color.Red)
             .onPlaced { layoutCoordinates ->
                 with(density) {
