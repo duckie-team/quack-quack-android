@@ -12,13 +12,10 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -241,23 +238,24 @@ fun QuackBasicTextField(
 
     BasicTextField(
         modifier = modifier
+            /*.applyQuackSize(
+                width = width,
+                height = height,
+            )*/
             .fillMaxWidth()
-            .height(100.dp)
+            .wrapContentHeight()
             .background(color = Color.Red)
             .onPlaced { layoutCoordinates ->
                 with(density) {
                     println("onPlaced: ${layoutCoordinates.size}")
                     println("onPlacedHeight with Dp: ${layoutCoordinates.size.height.toDp()}")
-                    // size 에서 height 가 0으로 나옴
                     textFieldSize = layoutCoordinates.size
-                    // 1440 x 1050 ????!?!?!
-                    // 사이즈가 이상하게 나오는 버그가 있음
                 }
             },
         value = text,
         onValueChange = onTextChanged,
         // TextField 는 애니메이션 적용 X
-        textStyle = textStyle.change(textAlign = TextAlign.Center).asComposeStyle(),
+        textStyle = textStyle.change(textAlign = TextAlign.Start).asComposeStyle(),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         singleLine = true,
@@ -333,19 +331,14 @@ private inline fun QuackTextFieldDecorationBox(
                     leadingContent()
                 }
             }
-            Column(
+            Box(
                 modifier = Modifier.layoutId(
                     layoutId = QuackTextFieldLayoutId,
                 ),
-                verticalArrangement = Arrangement.Center,
+                contentAlignment = Alignment.Center,
+                propagateMinConstraints = true,
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                    propagateMinConstraints = true,
-                ) {
-                    textField()
-                }
+                textField()
             }
             if (trailingContent != null) {
                 Box(
@@ -453,6 +446,7 @@ private inline fun QuackTextFieldDecorationBox(
             val textFieldStartOffset = leadingContentPlaceable?.width?.plus(
                 other = decorationItemGap,
             ) ?: 0
+            val textFieldYOffset = textFieldSize.height / 2 - textFieldPlaceable.height / 2
 
             leadingContentPlaceable?.place(
                 x = 0,
@@ -462,7 +456,7 @@ private inline fun QuackTextFieldDecorationBox(
                 x = textFieldStartOffset.also {
                     println("textFieldStartOffset: $it")
                 },
-                y = 0,
+                y = textFieldYOffset,
             )
             trailingContentPlaceable?.place(
                 x = (textFieldSize.width - trailingContentPlaceable.width).also {
