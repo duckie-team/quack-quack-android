@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [MutableCollectionPublicDetector.kt] created by ricky_0_k on 22. 8. 21. 오전 12:43
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -40,8 +38,8 @@ val MutableCollectionPublicIssue = Issue.create(
     severity = Severity.ERROR,
     implementation = Implementation(
         MutableCollectionPublicDetector::class.java,
-        Scope.JAVA_FILE_SCOPE
-    )
+        Scope.JAVA_FILE_SCOPE,
+    ),
 )
 
 /**

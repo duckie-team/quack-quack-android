@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [NewLineArgumentTest.kt] created by limsaehyun on 22. 9. 3. 오후 9:10
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -31,8 +29,8 @@ import org.jetbrains.uast.kotlin.KotlinULambdaExpression
 import team.duckie.quackquack.common.lint.compose.isComposable
 import team.duckie.quackquack.common.lint.compose.isInvokedWithinComposable
 
-private const val BriefDescription = "인자들 각각 new-line에 배치"
-private const val Explanation = "인자들을 쉽게 구분하기 위해 각각 new-line에 배치해야 합니다."
+private const val BriefDescription = "인자들 각각 new-line 에 배치"
+private const val Explanation = "인자들을 쉽게 구분하기 위해 각각 new-line 에 배치해야 합니다."
 
 val NewLineArgumentIssue = Issue.create(
     id = "NewLineArgument",
@@ -43,8 +41,8 @@ val NewLineArgumentIssue = Issue.create(
     severity = Severity.ERROR,
     implementation = Implementation(
         NewLineArgumentDetector::class.java,
-        Scope.JAVA_FILE_SCOPE
-    )
+        Scope.JAVA_FILE_SCOPE,
+    ),
 )
 
 /**
@@ -56,23 +54,22 @@ val NewLineArgumentIssue = Issue.create(
  *
  * 다음과 같은 조건에서 린트 에러가 발생합니다.
  *
- * 1. parameter가 전부 new-line에 배치되여야 함
- * 2. argument가 전부 new-line 배치되어야 함
+ * 1. parameter 가 전부 new-line 에 배치되여야 함
+ * 2. argument 가 전부 new-line 에 배치되어야 함
  *
  * 예외적으로, 이러한 경우에는 에러가 발생하지 않습니다.
  *
- * 1. 마지막 argument가 LAMDA_EXPRESSION인 경우
+ * 1. 마지막 argument 가 LAMBDA_EXPRESSION 인 경우
+ *
  * ```
  * fun MyComposable() {
  *     Button() {
- *         // 마지막 argument의 LAMDA_EXPRESSION이므로 예외적으로 허용 됨
+ *         // 마지막 argument 의 LAMBDA_EXPRESSION 이므로 예외적으로 허용 됨
  *     }
  * }
  * ```
  */
-
 class NewLineArgumentDetector : Detector(), SourceCodeScanner {
-
     override fun getApplicableUastTypes() = listOf(
         UMethod::class.java,
         UExpression::class.java,
@@ -88,13 +85,12 @@ class NewLineArgumentDetector : Detector(), SourceCodeScanner {
                 val parameterPrevSibling = (parameterSourcePsi.node as CompositeElement).treePrev
 
                 if (!parameterPrevSibling.text.isNewLine()) {
-                    context.report(
+                    return context.report(
                         issue = NewLineArgumentIssue,
                         scope = parameterSourcePsi.node.psi,
                         location = context.getLocation(parameterSourcePsi.node.psi),
                         message = Explanation,
                     )
-                    return
                 }
             }
         }
@@ -112,19 +108,16 @@ class NewLineArgumentDetector : Detector(), SourceCodeScanner {
                 if (argument == node.valueArguments.last() && argument is KotlinULambdaExpression) return
 
                 if (!(argumentParentPrevSibling.text.isNewLine() || argumentPrevParentPrevSibling.text.isNewLine())) {
-                    argumentPrevParentPrevSibling.text
-                    context.report(
+                    return context.report(
                         issue = NewLineArgumentIssue,
                         scope = argument,
                         location = context.getLocation(argument),
                         message = Explanation,
                     )
-                    return
                 }
             }
         }
     }
 
-    private fun String.isNewLine() =
-        this.startsWith("\n")
+    private fun String.isNewLine() = startsWith("\n")
 }

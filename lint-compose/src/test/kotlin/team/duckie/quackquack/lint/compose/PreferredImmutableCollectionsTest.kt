@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [DesignSystemTest.kt] created by Ji Sungbin on 22. 8. 14. 오전 12:57
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -28,7 +26,6 @@ class PreferredImmutableCollectionsTest {
     @get:Rule
     val lintTestRule = LintTestRule()
 
-    // TODO (riflockle7) 추후 성빈님 리펙터링 필요
     @Test
     fun `Composable function`() {
         lintTestRule
@@ -48,7 +45,6 @@ class PreferredImmutableCollectionsTest {
             )
     }
 
-    // TODO (riflockle7) 추후 성빈님 리펙터링 필요
     @Test
     fun `Composable function but not emitting composable`() {
         lintTestRule

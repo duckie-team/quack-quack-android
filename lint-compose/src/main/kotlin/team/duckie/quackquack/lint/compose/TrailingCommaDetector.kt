@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [TrailingCommaDetector.kt] created by limsaehyun on 22. 8. 29. 오전 8:20
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -27,27 +25,14 @@ import team.duckie.quackquack.common.lint.compose.isComposable
 import team.duckie.quackquack.common.lint.compose.isInvokedWithinComposable
 
 private const val BriefDescription = "후행 ',' 필수 사용"
-private const val Explanation = "후행 ',' 는 필수적으로 사용해야 합니다"
+private const val Explanation = "후행 ',' 는 필수적으로 사용해야 합니다."
 
 /**
- * [TrailingCommaDetector]가 작동되기 위한 최소한의 Argument, Parameter 개수를 정의합니다.
+ * [TrailingCommaDetector] 가 작동되기 위한 최소한의 Argument, Parameter 개수를 정의합니다.
  */
 private const val LimitArgumentNumber = 2
 private const val LimitParameterNumber = 2
 
-/**
- * QuackQuack 린트의 [TrailingCommaDetector] 규칙을 정의합니다.
- *
- * 다음과 같은 조건에서 린트를 검사합니다.
- *
- * 1. 컴포저블 함수여야 함
- * 2. 인자와 파라미터의 최소한의 개수가 [LimitArgumentNumber] [LimitParameterNumber] 일 경우에 동작해야 함
- *
- * 다음과 같은 조건에서 린트 에러가 발생합니다.
- *
- * 1. 매개변수 뒤에 ','가 오지 않는 경우
- * 2. 인자 뒤에 ','가 오지 않는 경우
- */
 val TrailingCommaIssue = Issue.create(
     id = "TrailingComma",
     briefDescription = BriefDescription,
@@ -57,12 +42,24 @@ val TrailingCommaIssue = Issue.create(
     severity = Severity.ERROR,
     implementation = Implementation(
         TrailingCommaDetector::class.java,
-        Scope.JAVA_FILE_SCOPE
-    )
+        Scope.JAVA_FILE_SCOPE,
+    ),
 )
 
+/**
+ * QuackQuack 린트의 [TrailingCommaDetector] 규칙을 정의합니다.
+ *
+ * 다음과 같은 조건에서 린트를 검사합니다.
+ *
+ * 1. 컴포저블 함수여야 함
+ * 2. 인자와 파라미터의 개수가 각각 [LimitArgumentNumber]개, [LimitParameterNumber]개 이상이여야 함
+ *
+ * 다음과 같은 조건에서 린트 에러가 발생합니다.
+ *
+ * 1. 매개변수 뒤에 ',' 가 오지 않는 경우
+ * 2. 인자 뒤에 ',' 가 오지 않는 경우
+ */
 class TrailingCommaDetector : Detector(), SourceCodeScanner {
-
     override fun getApplicableUastTypes() = listOf(
         UMethod::class.java,
         UExpression::class.java,

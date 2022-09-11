@@ -7,23 +7,14 @@
 
 @file:Suppress("UnstableApiUsage")
 
-package team.duckie.quackquack.lint.quack
+package team.duckie.quackquack.common.lint
 
 import com.android.tools.lint.client.api.IssueRegistry
 import com.android.tools.lint.client.api.Vendor
 import com.android.tools.lint.detector.api.CURRENT_API
-import com.android.tools.lint.detector.api.Detector
+import com.android.tools.lint.detector.api.Issue
 
-/**
- * QuackQuack 의 DesignSystem 린트 [Detector] 를
- * 린트 시스템 등록해 주는 [IssueRegistry] 클래스
- */
-// NOTE: 상수 값들 하드코딩 안하면 빌드 타임에서 레퍼런스를 참조하지 못해 빌드 에러뜸
-class DesignSystemIssueRegistry : IssueRegistry() {
-    override val issues = listOf(
-        DesignSystemIssue,
-    )
-
+open class IssueProvider(override val issues: List<Issue>) : IssueRegistry() {
     override val api = CURRENT_API
 
     override val minApi = 12

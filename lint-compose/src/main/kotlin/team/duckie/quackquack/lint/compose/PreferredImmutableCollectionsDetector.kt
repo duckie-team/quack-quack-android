@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [PreferredImmutableCollectionsDetector.kt] created by Ji Sungbin on 22. 8. 19. 오전 9:13
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -23,10 +21,10 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
-import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.uast.UMethod
 import team.duckie.quackquack.common.lint.compose.isComposable
-import team.duckie.quackquack.common.lint.compose.isReturnsUnit
+import team.duckie.quackquack.common.lint.util.isReturnsUnit
+import team.duckie.quackquack.common.lint.util.typed
 
 private const val BriefDescription = "MutableCollections 사용 감지됨"
 private const val Explanation = "Skippable 을 위해 ImmutableCollections 사용을 지향해야 합니다."
@@ -40,8 +38,31 @@ val PreferredImmutableCollectionsIssue = Issue.create(
     severity = Severity.ERROR,
     implementation = Implementation(
         PreferredImmutableCollectionsDetector::class.java,
-        Scope.JAVA_FILE_SCOPE
-    )
+        Scope.JAVA_FILE_SCOPE,
+    ),
+)
+
+// TODO: [#73](https://github.com/sungbinland/duckie-quack-quack/pull/73)
+
+/**
+ * MutableCollections 접미사
+ *
+ * kotlin.collection 패키지에 있는 Collections 들 입니다.
+ */
+private val CollectionNames = listOf(
+    "List",
+    "Map",
+    "Set",
+)
+
+/**
+ * ImmutableCollections 접두사
+ *
+ * kotlinx.collections 패키지에 있는 Collections 들 입니다.
+ */
+private val ImmutableNames = listOf(
+    "Immutable",
+    "Persistent",
 )
 
 /**
@@ -74,30 +95,6 @@ val PreferredImmutableCollectionsIssue = Issue.create(
  *
  * 인자 타입의 패키지를 이용하여 검사하는 것으로 구현이 개선돼야 합니다.
  */
-
-// TODO: [#73](https://github.com/sungbinland/duckie-quack-quack/pull/73)
-
-/**
- * MutableCollections 접미사
- *
- * kotlin.collection 패키지에 있는 Collections 들 입니다.
- */
-private val CollectionNames = listOf(
-    "List",
-    "Map",
-    "Set",
-)
-
-/**
- * ImmutableCollections 접두사
- *
- * kotlinx.collections 패키지에 있는 Collections 들 입니다.
- */
-private val ImmutableNames = listOf(
-    "Immutable",
-    "Persistent",
-)
-
 class PreferredImmutableCollectionsDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes() = listOf(UMethod::class.java)
 
@@ -106,9 +103,8 @@ class PreferredImmutableCollectionsDetector : Detector(), SourceCodeScanner {
             if (!node.isComposable || !node.isReturnsUnit) return
 
             for (parameter in node.uastParameters) {
-                val ktParameter = parameter.sourcePsi as? KtParameter ?: continue
-                val parameterType = ktParameter.typeReference ?: continue
-                val parameterTypeName = parameterType.text
+                val (parameterTypeReference, parameterTypeName) = parameter.typed ?: continue
+
                 val isCollection = CollectionNames.any { collectionName ->
                     parameterTypeName.contains(collectionName)
                 }
@@ -118,8 +114,8 @@ class PreferredImmutableCollectionsDetector : Detector(), SourceCodeScanner {
                 if (isCollection && !isImmutable) {
                     context.report(
                         issue = PreferredImmutableCollectionsIssue,
-                        scope = parameterType,
-                        location = context.getNameLocation(parameterType),
+                        scope = parameterTypeReference,
+                        location = context.getNameLocation(parameterTypeReference),
                         message = Explanation,
                     )
                 }

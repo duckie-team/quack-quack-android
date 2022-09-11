@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [FixedModifierOrderTest.kt] created by riflockle7 on 22. 8. 28. 오후 11:18
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -25,7 +23,6 @@ class FixedModifierOrderTest {
     @get:Rule
     val lintTestRule = LintTestRule()
 
-    // TODO (riflockle7) 추후 성빈님 리펙터링 필요
     @Test
     fun `Must Composable function`() {
         lintTestRule
@@ -45,7 +42,6 @@ class FixedModifierOrderTest {
             )
     }
 
-    // TODO (riflockle7) 추후 성빈님 리펙터링 필요
     @Test
     fun `Composable function but not emitting composable`() {
         lintTestRule
