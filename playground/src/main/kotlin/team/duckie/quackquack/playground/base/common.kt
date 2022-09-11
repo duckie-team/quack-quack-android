@@ -18,17 +18,20 @@ import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -37,10 +40,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
@@ -62,12 +68,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.zIndex
 import androidx.datastore.preferences.core.edit
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.coroutines.launch
+import team.duckie.quackquack.playground.theme.md_theme_light_primaryContainer
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
 import team.duckie.quackquack.playground.util.rememberToast
@@ -138,7 +145,9 @@ fun PlaygroundActivities(
                         containerColor = MaterialTheme.colorScheme.secondary,
                     ),
                 ) {
-                    Text(text = "Playground 설정")
+                    Text(
+                        text = "Playground 설정",
+                    )
                 }
             }
 
@@ -159,7 +168,9 @@ fun PlaygroundActivities(
                 ) {
                     Text(
                         text = (activity.simpleName ?: activity.toString())
-                            .removeSuffix(suffix = "Playground"),
+                            .removeSuffix(
+                                suffix = "Playground",
+                            ),
                     )
                 }
             }
@@ -189,7 +200,7 @@ fun PlaygroundSection(
     items.forEachIndexed { index, (_, composable) ->
         PreviewAlert(
             visible = previewVisibleStates[index],
-            onDismissRequest = {
+            onBackPressed = {
                 previewVisibleStates[index] = !previewVisibleStates[index]
             },
             content = composable,
@@ -232,7 +243,9 @@ fun PlaygroundSection(
                         containerColor = MaterialTheme.colorScheme.secondary,
                     ),
                 ) {
-                    Text(text = "Playground 설정")
+                    Text(
+                        text = "Playground 설정",
+                    )
                 }
             }
 
@@ -248,7 +261,9 @@ fun PlaygroundSection(
                         previewVisibleStates[index] = true
                     },
                 ) {
-                    Text(text = contentTitle)
+                    Text(
+                        text = contentTitle,
+                    )
                 }
             }
         }
@@ -313,17 +328,23 @@ private fun PlaygroundSettingAlert(
         AlertDialog(
             modifier = Modifier.wrapContentSize(),
             title = {
-                Text(text = "Playground 설정")
+                Text(
+                    text = "Playground 설정",
+                )
             },
             text = {
                 Column(
                     modifier = Modifier.wrapContentSize(),
                 ) {
-                    Text(text = "애니메이션 지속 시간")
+                    Text(
+                        text = "애니메이션 지속 시간",
+                    )
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 4.dp),
+                            .padding(
+                                top = 4.dp,
+                            ),
                         value = animationDurationInputState,
                         onValueChange = { newAnimationDuration ->
                             animationDurationInputState = newAnimationDuration
@@ -331,7 +352,9 @@ private fun PlaygroundSettingAlert(
                         singleLine = true,
                         trailingIcon = {
                             Text(
-                                modifier = Modifier.padding(end = 16.dp),
+                                modifier = Modifier.padding(
+                                    end = 16.dp,
+                                ),
                                 text = "단위: 초",
                             )
                         },
@@ -340,13 +363,17 @@ private fun PlaygroundSettingAlert(
                         ),
                     )
                     Text(
-                        modifier = Modifier.padding(top = 20.dp),
+                        modifier = Modifier.padding(
+                            top = 20.dp,
+                        ),
                         text = "Font Scale",
                     )
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 4.dp),
+                            .padding(
+                                top = 4.dp,
+                            ),
                         value = fontScaleInputState,
                         onValueChange = { newFontScale ->
                             fontScaleInputState = newFontScale
@@ -354,7 +381,9 @@ private fun PlaygroundSettingAlert(
                         singleLine = true,
                         trailingIcon = {
                             Text(
-                                modifier = Modifier.padding(end = 16.dp),
+                                modifier = Modifier.padding(
+                                    end = 16.dp,
+                                ),
                                 text = "배수",
                             )
                         },
@@ -369,7 +398,9 @@ private fun PlaygroundSettingAlert(
                 Button(
                     onClick = ::dismiss,
                 ) {
-                    Text(text = "저장")
+                    Text(
+                        text = "저장",
+                    )
                 }
             },
             dismissButton = {
@@ -379,17 +410,20 @@ private fun PlaygroundSettingAlert(
                         toast("Playground 설정을 초기화 했어요")
                     },
                 ) {
-                    Text(text = "초기화")
+                    Text(
+                        text = "초기화",
+                    )
                 }
             },
         )
     }
 }
 
+
 @Composable
 private fun PreviewAlert(
     visible: Boolean,
-    onDismissRequest: () -> Unit,
+    onBackPressed: () -> Unit,
     content: @Composable () -> Unit,
 ) {
     if (visible) {
@@ -398,30 +432,55 @@ private fun PreviewAlert(
                 size = 15.dp,
             )
         }
-
-        Dialog(
-            onDismissRequest = onDismissRequest,
-            content = {
-                Box(
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(
+                    zIndex = 1.0f,
+                ),
+            contentAlignment = Alignment.Center,
+        ) {
+            Box(
+                modifier = Modifier
+                    .border(
+                        width = 5.dp,
+                        color = md_theme_light_primaryContainer,
+                        shape = alertShape,
+                    )
+                    .clip(
+                        shape = alertShape,
+                    )
+                    .fillMaxWidth(
+                        fraction = 0.8f,
+                    )
+                    .fillMaxHeight(
+                        fraction = 0.7f,
+                    )
+                    .background(
+                        color = Color.White,
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
+                content()
+                Icon(
                     modifier = Modifier
-                        .clip(
-                            shape = alertShape,
+                        .size(
+                            size = 48.dp,
                         )
-                        .fillMaxWidth()
-                        .height(
-                            height = 500.dp,
+                        .clickable(
+                            onClick = onBackPressed,
                         )
-                        .background(
-                            color = Color.White,
+                        .align(
+                            alignment = Alignment.TopStart,
                         )
                         .padding(
-                            horizontal = 16.dp,
+                            start = 16.dp,
+                            top = 16.dp,
                         ),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    content()
-                }
-            },
-        )
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "back"
+                )
+            }
+        }
     }
 }

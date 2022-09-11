@@ -178,5 +178,20 @@ value class QuackIcon private constructor(
         val Heart = QuackIcon(
             drawableId = R.drawable.ic_heart_24,
         )
+
+        @Stable
+        val WriteFeed = QuackIcon(
+            drawableId = R.drawable.ic_write_feed_24,
+        )
+
+        @Stable
+        val DrawerBuy = QuackIcon(
+            drawableId = R.drawable.ic_drawer_buy_24,
+        )
+
+        @Stable
+        val DMNew = QuackIcon(
+            drawableId = R.drawable.ic_dm_new_20_white,
+        )
     }
 }
