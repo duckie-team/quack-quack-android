@@ -34,6 +34,7 @@ import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.kotlin.psi.KtReferenceExpression
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.toUElement
+import team.duckie.quackquack.common.lint.content
 
 private const val BriefDescription = "함수에 KDoc 및 @param, @return, @throws 및 description 필수"
 private const val Explanation = "함수에 KDoc (/** and end with */)을 추가해야 합니다.\n" +
@@ -161,7 +162,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
         override fun visitMethod(node: UMethod) {
-            val kDocArea = (node.sourcePsi as? KtNamedFunction)?.children?.firstOrNull {
+            val kDocArea = (node.sourcePsi as? KtNamedFunction)?.children?.find {
                 it is KDoc
             }
 
@@ -184,9 +185,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
 
             // kDocTag 들을 어노테이션 이름 (name) 에 따라 분류하기
             val kDocTags = kDocSections
-                .mapNotNull { psiElement ->
-                    psiElement as? KDocTag
-                }
+                .filterIsInstance<KDocTag>()
                 .groupBy { kDocTag ->
                     kDocTag.name
                 }
@@ -198,8 +197,9 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
             }.toMutableList()
             val isNoParams = methodParameterNames.isEmpty()
             // "params" 린트 검사
-            if (methodParameterNames.size != (kDocTags["param"]?.size ?: 0))
+            if (methodParameterNames.size != (kDocTags["param"]?.size ?: 0)) {
                 return sendErrorReport(context, node, Param_개수와_매개변수_개수_불일치)
+            }
             if (!isNoParams) {
                 // 각 "param" KDocTag 내용에 대해 분석한다.
                 kDocTags["param"]?.forEach { kDocParameterTag ->
@@ -238,7 +238,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
                 return sendErrorReport(context, node, Return_명세_필요)
             }
             kDocTags["return"]?.forEach { kDocReturnTag ->
-                if (kDocReturnTag.getContent().isBlank()) {
+                if (kDocReturnTag.content.isBlank()) {
                     return sendErrorReport(context, node, Annotation_에_대응하는_내용_없음)
                 }
             }
