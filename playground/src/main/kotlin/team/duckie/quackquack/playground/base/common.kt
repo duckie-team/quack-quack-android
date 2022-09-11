@@ -83,6 +83,12 @@ import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
 import team.duckie.quackquack.ui.textstyle.QuackDefaultFontScale
 import team.duckie.quackquack.ui.textstyle.QuackFontScale
 
+/**
+ * 액티비티를 애니메이션과 함께 시작합니다.
+ *
+ * @param withFinish 액티비티를 시작할 때 기존 액티비티를 finish 할지 여부
+ * @param intentBuilder 시작할 액티비티의 [Intent] 를 만드는 람다
+ */
 private inline fun Activity.startActivityWithAnimation(
     withFinish: Boolean = false,
     intentBuilder: () -> Intent,
@@ -94,6 +100,13 @@ private inline fun Activity.startActivityWithAnimation(
     }
 }
 
+/**
+ * Playground 에서 표시할 액티비티들을 나열합니다.
+ * 각각 액티비티들에는 표시할 디자인 컴포넌트들이 있습니다.
+ *
+ * @param title Playground 에 메인으로 표시될 액티비티의 타이틀
+ * @param activities Playground 에 표시할 액티비티들
+ */
 @Composable
 fun PlaygroundActivities(
     title: String = "QuackQuack Playground",
@@ -178,6 +191,12 @@ fun PlaygroundActivities(
     }
 }
 
+/**
+ * [PreviewAlert] 로 표시할 여러 디자인 컴포넌트들을 나열합니다.
+ *
+ * @param title 표시할 디자인 컴포넌트들의 주제
+ * @param items 표시할 디자인 컴포넌트들의 컴포저블 아이템
+ */
 @Composable
 fun PlaygroundSection(
     title: String,
@@ -270,6 +289,11 @@ fun PlaygroundSection(
     }
 }
 
+/**
+ * StatusBar 의 height 만큼 패딩을 적용하는 확장 함수
+ *
+ * @return StatusBar 의 height 만큼 패딩이 적용된 [Modifier]
+ */
 @Stable
 private fun Modifier.statusBarPadding() = composed {
     windowInsetsPadding(
@@ -279,6 +303,13 @@ private fun Modifier.statusBarPadding() = composed {
     )
 }
 
+/**
+ * Playground 에서 표시할 디자인 컴포넌트의 세부 사항을 설정합니다.
+ * 애니메이션의 지속 시간과 font scale 을 설정할 수 있습니다.
+ *
+ * @param visible Playground 설정 다이얼로그의 visible 여부
+ * @param onDismissRequest Playground 설정 다이얼로그를 닫을 때 호출되는 콜백
+ */
 @Composable
 private fun PlaygroundSettingAlert(
     visible: Boolean,
@@ -419,7 +450,16 @@ private fun PlaygroundSettingAlert(
     }
 }
 
-
+/**
+ * 디자인 컴포넌트의 Preview 를 다이얼로그 형태로 표시합니다.
+ *
+ * 다이얼로그를 표시해야 하는 디자인 컴포넌트가 있어서 내부에서 [AlertDialog] 를
+ * 사용하지 않고, [Box] 를 이용해 다이얼로그 형태로 보여줍니다.
+ *
+ * @param visible preview dialog 의 visible 상태
+ * @param onBackPressed preview dialog 의 back button 이 눌렸을 때 호출될 콜백
+ * @param content preview dialog 로 표시할 디자인 컴포넌트
+ */
 @Composable
 private fun PreviewAlert(
     visible: Boolean,

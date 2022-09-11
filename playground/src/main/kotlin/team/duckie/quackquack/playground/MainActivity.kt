@@ -24,8 +24,8 @@ import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundActivities
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
-import team.duckie.quackquack.playground.realworld.QuackBasicTextFieldWithAllDecorationDemo
 import team.duckie.quackquack.playground.realworld.FabPlayground
+import team.duckie.quackquack.playground.realworld.QuackBasicTextFieldWithAllDecorationDemo
 import team.duckie.quackquack.playground.realworld.TabPlayground
 import team.duckie.quackquack.playground.realworld.TextFieldPlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
@@ -34,14 +34,14 @@ import team.duckie.quackquack.playground.util.dataStore
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.textstyle.QuackFontScale
 
-class MainActivity : BaseActivity() {
-    private val playgroundActivities = persistentListOf(
-        TabPlayground::class,
-        ButtonPlayground::class,
-        TextFieldPlayground::class,
-        FabPlayground::class,
-    )
+private val PlaygroundActivities = persistentListOf(
+    TabPlayground::class,
+    ButtonPlayground::class,
+    TextFieldPlayground::class,
+    FabPlayground::class,
+)
 
+class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -52,8 +52,13 @@ class MainActivity : BaseActivity() {
     }
 }
 
+/**
+ * 하나의 디자인 컴포넌트만 보여주는 데모 컴포저블 입니다.
+ *
+ * @param content 표시할 단일 디자인 컴포넌트
+ */
 @Composable
-private fun SingleDemo(
+fun SingleDemo(
     content: @Composable BoxScope.() -> Unit,
 ) {
     Box(
@@ -63,8 +68,12 @@ private fun SingleDemo(
     )
 }
 
+/**
+ * 모든 디자인 컴포넌트를 리스트 형식으로 보여주는 데모 컴포저블 입니다.
+ * [PlaygroundActivities] 에 포함된 액티비티에 있는 모든 디자인 컴포넌트를 보여줍니다.
+ */
 @Composable
-private fun PlaygroundDemo() {
+fun PlaygroundDemo() {
     val context = LocalContext.current.applicationContext
     LaunchedEffect(
         key1 = Unit,
@@ -81,7 +90,7 @@ private fun PlaygroundDemo() {
     }
     PlaygroundTheme {
         PlaygroundActivities(
-            activities = playgroundActivities,
+            activities = PlaygroundActivities,
         )
     }
 }
