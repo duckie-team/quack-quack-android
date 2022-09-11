@@ -51,7 +51,10 @@ android {
     }
 
     lint {
-        disable.add("NotificationPermission")
+        disable.apply {
+            add("NotificationPermission")
+            add("KDocFields")
+        }
     }
 }
 
