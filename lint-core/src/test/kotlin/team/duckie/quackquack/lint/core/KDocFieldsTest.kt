@@ -417,4 +417,31 @@ class KDocFieldsTest {
             expectedCount = 1,
         )
     }
+
+    @Test
+    fun `only check function`() {
+        lintTestRule.assertErrorCount(
+            files = listOf(
+                composableTestFile(
+                    """
+                        open class BaseActivity : ComponentActivity() {
+                            private val isDarkMode by lazy {
+                                val uiMode = resources.configuration.uiMode
+                                (uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+                            }
+
+                            override fun onCreate(savedInstanceState: Bundle?) {
+                                super.onCreate(savedInstanceState)
+                                window.addFlags()
+                            }
+                        }
+                    """
+                ),
+            ),
+            issues = listOf(
+                KDocFieldsIssue,
+            ),
+            expectedCount = 0,
+        )
+    }
 }

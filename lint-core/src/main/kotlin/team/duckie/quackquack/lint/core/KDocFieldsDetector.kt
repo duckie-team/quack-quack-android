@@ -162,7 +162,11 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
         override fun visitMethod(node: UMethod) {
-            val kDocArea = (node.sourcePsi as? KtNamedFunction)?.children?.find {
+            // 오로지 함수만 체크하도록 함 (함수 아닐 경우 그대로 리턴)
+            val ktNamedFunction = (node.sourcePsi as? KtNamedFunction) ?: return
+
+            // 함수 영역에서 kDoc 데이터들을 뽑아온다.
+            val kDocArea = ktNamedFunction.children.find {
                 it is KDoc
             }
 
