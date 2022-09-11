@@ -180,18 +180,13 @@ value class QuackIcon private constructor(
         )
 
         @Stable
-        val WriteFeed = QuackIcon(
-            drawableId = R.drawable.ic_write_feed_24,
+        val Feed = QuackIcon(
+            drawableId = R.drawable.ic_feed_24,
         )
 
         @Stable
-        val DrawerBuy = QuackIcon(
-            drawableId = R.drawable.ic_drawer_buy_24,
-        )
-
-        @Stable
-        val DmNew = QuackIcon(
-            drawableId = R.drawable.ic_dm_new_20_white,
+        val Dm = QuackIcon(
+            drawableId = R.drawable.ic_dm_24,
         )
     }
 }

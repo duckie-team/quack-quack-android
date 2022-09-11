@@ -44,7 +44,7 @@ class QuackFab {
         ) {
             QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackFloatingActionButton(
-                icon = QuackIcon.DmNew,
+                icon = QuackIcon.Dm,
                 onClick = {},
             )
         }
@@ -65,11 +65,11 @@ class QuackFab {
                 onDismissRequest = {},
                 menuItems = persistentListOf(
                     QuackDialogMenuItem(
-                        icon = QuackIcon.WriteFeed,
+                        icon = QuackIcon.Feed,
                         text = "피드",
                     ),
                     QuackDialogMenuItem(
-                        icon = QuackIcon.DrawerBuy,
+                        icon = QuackIcon.Buy,
                         text = "덕딜",
                     ),
                 ),
