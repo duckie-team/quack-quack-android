@@ -62,6 +62,7 @@ private val QuackFabItemPadding = 16.dp
 private val QuackFabItemSpacing = 8.dp
 private val QuackIconTextSpacing = 4.dp
 
+// TODO: KDoc 필요
 @Immutable
 class QuackDialogMenuItem(
     val icon: QuackIcon,

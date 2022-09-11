@@ -30,6 +30,8 @@ import team.duckie.quackquack.ui.color.QuackColor
  * @param rippleEnabled click effect 로 리플을 설정할지 여부
  * @param rippleColor click effect 로 보일 리플의 색상.
  * null 이 들어오면 [Color.Unspecified] 를 사용합니다.
+ *
+ * @return clickable 속성이 적용된 [Modifier]
  */
 @Stable
 internal fun Modifier.quackClickable(

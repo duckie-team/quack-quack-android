@@ -10,4 +10,4 @@
 package team.duckie.quackquack.common
 
 @Retention(AnnotationRetention.SOURCE)
-annotation class AllowMagicNumber
+annotation class AllowMagicNumber(@Suppress("unused") val because: String)

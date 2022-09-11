@@ -31,7 +31,7 @@ import team.duckie.quackquack.common.lint.compose.isReturnsUnit
 private const val BriefDescription = "Modifier 인자를 첫 번째 위치로 고정해야 함"
 private const val Explanation = "Modifier 은 컴포저블의 필수 인자이므로, " +
         "매개변수 첫 번째 위치에 고정하여 도메인적 의미를 강조해야 합니다.\n" +
-        "(가장 많이 찾는 인자가 될 가능성이 높으니 첫 번째로 위치 고정을 함으로써 그 의미를 강화합니다.)"
+        "(가장 많이 찾는 인자가 될 가능성이 높으니 첫 번째로 위치 고정을 함으로써 그 의미를 강화합니다)"
 
 val FixedModifierOrderIssue = Issue.create(
     id = "FixedModifierOrder",

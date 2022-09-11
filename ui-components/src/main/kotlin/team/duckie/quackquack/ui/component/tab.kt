@@ -357,6 +357,7 @@ private fun QuackSubTabTextRow(
  * QuackTabDivider 를 Offset 을 이용하여 구현합니다.
  *
  * @param modifier 이 컴포저블이 사용할 [Modifier]
+ * @param zIndex Divider 의 z-index
  * @param offsetProvider 이 컴포저블이 배치될 [Offset].
  * Y 위치가 동적으로 계산되므로 이 인자를 통해 해당 값을 제공받아야 합니다.
  * 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
@@ -370,10 +371,18 @@ private fun QuackTabDivider(
 ) = Box(
     modifier = modifier
         .fillMaxWidth()
-        .height(height = QuackTabDividerHeight)
-        .zIndex(zIndex)
-        .offset(offsetProvider)
-        .background(color = QuackTabDividerColor.value)
+        .height(
+            height = QuackTabDividerHeight,
+        )
+        .zIndex(
+            zIndex = zIndex,
+        )
+        .offset(
+            offset = offsetProvider,
+        )
+        .background(
+            color = QuackTabDividerColor.value,
+        )
 )
 
 /**
@@ -401,7 +410,9 @@ private fun QuackSelectedTabUnderBar(
     widthProvider: Density.() -> Int,
 ) = Box(
     modifier = modifier
-        .height(height = QuackSelectedTabUnderBarHeight)
+        .height(
+            height = QuackSelectedTabUnderBarHeight,
+        )
         .layout { measurable, constraints ->
             val width = widthProvider()
             val placeable = measurable.measure(
@@ -419,5 +430,7 @@ private fun QuackSelectedTabUnderBar(
                 )
             }
         }
-        .background(color = color.value)
+        .background(
+            color = color.value,
+        )
 )

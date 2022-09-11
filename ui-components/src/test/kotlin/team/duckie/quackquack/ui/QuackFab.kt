@@ -45,7 +45,7 @@ class QuackFab {
         ) {
             QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackFloatingActionButton(
-                icon = QuackIcon.DMNew,
+                icon = QuackIcon.DmNew,
                 onClick = {},
             )
         }

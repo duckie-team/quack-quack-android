@@ -7,9 +7,10 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.ui.component
-
 // TODO: 전체 리펙토링 필요
+@file:Suppress("KDocFields", "unused") // 리펙토링 하면서 재거
+
+package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

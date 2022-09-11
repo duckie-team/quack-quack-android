@@ -7,6 +7,8 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("unused")
+
 package team.duckie.quackquack.ui.icon
 
 import androidx.annotation.DrawableRes
@@ -190,7 +192,7 @@ value class QuackIcon private constructor(
         )
 
         @Stable
-        val DMNew = QuackIcon(
+        val DmNew = QuackIcon(
             drawableId = R.drawable.ic_dm_new_20_white,
         )
     }

@@ -120,6 +120,8 @@ internal fun QuackSurface(
  * @param backgroundColor 컴포넌트의 색상
  * @param border 컴포넌트의 테두리. 테두리는 없을 수 있음으로 null 을 허용합니다.
  * @param elevation 컴포넌트의 그림자 크기
+ *
+ * @return 테마가 적용된 [Modifier]
  */
 @Stable
 private fun Modifier.surface(

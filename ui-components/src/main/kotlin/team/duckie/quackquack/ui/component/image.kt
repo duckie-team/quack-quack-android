@@ -31,14 +31,13 @@ import team.duckie.quackquack.ui.modifier.quackClickable
 @Composable
 @NonRestartableComposable
 fun QuackImage(
-    modifier: Modifier = Modifier,
     icon: QuackIcon?,
     tint: QuackColor = QuackColor.Black,
     onClick: (() -> Unit)? = null,
 ) {
     if (icon == null) return
     Image(
-        modifier = modifier.quackClickable(
+        modifier = Modifier.quackClickable(
             onClick = onClick,
         ),
         painter = painterResource(
@@ -54,7 +53,6 @@ fun QuackImage(
 /**
  * 이미지 하나만 표시하는 컴포넌트의 이미지 버전
  *
- * @param modifier 이 컴포넌트를 표시할 때 사용할 [Modifier]
  * @param image 표시할 이미지의 값.
  * 만약 null 이 들어온다면 이미지를 그리지 않습니다.
  * @param tint 아이콘에 적용할 틴트 값
@@ -64,14 +62,13 @@ fun QuackImage(
 @Composable
 @NonRestartableComposable
 fun QuackImage(
-    modifier: Modifier = Modifier,
     image: Any?,
     tint: QuackColor = QuackColor.Black,
     onClick: (() -> Unit)? = null,
 ) {
     if (image == null) return
     GlideImage(
-        modifier = modifier.quackClickable(
+        modifier = Modifier.quackClickable(
             onClick = onClick,
         ),
         imageModel = image,

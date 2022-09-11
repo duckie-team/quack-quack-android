@@ -48,7 +48,7 @@ class FabPlayground : BaseActivity() {
 @Composable
 fun QuackFloatingActionButtonDemo() {
     QuackFloatingActionButton(
-        icon = QuackIcon.DMNew,
+        icon = QuackIcon.DmNew,
         onClick = {},
     )
 }

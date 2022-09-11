@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.Constraints
  *
  * @param width [Constraints] 의 고정된 width 사이즈
  * @param height [Constraints] 의 고정된 height 사이즈
- *
+ * @return 인자로 주어진 고정된 사이즈를 갖는 [Constraints]
  * @see Constraints
  */
 @Stable

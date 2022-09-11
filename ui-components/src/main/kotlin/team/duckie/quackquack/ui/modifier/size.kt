@@ -33,6 +33,8 @@ import team.duckie.quackquack.ui.constant.QuackWidth
  *
  * @param width 컴포넌트의 width 조정을 위한 옵션
  * @param height 컴포넌트의 height 조정을 위한 옵션
+ *
+ * @return 사이즈가 적용된 [Modifier]
  */
 @Stable
 internal fun Modifier.applyQuackSize(
