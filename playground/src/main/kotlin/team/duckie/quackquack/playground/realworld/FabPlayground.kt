@@ -53,7 +53,6 @@ fun QuackFloatingActionButtonDemo() {
     )
 }
 
-
 @Composable
 fun QuackMenuFloatingActionButtonDemo() {
     var expanded by remember {
