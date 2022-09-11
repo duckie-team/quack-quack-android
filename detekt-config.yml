@@ -30,7 +30,9 @@ style:
 
 naming:
   TopLevelPropertyNaming:
-    constantPattern: '[A-Z][A-Za-z0-9]*'
+    # 한글변수도 가능하도록 함
+    # See : https://github.com/sungbinland/duckie-quack-quack/pull/82#discussion_r962213545
+    constantPattern: '[A-Z가-힣][A-Za-z0-9가-힣_]*'
   FunctionNaming:
     ignoreAnnotated: [ 'Composable' ]
   MatchingDeclarationName:
