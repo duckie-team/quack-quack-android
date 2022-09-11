@@ -109,7 +109,7 @@ fun QuackBasicTextFieldWithTrailingDecorationDemo() {
 fun QuackBasicTextFieldWithAllDecorationDemo() {
     var fieldState by remember {
         mutableStateOf(
-            value = "QuackBasicTextFieldDemo",
+            value = "",
         )
     }
     QuackBasicTextField(
