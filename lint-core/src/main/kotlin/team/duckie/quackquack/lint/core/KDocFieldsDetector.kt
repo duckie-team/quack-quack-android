@@ -34,6 +34,7 @@ import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.kotlin.psi.KtReferenceExpression
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.toUElement
+import team.duckie.quackquack.common.lint.content
 
 private const val BriefDescription = "함수에 KDoc 및 @param, @return, @throws 및 description 필수"
 private const val Explanation = "함수에 KDoc (/** and end with */)을 추가해야 합니다.\n" +
@@ -75,13 +76,13 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
      *
      * ```
      * /**
-     * * 모든 어노테이션이 존재하는 함수 예제
-     * *
-     * * @param ex1 테스트 용 문자열
-     * * @param efg 테스트 용 숫자
-     * * @return 무조건 0 입니다.
-     * * @throws Exception
-     * */
+     *  * 모든 어노테이션이 존재하는 함수 예제
+     *  *
+     *  * @param ex1 테스트 용 문자열
+     *  * @param efg 테스트 용 숫자
+     *  * @return 무조건 0 입니다.
+     *  * @throws Exception
+     *  */
      * fun fullMethod(ex1: String, efg: Int): Int {
      *     if ("".isEmpty())
      *         return 0
@@ -120,7 +121,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
      * ```
      * import java.lang.Exception
      *
-     * ~~~ <- KDoc 주석이 없음
+     * //  ~~~~~~~ <- KDoc 주석이 없음
      * fun failed1(ex1: String, efg: Int) { ... }
      *
      *
@@ -139,7 +140,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
      *  *
      *  * @param ex1 테스트 용 문자열
      *  * @param efg 명세되지 않은 params
-     *  //       ~~~ <- 명세되지 않은 params
+     *  *        ~~~ <- 명세되지 않은 params
      *  * @return 반환값은 없습니다.
      *  * @throws Exception
      *  */
@@ -147,19 +148,9 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
      *
      *
      * /**
-     *  * return 이 없는 경우입니다.
-     *  *
-     *  * @param ex1 테스트 용 문자열
-     *  * @param efg 테스트 용 숫자
-     *  // ~~ <- return 이 명세되지 않음
-     *  */
-     * abstract fun failed4(ex1: String, efg: Int)
-     *
-     *
-     * /**
      *  * 어노테이션에 대응되는 내용이 없는 경우입니다.
      *  *
-     *  * @param ex1 ~~ <- 내용이 명세되지 않음
+     *  * @param ex1 // ~~ <- 내용이 명세되지 않음
      *  * @return 반환값은 없습니다.
      *  * @throws Exception
      *  */
@@ -171,9 +162,19 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
         override fun visitMethod(node: UMethod) {
-            val kDocArea = (node.sourcePsi as? KtNamedFunction)?.children?.firstOrNull {
+            // 오로지 함수만 체크하도록 함 (함수 아닐 경우 그대로 리턴)
+            val ktNamedFunction = (node.sourcePsi as? KtNamedFunction) ?: return
+
+            // 함수 영역에서 kDoc 데이터들을 뽑아온다.
+            val kDocArea = ktNamedFunction.children.find {
                 it is KDoc
             }
+
+            // override 함수는 kDoc 이 있을 경우 규칙을 지키되, 없을 경우 그냥 넘어간다.
+            if (node.modifierList.text == "override" && kDocArea == null) {
+                return
+            }
+
             val kDocSections = kDocArea?.children
                 ?.filterIsInstance<KDocSection>()
                 ?.firstOrNull()?.children
@@ -188,9 +189,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
 
             // kDocTag 들을 어노테이션 이름 (name) 에 따라 분류하기
             val kDocTags = kDocSections
-                .mapNotNull {
-                    it as? KDocTag
-                }
+                .filterIsInstance<KDocTag>()
                 .groupBy { kDocTag ->
                     kDocTag.name
                 }
@@ -200,11 +199,12 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
             val methodParameterNames = node.uastParameters.mapNotNull {
                 (it.sourcePsi as? KtParameter)?.name
             }.toMutableList()
-            val isParamsOptional = methodParameterNames.isEmpty()
+            val isNoParams = methodParameterNames.isEmpty()
             // "params" 린트 검사
-            if (methodParameterNames.size != (kDocTags["param"]?.size ?: 0))
+            if (methodParameterNames.size != (kDocTags["param"]?.size ?: 0)) {
                 return sendErrorReport(context, node, Param_개수와_매개변수_개수_불일치)
-            if (!isParamsOptional) {
+            }
+            if (!isNoParams) {
                 // 각 "param" KDocTag 내용에 대해 분석한다.
                 kDocTags["param"]?.forEach { kDocParameterTag ->
                     // 'variable name' 과 kDocParameterTag.getSubjectName() 이 같은지 체크한다.
@@ -215,18 +215,17 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
                     } else if (kDocParameterTag.getSubjectName().isNullOrBlank()) {
                         return sendErrorReport(context, node, Annotation_에_대응하는_내용_없음)
                     }
-                } ?: return sendErrorReport(context, node, Param_명세_필요)
+                }
             }
             kDocTags.remove("param")
 
             // "throws" 명세가 필요한 지 체크
-            val isThrowsOptional = bodyArea?.children
-                ?.none { bodyElement ->
+            val isThrowable = bodyArea?.children
+                ?.any { bodyElement ->
                     bodyElement.node.elementType == KtNodeTypes.THROW
-                }
-                ?: true
+                } ?: false
             // "throws" 린트 검사
-            if (!isThrowsOptional && kDocTags["throws"].isNullOrEmpty()) {
+            if (isThrowable && kDocTags["throws"].isNullOrEmpty()) {
                 return sendErrorReport(context, node, Throws_명세_필요)
             }
             kDocTags["throws"]?.forEach { kDocThrowsTag ->
@@ -243,7 +242,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
                 return sendErrorReport(context, node, Return_명세_필요)
             }
             kDocTags["return"]?.forEach { kDocReturnTag ->
-                if (kDocReturnTag.getContent().isBlank()) {
+                if (kDocReturnTag.content.isBlank()) {
                     return sendErrorReport(context, node, Annotation_에_대응하는_내용_없음)
                 }
             }

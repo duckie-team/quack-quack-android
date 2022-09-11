@@ -25,6 +25,7 @@ import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundActivities
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
 import team.duckie.quackquack.playground.realworld.QuackBasicTextFieldWithAllDecorationDemo
+import team.duckie.quackquack.playground.realworld.FabPlayground
 import team.duckie.quackquack.playground.realworld.TabPlayground
 import team.duckie.quackquack.playground.realworld.TextFieldPlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
@@ -33,13 +34,14 @@ import team.duckie.quackquack.playground.util.dataStore
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.textstyle.QuackFontScale
 
-private val playgroundActivities = persistentListOf(
-    TabPlayground::class,
-    ButtonPlayground::class,
-    TextFieldPlayground::class,
-)
-
 class MainActivity : BaseActivity() {
+    private val playgroundActivities = persistentListOf(
+        TabPlayground::class,
+        ButtonPlayground::class,
+        TextFieldPlayground::class,
+        FabPlayground::class,
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

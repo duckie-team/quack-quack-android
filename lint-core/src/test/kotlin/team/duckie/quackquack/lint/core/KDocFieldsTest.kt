@@ -21,6 +21,7 @@ import team.duckie.quackquack.common.lint.test.composableTestFile
  * 3. 함수에는 KDoc 이 명시되어야 합니다.
  * 4. @param 명세 개수가, 매개 변수 개수가 일치해야 합니다.
  * 5. 필수 어노테이션은 반드시 명세되어야 합니다.
+ * 5. override 함수는 kDoc 이 있을 경우 규칙을 지키되, 없을 경우 그냥 넘어가야 합니다.
  */
 class KDocFieldsTest {
 
@@ -34,7 +35,6 @@ class KDocFieldsTest {
                 composableTestFile(
                     """
                         import java.lang.Exception
-
                         /**
                          * 모든 어노테이션이 존재하는 함수 예제
                          *
@@ -59,7 +59,7 @@ class KDocFieldsTest {
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        override fun `Reference_Expression Example`(ex1: String, efg: Int) {
+                        fun `Reference_Expression Example`(ex1: String, efg: Int) {
                             throw Exception()
                         }
 
@@ -171,7 +171,7 @@ class KDocFieldsTest {
     }
 
     @Test
-    fun `Function must have a KDoc specified`() {
+    fun `Function have a KDoc specified`() {
         lintTestRule.assertErrorCount(
             files = listOf(
                 composableTestFile(
@@ -192,7 +192,7 @@ class KDocFieldsTest {
     }
 
     @Test
-    fun `the number @param's and the number of parameters must match`() {
+    fun `the number @param's and the number of parameters match`() {
         lintTestRule.assertErrorCount(
             files = listOf(
                 composableTestFile(
@@ -232,7 +232,7 @@ class KDocFieldsTest {
     }
 
     @Test
-    fun `require annotations must be specified (success)`() {
+    fun `require annotations be specified (success)`() {
         lintTestRule.assertErrorCount(
             files = listOf(
                 composableTestFile(
@@ -257,7 +257,7 @@ class KDocFieldsTest {
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        override fun success2(ex1: String, efg: Int) {
+                        fun success2(ex1: String, efg: Int) {
                             throw Exception()
                         }
 
@@ -267,7 +267,7 @@ class KDocFieldsTest {
                          * @param ex1 테스트 용 문자열
                          * @param efg 테스트 용 숫자
                          */
-                        override fun success3(ex1: String, efg: Int) {
+                        fun success3(ex1: String, efg: Int) {
                         }
                         """
                 ),
@@ -280,7 +280,7 @@ class KDocFieldsTest {
     }
 
     @Test
-    fun `require annotations must be specified (fail)`() {
+    fun `require annotations be specified (fail)`() {
         lintTestRule.assertErrorCount(
             files = listOf(
                 composableTestFile(
@@ -315,7 +315,7 @@ class KDocFieldsTest {
                          * @param ex1 테스트 용 문자열
                          * @param efg 테스트 용 숫자
                          */
-                        override fun failed3(ex1: String, efg: Int) {
+                        fun failed3(ex1: String, efg: Int) {
                             throw Exception()
                         }
 
@@ -325,7 +325,7 @@ class KDocFieldsTest {
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        override fun failed4(ex1: String, efg: Int) {
+                        fun failed4(ex1: String, efg: Int) {
                             throw Exception()
                         }
 
@@ -336,7 +336,7 @@ class KDocFieldsTest {
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        override fun failed5(ex1: String, efg: Int) {
+                        fun failed5(ex1: String, efg: Int) {
                             throw Exception()
                         }
 
@@ -348,7 +348,7 @@ class KDocFieldsTest {
                          * @return 반환값은 없습니다.
                          * @throws Exception
                          */
-                        override fun failed6(ex1: String, efg: Int) {
+                        fun failed6(ex1: String, efg: Int) {
                             throw Exception()
                         }
                         """
@@ -358,6 +358,90 @@ class KDocFieldsTest {
                 KDocFieldsIssue,
             ),
             expectedCount = 6,
+        )
+    }
+
+    @Test
+    fun ` override function respects the rule if kDoc is present, otherwise should skip`() {
+        lintTestRule.assertErrorCount(
+            files = listOf(
+                composableTestFile(
+                    """
+                        import java.lang.Exception
+
+                        override fun `override function's KDocArea not exist `() {
+                            // 오버라이드 함수에 주석이 없을 경우 넘어감
+                        }
+
+                        override fun onResume() {
+                            // 오버라이드 함수에 주석이 없을 경우 넘어감
+                        }
+
+                        /**
+                         * @description return 이 필요하지만, 오타가 있으므로 실패합니다.
+                         *
+                         * @rreturn 빈 리스트를 반환합니다.
+                         * @throws Exception
+                         */
+                        override fun failed1(): List<String> {
+                            throw Exception();
+                            if (mutableListOf("").isNotEmpty())
+                                throw Exception()
+                            else
+                                return emptyList()
+                        }
+
+                        /**
+                         * 모든 어노테이션이 존재하는 함수 예제
+                         *
+                         * @param ex1 테스트 용 문자열
+                         * @param efg 테스트 용 숫자
+                         * @return 무조건 0 입니다.
+                         * @throws Exception
+                         */
+                        override fun `All annotations exist function Example`(
+                            ex1: String,
+                            efg: Int,
+                        ): Int {
+                            if ("".isEmpty())
+                                return 0
+                            else
+                                throw Exception()
+                        }
+                    """
+                ),
+            ),
+            issues = listOf(
+                KDocFieldsIssue,
+            ),
+            expectedCount = 1,
+        )
+    }
+
+    @Test
+    fun `only check function`() {
+        lintTestRule.assertErrorCount(
+            files = listOf(
+                composableTestFile(
+                    """
+                        open class BaseActivity : ComponentActivity() {
+                            private val isDarkMode by lazy {
+                                val uiMode = resources.configuration.uiMode
+                                (uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+                            }
+
+                            override fun onCreate(savedInstanceState: Bundle?) {
+                                super.onCreate(savedInstanceState)
+                                window.addFlags()
+                            }
+                        }
+                    """
+                ),
+            ),
+            issues = listOf(
+                KDocFieldsIssue,
+            ),
+            expectedCount = 0,
         )
     }
 }
