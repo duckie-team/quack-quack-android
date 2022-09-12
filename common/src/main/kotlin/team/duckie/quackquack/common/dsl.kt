@@ -7,5 +7,8 @@
 
 package team.duckie.quackquack.common
 
+/**
+ * QuackQuack 에서 DSL Builder 를 만들 때 사용됩니다.
+ */
 @DslMarker
 annotation class QuackDsl
