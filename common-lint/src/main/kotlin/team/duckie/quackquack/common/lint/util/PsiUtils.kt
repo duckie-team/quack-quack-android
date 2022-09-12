@@ -5,20 +5,6 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-/*
- * Designed and developed by 2022 SungbinLand, Team Duckie
- *
- * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
- */
-
-/*
- * Designed and developed by 2022 SungbinLand, Team Duckie
- *
- * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
- */
-
 // TAKEN FROM: https://github.com/androidx/androidx/tree/androidx-main/compose/lint/common/src/main/java/androidx/compose/lint
 
 @file:Suppress("unused")
