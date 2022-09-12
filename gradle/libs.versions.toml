@@ -21,7 +21,7 @@ compose-material3 = "1.0.0-beta01"
 compose-activity = "1.5.1"
 compose-lifecycle-vm = "2.4.1"
 compose-constraintlayout = "1.0.1"
-landscapist = "1.6.1"
+landscapist = "2.0.0"
 accompanist = "0.26.1-alpha"
 
 # tools
