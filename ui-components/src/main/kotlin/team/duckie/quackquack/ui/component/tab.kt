@@ -265,7 +265,9 @@ private fun QuackMainTabTextLazyRow(
             QuackText(
                 modifier = tabModifier,
                 text = title,
-                style = QuackSelectedTabTextStyle(index == selectedTabIndex),
+                style = QuackSelectedTabTextStyle(
+                    index == selectedTabIndex
+                ),
             )
         }
     }
