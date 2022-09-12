@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [clickable.kt] created by Ji Sungbin on 22. 8. 31. 오전 12:12
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -30,6 +28,8 @@ import team.duckie.quackquack.ui.color.QuackColor
  * @param rippleEnabled click effect 로 리플을 설정할지 여부
  * @param rippleColor click effect 로 보일 리플의 색상.
  * null 이 들어오면 [Color.Unspecified] 를 사용합니다.
+ *
+ * @return clickable 속성이 적용된 [Modifier]
  */
 @Stable
 internal fun Modifier.quackClickable(

@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [PsiUtils.kt] created by Ji Sungbin on 22. 8. 18. 오후 10:42
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -11,13 +9,15 @@
 
 @file:Suppress("unused")
 
-package team.duckie.quackquack.common.lint.compose
+package team.duckie.quackquack.common.lint.util
 
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiType
 import com.intellij.psi.util.InheritanceUtil
+import team.duckie.quackquack.common.lint.Name
+import team.duckie.quackquack.common.lint.PackageName
 
 /**
  * Returns whether [this] has [packageName] as its package name.

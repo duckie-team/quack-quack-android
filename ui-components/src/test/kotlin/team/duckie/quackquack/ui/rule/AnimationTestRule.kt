@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [AnimationTestRule.kt] created by Ji Sungbin on 22. 9. 2. 오전 10:20
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */

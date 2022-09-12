@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [fab.kt] created by Ji Sungbin on 22. 9. 3. 오후 1:15
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -38,14 +36,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
@@ -64,6 +60,7 @@ private val QuackFabItemPadding = 16.dp
 private val QuackFabItemSpacing = 8.dp
 private val QuackIconTextSpacing = 4.dp
 
+// TODO: KDoc 필요
 @Immutable
 class QuackDialogMenuItem(
     val icon: QuackIcon,

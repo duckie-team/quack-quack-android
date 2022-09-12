@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [ButtonPlayground.kt] created by Ji Sungbin on 22. 9. 2. 오전 1:02
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */

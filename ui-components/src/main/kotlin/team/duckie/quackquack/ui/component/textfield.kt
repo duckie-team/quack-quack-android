@@ -1,20 +1,17 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [textfield.kt] created by EvergreenTree97 on 22. 8. 21. 오후 3:26
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
 @file:NoLiveLiterals
+@file:Suppress("KDocFields") // 추후 TextField 완성하면서 제거 필요
 
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -41,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.common.npe
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
+import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 
 // /**
@@ -238,13 +236,13 @@ fun QuackBasicTextField(
 
     BasicTextField(
         modifier = modifier
-            /*.applyQuackSize(
+            .applyQuackSize(
                 width = width,
                 height = height,
-            )*/
-            .fillMaxWidth()
-            .height(100.dp)
-            .background(color = Color.Red)
+            )
+            .background(
+                color = Color.Red,
+            )
             .onPlaced { layoutCoordinates ->
                 with(density) {
                     println("onPlaced: ${layoutCoordinates.size}")
@@ -255,7 +253,9 @@ fun QuackBasicTextField(
         value = text,
         onValueChange = onTextChanged,
         // TextField 는 애니메이션 적용 X
-        textStyle = textStyle.change(textAlign = TextAlign.Start).asComposeStyle(),
+        textStyle = textStyle.change(
+            textAlign = TextAlign.Start,
+        ).asComposeStyle(),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         singleLine = true,
@@ -289,7 +289,9 @@ private inline fun QuackTextFieldDecorationBox(
     noinline leadingContent: @Composable (() -> Unit)?,
     noinline trailingContent: @Composable (() -> Unit)?,
 ) {
-    println("textFieldSize: $textFieldSize")
+    println(
+        message = "textFieldSize: $textFieldSize",
+    )
     val density = LocalDensity.current
     // QuackTextFieldDecorationContentHorizontalPadding 는 상수 값이라
     // remember 에 key 필요 없음

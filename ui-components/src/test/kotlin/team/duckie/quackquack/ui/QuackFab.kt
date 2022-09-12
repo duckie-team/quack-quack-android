@@ -1,13 +1,14 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [QuackFab.kt] created by Ji Sungbin on 22. 9. 4. 오전 2:23
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("TestFunctionName", "SpellCheckingInspection")
+@file:Suppress(
+    "TestFunctionName",
+    "SpellCheckingInspection",
+)
 
 package team.duckie.quackquack.ui
 
@@ -28,9 +29,7 @@ import team.duckie.quackquack.ui.util.buildPaparazzi
 class QuackFab {
     @get:Rule
     val paparazzi = buildPaparazzi {
-        this.apply {
-            screenHeight = 500
-        }
+        screenHeight = 500
     }
 
     @get:Rule
@@ -45,7 +44,7 @@ class QuackFab {
         ) {
             QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackFloatingActionButton(
-                icon = QuackIcon.DMNew,
+                icon = QuackIcon.Dm,
                 onClick = {},
             )
         }
@@ -66,11 +65,11 @@ class QuackFab {
                 onDismissRequest = {},
                 menuItems = persistentListOf(
                     QuackDialogMenuItem(
-                        icon = QuackIcon.WriteFeed,
+                        icon = QuackIcon.Feed,
                         text = "피드",
                     ),
                     QuackDialogMenuItem(
-                        icon = QuackIcon.DrawerBuy,
+                        icon = QuackIcon.Buy,
                         text = "덕딜",
                     ),
                 ),

@@ -1,13 +1,18 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [CustomRule.kt] created by Ji Sungbin on 22. 8. 29. 오전 6:17
+ * Licensed under the MIT.
+ * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ */
+
+/*
+ * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.common.lint
+package team.duckie.quackquack.common.lint.custom
 
 import java.io.File
 import java.io.IOException

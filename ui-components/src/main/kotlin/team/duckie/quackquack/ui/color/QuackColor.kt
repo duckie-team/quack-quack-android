@@ -1,14 +1,15 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [QuackColor.kt] created by Ji Sungbin on 22. 8. 14. 오후 7:48
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("unused")
+
 package team.duckie.quackquack.ui.color
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector4D
 import androidx.compose.animation.core.SnapSpec
@@ -66,42 +67,58 @@ value class QuackColor internal constructor(
 
         @Stable
         val DuckieOrange = QuackColor(
-            value = Color(0xFFFF8300),
+            value = Color(
+                color = 0xFFFF8300,
+            ),
         )
 
         @Stable
         val Black = QuackColor(
-            value = Color(0xFF222222),
+            value = Color(
+                color = 0xFF222222,
+            ),
         )
 
         @Stable
         val Gray1 = QuackColor(
-            value = Color(0xFF666666),
+            value = Color(
+                color = 0xFF666666,
+            ),
         )
 
         @Stable
         val Gray2 = QuackColor(
-            value = Color(0xFFA8A8A8),
+            value = Color(
+                color = 0xFFA8A8A8,
+            ),
         )
 
         @Stable
         val Gray3 = QuackColor(
-            value = Color(0xFFEFEFEF),
+            value = Color(
+                color = 0xFFEFEFEF,
+            ),
         )
 
         @Stable
         val Gray4 = QuackColor(
-            value = Color(0xFFF6F6F6),
+            value = Color(
+                color = 0xFFF6F6F6,
+            ),
         )
 
         @Stable
         val White = QuackColor(
-            value = Color(0xFFFFFFFF),
+            value = Color(
+                color = 0xFFFFFFFF,
+            ),
         )
 
         @Stable
         val OrangeRed = QuackColor(
-            value = Color(0xFFFF2929),
+            value = Color(
+                color = 0xFFFF2929,
+            ),
         )
 
         private val M1 = floatArrayOf(
@@ -128,7 +145,10 @@ value class QuackColor internal constructor(
             1.202023f,
         )
 
-        @AllowMagicNumber
+        @SuppressLint("KDocFields")
+        @AllowMagicNumber(
+            because = "AOSP 에서 그대로 가져온 코드",
+        )
         private fun multiplyColumn(
             column: Int,
             x: Float,
@@ -151,32 +171,44 @@ value class QuackColor internal constructor(
                         val y = colorXyz.green
                         val z = colorXyz.blue
 
-                        @AllowMagicNumber
+                        @AllowMagicNumber(
+                            because = "AOSP 에서 그대로 가져온 코드",
+                        )
                         val l = multiplyColumn(
                             column = 0,
                             x = x,
                             y = y,
                             z = z,
                             matrix = M1,
-                        ).pow(x = 1f / 3f)
+                        ).pow(
+                            x = 1f / 3f,
+                        )
 
-                        @AllowMagicNumber
+                        @AllowMagicNumber(
+                            because = "AOSP 에서 그대로 가져온 코드",
+                        )
                         val a = multiplyColumn(
                             column = 1,
                             x = x,
                             y = y,
                             z = z,
                             matrix = M1,
-                        ).pow(x = 1f / 3f)
+                        ).pow(
+                            x = 1f / 3f,
+                        )
 
-                        @AllowMagicNumber
+                        @AllowMagicNumber(
+                            because = "AOSP 에서 그대로 가져온 코드",
+                        )
                         val b = multiplyColumn(
                             column = 2,
                             x = x,
                             y = y,
                             z = z,
                             matrix = M1,
-                        ).pow(x = 1f / 3f)
+                        ).pow(
+                            x = 1f / 3f,
+                        )
 
                         AnimationVector4D(
                             v1 = color.alpha,
@@ -186,9 +218,15 @@ value class QuackColor internal constructor(
                         )
                     },
                     convertFromVector = {
-                        val l = it.v2.pow(x = 3f)
-                        val a = it.v3.pow(x = 3f)
-                        val b = it.v4.pow(x = 3f)
+                        val l = it.v2.pow(
+                            x = 3f,
+                        )
+                        val a = it.v3.pow(
+                            x = 3f,
+                        )
+                        val b = it.v4.pow(
+                            x = 3f,
+                        )
 
                         val x = multiplyColumn(
                             column = 0,
@@ -242,6 +280,7 @@ value class QuackColor internal constructor(
             }
     }
 
+    @SuppressLint("KDocFields")
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = value
 }
 

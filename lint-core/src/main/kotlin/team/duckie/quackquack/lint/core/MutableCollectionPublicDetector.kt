@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [MutableCollectionPublicDetector.kt] created by ricky_0_k on 22. 8. 21. 오전 12:43
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -27,6 +25,7 @@ import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.psiUtil.isPublic
 import org.jetbrains.uast.UDeclaration
 import org.jetbrains.uast.kotlin.KotlinUField
+import team.duckie.quackquack.common.fastAny
 
 private const val BriefDescription = "MutableCollections public 노출 금지"
 private const val Explanation = "캡슐화를 위해 MutableCollections public 노출은 금지됩니다."
@@ -40,8 +39,8 @@ val MutableCollectionPublicIssue = Issue.create(
     severity = Severity.ERROR,
     implementation = Implementation(
         MutableCollectionPublicDetector::class.java,
-        Scope.JAVA_FILE_SCOPE
-    )
+        Scope.JAVA_FILE_SCOPE,
+    ),
 )
 
 /**
@@ -87,7 +86,7 @@ class MutableCollectionPublicDetector : Detector(), SourceCodeScanner {
             val property = node.sourcePsi as? KtProperty
             val propertyType = property?.typeReference ?: return
             val propertyTypeName = propertyType.text
-            val isMutable = MutableNames.any { immutableName ->
+            val isMutable = MutableNames.fastAny { immutableName ->
                 propertyTypeName.startsWith(immutableName)
             }
 

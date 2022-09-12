@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [FixedModifierOrderDetector.kt] created by riflockle7 on 22. 8. 28. 오후 11:09
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -23,15 +21,15 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
-import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.uast.UMethod
 import team.duckie.quackquack.common.lint.compose.isComposable
-import team.duckie.quackquack.common.lint.compose.isReturnsUnit
+import team.duckie.quackquack.common.lint.util.isReturnsUnit
+import team.duckie.quackquack.common.lint.util.typed
 
 private const val BriefDescription = "Modifier 인자를 첫 번째 위치로 고정해야 함"
 private const val Explanation = "Modifier 은 컴포저블의 필수 인자이므로, " +
         "매개변수 첫 번째 위치에 고정하여 도메인적 의미를 강조해야 합니다.\n" +
-        "(가장 많이 찾는 인자가 될 가능성이 높으니 첫 번째로 위치 고정을 함으로써 그 의미를 강화합니다.)"
+        "(가장 많이 찾는 인자가 될 가능성이 높으니 첫 번째로 위치 고정을 함으로써 그 의미를 강화합니다)"
 
 val FixedModifierOrderIssue = Issue.create(
     id = "FixedModifierOrder",
@@ -42,8 +40,8 @@ val FixedModifierOrderIssue = Issue.create(
     severity = Severity.ERROR,
     implementation = Implementation(
         FixedModifierOrderDetector::class.java,
-        Scope.JAVA_FILE_SCOPE
-    )
+        Scope.JAVA_FILE_SCOPE,
+    ),
 )
 
 /**
@@ -79,17 +77,14 @@ class FixedModifierOrderDetector : Detector(), SourceCodeScanner {
             if (!node.isComposable || !node.isReturnsUnit) return
 
             // 함수 내에 Modifier 타입 파라미터가 존재하는지 확인
-            val modifierParameterExists = node.uastParameters.any { parameter ->
-                (parameter.sourcePsi as? KtParameter)?.typeReference?.text == "Modifier"
+            val modifierParameterLocate = node.uastParameters.indexOfFirst { parameter ->
+                parameter.typed?.name == "Modifier"
             }
 
-            val firstParameter =
-                node.uastParameters.firstOrNull()?.sourcePsi as? KtParameter ?: return
-            val firstParameterType = firstParameter.typeReference ?: return
-            val firstParameterTypeName = firstParameterType.text ?: return
-
-            // Modifier 타입 파라미터가 존재하는데, 첫 번쨰 인자 타입이 Modifier 가 아닌 경우 에러 발생
-            if (modifierParameterExists && firstParameterTypeName != "Modifier") {
+            // Modifier 타입 파라미터가 존재하는데, 첫 번째 인자 타입이 Modifier 가 아닌 경우 에러 발생
+            if (modifierParameterLocate != -1 && modifierParameterLocate != 0) {
+                val firstParameterType =
+                    node.uastParameters.firstOrNull()?.typed?.reference ?: return
                 return context.report(
                     issue = FixedModifierOrderIssue,
                     scope = firstParameterType,

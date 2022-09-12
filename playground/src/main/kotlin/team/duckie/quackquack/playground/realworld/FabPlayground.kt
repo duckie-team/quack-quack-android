@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [FabPlayground.kt] created by Ji Sungbin on 22. 9. 6. 오후 2:19
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -48,11 +46,10 @@ class FabPlayground : BaseActivity() {
 @Composable
 fun QuackFloatingActionButtonDemo() {
     QuackFloatingActionButton(
-        icon = QuackIcon.DMNew,
+        icon = QuackIcon.Dm,
         onClick = {},
     )
 }
-
 
 @Composable
 fun QuackMenuFloatingActionButtonDemo() {
@@ -72,11 +69,11 @@ fun QuackMenuFloatingActionButtonDemo() {
         },
         menuItems = persistentListOf(
             QuackDialogMenuItem(
-                icon = QuackIcon.WriteFeed,
+                icon = QuackIcon.Feed,
                 text = "피드",
             ),
             QuackDialogMenuItem(
-                icon = QuackIcon.DrawerBuy,
+                icon = QuackIcon.Buy,
                 text = "덕딜",
             ),
         ),

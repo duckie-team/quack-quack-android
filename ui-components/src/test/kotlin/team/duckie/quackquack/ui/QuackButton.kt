@@ -1,13 +1,14 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [QuackButton.kt] created by Ji Sungbin on 22. 9. 2. 오전 8:45
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("TestFunctionName", "SpellCheckingInspection")
+@file:Suppress(
+    "TestFunctionName",
+    "SpellCheckingInspection",
+)
 
 package team.duckie.quackquack.ui
 

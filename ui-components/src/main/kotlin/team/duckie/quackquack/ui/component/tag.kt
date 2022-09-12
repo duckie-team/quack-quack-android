@@ -1,15 +1,14 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [tag.kt] created by Ji Sungbin on 22. 8. 21. 오후 2:42
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.ui.component
-
 // TODO: 전체 리펙토링 필요
+@file:Suppress("KDocFields", "unused") // 리펙토링 하면서 재거
+
+package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -89,7 +88,9 @@ fun QuackBoldTag(
     ) {
         QuackTitle2(
             text = text,
-            color = getTagTextColor(isSelected),
+            color = getTagTextColor(
+                isSelected
+            ),
         )
     }
 }
@@ -116,7 +117,9 @@ fun QuackSimpleTag(
     ) {
         QuackBody1(
             text = text,
-            color = getTagTextColor(isSelected),
+            color = getTagTextColor(
+                isSelected
+            ),
         )
     }
 }
@@ -163,7 +166,9 @@ fun QuackIconTag(
             )
             QuackImage(
                 icon = icon,
-                tint = getIconColor(isSelected),
+                tint = getIconColor(
+                    isSelected
+                ),
                 onClick = onClickIcon,
             )
         }

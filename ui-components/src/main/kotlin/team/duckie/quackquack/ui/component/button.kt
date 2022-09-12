@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [button.kt] created by Ji Sungbin on 22. 8. 14. 오후 6:54
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -84,6 +82,13 @@ private val QuackChipTextPadding = PaddingValues(
     vertical = 4.dp,
 )
 
+/**
+ * 조건에 맞는 QuackButton 의 배경 색을 계산합니다.
+ *
+ * @param enabled 현재 버튼이 활성화 상태인지 여부
+ * @return 만약 버튼이 활성된 상태라면 [QuackColor.DuckieOrange] 를 반환하고, 그렇지 않다면
+ * [QuackColor.Gray2] 를 반환한다.
+ */
 @Stable
 private fun quackButtonStandardBackgroundColorFor(enabled: Boolean) = when (enabled) {
     true -> QuackColor.DuckieOrange

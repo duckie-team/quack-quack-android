@@ -1,11 +1,11 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [QuackIcon.kt] created by Ji Sungbin on 22. 8. 31. 오전 12:08
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
+
+@file:Suppress("unused")
 
 package team.duckie.quackquack.ui.icon
 
@@ -180,18 +180,13 @@ value class QuackIcon private constructor(
         )
 
         @Stable
-        val WriteFeed = QuackIcon(
-            drawableId = R.drawable.ic_write_feed_24,
+        val Feed = QuackIcon(
+            drawableId = R.drawable.ic_feed_24,
         )
 
         @Stable
-        val DrawerBuy = QuackIcon(
-            drawableId = R.drawable.ic_drawer_buy_24,
-        )
-
-        @Stable
-        val DMNew = QuackIcon(
-            drawableId = R.drawable.ic_dm_new_20_white,
+        val Dm = QuackIcon(
+            drawableId = R.drawable.ic_dm_24,
         )
     }
 }

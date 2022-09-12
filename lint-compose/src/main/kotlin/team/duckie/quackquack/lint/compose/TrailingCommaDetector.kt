@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [TrailingCommaDetector.kt] created by limsaehyun on 22. 8. 29. 오전 8:20
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -23,31 +21,19 @@ import com.android.tools.lint.detector.api.SourceCodeScanner
 import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.kotlin.KotlinUFunctionCallExpression
+import team.duckie.quackquack.common.fastForEach
 import team.duckie.quackquack.common.lint.compose.isComposable
 import team.duckie.quackquack.common.lint.compose.isInvokedWithinComposable
 
 private const val BriefDescription = "후행 ',' 필수 사용"
-private const val Explanation = "후행 ',' 는 필수적으로 사용해야 합니다"
+private const val Explanation = "후행 ',' 는 필수적으로 사용해야 합니다."
 
 /**
- * [TrailingCommaDetector]가 작동되기 위한 최소한의 Argument, Parameter 개수를 정의합니다.
+ * [TrailingCommaDetector] 가 작동되기 위한 최소한의 Argument, Parameter 개수를 정의합니다.
  */
 private const val LimitArgumentNumber = 2
 private const val LimitParameterNumber = 2
 
-/**
- * QuackQuack 린트의 [TrailingCommaDetector] 규칙을 정의합니다.
- *
- * 다음과 같은 조건에서 린트를 검사합니다.
- *
- * 1. 컴포저블 함수여야 함
- * 2. 인자와 파라미터의 최소한의 개수가 [LimitArgumentNumber] [LimitParameterNumber] 일 경우에 동작해야 함
- *
- * 다음과 같은 조건에서 린트 에러가 발생합니다.
- *
- * 1. 매개변수 뒤에 ','가 오지 않는 경우
- * 2. 인자 뒤에 ','가 오지 않는 경우
- */
 val TrailingCommaIssue = Issue.create(
     id = "TrailingComma",
     briefDescription = BriefDescription,
@@ -57,48 +43,37 @@ val TrailingCommaIssue = Issue.create(
     severity = Severity.ERROR,
     implementation = Implementation(
         TrailingCommaDetector::class.java,
-        Scope.JAVA_FILE_SCOPE
-    )
+        Scope.JAVA_FILE_SCOPE,
+    ),
 )
 
+/**
+ * QuackQuack 린트의 [TrailingCommaDetector] 규칙을 정의합니다.
+ *
+ * 다음과 같은 조건에서 린트를 검사합니다.
+ *
+ * 1. 컴포저블 함수여야 함
+ * 2. 컴포저블 안에서 invoke 돼야 함
+ * 3. 인자와 파라미터의 개수가 각각 [LimitArgumentNumber]개, [LimitParameterNumber]개 이상이여야 함
+ * 4. 코틀린 함수여야 함
+ *
+ * 다음과 같은 조건에서 린트 에러가 발생합니다.
+ *
+ * 1. 매개변수 뒤에 ',' 가 오지 않는 경우
+ * 2. 인자 뒤에 ',' 가 오지 않는 경우
+ */
 class TrailingCommaDetector : Detector(), SourceCodeScanner {
-
     override fun getApplicableUastTypes() = listOf(
         UMethod::class.java,
         UExpression::class.java,
     )
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
-        // Argument 검사
-        override fun visitExpression(node: UExpression) {
-            if (!node.isInvokedWithinComposable() || node !is KotlinUFunctionCallExpression) return
-
-            val valueArgumentSize = node.valueArgumentCount
-            val valueArgumentList = node.valueArguments
-
-            if (valueArgumentSize < LimitArgumentNumber) return
-
-            valueArgumentList.forEach { argument ->
-                val argumentNode = argument.sourcePsi?.node
-                val lastParameterNextSibling = argumentNode?.treeParent?.psi?.nextSibling ?: return
-
-                if (!lastParameterNextSibling.textContains(',')) {
-                    context.report(
-                        issue = TrailingCommaIssue,
-                        scope = argumentNode.psi,
-                        location = context.getLocation(argumentNode.psi),
-                        message = Explanation,
-                    )
-                }
-            }
-        }
-
-        // Parameter 검사
+        // Parameter
         override fun visitMethod(node: UMethod) {
             if (!node.isComposable) return
 
             val parameterSize = node.uastParameters.size
-
             if (parameterSize < LimitParameterNumber) return
 
             val lastParameter = node.uastParameters.lastOrNull()
@@ -112,6 +87,29 @@ class TrailingCommaDetector : Detector(), SourceCodeScanner {
                     location = context.getLocation(lastParameterSourcePsi),
                     message = Explanation,
                 )
+            }
+        }
+
+        // Argument
+        override fun visitExpression(node: UExpression) {
+            if (!node.isInvokedWithinComposable() || node !is KotlinUFunctionCallExpression) return
+
+            val valueArgumentSize = node.valueArgumentCount
+            if (valueArgumentSize < LimitArgumentNumber) return
+
+            val valueArgumentList = node.valueArguments
+            valueArgumentList.fastForEach { argument ->
+                val argumentNode = argument.sourcePsi?.node
+                val lastParameterNextSibling = argumentNode?.treeParent?.psi?.nextSibling ?: return
+
+                if (!lastParameterNextSibling.textContains(',')) {
+                    context.report(
+                        issue = TrailingCommaIssue,
+                        scope = argumentNode.psi,
+                        location = context.getLocation(argumentNode.psi),
+                        message = Explanation,
+                    )
+                }
             }
         }
     }

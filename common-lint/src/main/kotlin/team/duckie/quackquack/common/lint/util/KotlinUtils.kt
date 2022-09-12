@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [KotlinUtils.kt] created by Ji Sungbin on 22. 8. 18. 오후 10:42
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -15,15 +13,45 @@
     "MemberVisibilityCanBePrivate",
 )
 
-package team.duckie.quackquack.common.lint.compose
+package team.duckie.quackquack.common.lint.util
 
 import org.jetbrains.kotlin.psi.KtLambdaExpression
 import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.kotlin.psi.KtSimpleNameExpression
+import org.jetbrains.kotlin.psi.KtTypeReference
 import org.jetbrains.kotlin.psi.psiUtil.collectDescendantsOfType
 import org.jetbrains.kotlin.psi.psiUtil.isAncestor
 import org.jetbrains.uast.ULambdaExpression
+import org.jetbrains.uast.UParameter
 import org.jetbrains.uast.toUElement
+
+/**
+ * [UParameter] 의 타입 레퍼런스와 타입명을 제공하는 레퍼 클래스 입니다.
+ * [UParameter.typed] 의 반환 타입으로만 사용됩니다. 따라서 internal 생성자를 갖습니다.
+ */
+class UParameterType internal constructor(
+    val reference: KtTypeReference,
+    val name: String,
+) {
+    internal constructor(typeReference: KtTypeReference) : this(
+        reference = typeReference,
+        name = typeReference.text,
+    )
+
+    operator fun component1() = reference
+    operator fun component2() = name
+}
+
+/**
+ * 주어진 [UParameter] 의 타입 레퍼런스와 타입명을 반환합니다.
+ */
+val UParameter.typed: UParameterType? // 타입 명시 필수
+    get() {
+        val typeReference = (sourcePsi as? KtParameter)?.typeReference ?: return null
+        return UParameterType(
+            typeReference = typeReference,
+        )
+    }
 
 /**
  * Returns a list of unreferenced parameters in [this]. If no parameters have been specified, but

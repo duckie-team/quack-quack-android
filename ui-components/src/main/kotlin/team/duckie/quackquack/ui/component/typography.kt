@@ -1,11 +1,11 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [typography.kt] created by Ji Sungbin on 22. 8. 21. 오후 2:07
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
+
+@file:Suppress("unused")
 
 package team.duckie.quackquack.ui.component
 

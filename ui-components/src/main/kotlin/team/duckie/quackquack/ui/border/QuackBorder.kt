@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [QuackBorder.kt] created by Ji Sungbin on 22. 9. 1. 오후 10:27
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -33,6 +31,7 @@ import team.duckie.quackquack.ui.color.animateQuackColorAsState
  * @param color border 의 색상
  */
 // 기본 값으로 정해진게 없기에 internal constructor
+@Suppress("MemberVisibilityCanBePrivate")
 @Immutable
 internal class QuackBorder(
     val width: Dp = 1.dp,
@@ -65,6 +64,8 @@ internal class QuackBorder(
  *
  * @param targetValue 애니메이션을 적용할 [QuackBorder]
  * @param animationSpec 애니메이션에 사용할 [AnimationSpec]
+ *
+ * @return 애니메이션이 적용되고 있는 [State] 객체
  */
 @Suppress("UNCHECKED_CAST")
 @Composable

@@ -1,8 +1,6 @@
 /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
- * [constraints.kt] created by Ji Sungbin on 22. 9. 3. 오후 12:34
- *
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
@@ -21,7 +19,7 @@ import androidx.compose.ui.unit.Constraints
  *
  * @param width [Constraints] 의 고정된 width 사이즈
  * @param height [Constraints] 의 고정된 height 사이즈
- *
+ * @return 인자로 주어진 고정된 사이즈를 갖는 [Constraints]
  * @see Constraints
  */
 @Stable
