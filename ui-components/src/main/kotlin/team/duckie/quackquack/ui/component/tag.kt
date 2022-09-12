@@ -88,7 +88,9 @@ fun QuackBoldTag(
     ) {
         QuackTitle2(
             text = text,
-            color = getTagTextColor(isSelected),
+            color = getTagTextColor(
+                isSelected
+            ),
         )
     }
 }
@@ -115,7 +117,9 @@ fun QuackSimpleTag(
     ) {
         QuackBody1(
             text = text,
-            color = getTagTextColor(isSelected),
+            color = getTagTextColor(
+                isSelected
+            ),
         )
     }
 }
@@ -162,7 +166,9 @@ fun QuackIconTag(
             )
             QuackImage(
                 icon = icon,
-                tint = getIconColor(isSelected),
+                tint = getIconColor(
+                    isSelected
+                ),
                 onClick = onClickIcon,
             )
         }

@@ -22,6 +22,7 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.intellij.psi.impl.source.tree.CompositeElement
+import org.jetbrains.kotlin.psi.KtCallableReferenceExpression
 import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.kotlin.KotlinUFunctionCallExpression
@@ -60,13 +61,17 @@ val NewLineArgumentIssue = Issue.create(
  * 예외적으로, 이러한 경우에는 에러가 발생하지 않습니다.
  *
  * 1. 마지막 argument 가 LAMBDA_EXPRESSION 인 경우
+ * 2. 레퍼런스를 참조하는 경우 (REFERENCES_EXPRESSION)
  *
  * ```
+ * @Composable
  * fun MyComposable() {
+ *     // 레퍼런스를 참조하는 경우이므로 예외적으로 허용 됨
+ *     val animationFlows: List<Flow<*>> = animationStates.map(State<*>::toFlow)
+ *
  *     Button() {
  *         // 마지막 argument 의 LAMBDA_EXPRESSION 이므로 예외적으로 허용 됨
  *     }
- * }
  * ```
  */
 class NewLineArgumentDetector : Detector(), SourceCodeScanner {
@@ -101,11 +106,13 @@ class NewLineArgumentDetector : Detector(), SourceCodeScanner {
 
             node.valueArguments.forEach { argument ->
                 val argumentSourcePsi = argument.sourcePsi ?: return
+
                 val argumentParentPrevSibling =
-                    (argumentSourcePsi.node as CompositeElement).treeParent.treePrev
+                    (argumentSourcePsi.node as CompositeElement).treeParent.treePrev ?: return
                 val argumentPrevParentPrevSibling = argumentParentPrevSibling.treeParent.treePrev
 
                 if (argument == node.valueArguments.last() && argument is KotlinULambdaExpression) return
+                if (argumentSourcePsi is KtCallableReferenceExpression) return
 
                 if (!(argumentParentPrevSibling.text.isNewLine() || argumentPrevParentPrevSibling.text.isNewLine())) {
                     return context.report(
