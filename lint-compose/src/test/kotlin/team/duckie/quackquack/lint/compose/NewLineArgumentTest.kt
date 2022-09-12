@@ -20,6 +20,7 @@ import team.duckie.quackquack.common.lint.test.composableTestFile
  * 2. parameter가 전부 new line에 배치되여야 함
  * 3. argument가 전부 new line 배치되어야 함
  * 4. last argument가 LAMDA_EXPRESSION일 경우 에러가 발생되지 않아야 함
+ * 5. argument type이 REFERENCES_EXPRESSION일 경우 에러가 발생되지 않아야 함
  */
 class NewLineArgumentTest {
 
@@ -33,18 +34,6 @@ class NewLineArgumentTest {
                 composableTestFile(
                     """
                             @Composable
-                            fun failed1(a: String,) {}
-
-                            @Composable
-                            fun failed2(
-                                a: String, b: String,
-                                c: String,
-                            ) {}
-
-                            @Composable
-                            fun failed3(a: String, b: String, c: String,) {}
-
-                            @Composable
                             fun success1() {}
 
                             @Composable
@@ -57,6 +46,18 @@ class NewLineArgumentTest {
                                 b: String,
                                 c: String,
                             ) {}
+
+                            @Composable
+                            fun failed1(a: String,) {}
+
+                            @Composable
+                            fun failed2(
+                                a: String, b: String,
+                                c: String,
+                            ) {}
+
+                            @Composable
+                            fun failed3(a: String, b: String, c: String,) {}
                     """.trimIndent()
                 )
             ),
@@ -77,6 +78,11 @@ class NewLineArgumentTest {
 
                             @Composable
                             fun success1() {
+                                val animationFlows: List<Flow<*>> = animationStates.map(State<*>::toFlow)
+                            }
+
+                            @Composable
+                            fun success2() {
                                 test(
                                     a = "example",
                                     b = 1000,
@@ -86,7 +92,7 @@ class NewLineArgumentTest {
                             }
 
                             @Composable
-                            fun success2() {
+                            fun success3() {
                                 test(
                                     a = "test",
                                     b = 1000,
@@ -94,7 +100,7 @@ class NewLineArgumentTest {
                             }
 
                             @Composable
-                            fun success3() {
+                            fun success4() {
                                 test(
                                     a = "test",
                                     b = 1000,
