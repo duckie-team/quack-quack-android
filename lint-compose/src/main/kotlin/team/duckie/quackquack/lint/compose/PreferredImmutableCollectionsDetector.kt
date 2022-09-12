@@ -22,6 +22,7 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import org.jetbrains.uast.UMethod
+import team.duckie.quackquack.common.fastAny
 import team.duckie.quackquack.common.lint.compose.isComposable
 import team.duckie.quackquack.common.lint.util.isReturnsUnit
 import team.duckie.quackquack.common.lint.util.typed
@@ -41,8 +42,6 @@ val PreferredImmutableCollectionsIssue = Issue.create(
         Scope.JAVA_FILE_SCOPE,
     ),
 )
-
-// TODO: [#73](https://github.com/sungbinland/duckie-quack-quack/pull/73)
 
 /**
  * MutableCollections 접미사
@@ -94,9 +93,12 @@ private val ImmutableNames = listOf(
  * ```
  *
  * 인자 타입의 패키지를 이용하여 검사하는 것으로 구현이 개선돼야 합니다.
+ * 또한 에외적으로 사용자 정의 타입을 허용할 수 있어야 합니다. [(#73)](https://github.com/sungbinland/duckie-quack-quack/pull/73)
  */
 class PreferredImmutableCollectionsDetector : Detector(), SourceCodeScanner {
-    override fun getApplicableUastTypes() = listOf(UMethod::class.java)
+    override fun getApplicableUastTypes() = listOf(
+        UMethod::class.java,
+    )
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
         override fun visitMethod(node: UMethod) {
@@ -105,10 +107,10 @@ class PreferredImmutableCollectionsDetector : Detector(), SourceCodeScanner {
             for (parameter in node.uastParameters) {
                 val (parameterTypeReference, parameterTypeName) = parameter.typed ?: continue
 
-                val isCollection = CollectionNames.any { collectionName ->
+                val isCollection = CollectionNames.fastAny { collectionName ->
                     parameterTypeName.contains(collectionName)
                 }
-                val isImmutable = ImmutableNames.any { immutableName ->
+                val isImmutable = ImmutableNames.fastAny { immutableName ->
                     parameterTypeName.contains(immutableName)
                 }
                 if (isCollection && !isImmutable) {

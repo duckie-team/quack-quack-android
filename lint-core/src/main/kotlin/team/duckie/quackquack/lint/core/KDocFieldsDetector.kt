@@ -33,6 +33,7 @@ import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.kotlin.psi.KtReferenceExpression
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.toUElement
+import team.duckie.quackquack.common.fastForEach
 import team.duckie.quackquack.common.lint.extension.content
 import team.duckie.quackquack.common.lint.util.isReturnsUnit
 
@@ -137,8 +138,10 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
             // 오로지 함수만 체크하도록 함 (함수 아닐 경우 그대로 리턴)
             val ktNamedFunction = (node.sourcePsi as? KtNamedFunction) ?: return
 
-            // 함수 영역에서 kDoc 데이터를 뽑아온다.
+            // ktNamedFunction.children 가 Array 여서 random access 가 안됨
+            // 그래서 fastFind 가 아닌 일반 find 사용
             val kDocArea = ktNamedFunction.children.find { element ->
+                // 함수 영역에서 kDoc 데이터를 뽑아온다.
                 element is KDoc
             }
 
@@ -188,7 +191,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
 
             if (!isNoParams) {
                 // 각 "param" KDocTag 내용에 대해 분석한다.
-                kDocTags["param"]?.forEach { kDocParameterTag ->
+                kDocTags["param"]?.fastForEach { kDocParameterTag ->
                     // 'variable name' 과 kDocParameterTag.getSubjectName() 이 같은지 체크한다.
                     val isDeleted = methodParameterNames.remove(kDocParameterTag.getSubjectName())
 
@@ -209,8 +212,10 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
             }
             kDocTags.remove("param")
 
-            // "throws" 명세가 필요한 지 체크
+            // bodyArea.children 가 Array 여서 random access 가 안됨
+            // 그래서 fastAny 가 아닌 일반 any 사용
             val isThrowable = bodyArea?.children?.any { bodyElement ->
+                // "throws" 명세가 필요한 지 체크
                 bodyElement.node.elementType == KtNodeTypes.THROW
             } ?: false
 
@@ -223,7 +228,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
                 )
             }
 
-            kDocTags["throws"]?.forEach { kDocThrowsTag ->
+            kDocTags["throws"]?.fastForEach { kDocThrowsTag ->
                 if (kDocThrowsTag.getSubjectName().isNullOrBlank()) {
                     return sendErrorReport(
                         context = context,
@@ -238,7 +243,7 @@ class KDocFieldsDetector : Detector(), SourceCodeScanner {
             if (!node.isReturnsUnit && kDocTags["return"].isNullOrEmpty()) {
                 return sendErrorReport(context, node, Return_명세_필요)
             }
-            kDocTags["return"]?.forEach { kDocReturnTag ->
+            kDocTags["return"]?.fastForEach { kDocReturnTag ->
                 if (kDocReturnTag.content.isBlank()) {
                     return sendErrorReport(context, node, KDocTag_에_대응하는_내용_없음)
                 }

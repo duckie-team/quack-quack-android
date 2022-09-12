@@ -78,7 +78,7 @@ class NewLineArgumentTest {
 
                             @Composable
                             fun success1() {
-                                val animationFlows: List<Flow<*>> = animationStates.map(State<*>::toFlow)
+                                (1..10).map(Int::toString)
                             }
 
                             @Composable

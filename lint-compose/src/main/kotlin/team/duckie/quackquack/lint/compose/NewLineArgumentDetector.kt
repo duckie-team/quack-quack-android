@@ -27,6 +27,8 @@ import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.kotlin.KotlinUFunctionCallExpression
 import org.jetbrains.uast.kotlin.KotlinULambdaExpression
+import team.duckie.quackquack.common.fastForEach
+import team.duckie.quackquack.common.fastForEachIndexed
 import team.duckie.quackquack.common.lint.compose.isComposable
 import team.duckie.quackquack.common.lint.compose.isInvokedWithinComposable
 
@@ -52,6 +54,8 @@ val NewLineArgumentIssue = Issue.create(
  * 다음과 같은 조건에서 린트를 검사합니다.
  *
  * 1. 컴포저블 함수여야 함
+ * 2. 컴포저블 안에서 invoke 돼야 함
+ * 3. 코틀린 함수여야 함
  *
  * 다음과 같은 조건에서 린트 에러가 발생합니다.
  *
@@ -63,15 +67,16 @@ val NewLineArgumentIssue = Issue.create(
  * 1. 마지막 argument 가 LAMBDA_EXPRESSION 인 경우
  * 2. 레퍼런스를 참조하는 경우 (REFERENCES_EXPRESSION)
  *
- * ```
+ * ```kotlin
  * @Composable
  * fun MyComposable() {
  *     // 레퍼런스를 참조하는 경우이므로 예외적으로 허용 됨
- *     val animationFlows: List<Flow<*>> = animationStates.map(State<*>::toFlow)
+ *     (1..10).map(Int::toString)
  *
  *     Button() {
  *         // 마지막 argument 의 LAMBDA_EXPRESSION 이므로 예외적으로 허용 됨
  *     }
+ * }
  * ```
  */
 class NewLineArgumentDetector : Detector(), SourceCodeScanner {
@@ -85,7 +90,7 @@ class NewLineArgumentDetector : Detector(), SourceCodeScanner {
         override fun visitMethod(node: UMethod) {
             if (!node.isComposable) return
 
-            node.uastParameters.forEach { uParameter ->
+            node.uastParameters.fastForEach { uParameter ->
                 val parameterSourcePsi = uParameter.sourcePsi ?: return
                 val parameterPrevSibling = (parameterSourcePsi.node as CompositeElement).treePrev
 
@@ -104,15 +109,16 @@ class NewLineArgumentDetector : Detector(), SourceCodeScanner {
         override fun visitExpression(node: UExpression) {
             if (!node.isInvokedWithinComposable() || node !is KotlinUFunctionCallExpression) return
 
-            node.valueArguments.forEach { argument ->
+            val lastArgumentIndex = node.valueArguments.lastIndex
+            node.valueArguments.fastForEachIndexed { index, argument ->
+                if (index == lastArgumentIndex && argument is KotlinULambdaExpression) return
+
                 val argumentSourcePsi = argument.sourcePsi ?: return
+                if (argumentSourcePsi is KtCallableReferenceExpression) return
 
                 val argumentParentPrevSibling =
                     (argumentSourcePsi.node as CompositeElement).treeParent.treePrev ?: return
                 val argumentPrevParentPrevSibling = argumentParentPrevSibling.treeParent.treePrev
-
-                if (argument == node.valueArguments.last() && argument is KotlinULambdaExpression) return
-                if (argumentSourcePsi is KtCallableReferenceExpression) return
 
                 if (!(argumentParentPrevSibling.text.isNewLine() || argumentPrevParentPrevSibling.text.isNewLine())) {
                     return context.report(

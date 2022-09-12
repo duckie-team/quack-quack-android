@@ -25,6 +25,7 @@ import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.psiUtil.isPublic
 import org.jetbrains.uast.UDeclaration
 import org.jetbrains.uast.kotlin.KotlinUField
+import team.duckie.quackquack.common.fastAny
 
 private const val BriefDescription = "MutableCollections public 노출 금지"
 private const val Explanation = "캡슐화를 위해 MutableCollections public 노출은 금지됩니다."
@@ -85,7 +86,7 @@ class MutableCollectionPublicDetector : Detector(), SourceCodeScanner {
             val property = node.sourcePsi as? KtProperty
             val propertyType = property?.typeReference ?: return
             val propertyTypeName = propertyType.text
-            val isMutable = MutableNames.any { immutableName ->
+            val isMutable = MutableNames.fastAny { immutableName ->
                 propertyTypeName.startsWith(immutableName)
             }
 

@@ -15,6 +15,7 @@ plugins {
 
 dependencies {
     bundleInsides(
+        projects.common,
         projects.commonLint,
         projects.commonLintCompose,
     )
