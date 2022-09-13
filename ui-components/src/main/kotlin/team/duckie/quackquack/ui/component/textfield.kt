@@ -218,7 +218,7 @@ private inline fun QuackTextFieldDecorationBox(
         //
         // Regardless of the shape, the height of the decoration item is always the same as
         // the height of the TextField, as for the width,
-        // it's size is equal to the total length content of the decorated item [wrapped]
+        // it's size is equal to the total length content of the decorated item [wrap_content]
         val decorationItemConstraints = Constraints.fixed(
             width = textFieldSize.height,
             height = textFieldSize.height,
