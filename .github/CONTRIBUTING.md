@@ -6,20 +6,20 @@ We'd love to accept your patches and contributions to this project. There are ju
 
 Ensure your change is properly formatted by running:
 
-```gradle
+```bash
 ./gradlew ktlintFormat
 ./gradlew detekt
 ```
 
 Also, it's need testing:
 
-```gradle
+```bash
 ./gradlew test
 ```
 
 Finally, you need to make sure the project builds successfully:
 
-```gradle
+```bash
 ./gradlew build
 ```
 
