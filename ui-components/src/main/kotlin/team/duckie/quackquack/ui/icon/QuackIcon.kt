@@ -188,5 +188,15 @@ value class QuackIcon private constructor(
         val Dm = QuackIcon(
             drawableId = R.drawable.ic_dm_24,
         )
+
+        @Stable
+        val Checked = QuackIcon(
+            drawableId = R.drawable.ic_checked_round_28
+        )
+
+        @Stable
+        val UnChecked = QuackIcon(
+            drawableId = R.drawable.ic_un_checked_round_28
+        )
     }
 }
