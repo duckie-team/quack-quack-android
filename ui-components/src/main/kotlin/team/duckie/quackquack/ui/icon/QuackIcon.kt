@@ -66,7 +66,7 @@ value class QuackIcon private constructor(
 
         @Stable
         val ArrowDown = QuackIcon(
-            drawableId = R.drawable.ic_arrow_down_24,
+            drawableId = R.drawable.ic_arrow_down_16,
         )
 
         @Stable
