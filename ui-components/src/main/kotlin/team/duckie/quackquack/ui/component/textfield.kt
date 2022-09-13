@@ -9,7 +9,7 @@
 
 package team.duckie.quackquack.ui.component
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
@@ -100,8 +100,9 @@ fun QuackBasicTextField(
                 width = width,
                 height = height,
             )
-            .background(
-                color = Color.Red,
+            .border(
+                color = Color.Gray,
+                width = 1.dp,
             )
             .onPlaced { layoutCoordinates ->
                 textFieldSize = layoutCoordinates.size
@@ -270,7 +271,7 @@ private inline fun QuackTextFieldDecorationBox(
                 minWidth = textFieldWidth,
                 maxWidth = textFieldWidth,
                 minHeight = 0,
-                maxHeight = textFieldSize.height,
+                maxHeight = Constraints.Infinity,
             ),
         ) ?: npe(
             lazyMessage = {

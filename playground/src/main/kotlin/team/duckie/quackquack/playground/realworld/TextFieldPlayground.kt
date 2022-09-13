@@ -111,6 +111,9 @@ fun QuackBasicTextFieldWithAllDecorationDemo() {
         onTextChanged = { newText ->
             fieldState = newText
         },
+        /*height = QuackHeight.Custom(
+            height = 50.dp,
+        ),*/
         leadingContent = {
             QuackImage(
                 icon = QuackIcon.ImageEditBg,
