@@ -271,7 +271,7 @@ private inline fun QuackTextFieldDecorationBox(
                 minWidth = textFieldWidth,
                 maxWidth = textFieldWidth,
                 minHeight = 0,
-                maxHeight = textFieldSize.height,
+                maxHeight = Constraints.Infinity,
             ),
         ) ?: npe(
             lazyMessage = {
