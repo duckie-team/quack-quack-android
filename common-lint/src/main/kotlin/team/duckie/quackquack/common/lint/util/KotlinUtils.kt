@@ -26,7 +26,7 @@ import org.jetbrains.uast.UParameter
 import org.jetbrains.uast.toUElement
 
 /**
- * 명시적 매개변수 `it` 을 나타냅니다.
+ * 암시적 매개변수 `it` 을 나타냅니다.
  */
 const val ItName = "it"
 
