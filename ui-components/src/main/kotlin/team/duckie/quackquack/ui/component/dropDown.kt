@@ -9,16 +9,17 @@
 
 package team.duckie.quackquack.ui.component
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
@@ -34,21 +35,24 @@ private val QuackDropDownPadding = PaddingValues(
 )
 private val QuackDropDownShape = RoundedCornerShape(8.dp)
 private val QuackDropDownSpace = 4.dp
-val Gray6 = Color(0xFFF8F8F8)
 
+/**
+ * QuackDropDown 을 구현합니다.
+ * @param title DropDown 의 타이틀
+ * @param onClick DropDown 클릭시 발생하는 이벤트
+ */
 @Composable
 fun QuackDropDown(
-    text: String,
+    title: String,
     onClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
             .clip(QuackDropDownShape)
             .border(
-                border = BorderStroke(
-                    width = 1.dp,
-                    color = Gray3.value,
-                ),
+                border = QuackBorder(
+                    color = Gray3,
+                ).asComposeBorder(),
                 shape = QuackDropDownShape
             )
             .quackClickable {
@@ -56,21 +60,10 @@ fun QuackDropDown(
             }
             .background(QuackColor.White.value)
             .padding(QuackDropDownPadding),
-        horizontalArrangement = Arrangement.spacedBy(QuackDropDownSpace)
-
+        horizontalArrangement = Arrangement.spacedBy(QuackDropDownSpace),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        QuackBody1(text = text)
+        QuackBody1(text = title)
         QuackImage(icon = QuackIcon.ArrowDown)
-    }
-}
-
-@Preview
-@Composable
-fun QuackDropDownPreview(){
-    Row(
-        modifier = Modifier.background(Gray6).fillMaxSize(),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ){
-        QuackDropDown(text = "판매중", onClick = {})
     }
 }

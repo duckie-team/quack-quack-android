@@ -10,33 +10,31 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.color.QuackColor.Companion.SkyBlueColor
 
 private val QuackLabelShape = RoundedCornerShape(11.dp)
-private val SkyBlueColor = Color(0xFF6DBBFF)
 private val QuackLabelPadding = PaddingValues(
     horizontal = 6.dp,
     vertical = 4.dp,
 )
 
-
 /**
- * 덕키의 QuackSimpleLabel 을 구현합니다.
- * QuackLabelStatus 의 값에 따라서 값이 달리집니다.
+ * QuackSimpleLabel 을 구현합니다.
+ * active 의 값에 따라서 색깔이 달리집니다.
  *
  * @param text 라벨에 표시될 텍스트
  * @param active 버튼 활성화 여부. 배경 색상에 영향을 미칩니다.
  *
  */
-
 
 @Composable
 fun QuackSimpleLabel(
@@ -45,7 +43,7 @@ fun QuackSimpleLabel(
 ) {
     val backgroundColor = when (active) {
         true -> SkyBlueColor
-        else -> QuackColor.Gray3.value
+        else -> QuackColor.Gray3
     }
     val textColor = when (active) {
         true -> QuackColor.White
@@ -55,21 +53,9 @@ fun QuackSimpleLabel(
     Box(
         modifier = Modifier
             .clip(QuackLabelShape)
-            .background(backgroundColor)
+            .background(backgroundColor.value)
             .padding(QuackLabelPadding)
     ) {
         QuackBody3(text = text, color = textColor)
-    }
-}
-
-@Preview
-@Composable
-private fun QuackSimpleLabelPreview() {
-
-    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-
-        QuackSimpleLabel(text = "거래완료", active = false)
-        QuackSimpleLabel(text = "예약중", active = true)
-
     }
 }

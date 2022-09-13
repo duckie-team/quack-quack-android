@@ -52,6 +52,6 @@ fun QuackSimpleLabelDemo() {
 @Preview
 @Composable
 fun QuackDropDownDemo() {
-    QuackDropDown(text = "판매중", onClick = {})
+    QuackDropDown(title = "판매중", onClick = {})
 }
 
