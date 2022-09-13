@@ -55,6 +55,10 @@ QuackQuack is developed using the latest version of Android Studio Canary. And a
 tar xvf quackuser-secrets.tar
 ```
 
+### Contribute
+
+We love your contribution! The easiest contribution you can make is to check the [Issue](https://github.com/sungbinland/duckie-quack-quack/issues). Even if it is not in the issue, any contribution is welcome!
+
 ### Pronounce (for Korean)
 
 `꿱꿱` 이 아닌, `꽥꽥` 이라고 발음합니다.
