@@ -33,8 +33,8 @@
         <activity android:name=".realworld.TextFieldPlayground" />
         <activity android:name=".realworld.FabPlayground" />
         <activity android:name=".realworld.SelectableImagePlayground" />
-        <activity android:name=".realworld.EtcPlayground"/>
-
+        <activity android:name=".realworld.EtcPlayground" />
+        <activity android:name=".realworld.NavigationPlayground" />
     </application>
 
 </manifest>

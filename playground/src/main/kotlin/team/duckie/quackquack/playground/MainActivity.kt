@@ -35,6 +35,7 @@ private val PlaygroundActivities = persistentListOf(
     FabPlayground::class,
     SelectableImagePlayground::class,
     EtcPlayground::class,
+    NavigationPlayground::class,
 )
 
 class MainActivity : BaseActivity() {
