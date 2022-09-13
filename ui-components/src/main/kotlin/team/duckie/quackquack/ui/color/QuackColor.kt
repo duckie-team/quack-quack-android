@@ -10,27 +10,17 @@
 package team.duckie.quackquack.ui.color
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.AnimationVector4D
-import androidx.compose.animation.core.SnapSpec
-import androidx.compose.animation.core.TweenSpec
-import androidx.compose.animation.core.TwoWayConverter
-import androidx.compose.animation.core.animateValueAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.remember
+import androidx.compose.animation.core.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.colorspace.ColorSpace
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
-import kotlin.math.pow
-import kotlin.reflect.KProperty
 import team.duckie.quackquack.common.AllowMagicNumber
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import kotlin.math.pow
+import kotlin.reflect.KProperty
 
 /**
  * 덕키에서 사용할 색상을 정의합니다. 추상화를 위해 컴포즈의 [Color] 를 그대로 사용하는게 아닌
@@ -108,6 +98,13 @@ value class QuackColor internal constructor(
         )
 
         @Stable
+        val Gray5 = QuackColor(
+            value = Color(
+                color = 0xFFD1D1D1,
+            ),
+        )
+
+        @Stable
         val White = QuackColor(
             value = Color(
                 color = 0xFFFFFFFF,
@@ -118,6 +115,13 @@ value class QuackColor internal constructor(
         val OrangeRed = QuackColor(
             value = Color(
                 color = 0xFFFF2929,
+            ),
+        )
+
+        @Stable
+        val Black80 = QuackColor(
+            value = Color(
+                color = 0x80222222,
             ),
         )
 
