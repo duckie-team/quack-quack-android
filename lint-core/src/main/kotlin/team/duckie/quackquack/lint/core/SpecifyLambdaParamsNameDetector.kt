@@ -62,7 +62,7 @@ val SpecifyLambdaParamsNameIssue = Issue.create(
  * 1. 람다 내에 암시적 `it` 매개변수가 사용됐을 경우
  *
  * ```kotlin
- * listOf<Int>(1, 2, 3).forEach { // <- 별도로 파라미터 명세를 하지 않음
+ * listOf(1, 2, 3).forEach { // <- 별도로 파라미터 명세를 하지 않음
  *     it.toDouble()
  * //  ~~ <- 파라미터 명세가 없으므로 it 를 사용하게 됨 (린트에서 허용하지 않음)
  * }
