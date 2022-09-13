@@ -13,9 +13,9 @@
 
 ### Introduce
 
-QuackQuack is a design system to be used in [Duckie](https://github.com/sungbinland/duckie), and consists of a total of 5 modules.
+QuackQuack is a design system to be used in [Duckie](https://github.com/sungbinland/duckie-android), and consists of a total of 5 modules.
 
-- `ui-components`: QuackQuack Designed composable collection
+- `ui-components`: QuackQuack designed composable collection
 - `lint-core`: Lint for all codebases
 - `lint-quack`: Lint that recommends using QuackQuack UI components
 - `lint-compose`: Lint for Jetpack Compose codebase
