@@ -23,6 +23,38 @@ QuackQuack is a design system to be used in [Duckie](https://github.com/sungbinl
 
 Each lint rule will be noted soon (WIP). You can check why QuackQuack was born on the [Duckie Tech Blog](https://medium.com/duckie-stories/%EB%8D%95%ED%82%A4%EC%9D%98-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%BD%A5%EA%BD%A5-%EC%9D%84-%EC%86%8C%EA%B0%9C%ED%95%A9%EB%8B%88%EB%8B%A4-59d962c4bf7) (ko).
 
+### Preview
+
+QuackQuack's design components can be previewed by building the Playground module(or [quack-ui.duckie.team](https://quack-ui.duckie.team/)). It will be released on the Google PlayStore soon.
+
+### Usage
+
+WIP
+
+### Download
+
+**Currently, QuackQuack is still in development and has not been released.** If released later, you can download it as follows.
+
+```kotlin
+dependencies {
+    implementation(platform("team.duckie.quack:quack-bom:${version}"))
+
+    implementation("team.duckie.quack:quack-ui-components")
+    implementation("team.duckie.quack:quack-lint-core")
+    implementation("team.duckie.quack:quack-lint-quack")
+    implementation("team.duckie.quack:quack-lint-compose")
+    implementation("team.duckie.quack:quack-lint-writing")
+}
+```
+
+### Build
+
+QuackQuack is developed using the latest version of Android Studio Canary. And also requires a build configuration file. Therefore, to build, you need to unzip the `quackuser-secrets.tar` file. You can do it easily with the following command:
+
+```bash
+tar xvf quackuser-secrets.tar
+```
+
 ### Pronounce (for Korean)
 
 `꿱꿱` 이 아닌, `꽥꽥` 이라고 발음합니다.
