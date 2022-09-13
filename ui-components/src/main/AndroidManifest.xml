@@ -5,4 +5,8 @@
   ~ Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
   -->
 
-<manifest />
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>
