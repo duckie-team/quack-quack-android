@@ -286,7 +286,7 @@ private inline fun QuackTextFieldDecorationBox(
                 other = decorationItemGap,
             ) ?: 0
 
-            // Center the TextField in the TextField 's layout.
+            // Center the TextField in the TextField's layout.
             val textFieldYOffset = textFieldSize.height / 2 - textFieldPlaceable.height / 2
 
             leadingContentPlaceable?.place(
