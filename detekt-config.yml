@@ -28,11 +28,13 @@ style:
     active: false
   DestructuringDeclarationWithTooManyEntries:
     active: false
+  MaxLineLength:
+    excludeCommentStatements: true
 
 naming:
   TopLevelPropertyNaming:
     # 한글변수도 가능하도록 함
-    # See : https://github.com/sungbinland/duckie-quack-quack/pull/82#discussion_r962213545
+    # See: https://github.com/sungbinland/duckie-quack-quack/pull/82#discussion_r962213545
     constantPattern: '[A-Z가-힣][A-Za-z0-9가-힣_]*'
   FunctionNaming:
     ignoreAnnotated: [ 'Composable' ]
