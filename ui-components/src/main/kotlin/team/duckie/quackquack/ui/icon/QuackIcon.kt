@@ -146,7 +146,7 @@ value class QuackIcon private constructor(
 
         @Stable
         val DeleteBg = QuackIcon(
-            drawableId = R.drawable.ic_delete_bg_24,
+            drawableId = R.drawable.ic_delete_bg_16,
         )
 
         @Stable
