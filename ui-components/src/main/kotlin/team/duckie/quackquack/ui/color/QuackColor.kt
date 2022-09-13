@@ -125,6 +125,13 @@ value class QuackColor internal constructor(
             ),
         )
 
+        @Stable
+        val SkyBlueColor = QuackColor(
+            value = Color(
+                color = 0xFF6DBBFF,
+            ),
+        )
+
         private val M1 = floatArrayOf(
             0.80405736f,
             0.026893456f,
