@@ -26,6 +26,11 @@ import org.jetbrains.uast.UParameter
 import org.jetbrains.uast.toUElement
 
 /**
+ * 명시적 매개변수 `it` 을 나타냅니다.
+ */
+const val ItName = "it"
+
+/**
  * [UParameter] 의 타입 레퍼런스와 타입명을 제공하는 레퍼 클래스 입니다.
  * [UParameter.typed] 의 반환 타입으로만 사용됩니다. 따라서 internal 생성자를 갖습니다.
  */
@@ -68,8 +73,6 @@ fun ULambdaExpression.findUnreferencedParameters(): List<UnreferencedParameter> 
  * [lambda] are unreferenced inside the expression.
  */
 private class LambdaParameterVisitor(private val lambda: KtLambdaExpression) {
-    private val ItName = "it"
-
     /**
      * Returns a list of [UnreferencedParameter]s inside [lambda]. Inner lambdas are checked to
      * ensure that they are not shadowing a parameter name, as a reference inside a shadowed lambda
@@ -152,7 +155,7 @@ class UnreferencedParameter(
  * Returns whether this lambda expression has an implicit `it` parameter - meaning it has
  * one parameter, and the parameter is not named explicitly.
  */
-private val KtLambdaExpression.hasImplicitItParameter: Boolean // 타입 명시 필수
+val KtLambdaExpression.hasImplicitItParameter: Boolean // 타입 명시 필수
     get() {
         return when {
             functionLiteral.hasParameterSpecification() -> false
