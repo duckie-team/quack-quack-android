@@ -43,19 +43,19 @@ import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 // https://github.com/sungbinland/duckie-quack-quack/blob/6e0701a29711f2850d9b0449a286e8c282672982/ui-components/src/main/kotlin/team/duckie/quackquack/ui/component/textfield.kt
 
 /**
- * Space between Decorations added on both sides of TextField
- *
+ * This padding adds spaces in between the text-field and decoration content i.e leading and trailing content
  * ```
  * Decoration - TextField - Decoration
  * ```
  *
- * In the [this](https://user-images.githubusercontent.com/40740128/189829870-cba93fd6-d5f4-4016-b826-c6093cfbb386.png) image, the decoration item is the part inside the orange rectangle,
+ * As an example, see [this](https://user-images.githubusercontent.com/40740128/189829870-cba93fd6-d5f4-4016-b826-c6093cfbb386.png) image,
+ * the decoration item is the part inside the orange rectangle,
  * and the TextField is the "placeholder" part.
  */
 private val QuackTextFieldDecorationContentHorizontalPadding = 8.dp
 
 /**
- * Draw the most basic QuackTextField.
+ * Draws the most basic QuackTextField.
  * Add only decoration items that fit QuackTextField to BasicTextField.
  *
  * The current implementation only works if the height is statically fixed.
@@ -131,7 +131,7 @@ private const val QuackTextFieldLeadingContentLayoutId = "QuackTextFieldLeadingC
 private const val QuackTextFieldTrailingContentLayoutId = "QuackTextFieldTrailingContent"
 
 /**
- * A decoration box for drawing BasicTextField as QuackTextField.
+ * A decoration box used to draw decoration items for QuackTextField.
  *
  * @param textFieldSize The size of QuackTextField layout
  * @param textField BasicTextField to be treated as QuackTextField
@@ -149,7 +149,7 @@ private inline fun QuackTextFieldDecorationBox(
 ) {
     val density = LocalDensity.current
     // `QuackTextFieldDecorationContentHorizontalPadding` is a constant value,
-    // so no need to remembered key
+    // so there is no need to remember the key
     val decorationItemGap = remember {
         with(
             receiver = density,
@@ -206,9 +206,9 @@ private inline fun QuackTextFieldDecorationBox(
             }
         },
     ) { measurables, _ ->
-        // The current implementation assumes that the size of the
-        // decoration item is always square. However, the actual size of
-        // the decoration item may not be square. See images below.
+        // The current implementation assumes that the shape of the
+        // decoration item is always square. However, the actual shape of
+        // the decoration item may not be square. For instance, see the images below.
         //
         // [TextField decoration items - square version]
         // https://user-images.githubusercontent.com/40740128/189829870-cba93fd6-d5f4-4016-b826-c6093cfbb386.png
@@ -216,9 +216,9 @@ private inline fun QuackTextFieldDecorationBox(
         // [TextField decoration items - rectangular version]
         // https://user-images.githubusercontent.com/40740128/189829922-667b1297-86fa-4e86-9db0-56de1d3ac778.png
         //
-        // However, the height of the decoration item is always the same as
-        // the height of the TextField. Therefore, it is necessary to make
-        // the width of the decoration item to wrap_content.
+        // Regardless of the shape, the height of the decoration item is always the same as
+        // the height of the TextField, as for the width,
+        // it's size is equal to the total length content of the decorated item [wrapped]
         val decorationItemConstraints = Constraints.fixed(
             width = textFieldSize.height,
             height = textFieldSize.height,
