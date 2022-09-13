@@ -505,15 +505,15 @@ private fun PreviewAlert(
                         .size(
                             size = 48.dp,
                         )
-                        .clickable(
-                            onClick = onBackPressed,
-                        )
                         .align(
                             alignment = Alignment.TopStart,
                         )
                         .padding(
                             start = 16.dp,
                             top = 16.dp,
+                        )
+                        .clickable(
+                            onClick = onBackPressed,
                         ),
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "back"
