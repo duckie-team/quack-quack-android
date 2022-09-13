@@ -48,13 +48,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Decrypt secrets.tar.gpg
-        run: gpg --quiet --batch --yes --always-trust --decrypt --passphrase="$SECRET_GPG_PASSWORD" --output secrets.tar secrets.tar.gpg
-        env:
-          SECRET_GPG_PASSWORD: ${{ secrets.SECRET_GPG_PASSWORD }}
-
-      - name: Unzip secrets.tar
-        run: tar xvf secrets.tar
+      # A "fake" build configuration file can be used for dokka deploy works.
+      # See: https://github.com/sungbinland/duckie-quack-quack/pull/102#issuecomment-1244937186
+      - name: Unzip quackuser-secrets.tar
+        run: tar xvf quackuser-secrets.tar
 
       - name: Generate dokka content
         run: ./gradlew dokkaHtmlMultiModule --stacktrace

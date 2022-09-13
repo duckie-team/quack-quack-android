@@ -35,6 +35,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # We should use the "real" build configuration file for app deployments.
       - name: Decrypt secrets.tar.gpg
         run: gpg --quiet --batch --yes --always-trust --decrypt --passphrase="$SECRET_GPG_PASSWORD" --output secrets.tar secrets.tar.gpg
         env:
