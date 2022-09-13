@@ -14,14 +14,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.ui.component.QuackBasicTextField
 import team.duckie.quackquack.ui.component.QuackImage
-import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.icon.QuackIcon
 
 class TextFieldPlayground : BaseActivity() {
@@ -113,9 +111,9 @@ fun QuackBasicTextFieldWithAllDecorationDemo() {
         onTextChanged = { newText ->
             fieldState = newText
         },
-        height = QuackHeight.Custom(
+        /*height = QuackHeight.Custom(
             height = 50.dp,
-        ),
+        ),*/
         leadingContent = {
             QuackImage(
                 icon = QuackIcon.ImageEditBg,
