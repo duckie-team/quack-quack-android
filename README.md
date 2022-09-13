@@ -57,7 +57,7 @@ tar xvf quackuser-secrets.tar
 
 ### Contribute
 
-We love your contribution! The easiest contribution you can make is to check the [Issue](https://github.com/sungbinland/duckie-quack-quack/issues). Even if it is not in the issue, any contribution is welcome!
+We love your contribution! The easiest contribution you can make is to check the [Issue](https://github.com/sungbinland/duckie-quack-quack/issues). Even if it is not in the issue, any contribution is welcome! But, you have some tasks to do before you contribute. Please check out the [CONTRIBUTING.md](.github/CONTRIBUTING.md) documentation.
 
 ### Pronounce (for Korean)
 
