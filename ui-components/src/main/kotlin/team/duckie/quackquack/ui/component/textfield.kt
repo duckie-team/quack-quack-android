@@ -108,12 +108,14 @@ fun QuackBasicTextField(
             },
         value = text,
         onValueChange = onTextChanged,
-        // TextField 's TextStyle should not be animated
+        // TextField's TextStyle should not be animated
         textStyle = textStyle.change(
             textAlign = TextAlign.Start,
         ).asComposeStyle(),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
+        // TextField is always single line
+        // TextArea is always multi line
         singleLine = true,
         decorationBox = { textField ->
             QuackTextFieldDecorationBox(
@@ -269,7 +271,7 @@ private inline fun QuackTextFieldDecorationBox(
                 maxWidth = textFieldWidth,
                 minHeight = 0,
                 maxHeight = textFieldSize.height,
-            )
+            ),
         ) ?: npe(
             lazyMessage = {
                 notFoundRequiredLayoutIdForQuackTextFieldMessage(
@@ -286,7 +288,7 @@ private inline fun QuackTextFieldDecorationBox(
                 other = decorationItemGap,
             ) ?: 0
 
-            // Center the TextField in the TextField's layout.
+            // Center the TextField in the TextField's layout
             val textFieldYOffset = textFieldSize.height / 2 - textFieldPlaceable.height / 2
 
             leadingContentPlaceable?.place(
