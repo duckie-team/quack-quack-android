@@ -13,7 +13,7 @@
 
 ### Introduce
 
-QuackQuack is a design system to be used in [Duckie](https://github.com/sungbinland/duckie-android), and consists of a total of 5 modules.
+QuackQuack is a design system to be used in [Duckie](https://github.com/sungbinland/duckie-android), and it consists of a total of 5 modules.
 
 - `ui-components`: QuackQuack designed composable collection
 - `lint-core`: Lint for all codebases
@@ -21,7 +21,8 @@ QuackQuack is a design system to be used in [Duckie](https://github.com/sungbinl
 - `lint-compose`: Lint for Jetpack Compose codebase
 - `lint-writing`:  Lint for UX Writing (WIP)
 
-Each lint rule will be noted soon (WIP). You can check why QuackQuack was born on the [Duckie Tech Blog](https://medium.com/duckie-stories/%EB%8D%95%ED%82%A4%EC%9D%98-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%BD%A5%EA%BD%A5-%EC%9D%84-%EC%86%8C%EA%B0%9C%ED%95%A9%EB%8B%88%EB%8B%A4-59d962c4bf7) (ko).
+QuackQuack is a work in progress, and each lint rule used in the project will be documented soon.
+You can check why QuackQuack was born on the [Duckie Tech Blog](https://medium.com/duckie-stories/%EB%8D%95%ED%82%A4%EC%9D%98-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%BD%A5%EA%BD%A5-%EC%9D%84-%EC%86%8C%EA%B0%9C%ED%95%A9%EB%8B%88%EB%8B%A4-59d962c4bf7) (ko).
 
 ### Preview
 
@@ -33,7 +34,7 @@ WIP
 
 ### Download
 
-**Currently, QuackQuack is still in development and has not been released.** If released later, you can download it as follows.
+**Currently, QuackQuack is still in development and has not been released.** When it will be released later, you can download it as follows.
 
 ```kotlin
 dependencies {
@@ -57,7 +58,7 @@ tar xvf quackuser-secrets.tar
 
 ### Contribute
 
-We love your contribution! The easiest contribution you can make is to check the [Issue](https://github.com/sungbinland/duckie-quack-quack/issues). Even if it is not in the issue, any contribution is welcome! But, you have some tasks to do before you contribute. Please check out the [CONTRIBUTING.md](.github/CONTRIBUTING.md) documentation.
+We love your contribution! The easiest way for you to start contributing is to to check the [Issue](https://github.com/sungbinland/duckie-quack-quack/issues). Regardless, any contribution is welcome, just make sure you follow the contribution guide. Please check out the [CONTRIBUTING.md](.github/CONTRIBUTING.md) documentation.
 
 ### Pronounce (for Korean)
 
