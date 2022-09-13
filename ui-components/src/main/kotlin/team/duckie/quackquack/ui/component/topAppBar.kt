@@ -131,6 +131,13 @@ fun QuackTopAppBar(
     }
 }
 
+/**
+ * QuackTopAppBar 의 데이터 validation assert 함수입니다.
+ *
+ * 1. trailingText 와 trailingIcon 은 동시에 존재할 수 없습니다.
+ * 2. secondTrailingIcon 이 존재한다면, trailingIcon 은 필수적으로 존재해야합니다.
+ * 3. secondTrailingIcon, trailingIcon, trailingText 는 존재한다면 onClick 이벤트도 꼭 같이 존재해야 합니다.
+ */
 private fun checkTopAppBarValidation(
     trailingIcon: QuackIcon? = null,
     secondTrailingIcon: QuackIcon? = null,
