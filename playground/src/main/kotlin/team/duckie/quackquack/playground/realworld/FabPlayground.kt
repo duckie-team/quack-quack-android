@@ -51,6 +51,7 @@ fun QuackFloatingActionButtonDemo() {
     )
 }
 
+@Suppress("RedundantLambdaArrow")
 @Composable
 fun QuackMenuFloatingActionButtonDemo() {
     var expanded by remember {
@@ -77,6 +78,6 @@ fun QuackMenuFloatingActionButtonDemo() {
                 text = "덕딜",
             ),
         ),
-        onClickMenuItem = {},
+        onClickMenuItem = { _ -> },
     )
 }

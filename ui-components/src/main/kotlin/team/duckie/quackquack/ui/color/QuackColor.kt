@@ -217,14 +217,14 @@ value class QuackColor internal constructor(
                             v4 = b,
                         )
                     },
-                    convertFromVector = {
-                        val l = it.v2.pow(
+                    convertFromVector = { vector ->
+                        val l = vector.v2.pow(
                             x = 3f,
                         )
-                        val a = it.v3.pow(
+                        val a = vector.v3.pow(
                             x = 3f,
                         )
-                        val b = it.v4.pow(
+                        val b = vector.v4.pow(
                             x = 3f,
                         )
 
@@ -251,7 +251,7 @@ value class QuackColor internal constructor(
                         )
 
                         val colorXyz = Color(
-                            alpha = it.v1.coerceIn(
+                            alpha = vector.v1.coerceIn(
                                 minimumValue = 0f,
                                 maximumValue = 1f,
                             ),
