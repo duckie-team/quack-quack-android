@@ -61,7 +61,7 @@ private val QuackRoundCheckShape = CircleShape
 
 @Stable
 private val QuackRectangleCheckShape = RoundedCornerShape(
-    size = 4.dp
+    size = 4.dp,
 )
 
 /**
@@ -246,7 +246,28 @@ private class CheckDrawingCache(
     val checkPath: Path = Path(),
     val pathMeasure: PathMeasure = PathMeasure(),
     val pathToDraw: Path = Path(),
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+
+        if (javaClass != other?.javaClass) return false
+
+        other as CheckDrawingCache
+
+        if (checkPath != other.checkPath) return false
+        if (pathMeasure != other.pathMeasure) return false
+        if (pathToDraw != other.pathToDraw) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = checkPath.hashCode()
+        result = 31 * result + pathMeasure.hashCode()
+        result = 31 * result + pathToDraw.hashCode()
+        return result
+    }
+}
 
 /**
  * [start], [stop] 사이의 임의의 지점 f(p) 를 반환하는 함수이다.
