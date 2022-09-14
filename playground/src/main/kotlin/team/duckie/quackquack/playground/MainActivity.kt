@@ -26,6 +26,7 @@ import team.duckie.quackquack.playground.realworld.FabPlayground
 import team.duckie.quackquack.playground.realworld.QuackBasicTextFieldWithAllDecorationDemo
 import team.duckie.quackquack.playground.realworld.TabPlayground
 import team.duckie.quackquack.playground.realworld.TextFieldPlayground
+import team.duckie.quackquack.playground.realworld.TogglePlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
@@ -37,6 +38,7 @@ private val PlaygroundActivities = persistentListOf(
     ButtonPlayground::class,
     TextFieldPlayground::class,
     FabPlayground::class,
+    TogglePlayground::class,
 )
 
 class MainActivity : BaseActivity() {
