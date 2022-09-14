@@ -9,7 +9,6 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.snap
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.requiredSize
@@ -33,6 +32,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
+import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import kotlin.math.floor
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.icon.QuackIcon
@@ -40,7 +40,6 @@ import team.duckie.quackquack.ui.icon.QuackIcon
 private const val TransitionLabel = "CheckTransition"
 
 private const val BoxOutDuration = 100
-private const val CheckAnimationDuration = 100
 
 private val RoundCheckboxSize = 28.dp
 private val SquareCheckboxSize = 24.dp
@@ -187,9 +186,7 @@ private fun Check(
     )
     val checkDrawFraction by transition.animateFloat(
         transitionSpec = {
-            tween(
-                durationMillis = CheckAnimationDuration,
-            )
+            quackAnimationSpec()
         },
         label = TransitionLabel,
     ) { toggleableState ->
@@ -206,9 +203,7 @@ private fun Check(
                 targetState == ToggleableState.Off -> snap(
                     delayMillis = BoxOutDuration,
                 )
-                else -> tween(
-                    durationMillis = CheckAnimationDuration,
-                )
+                else -> quackAnimationSpec()
             }
         },
         label = TransitionLabel,
