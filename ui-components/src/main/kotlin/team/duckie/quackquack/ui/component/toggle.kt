@@ -32,8 +32,8 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import kotlin.math.floor
+import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.icon.QuackIcon
 
