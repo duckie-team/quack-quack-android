@@ -19,14 +19,16 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.rule.AnimationTestRule
-import team.duckie.quackquack.ui.textstyle.QuackFontScale
 import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
 
 @RunWith(TestParameterInjector::class)
 class QuackToggle {
     @get:Rule
-    val paparazzi = buildPaparazzi()
+    val paparazzi = buildPaparazzi {
+        // QuackToggle 은 정사각형으로 테스트해도 무방함
+        screenWidth = screenHeight
+    }
 
     @get:Rule
     val animationTest = AnimationTestRule()
@@ -34,15 +36,13 @@ class QuackToggle {
     @Test
     fun QuackRoundCheckBox(
         @TestParameter checked: Boolean,
-        @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
     ) {
         paparazzi.boxSnapshot(
-            name = "[checked:$checked]-[fontScale:$fontScale]",
+            name = "[checked:$checked]",
         ) {
-            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackRoundCheckBox(
                 checked = checked,
-                onToggle = {}
+                onToggle = {},
             )
         }
     }
@@ -50,15 +50,13 @@ class QuackToggle {
     @Test
     fun QuackSquareCheckBox(
         @TestParameter checked: Boolean,
-        @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
     ) {
         paparazzi.boxSnapshot(
-            name = "[checked:$checked]-[fontScale:$fontScale]",
+            name = "[checked:$checked]",
         ) {
-            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackSquareCheckBox(
                 checked = checked,
-                onToggle = {}
+                onToggle = {},
             )
         }
     }
@@ -66,17 +64,15 @@ class QuackToggle {
     @Test
     fun QuackIconToggle(
         @TestParameter checked: Boolean,
-        @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
     ) {
         paparazzi.boxSnapshot(
-            name = "[checked:$checked]-[fontScale:$fontScale]",
+            name = "[checked:$checked]",
         ) {
-            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackIconToggle(
                 checkedIcon = QuackIcon.FilledHeart,
                 unCheckedIcon = QuackIcon.Heart,
                 checked = checked,
-                onToggle = {}
+                onToggle = {},
             )
         }
     }
