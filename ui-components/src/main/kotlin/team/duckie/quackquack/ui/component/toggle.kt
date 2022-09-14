@@ -13,9 +13,13 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -52,6 +56,78 @@ const val StopLocation = 0.5f
 
 private val CheckColor = QuackColor.White
 
+@Stable
+private val QuackRoundCheckShape = CircleShape
+
+@Stable
+private val QuackRectangleCheckShape = RoundedCornerShape(
+    size = 4.dp
+)
+
+/**
+ * 덕키의 원형 CheckBox 입니다.
+ *
+ * @param checked 체크되었는지 여부
+ * @param onToggle 체크시 호출되는 콜백
+ */
+@NonRestartableComposable
+@Composable
+fun QuackRoundCheckBox(
+    checked: Boolean,
+    onToggle: () -> Unit,
+) {
+    QuackSurface(
+        modifier = Modifier.size(
+            size = RoundCheckboxSize,
+        ),
+        shape = QuackRoundCheckShape,
+        backgroundColor = getCheckBoxBackgroundColor(
+            isChecked = checked,
+            unCheckedColor = QuackColor.Gray2,
+        ),
+        onClick = onToggle,
+        rippleEnabled = false,
+    ) {
+        Check(
+            value = ToggleableState(
+                value = checked,
+            ),
+        )
+    }
+}
+
+/**
+ * 덕키의 모서리가 둥근 사각형 CheckBox 입니다.
+ *
+ * @param checked 체크되었는지 여부
+ * @param onToggle 체크시 호출되는 콜백
+ */
+@Composable
+@NonRestartableComposable
+fun QuackSquareCheckBox(
+    checked: Boolean,
+    onToggle: () -> Unit,
+) {
+    QuackSurface(
+        modifier = Modifier.size(
+            size = SquareCheckboxSize,
+        ),
+        shape = QuackRectangleCheckShape,
+        backgroundColor = getCheckBoxBackgroundColor(
+            isChecked = checked,
+            unCheckedColor = QuackColor.Gray3,
+        ),
+        onClick = onToggle,
+        rippleEnabled = false,
+    ) {
+        Check(
+            value = ToggleableState(
+                value = checked,
+            ),
+        )
+    }
+}
+
 /**
  * 덕키의 Toggle Button 입니다.
  *
@@ -77,6 +153,23 @@ fun QuackIconToggle(
         rippleEnabled = false,
         onClick = onToggle,
     )
+}
+
+/**
+ * 체크 여부에 따라 CheckBox 의 배경색을 지정합니다.
+ *
+ * @param isChecked 체크 여부
+ * @param unCheckedColor 체크되지 않았을 경우 배경색
+ *
+ * @return [QuackColor]
+ */
+@Stable
+private fun getCheckBoxBackgroundColor(
+    isChecked: Boolean,
+    unCheckedColor: QuackColor,
+) = when (isChecked) {
+    true -> QuackColor.DuckieOrange
+    else -> unCheckedColor
 }
 
 /**
