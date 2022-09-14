@@ -84,4 +84,8 @@ fun QuackImage(
  * @receiver 변환할 [QuackColor]
  * @return 변환된 [ColorFilter], 만약 receiver 로 null 이 들어왔다면 null 을 그대로 반환합니다.
  */
-private fun QuackColor?.toColorFilter() = this?.run { ColorFilter.tint(value) }
+private fun QuackColor?.toColorFilter() = this?.run {
+    ColorFilter.tint(
+        color = value,
+    )
+}
