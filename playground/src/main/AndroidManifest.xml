@@ -32,6 +32,7 @@
         <activity android:name=".realworld.ButtonPlayground" />
         <activity android:name=".realworld.TextFieldPlayground" />
         <activity android:name=".realworld.FabPlayground" />
+        <activity android:name=".realworld.TogglePlayground" />
 
     </application>
 

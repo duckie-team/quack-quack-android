@@ -23,6 +23,7 @@ import team.duckie.quackquack.ui.modifier.quackClickable
  *
  * @param icon 표시할 아이콘의 drawable 아이디.
  * 만약 null 이 들어온다면 아이콘을 그리지 않습니다.
+ * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
  * @param tint 아이콘에 적용할 틴트 값
  * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
  */
@@ -30,21 +31,21 @@ import team.duckie.quackquack.ui.modifier.quackClickable
 @NonRestartableComposable
 fun QuackImage(
     icon: QuackIcon?,
-    tint: QuackColor = QuackColor.Black,
+    tint: QuackColor? = null,
+    rippleEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
 ) {
     if (icon == null) return
     Image(
         modifier = Modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),
         painter = painterResource(
             id = icon.drawableId,
         ),
         contentDescription = null,
-        colorFilter = ColorFilter.tint(
-            color = tint.value,
-        ),
+        colorFilter = tint.toColorFilter(),
     )
 }
 
@@ -53,6 +54,7 @@ fun QuackImage(
  *
  * @param image 표시할 이미지의 값.
  * 만약 null 이 들어온다면 이미지를 그리지 않습니다.
+ * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
  * @param tint 아이콘에 적용할 틴트 값
  * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
  */
@@ -61,17 +63,29 @@ fun QuackImage(
 @NonRestartableComposable
 fun QuackImage(
     image: Any?,
-    tint: QuackColor = QuackColor.Black,
+    rippleEnabled: Boolean = true,
+    tint: QuackColor? = null,
     onClick: (() -> Unit)? = null,
 ) {
     if (image == null) return
     GlideImage(
         modifier = Modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),
         imageModel = image,
-        colorFilter = ColorFilter.tint(
-            color = tint.value,
-        ),
+        colorFilter = tint.toColorFilter(),
+    )
+}
+
+/**
+ * [QuackColor] 를 [ColorFilter] 로 변환합니다.
+ *
+ * @receiver 변환할 [QuackColor]
+ * @return 변환된 [ColorFilter], 만약 receiver 로 null 이 들어왔다면 null 을 그대로 반환합니다.
+ */
+private fun QuackColor?.toColorFilter() = this?.run {
+    ColorFilter.tint(
+        color = value,
     )
 }
