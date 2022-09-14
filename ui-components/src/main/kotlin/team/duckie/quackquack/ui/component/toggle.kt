@@ -138,6 +138,7 @@ fun QuackSquareCheckBox(
  * @param checked 체크되었는지 여부
  * @param onToggle 체크시 호출되는 콜백
  */
+@NonRestartableComposable
 @Composable
 fun QuackIconToggle(
     checkedIcon: QuackIcon,
