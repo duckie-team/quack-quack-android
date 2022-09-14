@@ -54,6 +54,7 @@ private const val RightX = 0.75f
 private const val RightY = 0.35f
 private const val StopLocation = 0.5f
 
+private const val RoundCheckBoxAlpha = 0.2f
 private val CheckColor = QuackColor.White
 
 @Stable
@@ -82,7 +83,9 @@ fun QuackRoundCheckBox(
     shape = QuackRoundCheckShape,
     backgroundColor = getCheckBoxBackgroundColor(
         isChecked = checked,
-        unCheckedColor = QuackColor.Gray2,
+        unCheckedColor = QuackColor.Black.changeAlpha(
+            RoundCheckBoxAlpha,
+        ),
     ),
     onClick = onToggle,
     rippleEnabled = false,
