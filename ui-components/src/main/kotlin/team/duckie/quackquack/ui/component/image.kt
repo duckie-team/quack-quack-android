@@ -45,7 +45,7 @@ fun QuackImage(
             id = icon.drawableId,
         ),
         contentDescription = null,
-        colorFilter = getColorFilter(tint)
+        colorFilter = tint.toColorFilter(),
     )
 }
 
@@ -74,13 +74,14 @@ fun QuackImage(
             onClick = onClick,
         ),
         imageModel = image,
-        colorFilter = getColorFilter(tint)
+        colorFilter = tint.toColorFilter(),
     )
 }
 
-private fun getColorFilter(tint: QuackColor?) = when (tint) {
-    null -> null
-    else -> ColorFilter.tint(
-        color = tint.value,
-    )
-}
+/**
+ * [QuackColor] 를 [ColorFilter] 로 변환합니다.
+ *
+ * @receiver 변환할 [QuackColor]
+ * @return 변환된 [ColorFilter], 만약 receiver 로 null 이 들어왔다면 null 을 그대로 반환합니다.
+ */
+private fun QuackColor?.toColorFilter() = this?.run { ColorFilter.tint(value) }
