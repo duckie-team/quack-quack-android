@@ -311,7 +311,7 @@ private fun DrawScope.drawCheck(
 ) {
     val stroke = Stroke(
         width = strokeWidthPx,
-        cap = StrokeCap.Square,
+        cap = StrokeCap.Round,
     )
     val width = size.width
 
