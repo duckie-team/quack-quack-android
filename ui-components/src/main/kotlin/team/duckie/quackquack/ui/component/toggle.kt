@@ -37,7 +37,7 @@ import kotlin.math.floor
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.icon.QuackIcon
 
-private const val TransitionLabel = "checkTransition"
+private const val TransitionLabel = "CheckTransition"
 
 private const val BoxOutDuration = 100
 private const val CheckAnimationDuration = 100
@@ -46,13 +46,13 @@ private val RoundCheckboxSize = 28.dp
 private val SquareCheckboxSize = 24.dp
 private val StrokeWidth = 2.dp
 
-const val CheckCrossX = 0.4f
-const val CheckCrossY = 0.7f
-const val LeftX = 0.25f
-const val LeftY = 0.55f
-const val RightX = 0.75f
-const val RightY = 0.35f
-const val StopLocation = 0.5f
+private const val CheckCrossX = 0.4f
+private const val CheckCrossY = 0.7f
+private const val LeftX = 0.25f
+private const val LeftY = 0.55f
+private const val RightX = 0.75f
+private const val RightY = 0.35f
+private const val StopLocation = 0.5f
 
 private val CheckColor = QuackColor.White
 
@@ -70,30 +70,28 @@ private val QuackRectangleCheckShape = RoundedCornerShape(
  * @param checked 체크되었는지 여부
  * @param onToggle 체크시 호출되는 콜백
  */
-@NonRestartableComposable
 @Composable
+@NonRestartableComposable
 fun QuackRoundCheckBox(
     checked: Boolean,
     onToggle: () -> Unit,
+) = QuackSurface(
+    modifier = Modifier.size(
+        size = RoundCheckboxSize,
+    ),
+    shape = QuackRoundCheckShape,
+    backgroundColor = getCheckBoxBackgroundColor(
+        isChecked = checked,
+        unCheckedColor = QuackColor.Gray2,
+    ),
+    onClick = onToggle,
+    rippleEnabled = false,
 ) {
-    QuackSurface(
-        modifier = Modifier.size(
-            size = RoundCheckboxSize,
+    Check(
+        value = ToggleableState(
+            value = checked,
         ),
-        shape = QuackRoundCheckShape,
-        backgroundColor = getCheckBoxBackgroundColor(
-            isChecked = checked,
-            unCheckedColor = QuackColor.Gray2,
-        ),
-        onClick = onToggle,
-        rippleEnabled = false,
-    ) {
-        Check(
-            value = ToggleableState(
-                value = checked,
-            ),
-        )
-    }
+    )
 }
 
 /**
@@ -107,62 +105,58 @@ fun QuackRoundCheckBox(
 fun QuackSquareCheckBox(
     checked: Boolean,
     onToggle: () -> Unit,
+) = QuackSurface(
+    modifier = Modifier.size(
+        size = SquareCheckboxSize,
+    ),
+    shape = QuackRectangleCheckShape,
+    backgroundColor = getCheckBoxBackgroundColor(
+        isChecked = checked,
+        unCheckedColor = QuackColor.Gray3,
+    ),
+    onClick = onToggle,
+    rippleEnabled = false,
 ) {
-    QuackSurface(
-        modifier = Modifier.size(
-            size = SquareCheckboxSize,
+    Check(
+        value = ToggleableState(
+            value = checked,
         ),
-        shape = QuackRectangleCheckShape,
-        backgroundColor = getCheckBoxBackgroundColor(
-            isChecked = checked,
-            unCheckedColor = QuackColor.Gray3,
-        ),
-        onClick = onToggle,
-        rippleEnabled = false,
-    ) {
-        Check(
-            value = ToggleableState(
-                value = checked,
-            ),
-        )
-    }
+    )
 }
 
 /**
- * 덕키의 Toggle Button 입니다.
+ * 덕키의 ToggleButton 입니다.
  *
- * Check 여부에 따라 보여지는 아이콘이 달라집니다.
+ * [checked] 에 따라 보여지는 아이콘이 달라집니다.
  *
  * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon]
  * @param unCheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
  * @param checked 체크되었는지 여부
  * @param onToggle 체크시 호출되는 콜백
  */
-@NonRestartableComposable
+// TODO: 아이콘 전환 애니메이션?
 @Composable
+@NonRestartableComposable
 fun QuackIconToggle(
     checkedIcon: QuackIcon,
     unCheckedIcon: QuackIcon,
     checked: Boolean,
     onToggle: () -> Unit,
-) {
-    QuackImage(
-        icon = when (checked) {
-            true -> checkedIcon
-            else -> unCheckedIcon
-        },
-        rippleEnabled = false,
-        onClick = onToggle,
-    )
-}
+) = QuackImage(
+    icon = when (checked) {
+        true -> checkedIcon
+        else -> unCheckedIcon
+    },
+    rippleEnabled = false,
+    onClick = onToggle,
+)
 
 /**
  * 체크 여부에 따라 CheckBox 의 배경색을 지정합니다.
  *
  * @param isChecked 체크 여부
  * @param unCheckedColor 체크되지 않았을 경우 배경색
- *
- * @return [QuackColor]
+ * @return CheckBox 의 배경색
  */
 @Stable
 private fun getCheckBoxBackgroundColor(
@@ -174,7 +168,7 @@ private fun getCheckBoxBackgroundColor(
 }
 
 /**
- * [Canvas]에 Check 모양을 그립니다.
+ * [Canvas] 에 Check 모양을 그립니다.
  *
  * @param value 현재 토글 상태를 의미하는 [ToggleableState]
  * @param checkColor Check 색상
@@ -191,7 +185,7 @@ private fun Check(
     val checkDrawFraction by transition.animateFloat(
         transitionSpec = {
             tween(
-                durationMillis = CheckAnimationDuration
+                durationMillis = CheckAnimationDuration,
             )
         },
         label = TransitionLabel,
@@ -207,10 +201,10 @@ private fun Check(
             when {
                 initialState == ToggleableState.Off -> snap()
                 targetState == ToggleableState.Off -> snap(
-                    delayMillis = BoxOutDuration
+                    delayMillis = BoxOutDuration,
                 )
                 else -> tween(
-                    durationMillis = CheckAnimationDuration
+                    durationMillis = CheckAnimationDuration,
                 )
             }
         },
@@ -242,7 +236,7 @@ private fun Check(
             checkFraction = checkDrawFraction,
             crossCenterGravitation = checkCenterGravitationShiftFraction,
             strokeWidthPx = strokeWidthPx,
-            drawingCache = checkCache
+            drawingCache = checkCache,
         )
     }
 }
@@ -257,24 +251,24 @@ private class CheckDrawingCache(
 /**
  * [start], [stop] 사이의 임의의 지점 f(p) 를 반환하는 함수이다.
  *
- * [fraction]은 임의의 점 p 까지의 거리를 의미한다.
+ * [fraction] 은 임의의 점 p 까지의 거리를 의미한다.
  *
  * @param start 시작 지점
  * @param stop 도착 지점
  * @param fraction 임의의 점 p 까지의 거리
- * @return Float
+ *
+ * @return [start], [stop] 사이의 임의의 지점 f(p)
  */
+@Suppress("SameParameterValue")
 private fun linearInterpolation(
     start: Float,
     stop: Float,
     fraction: Float,
-): Float {
-    return (1 - fraction) * start + fraction * stop
-}
+) = (1 - fraction) * start + fraction * stop
 
 /**
  * 체크 표시를 그리기 위한 메서드
- * [crossCenterGravitation]의 값이 0f -> 1f -> 0f 이므로,
+ * [crossCenterGravitation] 의 값이 0f -> 1f -> 0f 이므로,
  * 중심지점일수록 그려지는 속도가 빠르다.
  *
  * @param checkColor 체크 표시의 색상
@@ -305,18 +299,18 @@ private fun DrawScope.drawCheck(
     val gravitatedCrossY = linearInterpolation(
         start = CheckCrossY,
         stop = StopLocation,
-        fraction = crossCenterGravitation
+        fraction = crossCenterGravitation,
     )
 
     val gravitatedLeftY = linearInterpolation(
         start = LeftY,
         stop = StopLocation,
-        fraction = crossCenterGravitation
+        fraction = crossCenterGravitation,
     )
     val gravitatedRightY = linearInterpolation(
         start = RightY,
         stop = StopLocation,
-        fraction = crossCenterGravitation
+        fraction = crossCenterGravitation,
     )
 
     with(drawingCache) {
@@ -331,7 +325,7 @@ private fun DrawScope.drawCheck(
         )
         checkPath.lineTo(
             x = width * RightX,
-            y = width * gravitatedRightY
+            y = width * gravitatedRightY,
         )
         pathMeasure.setPath(
             path = checkPath,
