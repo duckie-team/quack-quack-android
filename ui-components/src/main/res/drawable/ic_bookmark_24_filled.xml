@@ -13,11 +13,11 @@
     <group>
         <clip-path android:pathData="M5.383,4.195h13.806v16.185L5.383,20.38z" />
         <path
-            android:pathData="M7.515,4.945A1.382,1.382 0,0 0,6.133 6.327v11.346a1.381,1.381 0,0 0,2.072 1.2l0.861,-0.5 2.934,-1.694 2.933,1.693 0.861,0.5a1.381,1.381 0,0 0,2.072 -1.2L17.866,6.327A1.381,1.381 0,0 0,16.483 4.945z"
-            android:strokeLineJoin="round"
-            android:strokeWidth="1.5"
             android:fillColor="#ff8300"
+            android:pathData="M7.515,4.945A1.382,1.382 0,0 0,6.133 6.327v11.346a1.381,1.381 0,0 0,2.072 1.2l0.861,-0.5 2.934,-1.694 2.933,1.693 0.861,0.5a1.381,1.381 0,0 0,2.072 -1.2L17.866,6.327A1.381,1.381 0,0 0,16.483 4.945z"
+            android:strokeWidth="1.5"
             android:strokeColor="#ff8300"
-            android:strokeLineCap="round" />
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
     </group>
 </vector>
