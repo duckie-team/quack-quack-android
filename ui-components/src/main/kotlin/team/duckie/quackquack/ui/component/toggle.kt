@@ -84,7 +84,7 @@ fun QuackRoundCheckBox(
     backgroundColor = getCheckBoxBackgroundColor(
         isChecked = checked,
         unCheckedColor = QuackColor.Black.changeAlpha(
-            RoundCheckBoxAlpha,
+            alpha = RoundCheckBoxAlpha,
         ),
     ),
     onClick = onToggle,

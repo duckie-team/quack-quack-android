@@ -67,7 +67,7 @@ value class QuackColor internal constructor(
         alpha: Float,
     ) = QuackColor(
         value.copy(
-            alpha = alpha
+            alpha = alpha,
         )
     )
 
