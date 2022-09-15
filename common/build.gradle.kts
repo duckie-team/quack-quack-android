@@ -11,6 +11,9 @@ plugins {
     id(ConventionEnum.JvmDokka)
 }
 
+group = "team.duckie.quack"
+version = "1.0.0-dev01"
+
 android {
     namespace = "team.duckie.quackquack.common"
 }

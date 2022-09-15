@@ -5,25 +5,29 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
+import team.duckie.quackquack.convention.QuackArtifactType
+
 plugins {
+    id(libs.plugins.gradle.maven.publish.base.get().pluginId)
     id(ConventionEnum.AndroidLibrary)
-    // id(ConventionEnum.AndroidQuackPublish)
+    id(ConventionEnum.AndroidQuackPublish)
+}
+
+group = "team.duckie.quack"
+version = libs.versions.quack.bom.get()
+
+publishing {
+    publications.withType<MavenPublication> {
+        artifactId = "quack-bom"
+    }
 }
 
 android {
     namespace = "team.duckie.quackquack.publish.bom"
 }
 
-/*quackArtifactPublish {
-    version = libs.versions.quack.bom.get()
+quackArtifactPublish {
     type = QuackArtifactType.Bom
-}*/
-
-/*dependencies {
-    implementations(
-        // libs.quack.ui.components,
-        libs.quack.lint.core,
-        libs.quack.lint.quack,
-        libs.quack.lint.compose,
-    )
-}*/
+}
