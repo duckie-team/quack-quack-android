@@ -7,19 +7,20 @@
 
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.TimeZone
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.TimeZone
 
 plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
+    alias(libs.plugins.nexus.publish)
 }
 
 koverMerged {
@@ -42,6 +43,7 @@ buildscript {
         classpath(libs.build.gradle)
         classpath(libs.build.kotlin)
         classpath(libs.build.dokka.base)
+        classpath(libs.build.nexus.publish)
     }
 }
 
@@ -306,4 +308,7 @@ tasks.register("configurationUiComponentsSnapshotDeploy") {
     readme.createNewFile()
 }
 
-apply(from = "gradle/projectDependencyGraph.gradle")
+apply {
+    from("scripts/publish-root.gradle")
+    from("gradle/projectDependencyGraph.gradle")
+}
