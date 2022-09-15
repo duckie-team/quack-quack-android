@@ -39,7 +39,7 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                     val properties = mapOf(
                         "PUBLISH_VERSION" to extension.version,
                         "PUBLISH_GROUP_ID" to "team.duckie.quack",
-                        "PUBLISH_ARTIFACT_ID" to "quack-lint-${extension.type.artifactName}",
+                        "PUBLISH_ARTIFACT_ID" to "quack-${extension.type.artifactName}",
                         "PUBLISH_DESCRIPTION" to extension.type.description,
                         "PUBLISH_URL" to "https://github.com/sungbinland/duckie-quack-quack",
                         "PUBLISH_LICENSE_NAME" to "MIT License",

@@ -39,7 +39,7 @@ sealed class QuackArtifactType(
     )
 
     object LintCompose : QuackArtifactType(
-        artifactName = "compose",
+        artifactName = "lint-compose",
         description = buildLintArtifactDescription(
             target = "Jetpack Compose codebase",
         ),
@@ -47,7 +47,7 @@ sealed class QuackArtifactType(
     )
 
     object LintCore : QuackArtifactType(
-        artifactName = "core",
+        artifactName = "lint-core",
         description = buildLintArtifactDescription(
             target = "Duckie codebase",
         ),
@@ -55,7 +55,7 @@ sealed class QuackArtifactType(
     )
 
     object LintQuack : QuackArtifactType(
-        artifactName = "quack",
+        artifactName = "lint-quack",
         description = buildLintArtifactDescription(
             target = "QuackQuack ui components",
         ),
@@ -64,7 +64,7 @@ sealed class QuackArtifactType(
 
     // TODO: UX Writing 린트 완성되면 주석 해제
     /*object LintWriting : QuackArtifactType(
-        artifactName = "writing",
+        artifactName = "lint-writing",
         description = buildLintArtifactDescription(
             target = "UX Writing",
         ),
