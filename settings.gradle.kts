@@ -20,16 +20,16 @@ pluginManagement {
 
 rootProject.name = "quack-quack"
 include(
+    ":benchmark",
+    ":playground",
     ":common",
     ":common-lint",
     ":common-lint-test",
-    ":playground",
+    ":ui-components",
     ":lint-core",
     ":lint-quack",
     ":lint-compose",
     ":lint-writing",
-    ":ui-components",
-    ":benchmark",
     ":lint-custom-rule-annotation",
     ":lint-custom-rule-processor",
     ":lint-core-publish",

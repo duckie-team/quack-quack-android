@@ -27,6 +27,7 @@ dependencies {
     implementation(libs.build.kover)
     implementation(libs.build.dokka.base)
     implementation(libs.build.dokka.plugin)
+    implementation(libs.build.gradle.maven.publish)
 }
 
 gradlePlugin {

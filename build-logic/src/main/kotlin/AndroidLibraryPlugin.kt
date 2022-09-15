@@ -5,7 +5,10 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("unused")
+@file:Suppress(
+    "unused",
+    "UnstableApiUsage",
+)
 
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
@@ -29,6 +32,11 @@ internal class AndroidLibraryPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureApplication(this)
+
+                buildFeatures {
+                    buildConfig = false
+                }
+
                 defaultConfig.targetSdk = ApplicationConstants.targetSdk
             }
         }

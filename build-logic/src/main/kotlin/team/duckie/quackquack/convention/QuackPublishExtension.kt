@@ -9,56 +9,54 @@ package team.duckie.quackquack.convention
 
 // data class 하면 final 이라 안됨
 open class QuackPublishExtension {
-    open lateinit var version: String
     open lateinit var type: QuackArtifactType
 
-    internal val isNotInitialized get() = !::version.isInitialized || !::type.isInitialized
+    internal val isNotInitialized get() = !::type.isInitialized
 
-    override fun toString() = "version: $version, " +
-            "artifactName: ${type.artifactName}, " +
+    override fun toString() = "artifactName: ${type.artifactId}, " +
             "description: ${type.description}, " +
-            "deployModuleArtifactName: ${type.deployModuleArtifactName}"
+            "deployModuleArtifactName: ${type.deployModuleName}"
 }
 
 sealed class QuackArtifactType(
-    val artifactName: String,
+    val artifactId: String,
     val description: String,
-    val deployModuleArtifactName: String,
+    val deployModuleName: String,
 ) {
     object Bom : QuackArtifactType(
-        artifactName = "bom",
+        artifactId = "bom",
         description = "Duckie's design system artifacts BOM",
-        deployModuleArtifactName = ":quack-publish-bom",
+        deployModuleName = ":quack-publish-bom",
     )
 
     object UiComponents : QuackArtifactType(
-        artifactName = "ui-components",
+        artifactId = "ui-components",
         description = "Duckie's design system core module",
-        deployModuleArtifactName = ":ui-components",
+        deployModuleName = ":ui-components",
     )
 
     object LintCore : QuackArtifactType(
-        artifactName = "lint-core",
+        artifactId = "lint-core",
         description = buildLintArtifactDescription(
             target = "Duckie codebase",
         ),
-        deployModuleArtifactName = ":lint-core",
+        deployModuleName = ":lint-core",
     )
 
     object LintQuack : QuackArtifactType(
-        artifactName = "lint-quack",
+        artifactId = "lint-quack",
         description = buildLintArtifactDescription(
             target = "QuackQuack ui components",
         ),
-        deployModuleArtifactName = ":lint-quack",
+        deployModuleName = ":lint-quack",
     )
 
     object LintCompose : QuackArtifactType(
-        artifactName = "lint-compose",
+        artifactId = "lint-compose",
         description = buildLintArtifactDescription(
             target = "Jetpack Compose codebase",
         ),
-        deployModuleArtifactName = ":lint-compose",
+        deployModuleName = ":lint-compose",
     )
 
     // TODO: UX Writing 린트 완성되면 주석 해제
@@ -70,8 +68,8 @@ sealed class QuackArtifactType(
         deployModuleArtifactName = ":lint-writing",
     )*/
 
-    internal val isBom = artifactName == "bom"
-    internal val isLint = deployModuleArtifactName.contains("lint")
+    internal val isBom = artifactId == "bom"
+    internal val isLint = deployModuleName.contains("lint")
 }
 
 private fun buildLintArtifactDescription(

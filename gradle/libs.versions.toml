@@ -8,7 +8,7 @@ ktlint-source = "0.45.2"
 detekt = "1.21.0"
 paparazzi = "1.0.0"
 ksp = "1.7.10-1.0.6"
-nexus-publish = "1.1.0"
+gradle-maven-publish = "0.22.0"
 
 # build
 gradle = "7.4.0-alpha10"
@@ -46,11 +46,11 @@ junit-engine = "5.9.0"
 test-parameter-injector = "1.8"
 
 # quack
-quack-bom = "1.0.0-dev01"
-quack-ui-components = "1.0.0-dev02"
-quack-lint-core = "1.0.0-dev01"
-quack-lint-compose = "1.0.0-dev01"
-quack-lint-quack = "1.0.0-dev01"
+quack-bom = "1.0.0-dev02"
+quack-ui-components = "1.0.0-dev05"
+quack-lint-core = "1.0.0-dev05"
+quack-lint-compose = "1.0.0-dev05"
+quack-lint-quack = "1.0.0-dev05"
 
 [plugins]
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
@@ -59,7 +59,8 @@ ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexus-publish" }
+gradle-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "gradle-maven-publish" }
+gradle-maven-publish-base = { id = "com.vanniktech.maven.publish.base", version.ref = "gradle-maven-publish" }
 
 [libraries]
 build-dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
@@ -67,7 +68,7 @@ build-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", versi
 build-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 build-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-core" }
 build-kover = { module = "org.jetbrains.kotlinx:kover", version.ref = "kover" }
-build-nexus-publish = { module = "io.github.gradle-nexus:publish-plugin", version.ref = "nexus-publish" }
+build-gradle-maven-publish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradle-maven-publish" }
 
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 

@@ -13,6 +13,7 @@
 import team.duckie.quackquack.convention.QuackArtifactType
 
 plugins {
+    id(libs.plugins.gradle.maven.publish.base.get().pluginId)
     id(ConventionEnum.AndroidLibrary)
     id(ConventionEnum.AndroidLibraryCompose)
     id(ConventionEnum.AndroidLibraryComposeUiTest)
@@ -22,6 +23,16 @@ plugins {
     alias(libs.plugins.paparazzi)
 }
 
+group = "team.duckie.quack"
+version = libs.versions.quack.ui.components.get()
+
+publishing {
+    publications.withType<MavenPublication> {
+        artifactId = "quack-ui-components"
+    }
+}
+
+// TODO: resourcePrefix
 android {
     namespace = "team.duckie.quackquack.ui"
 
@@ -36,6 +47,7 @@ android {
 }
 
 dependencies {
+    // api(projects.common)
     implementations(
         projects.common,
         projects.lintCorePublish,
@@ -49,6 +61,5 @@ dependencies {
 }
 
 quackArtifactPublish {
-    version = libs.versions.quack.ui.components.get()
     type = QuackArtifactType.UiComponents
 }

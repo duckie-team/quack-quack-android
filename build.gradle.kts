@@ -10,7 +10,6 @@
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
-import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -21,7 +20,7 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
-    alias(libs.plugins.nexus.publish)
+    alias(libs.plugins.gradle.maven.publish.asProvider())
 }
 
 koverMerged {
@@ -44,7 +43,7 @@ buildscript {
         classpath(libs.build.gradle)
         classpath(libs.build.kotlin)
         classpath(libs.build.dokka.base)
-        classpath(libs.build.nexus.publish)
+        classpath(libs.build.gradle.maven.publish)
     }
 }
 
@@ -126,87 +125,6 @@ subprojects {
 
 tasks.register("cleanAll", Delete::class) {
     allprojects.map { it.buildDir }.forEach(::delete)
-}
-
-// https://stackoverflow.com/a/70751633/14299073
-tasks.register("publishAllQuackArtifacts", Exec::class) {
-    group = "Build"
-    val artifacts = listOf(
-        "ui-components",
-        "lint-core-publish",
-        "lint-quack-publish",
-        "lint-compose-publish",
-    )
-    val artifactArgs = artifacts.map { artifact ->
-        ":$artifact:publishReleasePublicationToSonatypeRepository"
-    }
-    if (OperatingSystem.current().isWindows) {
-        executable = "gradlew.bat"
-        args(artifactArgs)
-    } else {
-        executable = "./gradlew"
-        args(artifactArgs)
-    }
-}
-
-tasks.register("publishQuackBom", Exec::class) {
-    group = "Build"
-    val artifactArg = ":quack-publish-bom:publishReleasePublicationToSonatypeRepository"
-    if (OperatingSystem.current().isWindows) {
-        executable = "gradlew.bat"
-        args(artifactArg)
-    } else {
-        executable = "./gradlew"
-        args(artifactArg)
-    }
-}
-
-tasks.register("publishQuackUiComponents", Exec::class) {
-    group = "Build"
-    val artifactArg = ":ui-components:publishReleasePublicationToSonatypeRepository"
-    if (OperatingSystem.current().isWindows) {
-        executable = "gradlew.bat"
-        args(artifactArg)
-    } else {
-        executable = "./gradlew"
-        args(artifactArg)
-    }
-}
-
-tasks.register("publishQuackLintCore", Exec::class) {
-    group = "Build"
-    val artifactArg = ":lint-core-publish:publishReleasePublicationToSonatypeRepository"
-    if (OperatingSystem.current().isWindows) {
-        executable = "gradlew.bat"
-        args(artifactArg)
-    } else {
-        executable = "./gradlew"
-        args(artifactArg)
-    }
-}
-
-tasks.register("publishQuackLintQuack", Exec::class) {
-    group = "Build"
-    val artifactArg = ":lint-quack-publish:publishReleasePublicationToSonatypeRepository"
-    if (OperatingSystem.current().isWindows) {
-        executable = "gradlew.bat"
-        args(artifactArg)
-    } else {
-        executable = "./gradlew"
-        args(artifactArg)
-    }
-}
-
-tasks.register("publishQuackLintCompose", Exec::class) {
-    group = "Build"
-    val artifactArg = ":lint-compose-publish:publishReleasePublicationToSonatypeRepository"
-    if (OperatingSystem.current().isWindows) {
-        executable = "gradlew.bat"
-        args(artifactArg)
-    } else {
-        executable = "./gradlew"
-        args(artifactArg)
-    }
 }
 
 tasks.register("printGenerateSnapshotFiles") {
@@ -394,7 +312,4 @@ tasks.register("configurationUiComponentsSnapshotDeploy") {
     readme.createNewFile()
 }
 
-apply {
-    from("scripts/publish-root.gradle")
-    from("gradle/projectDependencyGraph.gradle")
-}
+apply(from = "gradle/projectDependencyGraph.gradle")

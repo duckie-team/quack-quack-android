@@ -13,7 +13,6 @@ import org.gradle.api.artifacts.dsl.DependencyHandler as DependencyScope
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Action
 import org.gradle.api.Project
-import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.ExtraPropertiesExtension
@@ -152,14 +151,6 @@ internal fun DependencyScope.setupCompose(
         paths = arrayOf(debug),
     )
 }
-
-private fun DependencyScope.project(
-    path: String,
-    configuration: String? = null,
-) = project(
-    if (configuration != null) mapOf("path" to path, "configuration" to configuration)
-    else mapOf("path" to path)
-) as ProjectDependency
 
 private fun DependencyScope.delegate(
     method: String,
