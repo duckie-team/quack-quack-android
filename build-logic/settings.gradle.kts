@@ -7,6 +7,9 @@
 
 @file:Suppress("UnstableApiUsage")
 
+// Why do not working?
+// enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 dependencyResolutionManagement {
     repositories {
         google()

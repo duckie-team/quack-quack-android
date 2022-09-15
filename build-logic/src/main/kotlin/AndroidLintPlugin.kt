@@ -26,10 +26,19 @@ import team.duckie.quackquack.convention.testImplementations
  *
  * [AndroidCommonLintPlugin] 와 달리
  * 린트 개발에 도움이 될 수 있는 추가적인 다른 의존성들도 같이 구성합니다.
+ *
+ * 추가된 의존성:
+ *
+ * ```
+ * :common-lint-test
+ * ```
  */
 internal class AndroidLintPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
+            // BundleInsideHelper.forInsideLintJar(project)
+            // compileOnly 를 찾지 못함
+
             applyPlugins(
                 PluginEnum.JavaLibrary,
                 PluginEnum.PureKotlin,

@@ -20,7 +20,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 /**
  * 그레이들에서 좀 더 쉽게 사용하기 위한 확장 함수들을 정의합니다.
  */
-
+private const val Api = "api"
 private const val CompileOnly = "compileOnly"
 private const val Implementation = "implementation"
 private const val DebugImplementation = "debugImplementation"
@@ -39,6 +39,13 @@ internal val Project.libs
 
 internal fun CommonExtension<*, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
     (this as ExtensionAware).extensions.configure("kotlinOptions", block)
+}
+
+internal fun DependencyScope.apis(vararg paths: Any) {
+    delegate(
+        method = Api,
+        paths = paths,
+    )
 }
 
 internal fun DependencyScope.compileOnlys(vararg paths: Any) {
@@ -87,7 +94,7 @@ internal fun DependencyScope.setupJunit(core: Any, engine: Any) {
     )
 }
 
-fun DependencyScope.setupLint(core: Any, test: Any) {
+internal fun DependencyScope.setupLint(core: Any, test: Any) {
     delegate(
         method = CompileOnly,
         paths = arrayOf(core),

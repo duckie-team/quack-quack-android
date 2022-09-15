@@ -27,10 +27,10 @@ import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.kotlin.KotlinUFunctionCallExpression
 import org.jetbrains.uast.kotlin.KotlinULambdaExpression
-import team.duckie.quackquack.common.fastForEach
-import team.duckie.quackquack.common.fastForEachIndexed
 import team.duckie.quackquack.common.lint.compose.isComposable
 import team.duckie.quackquack.common.lint.compose.isInvokedWithinComposable
+import team.duckie.quackquack.common.lint.util.fastForEach
+import team.duckie.quackquack.common.lint.util.fastForEachIndexed
 
 private const val BriefDescription = "인자들 각각 new-line 에 배치"
 private const val Explanation = "인자들을 쉽게 구분하기 위해 각각 new-line 에 배치해야 합니다."

@@ -6,7 +6,7 @@
  */
 
 plugins {
-    id(PluginEnum.AndroidLibrary)
+    id(ConventionEnum.AndroidLibrary)
 }
 
 ext {
@@ -38,5 +38,5 @@ android {
 apply(from = "$rootDir/scripts/publish-module.gradle")
 
 dependencies {
-    add("lintPublish", projects.lintCompose)
+    lintPublish(projects.lintCompose)
 }
