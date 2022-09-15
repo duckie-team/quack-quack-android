@@ -9,13 +9,11 @@ package team.duckie.quackquack.convention
 
 // data class 하면 final 이라 안됨
 open class QuackPublishExtension {
-    open lateinit var version: String
     open lateinit var type: QuackArtifactType
 
-    internal val isNotInitialized get() = !::version.isInitialized || !::type.isInitialized
+    internal val isNotInitialized get() = !::type.isInitialized
 
-    override fun toString() = "version: $version, " +
-            "artifactName: ${type.artifactId}, " +
+    override fun toString() = "artifactName: ${type.artifactId}, " +
             "description: ${type.description}, " +
             "deployModuleArtifactName: ${type.deployModuleName}"
 }
