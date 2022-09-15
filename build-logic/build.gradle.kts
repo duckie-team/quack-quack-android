@@ -14,6 +14,12 @@ plugins {
 
 group = "team.duckie.quackquack.convention"
 
+repositories {
+    google()
+    mavenCentral()
+    gradlePluginPortal()
+}
+
 dependencies {
     // Unresolved reference: implementations
     implementation(libs.build.gradle)
@@ -24,11 +30,15 @@ dependencies {
 }
 
 gradlePlugin {
-    val prefix = "quackquack"
+    val prefix = "quack"
     plugins {
         register("androidLintPlugin") {
             id = "$prefix.android.lint"
             implementationClass = "AndroidLintPlugin"
+        }
+        register("androidQuackPublishPlugin") {
+            id = "$prefix.android.publish"
+            implementationClass = "AndroidQuackPublishPlugin"
         }
         register("androidCommonLintPlugin") {
             id = "$prefix.android.common.lint"
