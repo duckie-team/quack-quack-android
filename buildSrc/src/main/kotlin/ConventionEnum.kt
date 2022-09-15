@@ -6,8 +6,9 @@
  */
 
 object ConventionEnum {
-    private const val prefix = "quackquack"
+    private const val prefix = "quack"
 
+    const val AndroidQuackPublish = "$prefix.android.publish"
     const val AndroidLint = "$prefix.android.lint"
     const val AndroidCommonLintPlugin = "$prefix.android.common.lint"
     const val AndroidBenchmark = "$prefix.android.benchmark"
