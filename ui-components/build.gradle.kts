@@ -49,6 +49,6 @@ dependencies {
 }
 
 quackArtifactPublish {
-    version = "1.0.0-alpha"
+    version = libs.versions.quack.ui.components.get()
     type = QuackArtifactType.UiComponents
 }

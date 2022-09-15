@@ -13,6 +13,6 @@ plugins {
 }
 
 quackArtifactPublish {
-    version = "1.0.0-alpha"
+    version = libs.versions.quack.lint.core.get()
     type = QuackArtifactType.LintCore
 }

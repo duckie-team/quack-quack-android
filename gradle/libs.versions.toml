@@ -45,6 +45,12 @@ junit = "4.13.2"
 junit-engine = "5.9.0"
 test-parameter-injector = "1.8"
 
+# quack
+quack-ui-components = "1.0.0-dev01"
+quack-lint-core = "1.0.0-dev01"
+quack-lint-compose = "1.0.0-dev01"
+quack-lint-quack = "1.0.0-dev01"
+
 [plugins]
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
