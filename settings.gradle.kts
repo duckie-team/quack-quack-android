@@ -35,4 +35,5 @@ include(
     ":lint-core-publish",
     ":lint-quack-publish",
     ":lint-compose-publish",
+    ":quack-publish-bom",
 )
