@@ -11,6 +11,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.project
 import team.duckie.quackquack.convention.QuackPublishExtension
 import team.duckie.quackquack.convention.ext
 import team.duckie.quackquack.convention.lintPublish
@@ -28,7 +29,7 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                 if (extension.isNotInitialized) {
                     throw GradleException(
                         """
-                        |QuackPublishExtension 초기화가 누락되었습니다.
+                        |QuackPublishExtension 초기화가 누락되었거나 완전하지 않습니다.
                         |version 과 type 모두 초기화가 필요합니다.
                         """.trimMargin()
                     )
@@ -58,8 +59,16 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
 
                 apply(from = "${rootDir}/scripts/publish-module.gradle")
 
-                dependencies {
-                    lintPublish(project(extension.type.deployModuleArtifactName))
+                if (extension.type.isLint) {
+                    dependencies {
+                        lintPublish(
+                            project(
+                                path = extension.type.deployModuleArtifactName,
+                                configuration = "default",
+                                // https://github.com/dialogflow/dialogflow-android-client/issues/57#issuecomment-341329755
+                            )
+                        )
+                    }
                 }
             }
         }
