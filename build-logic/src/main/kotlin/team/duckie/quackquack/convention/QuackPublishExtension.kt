@@ -25,25 +25,16 @@ sealed class QuackArtifactType(
     val description: String,
     val deployModuleArtifactName: String,
 ) {
-    // 플러그인 초기화에 사용하는 기본 값으로 쓰임
-    internal object Empty : QuackArtifactType(
-        artifactName = String.Empty,
-        description = String.Empty,
-        deployModuleArtifactName = String.Empty,
+    object Bom : QuackArtifactType(
+        artifactName = "bom",
+        description = "Duckie's design system artifacts BOM",
+        deployModuleArtifactName = ":quack-publish-bom",
     )
 
     object UiComponents : QuackArtifactType(
         artifactName = "ui-components",
         description = "Duckie's design system core module",
         deployModuleArtifactName = ":ui-components",
-    )
-
-    object LintCompose : QuackArtifactType(
-        artifactName = "lint-compose",
-        description = buildLintArtifactDescription(
-            target = "Jetpack Compose codebase",
-        ),
-        deployModuleArtifactName = ":lint-compose",
     )
 
     object LintCore : QuackArtifactType(
@@ -62,6 +53,14 @@ sealed class QuackArtifactType(
         deployModuleArtifactName = ":lint-quack",
     )
 
+    object LintCompose : QuackArtifactType(
+        artifactName = "lint-compose",
+        description = buildLintArtifactDescription(
+            target = "Jetpack Compose codebase",
+        ),
+        deployModuleArtifactName = ":lint-compose",
+    )
+
     // TODO: UX Writing 린트 완성되면 주석 해제
     /*object LintWriting : QuackArtifactType(
         artifactName = "lint-writing",
@@ -71,6 +70,7 @@ sealed class QuackArtifactType(
         deployModuleArtifactName = ":lint-writing",
     )*/
 
+    internal val isBom = artifactName == "bom"
     internal val isLint = deployModuleArtifactName.contains("lint")
 }
 
