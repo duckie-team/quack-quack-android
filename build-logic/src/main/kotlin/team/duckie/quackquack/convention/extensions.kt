@@ -32,8 +32,6 @@ private const val TestRuntimeOnly = "testRuntimeOnly"
 private const val TestImplementation = "testImplementation"
 private const val AndroidTestImplementation = "androidTestImplementation"
 
-internal val String.Companion.Empty get() = ""
-
 internal fun Project.ext(configure: Action<ExtraPropertiesExtension>) =
     (this as ExtensionAware).extensions.configure("ext", configure)
 
@@ -157,7 +155,7 @@ internal fun DependencyScope.setupCompose(
 
 private fun DependencyScope.project(
     path: String,
-    configuration: String? = null
+    configuration: String? = null,
 ) = project(
     if (configuration != null) mapOf("path" to path, "configuration" to configuration)
     else mapOf("path" to path)

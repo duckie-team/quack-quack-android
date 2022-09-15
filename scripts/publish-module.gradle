@@ -37,12 +37,14 @@ afterEvaluate {
                     name = PUBLISH_ARTIFACT_ID
                     description = PUBLISH_DESCRIPTION
                     url = PUBLISH_URL
+
                     licenses {
                         license {
                             name = PUBLISH_LICENSE_NAME
                             url = PUBLISH_LICENSE_URL
                         }
                     }
+
                     developers {
                         developer {
                             id = PUBLISH_DEVELOPER_ID
@@ -50,6 +52,7 @@ afterEvaluate {
                             email = PUBLISH_DEVELOPER_EMAIL
                         }
                     }
+
                     scm {
                         connection = PUBLISH_SCM_CONNECTION
                         developerConnection = PUBLISH_SCM_DEVELOPER_CONNECTION

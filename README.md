@@ -13,7 +13,8 @@
 
 ### Introduce
 
-QuackQuack is a design system to be used in [Duckie](https://github.com/sungbinland/duckie-android), and it consists of a total of 5 modules.
+QuackQuack is a design system to be used in [Duckie](https://github.com/sungbinland/duckie-android),
+and it consists of a total of 5 modules.
 
 - `ui-components`: QuackQuack designed composable collection
 - `lint-core`: Lint for all codebases
@@ -22,11 +23,15 @@ QuackQuack is a design system to be used in [Duckie](https://github.com/sungbinl
 - `lint-writing`:  Lint for UX Writing (WIP)
 
 QuackQuack is a work in progress, and each lint rule used in the project will be documented soon.
-You can check why QuackQuack was born on the [Duckie Tech Blog](https://medium.com/duckie-stories/%EB%8D%95%ED%82%A4%EC%9D%98-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%BD%A5%EA%BD%A5-%EC%9D%84-%EC%86%8C%EA%B0%9C%ED%95%A9%EB%8B%88%EB%8B%A4-59d962c4bf7) (ko).
+You can check why QuackQuack was born on
+the [Duckie Tech Blog](https://medium.com/duckie-stories/%EB%8D%95%ED%82%A4%EC%9D%98-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%BD%A5%EA%BD%A5-%EC%9D%84-%EC%86%8C%EA%B0%9C%ED%95%A9%EB%8B%88%EB%8B%A4-59d962c4bf7) (
+ko).
 
 ### Preview
 
-QuackQuack's design components can be previewed by building the Playground module(or [quack-ui.duckie.team](https://quack-ui.duckie.team/)). It will be released on the Google PlayStore soon.
+QuackQuack's design components can be previewed by building the Playground module(
+or [quack-ui.duckie.team](https://quack-ui.duckie.team/)). It will be released on the Google
+PlayStore soon.
 
 ### Usage
 
@@ -34,7 +39,8 @@ WIP
 
 ### Download
 
-**Currently, QuackQuack is still in development and has not been released.** When it will be released later, you can download it as follows.
+**Currently, QuackQuack is still in development and has not been released.** When it will be
+released later, you can download it as follows.
 
 ```kotlin
 dependencies {
@@ -50,7 +56,9 @@ dependencies {
 
 ### Build
 
-QuackQuack is developed using the latest version of Android Studio Canary. And also requires a build configuration file. Therefore, to build, you need to unzip the `quackuser-secrets.tar` file. You can do it easily with the following command:
+QuackQuack is developed using the latest version of Android Studio Canary. And also requires a build
+configuration file. Therefore, to build, you need to unzip the `quackuser-secrets.tar` file. You can
+do it easily with the following command:
 
 ```bash
 tar xvf quackuser-secrets.tar
@@ -58,7 +66,10 @@ tar xvf quackuser-secrets.tar
 
 ### Contribute
 
-We love your contribution! The easiest way for you to start contributing is to to check the [Issue](https://github.com/sungbinland/duckie-quack-quack/issues). Regardless, any contribution is welcome, just make sure you follow the contribution guide. Please check out the [CONTRIBUTING.md](.github/CONTRIBUTING.md) documentation.
+We love your contribution! The easiest way for you to start contributing is to to check
+the [Issue](https://github.com/sungbinland/duckie-quack-quack/issues). Regardless, any contribution
+is welcome, just make sure you follow the contribution guide. Please check out
+the [CONTRIBUTING.md](.github/CONTRIBUTING.md) documentation.
 
 ### Pronounce (for Korean)
 
@@ -70,10 +81,17 @@ We love your contribution! The easiest way for you to start contributing is to t
 
 ### Documents
 
-1. [quack-ui.duckie.team](https://quack-ui.duckie.team/): A snapshot image of the developed QuackQuack UI components. It is updated whenever a PR with `UI` and `deploy` labels is opened. To capture a snapshot of a component, use [paparazzi](https://github.com/cashapp/paparazzi).
-2. [quack-test.duckie.team](https://quack-test.duckie.team/): Full test coverage HTML report from QuackQuack. It is updated whenever a PR with `test` and `deploy` labels is opened. Test coverage measurements use [Kover](https://github.com/Kotlin/kotlinx-kover).
-3. [quack-docs.duckie.team](https://quack-docs.duckie.team/): Full KDoc content from QuackQuack. It is updated whenever a PR with `dokka` and `deploy` labels is opened. HTML generation for deploy in KDoc uses [dokka](https://github.com/Kotlin/dokka). (ko)
-4. [documents](/documents): Documents for internal reference of Duckie. Code rules and important notes are noted. (ko)
+1. [quack-ui.duckie.team](https://quack-ui.duckie.team/): A snapshot image of the developed
+   QuackQuack UI components. It is updated whenever a PR with `UI` and `deploy` labels is opened. To
+   capture a snapshot of a component, use [paparazzi](https://github.com/cashapp/paparazzi).
+2. [quack-test.duckie.team](https://quack-test.duckie.team/): Full test coverage HTML report from
+   QuackQuack. It is updated whenever a PR with `test` and `deploy` labels is opened. Test coverage
+   measurements use [Kover](https://github.com/Kotlin/kotlinx-kover).
+3. [quack-docs.duckie.team](https://quack-docs.duckie.team/): Full KDoc content from QuackQuack. It
+   is updated whenever a PR with `dokka` and `deploy` labels is opened. HTML generation for deploy
+   in KDoc uses [dokka](https://github.com/Kotlin/dokka). (ko)
+4. [documents](/documents): Documents for internal reference of Duckie. Code rules and important
+   notes are noted. (ko)
 
 ### Credit
 
