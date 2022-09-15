@@ -8,10 +8,19 @@
 package team.duckie.quackquack.convention
 
 // data class 하면 final 이라 안됨
-open class QuackPublishExtension(
-    open var version: String,
-    open var type: QuackArtifactType,
-)
+open class QuackPublishExtension {
+    open lateinit var version: String
+    open lateinit var type: QuackArtifactType
+
+    val isNotInitialized get() = !::version.isInitialized || !::type.isInitialized
+
+    override fun toString(): String {
+        return "version: $version, artifactName:" +
+                " ${type.artifactName}, " +
+                "description: ${type.description}, " +
+                "deployModuleArtifactName: ${type.deployModuleArtifactName}"
+    }
+}
 
 sealed class QuackArtifactType(
     val artifactName: String,
