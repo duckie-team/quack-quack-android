@@ -9,4 +9,4 @@ package team.duckie.quackquack.common.lint.extension
 
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 
-val KDocTag.content get() = this.getContent()
+val KDocTag.content get() = getContent()
