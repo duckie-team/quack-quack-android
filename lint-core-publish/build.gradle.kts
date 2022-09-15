@@ -12,7 +12,7 @@ plugins {
     id(ConventionEnum.AndroidQuackPublish)
 }
 
-quackLintPublish {
+quackArtifactPublish {
     version = "1.0.0-alpha"
     type = QuackArtifactType.LintCore
 }

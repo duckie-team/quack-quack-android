@@ -49,7 +49,7 @@ dependencies {
     testImplementation(libs.test.parameter.injector)
 }
 
-quackLintPublish {
+quackArtifactPublish {
     version = "1.0.0-alpha"
     type = QuackArtifactType.UiComponents
 }
