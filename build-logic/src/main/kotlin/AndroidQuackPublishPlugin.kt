@@ -13,10 +13,12 @@ import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.publish.maven.MavenPom
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.project
+import team.duckie.quackquack.convention.QuackArtifactType
 import team.duckie.quackquack.convention.QuackPublishExtension
 import team.duckie.quackquack.convention.lintPublish
 
@@ -64,35 +66,42 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                     signAllPublications()
 
                     pom {
-                        name.set(extension.type.artifactId)
-                        description.set(extension.type.description)
-                        inceptionYear.set("2022")
-                        url.set("https://github.com/sungbinland/duckie-quack-quack")
+                        val artifactId = extension.type.artifactId
+                        val description = extension.type.description
 
-                        licenses {
-                            license {
-                                name.set("MIT License")
-                                url.set("https://github.com/sungbinland/duckie-quack-quack/blob/develop/LICENSE")
+                        if (extension.type == QuackArtifactType.Bom) {
+                            withXml {
+                                // https://stackoverflow.com/a/54221401/14299073
+                                asNode().run {
+                                    appendNode("name", artifactId)
+                                    appendNode("description", description)
+                                    appendNode("inceptionYear", "2022")
+                                    appendNode(
+                                        "url",
+                                        "https://github.com/sungbinland/duckie-quack-quack"
+                                    )
+                                }
+                                // https://stackoverflow.com/a/56302270/14299073
+                                dependencies {
+                                    // https://stackoverflow.com/a/56302270/14299073
+                                    // dependency 를 찾지 못함
+                                    // dependency {
+                                    //     groupId = "team.duckie.quackquack"
+                                    //     artifactId = "quack-quack-bom"
+                                    //     version = project.version.toString()
+                                    // }
+                                }
                             }
+                        } else {
+                            name.set(artifactId)
+                            this.description.set(description)
+                            inceptionYear.set("2022")
+                            url.set("https://github.com/sungbinland/duckie-quack-quack")
                         }
 
-                        developers {
-                            developer {
-                                id.set("jisungbin")
-                                name.set("Ji Sungbin")
-                                url.set("https://sungb.in")
-                                email.set("ji@sungb.in")
-                            }
-                        }
-
-                        scm {
-                            url.set("https://github.com/sungbinland/duckie-quack-quack/tree/main")
-                            connection.set("scm:git:github.com/sungbinland/duckie-quack-quack.git")
-                            developerConnection.set("scm:git:ssh://github.com/sungbinland/duckie-quack-quack.git")
-                        }
+                        configureQuackPom()
                     }
                 }
-
 
                 dependencies {
                     if (extension.type.isLint) {
@@ -107,5 +116,27 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                 }
             }
         }
+    }
+}
+
+private fun MavenPom.configureQuackPom() {
+    licenses {
+        license {
+            name.set("MIT License")
+            url.set("https://github.com/sungbinland/duckie-quack-quack/blob/develop/LICENSE")
+        }
+    }
+    developers {
+        developer {
+            id.set("jisungbin")
+            name.set("Ji Sungbin")
+            url.set("https://sungb.in")
+            email.set("ji@sungb.in")
+        }
+    }
+    scm {
+        url.set("https://github.com/sungbinland/duckie-quack-quack/tree/main")
+        connection.set("scm:git:github.com/sungbinland/duckie-quack-quack.git")
+        developerConnection.set("scm:git:ssh://github.com/sungbinland/duckie-quack-quack.git")
     }
 }
