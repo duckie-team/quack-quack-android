@@ -10,10 +10,13 @@
     "DSL_SCOPE_VIOLATION",
 )
 
+import team.duckie.quackquack.convention.QuackArtifactType
+
 plugins {
     id(ConventionEnum.AndroidLibrary)
     id(ConventionEnum.AndroidLibraryCompose)
     id(ConventionEnum.AndroidLibraryComposeUiTest)
+    id(ConventionEnum.AndroidQuackPublish)
     id(ConventionEnum.JvmKover)
     id(ConventionEnum.JvmDokka)
     alias(libs.plugins.paparazzi)
@@ -44,4 +47,9 @@ dependencies {
         libs.kotlin.collections.immutable,
     )
     testImplementation(libs.test.parameter.injector)
+}
+
+quackLintPublish {
+    version = "1.0.0-alpha"
+    type = QuackArtifactType.UiComponents
 }
