@@ -46,7 +46,7 @@ junit-engine = "5.9.0"
 test-parameter-injector = "1.8"
 
 # quack
-quack-bom = "1.0.0-dev03"
+quack-bom = "1.0.0-dev04"
 quack-ui-components = "1.0.0-dev06"
 quack-lint-core = "1.0.0-dev06"
 quack-lint-compose = "1.0.0-dev06"
