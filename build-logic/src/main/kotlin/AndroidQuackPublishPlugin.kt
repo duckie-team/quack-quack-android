@@ -35,6 +35,14 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                     )
                 }
 
+                // It is too late to set namespace
+                // It has already been read to configure this project.
+                // Consider either moving this call to be during evaluation,
+                // or using the variant API.
+                // extensions.configure<LibraryExtension> {
+                //     namespace = extension.type.modulePackageName
+                // }
+
                 ext {
                     val properties = mapOf(
                         "PUBLISH_VERSION" to extension.version,
@@ -57,7 +65,14 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                     }
                 }
 
-                apply(from = "${rootDir}/scripts/publish-module.gradle")
+                apply(
+                    from = "$rootDir/scripts/${
+                        when (extension.type.isBom) {
+                            true -> "bom-publish-module.gradle"
+                            else -> "publish-module.gradle"
+                        }
+                    }",
+                )
 
                 if (extension.type.isLint) {
                     dependencies {

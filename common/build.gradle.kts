@@ -6,7 +6,11 @@
  */
 
 plugins {
-    id(ConventionEnum.JvmLibrary)
+    id(ConventionEnum.AndroidLibrary)
     id(ConventionEnum.JvmKover)
     id(ConventionEnum.JvmDokka)
+}
+
+android {
+    namespace = "team.duckie.quackquack.common"
 }

@@ -12,6 +12,10 @@ plugins {
     id(ConventionEnum.AndroidQuackPublish)
 }
 
+android {
+    namespace = "team.duckie.quackquack.lint.quack.publish"
+}
+
 quackArtifactPublish {
     version = libs.versions.quack.lint.quack.get()
     type = QuackArtifactType.LintQuack
