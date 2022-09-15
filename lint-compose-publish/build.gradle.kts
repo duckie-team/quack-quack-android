@@ -25,10 +25,16 @@ android {
     namespace = "team.duckie.quackquack.lint.compose.publish"
 }
 
+publishing {
+    publications.withType<MavenPublication> {
+        artifactId = "quack-lint-compose"
+    }
+}
+
 mavenPublishing {
     publishToMavenCentral(
         host = SonatypeHost.S01,
-        automaticRelease = false,
+        automaticRelease = true,
     )
 
     signAllPublications()
