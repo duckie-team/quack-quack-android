@@ -28,12 +28,12 @@ import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
-import team.duckie.quackquack.common.AllowMagicNumber
 import team.duckie.quackquack.ui.R
 import team.duckie.quackquack.ui.animation.animateQuackAsState
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
+import team.duckie.quackquack.ui.util.AllowMagicNumber
 
 /**
  * 덕키에서 사용할 [QuackTextStyle] 의 기본 font scale

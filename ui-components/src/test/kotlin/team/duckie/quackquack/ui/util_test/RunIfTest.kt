@@ -5,19 +5,21 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.ui
+@file:Suppress("PackageNaming")
+
+package team.duckie.quackquack.ui.util_test
 
 import org.junit.Test
-import team.duckie.quackquack.common.runIf
+import team.duckie.quackquack.ui.util.runIf
 
 private const val Empty = ""
 private const val ByeWorld = "bye world"
 
-class StringWrapper {
-    var value = Empty
-}
-
 class RunIfTest {
+    private class StringWrapper {
+        var value = Empty
+    }
+
     @Test
     fun `string changed`() {
         val string = StringWrapper()

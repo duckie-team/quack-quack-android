@@ -7,7 +7,7 @@
 
 @file:Suppress("unused")
 
-package team.duckie.quackquack.common
+package team.duckie.quackquack.ui.util
 
 /**
  * [condition] 이 참이면 [run] 을 실행합니다.
@@ -17,7 +17,7 @@ package team.duckie.quackquack.common
  *
  * @return [condition] 이 참일 때 [run] 을 실행한 결과
  */
-inline fun <T> T.runIf(condition: Boolean, run: T.() -> T) = if (condition) {
+internal inline fun <T> T.runIf(condition: Boolean, run: T.() -> T) = if (condition) {
     run()
 } else this
 
@@ -29,6 +29,7 @@ inline fun <T> T.runIf(condition: Boolean, run: T.() -> T) = if (condition) {
  *
  * @return [condition] 이 참일 때 [run] 을 실행한 결과
  */
-inline fun <T> T.runIfBuilder(condition: (T) -> Boolean, run: T.() -> T) = if (condition(this)) {
-    run()
-} else this
+internal inline fun <T> T.runIfBuilder(condition: (T) -> Boolean, run: T.() -> T) =
+    if (condition(this)) {
+        run()
+    } else this

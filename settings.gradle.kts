@@ -22,7 +22,6 @@ rootProject.name = "quack-quack"
 include(
     ":benchmark",
     ":playground",
-    ":common",
     ":common-lint",
     ":common-lint-test",
     ":ui-components",

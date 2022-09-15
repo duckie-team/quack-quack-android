@@ -47,9 +47,7 @@ android {
 }
 
 dependencies {
-    // api(projects.common)
     implementations(
-        projects.common,
         projects.lintCorePublish,
         projects.lintComposePublish,
         libs.util.profileinstaller,

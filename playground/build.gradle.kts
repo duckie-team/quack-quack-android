@@ -59,7 +59,6 @@ android {
 
 dependencies {
     implementations(
-        projects.common,
         projects.uiComponents,
         projects.lintCorePublish,
         projects.lintComposePublish,

@@ -5,13 +5,15 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.ui
+@file:Suppress("PackageNaming")
+
+package team.duckie.quackquack.ui.util_test
 
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import team.duckie.quackquack.common.npe
-import team.duckie.quackquack.common.runtimeCheck
+import team.duckie.quackquack.ui.util.npe
+import team.duckie.quackquack.ui.util.runtimeCheck
 
 private const val ByeWorld = "bye world"
 

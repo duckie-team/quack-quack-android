@@ -7,9 +7,8 @@
 
 @file:Suppress("unused")
 
-package team.duckie.quackquack.common
+package team.duckie.quackquack.ui.util
 
-@PublishedApi
 internal val DefaultMessage = """
     A runtime error occurred in quack-quack. Please report it through GitHub issues.
     https://github.com/sungbinland/quack-quack/issues/
@@ -24,7 +23,7 @@ internal val DefaultMessage = """
  *
  * @throw [value] 가 참이 아니라면 [lazyMessage] 값으로 [IllegalArgumentException]
  */
-inline fun runtimeCheck(value: Boolean, lazyMessage: () -> String = { DefaultMessage }) {
+internal inline fun runtimeCheck(value: Boolean, lazyMessage: () -> String = { DefaultMessage }) {
     if (!value) throw IllegalStateException(lazyMessage())
 }
 
@@ -41,8 +40,8 @@ inline fun runtimeCheck(value: Boolean, lazyMessage: () -> String = { DefaultMes
  *
  * @param lazyMessage NPE 에 사용될 메시지를 반환하는 람다
  * 기본값은 [DefaultMessage] 상수 참고
- *
+ * @return [Nothing]
  * @throw [lazyMessage] 의 반환값을 메시지로 사용하는 [NullPointerException]
  */
-inline fun npe(lazyMessage: () -> String = { DefaultMessage }): Nothing =
+internal inline fun npe(lazyMessage: () -> String = { DefaultMessage }): Nothing =
     throw NullPointerException(lazyMessage())
