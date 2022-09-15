@@ -14,7 +14,6 @@ import team.duckie.quackquack.convention.Empty
 import team.duckie.quackquack.convention.QuackArtifactType
 import team.duckie.quackquack.convention.QuackPublishExtension
 import team.duckie.quackquack.convention.ext
-import team.duckie.quackquack.convention.lintPublish
 
 private const val QuackLintPublishExtensionName = "quackLintPublish"
 
@@ -54,8 +53,9 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
 
                 apply(from = "${rootDir}/scripts/publish-module.gradle")
 
+                println("artifactName: ${extension.type.deployModuleArtifactName}")
                 dependencies {
-                    lintPublish(extension.type.deployModuleArtifactName)
+                    add("lintPublish", /*extension.type.deployModuleArtifactName*/":lint-compose")
                 }
             }
         }
