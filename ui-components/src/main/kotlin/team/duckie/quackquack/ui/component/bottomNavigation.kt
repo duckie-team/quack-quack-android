@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
@@ -49,7 +50,7 @@ private val QuackBottomNavigationHeight = 52.dp
 @Composable
 fun QuackBottomNavigation(
     modifier: Modifier = Modifier,
-    icons: List<BottomNavigationItem>,
+    icons: PersistentList<BottomNavigationItem>,
     backgroundColor: QuackColor = QuackColor.White,
     selectedIndex: Int,
     onClick: (Int) -> Unit,
@@ -62,7 +63,9 @@ fun QuackBottomNavigation(
         modifier = modifier
             .applyQuackSize(
                 width = QuackWidth.Fill,
-                height = QuackHeight.Custom(QuackBottomNavigationHeight)
+                height = QuackHeight.Custom(
+                    height = QuackBottomNavigationHeight
+                ),
             )
             .background(
                 color = backgroundColor.value
@@ -106,13 +109,15 @@ private fun QuackBottomNavigationItem(
     Box(
         modifier = Modifier
             .applyQuackSize(
-                width = QuackWidth.Custom(width = width),
+                width = QuackWidth.Custom(
+                    width = width,
+                ),
                 height = QuackHeight.Fill,
             )
             .quackClickable {
                 onClick(index)
             },
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         QuackImage(
             icon = icon,

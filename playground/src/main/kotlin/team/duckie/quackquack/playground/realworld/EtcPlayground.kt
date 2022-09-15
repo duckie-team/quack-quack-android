@@ -12,7 +12,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
@@ -43,15 +42,26 @@ class EtcPlayground : BaseActivity() {
 
 @Composable
 fun QuackSimpleLabelDemo() {
-    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-        QuackSimpleLabel(text = "거래완료", active = false)
-        QuackSimpleLabel(text = "예약중", active = true)
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(
+            space = 10.dp
+        ),
+    ) {
+        QuackSimpleLabel(
+            text = "거래완료",
+            active = false,
+        )
+        QuackSimpleLabel(
+            text = "예약중",
+            active = true,
+        )
     }
 }
 
-@Preview
 @Composable
 fun QuackDropDownDemo() {
-    QuackDropDown(title = "판매중", onClick = {})
+    QuackDropDown(
+        title = "판매중",
+        onClick = {},
+    )
 }
-

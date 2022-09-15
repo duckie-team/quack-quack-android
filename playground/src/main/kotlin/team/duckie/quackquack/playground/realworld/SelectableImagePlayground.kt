@@ -26,7 +26,7 @@ import team.duckie.quackquack.ui.component.QuackSmallDeletableImage
 import team.duckie.quackquack.ui.component.QuackTitle1
 
 private val size = 118.dp
-private const val imageUrl = "https://picsum.photos/id/237/200/300"
+private const val ImageUrl = "https://picsum.photos/id/237/200/300"
 
 class SelectableImagePlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
@@ -57,10 +57,10 @@ fun QuackSelectableImageDemo() {
     QuackSelectableImage(
         size = size,
         isSelected = isSelected.value,
-        image = imageUrl,
+        image = ImageUrl,
         onClick = {
             isSelected.value = !isSelected.value
-        }
+        },
     )
 }
 
@@ -69,12 +69,15 @@ fun QuackSmallDeletableImageDemo() {
     val isDeleted = remember { mutableStateOf(false) }
     Box {
         if (isDeleted.value) {
-            QuackTitle1(text = "이미지 복구하기", modifier = Modifier.clickable {
-                isDeleted.value = false
-            })
+            QuackTitle1(
+                text = "이미지 복구하기",
+                modifier = Modifier.clickable {
+                    isDeleted.value = false
+                },
+            )
         } else {
             QuackSmallDeletableImage(
-                image = imageUrl,
+                image = ImageUrl,
                 onClick = {
                     isDeleted.value = true
                 },
@@ -88,12 +91,15 @@ fun QuackLargeDeletableImageDemo() {
     val isDeleted = remember { mutableStateOf(false) }
     Box {
         if (isDeleted.value) {
-            QuackTitle1(text = "이미지 복구하기", modifier = Modifier.clickable {
-                isDeleted.value = false
-            })
+            QuackTitle1(
+                text = "이미지 복구하기",
+                modifier = Modifier.clickable {
+                    isDeleted.value = false
+                },
+            )
         } else {
             QuackLargeDeletableImage(
-                image = imageUrl,
+                image = ImageUrl,
                 onClick = {
                     isDeleted.value = true
                 },

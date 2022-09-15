@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 
-
 /**
  * 컴포저블에 Border 가 필요할 때만 보여주고 싶을 때 사용
  *
@@ -25,6 +24,8 @@ import team.duckie.quackquack.ui.color.QuackColor
  * @param color Border 의 색깔
  *
  * isSelected 가 true 일때만 param 으로 넘겨준 border 가 생성됨
+ *
+ * @return Border 가 필요할때만 표시해주는 Modifier
  */
 @Stable
 internal fun Modifier.quackBorderOrNull(
@@ -36,7 +37,7 @@ internal fun Modifier.quackBorderOrNull(
         border(
             border = QuackBorder(
                 width = width,
-                color = color
+                color = color,
             ).asComposeBorder()
         )
     }

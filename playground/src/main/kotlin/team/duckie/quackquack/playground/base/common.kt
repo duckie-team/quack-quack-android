@@ -47,9 +47,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -68,8 +68,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.datastore.preferences.core.edit
-import kotlin.math.roundToInt
-import kotlin.reflect.KClass
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.coroutines.launch
 import team.duckie.quackquack.playground.theme.md_theme_light_primaryContainer
@@ -80,6 +78,8 @@ import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
 import team.duckie.quackquack.ui.textstyle.QuackDefaultFontScale
 import team.duckie.quackquack.ui.textstyle.QuackFontScale
+import kotlin.math.roundToInt
+import kotlin.reflect.KClass
 
 /**
  * 액티비티를 애니메이션과 함께 시작합니다.
@@ -123,7 +123,7 @@ fun PlaygroundActivities(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            SmallTopAppBar(
+            TopAppBar(
                 title = {
                     Text(
                         modifier = Modifier.statusBarPadding(),
@@ -227,7 +227,7 @@ fun PlaygroundSection(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            SmallTopAppBar(
+            TopAppBar(
                 title = {
                     Text(
                         modifier = Modifier.statusBarPadding(),

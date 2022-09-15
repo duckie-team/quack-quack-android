@@ -125,7 +125,7 @@ class QuackTextStyle internal constructor(
             size = 14.sp,
             weight = FontWeight.Bold,
             letterSpacing = 0.sp,
-            lineHeight = 20.sp
+            lineHeight = 20.sp,
         )
 
         @Stable

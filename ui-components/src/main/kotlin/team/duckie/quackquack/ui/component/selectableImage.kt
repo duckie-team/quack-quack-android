@@ -10,15 +10,16 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.color.QuackColor
@@ -34,7 +35,7 @@ private val QuackLargeDeletablePadding = PaddingValues(top = 6.dp, end = 6.dp)
 private val QuackSmallDeletablePadding = PaddingValues(top = 2.dp, end = 2.dp)
 
 /**
- * TODO 왜 영역보다 더 Clickable이 많이 되는거 같지?
+ * TODO 왜 영역보다 더 Clickable 이 많이 되는거 같지?
  *
  * QuackSelectableImage 를 구현합니다.
  *
@@ -55,16 +56,22 @@ fun QuackSelectableImage(
 ) {
     Box(
         modifier = Modifier
-            .size(size)
+            .size(
+                size = size
+            )
             .quackBorderOrNull(
                 color = QuackColor.DuckieOrange,
-                isSelected = isSelected
-            )
+                isSelected = isSelected,
+            ),
     ) {
-        QuackImage(image = image)
+        QuackImage(
+            image = image
+        )
         if (isSelected) SelectedFilterBox()
         QuackSelectedIcon(
-            modifier = Modifier.align(Alignment.TopEnd),
+            modifier = Modifier.align(
+                alignment = Alignment.TopEnd
+            ),
             isSelected = isSelected,
             onClick = onClick,
         )
@@ -91,7 +98,9 @@ private fun QuackSelectedIcon(
 
     Box(
         modifier = modifier
-            .padding(ImagePadding),
+            .padding(
+                paddingValues = ImagePadding
+            ),
     ) {
         QuackImage(
             icon = selectableIcon,
@@ -103,13 +112,17 @@ private fun QuackSelectedIcon(
 
 /**
  * 이미지가 선택되었을 때 나타나는 Deem Filter
+ *
+ * @author doro
  */
 @Composable
 private fun SelectedFilterBox() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Black80.value)
+            .background(
+                color = Black80.value
+            )
     )
 }
 
@@ -125,15 +138,23 @@ fun QuackLargeDeletableImage(
     image: Any,
     onClick: () -> Unit,
 ) {
-    Box(modifier = Modifier.size(DeletableImageLargeSize)) {
+    Box(
+        modifier = Modifier.size(
+            size = DeletableImageLargeSize
+        ),
+    ) {
         QuackDeleteImage(
             modifier = Modifier.matchParentSize(),
             image = image,
         )
         QuackDeleteIcon(
             modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(QuackLargeDeletablePadding),
+                .align(
+                    alignment = Alignment.TopEnd
+                )
+                .padding(
+                    paddingValues = QuackLargeDeletablePadding
+                ),
             onClick = onClick,
         )
     }
@@ -149,13 +170,19 @@ fun QuackSmallDeletableImage(
     image: Any,
     onClick: () -> Unit,
 ) {
-    Box(modifier = Modifier.size(DeletableImageSmallSize)) {
+    Box(
+        modifier = Modifier.size(
+            size = DeletableImageSmallSize
+        ),
+    ) {
         QuackDeleteImage(
             modifier = Modifier.matchParentSize(),
             image = image,
         )
         QuackDeleteIcon(
-            modifier = Modifier.align(Alignment.TopEnd),
+            modifier = Modifier.align(
+                alignment = Alignment.TopEnd
+            ),
             onClick = onClick,
         )
     }
@@ -164,15 +191,24 @@ fun QuackSmallDeletableImage(
 /**
  * Quack*DeletableImage 에서 공통적으로 사용되는 Background 이미지
  * @param modifier matchParentSize() 값을 전달받기 위한 Modifier
+ * @param image 이미지 resource
  */
 @Composable
-private fun QuackDeleteImage(modifier: Modifier, image: Any) {
+private fun QuackDeleteImage(
+    modifier: Modifier,
+    image: Any,) {
     Box(
         modifier = modifier
-            .padding(QuackSmallDeletablePadding)
-            .clip(QuackDeletableImageShape)
+            .padding(
+                paddingValues = QuackSmallDeletablePadding
+            )
+            .clip(
+                shape = QuackDeletableImageShape
+            ),
     ) {
-        QuackImage(image = image)
+        QuackImage(
+            image = image
+        )
     }
 }
 
@@ -189,7 +225,7 @@ private fun QuackDeleteIcon(
     onClick: () -> Unit,
 ) {
     Box(
-        modifier = modifier
+        modifier = modifier,
     ) {
         QuackImage(
             icon = QuackIcon.DeleteBg,

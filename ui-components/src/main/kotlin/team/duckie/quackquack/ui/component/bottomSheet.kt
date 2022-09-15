@@ -9,6 +9,8 @@
 
 package team.duckie.quackquack.ui.component
 
+/**
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -159,9 +161,6 @@ private fun QuackBottomSheetColumn(
                 verticalArrangement = Arrangement.spacedBy(spacedBy)
             ) {
                 QuackBottomSheetHeadline()
-                ModalBottomSheetLayout(sheetContent = ) {
-                    
-                }
                 content()
             }
         }
@@ -198,8 +197,6 @@ private fun QuackBottomSheetItems(
                 onClick = onClick,
             )
         }
-
-
     }
 }
 
@@ -263,8 +260,6 @@ private fun QuackBottomSheetPreview() {
             onClick = {},
         )
     }
-
-
 }
 
 data class QuackBottomSheetItem(
@@ -272,4 +267,4 @@ data class QuackBottomSheetItem(
     val important: Boolean = false,
 )
 
-class MyClass
+ */

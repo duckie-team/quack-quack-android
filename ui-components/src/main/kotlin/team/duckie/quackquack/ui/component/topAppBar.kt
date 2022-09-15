@@ -8,7 +8,11 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,14 +80,24 @@ fun QuackTopAppBar(
         modifier = modifier
             .applyQuackSize(
                 width = QuackWidth.Fill,
-                height = QuackHeight.Custom(QuackTopAppBarHeight),
+                height = QuackHeight.Custom(
+                    height = QuackTopAppBarHeight
+                ),
             )
-            .background(color = QuackColor.White.value)
-            .padding(paddingValues = QuackTopAppBarPadding)
+            .background(
+                color = QuackColor.White.value
+            )
+            .padding(
+                paddingValues = QuackTopAppBarPadding
+            ),
     ) {
         Row(
-            modifier = Modifier.align(Alignment.CenterStart),
-            horizontalArrangement = Arrangement.spacedBy(QuackTopAppBarLeadingIconSpacedBy),
+            modifier = Modifier.align(
+                alignment = Alignment.CenterStart
+            ),
+            horizontalArrangement = Arrangement.spacedBy(
+                space = QuackTopAppBarLeadingIconSpacedBy
+            ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             QuackImage(
@@ -98,8 +112,12 @@ fun QuackTopAppBar(
         }
 
         Row(
-            modifier = Modifier.align(Alignment.CenterEnd),
-            horizontalArrangement = Arrangement.spacedBy(QuackTopAppBarTrailingIconSpacedBy),
+            modifier = Modifier.align(
+                alignment = Alignment.CenterEnd
+            ),
+            horizontalArrangement = Arrangement.spacedBy(
+                space = QuackTopAppBarTrailingIconSpacedBy
+            ),
         ) {
             if (secondTrailingIcon != null) {
                 QuackImage(
@@ -124,7 +142,9 @@ fun QuackTopAppBar(
         }
 
         Box(
-            modifier = Modifier.align(alignment = Alignment.Center),
+            modifier = Modifier.align(
+                alignment = Alignment.Center
+            ),
         ) {
             centerContent?.invoke()
         }
@@ -137,6 +157,13 @@ fun QuackTopAppBar(
  * 1. trailingText 와 trailingIcon 은 동시에 존재할 수 없습니다.
  * 2. secondTrailingIcon 이 존재한다면, trailingIcon 은 필수적으로 존재해야합니다.
  * 3. secondTrailingIcon, trailingIcon, trailingText 는 존재한다면 onClick 이벤트도 꼭 같이 존재해야 합니다.
+ *
+ * @param trailingIcon
+ * @param secondTrailingIcon
+ * @param trailingText
+ * @param onClickTrailingIcon
+ * @param onClickSecondTrailingIcon
+ * @param onClickTrailingText
  */
 private fun checkTopAppBarValidation(
     trailingIcon: QuackIcon? = null,

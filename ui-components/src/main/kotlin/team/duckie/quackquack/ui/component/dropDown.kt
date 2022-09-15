@@ -48,22 +48,34 @@ fun QuackDropDown(
 ) {
     Row(
         modifier = Modifier
-            .clip(QuackDropDownShape)
+            .clip(
+                shape = QuackDropDownShape
+            )
             .border(
                 border = QuackBorder(
                     color = Gray3,
                 ).asComposeBorder(),
-                shape = QuackDropDownShape
+                shape = QuackDropDownShape,
             )
             .quackClickable {
                 onClick()
             }
-            .background(QuackColor.White.value)
-            .padding(QuackDropDownPadding),
-        horizontalArrangement = Arrangement.spacedBy(QuackDropDownSpace),
+            .background(
+                color = QuackColor.White.value
+            )
+            .padding(
+                paddingValues = QuackDropDownPadding
+            ),
+        horizontalArrangement = Arrangement.spacedBy(
+            space = QuackDropDownSpace
+        ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        QuackBody1(text = title)
-        QuackImage(icon = QuackIcon.ArrowDown)
+        QuackBody1(
+            text = title
+        )
+        QuackImage(
+            icon = QuackIcon.ArrowDown
+        )
     }
 }
