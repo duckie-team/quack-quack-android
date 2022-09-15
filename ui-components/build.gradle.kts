@@ -10,18 +10,17 @@
     "DSL_SCOPE_VIOLATION",
 )
 
-import team.duckie.quackquack.convention.QuackArtifactType
-
 plugins {
     id(ConventionEnum.AndroidLibrary)
     id(ConventionEnum.AndroidLibraryCompose)
     id(ConventionEnum.AndroidLibraryComposeUiTest)
-    id(ConventionEnum.AndroidQuackPublish)
+    // id(ConventionEnum.AndroidQuackPublish)
     id(ConventionEnum.JvmKover)
     id(ConventionEnum.JvmDokka)
     alias(libs.plugins.paparazzi)
 }
 
+// TODO: resourcePrefix
 android {
     namespace = "team.duckie.quackquack.ui"
 
@@ -48,7 +47,7 @@ dependencies {
     testImplementation(libs.test.parameter.injector)
 }
 
-quackArtifactPublish {
+/*quackArtifactPublish {
     version = libs.versions.quack.ui.components.get()
     type = QuackArtifactType.UiComponents
-}
+}*/

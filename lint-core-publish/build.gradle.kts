@@ -5,18 +5,16 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-import team.duckie.quackquack.convention.QuackArtifactType
-
 plugins {
     id(ConventionEnum.AndroidLibrary)
-    id(ConventionEnum.AndroidQuackPublish)
+    // id(ConventionEnum.AndroidQuackPublish)
 }
 
 android {
     namespace = "team.duckie.quackquack.lint.core.publish"
 }
 
-quackArtifactPublish {
+/*quackArtifactPublish {
     version = libs.versions.quack.lint.core.get()
     type = QuackArtifactType.LintCore
-}
+}*/
