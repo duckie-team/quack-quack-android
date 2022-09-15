@@ -10,7 +10,6 @@
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
-import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -21,7 +20,6 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
-    alias(libs.plugins.nexus.publish)
     alias(libs.plugins.gradle.maven.publish.asProvider())
 }
 
@@ -45,7 +43,6 @@ buildscript {
         classpath(libs.build.gradle)
         classpath(libs.build.kotlin)
         classpath(libs.build.dokka.base)
-        classpath(libs.build.nexus.publish)
         classpath(libs.build.gradle.maven.publish)
     }
 }
@@ -315,7 +312,4 @@ tasks.register("configurationUiComponentsSnapshotDeploy") {
     readme.createNewFile()
 }
 
-apply {
-    from("scripts/publish-root.gradle")
-    from("gradle/projectDependencyGraph.gradle")
-}
+apply(from = "gradle/projectDependencyGraph.gradle")
