@@ -129,9 +129,17 @@ tasks.register("cleanAll", Delete::class) {
 }
 
 // https://stackoverflow.com/a/70751633/14299073
-tasks.register("publishQuackArtifacts", Exec::class) {
+tasks.register("publishAllQuackArtifacts", Exec::class) {
     group = "Build"
-    val artifactArgs = toQuackArtifactPublishArgs()
+    val artifacts = listOf(
+        "ui-components",
+        "lint-core-publish",
+        "lint-quack-publish",
+        "lint-compose-publish",
+    )
+    val artifactArgs = artifacts.map { artifact ->
+        ":$artifact:publishReleasePublicationToSonatypeRepository"
+    }
     if (OperatingSystem.current().isWindows) {
         executable = "gradlew.bat"
         args(artifactArgs)
@@ -141,15 +149,63 @@ tasks.register("publishQuackArtifacts", Exec::class) {
     }
 }
 
-fun toQuackArtifactPublishArgs(): List<String> {
-    val artifacts = listOf(
-        "ui-components",
-        "lint-core-publish",
-        "lint-quack-publish",
-        "lint-compose-publish",
-    )
-    return artifacts.map { artifact ->
-        ":$artifact:publishReleasePublicationToSonatypeRepository"
+tasks.register("publishQuackBom", Exec::class) {
+    group = "Build"
+    val artifactArg = ":quack-publish-bom:publishReleasePublicationToSonatypeRepository"
+    if (OperatingSystem.current().isWindows) {
+        executable = "gradlew.bat"
+        args(artifactArg)
+    } else {
+        executable = "./gradlew"
+        args(artifactArg)
+    }
+}
+
+tasks.register("publishQuackUiComponents", Exec::class) {
+    group = "Build"
+    val artifactArg = ":ui-components:publishReleasePublicationToSonatypeRepository"
+    if (OperatingSystem.current().isWindows) {
+        executable = "gradlew.bat"
+        args(artifactArg)
+    } else {
+        executable = "./gradlew"
+        args(artifactArg)
+    }
+}
+
+tasks.register("publishQuackLintCore", Exec::class) {
+    group = "Build"
+    val artifactArg = ":lint-core-publish:publishReleasePublicationToSonatypeRepository"
+    if (OperatingSystem.current().isWindows) {
+        executable = "gradlew.bat"
+        args(artifactArg)
+    } else {
+        executable = "./gradlew"
+        args(artifactArg)
+    }
+}
+
+tasks.register("publishQuackLintQuack", Exec::class) {
+    group = "Build"
+    val artifactArg = ":lint-quack-publish:publishReleasePublicationToSonatypeRepository"
+    if (OperatingSystem.current().isWindows) {
+        executable = "gradlew.bat"
+        args(artifactArg)
+    } else {
+        executable = "./gradlew"
+        args(artifactArg)
+    }
+}
+
+tasks.register("publishQuackLintCompose", Exec::class) {
+    group = "Build"
+    val artifactArg = ":lint-compose-publish:publishReleasePublicationToSonatypeRepository"
+    if (OperatingSystem.current().isWindows) {
+        executable = "gradlew.bat"
+        args(artifactArg)
+    } else {
+        executable = "./gradlew"
+        args(artifactArg)
     }
 }
 
