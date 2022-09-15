@@ -46,11 +46,11 @@ junit-engine = "5.9.0"
 test-parameter-injector = "1.8"
 
 # quack
-quack-bom = "1.0.0-dev02"
-quack-ui-components = "1.0.0-dev05"
-quack-lint-core = "1.0.0-dev05"
-quack-lint-compose = "1.0.0-dev05"
-quack-lint-quack = "1.0.0-dev05"
+quack-bom = "1.0.0-dev03"
+quack-ui-components = "1.0.0-dev06"
+quack-lint-core = "1.0.0-dev06"
+quack-lint-compose = "1.0.0-dev06"
+quack-lint-quack = "1.0.0-dev06"
 
 [plugins]
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
