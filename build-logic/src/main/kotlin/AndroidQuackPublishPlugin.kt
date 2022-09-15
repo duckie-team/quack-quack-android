@@ -5,29 +5,34 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.dependencies
-import team.duckie.quackquack.convention.Empty
-import team.duckie.quackquack.convention.QuackArtifactType
 import team.duckie.quackquack.convention.QuackPublishExtension
 import team.duckie.quackquack.convention.ext
+import team.duckie.quackquack.convention.lintPublish
 
-private const val QuackLintPublishExtensionName = "quackLintPublish"
+private const val QuackLintPublishExtensionName = "quackArtifactPublish"
 
 class AndroidQuackPublishPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
             val extension = project.extensions.create<QuackPublishExtension>(
                 name = QuackLintPublishExtensionName,
-                /*default constructor = */
-                String.Empty, QuackArtifactType.Empty,
             )
 
             afterEvaluate {
-                if (extension.version.isBlank() || extension.type.isContainsBlank()) return@afterEvaluate
+                if (extension.isNotInitialized) {
+                    throw GradleException(
+                        """
+                        |QuackPublishExtension 초기화가 누락되었습니다.
+                        |version 과 type 모두 초기화가 필요합니다.
+                        """.trimMargin()
+                    )
+                }
 
                 ext {
                     val properties = mapOf(
@@ -53,9 +58,8 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
 
                 apply(from = "${rootDir}/scripts/publish-module.gradle")
 
-                println("artifactName: ${extension.type.deployModuleArtifactName}")
                 dependencies {
-                    add("lintPublish", /*extension.type.deployModuleArtifactName*/":lint-compose")
+                    lintPublish(project(extension.type.deployModuleArtifactName))
                 }
             }
         }
