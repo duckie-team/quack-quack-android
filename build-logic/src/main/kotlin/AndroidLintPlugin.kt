@@ -52,18 +52,16 @@ internal class AndroidLintPlugin : Plugin<Project> {
             }
 
             dependencies {
-                dependencies {
-                    compileOnlys(libs.findLibrary("kotlin-stdlib").get())
-                    testImplementations(project(":common-lint-test"))
-                    setupJunit(
-                        core = libs.findLibrary("test-junit-core").get(),
-                        engine = libs.findLibrary("test-junit-engine").get(),
-                    )
-                    setupLint(
-                        core = libs.findLibrary("lint-api").get(),
-                        test = libs.findBundle("test-lint").get(),
-                    )
-                }
+                compileOnlys(libs.findLibrary("kotlin-stdlib").get())
+                testImplementations(project(":common-lint-test"))
+                setupJunit(
+                    core = libs.findLibrary("test-junit-core").get(),
+                    engine = libs.findLibrary("test-junit-engine").get(),
+                )
+                setupLint(
+                    core = libs.findLibrary("lint-api").get(),
+                    test = libs.findBundle("test-lint").get(),
+                )
             }
         }
     }
