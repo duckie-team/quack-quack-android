@@ -10,6 +10,7 @@
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
+import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -125,6 +126,31 @@ subprojects {
 
 tasks.register("cleanAll", Delete::class) {
     allprojects.map { it.buildDir }.forEach(::delete)
+}
+
+// https://stackoverflow.com/a/70751633/14299073
+tasks.register("publishQuackArtifacts", Exec::class) {
+    group = "Build"
+    val artifactArgs = toQuackArtifactPublishArgs()
+    if (OperatingSystem.current().isWindows) {
+        executable = "gradlew.bat"
+        args(artifactArgs)
+    } else {
+        executable = "./gradlew"
+        args(artifactArgs)
+    }
+}
+
+fun toQuackArtifactPublishArgs(): List<String> {
+    val artifacts = listOf(
+        "ui-components",
+        "lint-core-publish",
+        "lint-quack-publish",
+        "lint-compose-publish",
+    )
+    return artifacts.map { artifact ->
+        ":$artifact:publishReleasePublicationToSonatypeRepository"
+    }
 }
 
 tasks.register("printGenerateSnapshotFiles") {
