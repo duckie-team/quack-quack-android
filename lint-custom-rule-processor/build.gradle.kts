@@ -6,9 +6,9 @@
  */
 
 plugins {
-    id(PluginEnum.JvmLibrary)
-    id(PluginEnum.JvmKover)
-    id(PluginEnum.JvmDokka)
+    id(ConventionEnum.JvmLibrary)
+    id(ConventionEnum.JvmKover)
+    id(ConventionEnum.JvmDokka)
 }
 
 dependencies {

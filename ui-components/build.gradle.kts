@@ -11,11 +11,11 @@
 )
 
 plugins {
-    id(PluginEnum.AndroidLibrary)
-    id(PluginEnum.AndroidLibraryCompose)
-    id(PluginEnum.AndroidLibraryComposeUiTest)
-    id(PluginEnum.JvmKover)
-    id(PluginEnum.JvmDokka)
+    id(ConventionEnum.AndroidLibrary)
+    id(ConventionEnum.AndroidLibraryCompose)
+    id(ConventionEnum.AndroidLibraryComposeUiTest)
+    id(ConventionEnum.JvmKover)
+    id(ConventionEnum.JvmDokka)
     alias(libs.plugins.paparazzi)
 }
 

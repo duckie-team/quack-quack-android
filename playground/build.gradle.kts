@@ -11,10 +11,10 @@
 )
 
 plugins {
-    id(PluginEnum.AndroidApplication)
-    id(PluginEnum.AndroidApplicationCompose)
-    id(PluginEnum.JvmKover)
-    id(PluginEnum.JvmDokka)
+    id(ConventionEnum.AndroidApplication)
+    id(ConventionEnum.AndroidApplicationCompose)
+    id(ConventionEnum.JvmKover)
+    id(ConventionEnum.JvmDokka)
 }
 
 android {
