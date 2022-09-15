@@ -13,16 +13,12 @@ import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.publish.PublishingExtension
-import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.project
-import org.gradle.kotlin.dsl.withType
 import team.duckie.quackquack.convention.QuackPublishExtension
-import team.duckie.quackquack.convention.applyPlugins
-import team.duckie.quackquack.convention.libs
+import team.duckie.quackquack.convention.apis
 import team.duckie.quackquack.convention.lintPublish
 
 private const val QuackLintPublishExtensionName = "quackArtifactPublish"
@@ -30,8 +26,6 @@ private const val QuackLintPublishExtensionName = "quackArtifactPublish"
 class AndroidQuackPublishPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
-            applyPlugins(libs.findPlugin("gradle-maven-publish-base").get().get().pluginId)
-
             val extension = project.extensions.create<QuackPublishExtension>(
                 name = QuackLintPublishExtensionName,
             )
@@ -61,12 +55,6 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                 // extensions.configure<LibraryExtension> {
                 //     namespace = extension.type.modulePackageName
                 // }
-
-                extensions.configure<PublishingExtension> {
-                    publications.withType<MavenPublication> {
-                        artifactId = extension.type.artifactId
-                    }
-                }
 
                 extensions.configure<MavenPublishBaseExtension> {
                     publishToMavenCentral(
@@ -106,8 +94,9 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                     }
                 }
 
-                if (extension.type.isLint) {
-                    dependencies {
+
+                dependencies {
+                    if (extension.type.isLint) {
                         lintPublish(
                             project(
                                 path = extension.type.deployModuleName,
@@ -115,6 +104,15 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                                 // https://github.com/dialogflow/dialogflow-android-client/issues/57#issuecomment-341329755
                             )
                         )
+                    } else if (extension.type.isBom) {
+                        constraints {
+                            apis(
+                                project(":ui-components"),
+                                project(":lint-core"),
+                                project(":lint-quack"),
+                                project(":lint-compose"),
+                            )
+                        }
                     }
                 }
             }
