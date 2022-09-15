@@ -10,7 +10,7 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
-    includeBuild("gradle-conventions")
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -33,4 +33,7 @@ include(
     ":benchmark",
     ":lint-custom-rule-annotation",
     ":lint-custom-rule-processor",
+    ":lint-core-publish",
+    ":lint-quack-publish",
+    ":lint-compose-publish",
 )
