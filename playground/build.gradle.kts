@@ -51,6 +51,7 @@ android {
     lint {
         disable.apply {
             add("NotificationPermission")
+            // 플레이그라운드용 데모 컴포저블에 주석을 필수로 명시하는건 너무 과함
             add("KDocFields")
         }
     }
@@ -60,14 +61,12 @@ dependencies {
     implementations(
         projects.common,
         projects.uiComponents,
+        projects.lintCorePublish,
+        projects.lintComposePublish,
         libs.ktx.core,
         libs.util.systemuicontroller,
         libs.compose.material3,
         libs.androidx.datastore,
         libs.kotlin.collections.immutable,
-    )
-    customLints(
-        projects.lintCore,
-        projects.lintCompose,
     )
 }

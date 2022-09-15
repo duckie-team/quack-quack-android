@@ -35,14 +35,13 @@ android {
 dependencies {
     implementations(
         projects.common,
+        projects.lintCorePublish,
+        projects.lintQuackPublish,
+        projects.lintComposePublish,
         libs.util.profileinstaller,
         libs.compose.material,
         libs.compose.glide,
         libs.kotlin.collections.immutable,
     )
     testImplementation(libs.test.parameter.injector)
-    customLints(
-        projects.lintCore,
-        projects.lintCompose,
-    )
 }

@@ -11,20 +11,12 @@ private const val Api = "api"
 private const val BundleInside = "bundleInside"
 private const val Implementation = "implementation"
 private const val TestImplementation = "testImplementation"
-private const val LintChecks = "lintChecks"
 
 // bundleInside 는 하나의 아티펙트만 가능함
 fun DependencyScope.bundleInside(path: Any) {
     delegate(
         method = BundleInside,
         paths = arrayOf(path),
-    )
-}
-
-fun DependencyScope.customLints(vararg paths: Any) {
-    delegate(
-        method = LintChecks,
-        paths = paths
     )
 }
 
