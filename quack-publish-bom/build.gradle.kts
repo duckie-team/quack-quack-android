@@ -31,3 +31,14 @@ android {
 quackArtifactPublish {
     type = QuackArtifactType.Bom
 }
+
+dependencies {
+    constraints {
+        apis(
+            projects.uiComponents,
+            projects.lintCorePublish,
+            projects.lintQuackPublish,
+            projects.lintComposePublish,
+        )
+    }
+}

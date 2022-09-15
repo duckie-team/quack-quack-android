@@ -18,7 +18,6 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.project
 import team.duckie.quackquack.convention.QuackPublishExtension
-import team.duckie.quackquack.convention.apis
 import team.duckie.quackquack.convention.lintPublish
 
 private const val QuackLintPublishExtensionName = "quackArtifactPublish"
@@ -104,15 +103,6 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                                 // https://github.com/dialogflow/dialogflow-android-client/issues/57#issuecomment-341329755
                             )
                         )
-                    } else if (extension.type.isBom) {
-                        constraints {
-                            apis(
-                                project(":ui-components"),
-                                project(":lint-core"),
-                                project(":lint-quack"),
-                                project(":lint-compose"),
-                            )
-                        }
                     }
                 }
             }
