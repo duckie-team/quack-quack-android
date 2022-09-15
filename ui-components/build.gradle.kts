@@ -39,7 +39,6 @@ dependencies {
     implementations(
         projects.common,
         projects.lintCorePublish,
-        projects.lintQuackPublish,
         projects.lintComposePublish,
         libs.util.profileinstaller,
         libs.compose.material,
