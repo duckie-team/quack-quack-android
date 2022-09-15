@@ -55,6 +55,7 @@ allprojects {
 
     afterEvaluate {
         detekt {
+            parallel = true
             buildUponDefaultConfig = true
             toolVersion = libs.versions.detekt.get()
             config.setFrom(files("$rootDir/detekt-config.yml"))
