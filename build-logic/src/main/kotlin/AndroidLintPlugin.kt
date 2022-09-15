@@ -34,8 +34,8 @@ import team.duckie.quackquack.convention.testImplementations
  * ```
  */
 internal class AndroidLintPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             // BundleInsideHelper.forInsideLintJar(project)
             // compileOnly 를 찾지 못함
 

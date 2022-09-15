@@ -20,8 +20,8 @@ import team.duckie.quackquack.convention.configureApplication
  * Android 프레임워크의 Application 환경을 구성합니다.
  */
 internal class AndroidApplicationPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             applyPlugins(
                 PluginEnum.AndroidApplication,
                 PluginEnum.AndroidKotlin,

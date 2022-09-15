@@ -26,8 +26,8 @@ import team.duckie.quackquack.convention.libs
  * 밴치마크 모듈은 baseline profiles 를 산출하기 위해 사용됩니다.
  */
 internal class AndroidBenchmarkPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             applyPlugins(
                 PluginEnum.AndroidTest,
                 PluginEnum.AndroidKotlin,

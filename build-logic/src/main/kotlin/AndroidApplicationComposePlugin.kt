@@ -20,8 +20,8 @@ import team.duckie.quackquack.convention.setupCompose
  * Android 프레임워크의 Application 환경에서 Jetpack Compose 를 사용할 준비를 합니다.
  */
 internal class AndroidApplicationComposePlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             val extension = extensions.getByType<BaseAppModuleExtension>()
             configureCompose(extension)
 

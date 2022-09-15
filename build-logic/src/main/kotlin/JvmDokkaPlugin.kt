@@ -19,8 +19,8 @@ import team.duckie.quackquack.convention.libs
  * Android 프레임워크에 의존적이지 않은 순수한 Dokka 모듈을 구성합니다.
  */
 internal class JvmDokkaPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             applyPlugins(libs.findPlugin("dokka").get().get().pluginId)
 
             tasks.withType<DokkaTaskPartial> {

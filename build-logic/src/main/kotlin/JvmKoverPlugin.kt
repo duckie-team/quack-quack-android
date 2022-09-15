@@ -19,8 +19,8 @@ import team.duckie.quackquack.convention.setupJunit
  * Junit4 테스트 환경을 구성합니다.
  */
 internal class JvmKoverPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             applyPlugins(libs.findPlugin("kover").get().get().pluginId)
             dependencies {
                 setupJunit(

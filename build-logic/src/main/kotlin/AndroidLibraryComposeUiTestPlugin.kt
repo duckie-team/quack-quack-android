@@ -21,8 +21,8 @@ import team.duckie.quackquack.convention.libs
  * Android 프레임워크의 Library 환경에서 Jetpack Compose 의 UI 테스트를 진행할 준비를 합니다.
  */
 internal class AndroidLibraryComposeUiTestPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             val extension = extensions.getByType<LibraryExtension>()
             configureCompose(extension)
 
