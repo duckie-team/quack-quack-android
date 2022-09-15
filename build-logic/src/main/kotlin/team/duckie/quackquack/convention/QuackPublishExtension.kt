@@ -7,7 +7,7 @@
 
 package team.duckie.quackquack.convention
 
-// data class 하면 final 이라 안됨
+// needs `open` class
 open class QuackPublishExtension {
     open lateinit var type: QuackArtifactType
 
@@ -68,7 +68,6 @@ sealed class QuackArtifactType(
         deployModuleArtifactName = ":lint-writing",
     )*/
 
-    internal val isBom = artifactId == "bom"
     internal val isLint = deployModuleName.contains("lint")
 }
 
