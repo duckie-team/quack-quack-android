@@ -170,7 +170,10 @@ tasks.register("printGenerateSnapshotFiles") {
           (__)\       )\/\
               ||----w |
               ||     ||
-        """.replaceFirst("\n", "")
+        """.replaceFirst(
+            oldValue = "\n",
+            newValue = "",
+        )
     )
 }
 
