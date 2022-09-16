@@ -68,6 +68,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.datastore.preferences.core.edit
+import kotlin.math.roundToInt
+import kotlin.reflect.KClass
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.coroutines.launch
 import team.duckie.quackquack.playground.theme.md_theme_light_primaryContainer
@@ -78,8 +80,6 @@ import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
 import team.duckie.quackquack.ui.textstyle.QuackDefaultFontScale
 import team.duckie.quackquack.ui.textstyle.QuackFontScale
-import kotlin.math.roundToInt
-import kotlin.reflect.KClass
 
 /**
  * 액티비티를 애니메이션과 함께 시작합니다.
