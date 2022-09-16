@@ -26,8 +26,13 @@ import team.duckie.quackquack.common.QuackDsl
  *
  * @param screenHeight 스냅샷의 세로 길이. 기존의 방법이였던
  * 1로 고정하면 스냅샷이 올바르게 찍히지 않아 조정하였습니다.
+ * @param screenWidth 스냅샷의 가로 길이. 기본값으론 덕키의 스냅샷 테스트에서
+ * 사용하는 디바이스인 PIXEL_5 의 기본 가로 길이를 사용합니다.
  */
-data class PaparazziConfig(var screenHeight: Int = 200)
+data class PaparazziConfig(
+    var screenHeight: Int = 200,
+    var screenWidth: Int = DeviceConfig.PIXEL_5.screenWidth,
+)
 
 /**
  * 덕키 디자인 시스템의 스냅샷 테스트를 위한
@@ -46,6 +51,7 @@ fun buildPaparazzi(@QuackDsl config: PaparazziConfig.() -> Unit = {}): Paparazzi
         deviceConfig = DeviceConfig.PIXEL_5.copy(
             softButtons = false,
             screenHeight = paparazziConfig.screenHeight,
+            screenWidth = paparazziConfig.screenWidth,
         ),
     )
 }

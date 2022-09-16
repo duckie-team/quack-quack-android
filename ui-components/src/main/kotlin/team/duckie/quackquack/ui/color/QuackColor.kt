@@ -56,6 +56,20 @@ value class QuackColor internal constructor(
         value = value,
     )
 
+    /**
+     * [QuackColor] 의 [alpha] 를 변경합니다.
+     *
+     * @param alpha 투명도
+     * @return [alpha] 값이 변경된 [QuackColor]
+     */
+    fun changeAlpha(
+        alpha: Float,
+    ) = QuackColor(
+        value.copy(
+            alpha = alpha,
+        )
+    )
+
     companion object {
         // Unspecified 는 색상의 기본 인자 값으로만 사용되야 하며,
         // 실제 컴포넌트에서는 사용되서는 안됩니다.
@@ -174,7 +188,7 @@ value class QuackColor internal constructor(
             x: Float,
             y: Float,
             z: Float,
-            matrix: FloatArray
+            matrix: FloatArray,
         ) = x * matrix[column] + y * matrix[3 + column] + z * matrix[6 + column]
 
         // copied from compose original implementation
@@ -237,14 +251,14 @@ value class QuackColor internal constructor(
                             v4 = b,
                         )
                     },
-                    convertFromVector = {
-                        val l = it.v2.pow(
+                    convertFromVector = { vector ->
+                        val l = vector.v2.pow(
                             x = 3f,
                         )
-                        val a = it.v3.pow(
+                        val a = vector.v3.pow(
                             x = 3f,
                         )
-                        val b = it.v4.pow(
+                        val b = vector.v4.pow(
                             x = 3f,
                         )
 
@@ -271,7 +285,7 @@ value class QuackColor internal constructor(
                         )
 
                         val colorXyz = Color(
-                            alpha = it.v1.coerceIn(
+                            alpha = vector.v1.coerceIn(
                                 minimumValue = 0f,
                                 maximumValue = 1f,
                             ),

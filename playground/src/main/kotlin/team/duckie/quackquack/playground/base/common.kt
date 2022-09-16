@@ -129,7 +129,7 @@ fun PlaygroundActivities(
                         modifier = Modifier.statusBarPadding(),
                         text = title,
                     )
-                },
+                }
             )
         },
     ) { contentPadding ->
@@ -233,7 +233,7 @@ fun PlaygroundSection(
                         modifier = Modifier.statusBarPadding(),
                         text = title,
                     )
-                },
+                }
             )
         },
     ) { contentPadding ->

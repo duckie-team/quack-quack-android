@@ -18,5 +18,6 @@ class CoreIssueRegistry : IssueProvider(
     issues = listOf(
         MutableCollectionPublicIssue,
         KDocFieldsIssue,
+        SpecifyLambdaParamsNameIssue,
     ),
 )

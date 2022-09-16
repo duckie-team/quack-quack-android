@@ -35,6 +35,8 @@
         <activity android:name=".realworld.SelectableImagePlayground" />
         <activity android:name=".realworld.EtcPlayground" />
         <activity android:name=".realworld.NavigationPlayground" />
+        <activity android:name=".realworld.TogglePlayground" />
+
     </application>
 
 </manifest>

@@ -18,16 +18,17 @@ import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
-import team.duckie.quackquack.ui.component.QuackDialogMenuItem
-import team.duckie.quackquack.ui.component.QuackFloatingActionButton
-import team.duckie.quackquack.ui.component.QuackMenuFloatingActionButton
+import team.duckie.quackquack.ui.component.QuackIconToggle
+import team.duckie.quackquack.ui.component.QuackRoundCheckBox
+import team.duckie.quackquack.ui.component.QuackSquareCheckBox
 import team.duckie.quackquack.ui.icon.QuackIcon
 
-class FabPlayground : BaseActivity() {
+class TogglePlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
-        "QuackFloatingActionButton" to { QuackFloatingActionButtonDemo() },
-        "QuackMenuFloatingActionButton" to { QuackMenuFloatingActionButtonDemo() },
+        "QuackRoundCheck" to { QuackRoundCheckDemo() },
+        "QuackSquareCheck" to { QuackSquareCheckDemo() },
+        "QuackToggle" to { QuackIconToggleDemo() },
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +36,7 @@ class FabPlayground : BaseActivity() {
         setContent {
             PlaygroundTheme {
                 PlaygroundSection(
-                    title = "Fab",
+                    title = "QuackRoundCheck",
                     items = items,
                 )
             }
@@ -44,40 +45,42 @@ class FabPlayground : BaseActivity() {
 }
 
 @Composable
-fun QuackFloatingActionButtonDemo() {
-    QuackFloatingActionButton(
-        icon = QuackIcon.Dm,
-        onClick = {},
+fun QuackRoundCheckDemo() {
+    var checked by remember {
+        mutableStateOf(true)
+    }
+    QuackRoundCheckBox(
+        checked = checked,
+        onToggle = {
+            checked = !checked
+        },
     )
 }
 
-@Suppress("RedundantLambdaArrow")
 @Composable
-fun QuackMenuFloatingActionButtonDemo() {
-    var expanded by remember {
-        mutableStateOf(
-            value = false,
-        )
+fun QuackSquareCheckDemo() {
+    var checked by remember {
+        mutableStateOf(true)
     }
+    QuackSquareCheckBox(
+        checked = checked,
+        onToggle = {
+            checked = !checked
+        },
+    )
+}
 
-    QuackMenuFloatingActionButton(
-        expanded = expanded,
-        onClickButton = {
-            expanded = true
+@Composable
+fun QuackIconToggleDemo() {
+    var checked by remember {
+        mutableStateOf(true)
+    }
+    QuackIconToggle(
+        checkedIcon = QuackIcon.Heart,
+        unCheckedIcon = QuackIcon.FilledHeart,
+        checked = checked,
+        onToggle = {
+            checked = !checked
         },
-        onDismissRequest = {
-            expanded = false
-        },
-        menuItems = persistentListOf(
-            QuackDialogMenuItem(
-                icon = QuackIcon.Feed,
-                text = "피드",
-            ),
-            QuackDialogMenuItem(
-                icon = QuackIcon.Buy,
-                text = "덕딜",
-            ),
-        ),
-        onClickMenuItem = { _ -> },
     )
 }

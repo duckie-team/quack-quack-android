@@ -26,8 +26,10 @@ import team.duckie.quackquack.playground.realworld.EtcPlayground
 import team.duckie.quackquack.playground.realworld.FabPlayground
 import team.duckie.quackquack.playground.realworld.NavigationPlayground
 import team.duckie.quackquack.playground.realworld.SelectableImagePlayground
+import team.duckie.quackquack.playground.realworld.QuackBasicTextFieldWithAllDecorationDemo
 import team.duckie.quackquack.playground.realworld.TabPlayground
 import team.duckie.quackquack.playground.realworld.TextFieldPlayground
+import team.duckie.quackquack.playground.realworld.TogglePlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
@@ -42,13 +44,17 @@ private val PlaygroundActivities = persistentListOf(
     SelectableImagePlayground::class,
     EtcPlayground::class,
     NavigationPlayground::class,
+    TogglePlayground::class,
 )
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PlaygroundDemo()
+            // PlaygroundDemo()
+            SingleDemo {
+                QuackBasicTextFieldWithAllDecorationDemo()
+            }
         }
     }
 }

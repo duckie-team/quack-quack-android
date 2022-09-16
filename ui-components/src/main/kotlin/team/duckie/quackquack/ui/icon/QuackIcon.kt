@@ -198,5 +198,30 @@ value class QuackIcon private constructor(
         val UnChecked = QuackIcon(
             drawableId = R.drawable.ic_un_checked_round_28
         )
+
+        @Stable
+        val WhiteHeart = QuackIcon(
+            drawableId = R.drawable.ic_heart_24_white,
+        )
+
+        @Stable
+        val FilledHeart = QuackIcon(
+            drawableId = R.drawable.ic_heart_filled_24,
+        )
+
+        @Stable
+        val CommentHeart = QuackIcon(
+            drawableId = R.drawable.ic_comment_heart,
+        )
+
+        @Stable
+        val FilledCommentHeart = QuackIcon(
+            drawableId = R.drawable.ic_comment_heart_filled,
+        )
+
+        @Stable
+        val FilledBookmark = QuackIcon(
+            drawableId = R.drawable.ic_bookmark_24_filled,
+        )
     }
 }
