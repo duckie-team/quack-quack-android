@@ -31,6 +31,19 @@ class NamedArgumentTest {
                 files = listOf(
                     composableTestFile(
                         """
+                            @Composable
+                            fun MyComposable(
+                                a: String,
+                                b: Int,
+                                onClick: () -> Unit = {},
+                            ) {}
+
+                            fun testFunction(
+                                a: String,
+                                b: Int,
+                            ) {}
+
+                            @Composable
                             fun success1() {
                                 MyComposable(
                                     a = "success",
@@ -80,19 +93,6 @@ class NamedArgumentTest {
                                     b = 123,
                                 )
                             }
-
-                            @Composable
-                            fun MyComposable(
-                                a: String,
-                                b: Int,
-                                onClick: () -> Unit = {},
-                            ) {}
-
-                            fun testFunction(
-                                a: String,
-                                b: Int,
-                            ) {}
-
                         """.trimIndent()
                     ),
                 ),
