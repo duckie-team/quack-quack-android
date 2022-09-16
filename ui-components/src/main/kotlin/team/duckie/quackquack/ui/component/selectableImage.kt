@@ -196,7 +196,8 @@ fun QuackSmallDeletableImage(
 @Composable
 private fun QuackDeleteImage(
     modifier: Modifier,
-    image: Any,) {
+    image: Any,
+) {
     Box(
         modifier = modifier
             .padding(
