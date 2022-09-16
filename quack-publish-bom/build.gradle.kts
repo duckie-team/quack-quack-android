@@ -5,9 +5,11 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+// ISSUE: https://github.com/sungbinland/duckie-quack-quack/issues/114
+
 plugins {
     id(ConventionEnum.AndroidLibrary)
-    id(ConventionEnum.AndroidQuackPublish)
+    // id(ConventionEnum.AndroidQuackPublish)
 }
 
 android {
@@ -15,6 +17,6 @@ android {
 }
 
 // bom 배포는 따로 해야 함
-quackArtifactPublish {
+/*quackArtifactPublish {
     type = team.duckie.quackquack.convention.QuackArtifactType.Bom
-}
+}*/
