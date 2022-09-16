@@ -39,7 +39,7 @@ private val QuackLabelPadding = PaddingValues(
 @Composable
 fun QuackSimpleLabel(
     text: String,
-    active: Boolean
+    active: Boolean,
 ) {
     val backgroundColor = when (active) {
         true -> SkyBlueColor
@@ -52,10 +52,19 @@ fun QuackSimpleLabel(
 
     Box(
         modifier = Modifier
-            .clip(QuackLabelShape)
-            .background(backgroundColor.value)
-            .padding(QuackLabelPadding)
+            .clip(
+                shape = QuackLabelShape
+            )
+            .background(
+                color = backgroundColor.value
+            )
+            .padding(
+                paddingValues = QuackLabelPadding
+            ),
     ) {
-        QuackBody3(text = text, color = textColor)
+        QuackBody3(
+            text = text,
+            color = textColor,
+        )
     }
 }

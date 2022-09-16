@@ -4,7 +4,6 @@
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
-
 package team.duckie.quackquack.playground
 
 import android.os.Bundle
@@ -25,8 +24,8 @@ import team.duckie.quackquack.playground.realworld.ButtonPlayground
 import team.duckie.quackquack.playground.realworld.EtcPlayground
 import team.duckie.quackquack.playground.realworld.FabPlayground
 import team.duckie.quackquack.playground.realworld.NavigationPlayground
-import team.duckie.quackquack.playground.realworld.SelectableImagePlayground
 import team.duckie.quackquack.playground.realworld.QuackBasicTextFieldWithAllDecorationDemo
+import team.duckie.quackquack.playground.realworld.SelectableImagePlayground
 import team.duckie.quackquack.playground.realworld.TabPlayground
 import team.duckie.quackquack.playground.realworld.TextFieldPlayground
 import team.duckie.quackquack.playground.realworld.TogglePlayground
@@ -87,12 +86,12 @@ fun PlaygroundDemo() {
     ) {
         context.dataStore.data.first().let { preference ->
             QuackAnimationMillis = (
-                    preference[PreferenceConfigs.AnimationDurationKey]
-                        ?: QuackAnimationMillis
-                    ).coerceAtLeast(minimumValue = 0)
+                preference[PreferenceConfigs.AnimationDurationKey]
+                    ?: QuackAnimationMillis
+                ).coerceAtLeast(minimumValue = 0)
             QuackFontScale = (
-                    preference[PreferenceConfigs.FontScaleKey] ?: QuackFontScale
-                    ).coerceAtLeast(minimumValue = 0.0)
+                preference[PreferenceConfigs.FontScaleKey] ?: QuackFontScale
+                ).coerceAtLeast(minimumValue = 0.0)
         }
     }
     PlaygroundTheme {

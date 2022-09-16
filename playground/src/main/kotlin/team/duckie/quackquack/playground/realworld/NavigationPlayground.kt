@@ -154,8 +154,8 @@ fun QuackBottomNavigationDemo() {
         QuackBottomNavigation(
             icons = getBottomNavigationIcons(),
             selectedIndex = selectedIndex.value,
-            onClick = {
-                selectedIndex.value = it
+            onClick = { index ->
+                selectedIndex.value = index
             },
         )
     }
