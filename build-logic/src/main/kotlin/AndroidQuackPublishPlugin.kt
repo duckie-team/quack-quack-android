@@ -13,13 +13,19 @@ import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
+import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.project
+import org.gradle.kotlin.dsl.withType
 import team.duckie.quackquack.convention.QuackArtifactType
 import team.duckie.quackquack.convention.QuackPublishExtension
+import team.duckie.quackquack.convention.apis
+import team.duckie.quackquack.convention.applyPlugins
+import team.duckie.quackquack.convention.libs
 import team.duckie.quackquack.convention.lintPublish
 
 private const val QuackLintPublishExtensionName = "quackArtifactPublish"
@@ -27,10 +33,15 @@ private const val QuackLintPublishExtensionName = "quackArtifactPublish"
 class AndroidQuackPublishPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
+            applyPlugins(
+                libs.findPlugin("gradle-maven-publish-base").get().get().pluginId,
+            )
+
             val extension = project.extensions.create<QuackPublishExtension>(
                 name = QuackLintPublishExtensionName,
             )
 
+            group = "team.duckie.quack"
             extensions.configure<MavenPublishBaseExtension> {
                 configure(
                     platform = AndroidSingleVariantLibrary(
@@ -47,6 +58,14 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                         |version 과 type 모두 초기화가 필요합니다.
                         """.trimMargin()
                     )
+                }
+
+                version = extension.type.getVersion(this)
+
+                extensions.configure<PublishingExtension> {
+                    publications.withType<MavenPublication> {
+                        artifactId = extension.type.artifactId
+                    }
                 }
 
                 // It is too late to set namespace
@@ -66,38 +85,10 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                     signAllPublications()
 
                     pom {
-                        val artifactId = extension.type.artifactId
-                        val description = extension.type.description
-
-                        if (extension.type == QuackArtifactType.Bom) {
-                            withXml {
-                                // https://stackoverflow.com/a/54221401/14299073
-                                asNode().run {
-                                    appendNode("name", artifactId)
-                                    appendNode("description", description)
-                                    appendNode("inceptionYear", "2022")
-                                    appendNode(
-                                        "url",
-                                        "https://github.com/sungbinland/duckie-quack-quack"
-                                    )
-                                }
-                                // https://stackoverflow.com/a/56302270/14299073
-                                dependencies {
-                                    // https://stackoverflow.com/a/56302270/14299073
-                                    // dependency 를 찾지 못함
-                                    // dependency {
-                                    //     groupId = "team.duckie.quackquack"
-                                    //     artifactId = "quack-quack-bom"
-                                    //     version = project.version.toString()
-                                    // }
-                                }
-                            }
-                        } else {
-                            name.set(artifactId)
-                            this.description.set(description)
-                            inceptionYear.set("2022")
-                            url.set("https://github.com/sungbinland/duckie-quack-quack")
-                        }
+                        name.set(extension.type.artifactId)
+                        description.set(extension.type.description)
+                        inceptionYear.set("2022")
+                        url.set("https://github.com/sungbinland/duckie-quack-quack")
 
                         configureQuackPom()
                     }
@@ -112,6 +103,19 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                                 // https://github.com/dialogflow/dialogflow-android-client/issues/57#issuecomment-341329755
                             )
                         )
+                    } else if (extension.type == QuackArtifactType.Bom) {
+                        val quackArtifacts = listOf(
+                            "quack-ui-components",
+                            "quack-lint-core",
+                            "quack-lint-quack",
+                            "quack-lint-compose",
+                        )
+                        val quackArtifactLibraries = quackArtifacts.map { artifact ->
+                            libs.findLibrary(artifact).get()
+                        }
+                        constraints {
+                            apis(*quackArtifactLibraries.toTypedArray())
+                        }
                     }
                 }
             }
