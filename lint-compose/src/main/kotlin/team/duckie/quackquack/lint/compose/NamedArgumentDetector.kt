@@ -24,7 +24,14 @@ import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.intellij.lang.ASTNode
 import org.jetbrains.kotlin.KtNodeTypes.VALUE_ARGUMENT_NAME
 import org.jetbrains.uast.UExpression
+import org.jetbrains.uast.UMethod
+import org.jetbrains.uast.getContainingDeclaration
+import org.jetbrains.uast.getContainingUClass
+import org.jetbrains.uast.getContainingUFile
 import org.jetbrains.uast.getContainingUMethod
+import org.jetbrains.uast.getContainingUVariable
+import org.jetbrains.uast.getOutermostQualified
+import org.jetbrains.uast.getQualifiedChain
 import org.jetbrains.uast.kotlin.KotlinUFunctionCallExpression
 import org.jetbrains.uast.kotlin.KotlinULambdaExpression
 import team.duckie.quackquack.common.fastForEachIndexed
@@ -59,7 +66,15 @@ val NamedArgumentIssue = Issue.create(
  * 1. named argument를 사용해야 함
  *
  * 다음과 같은 조건에서는 예외적으로 린트 에러가 발생하지 않습니다.
- * 1. function이 [IgnoredFunctions]인 경우우 */
+ * 1. function이 [IgnoredFunctions]인 경우
+ *
+ * [개선 요구]
+ * 현재 이 규칙에서 호출되는 함수가 Composable인지 구별하는 방법은 아래와 같습니다.
+ * 1. 컴포저블 안에서 invoke 돼야 함
+ * 2. 호출되는 메서드의 함수가 대분자로 시작해야 함
+ *
+ * 이 방식은 Annotation으로 Composable을 구별하는 방식으로 개선해야 합니다.
+ * */
 
 class NamedArgumentDetector : Detector(), SourceCodeScanner {
 
@@ -71,8 +86,8 @@ class NamedArgumentDetector : Detector(), SourceCodeScanner {
         override fun visitExpression(node: UExpression) {
             if (node !is KotlinUFunctionCallExpression) return
 
-            val containingUMethod = node.getContainingUMethod() ?: return
-            if (!containingUMethod.isComposable) return
+            val firstMethodName = node.methodName?.first() ?: return
+            if(firstMethodName !in 'A'..'Z') return
 
             val lastArgumentIndex = node.valueArguments.lastIndex
             node.valueArguments.fastForEachIndexed { index, argument ->
