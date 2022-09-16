@@ -7,6 +7,8 @@
 
 package team.duckie.quackquack.convention
 
+import org.gradle.api.Project
+
 // needs `open` class
 open class QuackPublishExtension {
     open lateinit var type: QuackArtifactType
@@ -24,19 +26,19 @@ sealed class QuackArtifactType(
     val deployModuleName: String,
 ) {
     object Bom : QuackArtifactType(
-        artifactId = "bom",
+        artifactId = "quack-bom",
         description = "Duckie's design system artifacts BOM",
         deployModuleName = ":quack-publish-bom",
     )
 
     object UiComponents : QuackArtifactType(
-        artifactId = "ui-components",
+        artifactId = "quack-ui-components",
         description = "Duckie's design system core module",
         deployModuleName = ":ui-components",
     )
 
     object LintCore : QuackArtifactType(
-        artifactId = "lint-core",
+        artifactId = "quack-lint-core",
         description = buildLintArtifactDescription(
             target = "Duckie codebase",
         ),
@@ -44,7 +46,7 @@ sealed class QuackArtifactType(
     )
 
     object LintQuack : QuackArtifactType(
-        artifactId = "lint-quack",
+        artifactId = "quack-lint-quack",
         description = buildLintArtifactDescription(
             target = "QuackQuack ui components",
         ),
@@ -52,7 +54,7 @@ sealed class QuackArtifactType(
     )
 
     object LintCompose : QuackArtifactType(
-        artifactId = "lint-compose",
+        artifactId = "quack-lint-compose",
         description = buildLintArtifactDescription(
             target = "Jetpack Compose codebase",
         ),
@@ -61,7 +63,7 @@ sealed class QuackArtifactType(
 
     // TODO: UX Writing 린트 완성되면 주석 해제
     /*object LintWriting : QuackArtifactType(
-        artifactName = "lint-writing",
+        artifactName = "quack-lint-writing",
         description = buildLintArtifactDescription(
             target = "UX Writing",
         ),
@@ -69,6 +71,16 @@ sealed class QuackArtifactType(
     )*/
 
     internal val isLint = deployModuleName.contains("lint")
+
+    fun getVersion(project: Project) = project.libs.findVersion(
+        when (this) {
+            is Bom -> "quack-bom"
+            is UiComponents -> "quack-ui-components"
+            is LintCore -> "quack-lint-core"
+            is LintQuack -> "quack-lint-quack"
+            is LintCompose -> "quack-lint-compose"
+        }
+    ).get().toString()
 }
 
 private fun buildLintArtifactDescription(
