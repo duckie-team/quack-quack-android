@@ -24,18 +24,9 @@ import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.intellij.lang.ASTNode
 import org.jetbrains.kotlin.KtNodeTypes.VALUE_ARGUMENT_NAME
 import org.jetbrains.uast.UExpression
-import org.jetbrains.uast.UMethod
-import org.jetbrains.uast.getContainingDeclaration
-import org.jetbrains.uast.getContainingUClass
-import org.jetbrains.uast.getContainingUFile
-import org.jetbrains.uast.getContainingUMethod
-import org.jetbrains.uast.getContainingUVariable
-import org.jetbrains.uast.getOutermostQualified
-import org.jetbrains.uast.getQualifiedChain
 import org.jetbrains.uast.kotlin.KotlinUFunctionCallExpression
 import org.jetbrains.uast.kotlin.KotlinULambdaExpression
 import team.duckie.quackquack.common.fastForEachIndexed
-import team.duckie.quackquack.common.lint.compose.isComposable
 
 private const val BriefDescription = "named argument 사용은 필수입니다."
 private const val Explanation = "인자들을 쉽게 구별하기 위해 named argument는 필수적으로 사용해야 합니다."
@@ -101,7 +92,8 @@ class NamedArgumentDetector : Detector(), SourceCodeScanner {
                 val argumentParentFirstChildNode = argumentParent.treeParent.firstChildNode
 
                 if (!(argumentFirstChildNode.isValueArgumentName() ||
-                            argumentParentFirstChildNode.isValueArgumentName())) {
+                            argumentParentFirstChildNode.isValueArgumentName())
+                ) {
                     context.report(
                         issue = NamedArgumentIssue,
                         scope = expressionSourcePsi,
