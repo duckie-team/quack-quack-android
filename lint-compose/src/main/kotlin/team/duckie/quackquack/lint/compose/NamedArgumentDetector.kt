@@ -87,7 +87,7 @@ class NamedArgumentDetector : Detector(), SourceCodeScanner {
             if (node !is KotlinUFunctionCallExpression) return
 
             val firstMethodName = node.methodName?.first() ?: return
-            if(firstMethodName !in 'A'..'Z') return
+            if (firstMethodName !in 'A'..'Z') return
 
             val lastArgumentIndex = node.valueArguments.lastIndex
             node.valueArguments.fastForEachIndexed { index, argument ->
@@ -100,7 +100,8 @@ class NamedArgumentDetector : Detector(), SourceCodeScanner {
                 val argumentFirstChildNode = argumentParent.firstChildNode
                 val argumentParentFirstChildNode = argumentParent.treeParent.firstChildNode
 
-                if (!(argumentFirstChildNode.isValueArgumentName() || argumentParentFirstChildNode.isValueArgumentName())) {
+                if (!(argumentFirstChildNode.isValueArgumentName() ||
+                            argumentParentFirstChildNode.isValueArgumentName())) {
                     context.report(
                         issue = NamedArgumentIssue,
                         scope = expressionSourcePsi,
