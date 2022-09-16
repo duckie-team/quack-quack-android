@@ -91,8 +91,8 @@ class NamedArgumentDetector : Detector(), SourceCodeScanner {
                 val argumentFirstChildNode = argumentParent.firstChildNode
                 val argumentParentFirstChildNode = argumentParent.treeParent.firstChildNode
 
-                if (!(argumentFirstChildNode.isValueArgumentName() ||
-                            argumentParentFirstChildNode.isValueArgumentName())
+                if (argumentFirstChildNode.isNotValueArgumentName() ||
+                    argumentParentFirstChildNode.isNotValueArgumentName()
                 ) {
                     context.report(
                         issue = NamedArgumentIssue,
@@ -106,6 +106,6 @@ class NamedArgumentDetector : Detector(), SourceCodeScanner {
         }
     }
 
-    private fun ASTNode.isValueArgumentName() =
+    private fun ASTNode.isNotValueArgumentName() =
         this.elementType == VALUE_ARGUMENT_NAME
 }
