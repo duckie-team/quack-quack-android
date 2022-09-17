@@ -16,17 +16,8 @@ import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.project
-import org.gradle.kotlin.dsl.withType
-import team.duckie.quackquack.convention.QuackArtifactType
-import team.duckie.quackquack.convention.QuackPublishExtension
-import team.duckie.quackquack.convention.apis
-import team.duckie.quackquack.convention.applyPlugins
-import team.duckie.quackquack.convention.libs
-import team.duckie.quackquack.convention.lintPublish
+import org.gradle.kotlin.dsl.*
+import team.duckie.quackquack.convention.*
 
 private const val QuackLintPublishExtensionName = "quackArtifactPublish"
 
@@ -54,8 +45,8 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                 if (extension.isNotInitialized) {
                     throw GradleException(
                         """
-                        |QuackPublishExtension 초기화가 누락되었거나 완전하지 않습니다.
-                        |version 과 type 모두 초기화가 필요합니다.
+                        |QuackPublishExtension 초기화가 누락되었습니다.
+                        |type 초기화가 필요합니다.
                         """.trimMargin()
                     )
                 }
