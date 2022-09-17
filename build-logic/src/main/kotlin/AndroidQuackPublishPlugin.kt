@@ -23,7 +23,6 @@ import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.withType
 import team.duckie.quackquack.convention.QuackArtifactType
 import team.duckie.quackquack.convention.QuackPublishExtension
-import team.duckie.quackquack.convention.apis
 import team.duckie.quackquack.convention.applyPlugins
 import team.duckie.quackquack.convention.libs
 import team.duckie.quackquack.convention.lintPublish
@@ -114,7 +113,12 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                             libs.findLibrary(artifact).get()
                         }
                         constraints {
-                            apis(*quackArtifactLibraries.toTypedArray())
+                            quackArtifactLibraries.forEach { artifact ->
+                                add(
+                                    configurationName = "api",
+                                    dependencyConstraintNotation = artifact,
+                                )
+                            }
                         }
                     }
                 }
