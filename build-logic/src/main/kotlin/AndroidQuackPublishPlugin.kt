@@ -16,8 +16,17 @@ import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.kotlin.dsl.*
-import team.duckie.quackquack.convention.*
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.project
+import org.gradle.kotlin.dsl.withType
+import team.duckie.quackquack.convention.QuackArtifactType
+import team.duckie.quackquack.convention.QuackPublishExtension
+import team.duckie.quackquack.convention.apis
+import team.duckie.quackquack.convention.applyPlugins
+import team.duckie.quackquack.convention.libs
+import team.duckie.quackquack.convention.lintPublish
 
 private const val QuackLintPublishExtensionName = "quackArtifactPublish"
 
