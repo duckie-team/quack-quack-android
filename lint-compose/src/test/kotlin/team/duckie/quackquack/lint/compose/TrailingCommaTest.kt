@@ -77,16 +77,26 @@ class TrailingCommaTest {
 
                         @Composable
                         fun success1() {
-                           test(0,)
+                            QuackBody1(
+                                text = "123",
+                                color = getTagTextColor(
+                                    true
+                                )
+                            )
                         }
 
                         @Composable
                         fun success2() {
-                           test(0)
+                           test(0,)
                         }
 
                         @Composable
                         fun success3() {
+                           test(0)
+                        }
+
+                        @Composable
+                        fun success4() {
                            test(0, 0,)
                         }
 
@@ -95,13 +105,23 @@ class TrailingCommaTest {
                         fun failed1() {
                             test(0, 0)
                         }
+
+                        @Composable
+                        fun failed2() {
+                            QuackBody1(
+                                text = "123",
+                                color = getTagTextColor(
+                                    true,
+                                ),
+                            )
+                        }
                     """.trimIndent()
                 )
             ),
             issues = listOf(
                 TrailingCommaIssue
             ),
-            expectedCount = 1
+            expectedCount = 2
         )
     }
 }
