@@ -7,7 +7,7 @@
 
 @file:Suppress(
     "UnstableApiUsage",
-    "TestFunctionName"
+    "TestFunctionName",
 )
 
 package team.duckie.quackquack.lint.compose
@@ -19,8 +19,8 @@ import team.duckie.quackquack.common.lint.test.composableTestFile
 
 /**
  * 테스트 성공 조건
- * 1. Variable의 Type이 List여야 함
- * 2. 네이밍 끝에 's'가 명시되어야 함
+ * 1. 변수의 타입이 Collection 이여야 함
+ * 2. 네이밍 접미사로 s 가 사용되야 함
  */
 class ListNamingTest {
 
