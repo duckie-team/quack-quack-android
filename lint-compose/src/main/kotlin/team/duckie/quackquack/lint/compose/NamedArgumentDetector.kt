@@ -27,6 +27,7 @@ import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.kotlin.KotlinUFunctionCallExpression
 import org.jetbrains.uast.kotlin.KotlinULambdaExpression
 import team.duckie.quackquack.common.fastForEachIndexed
+import team.duckie.quackquack.common.lint.compose.isInvokedWithinComposable
 
 private const val BriefDescription = "named argument 사용은 필수입니다."
 private const val Explanation = "인자들을 쉽게 구별하기 위해 named argument는 필수적으로 사용해야 합니다."
@@ -75,7 +76,7 @@ class NamedArgumentDetector : Detector(), SourceCodeScanner {
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
         override fun visitExpression(node: UExpression) {
-            if (node !is KotlinUFunctionCallExpression) return
+            if (node !is KotlinUFunctionCallExpression || !node.isInvokedWithinComposable()) return
 
             val firstMethodName = node.methodName?.first() ?: return
             if (firstMethodName !in 'A'..'Z') return
@@ -91,8 +92,10 @@ class NamedArgumentDetector : Detector(), SourceCodeScanner {
                 val argumentFirstChildNode = argumentParent.firstChildNode
                 val argumentParentFirstChildNode = argumentParent.treeParent.firstChildNode
 
-                if (argumentFirstChildNode.isNotValueArgumentName() ||
-                    argumentParentFirstChildNode.isNotValueArgumentName()
+                if (!(
+                    argumentFirstChildNode.isValueArgumentName() ||
+                            argumentParentFirstChildNode.isValueArgumentName()
+                )
                 ) {
                     context.report(
                         issue = NamedArgumentIssue,
@@ -106,6 +109,6 @@ class NamedArgumentDetector : Detector(), SourceCodeScanner {
         }
     }
 
-    private fun ASTNode.isNotValueArgumentName() =
+    private fun ASTNode.isValueArgumentName() =
         this.elementType == VALUE_ARGUMENT_NAME
 }
