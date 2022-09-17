@@ -16,25 +16,27 @@ import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
 
-//@RunWith(TestParameterInjector::class)
-//class QuackSelectableImage {
-//
-//    @get:Rule
-//    val paparazzi = buildPaparazzi()
-//
-//    @Test
-//    fun QuackSelectableImage(
-//        @TestParameter("true","false") isSelected: Boolean,
-//    ) {
-//        paparazzi.boxSnapshot(
-//            name = "[isSelected:$isSelected]",
-//        ) {
-//            team.duckie.quackquack.ui.component.QuackSelectableImage(
-//                size = 118.dp,
-//                image = "https://picsum.photos/id/237/200/300",
-//                isSelected = isSelected,
-//                onClick = {},
-//            )
-//        }
-//    }
-//}
+/**
+@RunWith(TestParameterInjector::class)
+class QuackSelectableImage {
+
+    @get:Rule
+    val paparazzi = buildPaparazzi()
+
+    @Test
+    fun QuackSelectableImage(
+        @TestParameter("true","false") isSelected: Boolean,
+    ) {
+        paparazzi.boxSnapshot(
+            name = "[isSelected:$isSelected]",
+        ) {
+            team.duckie.quackquack.ui.component.QuackSelectableImage(
+                size = 118.dp,
+                image = "https://picsum.photos/id/237/200/300",
+                isSelected = isSelected,
+                onClick = {},
+            )
+        }
+    }
+}
+ */

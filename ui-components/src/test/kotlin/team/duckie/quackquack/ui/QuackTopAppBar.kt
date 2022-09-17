@@ -7,32 +7,32 @@
 
 package team.duckie.quackquack.ui
 
-import androidx.compose.ui.unit.dp
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
 
 @RunWith(TestParameterInjector::class)
-class  QuackLabel {
+class QuackTopAppBar {
 
     @get:Rule
     val paparazzi = buildPaparazzi()
+
     @Test
-    fun QuackSimpleLabel(
-        @TestParameter("완료","거래중") text: String,
-        @TestParameter("true","false") active: Boolean,
-    ) {
+    fun QuackSimpleTopAppBar(
+    ){
         paparazzi.boxSnapshot(
-            name = "[text:$text-active:$active]",
-        ) {
-            team.duckie.quackquack.ui.component.QuackSimpleLabel(
-                text = text,
-                active = active,
+            name = "SimpleTopAppBar"
+        ){
+            team.duckie.quackquack.ui.component.QuackTopAppBar(
+                leadingIcon = QuackIcon.ArrowBack,
+                onClickLeadingIcon = {},
             )
         }
+
     }
 }
