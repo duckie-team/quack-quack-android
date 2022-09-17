@@ -7,9 +7,9 @@
 
 package team.duckie.quackquack.common.lint
 
+import java.awt.SystemColor.text
 import org.jetbrains.kotlin.psi.KtTypeReference
 import team.duckie.quackquack.common.lint.custom.CustomRule
-import java.awt.SystemColor.text
 
 /**
  * MutableCollection 접미사들
@@ -52,7 +52,7 @@ private val KtTypeReference.isCollection
     }
 
 val String.isCollection
-    get() = CollectionsSuffix.any { suffix->
+    get() = CollectionsSuffix.any { suffix ->
         this.contains(suffix)
     }
 

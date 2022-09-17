@@ -18,17 +18,16 @@ import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Implementation
 import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
+import com.android.tools.lint.detector.api.LintFix
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import org.jetbrains.uast.UVariable
 import org.jetbrains.uast.kotlin.KotlinUField
+import team.duckie.quackquack.common.lint.isCollection
 
-private const val BriefDescription = "List 네이밍 끝에는 s를 사용해야 합니다."
-private const val Explanation = "네이밍 스타일을 통일하기 위해 List 네이밍 끝에는 s를 사용해야 합니다."
-
-// List Type의 QualifiedName
-private const val ListQualifiedName = "java.util.List"
+private const val BriefDescription = "List 네이밍에는 s 접미사를 사용해야 합니다."
+private const val Explanation = "네이밍 스타일을 통일하기 위해 List 네이밍에는 s 접미사를 사용해야 합니다."
 
 val ListNamingIssue = Issue.create(
     id = "ListNaming",
@@ -47,7 +46,7 @@ val ListNamingIssue = Issue.create(
  * QuackQuack 린트의 [ListNamingDetector] 규칙을 정의합니다.
  *
  * 다음과 같은 조건에서 린트를 검사합니다.
- * 1. Variable의 Type이 List여야 함
+ * 1. 변수의 타입이 Collection 이여야 함
  *
  * 다음과 같은 조건에서 린트 에러가 발생합니다.
  * 1. Naming 끝에 's'가 명시되지 않은 경우
@@ -72,15 +71,22 @@ class ListNamingDetector : Detector(), SourceCodeScanner {
 
             val typeQualifiedName = node.typeReference?.getQualifiedName() ?: return
 
-            if (typeQualifiedName == ListQualifiedName) {
-                if (!node.name.endsWith('s')) {
-                    context.report(
-                        issue = ListNamingIssue,
-                        scope = node.sourcePsi,
-                        location = context.getLocation(node.sourcePsi),
-                        message = Explanation,
-                    )
-                }
+            if (typeQualifiedName.isCollection && !node.name.endsWith('s')) {
+                val namingFix = LintFix.create()
+                    .replace()
+                    .text("List")
+                    .with("s")
+                    .build()
+
+                context.report(
+                    issue = ListNamingIssue,
+                    scope = node.sourcePsi,
+                    location = context.getLocation(node.sourcePsi),
+                    message = Explanation,
+                    quickfixData = if (node.name.endsWith("List")) {
+                        namingFix
+                    } else null
+                )
             }
         }
     }
