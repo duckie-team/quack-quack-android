@@ -33,8 +33,6 @@ class ListNamingTest {
             files = listOf(
                 composableTestFile(
                     """
-                        fun List<Any>.test() {}
-
                         val peopleList: List<String> = emptyList<String>()
                         val manyPeople = emptyList<String>()
 
