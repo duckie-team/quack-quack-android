@@ -19,5 +19,6 @@ class CoreIssueRegistry : IssueProvider(
         MutableCollectionPublicIssue,
         KDocFieldsIssue,
         SpecifyLambdaParamsNameIssue,
+        ListNamingIssue,
     ),
 )
