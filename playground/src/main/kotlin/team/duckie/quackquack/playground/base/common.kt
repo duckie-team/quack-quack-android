@@ -516,7 +516,7 @@ private fun PreviewAlert(
                             top = 16.dp,
                         ),
                     imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "back"
+                    contentDescription = "back",
                 )
             }
         }
