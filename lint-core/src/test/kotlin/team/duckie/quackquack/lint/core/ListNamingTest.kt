@@ -10,7 +10,7 @@
     "TestFunctionName",
 )
 
-package team.duckie.quackquack.lint.compose
+package team.duckie.quackquack.lint.core
 
 import org.junit.Rule
 import org.junit.Test
