@@ -19,7 +19,6 @@ import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.Paparazzi
 import app.cash.paparazzi.androidHome
 import app.cash.paparazzi.detectEnvironment
-import team.duckie.quackquack.common.QuackDsl
 
 /**
  * [Paparazzi] 의 추가 설정을 위한 DSL 객체

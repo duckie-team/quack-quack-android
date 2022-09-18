@@ -21,9 +21,9 @@ import com.android.tools.lint.detector.api.SourceCodeScanner
 import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.kotlin.KotlinUFunctionCallExpression
-import team.duckie.quackquack.common.fastForEach
 import team.duckie.quackquack.common.lint.compose.isComposable
 import team.duckie.quackquack.common.lint.compose.isInvokedWithinComposable
+import team.duckie.quackquack.common.lint.util.fastForEach
 
 private const val BriefDescription = "후행 ',' 필수 사용"
 private const val Explanation = "후행 ',' 는 필수적으로 사용해야 합니다."

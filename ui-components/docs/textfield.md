@@ -13,7 +13,8 @@
 ### 구현 방법
 
 1. TextField 의 높이에 맞게 decoration box 를 꽉 채우고, content align 을 center 로 줌
-1. TextField 에 텍스트가 꽉 찰 수 있어서, decoration box 의 가로 길이를 구하고, 해당 가로 길이와 decoration box 와 TextField 사이의 간격 만큼 뺀 값으로 TextField 의 가로 길이를 지정함
+1. TextField 에 텍스트가 꽉 찰 수 있어서, decoration box 의 가로 길이를 구하고, 해당 가로 길이와 decoration box 와 TextField 사이의
+   간격 만큼 뺀 값으로 TextField 의 가로 길이를 지정함
 
 ### 시도했던 방법
 
@@ -161,7 +162,8 @@ private fun notFoundRequiredLayoutIdForQuackTextFieldMessage(
     """.trimMargin()
 ```
 
-이렇게 Layout 으로 아예 measurement 부터 다시 하는 방법을 4시간 끝에 생각해 냈으나, 위 방식으로 하게 되면 위 `# 구현 방법` 에서 2번째를 달성하기 위해 re-measure 가 필요해짐. 하지만 이는 컴포즈에서 금지된 방식임.
+이렇게 Layout 으로 아예 measurement 부터 다시 하는 방법을 4시간 끝에 생각해 냈으나, 위 방식으로 하게 되면 위 `# 구현 방법` 에서 2번째를 달성하기 위해
+re-measure 가 필요해짐. 하지만 이는 컴포즈에서 금지된 방식임.
 
 따라서 `Modifier.layout`을 통해 레이아웃 계산을 처음부터 다시 하는 방법을 채택함. 이는 QuackTab 에서도 사용하고 있는 방식임.
 
@@ -171,4 +173,6 @@ private fun notFoundRequiredLayoutIdForQuackTextFieldMessage(
 
 TextField 의 사이즈는 font scale 에 맞게 대응이 되나, decoration box 에 들어가는 아이콘들은 font scale 배수에 대응되지 않음.
 
-이를 극복하기 위해선 TextField 의 높이에 따라 Icon 사이즈를 증가하는 일정된 배수가 필요함. [혜진님 슬랙 메시지](https://sungbinland.slack.com/archives/C03CM18M529/p1662186262016929?thread_ts=1662181872.638669&cid=C03CM18M529) 참고.
+이를 극복하기 위해선 TextField 의 높이에 따라 Icon 사이즈를 증가하는 일정된 배수가
+필요함. [혜진님 슬랙 메시지](https://sungbinland.slack.com/archives/C03CM18M529/p1662186262016929?thread_ts=1662181872.638669&cid=C03CM18M529)
+참고.

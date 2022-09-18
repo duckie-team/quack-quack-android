@@ -54,7 +54,7 @@ fun SemanticsNodeInteraction.assertBackgroundColor(tint: QuackColor): SemanticsN
  * For Text Color Assert
  */
 fun SemanticsNodeInteraction.assertTextColor(
-    expectedColor: QuackColor
+    expectedColor: QuackColor,
 ): SemanticsNodeInteraction = assert(isOfColor(expectedColor.value))
 
 private fun isOfColor(color: Color): SemanticsMatcher = SemanticsMatcher(
@@ -109,7 +109,7 @@ fun abs(dp: Dp): Dp {
 }
 
 private fun SemanticsNodeInteraction.withUnclippedBoundsInRoot(
-    assertion: (DpRect) -> Unit
+    assertion: (DpRect) -> Unit,
 ): SemanticsNodeInteraction {
     val node = fetchSemanticsNode("Failed to retrieve bounds of the node.")
     val bounds = with(node.layoutInfo.density) {

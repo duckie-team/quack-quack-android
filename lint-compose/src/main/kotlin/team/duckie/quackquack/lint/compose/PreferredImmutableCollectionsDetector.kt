@@ -22,8 +22,8 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import org.jetbrains.uast.UMethod
-import team.duckie.quackquack.common.fastAny
 import team.duckie.quackquack.common.lint.compose.isComposable
+import team.duckie.quackquack.common.lint.util.fastAny
 import team.duckie.quackquack.common.lint.util.isReturnsUnit
 import team.duckie.quackquack.common.lint.util.typed
 

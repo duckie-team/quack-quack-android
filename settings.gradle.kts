@@ -10,7 +10,7 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
-    includeBuild("gradle-conventions")
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -20,17 +20,19 @@ pluginManagement {
 
 rootProject.name = "quack-quack"
 include(
-    ":common",
+    ":benchmark",
+    ":playground",
     ":common-lint",
     ":common-lint-test",
-    ":common-lint-compose",
-    ":playground",
+    ":ui-components",
     ":lint-core",
     ":lint-quack",
     ":lint-compose",
     ":lint-writing",
-    ":ui-components",
-    ":benchmark",
     ":lint-custom-rule-annotation",
     ":lint-custom-rule-processor",
+    ":lint-core-publish",
+    ":lint-quack-publish",
+    ":lint-compose-publish",
+    ":quack-publish-bom",
 )

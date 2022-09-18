@@ -33,8 +33,8 @@ import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.kotlin.psi.KtReferenceExpression
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.toUElement
-import team.duckie.quackquack.common.fastForEach
 import team.duckie.quackquack.common.lint.extension.content
+import team.duckie.quackquack.common.lint.util.fastForEach
 import team.duckie.quackquack.common.lint.util.isReturnsUnit
 
 private const val BriefDescription = "함수에 KDoc 및 @param, @return, @throws 및 description 필수"

@@ -28,8 +28,8 @@ import org.jetbrains.kotlin.psi.KtLambdaExpression
 import org.jetbrains.kotlin.psi.KtParameterList
 import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.ULambdaExpression
-import team.duckie.quackquack.common.fastForEach
 import team.duckie.quackquack.common.lint.util.ItName
+import team.duckie.quackquack.common.lint.util.fastForEach
 import team.duckie.quackquack.common.lint.util.findUnreferencedParameters
 import team.duckie.quackquack.common.lint.util.hasImplicitItParameter
 

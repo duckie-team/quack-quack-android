@@ -35,8 +35,8 @@ val DesignSystemIssue = Issue.create(
     severity = Severity.ERROR,
     implementation = Implementation(
         DesignSystemDetector::class.java,
-        Scope.JAVA_FILE_SCOPE
-    )
+        Scope.JAVA_FILE_SCOPE,
+    ),
 )
 
 /**
@@ -78,7 +78,9 @@ private val methods = mapOf(
  * 해당 함수가 컴포저블인지도 확인하도록 구현이 개선돼야 합니다.
  */
 class DesignSystemDetector : Detector(), Detector.UastScanner {
-    override fun getApplicableUastTypes() = listOf(UCallExpression::class.java)
+    override fun getApplicableUastTypes() = listOf(
+        UCallExpression::class.java,
+    )
 
     override fun createUastHandler(context: JavaContext) = object : UElementHandler() {
         override fun visitCallExpression(node: UCallExpression) {

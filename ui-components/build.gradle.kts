@@ -10,15 +10,19 @@
     "DSL_SCOPE_VIOLATION",
 )
 
+import team.duckie.quackquack.convention.QuackArtifactType
+
 plugins {
-    id(PluginEnum.AndroidLibrary)
-    id(PluginEnum.AndroidLibraryCompose)
-    id(PluginEnum.AndroidLibraryComposeUiTest)
-    id(PluginEnum.JvmKover)
-    id(PluginEnum.JvmDokka)
+    id(ConventionEnum.AndroidLibrary)
+    id(ConventionEnum.AndroidLibraryCompose)
+    id(ConventionEnum.AndroidLibraryComposeUiTest)
+    id(ConventionEnum.AndroidQuackPublish)
+    id(ConventionEnum.JvmKover)
+    id(ConventionEnum.JvmDokka)
     alias(libs.plugins.paparazzi)
 }
 
+// TODO: resourcePrefix
 android {
     namespace = "team.duckie.quackquack.ui"
 
@@ -34,15 +38,16 @@ android {
 
 dependencies {
     implementations(
-        projects.common,
+        projects.lintCorePublish,
+        projects.lintComposePublish,
         libs.util.profileinstaller,
         libs.compose.material,
         libs.compose.glide,
         libs.kotlin.collections.immutable,
     )
     testImplementation(libs.test.parameter.injector)
-    customLints(
-        projects.lintCore,
-        projects.lintCompose,
-    )
+}
+
+quackArtifactPublish {
+    type = QuackArtifactType.UiComponents
 }

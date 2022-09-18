@@ -8,11 +8,11 @@
 BundleInsideHelper.forInsideLintJar(project)
 
 plugins {
-    id(PluginEnum.AndroidLint)
-    id(PluginEnum.JvmKover)
-    id(PluginEnum.JvmDokka)
+    id(ConventionEnum.AndroidLint)
+    id(ConventionEnum.JvmKover)
+    id(ConventionEnum.JvmDokka)
 }
 
 dependencies {
-    bundleInsides(projects.commonLintCompose)
+    bundleInside(projects.commonLint)
 }

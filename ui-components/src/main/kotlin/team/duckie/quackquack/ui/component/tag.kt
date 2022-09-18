@@ -5,8 +5,8 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-// TODO: 전체 리펙토링 필요
-@file:Suppress("KDocFields", "unused") // 리펙토링 하면서 재거
+// TODO: 전체 리팩토링 필요
+@file:Suppress("KDocFields", "unused") // 리팩토링 하면서 재거
 
 package team.duckie.quackquack.ui.component
 

@@ -6,16 +6,18 @@
  */
 
 plugins {
-    id(PluginEnum.JvmLibrary)
-    id(PluginEnum.JvmKover)
-    id(PluginEnum.JvmDokka)
+    id(ConventionEnum.JvmLibrary)
+    id(ConventionEnum.JvmKover)
+    id(ConventionEnum.JvmDokka)
 }
 
 dependencies {
+    // :common 이랑 타입 안맞아서 빌드 포함 금지
+    // :common 은 안드로이드 전용 라이브러리지만,
+    // :common-lint-test 는 JVM 라이브러리임.
     implementations(
-        projects.common,
-        libs.test.junit.core,
-        libs.test.lint,
         libs.lint.api,
+        libs.test.lint,
+        libs.test.junit.core,
     )
 }
