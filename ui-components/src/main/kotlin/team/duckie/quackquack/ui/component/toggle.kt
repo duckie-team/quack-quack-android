@@ -157,7 +157,7 @@ fun QuackIconTextToggle(
             space = QuackIconTextToggleSpacing,
         ),
     ) {
-        QuackIconToggle(
+        QuackBasicIconToggle(
             checkedIcon = checkedIcon,
             unCheckedIcon = unCheckedIcon,
             checked = checked,
@@ -179,18 +179,46 @@ fun QuackIconTextToggle(
  * @param checked 체크되었는지 여부
  * @param onToggle 체크시 호출되는 콜백
  */
-// TODO: 아이콘 전환 애니메이션?
 @Composable
 @NonRestartableComposable
 fun QuackIconToggle(
-    checkedIcon: QuackIcon,
+    checkedIcon: QuackIcon?,
+    unCheckedIcon: QuackIcon,
+    checked: Boolean,
+    onToggle: () -> Unit,
+) = QuackBasicIconToggle(
+    checkedIcon = checkedIcon,
+    unCheckedIcon = unCheckedIcon,
+    checked = checked,
+    onToggle = onToggle,
+)
+
+/**
+ * 덕키의 Basic ToggleButton 입니다.
+ *
+ * [checked] 에 따라 보여지는 아이콘이 달라집니다.
+ *
+ * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon] , null 일 경우 [unCheckedIcon] 으로만 적용
+ * @param unCheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
+ * @param checked 체크되었는지 여부
+ * @param onToggle 체크시 호출되는 콜백
+ */
+// TODO: 아이콘 전환 애니메이션?
+@Composable
+@NonRestartableComposable
+private fun QuackBasicIconToggle(
+    checkedIcon: QuackIcon?,
     unCheckedIcon: QuackIcon,
     checked: Boolean,
     onToggle: () -> Unit,
 ) = QuackImage(
-    icon = when (checked) {
-        true -> checkedIcon
-        else -> unCheckedIcon
+    icon = if (checkedIcon == null) {
+        unCheckedIcon
+    } else {
+        when (checked) {
+            true -> checkedIcon
+            else -> unCheckedIcon
+        }
     },
     rippleEnabled = false,
     onClick = onToggle,
