@@ -76,4 +76,22 @@ class QuackToggle {
             )
         }
     }
+
+    @Test
+    fun QuackIconTextToggle(
+        @TestParameter checked: Boolean,
+        @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
+    ) {
+        paparazzi.boxSnapshot(
+            name = "[checked:$checked]-[fontScale:$fontScale]",
+        ) {
+            team.duckie.quackquack.ui.component.QuackIconTextToggle(
+                checkedIcon = QuackIcon.FilledHeart,
+                unCheckedIcon = QuackIcon.Heart,
+                checked = checked,
+                text = "QuackIconTextToggle",
+                onToggle = {},
+            )
+        }
+    }
 }
