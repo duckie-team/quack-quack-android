@@ -141,7 +141,6 @@ fun QuackSquareCheckBox(
  * @param text 아이콘 오른쪽에 표시될 Text
  * @param onToggle 체크시 호출되는 콜백
  */
-// TODO: 아이콘 전환 애니메이션?
 @Composable
 @NonRestartableComposable
 fun QuackIconTextToggle(
