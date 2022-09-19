@@ -24,6 +24,7 @@ import team.duckie.quackquack.playground.base.PlaygroundActivities
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
 import team.duckie.quackquack.playground.realworld.FabPlayground
 import team.duckie.quackquack.playground.realworld.QuackBasicTextFieldWithAllDecorationDemo
+import team.duckie.quackquack.playground.realworld.QuackIconTextToggleDemo
 import team.duckie.quackquack.playground.realworld.TabPlayground
 import team.duckie.quackquack.playground.realworld.TextFieldPlayground
 import team.duckie.quackquack.playground.realworld.TogglePlayground
@@ -47,7 +48,7 @@ class MainActivity : BaseActivity() {
         setContent {
             // PlaygroundDemo()
             SingleDemo {
-                QuackBasicTextFieldWithAllDecorationDemo()
+                QuackIconTextToggleDemo()
             }
         }
     }
