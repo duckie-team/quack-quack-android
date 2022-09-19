@@ -27,7 +27,7 @@ class QuackToggle {
     @get:Rule
     val paparazzi = buildPaparazzi {
         // QuackToggle 은 정사각형으로 테스트해도 무방함
-        screenWidth = screenHeight
+        screenWidth = screenHeight + 200
     }
 
     @get:Rule
