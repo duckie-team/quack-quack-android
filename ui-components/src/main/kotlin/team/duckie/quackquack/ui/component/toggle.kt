@@ -11,6 +11,8 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -44,6 +46,8 @@ private const val BoxOutDuration = 100
 private val RoundCheckboxSize = 28.dp
 private val SquareCheckboxSize = 24.dp
 private val StrokeWidth = 2.dp
+
+private val QuackIconTextToggleSpacing = 4.dp
 
 private const val CheckCrossX = 0.4f
 private const val CheckCrossY = 0.7f
@@ -131,7 +135,46 @@ fun QuackSquareCheckBox(
  *
  * [checked] 에 따라 보여지는 아이콘이 달라집니다.
  *
- * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon]
+ * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon],
+ * @param unCheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
+ * @param checked 체크되었는지 여부
+ * @param text 아이콘 오른쪽에 표시될 Text
+ * @param onToggle 체크시 호출되는 콜백
+ */
+// TODO: 아이콘 전환 애니메이션?
+@Composable
+@NonRestartableComposable
+fun QuackIconTextToggle(
+    checkedIcon: QuackIcon?,
+    unCheckedIcon: QuackIcon,
+    checked: Boolean,
+    text: String,
+    onToggle: () -> Unit,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(
+            space = QuackIconTextToggleSpacing,
+        ),
+    ) {
+        QuackIconToggle(
+            checkedIcon = checkedIcon,
+            unCheckedIcon = unCheckedIcon,
+            checked = checked,
+            onToggle = onToggle,
+        )
+        QuackBody2(
+            text = text,
+        )
+    }
+}
+
+/**
+ * 덕키의 ToggleButton 입니다.
+ *
+ * [checked] 에 따라 보여지는 아이콘이 달라집니다.
+ *
+ * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon] , null 일 경우 [unCheckedIcon] 으로만 적용
  * @param unCheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
  * @param checked 체크되었는지 여부
  * @param onToggle 체크시 호출되는 콜백
