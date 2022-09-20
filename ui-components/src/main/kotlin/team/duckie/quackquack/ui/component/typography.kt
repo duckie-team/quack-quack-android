@@ -30,7 +30,7 @@ import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 fun QuackHeadLine1(
     text: String,
     color: QuackColor = QuackColor.Black,
-    rippleEnabled: Boolean = true,
+    rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
@@ -57,7 +57,7 @@ fun QuackHeadLine1(
 fun QuackHeadLine2(
     text: String,
     color: QuackColor = QuackColor.Black,
-    rippleEnabled: Boolean = true,
+    rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
@@ -84,7 +84,7 @@ fun QuackHeadLine2(
 fun QuackTitle1(
     text: String,
     color: QuackColor = QuackColor.Black,
-    rippleEnabled: Boolean = true,
+    rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
@@ -111,7 +111,7 @@ fun QuackTitle1(
 fun QuackTitle2(
     text: String,
     color: QuackColor = QuackColor.Black,
-    rippleEnabled: Boolean = true,
+    rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
@@ -138,7 +138,7 @@ fun QuackTitle2(
 fun QuackSubtitle(
     text: String,
     color: QuackColor = QuackColor.Black,
-    rippleEnabled: Boolean = true,
+    rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
@@ -165,7 +165,7 @@ fun QuackSubtitle(
 fun QuackBody1(
     text: String,
     color: QuackColor = QuackColor.Black,
-    rippleEnabled: Boolean = true,
+    rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
@@ -192,7 +192,7 @@ fun QuackBody1(
 fun QuackBody2(
     text: String,
     color: QuackColor = QuackColor.Black,
-    rippleEnabled: Boolean = true,
+    rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
@@ -219,7 +219,7 @@ fun QuackBody2(
 fun QuackBody3(
     text: String,
     color: QuackColor = QuackColor.Black,
-    rippleEnabled: Boolean = true,
+    rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
