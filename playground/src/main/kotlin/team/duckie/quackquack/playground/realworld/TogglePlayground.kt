@@ -105,7 +105,7 @@ fun QuackIconTextToggleDemo() {
     ) {
         QuackIconTextToggle(
             checkedIcon = null,
-            unCheckedIcon = QuackIcon.Comment18,
+            unCheckedIcon = QuackIcon.Comment,
             checked = checked,
             text = "10.2k",
             onToggle = {
@@ -113,8 +113,8 @@ fun QuackIconTextToggleDemo() {
             },
         )
         QuackIconTextToggle(
-            checkedIcon = QuackIcon.FilledHeart18,
-            unCheckedIcon = QuackIcon.Heart18,
+            checkedIcon = QuackIcon.FilledHeart,
+            unCheckedIcon = QuackIcon.Heart,
             checked = checked2,
             text = "10.2k",
             onToggle = {
