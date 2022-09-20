@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/quackquack-logo.png" width="30%" alt="quackquack" />
+  <img src="./assets/quackquack-logo.png" width="20%" alt="quackquack" />
 </p>
 <h1 align="center">QuackQuack</h1>
 <h5 align="center"><a href="https://github.com/sungbinland/duckie-android">Duckie</a> Design System</h5>
