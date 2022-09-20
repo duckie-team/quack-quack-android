@@ -35,7 +35,7 @@ WIP
 
 QuackQuack is available in the Maven repository. [BOM](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#bill-of-materials-bom-poms) is currently not supported due to deployment [issues](https://github.com/sungbinland/duckie-quack-quack/issues/114). Once the issue is resolved, BOM deployment is enabled. (we are want for your help!)
 
-> As mentioned above,`quack-lint-writing` is not deployed as WIP.
+> As said above, `quack-lint-writing` is not deployed because it's WIP.
 
 ![quack-ui-components](https://img.shields.io/maven-central/v/team.duckie.quack/quack-ui-components?color=FF8800&label=quack-ui-components&style=flat-square) ![quack-lint-core](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-core?color=FF8800&label=quack-lint-core&style=flat-square) ![quack-lint-quack](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-quack?color=FF8800&label=quack-lint-quack&style=flat-square) ![quack-lint-compose](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-compose?color=FF8800&label=quack-lint-compose&style=flat-square) ![quack-lint-writing](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-writing?color=FF8800&label=quack-lint-writing&style=flat-square)
 
