@@ -23,6 +23,7 @@ import team.duckie.quackquack.ui.modifier.quackClickable
  *
  * @param icon 표시할 아이콘의 drawable 아이디.
  * 만약 null 이 들어온다면 아이콘을 그리지 않습니다.
+ * @param tint 아이콘에 적용할 틴트 값
  * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
  * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
  */
@@ -30,11 +31,13 @@ import team.duckie.quackquack.ui.modifier.quackClickable
 @NonRestartableComposable
 fun QuackImage(
     icon: QuackIcon?,
+    tint: QuackColor? = null,
     rippleEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
 ) {
     InternalQuackImage(
         icon = icon,
+        tint = tint,
         rippleEnabled = rippleEnabled,
         onClick = onClick,
     )
@@ -45,6 +48,7 @@ fun QuackImage(
  *
  * @param image 표시할 이미지의 값.
  * 만약 null 이 들어온다면 이미지를 그리지 않습니다.
+ * @param tint 아이콘에 적용할 틴트 값
  * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
  * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
  */
@@ -53,11 +57,13 @@ fun QuackImage(
 @NonRestartableComposable
 fun QuackImage(
     image: Any?,
+    tint: QuackColor? = null,
     rippleEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
 ) {
     InternalQuackImage(
         image = image,
+        tint = tint,
         rippleEnabled = rippleEnabled,
         onClick = onClick,
     )
