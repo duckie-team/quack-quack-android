@@ -24,12 +24,61 @@ import team.duckie.quackquack.ui.modifier.quackClickable
  * @param icon 표시할 아이콘의 drawable 아이디.
  * 만약 null 이 들어온다면 아이콘을 그리지 않습니다.
  * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
- * @param tint 아이콘에 적용할 틴트 값
  * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
  */
 @Composable
 @NonRestartableComposable
 fun QuackImage(
+    icon: QuackIcon?,
+    rippleEnabled: Boolean = true,
+    onClick: (() -> Unit)? = null,
+) {
+    InternalQuackImage(
+        icon = icon,
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    )
+}
+
+/**
+ * 이미지 하나만 표시하는 컴포넌트의 이미지 버전
+ *
+ * @param image 표시할 이미지의 값.
+ * 만약 null 이 들어온다면 이미지를 그리지 않습니다.
+ * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
+ * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
+ */
+// TODO: 로딩 effect
+@Composable
+@NonRestartableComposable
+fun QuackImage(
+    image: Any?,
+    rippleEnabled: Boolean = true,
+    onClick: (() -> Unit)? = null,
+) {
+    InternalQuackImage(
+        image = image,
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    )
+}
+
+/**
+ * 이미지 하나만 표시하는 컴포넌트의 아이콘 버전
+ *
+ * 모듈 내에서 [Modifier] 및 [tint] 변경하여 사용 가능
+ *
+ * @param modifier 이 컴포저블에서 사용할 [Modifier]
+ * @param icon 표시할 아이콘의 drawable 아이디.
+ * 만약 null 이 들어온다면 아이콘을 그리지 않습니다.
+ * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
+ * @param tint 아이콘에 적용할 틴트 값
+ * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
+ */
+@Composable
+@NonRestartableComposable
+internal fun InternalQuackImage(
+    modifier: Modifier = Modifier,
     icon: QuackIcon?,
     tint: QuackColor? = null,
     rippleEnabled: Boolean = true,
@@ -37,7 +86,7 @@ fun QuackImage(
 ) {
     if (icon == null) return
     Image(
-        modifier = Modifier.quackClickable(
+        modifier = modifier.quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),
@@ -52,6 +101,9 @@ fun QuackImage(
 /**
  * 이미지 하나만 표시하는 컴포넌트의 이미지 버전
  *
+ * 모듈 내에서 [Modifier] 및 [tint] 변경하여 사용 가능
+ *
+ * @param modifier 이 컴포저블에서 사용할 [Modifier]
  * @param image 표시할 이미지의 값.
  * 만약 null 이 들어온다면 이미지를 그리지 않습니다.
  * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
@@ -61,7 +113,8 @@ fun QuackImage(
 // TODO: 로딩 effect
 @Composable
 @NonRestartableComposable
-fun QuackImage(
+fun InternalQuackImage(
+    modifier: Modifier = Modifier,
     image: Any?,
     rippleEnabled: Boolean = true,
     tint: QuackColor? = null,
@@ -69,7 +122,7 @@ fun QuackImage(
 ) {
     if (image == null) return
     GlideImage(
-        modifier = Modifier.quackClickable(
+        modifier = modifier.quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),
