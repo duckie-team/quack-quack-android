@@ -19,6 +19,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.rule.AnimationTestRule
+import team.duckie.quackquack.ui.textstyle.QuackFontScale
 import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
 
@@ -84,6 +85,7 @@ class QuackToggle {
         paparazzi.boxSnapshot(
             name = "[checked:$checked]-[fontScale:$fontScale]",
         ) {
+            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackIconTextToggle(
                 checkedIcon = QuackIcon.FilledHeart,
                 unCheckedIcon = QuackIcon.Heart,
