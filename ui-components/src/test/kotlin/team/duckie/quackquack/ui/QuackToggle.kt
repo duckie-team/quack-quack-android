@@ -26,7 +26,6 @@ import team.duckie.quackquack.ui.util.buildPaparazzi
 class QuackToggle {
     @get:Rule
     val paparazzi = buildPaparazzi {
-        // QuackToggle 은 정사각형으로 테스트해도 무방함
         screenWidth = screenHeight + 200
     }
 
