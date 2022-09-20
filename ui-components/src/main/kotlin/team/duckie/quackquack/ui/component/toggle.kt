@@ -45,6 +45,7 @@ private const val BoxOutDuration = 100
 
 private val RoundCheckboxSize = 28.dp
 private val SquareCheckboxSize = 24.dp
+private val SmallIconSize = 18.dp
 private val StrokeWidth = 2.dp
 
 private val QuackIconTextToggleSpacing = 4.dp
@@ -158,6 +159,9 @@ fun QuackIconTextToggle(
         ),
     ) {
         QuackBasicIconToggle(
+            modifier = Modifier.size(
+                size = SmallIconSize,
+            ),
             checkedIcon = checkedIcon,
             unCheckedIcon = unCheckedIcon,
             checked = checked,
@@ -198,6 +202,7 @@ fun QuackIconToggle(
  *
  * [checked] 에 따라 보여지는 아이콘이 달라집니다.
  *
+ * @param modifier 이 컴포저블에서 사용할 [Modifier]
  * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon] , null 일 경우 [unCheckedIcon] 으로만 적용
  * @param unCheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
  * @param checked 체크되었는지 여부
@@ -207,11 +212,13 @@ fun QuackIconToggle(
 @Composable
 @NonRestartableComposable
 private fun QuackBasicIconToggle(
+    modifier: Modifier = Modifier,
     checkedIcon: QuackIcon?,
     unCheckedIcon: QuackIcon,
     checked: Boolean,
     onToggle: () -> Unit,
 ) = InternalQuackImage(
+    modifier = modifier,
     icon = if (checkedIcon == null) {
         unCheckedIcon
     } else {
