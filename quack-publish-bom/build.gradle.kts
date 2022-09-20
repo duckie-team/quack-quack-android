@@ -10,6 +10,7 @@
 plugins {
     id(ConventionEnum.AndroidLibrary)
     // id(ConventionEnum.AndroidQuackPublish)
+    id(ConventionEnum.JvmKover)
 }
 
 android {
