@@ -25,7 +25,7 @@ QuackQuack is a work in progress, and each lint rule used in the project will be
 
 ### Preview
 
-QuackQuack's design components can be previewed by building the Playground module(or [quack-ui.duckie.team](https://quack-ui.duckie.team/)). It will be released on the Google PlayStore soon.
+QuackQuack's design components can be previewed by building the Playground module(or [quack-ui.duckie.team](https://quack-ui.duckie.team/) (not recommended)). If you don't feel like building it yourself, you can download it from the [Google PlayStore](https://play.google.com/store/apps/details?team.duckie.quackquack.playground).
 
 ### Usage
 
