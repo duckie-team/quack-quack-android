@@ -211,7 +211,7 @@ private fun QuackBasicIconToggle(
     unCheckedIcon: QuackIcon,
     checked: Boolean,
     onToggle: () -> Unit,
-) = QuackImage(
+) = InternalQuackImage(
     icon = if (checkedIcon == null) {
         unCheckedIcon
     } else {
