@@ -6,7 +6,7 @@
 <p align="center">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-blue"/></a>
   <a href="https://developer.android.com/about/versions/marshmallow"><img alt="API 23+" src="https://img.shields.io/badge/API-23%2B-brightgreen.svg"/></a>
-  <a href="https://github.com/sungbinland/duckie-android/blob/main/docs/codestyle.md"><img alt="codestyle" src="./assets/codestyle-duckie.svg"/></a>
+  <a href="https://github.com/sungbinland/duckie-android/blob/main/docs/codestyle.md"><img alt="codestyle" src="https://raw.githubusercontent.com/sungbinland/duckie-android/main/assets/codestyle-duckie.svg"/></a>
 </p>
 
 ---
@@ -21,7 +21,7 @@ QuackQuack is a design system to be used in [Duckie](https://github.com/sungbinl
 - `lint-compose`: Lint for Jetpack Compose codebase
 - `lint-writing`:  Lint for UX Writing (WIP)
 
-QuackQuack is a work in progress, and each lint rule used in the project will be documented soon. You can check why QuackQuack was born on the [Duckie Tech Blog](https://medium.com/duckie-stories/%EB%8D%95%ED%82%A4%EC%9D%98-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%BD%A5%EA%BD%A5-%EC%9D%84-%EC%86%8C%EA%B0%9C%ED%95%A9%EB%8B%88%EB%8B%A4-59d962c4bf7) (ko).
+QuackQuack is a work in progress, and each lint rule used in the project will be documented soon. You can check why QuackQuack was born on the [Duckie Tech blog](https://medium.com/duckie-stories/%EB%8D%95%ED%82%A4%EC%9D%98-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%BD%A5%EA%BD%A5-%EC%9D%84-%EC%86%8C%EA%B0%9C%ED%95%A9%EB%8B%88%EB%8B%A4-59d962c4bf7) (ko).
 
 ### Preview
 
