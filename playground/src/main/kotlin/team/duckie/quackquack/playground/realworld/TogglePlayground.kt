@@ -33,7 +33,7 @@ class TogglePlayground : BaseActivity() {
         "QuackRoundCheck" to { QuackRoundCheckDemo() },
         "QuackSquareCheck" to { QuackSquareCheckDemo() },
         "QuackToggle" to { QuackIconToggleDemo() },
-        "QuackIconTextToggle" to { QuackIconTextToggleDemo() }
+        "QuackIconTextToggle" to { QuackIconTextToggleDemo() },
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
