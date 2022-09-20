@@ -75,7 +75,3 @@ We love your contribution! The easiest way for you to start contributing is to t
 2. [quack-test.duckie.team](https://quack-test.duckie.team/): Full test coverage HTML report from QuackQuack. It is updated whenever a PR with `test` and `deploy` labels is opened. Test coverage measurements use [Kover](https://github.com/Kotlin/kotlinx-kover).
 3. [quack-docs.duckie.team](https://quack-docs.duckie.team/): Full KDoc content from QuackQuack. It is updated whenever a PR with `dokka` and `deploy` labels is opened. HTML generation for deploy in KDoc uses [dokka](https://github.com/Kotlin/dokka). (ko)
 4. [documents](/documents): Documents for internal reference of Duckie. Code rules and important notes are noted. (ko)
-
-### Credit
-
-The QuackQuack icon uses a duck emoji from [Tossface](https://toss.im/tossface).
