@@ -131,9 +131,10 @@ fun QuackSquareCheckBox(
 }
 
 /**
- * 덕키의 ToggleButton 입니다.
+ * 덕키의 IconTextToggle 입니다.
  *
  * [checked] 에 따라 보여지는 아이콘이 달라집니다.
+ * [checkedIcon] 이 null 이면 [unCheckedIcon] 으로만 적용됩니다.
  *
  * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon],
  * @param unCheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
