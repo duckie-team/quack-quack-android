@@ -1,6 +1,6 @@
 # QuackQuack Playground
 
-![banner](../assets/quackquack-banner.png)
+![banner](../assets/quackquack-banner.svg)
 
 ### Notes
 
