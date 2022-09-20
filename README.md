@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="./assets/quackquack-logo.svg" width="20%" alt="quackquack" />
+  <img src="./assets/logo-icon.svg" width="20%" alt="quackquack" />
 </p>
 <h1 align="center">QuackQuack</h1>
 <h5 align="center"><a href="https://github.com/sungbinland/duckie-android">Duckie</a> Design System</h5>
 <p align="center">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-blue"/></a>
   <a href="https://developer.android.com/about/versions/marshmallow"><img alt="API 23+" src="https://img.shields.io/badge/API-23%2B-brightgreen.svg"/></a>
-  <a href="https://github.com/sungbinland/duckie-android/blob/main/docs/codestyle.md"><img alt="codestyle" src="https://raw.githubusercontent.com/sungbinland/duckie-android/main/assets/codestyle-duckie.svg"/></a>
+  <a href="https://github.com/sungbinland/duckie-android/blob/main/documents/codestyle.md"><img alt="codestyle" src="https://raw.githubusercontent.com/sungbinland/duckie-android/main/assets/codestyle-duckie.svg"/></a>
 </p>
 
 ---
