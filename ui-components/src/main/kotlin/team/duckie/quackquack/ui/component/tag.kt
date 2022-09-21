@@ -164,7 +164,7 @@ fun QuackIconTag(
                     width = QuackIconTagSpace,
                 ),
             )
-            QuackImage(
+            InternalQuackImage(
                 icon = icon,
                 tint = getIconColor(
                     isSelected

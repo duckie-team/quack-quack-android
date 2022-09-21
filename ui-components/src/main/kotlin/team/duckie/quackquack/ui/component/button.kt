@@ -421,7 +421,7 @@ private fun QuackBasicButton(
                 // animated visibility 대응
                 targetState = leadingIcon,
             ) { animatedLeadingIcon ->
-                QuackImage(
+                InternalQuackImage(
                     icon = animatedLeadingIcon,
                     tint = QuackColor.Gray1,
                 )
