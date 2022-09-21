@@ -7,19 +7,20 @@
 
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.TimeZone
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.TimeZone
 
 plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
+    alias(libs.plugins.gradle.maven.publish.asProvider())
 }
 
 koverMerged {
@@ -42,6 +43,7 @@ buildscript {
         classpath(libs.build.gradle)
         classpath(libs.build.kotlin)
         classpath(libs.build.dokka.base)
+        classpath(libs.build.gradle.maven.publish)
     }
 }
 
@@ -53,6 +55,7 @@ allprojects {
 
     afterEvaluate {
         detekt {
+            parallel = true
             buildUponDefaultConfig = true
             toolVersion = libs.versions.detekt.get()
             config.setFrom(files("$rootDir/detekt-config.yml"))
@@ -141,7 +144,10 @@ tasks.register("printGenerateSnapshotFiles") {
           (__)\       )\/\
               ||----w |
               ||     ||
-        """.replaceFirst("\n", "")
+        """.replaceFirst(
+            oldValue = "\n",
+            newValue = "",
+        )
     )
 }
 

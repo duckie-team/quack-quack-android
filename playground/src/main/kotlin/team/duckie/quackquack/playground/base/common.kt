@@ -516,7 +516,7 @@ private fun PreviewAlert(
                             onClick = onBackPressed,
                         ),
                     imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "back"
+                    contentDescription = "back",
                 )
             }
         }

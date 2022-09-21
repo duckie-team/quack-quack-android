@@ -26,7 +26,9 @@ internal object CustomRule {
     @Suppress("UNCHECKED_CAST")
     private fun getAllowList(
         ruleName: String,
-    ) = File(defaultPath, "Custom_$ruleName.txt").also { println(it.absolutePath) }.readText().split("\n")
+    ) = File(defaultPath, "Custom_$ruleName.txt")
+        .readText()
+        .split("\n")
 
     val Modifier = try {
         getAllowList("Modifier")

@@ -28,8 +28,8 @@ import androidx.compose.ui.graphics.colorspace.ColorSpace
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
 import kotlin.math.pow
 import kotlin.reflect.KProperty
-import team.duckie.quackquack.common.AllowMagicNumber
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.util.AllowMagicNumber
 
 /**
  * 덕키에서 사용할 색상을 정의합니다. 추상화를 위해 컴포즈의 [Color] 를 그대로 사용하는게 아닌

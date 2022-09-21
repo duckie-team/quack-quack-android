@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.common.lint
 
+import java.awt.SystemColor.text
 import org.jetbrains.kotlin.psi.KtTypeReference
 import team.duckie.quackquack.common.lint.custom.CustomRule
 
@@ -48,6 +49,11 @@ private val KtTypeReference.isCollection
     get() = CollectionsSuffix.any { suffix ->
         // ListWrapper 같은 경우도 있어서 contains 로 체크 (endsWith 했다가 취소)
         text.contains(suffix)
+    }
+
+val String.isCollection
+    get() = CollectionsSuffix.any { suffix ->
+        this.contains(suffix)
     }
 
 private val KtTypeReference.isImmutableCollection get() = ImmutableCollectionsName.contains(text)

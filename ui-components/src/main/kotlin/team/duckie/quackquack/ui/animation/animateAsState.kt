@@ -13,7 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.snapshotFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import team.duckie.quackquack.common.npe
+import team.duckie.quackquack.ui.util.npe
 
 /**
  * State 를 Flow 로 변환합니다.

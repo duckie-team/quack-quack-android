@@ -33,11 +33,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.common.npe
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
+import team.duckie.quackquack.ui.util.npe
 
 // old codebase:
 // https://github.com/sungbinland/duckie-quack-quack/blob/6e0701a29711f2850d9b0449a286e8c282672982/ui-components/src/main/kotlin/team/duckie/quackquack/ui/component/textfield.kt

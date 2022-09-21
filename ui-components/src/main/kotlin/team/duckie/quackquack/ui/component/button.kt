@@ -417,7 +417,8 @@ private fun QuackBasicButton(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            AnimatedContentTransform( // animated visibility 대응
+            AnimatedContentTransform(
+                // animated visibility 대응
                 targetState = leadingIcon,
             ) { animatedLeadingIcon ->
                 QuackImage(

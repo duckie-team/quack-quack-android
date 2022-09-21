@@ -7,23 +7,16 @@
 
 import org.gradle.api.artifacts.dsl.DependencyHandler as DependencyScope
 
+private const val Api = "api"
 private const val BundleInside = "bundleInside"
 private const val Implementation = "implementation"
 private const val TestImplementation = "testImplementation"
-private const val Api = "api"
-private const val LintChecks = "lintChecks"
 
-fun DependencyScope.customLints(vararg paths: Any) {
-    delegate(
-        method = LintChecks,
-        paths = paths
-    )
-}
-
-fun DependencyScope.bundleInsides(vararg paths: Any) {
+// bundleInside 는 하나의 아티펙트만 가능함
+fun DependencyScope.bundleInside(path: Any) {
     delegate(
         method = BundleInside,
-        paths = paths
+        paths = arrayOf(path),
     )
 }
 

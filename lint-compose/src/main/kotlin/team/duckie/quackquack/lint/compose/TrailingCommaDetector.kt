@@ -20,10 +20,11 @@ import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.UMethod
+import org.jetbrains.uast.kotlin.KotlinStringULiteralExpression
 import org.jetbrains.uast.kotlin.KotlinUFunctionCallExpression
-import team.duckie.quackquack.common.fastForEach
 import team.duckie.quackquack.common.lint.compose.isComposable
 import team.duckie.quackquack.common.lint.compose.isInvokedWithinComposable
+import team.duckie.quackquack.common.lint.util.fastForEach
 
 private const val BriefDescription = "후행 ',' 필수 사용"
 private const val Explanation = "후행 ',' 는 필수적으로 사용해야 합니다."
@@ -100,7 +101,11 @@ class TrailingCommaDetector : Detector(), SourceCodeScanner {
             val valueArgumentList = node.valueArguments
             valueArgumentList.fastForEach { argument ->
                 val argumentNode = argument.sourcePsi?.node
-                val lastParameterNextSibling = argumentNode?.treeParent?.psi?.nextSibling ?: return
+                val argumentTreeParent = argumentNode?.treeParent ?: return
+
+                val lastParameterNextSibling = if (argument is KotlinStringULiteralExpression) {
+                    argumentTreeParent.treeParent.psi.nextSibling
+                } else argumentTreeParent.psi.nextSibling ?: return
 
                 if (!lastParameterNextSibling.textContains(',')) {
                     context.report(

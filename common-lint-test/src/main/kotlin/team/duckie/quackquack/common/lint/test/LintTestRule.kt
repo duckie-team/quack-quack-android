@@ -19,7 +19,7 @@ import com.android.tools.lint.detector.api.Issue
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
-import team.duckie.quackquack.common.runIf
+import team.duckie.quackquack.common.lint.test.util.runIf
 
 /**
  * [LintTestRule] 인터페이스를 반환합니다.

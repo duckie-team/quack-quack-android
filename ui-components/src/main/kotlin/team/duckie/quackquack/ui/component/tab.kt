@@ -273,7 +273,7 @@ private fun QuackMainTabTextLazyRow(
     }
 }
 
-// TODO: 리펙토링 필요
+// TODO: 리팩토링 필요
 /*@Composable
 fun QuackSubTab(
     selectedTabIndex: Int,
@@ -319,7 +319,7 @@ fun QuackSubTab(
     }
 }
 
-// TODO: 리펙토링 필요
+// TODO: 리팩토링 필요
 @Composable
 private fun QuackSubTabTextRow(
     modifier: Modifier,
