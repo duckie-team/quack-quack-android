@@ -210,16 +210,6 @@ value class QuackIcon private constructor(
         )
 
         @Stable
-        val CommentHeart = QuackIcon(
-            drawableId = R.drawable.ic_comment_heart,
-        )
-
-        @Stable
-        val FilledCommentHeart = QuackIcon(
-            drawableId = R.drawable.ic_comment_heart_filled,
-        )
-
-        @Stable
         val FilledBookmark = QuackIcon(
             drawableId = R.drawable.ic_bookmark_24_filled,
         )

@@ -19,6 +19,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.rule.AnimationTestRule
+import team.duckie.quackquack.ui.textstyle.QuackFontScale
 import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
 
@@ -26,8 +27,7 @@ import team.duckie.quackquack.ui.util.buildPaparazzi
 class QuackToggle {
     @get:Rule
     val paparazzi = buildPaparazzi {
-        // QuackToggle 은 정사각형으로 테스트해도 무방함
-        screenWidth = screenHeight
+        screenWidth = screenHeight + 200
     }
 
     @get:Rule
@@ -72,6 +72,25 @@ class QuackToggle {
                 checkedIcon = QuackIcon.FilledHeart,
                 unCheckedIcon = QuackIcon.Heart,
                 checked = checked,
+                onToggle = {},
+            )
+        }
+    }
+
+    @Test
+    fun QuackIconTextToggle(
+        @TestParameter checked: Boolean,
+        @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
+    ) {
+        paparazzi.boxSnapshot(
+            name = "[checked:$checked]-[fontScale:$fontScale]",
+        ) {
+            QuackFontScale = fontScale
+            team.duckie.quackquack.ui.component.QuackIconTextToggle(
+                checkedIcon = QuackIcon.FilledHeart,
+                unCheckedIcon = QuackIcon.Heart,
+                checked = checked,
+                text = "QuackIconTextToggle",
                 onToggle = {},
             )
         }
