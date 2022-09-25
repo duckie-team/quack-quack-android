@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("PackageNaming")
+
 package team.duckie.quackquack.ui.util_test
 
 import org.junit.Assert

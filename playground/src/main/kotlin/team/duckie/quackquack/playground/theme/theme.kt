@@ -78,6 +78,7 @@ private val PlaygroundDarkColors = darkColorScheme(
 )
 
 @Composable
+@Suppress("NewApi")
 fun PlaygroundTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     useDynamicColor: Boolean = true,

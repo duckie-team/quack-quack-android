@@ -32,7 +32,8 @@ class QuackTextField {
     @Test
     fun QuackBasicTextField(
         @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
-        @TestParameter(valuesProvider = DecorationContentProvider::class) decorationContent: NamedValue<(@Composable () -> Unit)?>,
+        @TestParameter(valuesProvider = DecorationContentProvider::class)
+        decorationContent: NamedValue<(@Composable () -> Unit)?>,
         @TestParameter isError: Boolean,
         @TestParameter("duckie", "") text: String,
     ) {

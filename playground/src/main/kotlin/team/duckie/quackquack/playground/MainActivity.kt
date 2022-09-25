@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("UnusedPrivateMember")
+
 package team.duckie.quackquack.playground
 
 import android.os.Bundle
@@ -114,14 +116,18 @@ private fun PlaygroundDemo() {
         key1 = Unit,
     ) {
         context.dataStore.data.first().let { preference ->
-            QuackAnimationMillis = (preference[PreferenceConfigs.AnimationDurationKey]
-                ?: QuackAnimationMillis).coerceAtLeast(
-                minimumValue = 0,
-            )
-            QuackFontScale = (preference[PreferenceConfigs.FontScaleKey]
-                ?: QuackFontScale).coerceAtLeast(
-                minimumValue = 0.0,
-            )
+            QuackAnimationMillis = (
+                    preference[PreferenceConfigs.AnimationDurationKey]
+                        ?: QuackAnimationMillis
+                    ).coerceAtLeast(
+                    minimumValue = 0,
+                )
+            QuackFontScale = (
+                    preference[PreferenceConfigs.FontScaleKey]
+                        ?: QuackFontScale
+                    ).coerceAtLeast(
+                    minimumValue = 0.0,
+                )
         }
     }
     PlaygroundTheme {
