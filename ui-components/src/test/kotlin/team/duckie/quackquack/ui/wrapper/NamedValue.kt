@@ -7,10 +7,8 @@
 
 package team.duckie.quackquack.ui.wrapper
 
-import team.duckie.quackquack.ui.icon.QuackIcon
-
-class QuackIconWrapper(
-    val value: QuackIcon?,
+class NamedValue<T>(
+    val value: T,
     private val name: String,
 ) {
     override fun toString() = name

@@ -17,12 +17,12 @@ import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.provider.QuackIconProvider
 import team.duckie.quackquack.ui.rule.AnimationTestRule
-import team.duckie.quackquack.ui.textstyle.QuackFontScale
 import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
-import team.duckie.quackquack.ui.wrapper.QuackIconWrapper
+import team.duckie.quackquack.ui.wrapper.NamedValue
 
 @RunWith(TestParameterInjector::class)
 class QuackButton {
@@ -39,8 +39,8 @@ class QuackButton {
     ) {
         paparazzi.boxSnapshot(
             name = "[active:$active]-[fontScale:$fontScale]",
+            fontScale = fontScale,
         ) {
-            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackLargeButton(
                 text = "QuackLargeButton",
                 active = active,
@@ -51,13 +51,13 @@ class QuackButton {
 
     @Test
     fun QuackLargeWhiteButton(
-        @TestParameter(valuesProvider = QuackIconProvider::class) leadingIcon: QuackIconWrapper,
+        @TestParameter(valuesProvider = QuackIconProvider::class) leadingIcon: NamedValue<QuackIcon?>,
         @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
     ) {
         paparazzi.boxSnapshot(
             name = "[quackicon:$leadingIcon]-[fontScale:$fontScale]",
+            fontScale = fontScale,
         ) {
-            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackLargeWhiteButton(
                 text = "QuackLargeWhiteButton",
                 leadingIcon = leadingIcon.value,
@@ -72,8 +72,8 @@ class QuackButton {
     ) {
         paparazzi.boxSnapshot(
             name = "[fontScale:$fontScale]",
+            fontScale = fontScale,
         ) {
-            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackLarge40WhiteButton(
                 text = "QuackLarge40WhiteButton",
                 onClick = {},
@@ -88,8 +88,8 @@ class QuackButton {
     ) {
         paparazzi.boxSnapshot(
             name = "[selected:$selected]-[fontScale:$fontScale]",
+            fontScale = fontScale,
         ) {
-            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackMediumBorderToggleButton(
                 text = "QuackMediumBorderToggleButton",
                 selected = selected,
@@ -105,8 +105,8 @@ class QuackButton {
     ) {
         paparazzi.boxSnapshot(
             name = "[enabled:$enabled]-[fontScale:$fontScale]",
+            fontScale = fontScale,
         ) {
-            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackSmallButton(
                 text = "QuackSmallButton",
                 enabled = enabled,
@@ -122,8 +122,8 @@ class QuackButton {
     ) {
         paparazzi.boxSnapshot(
             name = "[selected:$selected]-[fontScale:$fontScale]",
+            fontScale = fontScale,
         ) {
-            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackSmallBorderToggleButton(
                 text = "QuackSmallBorderToggleButton",
                 selected = selected,
@@ -139,8 +139,8 @@ class QuackButton {
     ) {
         paparazzi.boxSnapshot(
             name = "[selected:$selected]-[fontScale:$fontScale]",
+            fontScale = fontScale,
         ) {
-            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackToggleChip(
                 text = "QuackToggleChip",
                 selected = selected,

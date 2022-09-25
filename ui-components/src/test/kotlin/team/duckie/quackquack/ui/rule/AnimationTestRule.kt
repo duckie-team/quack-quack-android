@@ -12,7 +12,7 @@ import org.junit.runner.Description
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.animation.isSnapshotMode
 
-open class AnimationTestRule : TestWatcher() {
+class AnimationTestRule : TestWatcher() {
     override fun starting(description: Description?) {
         QuackAnimationSpec.isSnapshotMode = true
         super.starting(description)

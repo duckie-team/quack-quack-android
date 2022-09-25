@@ -18,7 +18,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.rule.AnimationTestRule
-import team.duckie.quackquack.ui.textstyle.QuackFontScale
 import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
 
@@ -37,8 +36,8 @@ class QuackTab {
     ) {
         paparazzi.boxSnapshot(
             name = "[selectedTabIndex:$selectedTabIndex]-[fontScale:$fontScale]",
+            fontScale = fontScale,
         ) {
-            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackMainTab(
                 titles = persistentListOf(
                     "판매중",
