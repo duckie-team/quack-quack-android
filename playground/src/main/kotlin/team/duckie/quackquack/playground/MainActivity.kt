@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
+import team.duckie.quackquack.playground.base.ContentBorder
 import team.duckie.quackquack.playground.base.PlaygroundActivities
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
 import team.duckie.quackquack.playground.realworld.FabPlayground
@@ -50,7 +51,7 @@ class MainActivity : BaseActivity() {
         setContent {
             PlaygroundDemo()
             /*SingleDemo {
-                QuackBasicTextFieldWithAllDecorationDemo()
+                QuackTextFieldErrorStateLiveDemo()
             }*/
             /*MultiDemo {
                 QuackTextFieldWithNoDecorationDemo()
@@ -75,8 +76,11 @@ private fun SingleDemo(
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
-        content = content,
-    )
+    ) {
+        ContentBorder {
+            content()
+        }
+    }
 }
 
 /**
