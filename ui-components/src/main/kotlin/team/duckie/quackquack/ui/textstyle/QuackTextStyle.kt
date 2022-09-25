@@ -96,6 +96,8 @@ class QuackTextStyle internal constructor(
     )
 
     companion object {
+        // FontWeight NOTE: normal == regular
+
         @Stable
         val HeadLine1 = QuackTextStyle(
             size = 20.sp,
