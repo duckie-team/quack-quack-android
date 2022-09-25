@@ -308,7 +308,7 @@ private fun Check(
             x = StrokeWidth.toPx(),
         )
         drawCheck(
-            checkColor = checkColor.value,
+            checkColor = checkColor.composeColor,
             checkFraction = checkDrawFraction,
             crossCenterGravitation = checkCenterGravitationShiftFraction,
             strokeWidthPx = strokeWidthPx,

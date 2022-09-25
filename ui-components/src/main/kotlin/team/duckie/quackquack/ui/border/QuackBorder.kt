@@ -43,7 +43,7 @@ internal class QuackBorder(
      * @return [color] 를 [Brush] 로 변환한 값
      */
     val brush = SolidColor(
-        value = color.value,
+        value = color.composeColor,
     )
 
     /**

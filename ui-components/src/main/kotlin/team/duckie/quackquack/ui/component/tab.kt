@@ -47,6 +47,7 @@ import kotlin.math.roundToInt
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.fixedCopy
@@ -137,7 +138,7 @@ fun QuackMainTab(
         modifier = Modifier
             .wrapContentSize()
             .background(
-                color = QuackColor.White.value,
+                color = QuackColor.White.composeColor,
             ),
     ) {
         QuackMainTabTextLazyRow(
@@ -383,7 +384,7 @@ private fun QuackTabDivider(
             offset = offsetProvider,
         )
         .background(
-            color = QuackTabDividerColor.value,
+            color = QuackTabDividerColor.composeColor,
         )
 )
 
@@ -433,6 +434,6 @@ private fun QuackSelectedTabUnderBar(
             }
         }
         .background(
-            color = color.value,
+            color = color.composeColor,
         )
 )

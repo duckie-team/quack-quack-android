@@ -362,7 +362,7 @@ private fun QuackBasicFloatingActionButton(
                 shape = QuackFabShape,
             )
             .background(
-                color = QuackColor.DuckieOrange.value,
+                color = QuackColor.DuckieOrange.composeColor,
             )
             .quackClickable(
                 onClick = onClick,

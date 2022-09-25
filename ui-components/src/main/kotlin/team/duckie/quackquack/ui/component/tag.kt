@@ -141,7 +141,7 @@ fun QuackIconTag(
             .background(
                 color = getTagBackground(
                     isSelected = isSelected,
-                ).value,
+                ).composeColor,
             )
             .padding(
                 paddingValues = IconTagPadding,
@@ -186,11 +186,11 @@ private fun Modifier.tagShape(
         shape = shape,
     )
     .background(
-        color = QuackColor.White.value,
+        color = QuackColor.White.composeColor,
     )
     .border(
         width = QuackTagBorderWidth,
-        color = getTagBorderColor(isSelected).value,
+        color = getTagBorderColor(isSelected).composeColor,
         shape = shape,
     )
 

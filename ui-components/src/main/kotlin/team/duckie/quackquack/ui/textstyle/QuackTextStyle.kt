@@ -86,7 +86,7 @@ class QuackTextStyle internal constructor(
      */
     @Stable
     internal fun asComposeStyle() = TextStyle(
-        color = color.value,
+        color = color.composeColor,
         fontSize = size * QuackFontScale,
         fontFamily = suit,
         fontWeight = weight,
