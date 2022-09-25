@@ -9,6 +9,11 @@
 
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,19 +31,22 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldLayoutId
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldLeadingContentLayoutId
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldMeasurePolicy.Companion.rememberQuackTextFieldMeasurePolicy
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldPlaceholderLayoutId
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldTrailingContentLayoutId
-import team.duckie.quackquack.ui.component.internal.drawUnderBar
+import team.duckie.quackquack.ui.component.internal.drawUnderBarWithAnimation
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.modifier.applyQuackSize
@@ -216,18 +224,16 @@ fun QuackTextField(
     ),
     keyboardActions: KeyboardActions = KeyboardActions(),
 ) {
+    val errorComposeTextStyle = remember(
+        key1 = errorTextStyle,
+    ) {
+        errorTextStyle.asComposeStyle()
+    }
+
     Column(
         modifier = Modifier.wrapContentSize(),
     ) {
         QuackBasicTextField(
-            modifier = Modifier
-                .padding(
-                    top = textStyle.calcQuackTextFieldTopPadding(),
-                    bottom = QuackTextFieldBottomPadding,
-                )
-                .background(
-                    color = QuackColor.White.composeColor,
-                ),
             width = width,
             height = height,
             text = text,
@@ -240,24 +246,56 @@ fun QuackTextField(
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
         )
-        if (isError) {
-            checkNotNull(
-                value = errorText,
-            ) {
-                "errorText must not be null when isError is true"
+        // 에러 상태 가능성이 있는 경우 에러 메시지가 표시될 공간을 항상
+        // 확보하기 위해 미리 에러 메시지의 공간만 차지합니다.
+        // 그렇지 않으면 에러 메시지가 보일 때 없던 공간이 갑자기 확장되면서
+        // 순간적으로 레이아웃의 높이에 변동이 생깁니다.
+        Box(
+            modifier = Modifier.wrapContentSize(),
+        ) {
+            if (errorText != null) {
+                Text(
+                    modifier = Modifier
+                        .padding(
+                            top = QuackTextFieldErrorTextTopPadding,
+                        )
+                        .zIndex(
+                            zIndex = 1f,
+                        )
+                        .drawWithContent {},
+                    text = errorText,
+                    style = errorComposeTextStyle,
+                )
             }
-            Text(
-                modifier = Modifier.padding(
-                    top = QuackTextFieldErrorTextTopPadding,
+            this@Column.AnimatedVisibility(
+                visible = isError,
+                modifier = Modifier.zIndex(
+                    zIndex = 2f,
                 ),
-                text = errorText,
-                // needs remember?
-                style = remember(
-                    key1 = errorTextStyle,
+                enter = fadeIn(
+                    animationSpec = quackAnimationSpec(),
+                ) + expandVertically(
+                    animationSpec = quackAnimationSpec(),
+                ),
+                exit = fadeOut(
+                    animationSpec = quackAnimationSpec(),
+                ) + shrinkVertically(
+                    animationSpec = quackAnimationSpec(),
+                ),
+            ) {
+                checkNotNull(
+                    value = errorText,
                 ) {
-                    errorTextStyle.asComposeStyle()
-                },
-            )
+                    "errorText must not be null when isError is true"
+                }
+                Text(
+                    modifier = Modifier.padding(
+                        top = QuackTextFieldErrorTextTopPadding,
+                    ),
+                    text = errorText,
+                    style = errorComposeTextStyle,
+                )
+            }
         }
     }
 }
@@ -312,27 +350,27 @@ internal fun QuackBasicTextField(
             ),
         ).asComposeStyle()
     }
-    val sizedModifier = remember(
-        key1 = width,
-        key2 = height,
-    ) {
-        Modifier
+
+    BasicTextField(
+        modifier = Modifier
             .applyQuackSize(
                 width = width,
                 height = height,
             )
-            .then(
-                other = modifier,
+            .background(
+                color = QuackColor.White.composeColor,
             )
-    }
-
-    BasicTextField(
-        modifier = sizedModifier.drawUnderBar(
-            width = QuackTextFieldUnderBarHeight,
-            color = QuackTextFieldColors.underBarColor(
-                isError = isError,
+            .padding(
+                top = textStyle.calcQuackTextFieldTopPadding(),
+                bottom = QuackTextFieldBottomPadding,
+            )
+            .drawUnderBarWithAnimation(
+                width = QuackTextFieldUnderBarHeight,
+                color = QuackTextFieldColors.underBarColor(
+                    isError = isError,
+                ),
+                topPadding = QuackTextFieldBottomPadding,
             ),
-        ),
         value = text,
         onValueChange = onTextChanged,
         textStyle = composeTextStyle,
@@ -344,7 +382,6 @@ internal fun QuackBasicTextField(
         cursorBrush = QuackTextFieldColors.QuackTextFieldCursorColor.toBrush(),
         decorationBox = { textField ->
             QuackTextFieldDecorationBox(
-                modifier = sizedModifier,
                 textField = textField,
                 // placeholder is displayed when text is empty
                 placeholderContent = when (isPlaceholder && placeholderText != null) {
@@ -368,7 +405,6 @@ internal fun QuackBasicTextField(
 /**
  * A decoration box used to draw decoration items for [QuackBasicTextField].
  *
- * @param modifier Modifier to be applied to the decoration box
  * @param textField BasicTextField to be treated as QuackTextField
  * @param placeholderContent A placeholder content to display when the entered text is empty
  * @param leadingContent The leading content of QuackTextField
@@ -378,14 +414,12 @@ internal fun QuackBasicTextField(
  */
 @Composable
 private fun QuackTextFieldDecorationBox(
-    modifier: Modifier,
     textField: @Composable () -> Unit,
     placeholderContent: (@Composable () -> Unit)?,
     leadingContent: (@Composable () -> Unit)?,
     trailingContent: (@Composable () -> Unit)?,
 ) {
     Layout(
-        modifier = modifier,
         content = {
             val padding = remember(
                 key1 = leadingContent != null,
