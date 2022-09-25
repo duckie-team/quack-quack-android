@@ -7,11 +7,15 @@
 
 package team.duckie.quackquack.playground.theme
 
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 
 private val PlaygroundLightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -73,20 +77,22 @@ private val PlaygroundDarkColors = darkColorScheme(
     surfaceTint = md_theme_dark_surfaceTint,
 )
 
-// 왜??
-// java.lang.NoSuchMethodError: No static method PlaygroundTheme
-/*@Composable
+@Composable
 fun PlaygroundTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
-    useDynamicColor: Boolean = false, // 더 못생겨져서 비활성화
-    content: @Composable () -> Unit
+    useDynamicColor: Boolean = true,
+    content: @Composable () -> Unit,
 ) {
     val context = LocalContext.current
     val isDynamicColor = useDynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val colorScheme = when {
-        useDarkTheme && isDynamicColor -> dynamicDarkColorScheme(context)
+        useDarkTheme && isDynamicColor -> dynamicDarkColorScheme(
+            context = context,
+        )
         useDarkTheme && !isDynamicColor -> PlaygroundDarkColors
-        !useDarkTheme && isDynamicColor -> dynamicLightColorScheme(context)
+        !useDarkTheme && isDynamicColor -> dynamicLightColorScheme(
+            context = context,
+        )
         else -> PlaygroundLightColors // !useDarkTheme && !supportsDynamicColor
     }
 
@@ -95,8 +101,9 @@ fun PlaygroundTheme(
         typography = PlaygroundTypography,
         content = content,
     )
-}*/
+}
 
+/*
 @Composable
 fun PlaygroundTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
@@ -113,3 +120,4 @@ fun PlaygroundTheme(
         content = content,
     )
 }
+*/
