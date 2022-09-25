@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.layout.IntrinsicMeasurable
 import androidx.compose.ui.layout.IntrinsicMeasureScope
-import androidx.compose.ui.layout.LayoutIdParentData
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.layout.MeasureResult
@@ -23,41 +22,37 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.offset
 import kotlin.math.max
 import team.duckie.quackquack.ui.component.QuackBasicTextField
-import team.duckie.quackquack.ui.util.DoNotUseDirectly
+import team.duckie.quackquack.ui.component.internal.QuackTextFieldMeasurePolicy.Companion.rememberQuackTextFieldMeasurePolicy
+import team.duckie.quackquack.ui.util.ZeroConstraints
+import team.duckie.quackquack.ui.util.heightOrZero
+import team.duckie.quackquack.ui.util.layoutId
+import team.duckie.quackquack.ui.util.widthOrZero
 
-private val IntrinsicMeasurable.layoutId: Any?
-    get() = (parentData as? LayoutIdParentData)?.layoutId
-
-private val ZeroConstraints = Constraints.fixed(
-    width = 0,
-    height = 0,
-)
-
-private const val QuackTextFieldLayoutId = "QuackTextFieldContent"
-private const val QuackTextFieldLeadingContentLayoutId = "QuackTextFieldLeadingContent"
-private const val QuackTextFieldTrailingContentLayoutId = "QuackTextFieldTrailingContent"
-
-/**
- * [TextFieldMeasurePolicy] 을 [remember] 로 저장한 값을 반환합니다.
- * 항상 같은 인스턴스를 사용해도 되므로 [remember] 의 key 가 지정되지 않습니다.
- *
- * @return remember 된 [TextFieldMeasurePolicy] 의 인스턴스
- */
-@Composable
-@OptIn(DoNotUseDirectly::class)
-internal fun rememberTextFieldMeasurePolicy() = remember {
-    TextFieldMeasurePolicy()
-}
+internal const val QuackTextFieldLayoutId = "QuackTextFieldContent"
+internal const val QuackTextFieldLeadingContentLayoutId = "QuackTextFieldLeadingContent"
+internal const val QuackTextFieldTrailingContentLayoutId = "QuackTextFieldTrailingContent"
 
 /**
  * [QuackBasicTextField] 를 measure 하기 위한 [MeasurePolicy]
  *
  * @suppress 이 클래스는 직접 사용하면 안됩니다. 리컴포지션 퍼포먼스를 위해
- * remember 로 감싼 인스턴스를 반환하는 [rememberTextFieldMeasurePolicy] 를
+ * remember 로 감싼 인스턴스를 반환하는 [rememberQuackTextFieldMeasurePolicy] 를
  * 사용하세요.
  */
-@DoNotUseDirectly
-internal class TextFieldMeasurePolicy : MeasurePolicy {
+internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy {
+    companion object {
+        /**
+         * [QuackTextFieldMeasurePolicy] 을 [remember] 로 저장한 값을 반환합니다.
+         * 항상 같은 인스턴스를 사용해도 되므로 [remember] 의 key 가 지정되지 않습니다.
+         *
+         * @return remember 된 [QuackTextFieldMeasurePolicy] 의 인스턴스
+         */
+        @Composable
+        fun rememberQuackTextFieldMeasurePolicy() = remember {
+            QuackTextFieldMeasurePolicy()
+        }
+    }
+
     override fun MeasureScope.measure(
         measurables: List<Measurable>,
         constraints: Constraints,
@@ -360,23 +355,3 @@ private fun Placeable.PlacementScope.placeWithoutLabel(
         ),
     )
 }
-
-/**
- * 주어진 [Placeable] 에서 width 값을 가져오거나, 유효하지 않을 경우
- * 0 을 반환합니다.
- *
- * @receiver width 값을 가져올 [Placeable]
- * @return receiver 로 주어진 [Placeable] 이 유효하다면 해당 [Placeable] 의
- * width 값을 반환하고, 유효하지 않다면 0 을 반환합니다.
- */
-internal fun Placeable?.widthOrZero() = this?.width ?: 0
-
-/**
- * 주어진 [Placeable] 에서 height 값을 가져오거나, 유효하지 않을 경우
- * 0 을 반환합니다.
- *
- * @receiver width 값을 가져올 [Placeable]
- * @return receiver 로 주어진 [Placeable] 이 유효하다면 해당 [Placeable] 의
- * height 값을 반환하고, 유효하지 않다면 0 을 반환합니다.
- */
-internal fun Placeable?.heightOrZero() = this?.height ?: 0
