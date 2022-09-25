@@ -10,6 +10,10 @@ package team.duckie.quackquack.ui.component.internal
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.IntrinsicMeasurable
 import androidx.compose.ui.layout.IntrinsicMeasureScope
 import androidx.compose.ui.layout.Measurable
@@ -19,8 +23,9 @@ import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.offset
-import kotlin.math.max
+import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.QuackBasicTextField
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldMeasurePolicy.Companion.rememberQuackTextFieldMeasurePolicy
 import team.duckie.quackquack.ui.util.ZeroConstraints
@@ -29,6 +34,7 @@ import team.duckie.quackquack.ui.util.layoutId
 import team.duckie.quackquack.ui.util.widthOrZero
 
 internal const val QuackTextFieldLayoutId = "QuackTextFieldContent"
+internal const val QuackTextFieldPlaceholderLayoutId = "QuackTextFieldPlaceholderContent"
 internal const val QuackTextFieldLeadingContentLayoutId = "QuackTextFieldLeadingContent"
 internal const val QuackTextFieldTrailingContentLayoutId = "QuackTextFieldTrailingContent"
 
@@ -81,7 +87,7 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
         )
         occupiedSpaceHorizontally += trailingPlaceable.widthOrZero()
 
-        // measure input field
+        // measure text field
         val textFieldConstraints = constraints
             .copy(
                 minHeight = 0,
@@ -94,27 +100,38 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
         }.measure(
             constraints = textFieldConstraints,
         )
+        val placeholderPlaceable = measurables.find { measurable ->
+            measurable.layoutId == QuackTextFieldPlaceholderLayoutId
+        }?.measure(
+            constraints = textFieldConstraints,
+        )
 
         val width = calculateWidth(
             textFieldWidth = textFieldPlaceable.width,
-            leadingWidth = trailingPlaceable.widthOrZero(),
-            trailingWidth = leadingPlaceable.widthOrZero(),
+            placeholderWidth = placeholderPlaceable.widthOrZero(),
+            leadingWidth = leadingPlaceable.widthOrZero(),
+            trailingWidth = trailingPlaceable.widthOrZero(),
             constraints = constraints,
         )
         val height = calculateHeight(
             textFieldHeight = textFieldPlaceable.height,
+            placeholderHeight = placeholderPlaceable.heightOrZero(),
             leadingHeight = leadingPlaceable.heightOrZero(),
             trailingHeight = trailingPlaceable.heightOrZero(),
             constraints = constraints,
         )
 
-        return layout(width, height) {
-            placeWithoutLabel(
-                width,
-                height,
-                textFieldPlaceable,
-                leadingPlaceable,
-                trailingPlaceable,
+        return layout(
+            width = width,
+            height = height,
+        ) {
+            placeTextField(
+                width = width,
+                height = height,
+                textFieldPlaceable = textFieldPlaceable,
+                placeholderPlaceable = placeholderPlaceable,
+                leadingPlaceable = leadingPlaceable,
+                trailingPlaceable = trailingPlaceable,
             )
         }
     }
@@ -181,7 +198,7 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
         height: Int,
         intrinsicMeasurer: (
             intrinsicMeasurable: IntrinsicMeasurable,
-            intrinsicWidth: Int,
+            intrinsicHeight: Int,
         ) -> Int,
     ): Int {
         val textFieldWidth = intrinsicMeasurer(
@@ -190,6 +207,15 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
             },
             height,
         )
+
+        val placeholderWidth = measurables.find { measurable ->
+            measurable.layoutId == QuackTextFieldPlaceholderLayoutId
+        }?.let { measurable ->
+            intrinsicMeasurer(
+                measurable,
+                height,
+            )
+        } ?: 0
 
         val leadingWidth = measurables.find { measurable ->
             measurable.layoutId == QuackTextFieldLeadingContentLayoutId
@@ -211,6 +237,7 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
 
         return calculateWidth(
             textFieldWidth = textFieldWidth,
+            placeholderWidth = placeholderWidth,
             leadingWidth = leadingWidth,
             trailingWidth = trailingWidth,
             constraints = ZeroConstraints,
@@ -241,6 +268,15 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
             width,
         )
 
+        val placeholderHeight = measurables.find { measurable ->
+            measurable.layoutId == QuackTextFieldPlaceholderLayoutId
+        }?.let { measurable ->
+            intrinsicMeasurer(
+                measurable,
+                width,
+            )
+        } ?: 0
+
         val leadingHeight = measurables.find { measurable ->
             measurable.layoutId == QuackTextFieldLeadingContentLayoutId
         }?.let { measurable ->
@@ -261,6 +297,7 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
 
         return calculateHeight(
             textFieldHeight = textFieldHeight,
+            placeholderHeight = placeholderHeight,
             leadingHeight = leadingHeight,
             trailingHeight = trailingHeight,
             constraints = ZeroConstraints,
@@ -272,6 +309,7 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
  * TextField 배치에 사용되는 constraints 중에서 제일 큰 넓이를 계산합니다.
  *
  * @param textFieldWidth TextField 의 넓이
+ * @param placeholderWidth placeholder 의 넓이
  * @param leadingWidth leading decoration item 의 넓이
  * @param trailingWidth trailing decoration item 의 넓이
  * @param constraints 배치하려는 TextField 레이아웃의 [Constraints]
@@ -280,14 +318,16 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
  */
 private fun calculateWidth(
     textFieldWidth: Int,
+    placeholderWidth: Int,
     leadingWidth: Int,
     trailingWidth: Int,
     constraints: Constraints,
 ) = maxOf(
     a = textFieldWidth,
-    b = max(
-        a = leadingWidth,
-        b = trailingWidth,
+    b = maxOf(
+        a = placeholderWidth,
+        b = leadingWidth,
+        c = trailingWidth,
     ),
     c = constraints.minWidth,
 )
@@ -296,6 +336,7 @@ private fun calculateWidth(
  * TextField 배치에 사용되는 constraints 중에서 제일 큰 높이를 계산합니다.
  *
  * @param textFieldHeight TextField 의 높이
+ * @param placeholderHeight placeholder 의 높이
  * @param leadingHeight leading decoration item 의 높이
  * @param trailingHeight trailing decoration item 의 높이
  * @param constraints 배치하려는 TextField 레이아웃의 [Constraints]
@@ -304,14 +345,16 @@ private fun calculateWidth(
  */
 private fun calculateHeight(
     textFieldHeight: Int,
+    placeholderHeight: Int,
     leadingHeight: Int,
     trailingHeight: Int,
     constraints: Constraints,
 ) = maxOf(
     a = textFieldHeight,
-    b = max(
-        a = leadingHeight,
-        b = trailingHeight,
+    b = maxOf(
+        a = placeholderHeight,
+        b = leadingHeight,
+        c = trailingHeight,
     ),
     c = constraints.minHeight,
 )
@@ -322,13 +365,15 @@ private fun calculateHeight(
  * @param width TextField 레이아웃의 넓이
  * @param height TextField 레이아웃의 높이
  * @param textFieldPlaceable TextField 의 [Placeable]
+ * @param placeholderPlaceable placeholder 의 [Placeable]
  * @param leadingPlaceable leading decoration item 의 [Placeable]
  * @param trailingPlaceable trailing decoration item 의 [Placeable]
  */
-private fun Placeable.PlacementScope.placeWithoutLabel(
+private fun Placeable.PlacementScope.placeTextField(
     width: Int,
     height: Int,
     textFieldPlaceable: Placeable,
+    placeholderPlaceable: Placeable?,
     leadingPlaceable: Placeable?,
     trailingPlaceable: Placeable?,
 ) {
@@ -354,4 +399,48 @@ private fun Placeable.PlacementScope.placeWithoutLabel(
             space = height,
         ),
     )
+
+    placeholderPlaceable?.placeRelative(
+        x = leadingPlaceable.widthOrZero(),
+        y = Alignment.CenterVertically.align(
+            size = placeholderPlaceable.height,
+            space = height,
+        ),
+    )
+}
+
+/**
+ * QuackTextField 에 under bar 를 그리기 위해 사용됩니다.
+ *
+ * @param width under bar 의 두께
+ * @param color under bar 의 색상
+ * @return under bar 를 그리기 위한 [drawWithContent] 가 적용된 [Modifier]
+ */
+internal fun Modifier.drawUnderBar(
+    width: Dp,
+    color: QuackColor,
+) = composed {
+    val brush = remember(
+        key1 = color,
+    ) {
+        color.toBrush()
+    }
+    drawWithContent {
+        drawContent()
+        if (width == Dp.Hairline) return@drawWithContent
+        val strokeWidth = width.value * density
+        val y = size.height - strokeWidth / 2
+        drawLine(
+            brush = brush,
+            start = Offset(
+                x = 0f,
+                y = y,
+            ),
+            end = Offset(
+                x = size.width,
+                y = y,
+            ),
+            strokeWidth = strokeWidth,
+        )
+    }
 }

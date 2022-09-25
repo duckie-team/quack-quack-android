@@ -9,38 +9,56 @@
 
 package team.duckie.quackquack.ui.component
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.NoLiveLiterals
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.layout.onPlaced
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.component.internal.QuackTextFieldLayoutId
+import team.duckie.quackquack.ui.component.internal.QuackTextFieldLeadingContentLayoutId
+import team.duckie.quackquack.ui.component.internal.QuackTextFieldMeasurePolicy.Companion.rememberQuackTextFieldMeasurePolicy
+import team.duckie.quackquack.ui.component.internal.QuackTextFieldPlaceholderLayoutId
+import team.duckie.quackquack.ui.component.internal.QuackTextFieldTrailingContentLayoutId
+import team.duckie.quackquack.ui.component.internal.drawUnderBar
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
-import team.duckie.quackquack.ui.util.npe
+import team.duckie.quackquack.ui.util.DoNotUseDirectly
 
-// old codebase:
-// https://github.com/sungbinland/duckie-quack-quack/blob/6e0701a29711f2850d9b0449a286e8c282672982/ui-components/src/main/kotlin/team/duckie/quackquack/ui/component/textfield.kt
+/**
+ * QuackTextField 에서 표시할 텍스트의 [FontWeight] 에 따라 QuackTextField 의
+ * 높이가 달라집니다. 이를 계산하기 위해 사용됩니다.
+ *
+ * 만약 [FontWeight] 가 [FontWeight.Bold] 라면 TextField 에서 16dp 만큼 추가 높이를 갖고,
+ * 그렇지 않다면 18dp 만큼 추가 높이를 갖습니다.
+ *
+ * 좀 더 많은 경우를 신경쓰기 위해선 [FontWeight.Bold] 보다 큰 경우도 체크하면 좋지만,
+ * 현재 QuackTextField 의 디자인에는 최대 [FontWeight.Bold] 만 사용하고 있기 때문에
+ * [FontWeight.Bold] 만 체크합니다.
+ *
+ * @receiver [FontWeight] 가 [FontWeight.Bold] 인지 검사할 [QuackTextStyle]
+ * @return QuackTextField 에서 표시할 텍스트의 [FontWeight] 가 [FontWeight.Bold] 인지 여부
+ */
+private val QuackTextStyle.isBold get() = weight == FontWeight.Bold
 
 /**
  * This padding adds spaces in between the text-field and decoration content i.e leading and trailing content
@@ -55,73 +73,291 @@ import team.duckie.quackquack.ui.util.npe
 private val QuackTextFieldDecorationContentHorizontalPadding = 8.dp
 
 /**
- * Draws the most basic QuackTextField.
+ * QuackTextField 밑에 표시될 ErrorText 와의 간격
+ */
+private val QuackTextFieldErrorTextTopPadding = 4.dp
+
+/**
+ * QuackTextField 에서 표시하는 텍스트의 [FontWeight] 가
+ * [FontWeight.Bold] 가 아닐 때 TextField 위에 들어갈 패딩
+ *
+ * QuackTextField 의 높이를 결정짓는 중요한 요소가 됩니다.
+ *
+ * **이 API 는 직접적으로 사용하면 안됩니다.**
+ * 대신에 [QuackTextStyle.calcQuackTextFieldTopPadding] 를 사용하세요.
+ *
+ * @see QuackTextStyle.isBold
+ */
+@DoNotUseDirectly
+private val QuackTextFieldTopPaddingWithNonBold = 18.dp
+
+/**
+ * QuackTextField 에서 표시하는 텍스트의 [FontWeight] 가
+ * [FontWeight.Bold] 일 때 TextField 위에 들어갈 패딩
+ *
+ * QuackTextField 의 높이를 결정짓는 중요한 요소가 됩니다.
+ *
+ * **이 API 는 직접적으로 사용하면 안됩니다.**
+ * 대신에 [QuackTextStyle.calcQuackTextFieldTopPadding] 를 사용하세요.
+ *
+ * @see QuackTextStyle.isBold
+ */
+@DoNotUseDirectly
+private val QuackTextFieldTopPaddingWithBold = 16.dp
+
+/**
+ * QuackTextField 에서 표시하는 텍스트의 [FontWeight] 에 따라 TextField 위에 들어갈 패딩을 계산합니다.
+ *
+ * @return TextField 위에 들어갈 패딩
+ * @see QuackTextStyle.isBold
+ */
+@OptIn(DoNotUseDirectly::class)
+private fun QuackTextStyle.calcQuackTextFieldTopPadding() = when (isBold) {
+    true -> QuackTextFieldTopPaddingWithBold
+    else -> QuackTextFieldTopPaddingWithNonBold
+}
+
+/**
+ * QuackTextField 에 사용되는 TextField 의 하단에 들어갈 패딩
+ */
+private val QuackTextFieldBottomPadding = 8.dp
+
+/**
+ * QuackTextField 에 표시될 언더바의 높이
+ */
+private val QuackTextFieldUnderBarHeight = 1.dp
+
+/**
+ * QuackTextField 에서 사용할 아이템들의 색상을 계산하기 위한
+ * 유틸 함수들이 있는 클래스 입니다.
+ */
+@Immutable
+private object QuackTextFieldColors {
+    /**
+     * QuackTextField 에 표시될 텍스트의 색상을 계산합니다.
+     * placeholder 인지 여부에 따라 색상이 달라집니다.
+     *
+     * @param isPlaceholder placeholder 로 보여지고 있는지 여부
+     * @return QuackTextField 에 표시될 텍스트의 색상
+     */
+    @Stable
+    fun textColor(
+        isPlaceholder: Boolean,
+    ) = when (isPlaceholder) {
+        true -> QuackColor.Black
+        else -> QuackColor.Gray2
+    }
+
+    /**
+     * QuackTextField 에 표시될 언더바의 색상을 계산합니다.
+     * 현재 에러 상태인지에 따라 색상이 달라집니다.
+     *
+     * @param isError 현재 QuackTextField 가 에러 상태인지 여부
+     * @return QuackTextField 에 표시될 언더바의 색상
+     */
+    @Stable
+    fun underBarColor(
+        isError: Boolean,
+    ) = when (isError) {
+        true -> QuackColor.OrangeRed
+        else -> QuackColor.Gray3
+    }
+
+    /**
+     * QuackTextField 에서 사용할 커서 색상을 정의합니다.
+     * QuackTextField 는 커서의 색상으로 항상 [QuackColor.DuckieOrange]
+     * 를 사용합니다.
+     */
+    @Stable
+    val QuackTextFieldCursorColor = QuackColor.DuckieOrange
+}
+
+/**
+ * Draws the most basic QuackQuack's TextField.
  * Add only decoration items that fit QuackTextField to BasicTextField.
  *
- * The current implementation only works if the height is statically fixed.
- * That is, if you specify height as wrap_content, height is always displayed as 0.
- * This should be fixed.
- *
- * @param modifier [Modifier] to use to draw the QuackBasicTextField
+ * @param width Width of QuackTextField
+ * @param height height of QuackTextField
  * @param text text to display
  * @param onTextChanged Callback to be invoked when new text is entered
  * @param textStyle The style of the text to be displayed.
- * @param width Width of QuackTextField
- * @param height height of QuackTextField
- * @param keyboardOptions keyboard options in QuackTextField
- * @param keyboardActions Keyboard actions in QuackTextField
+ * @param placeholderText A placeholder text to display when the entered
+ * [text] is empty. According to the design guide of QuackTextField, only
+ * single text can be placed in placeholder.
+ * @param placeholderTextStyle The style of the [placeholderText] to be displayed.
+ * @param isError Whether the QuackTextField is in error state.
+ * @param errorText A text to display when the QuackTextField is in error state.
+ * @param errorTextStyle The style of the [errorText] to be displayed.
  * @param leadingContent leading decoration content of QuackTextField
  * @param trailingContent trailing decoration content of QuackTextField
+ * @param keyboardOptions keyboard options in QuackTextField
+ * @param keyboardActions Keyboard actions in QuackTextField
  */
 @Composable
-fun QuackBasicTextField(
-    modifier: Modifier = Modifier,
+fun QuackTextField(
+    width: QuackWidth = QuackWidth.Fill,
+    height: QuackHeight = QuackHeight.Wrap,
     text: String,
     onTextChanged: (text: String) -> Unit,
     textStyle: QuackTextStyle = QuackTextStyle.Body1,
-    width: QuackWidth = QuackWidth.Fill,
-    height: QuackHeight = QuackHeight.Wrap,
+    placeholderText: String? = null,
+    // needs remember?
+    placeholderTextStyle: QuackTextStyle = remember(textStyle) {
+        textStyle.change(
+            color = QuackColor.Gray2,
+        )
+    },
+    isError: Boolean = false,
+    errorText: String? = null,
+    // needs remember?
+    errorTextStyle: QuackTextStyle = remember(textStyle) {
+        textStyle.change(
+            color = QuackColor.OrangeRed,
+        )
+    },
+    leadingContent: (@Composable () -> Unit)? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
         imeAction = ImeAction.Done,
     ),
     keyboardActions: KeyboardActions = KeyboardActions(),
-    leadingContent: @Composable (() -> Unit)? = null,
-    trailingContent: @Composable (() -> Unit)? = null,
 ) {
-    var textFieldSize by remember {
-        mutableStateOf(
-            value = IntSize.Zero,
+    Column(
+        modifier = Modifier.wrapContentSize(),
+    ) {
+        QuackBasicTextField(
+            modifier = Modifier
+                .padding(
+                    top = textStyle.calcQuackTextFieldTopPadding(),
+                    bottom = QuackTextFieldBottomPadding,
+                )
+                .background(
+                    color = QuackColor.White.composeColor,
+                )
+                .drawUnderBar(
+                    width = QuackTextFieldUnderBarHeight,
+                    color = QuackTextFieldColors.underBarColor(
+                        isError = isError,
+                    ),
+                ),
+            width = width,
+            height = height,
+            text = text,
+            onTextChanged = onTextChanged,
+            textStyle = textStyle,
+            placeholderContent = {
+                if (placeholderText != null) {
+                    Text(
+                        text = placeholderText,
+                        // needs remember?
+                        style = remember(
+                            key1 = placeholderTextStyle,
+                        ) {
+                            placeholderTextStyle.asComposeStyle()
+                        },
+                    )
+                }
+            },
+            leadingContent = leadingContent,
+            trailingContent = trailingContent,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+        )
+        if (isError && errorText != null) {
+            Text(
+                modifier = Modifier.padding(
+                    top = QuackTextFieldErrorTextTopPadding,
+                ),
+                text = errorText,
+                // needs remember?
+                style = remember(
+                    key1 = errorTextStyle,
+                ) {
+                    errorTextStyle.asComposeStyle()
+                },
+            )
+        }
+    }
+}
+
+/**
+ * Draws the most basic QuackQuack's TextField.
+ * Add only decoration items that fit QuackTextField to [BasicTextField].
+ *
+ * @param modifier A [Modifier] that applied only to root BasicTextField
+ * @param width Width of QuackTextField
+ * @param height height of QuackTextField
+ * @param text text to display
+ * @param onTextChanged Callback to be invoked when new text is entered
+ * @param textStyle The style of the text to be displayed.
+ * @param placeholderContent A placeholder content to display when the entered [text] is empty
+ * @param leadingContent leading decoration content of QuackTextField
+ * @param trailingContent trailing decoration content of QuackTextField
+ * @param keyboardOptions keyboard options in QuackTextField
+ * @param keyboardActions Keyboard actions in QuackTextField
+ */
+// TODO: private?
+@Composable
+fun QuackBasicTextField(
+    modifier: Modifier = Modifier,
+    width: QuackWidth = QuackWidth.Fill,
+    height: QuackHeight = QuackHeight.Wrap,
+    text: String,
+    onTextChanged: (text: String) -> Unit,
+    textStyle: QuackTextStyle = QuackTextStyle.Body1,
+    placeholderContent: (@Composable () -> Unit)? = null,
+    leadingContent: (@Composable () -> Unit)? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(
+        imeAction = ImeAction.Done,
+    ),
+    keyboardActions: KeyboardActions = KeyboardActions(),
+) {
+    // 리컴포지션이 되는 메인 조건은 Text 가 바뀌었을 때인데 그러면
+    // 어차피 항상 재계산 되므로 굳이 remember 를 할 필요가 없음
+    val isPlaceholder = text.isEmpty()
+
+    // TextField's TextStyle should not be animated
+    val composeTextStyle = remember(
+        key1 = textStyle,
+        key2 = isPlaceholder,
+    ) {
+        textStyle.change(
+            textAlign = TextAlign.Start,
+            color = QuackTextFieldColors.textColor(
+                isPlaceholder = isPlaceholder,
+            ),
+        ).asComposeStyle()
+    }
+    val sizedModifier = remember(
+        key1 = width,
+        key2 = height,
+    ) {
+        Modifier.applyQuackSize(
+            width = width,
+            height = height,
         )
     }
 
     BasicTextField(
-        modifier = modifier
-            .applyQuackSize(
-                width = width,
-                height = height,
-            )
-            .border(
-                color = Color.Gray,
-                width = 1.dp,
-            )
-            .onPlaced { layoutCoordinates ->
-                textFieldSize = layoutCoordinates.size
-            },
+        modifier = modifier.then(
+            other = sizedModifier,
+        ),
         value = text,
         onValueChange = onTextChanged,
-        // TextField's TextStyle should not be animated
-        textStyle = textStyle.change(
-            textAlign = TextAlign.Start,
-        ).asComposeStyle(),
+        textStyle = composeTextStyle,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         // TextField is always single line
         // TextArea is always multi line
         singleLine = true,
+        cursorBrush = QuackTextFieldColors.QuackTextFieldCursorColor.toBrush(),
         decorationBox = { textField ->
             QuackTextFieldDecorationBox(
-                textFieldSize = textFieldSize,
+                modifier = sizedModifier,
                 textField = textField,
+                // placeholder is displayed when text is empty
+                placeholderContent = placeholderContent.takeIf { isPlaceholder },
                 leadingContent = leadingContent,
                 trailingContent = trailingContent,
             )
@@ -129,52 +365,27 @@ fun QuackBasicTextField(
     )
 }
 
-private const val QuackTextFieldLayoutId = "QuackTextFieldContent"
-private const val QuackTextFieldLeadingContentLayoutId = "QuackTextFieldLeadingContent"
-private const val QuackTextFieldTrailingContentLayoutId = "QuackTextFieldTrailingContent"
-
 /**
- * A decoration box used to draw decoration items for QuackTextField.
+ * A decoration box used to draw decoration items for [QuackBasicTextField].
  *
- * @param textFieldSize The size of QuackTextField layout
+ * @param modifier Modifier to be applied to the decoration box
  * @param textField BasicTextField to be treated as QuackTextField
+ * @param placeholderContent A placeholder content to display when the entered text is empty
  * @param leadingContent The leading content of QuackTextField
  * @param trailingContent The trailing content of QuackTextField
  *
  * @see QuackTextFieldDecorationContentHorizontalPadding
  */
 @Composable
-private inline fun QuackTextFieldDecorationBox(
-    textFieldSize: IntSize,
+private fun QuackTextFieldDecorationBox(
+    modifier: Modifier,
     textField: @Composable () -> Unit,
-    noinline leadingContent: @Composable (() -> Unit)?,
-    noinline trailingContent: @Composable (() -> Unit)?,
+    placeholderContent: (@Composable () -> Unit)?,
+    leadingContent: (@Composable () -> Unit)?,
+    trailingContent: (@Composable () -> Unit)?,
 ) {
-    val density = LocalDensity.current
-    // `QuackTextFieldDecorationContentHorizontalPadding` is a constant value,
-    // so there is no need to remember the key
-    val decorationItemGap = remember {
-        with(
-            receiver = density,
-        ) {
-            QuackTextFieldDecorationContentHorizontalPadding.roundToPx()
-        }
-    }
-
     Layout(
-        modifier = Modifier
-            .size(
-                width = with(
-                    receiver = density,
-                ) {
-                    textFieldSize.width.toDp()
-                },
-                height = with(
-                    receiver = density,
-                ) {
-                    textFieldSize.height.toDp()
-                },
-            ),
+        modifier = modifier,
         content = {
             if (leadingContent != null) {
                 Box(
@@ -182,19 +393,9 @@ private inline fun QuackTextFieldDecorationBox(
                         layoutId = QuackTextFieldLeadingContentLayoutId,
                     ),
                     contentAlignment = Alignment.Center,
-                    propagateMinConstraints = true,
                 ) {
                     leadingContent()
                 }
-            }
-            Box(
-                modifier = Modifier.layoutId(
-                    layoutId = QuackTextFieldLayoutId,
-                ),
-                contentAlignment = Alignment.Center,
-                propagateMinConstraints = true,
-            ) {
-                textField()
             }
             if (trailingContent != null) {
                 Box(
@@ -202,125 +403,37 @@ private inline fun QuackTextFieldDecorationBox(
                         layoutId = QuackTextFieldTrailingContentLayoutId,
                     ),
                     contentAlignment = Alignment.Center,
-                    propagateMinConstraints = true,
                 ) {
                     trailingContent()
                 }
             }
+            Box(
+                modifier = Modifier
+                    .layoutId(
+                        layoutId = QuackTextFieldLayoutId,
+                    )
+                    .padding(
+                        horizontal = QuackTextFieldDecorationContentHorizontalPadding,
+                    ),
+                propagateMinConstraints = true,
+            ) {
+                textField()
+            }
+            if (placeholderContent != null) {
+                Box(
+                    modifier = Modifier
+                        .layoutId(
+                            layoutId = QuackTextFieldPlaceholderLayoutId,
+                        )
+                        .padding(
+                            horizontal = QuackTextFieldDecorationContentHorizontalPadding,
+                        ),
+                    propagateMinConstraints = true,
+                ) {
+                    placeholderContent()
+                }
+            }
         },
-    ) { measurables, _ ->
-        // The current implementation assumes that the shape of the
-        // decoration item is always square. However, the actual shape of
-        // the decoration item may not be square. For instance, see the images below.
-        //
-        // [TextField decoration items - square version]
-        // https://user-images.githubusercontent.com/40740128/189829870-cba93fd6-d5f4-4016-b826-c6093cfbb386.png
-        //
-        // [TextField decoration items - rectangular version]
-        // https://user-images.githubusercontent.com/40740128/189829922-667b1297-86fa-4e86-9db0-56de1d3ac778.png
-        //
-        // Regardless of the shape, the height of the decoration item is always the same as
-        // the height of the TextField, as for the width,
-        // it's size is equal to the total length content of the decorated item [wrap_content]
-        val decorationItemConstraints = Constraints.fixed(
-            width = textFieldSize.height,
-            height = textFieldSize.height,
-        )
-
-        // leading content
-        val leadingContentPlaceable = measurables.find { measurable ->
-            measurable.layoutId == QuackTextFieldLeadingContentLayoutId
-        }?.measure(
-            constraints = decorationItemConstraints,
-        )
-
-        // trailing content
-        val trailingContentPlaceable = measurables.find { measurable ->
-            measurable.layoutId == QuackTextFieldTrailingContentLayoutId
-        }?.measure(
-            constraints = decorationItemConstraints,
-        )
-
-        // The width of the TextField is determined by subtracting the width of
-        // both decoration items and the padding between the decoration item and
-        // the TextField from the total size of the TextField's layout.
-        val textFieldWidth = textFieldSize.width.let { _width ->
-            var width = _width
-            if (leadingContentPlaceable != null) {
-                width -= leadingContentPlaceable.width + decorationItemGap
-            }
-            if (trailingContentPlaceable != null) {
-                width -= trailingContentPlaceable.width + decorationItemGap
-            }
-            width
-        }.coerceAtLeast(
-            minimumValue = 0,
-        )
-
-        // TextField
-        val textFieldPlaceable = measurables.find { measurable ->
-            measurable.layoutId == QuackTextFieldLayoutId
-        }?.measure(
-            constraints = Constraints(
-                // The width of the TextField layout basically includes the width
-                // of decoration items. If there is a decoration item, the width of
-                // the TextField should be reduced by the width of the decoration item.
-                // Therefore, it is set as the width of the TextField by subtracting
-                // the width of the decoration item and the space between the TextField
-                // and the decoration item from the width of the TextField layout.
-                minWidth = textFieldWidth,
-                maxWidth = textFieldWidth,
-                minHeight = 0,
-                maxHeight = Constraints.Infinity,
-            ),
-        ) ?: npe(
-            lazyMessage = {
-                notFoundRequiredLayoutIdForQuackTextFieldMessage(
-                    layoutId = QuackTextFieldLayoutId,
-                )
-            },
-        )
-
-        layout(
-            width = textFieldSize.width,
-            height = textFieldSize.height,
-        ) {
-            val textFieldStartOffset = leadingContentPlaceable?.width?.plus(
-                other = decorationItemGap,
-            ) ?: 0
-
-            // Center the TextField in the TextField's layout
-            val textFieldYOffset = textFieldSize.height / 2 - textFieldPlaceable.height / 2
-
-            leadingContentPlaceable?.place(
-                x = 0,
-                y = 0,
-            )
-            textFieldPlaceable.place(
-                x = textFieldStartOffset,
-                y = textFieldYOffset,
-            )
-            trailingContentPlaceable?.place(
-                x = textFieldSize.width - trailingContentPlaceable.width,
-                y = 0,
-            )
-        }
-    }
+        measurePolicy = rememberQuackTextFieldMeasurePolicy(),
+    )
 }
-
-/**
- * Return an exception message when it cannot find the layoutId
- * needed to measure the QuackTextField.
- *
- * @param layoutId The layoutId needed to measure the QuackTextField
- * @return The exception message
- */
-@Suppress("SameParameterValue")
-private fun notFoundRequiredLayoutIdForQuackTextFieldMessage(
-    layoutId: String,
-) = """
-    |Could not find composable with the required layoutId for measurement QuackTextField.
-    |Make sure you use QuackTextField in the right way.
-
-    |Required layoutId: $layoutId
-    """.trimMargin()
