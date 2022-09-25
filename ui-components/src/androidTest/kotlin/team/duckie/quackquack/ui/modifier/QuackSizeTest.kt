@@ -7,9 +7,10 @@
 
 package team.duckie.quackquack.ui.modifier
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.assertHeightIsEqualTo
 import androidx.compose.ui.test.assertWidthIsEqualTo
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -17,57 +18,131 @@ import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.unit.dp
 import org.junit.Rule
 import org.junit.Test
+import team.duckie.quackquack.ui.constant.QuackHeight
+import team.duckie.quackquack.ui.constant.QuackWidth
+import team.duckie.quackquack.ui.util.assertColor
 
 class QuackSizeTest {
     @get:Rule
     val testRule = createComposeRule()
 
-        @Test
-        fun all_quack_size_is_500_x_500() {
-            val size = 500.dp
-
-            testRule.setContent {
-                Box(
-                    modifier = Modifier.size(
-                        size = size,
-                    ),
-                )
-            }
-            testRule
-                .onRoot()
-                .assertWidthIsEqualTo(
-                    expectedWidth = size,
-                )
-                .assertHeightIsEqualTo(
-                    expectedHeight = size,
-                )
-        }
-
     @Test
-    fun all_quack_size_is_500_x_100() {
+    fun all_quack_size_is_100_x_100() {
+        val size = 100.dp
+
         testRule.setContent {
             Box(
-                /*modifier = Modifier.applyQuackSize(
+                modifier = Modifier.applyQuackSize(
                     width = QuackWidth.Custom(
-                        width = 500.dp,
+                        width = size,
                     ),
                     height = QuackHeight.Custom(
-                        height = 100.dp,
-                    )
-                ),*/
-                modifier = Modifier.size(
-                    width = 500.dp,
-                    height = 100.dp,
-                ),
+                        height = size,
+                    ),
+                )
             )
         }
+
         testRule
             .onRoot()
             .assertWidthIsEqualTo(
-                expectedWidth = 500.dp,
+                expectedWidth = size,
             )
             .assertHeightIsEqualTo(
-                expectedHeight = 100.dp,
+                expectedHeight = size,
+            )
+    }
+
+    @Test
+    fun all_quack_size_is_100_x_10() {
+        val width = 100.dp
+        val height = 10.dp
+
+        testRule.setContent {
+            Box(
+                modifier = Modifier.applyQuackSize(
+                    width = QuackWidth.Custom(
+                        width = width,
+                    ),
+                    height = QuackHeight.Custom(
+                        height = height,
+                    ),
+                ),
+            )
+        }
+
+        testRule
+            .onRoot()
+            .assertWidthIsEqualTo(
+                expectedWidth = width,
+            )
+            .assertHeightIsEqualTo(
+                expectedHeight = height,
+            )
+    }
+
+    @Test
+    fun size_is_match_device() {
+        val color = Color.Green
+
+        testRule.setContent {
+            Box(
+                modifier = Modifier.applyQuackSize(
+                    width = QuackWidth.Fill,
+                    height = QuackHeight.Fill,
+                ),
+            ) {
+                Box(
+                    modifier = Modifier
+                        .applyQuackSize(
+                            width = QuackWidth.Fill,
+                            height = QuackHeight.Fill,
+                        )
+                        .background(
+                            color = color,
+                        ),
+                )
+            }
+        }
+
+        testRule
+            .onRoot()
+            .assertColor(
+                expectedColor = color,
+            )
+    }
+
+    @Test
+    fun size_is_wrap_content() {
+        val size = 100.dp
+
+        testRule.setContent {
+            Box(
+                modifier = Modifier.applyQuackSize(
+                    width = QuackWidth.Wrap,
+                    height = QuackHeight.Wrap,
+                ),
+            ) {
+                Box(
+                    modifier = Modifier.applyQuackSize(
+                        width = QuackWidth.Custom(
+                            width = size,
+                        ),
+                        height = QuackHeight.Custom(
+                            height = size,
+                        ),
+                    ),
+                )
+            }
+        }
+
+        testRule
+            .onRoot()
+            .assertWidthIsEqualTo(
+                expectedWidth = size,
+            )
+            .assertHeightIsEqualTo(
+                expectedHeight = size,
             )
     }
 }
