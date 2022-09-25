@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.animation.AnimatedContentTransform
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.constant.NoPadding
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
