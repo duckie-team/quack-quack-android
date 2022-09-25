@@ -14,11 +14,14 @@ package team.duckie.quackquack.playground.base
 
 import android.app.Activity
 import android.content.Intent
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -63,14 +66,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.datastore.preferences.core.edit
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.coroutines.launch
-import team.duckie.quackquack.playground.theme.md_theme_light_primaryContainer
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
+import team.duckie.quackquack.playground.util.noRippleClickable
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
@@ -471,17 +475,29 @@ private fun PreviewAlert(
     onBackPressed: () -> Unit,
     content: @Composable () -> Unit,
 ) {
-    /*BackHandler(
+    BackHandler(
         enabled = visible,
         onBack = onBackPressed,
-    )*/
+    )
 
-    if (visible) {
-        val alertShape = remember {
-            RoundedCornerShape(
-                size = 15.dp,
+    AnimatedVisibility(
+        modifier = Modifier
+            .zIndex(
+                zIndex = 1f,
             )
-        }
+            .fillMaxSize(),
+        visible = visible,
+        enter = fadeIn(
+            animationSpec = tween(
+                durationMillis = 200,
+            ),
+        ),
+        exit = fadeOut(
+            animationSpec = tween(
+                durationMillis = 200,
+            ),
+        ),
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -490,22 +506,19 @@ private fun PreviewAlert(
                         alpha = 0.8f,
                     ),
                 )
-                .clickable(
+                .noRippleClickable(
                     onClick = onBackPressed,
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
                 ),
             contentAlignment = Alignment.Center,
         ) {
             Box(
                 modifier = Modifier
-                    .border(
-                        width = 5.dp,
-                        color = md_theme_light_primaryContainer,
-                        shape = alertShape,
-                    )
                     .clip(
-                        shape = alertShape,
+                        shape = remember {
+                            RoundedCornerShape(
+                                size = 15.dp,
+                            )
+                        },
                     )
                     .fillMaxWidth(
                         fraction = 0.8f,
@@ -515,10 +528,24 @@ private fun PreviewAlert(
                     )
                     .background(
                         color = Color.White,
+                    )
+                    .noRippleClickable { } // prevent click event
+                    .padding(
+                        horizontal = 16.dp,
                     ),
                 contentAlignment = Alignment.Center,
             ) {
-                content()
+                // for indicate content
+                Box(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .border(
+                            width = 0.1.dp,
+                            color = Color.LightGray,
+                        ),
+                ) {
+                    content()
+                }
             }
         }
     }
