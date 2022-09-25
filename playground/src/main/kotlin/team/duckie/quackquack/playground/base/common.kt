@@ -535,18 +535,27 @@ private fun PreviewAlert(
                     ),
                 contentAlignment = Alignment.Center,
             ) {
-                // for indicate content
-                Box(
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .border(
-                            width = 0.1.dp,
-                            color = Color.LightGray,
-                        ),
-                ) {
+                ContentBorder {
                     content()
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ContentBorder(
+    content: @Composable () -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .wrapContentSize()
+            .border(
+                width = 0.1.dp,
+                color = Color.LightGray,
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        content()
     }
 }
