@@ -13,4 +13,6 @@ package team.duckie.quackquack.ui.util
  * @param because 이 경우에 MagicNumber 을 왜 허용하는지 명시해야 합니다.
  */
 @Retention(AnnotationRetention.SOURCE)
-internal annotation class AllowMagicNumber(@Suppress("unused") val because: String)
+internal annotation class AllowMagicNumber(
+    @Suppress("unused") val because: String,
+)
