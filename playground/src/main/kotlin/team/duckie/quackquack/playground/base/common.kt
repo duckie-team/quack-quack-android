@@ -18,6 +18,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,7 +30,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -38,13 +38,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -66,7 +63,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.datastore.preferences.core.edit
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
@@ -178,10 +174,9 @@ fun PlaygroundActivities(
                     },
                 ) {
                     Text(
-                        text = (activity.simpleName ?: activity.toString())
-                            .removeSuffix(
-                                suffix = "Playground",
-                            ),
+                        text = (activity.simpleName ?: activity.toString()).removeSuffix(
+                            suffix = "Playground",
+                        ),
                     )
                 }
             }
@@ -321,10 +316,14 @@ private fun PlaygroundSettingAlert(
         fun Int.msToSecondString() = (toDouble() / 1000.toDouble()).toString()
 
         var animationDurationInputState by remember {
-            mutableStateOf(QuackAnimationMillis.msToSecondString())
+            mutableStateOf(
+                value = QuackAnimationMillis.msToSecondString(),
+            )
         }
         var fontScaleInputState by remember {
-            mutableStateOf(QuackFontScale.toString())
+            mutableStateOf(
+                value = QuackFontScale.toString(),
+            )
         }
 
         fun dismiss(reset: Boolean = false) {
@@ -341,13 +340,17 @@ private fun PlaygroundSettingAlert(
                         true -> QuackDefaultAnimationMillis
                         else -> (animationDurationInputState.toDouble() * 1000.toDouble()).roundToInt()
                     }.also { newAnimationMillis ->
-                        QuackAnimationMillis = newAnimationMillis.coerceAtLeast(minimumValue = 0)
+                        QuackAnimationMillis = newAnimationMillis.coerceAtLeast(
+                            minimumValue = 0,
+                        )
                     }
                     preference[PreferenceConfigs.FontScaleKey] = when (reset) {
                         true -> QuackDefaultFontScale
                         else -> fontScaleInputState.toDouble()
                     }.also { newFontScale ->
-                        QuackFontScale = newFontScale.coerceAtLeast(minimumValue = 0.0)
+                        QuackFontScale = newFontScale.coerceAtLeast(
+                            minimumValue = 0.0,
+                        )
                     }
                 }
             }
@@ -435,8 +438,12 @@ private fun PlaygroundSettingAlert(
             dismissButton = {
                 Button(
                     onClick = {
-                        dismiss(reset = true)
-                        toast("Playground 설정을 초기화 했어요")
+                        dismiss(
+                            reset = true,
+                        )
+                        toast(
+                            message = "Playground 설정을 초기화 했어요",
+                        )
                     },
                 ) {
                     Text(
@@ -464,6 +471,11 @@ private fun PreviewAlert(
     onBackPressed: () -> Unit,
     content: @Composable () -> Unit,
 ) {
+    /*BackHandler(
+        enabled = visible,
+        onBack = onBackPressed,
+    )*/
+
     if (visible) {
         val alertShape = remember {
             RoundedCornerShape(
@@ -473,8 +485,15 @@ private fun PreviewAlert(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .zIndex(
-                    zIndex = 1.0f,
+                .background(
+                    color = Color.Black.copy(
+                        alpha = 0.8f,
+                    ),
+                )
+                .clickable(
+                    onClick = onBackPressed,
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
                 ),
             contentAlignment = Alignment.Center,
         ) {
@@ -500,24 +519,6 @@ private fun PreviewAlert(
                 contentAlignment = Alignment.Center,
             ) {
                 content()
-                Icon(
-                    modifier = Modifier
-                        .size(
-                            size = 48.dp,
-                        )
-                        .clickable(
-                            onClick = onBackPressed,
-                        )
-                        .align(
-                            alignment = Alignment.TopStart,
-                        )
-                        .padding(
-                            start = 16.dp,
-                            top = 16.dp,
-                        ),
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "back",
-                )
             }
         }
     }
