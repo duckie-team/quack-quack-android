@@ -12,6 +12,7 @@ package team.duckie.quackquack.ui.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.BasicTextField
@@ -144,8 +145,8 @@ private object QuackTextFieldColors {
     fun textColor(
         isPlaceholder: Boolean,
     ) = when (isPlaceholder) {
-        true -> QuackColor.Black
-        else -> QuackColor.Gray2
+        true -> QuackColor.Gray2
+        else -> QuackColor.Black
     }
 
     /**
@@ -184,8 +185,7 @@ private object QuackTextFieldColors {
  * @param placeholderText A placeholder text to display when the entered
  * [text] is empty. According to the design guide of QuackTextField, only
  * single text can be placed in placeholder.
- * @param placeholderTextStyle The style of the [placeholderText] to be displayed.
- * @param isError Whether the QuackTextField is in error state.
+ * @param isError Whether the QuackTextField is in error state
  * @param errorText A text to display when the QuackTextField is in error state.
  * @param errorTextStyle The style of the [errorText] to be displayed.
  * @param leadingContent leading decoration content of QuackTextField
@@ -201,17 +201,11 @@ fun QuackTextField(
     onTextChanged: (text: String) -> Unit,
     textStyle: QuackTextStyle = QuackTextStyle.Body1,
     placeholderText: String? = null,
-    // needs remember?
-    placeholderTextStyle: QuackTextStyle = remember(textStyle) {
-        textStyle.change(
-            color = QuackColor.Gray2,
-        )
-    },
     isError: Boolean = false,
     errorText: String? = null,
     // needs remember?
-    errorTextStyle: QuackTextStyle = remember(textStyle) {
-        textStyle.change(
+    errorTextStyle: QuackTextStyle = remember {
+        QuackTextStyle.Body1.change(
             color = QuackColor.OrangeRed,
         )
     },
@@ -233,37 +227,25 @@ fun QuackTextField(
                 )
                 .background(
                     color = QuackColor.White.composeColor,
-                )
-                .drawUnderBar(
-                    width = QuackTextFieldUnderBarHeight,
-                    color = QuackTextFieldColors.underBarColor(
-                        isError = isError,
-                    ),
                 ),
             width = width,
             height = height,
             text = text,
             onTextChanged = onTextChanged,
             textStyle = textStyle,
-            placeholderContent = {
-                if (placeholderText != null) {
-                    Text(
-                        text = placeholderText,
-                        // needs remember?
-                        style = remember(
-                            key1 = placeholderTextStyle,
-                        ) {
-                            placeholderTextStyle.asComposeStyle()
-                        },
-                    )
-                }
-            },
+            placeholderText = placeholderText,
+            isError = isError,
             leadingContent = leadingContent,
             trailingContent = trailingContent,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
         )
-        if (isError && errorText != null) {
+        if (isError) {
+            checkNotNull(
+                value = errorText,
+            ) {
+                "errorText must not be null when isError is true"
+            }
             Text(
                 modifier = Modifier.padding(
                     top = QuackTextFieldErrorTextTopPadding,
@@ -290,22 +272,23 @@ fun QuackTextField(
  * @param text text to display
  * @param onTextChanged Callback to be invoked when new text is entered
  * @param textStyle The style of the text to be displayed.
- * @param placeholderContent A placeholder content to display when the entered [text] is empty
+ * @param placeholderText A placeholder text to display when the entered [text] is empty
+ * @param isError Whether the QuackTextField is in error state
  * @param leadingContent leading decoration content of QuackTextField
  * @param trailingContent trailing decoration content of QuackTextField
  * @param keyboardOptions keyboard options in QuackTextField
  * @param keyboardActions Keyboard actions in QuackTextField
  */
-// TODO: private?
 @Composable
-fun QuackBasicTextField(
+internal fun QuackBasicTextField(
     modifier: Modifier = Modifier,
     width: QuackWidth = QuackWidth.Fill,
     height: QuackHeight = QuackHeight.Wrap,
     text: String,
     onTextChanged: (text: String) -> Unit,
     textStyle: QuackTextStyle = QuackTextStyle.Body1,
-    placeholderContent: (@Composable () -> Unit)? = null,
+    placeholderText: String? = null,
+    isError: Boolean = false,
     leadingContent: (@Composable () -> Unit)? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
@@ -333,15 +316,22 @@ fun QuackBasicTextField(
         key1 = width,
         key2 = height,
     ) {
-        Modifier.applyQuackSize(
-            width = width,
-            height = height,
-        )
+        Modifier
+            .applyQuackSize(
+                width = width,
+                height = height,
+            )
+            .then(
+                other = modifier,
+            )
     }
 
     BasicTextField(
-        modifier = modifier.then(
-            other = sizedModifier,
+        modifier = sizedModifier.drawUnderBar(
+            width = QuackTextFieldUnderBarHeight,
+            color = QuackTextFieldColors.underBarColor(
+                isError = isError,
+            ),
         ),
         value = text,
         onValueChange = onTextChanged,
@@ -357,7 +347,17 @@ fun QuackBasicTextField(
                 modifier = sizedModifier,
                 textField = textField,
                 // placeholder is displayed when text is empty
-                placeholderContent = placeholderContent.takeIf { isPlaceholder },
+                placeholderContent = when (isPlaceholder && placeholderText != null) {
+                    true -> {
+                        {
+                            Text(
+                                text = placeholderText,
+                                style = composeTextStyle,
+                            )
+                        }
+                    }
+                    else -> null
+                },
                 leadingContent = leadingContent,
                 trailingContent = trailingContent,
             )
@@ -387,6 +387,24 @@ private fun QuackTextFieldDecorationBox(
     Layout(
         modifier = modifier,
         content = {
+            val padding = remember(
+                key1 = leadingContent != null,
+                key2 = trailingContent != null,
+            ) {
+                PaddingValues(
+                    start = if (leadingContent != null) {
+                        QuackTextFieldDecorationContentHorizontalPadding
+                    } else {
+                        0.dp
+                    },
+                    end = if (trailingContent != null) {
+                        QuackTextFieldDecorationContentHorizontalPadding
+                    } else {
+                        0.dp
+                    },
+                )
+            }
+
             if (leadingContent != null) {
                 Box(
                     modifier = Modifier.layoutId(
@@ -413,7 +431,7 @@ private fun QuackTextFieldDecorationBox(
                         layoutId = QuackTextFieldLayoutId,
                     )
                     .padding(
-                        horizontal = QuackTextFieldDecorationContentHorizontalPadding,
+                        paddingValues = padding,
                     ),
                 propagateMinConstraints = true,
             ) {
@@ -426,7 +444,7 @@ private fun QuackTextFieldDecorationBox(
                             layoutId = QuackTextFieldPlaceholderLayoutId,
                         )
                         .padding(
-                            horizontal = QuackTextFieldDecorationContentHorizontalPadding,
+                            paddingValues = padding,
                         ),
                     propagateMinConstraints = true,
                 ) {
