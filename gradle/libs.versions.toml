@@ -38,7 +38,7 @@ kotlin-collections-immutable = "0.3.5"
 oss-license-library = "17.0.0"
 
 # androidx
-androidx-appcompat = "1.5.0" # needs for oss license activity
+androidx-appcompat = "1.5.1" # needs for oss license activity
 androidx-splash = "1.0.0"
 androidx-datastore = "1.0.0"
 androidx-junit = "1.1.3"
