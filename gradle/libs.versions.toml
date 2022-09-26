@@ -36,6 +36,7 @@ customview-poolingcontainer = "1.0.0"
 kotlin-collections-immutable = "0.3.5"
 
 # androidx
+androidx-splash = "1.0.0"
 androidx-datastore = "1.0.0"
 androidx-junit = "1.1.3"
 androidx-benchmark = "1.1.0"
@@ -101,6 +102,7 @@ util-logeukes = { module = "land.sungbin:logeukes", version.ref = "logeukes" }
 util-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileinstaller" }
 util-systemuicontroller = { module = "land.sungbin:systemuicontroller", version.ref = "systemuicontroller" }
 
+androidx-splash = { module = "androidx.core:core-splashscreen", version.ref = "androidx-splash" }
 androidx-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
 androidx-benchmark = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidx-benchmark" }

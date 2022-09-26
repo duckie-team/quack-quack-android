@@ -65,6 +65,7 @@ dependencies {
         libs.ktx.core,
         libs.util.systemuicontroller,
         libs.compose.material3,
+        libs.androidx.splash,
         libs.androidx.datastore,
         libs.kotlin.collections.immutable,
     )
