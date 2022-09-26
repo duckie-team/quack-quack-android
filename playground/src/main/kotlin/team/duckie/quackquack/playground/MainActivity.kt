@@ -28,11 +28,7 @@ import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.ContentBorder
 import team.duckie.quackquack.playground.base.PlaygroundActivities
-import team.duckie.quackquack.playground.realworld.ButtonPlayground
-import team.duckie.quackquack.playground.realworld.FabPlayground
-import team.duckie.quackquack.playground.realworld.TabPlayground
-import team.duckie.quackquack.playground.realworld.TextFieldPlayground
-import team.duckie.quackquack.playground.realworld.TogglePlayground
+import team.duckie.quackquack.playground.realworld.*
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
@@ -45,6 +41,7 @@ private val PlaygroundActivities = persistentListOf(
     TextFieldPlayground::class,
     FabPlayground::class,
     TogglePlayground::class,
+    TypoPlayground::class,
 )
 
 class MainActivity : BaseActivity() {

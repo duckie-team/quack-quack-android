@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import team.duckie.quackquack.ui.animation.AnimatedContentTransform
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
@@ -55,3 +56,30 @@ internal fun QuackText(
         )
     }
 }
+
+@Composable
+internal fun QuackText(
+    modifier: Modifier = Modifier,
+    text: AnnotatedString,
+    style: QuackTextStyle,
+    singleLine: Boolean = true,
+) {
+    val styleAnimationState by animateQuackTextStyleAsState(
+        targetValue = style,
+    )
+
+    AnimatedContentTransform(
+        modifier = modifier,
+        targetState = text,
+    ) { animatedText ->
+        BasicText(
+            text = animatedText,
+            style = styleAnimationState.asComposeStyle(),
+            maxLines = when (singleLine) {
+                true -> 1
+                else -> Int.MAX_VALUE
+            },
+        )
+    }
+}
+
