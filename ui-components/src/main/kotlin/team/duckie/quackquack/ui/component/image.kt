@@ -145,6 +145,6 @@ fun InternalQuackImage(
  */
 private fun QuackColor?.toColorFilter() = this?.run {
     ColorFilter.tint(
-        color = value,
+        color = composeColor,
     )
 }

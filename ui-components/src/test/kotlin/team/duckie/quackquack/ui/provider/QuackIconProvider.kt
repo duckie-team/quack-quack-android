@@ -9,15 +9,15 @@ package team.duckie.quackquack.ui.provider
 
 import com.google.testing.junit.testparameterinjector.TestParameter
 import team.duckie.quackquack.ui.icon.QuackIcon
-import team.duckie.quackquack.ui.wrapper.QuackIconWrapper
+import team.duckie.quackquack.ui.wrapper.NamedValue
 
 class QuackIconProvider : TestParameter.TestParameterValuesProvider {
     override fun provideValues() = listOf(
-        QuackIconWrapper(
+        NamedValue(
             value = null,
             name = "none",
         ),
-        QuackIconWrapper(
+        NamedValue(
             value = QuackIcon.Close,
             name = "close",
         ),

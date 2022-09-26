@@ -143,6 +143,6 @@ private fun Modifier.surface(
         )
     }
     .background(
-        color = backgroundColor.value,
+        color = backgroundColor.composeColor,
         shape = shape,
     )

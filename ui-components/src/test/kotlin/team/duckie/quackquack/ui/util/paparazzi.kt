@@ -19,6 +19,7 @@ import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.Paparazzi
 import app.cash.paparazzi.androidHome
 import app.cash.paparazzi.detectEnvironment
+import team.duckie.quackquack.ui.textstyle.QuackFontScale
 
 /**
  * [Paparazzi] 의 추가 설정을 위한 DSL 객체
@@ -65,8 +66,10 @@ fun buildPaparazzi(@QuackDsl config: PaparazziConfig.() -> Unit = {}): Paparazzi
 // Needs Paparazzi#gif: https://github.com/cashapp/paparazzi/issues/496
 inline fun Paparazzi.boxSnapshot(
     name: String? = null,
+    fontScale: Double = QuackFontScale,
     crossinline composable: @Composable BoxScope.() -> Unit,
 ) {
+    QuackFontScale = fontScale
     snapshot(name = name) {
         Box(
             modifier = Modifier

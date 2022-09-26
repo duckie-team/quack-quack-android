@@ -12,6 +12,6 @@ package team.duckie.quackquack.ui.util
  */
 @RequiresOptIn(
     message = "이 API 는 직접적으로 사용하면 안됩니다. " +
-            "이 수단을 가져올 수 있는 다른 API 를 사용해 주세요."
+            "이 수단을 가져올 수 있는 다른 API 를 사용해 주세요.",
 )
 internal annotation class DoNotUseDirectly

@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.ui.component
+package team.duckie.quackquack.ui.component.internal
 
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable

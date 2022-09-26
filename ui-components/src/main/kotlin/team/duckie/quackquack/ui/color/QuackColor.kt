@@ -41,12 +41,12 @@ import team.duckie.quackquack.ui.util.AllowMagicNumber
  *
  * 색상 정의는 코드 스타일 통일을 위해 ARGB 형식이 아닌 Hex Color 형식으로 해야 합니다.
  *
- * @param value 색상 값. 이 인자로 색상을 사용하기 위해 컴포즈의 [Color] 로 받습니다.
+ * @param composeColor 색상 값. 이 인자로 색상을 사용하기 위해 컴포즈의 [Color] 로 받습니다.
  */
 @Immutable
 @JvmInline
 value class QuackColor internal constructor(
-    val value: Color,
+    val composeColor: Color,
 ) {
     /**
      * [QuackColor] 를 [Brush] 로 변환합니다.
@@ -54,7 +54,7 @@ value class QuackColor internal constructor(
      * @return 현재 [QuackColor] 를 [Brush] 로 변환한 값
      */
     fun toBrush() = SolidColor(
-        value = value,
+        value = composeColor,
     )
 
     /**
@@ -66,7 +66,7 @@ value class QuackColor internal constructor(
     fun changeAlpha(
         alpha: Float,
     ) = QuackColor(
-        value.copy(
+        composeColor.copy(
             alpha = alpha,
         )
     )
@@ -76,61 +76,61 @@ value class QuackColor internal constructor(
         // 실제 컴포넌트에서는 사용되서는 안됩니다.
         @Stable
         internal val Unspecified = QuackColor(
-            value = Color.Unspecified,
+            composeColor = Color.Unspecified,
         )
 
         @Stable
         val DuckieOrange = QuackColor(
-            value = Color(
+            composeColor = Color(
                 color = 0xFFFF8300,
             ),
         )
 
         @Stable
         val Black = QuackColor(
-            value = Color(
+            composeColor = Color(
                 color = 0xFF222222,
             ),
         )
 
         @Stable
         val Gray1 = QuackColor(
-            value = Color(
+            composeColor = Color(
                 color = 0xFF666666,
             ),
         )
 
         @Stable
         val Gray2 = QuackColor(
-            value = Color(
+            composeColor = Color(
                 color = 0xFFA8A8A8,
             ),
         )
 
         @Stable
         val Gray3 = QuackColor(
-            value = Color(
+            composeColor = Color(
                 color = 0xFFEFEFEF,
             ),
         )
 
         @Stable
         val Gray4 = QuackColor(
-            value = Color(
+            composeColor = Color(
                 color = 0xFFF6F6F6,
             ),
         )
 
         @Stable
         val White = QuackColor(
-            value = Color(
+            composeColor = Color(
                 color = 0xFFFFFFFF,
             ),
         )
 
         @Stable
         val OrangeRed = QuackColor(
-            value = Color(
+            composeColor = Color(
                 color = 0xFFFF2929,
             ),
         )
@@ -285,7 +285,7 @@ value class QuackColor internal constructor(
                         )
 
                         QuackColor(
-                            value = colorXyz.convert(
+                            composeColor = colorXyz.convert(
                                 colorSpace = colorSpace,
                             ),
                         )
@@ -295,7 +295,7 @@ value class QuackColor internal constructor(
     }
 
     @SuppressLint("KDocFields")
-    operator fun getValue(thisRef: Any?, property: KProperty<*>) = value
+    operator fun getValue(thisRef: Any?, property: KProperty<*>) = composeColor
 }
 
 /**
@@ -336,9 +336,9 @@ internal fun animateQuackColorAsState(
     animationSpec: AnimationSpec<QuackColor> = quackAnimationSpec(),
 ): State<QuackColor> {
     val converter = remember(
-        key1 = targetValue.value.colorSpace,
+        key1 = targetValue.composeColor.colorSpace,
     ) {
-        (QuackColor.VectorConverter)(targetValue.value.colorSpace)
+        (QuackColor.VectorConverter)(targetValue.composeColor.colorSpace)
     }
     return animateValueAsState(
         targetValue = targetValue,

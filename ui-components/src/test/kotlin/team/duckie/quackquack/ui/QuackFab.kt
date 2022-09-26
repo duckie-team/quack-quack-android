@@ -21,7 +21,6 @@ import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.component.QuackDialogMenuItem
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.rule.AnimationTestRule
-import team.duckie.quackquack.ui.textstyle.QuackFontScale
 import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
 
@@ -41,8 +40,8 @@ class QuackFab {
     ) {
         paparazzi.boxSnapshot(
             name = "[fontScale:$fontScale]",
+            fontScale = fontScale,
         ) {
-            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackFloatingActionButton(
                 icon = QuackIcon.Dm,
                 onClick = {},
@@ -57,8 +56,8 @@ class QuackFab {
     ) {
         paparazzi.boxSnapshot(
             name = "[expanded:$expanded]-[fontScale:$fontScale]",
+            fontScale = fontScale,
         ) {
-            QuackFontScale = fontScale
             team.duckie.quackquack.ui.component.QuackMenuFloatingActionButton(
                 expanded = expanded,
                 onClickButton = {},

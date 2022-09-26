@@ -7,9 +7,7 @@
 
 package team.duckie.quackquack.common.lint
 
-import java.awt.SystemColor.text
 import org.jetbrains.kotlin.psi.KtTypeReference
-import team.duckie.quackquack.common.lint.custom.CustomRule
 
 /**
  * MutableCollection 접미사들
@@ -22,9 +20,9 @@ private val CollectionsSuffix: List<String> = mutableListOf(
     "List",
     "Set",
     "Map",
-).apply {
+)/*.apply {
     addAll(CustomRule.Collection)
-}
+}*/
 
 /**
  * ImmutableCollection 이름들
@@ -41,9 +39,9 @@ private val ImmutableCollectionsName: List<String> = mutableListOf(
     "PersistentList",
     "PersistentSet",
     "PersistentMap",
-).apply {
+)/*.apply {
     addAll(CustomRule.ImmutableCollection)
-}
+}*/
 
 private val KtTypeReference.isCollection
     get() = CollectionsSuffix.any { suffix ->
