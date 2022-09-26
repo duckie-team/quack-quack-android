@@ -15,6 +15,7 @@ plugins {
     id(ConventionEnum.AndroidApplicationCompose)
     id(ConventionEnum.JvmKover)
     id(ConventionEnum.JvmDokka)
+    id(libs.plugins.oss.license.get().pluginId)
 }
 
 android {
@@ -62,9 +63,12 @@ dependencies {
         projects.uiComponents,
         projects.lintCorePublish,
         projects.lintComposePublish,
+        libs.util.oss.license,
         libs.ktx.core,
         libs.util.systemuicontroller,
         libs.compose.material3,
+        libs.androidx.appcompat,
+        libs.androidx.splash,
         libs.androidx.datastore,
         libs.kotlin.collections.immutable,
     )

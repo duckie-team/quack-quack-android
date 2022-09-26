@@ -9,9 +9,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/quack_icon"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Quackquack">
+        android:theme="@style/Theme.Quack.Splash">
 
         <profileable
             android:shell="true"
@@ -19,8 +19,7 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,11 +27,33 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".realworld.TabPlayground" />
-        <activity android:name=".realworld.ButtonPlayground" />
-        <activity android:name=".realworld.TextFieldPlayground" />
-        <activity android:name=".realworld.FabPlayground" />
-        <activity android:name=".realworld.TogglePlayground" />
+        <activity
+            android:name=".realworld.TabPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.ButtonPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TextFieldPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.FabPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TogglePlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.Quack.AppCompat" />
+
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Theme.Quack.AppCompat" />
 
     </application>
 

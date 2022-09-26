@@ -9,7 +9,11 @@
 
 package team.duckie.quackquack.playground
 
+import android.animation.ObjectAnimator
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AnticipateInterpolator
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,11 +27,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.ContentBorder
 import team.duckie.quackquack.playground.base.PlaygroundActivities
+import team.duckie.quackquack.playground.base.showComponentBounds
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
 import team.duckie.quackquack.playground.realworld.FabPlayground
 import team.duckie.quackquack.playground.realworld.TabPlayground
@@ -39,6 +46,7 @@ import team.duckie.quackquack.playground.util.dataStore
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.textstyle.QuackFontScale
 
+private const val DefaultSplashScreenExitAnimationDurationMillis = 200L
 private val PlaygroundActivities = persistentListOf(
     TabPlayground::class,
     ButtonPlayground::class,
@@ -49,6 +57,7 @@ private val PlaygroundActivities = persistentListOf(
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             PlaygroundDemo()
@@ -62,6 +71,22 @@ class MainActivity : BaseActivity() {
                 QuackTextFieldWithAllDecorationDemo()
                 QuackTextFieldErrorStateDemo()
             }*/
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            splashScreen.setOnExitAnimationListener { splashScreenView ->
+                ObjectAnimator.ofFloat(
+                    splashScreenView,
+                    View.ALPHA,
+                    1f,
+                    0f,
+                ).run {
+                    interpolator = AnticipateInterpolator()
+                    duration = DefaultSplashScreenExitAnimationDurationMillis
+                    doOnEnd { splashScreenView.remove() }
+                    start()
+                }
+            }
         }
     }
 }
@@ -128,6 +153,8 @@ private fun PlaygroundDemo() {
                     ).coerceAtLeast(
                     minimumValue = 0.0,
                 )
+            showComponentBounds =
+                preference[PreferenceConfigs.ShowComponentBounds] ?: showComponentBounds
         }
     }
     PlaygroundTheme {

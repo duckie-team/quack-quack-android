@@ -6,6 +6,5 @@
   -->
 
 <resources>
-    <string name="app_name">QuackPlayground</string>
-    <string name="opensource_license">오픈소스 라이선스</string>
+    <color name="quack_background">#FFF9EE</color>
 </resources>

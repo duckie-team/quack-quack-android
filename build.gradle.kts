@@ -43,6 +43,7 @@ buildscript {
         classpath(libs.build.gradle)
         classpath(libs.build.kotlin)
         classpath(libs.build.dokka.base)
+        classpath(libs.build.oss.license)
         classpath(libs.build.gradle.maven.publish)
     }
 }
