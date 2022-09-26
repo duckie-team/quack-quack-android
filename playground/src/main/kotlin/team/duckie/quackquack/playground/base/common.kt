@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -35,6 +36,7 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -44,6 +46,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -80,6 +83,11 @@ import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
 import team.duckie.quackquack.ui.textstyle.QuackDefaultFontScale
 import team.duckie.quackquack.ui.textstyle.QuackFontScale
+
+/**
+ * 컴포넌트의 경계(테두리)를 표시할 지 여부
+ */
+var showComponentBounds by mutableStateOf(true)
 
 /**
  * 액티비티를 애니메이션과 함께 시작합니다.
@@ -329,6 +337,11 @@ private fun PlaygroundSettingAlert(
                 value = QuackFontScale.toString(),
             )
         }
+        var showComponentBoundsState by remember {
+            mutableStateOf(
+                value = showComponentBounds,
+            )
+        }
 
         fun dismiss(reset: Boolean = false) {
             coroutineScope.launch {
@@ -356,6 +369,13 @@ private fun PlaygroundSettingAlert(
                             minimumValue = 0.0,
                         )
                     }
+
+                    preference[PreferenceConfigs.ShowComponentBounds] = when (reset) {
+                        true -> true
+                        else -> showComponentBoundsState
+                    }.also { newShowComponentBounds ->
+                        showComponentBounds = newShowComponentBounds
+                    }
                 }
             }
             onDismissRequest()
@@ -372,7 +392,27 @@ private fun PlaygroundSettingAlert(
                 Column(
                     modifier = Modifier.wrapContentSize(),
                 ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = "컴포넌트 경계 표시",
+                        )
+                        Checkbox(
+                            checked = showComponentBoundsState,
+                            onCheckedChange = { checked ->
+                                showComponentBoundsState = checked
+                            },
+                        )
+                    }
                     Text(
+                        modifier = Modifier.padding(
+                            top = 20.dp,
+                        ),
                         text = "애니메이션 지속 시간",
                     )
                     TextField(
@@ -547,15 +587,19 @@ private fun PreviewAlert(
 fun ContentBorder(
     content: @Composable () -> Unit,
 ) {
-    Box(
-        modifier = Modifier
-            .wrapContentSize()
-            .border(
-                width = 0.1.dp,
-                color = Color.LightGray,
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
+    if (showComponentBounds) {
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+                .border(
+                    width = 0.1.dp,
+                    color = Color.LightGray,
+                ),
+            contentAlignment = Alignment.Center,
+        ) {
+            content()
+        }
+    } else {
         content()
     }
 }

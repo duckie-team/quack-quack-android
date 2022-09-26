@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.ContentBorder
 import team.duckie.quackquack.playground.base.PlaygroundActivities
+import team.duckie.quackquack.playground.base.showComponentBounds
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
 import team.duckie.quackquack.playground.realworld.FabPlayground
 import team.duckie.quackquack.playground.realworld.TabPlayground
@@ -146,6 +147,8 @@ private fun PlaygroundDemo() {
                     ).coerceAtLeast(
                     minimumValue = 0.0,
                 )
+            showComponentBounds =
+                preference[PreferenceConfigs.ShowComponentBounds] ?: showComponentBounds
         }
     }
     PlaygroundTheme {

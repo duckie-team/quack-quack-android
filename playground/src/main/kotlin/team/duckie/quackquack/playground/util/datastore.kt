@@ -24,8 +24,8 @@ object PreferenceConfigs {
         name = "animation_duration",
     )
 
-    val ShowComponentsBound = booleanPreferencesKey(
-        name = "components_bound",
+    val ShowComponentBounds = booleanPreferencesKey(
+        name = "component_bounds",
     )
 }
 
