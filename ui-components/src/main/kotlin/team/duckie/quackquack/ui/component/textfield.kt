@@ -304,7 +304,6 @@ fun QuackTextField(
  * Draws the most basic QuackQuack's TextField.
  * Add only decoration items that fit QuackTextField to [BasicTextField].
  *
- * @param modifier A [Modifier] that applied only to root BasicTextField
  * @param width Width of QuackTextField
  * @param height height of QuackTextField
  * @param text text to display
@@ -319,7 +318,6 @@ fun QuackTextField(
  */
 @Composable
 internal fun QuackBasicTextField(
-    modifier: Modifier = Modifier,
     width: QuackWidth = QuackWidth.Fill,
     height: QuackHeight = QuackHeight.Wrap,
     text: String,
