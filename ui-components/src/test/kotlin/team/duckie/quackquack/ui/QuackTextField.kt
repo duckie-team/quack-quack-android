@@ -24,7 +24,9 @@ import team.duckie.quackquack.ui.wrapper.NamedValue
 @RunWith(TestParameterInjector::class)
 class QuackTextField {
     @get:Rule
-    val paparazzi = buildPaparazzi()
+    val paparazzi = buildPaparazzi {
+        screenHeight *= 2
+    }
 
     @get:Rule
     val animationTest = AnimationTestRule()
@@ -38,7 +40,8 @@ class QuackTextField {
         @TestParameter("duckie", "") text: String,
     ) {
         paparazzi.boxSnapshot(
-            name = "[fontScale:$fontScale]",
+            name = "[fontScale:$fontScale]-[decorationContent:$decorationContent]-" +
+                    "[isError:$isError]-[text:$text]",
             fontScale = fontScale,
         ) {
             team.duckie.quackquack.ui.component.QuackTextField(
