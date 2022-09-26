@@ -72,6 +72,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.datastore.preferences.core.edit
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 import kotlinx.collections.immutable.PersistentList
@@ -198,7 +199,14 @@ fun PlaygroundActivities(
             item {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {}
+                    onClick = {
+                        currentActivity.startActivityWithAnimation {
+                            Intent(
+                                currentActivity,
+                                OssLicensesMenuActivity::class.java,
+                            )
+                        }
+                    },
                 ) {
                     Text(
                         text = stringResource(

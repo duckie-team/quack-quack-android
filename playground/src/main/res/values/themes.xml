@@ -9,6 +9,8 @@
 
     <style name="Theme.Quack" parent="android:Theme.Material.NoActionBar" />
 
+    <style name="Theme.Quack.AppCompat" parent="Theme.AppCompat.Light" />
+
     <style name="Theme.Quack.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/quack_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/quack_splash_icon</item>
