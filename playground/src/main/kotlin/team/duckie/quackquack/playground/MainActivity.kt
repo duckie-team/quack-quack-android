@@ -9,7 +9,11 @@
 
 package team.duckie.quackquack.playground
 
+import android.animation.ObjectAnimator
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AnticipateInterpolator
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,6 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
@@ -49,6 +55,7 @@ private val PlaygroundActivities = persistentListOf(
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             PlaygroundDemo()
@@ -62,6 +69,17 @@ class MainActivity : BaseActivity() {
                 QuackTextFieldWithAllDecorationDemo()
                 QuackTextFieldErrorStateDemo()
             }*/
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            splashScreen.setOnExitAnimationListener { splashScreenView ->
+                ObjectAnimator.ofFloat(splashScreenView, View.ALPHA, 1f, 0f).run {
+                    interpolator = AnticipateInterpolator()
+                    duration = 200L
+                    doOnEnd { splashScreenView.remove() }
+                    start()
+                }
+            }
         }
     }
 }
