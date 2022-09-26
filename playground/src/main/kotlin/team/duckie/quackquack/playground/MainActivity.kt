@@ -46,6 +46,7 @@ import team.duckie.quackquack.playground.util.dataStore
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.textstyle.QuackFontScale
 
+private const val DefaultSplashScreenExitAnimationDurationMillis = 200L
 private val PlaygroundActivities = persistentListOf(
     TabPlayground::class,
     ButtonPlayground::class,
@@ -74,9 +75,14 @@ class MainActivity : BaseActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener { splashScreenView ->
-                ObjectAnimator.ofFloat(splashScreenView, View.ALPHA, 1f, 0f).run {
+                ObjectAnimator.ofFloat(
+                    splashScreenView,
+                    View.ALPHA,
+                    1f,
+                    0f,
+                ).run {
                     interpolator = AnticipateInterpolator()
-                    duration = 200L
+                    duration = DefaultSplashScreenExitAnimationDurationMillis
                     doOnEnd { splashScreenView.remove() }
                     start()
                 }
