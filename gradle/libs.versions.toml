@@ -34,6 +34,8 @@ systemuicontroller = "1.0.1"
 profileinstaller = "1.2.0"
 customview-poolingcontainer = "1.0.0"
 kotlin-collections-immutable = "0.3.5"
+oss-license-plugin = "0.10.5"
+oss-license-library = "17.0.0"
 
 # androidx
 androidx-splash = "1.0.0"
@@ -62,6 +64,7 @@ paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 gradle-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "gradle-maven-publish" }
 gradle-maven-publish-base = { id = "com.vanniktech.maven.publish.base", version.ref = "gradle-maven-publish" }
+oss-license = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "oss-license-plugin" }
 
 [libraries]
 build-dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
@@ -96,6 +99,7 @@ customview-poolingcontainer = { module = "androidx.customview:customview-pooling
 lint-core = { module = "com.android.tools.lint:lint", version.ref = "lint" }
 lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "lint" } # compileOnly
 
+oss-license = { module = "com.google.android.gms:play-services-oss-licenses", version.ref = "oss-license-library" }
 ktx-core = { module = "androidx.core:core-ktx", version.ref = "ktx-core" }
 
 util-logeukes = { module = "land.sungbin:logeukes", version.ref = "logeukes" }

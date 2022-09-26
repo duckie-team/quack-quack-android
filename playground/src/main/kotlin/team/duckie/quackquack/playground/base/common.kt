@@ -67,6 +67,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -75,6 +76,7 @@ import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.coroutines.launch
+import team.duckie.quackquack.playground.R
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
 import team.duckie.quackquack.playground.util.noRippleClickable
@@ -188,6 +190,19 @@ fun PlaygroundActivities(
                     Text(
                         text = (activity.simpleName ?: activity.toString()).removeSuffix(
                             suffix = "Playground",
+                        ),
+                    )
+                }
+            }
+
+            item {
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {}
+                ) {
+                    Text(
+                        text = stringResource(
+                            id = R.string.opensource_license,
                         ),
                     )
                 }
