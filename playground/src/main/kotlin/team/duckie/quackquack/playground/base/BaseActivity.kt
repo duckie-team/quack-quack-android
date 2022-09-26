@@ -36,7 +36,10 @@ open class BaseActivity : ComponentActivity() {
             owner = this,
         ) {
             finish()
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            overridePendingTransition(
+                android.R.anim.fade_in,
+                android.R.anim.fade_out,
+            )
         }
     }
 }
