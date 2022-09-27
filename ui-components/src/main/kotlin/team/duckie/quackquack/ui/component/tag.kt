@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,14 +27,16 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.flowlayout.FlowRow
 import kotlinx.collections.immutable.ImmutableCollection
+import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
-import team.duckie.quackquack.ui.component.internal.flowlayout.FlowRow
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
+import team.duckie.quackquack.ui.util.runtimeCheck
 
 private val QuackTagRowTitleSpace = 12.dp
 private val QuackTagRowFlowContentSpace = 8.dp
@@ -58,7 +59,7 @@ private val QuackTagShape = RoundedCornerShape(
 )
 
 // grayscale tag 와 flowrow tag 에 사용됩니다.
-private val QuackGrayscaleFlexRowTagShape = RoundedCornerShape(
+private val QuackGrayscaleFlowRowTagShape = RoundedCornerShape(
     size = 12.dp,
 )
 
@@ -252,69 +253,64 @@ fun QuackIconTag(
     }
 }
 
-/**
- * [QuackRowTag] 에 표시될 각각 태그들의 속성을 나타냅니다.
- * 탭이 선택됐을 시 탭 내부 텍스트와 선택 여부 값 수정을 위해 가변으로
- * 필드들을 제공합니다.
- *
- * @param text 태그에 표시될 텍스트
- * @param isSelected 태그가 선택되었는지 여부
- */
-@Immutable
-data class QuackTagItem(
-    var text: String,
-    var isSelected: Boolean,
-)
-
 // Why `@Suppress("PreferredImmutableCollections")` is not working???
 // This typealias is just to avoid the `PreferredImmutableCollections` issue.
 // If the suppress issue is resolved, this typealias should be removed.
-private typealias ImmutableQuackTagItemButMutable = List<QuackTagItem>
+private typealias ImmutableQuackTagItemButMutable = List<Boolean>
 
 /**
  * 덕키의 TagRow 를 구현합니다. 내부적으로 [FlowRow] 를 이용하며, 항상 현재 화면의
  * 가로 길이만큼 width 가 지정됩니다.
  *
- * @param title QuackTagRow 상단에 표시될 제목 Text. 만약 공백을 제공할 시
+ * @param title QuackRowTag 상단에 표시될 제목 Text. 만약 공백을 제공할 시
  * 제목이 표시되지 않습니다.
- * @param items Tag 에 표시될 Text 의 리스트. [QuackTagItem] 의 [QuackTagItem.isSelected]
- * 항목은 자주 바뀔 것으로 예상되어 [ImmutableCollection] 가 아닌 일반 [Collection] 으로
- * 받습니다.
- * @param onClick 사용자가 Tag 를 클릭했을 때 호출되는 람다
+ * @param items 표시할 태그들의 제목들
+ * @param itemsSelection 태그들의 선택 여부. 이 항목은 자주 바뀔 것으로
+ * 예상되어 [ImmutableCollection] 가 아닌 일반 [Collection] 으로 받습니다.
+ * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다
  *
  * @see ImmutableQuackTagItemButMutable
  */
 @Composable
 fun QuackRowTag(
     title: String = "",
-    items: ImmutableQuackTagItemButMutable,
+    items: PersistentList<String>,
+    itemsSelection: ImmutableQuackTagItemButMutable,
     onClick: (
         index: Int,
     ) -> Unit,
 ) {
+    runtimeCheck(
+        value = items.size == itemsSelection.size,
+    ) {
+        "The size of items and the size of itemsSelection must always be the same. " +
+                "[items.size (${items.size}) != itemsSelection.size (${itemsSelection.size})]"
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
     ) {
         if (title.isNotEmpty()) {
-            QuackTitle2(
+            QuackText(
+                modifier = Modifier.padding(
+                    bottom = QuackTagRowTitleSpace,
+                ),
                 text = title,
+                style = QuackTextStyle.Title2,
             )
         }
         FlowRow(
-            modifier = Modifier.padding(
-                top = QuackTagRowTitleSpace,
-            ),
+            modifier = Modifier.fillMaxWidth(),
             mainAxisSpacing = QuackTagRowFlowContentSpace,
             crossAxisSpacing = QuackTagRowFlowContentSpace,
         ) {
-            items.forEachIndexed { index, item ->
+            items.forEachIndexed { index, itemText ->
                 QuackText(
                     modifier = Modifier
                         .wrapContentSize()
                         .quackTag(
-                            isSelected = item.isSelected,
+                            isSelected = itemsSelection[index],
                             type = QuackTagType.Row,
                             onClick = {
                                 onClick(
@@ -323,11 +319,11 @@ fun QuackRowTag(
                                 )
                             },
                         ),
-                    text = item.text,
+                    text = itemText,
                     style = QuackTextStyle.Body2.change(
                         color = QuackTagTextColor(
                             /*isSelected = */
-                            item.isSelected,
+                            itemsSelection[index],
                             /*isBorderTag = */
                             true,
                         ),
@@ -386,7 +382,7 @@ private fun Modifier.quackTag(
     ) {
         when (type) {
             QuackTagType.Default, QuackTagType.Icon -> QuackTagShape
-            QuackTagType.Grayscale, QuackTagType.Row -> QuackGrayscaleFlexRowTagShape
+            QuackTagType.Grayscale, QuackTagType.Row -> QuackGrayscaleFlowRowTagShape
         }
     }
 
