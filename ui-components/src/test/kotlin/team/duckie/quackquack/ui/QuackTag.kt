@@ -5,16 +5,23 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+/*
+ * Designed and developed by 2022 SungbinLand, Team Duckie
+ *
+ * Licensed under the MIT.
+ * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ */
+
 @file:Suppress(
     "TestFunctionName",
     "SpellCheckingInspection",
+    "JUnitMalformedDeclaration",
 )
 
 package team.duckie.quackquack.ui
 
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,7 +31,7 @@ import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
 
 @RunWith(TestParameterInjector::class)
-class QuackRow {
+class QuackTag {
     @get:Rule
     val paparazzi = buildPaparazzi {
         screenHeight = 500
@@ -45,7 +52,7 @@ class QuackRow {
         ) {
             team.duckie.quackquack.ui.component.QuackTagRow(
                 title = "이런 점이 최고였어요",
-                items = persistentListOf(
+                items = listOf(
                     QuackTagItem(
                         isSelected = isSelected,
                         text = "친절하고 매너가 좋아요",
@@ -59,7 +66,7 @@ class QuackRow {
                         text = "입금을 제때 해줘요",
                     ),
                 ),
-                onClickItem = {},
+                onClick = {},
             )
         }
     }
