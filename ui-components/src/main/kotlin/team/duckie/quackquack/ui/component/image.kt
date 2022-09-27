@@ -94,7 +94,7 @@ internal fun QuackImageInternal(
                 key1 = animatedTint?.value?.composeColor,
             ) {
                 ImageOptions(
-                    colorFilter = animatedTint?.value?.toColorFilter(),/* tint.toColorFilter()*/
+                    colorFilter = animatedTint?.value?.toColorFilter(),
                 )
             },
         )

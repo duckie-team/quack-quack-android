@@ -27,7 +27,11 @@ import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
 import team.duckie.quackquack.ui.wrapper.NamedValue
 
-@Ignore(value = "paparazzi 빌드 에러 발생")
+@Ignore(
+    value = """
+        Cannot read field "metaData" because "appInfo" is null
+    """
+)
 @RunWith(TestParameterInjector::class)
 class QuackButton {
     @get:Rule
