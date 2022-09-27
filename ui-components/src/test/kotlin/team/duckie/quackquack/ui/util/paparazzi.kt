@@ -61,6 +61,7 @@ fun buildPaparazzi(@QuackDsl config: PaparazziConfig.() -> Unit = {}): Paparazzi
  * 가운데로 정렬하여 캡처합니다. 또한 배경 색상도 흰색으로 지정합니다.
  *
  * @param name 스냅샷의 추가 명칭
+ * @param fontScale 스냅샷에 적용할 폰트 스케일
  * @param composable 캡처할 컴포저블
  */
 // Needs Paparazzi#gif: https://github.com/cashapp/paparazzi/issues/496
