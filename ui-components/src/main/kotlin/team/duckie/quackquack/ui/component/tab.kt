@@ -15,6 +15,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -113,7 +114,9 @@ fun QuackMainTab(
     var tabHeight by remember(
         key1 = titles,
     ) {
-        mutableStateOf(0)
+        mutableStateOf(
+            value = 0,
+        )
     }
     val tabUnderBarXOffsets = remember(
         key1 = titles,
@@ -132,7 +135,12 @@ fun QuackMainTab(
     val tabWidths = remember(
         key1 = titles,
     ) {
-        mutableStateListOf(*Array(titleSize) { 0.dp })
+        mutableStateListOf(
+            elements = Array(
+                size = titleSize,
+                init = { 0.dp },
+            )
+        )
     }
     val currentTabUnderBarWidthAnimation by animateDpAsState(
         targetValue = tabWidths[selectedTabIndex] + QuackMainTabTextInnerPadding * 2,
@@ -196,7 +204,7 @@ fun QuackMainTab(
  * QuackMainTab 에서 사용되는 탭 제목을 그리는 컴포넌트입니다.
  *
  * `clipToPadding = false` 로 첫 번째 탭과 마지막 탭에 패딩을 적용하기 위해서
- * Row 가 아닌 LazyRow 로 구현하였습니다.
+ * [Row] 가 아닌 [LazyRow] 로 구현하였습니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
  * @param tabTitles 탭 타이틀 리스트
