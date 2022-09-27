@@ -13,12 +13,11 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.ui.animation.animateQuackAsState
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
@@ -65,34 +64,24 @@ internal class QuackBorder(
  * @param targetValue 애니메이션을 적용할 [QuackBorder]
  * @param animationSpec 애니메이션에 사용할 [AnimationSpec]
  *
- * @return 애니메이션이 적용되고 있는 [State] 객체
+ * @return 애니메이션이 적용되고 있는 [QuackBorder] 객체
  */
 @Suppress("UNCHECKED_CAST")
 @Composable
-internal fun animateQuackBorderAsState(
+internal fun animatedQuackBorderAsState(
     targetValue: QuackBorder,
     animationSpec: AnimationSpec<Any> = quackAnimationSpec(),
-): State<QuackBorder> {
-    val widthAnimationState = animateDpAsState(
+): QuackBorder {
+    val widthAnimationState by animateDpAsState(
         targetValue = targetValue.width,
         animationSpec = animationSpec as AnimationSpec<Dp>,
     )
-    val colorAnimationState = animateQuackColorAsState(
+    val colorAnimationState by animateQuackColorAsState(
         targetValue = targetValue.color,
         animationSpec = animationSpec as AnimationSpec<QuackColor>,
     )
-    return animateQuackAsState(
-        initialValue = targetValue,
-        animationStates = listOf(
-            widthAnimationState,
-            colorAnimationState,
-        ),
-        targetBuilder = { animationFlows ->
-            val (width, color) = animationFlows
-            QuackBorder(
-                width = width as Dp,
-                color = color as QuackColor,
-            )
-        },
+    return QuackBorder(
+        width = widthAnimationState,
+        color = colorAnimationState,
     )
 }
