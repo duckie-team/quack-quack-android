@@ -59,7 +59,9 @@ private val QuackFullTabSelectedUnderBarHeight = 2.dp
 
 private val QuackTabVerticalPadding = 9.dp
 
-private val QuackTabSelectedTextStyle: (isSelected: Boolean) -> QuackTextStyle
+private val QuackTabSelectedTextStyle: (
+    isSelected: Boolean,
+) -> QuackTextStyle
     get() = { isSelected ->
         when (isSelected) {
             true -> QuackTextStyle.Title2
