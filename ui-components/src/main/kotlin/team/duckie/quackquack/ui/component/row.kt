@@ -4,7 +4,7 @@
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
-@file:Suppress("KDocFields") // 리팩토링 하면서 재거
+@file:Suppress("SpellCheckingInspection") // 리팩토링 하면서 재거
 
 package team.duckie.quackquack.ui.component
 
@@ -50,7 +50,16 @@ class QuackTagItem(
         return result
     }
 }
-
+/**
+ * 덕키의 메인 버튼인 QuackLargeButton 을 구현합니다.
+ * QuackLargeButton 은 활성 상태에 따라 다른 배경 색상을
+ * 가집니다.
+ *
+ * @param text 버튼에 표시될 텍스트
+ * @param active 버튼 활성화 여부. 배경 색상에
+ * 영향을 미칩니다.
+ * @param onClick 버튼 클릭 시 호출될 콜백
+ */
 @Composable
 fun QuackTagRow(
     items: PersistentList<QuackTagItem>,
@@ -137,7 +146,7 @@ private fun flowRowMeasurePolicy(
         }
     }
 }
-
+/*
 @Preview
 @Composable
 fun prev() {
@@ -184,3 +193,4 @@ fun prev() {
         )
     }
 }
+*/
