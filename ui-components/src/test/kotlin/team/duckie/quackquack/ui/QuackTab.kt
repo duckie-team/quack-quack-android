@@ -51,4 +51,25 @@ class QuackTab {
             )
         }
     }
+
+    @Test
+    fun QuackSubTab(
+        @TestParameter("0", "1", "2") selectedTabIndex: Int,
+        @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
+    ) {
+        paparazzi.boxSnapshot(
+            name = "[selectedTabIndex:$selectedTabIndex]-[fontScale:$fontScale]",
+            fontScale = fontScale,
+        ) {
+            team.duckie.quackquack.ui.component.QuackSubTab(
+                titles = persistentListOf(
+                    "피드",
+                    "컬렉션",
+                    "좋아요",
+                ),
+                selectedTabIndex = selectedTabIndex,
+                onTabSelected = {},
+            )
+        }
+    }
 }
