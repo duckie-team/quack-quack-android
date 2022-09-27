@@ -48,7 +48,7 @@
             android:theme="@style/Theme.Quack" />
 
         <activity
-            android:name=".realworld.RowPlayground"
+            android:name=".realworld.TagPlayground"
             android:theme="@style/Theme.Quack" />
 
         <activity
