@@ -9,6 +9,7 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
@@ -17,8 +18,16 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+
+@Immutable
+class QuackTagItem(
+    val isSelected: Boolean,
+    val text: String,
+)
+
+
 @Composable
-private fun FlowLayout(
+private fun FlowRow(
     modifier: Modifier = Modifier,
     contentSpacing: Dp = 0.dp,
     content: @Composable () -> Unit,
