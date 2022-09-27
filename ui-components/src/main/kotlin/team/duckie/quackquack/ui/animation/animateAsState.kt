@@ -61,7 +61,7 @@ internal inline fun <T> animateQuackAsState(
                 (flow as State<*>).value ?: npe(
                     lazyMessage = {
                         "애니메이션 요청된 $initialValue Quack 디자인 리소스의 ${index}번째 " +
-                            "개별 요소의 애니메이션 값이 null 이어서 애니메이션을 적용할 수 없습니다."
+                                "개별 요소의 애니메이션 값이 null 이어서 애니메이션을 적용할 수 없습니다."
                     },
                 )
             },
