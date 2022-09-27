@@ -16,7 +16,9 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.DpSize
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
+import team.duckie.quackquack.ui.animation.AnimatedContentTransform
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.util.runIf
@@ -72,18 +74,31 @@ internal fun QuackImageInternal(
     tint: QuackColor? = null,
 ) {
     if (src == null) return
-    val imageModel = if (src is QuackIcon) src.drawableId else src
-    GlideImage(
-        modifier = modifier,
-        imageModel = imageModel,
-        imageOptions = remember(
-            key1 = tint,
-        ) {
-            ImageOptions(
-                colorFilter = tint.toColorFilter(),
-            )
-        },
-    )
+    val imageModel = remember(
+        key1 = src,
+    ) {
+        if (src is QuackIcon) src.drawableId else src
+    }
+    val animatedTint = tint?.let {
+        animateQuackColorAsState(
+            targetValue = tint,
+        )
+    }
+    AnimatedContentTransform(
+        targetState = imageModel,
+    ) { animatedImageModel ->
+        GlideImage(
+            modifier = modifier,
+            imageModel = animatedImageModel,
+            imageOptions = remember(
+                key1 = animatedTint?.value?.composeColor,
+            ) {
+                ImageOptions(
+                    colorFilter = animatedTint?.value?.toColorFilter(),/* tint.toColorFilter()*/
+                )
+            },
+        )
+    }
 }
 
 /**
