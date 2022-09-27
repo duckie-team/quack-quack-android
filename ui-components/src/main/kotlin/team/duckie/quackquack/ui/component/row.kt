@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.PersistentList
 
 
 @Immutable
@@ -25,6 +26,37 @@ class QuackTagItem(
     val text: String,
 )
 
+
+@Composable
+fun QuackTagRow(
+    items: PersistentList<QuackTagItem>,
+    onClickItem: (item: QuackTagItem) -> Unit,
+) {
+    FlowRow(
+        contentSpacing = 8.dp,
+    ) {
+        items.forEach { item: QuackTagItem ->
+            QuackTagRowItem(
+                item = item,
+                onClickItem = onClickItem,
+            )
+        }
+    }
+}
+
+@Composable
+private fun QuackTagRowItem(
+    item: QuackTagItem,
+    onClickItem: (item: QuackTagItem) -> Unit,
+) {
+    QuackSimpleTag(
+        isSelected = item.isSelected,
+        text = item.text,
+        onClick = {
+            onClickItem(item)
+        },
+    )
+}
 
 @Composable
 private fun FlowRow(
