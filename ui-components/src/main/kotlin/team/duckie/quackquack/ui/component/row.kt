@@ -165,8 +165,6 @@ internal fun QuackFlowRow(
  * @param rowSpacing FlowRow 의 각 Row 들의 간격
  * @return [MeasurePolicy]
  */
-//measureables 측정할 element, 여기서는 내부 tag들
-//constraints, 부모로부터 받은 min/max의 width, height 범위
 private fun flowRowMeasurePolicy(
     contentSpacing: Dp,
     rowSpacing: Dp,
@@ -175,7 +173,7 @@ private fun flowRowMeasurePolicy(
         width = constraints.maxWidth,
         height = constraints.maxHeight,
     ) {
-        val placeables = measurables.map { measurable -> //각 Composable의 size를 측정하여 List로 저장
+        val placeables = measurables.map { measurable -> 
             measurable.measure(
                 constraints = constraints,
             )
