@@ -41,18 +41,16 @@ class TabPlayground : BaseActivity() {
     }
 }
 
-private val TabItems = persistentListOf(
-    "판매중",
-    "거래완료",
-    "숨김",
-)
-
 @Composable
 fun QuackMainTabDemo() {
     var selectedMainTabIndex by remember { mutableStateOf(0) }
 
     QuackMainTab(
-        titles = TabItems,
+        titles = persistentListOf(
+            "판매중",
+            "거래완료",
+            "숨김",
+        ),
         selectedTabIndex = selectedMainTabIndex,
         onTabSelected = { tabIndex ->
             selectedMainTabIndex = tabIndex
@@ -65,7 +63,11 @@ fun QuackSubTabDemo() {
     var selectedMainTabIndex by remember { mutableStateOf(0) }
 
     QuackSubTab(
-        titles = TabItems,
+        titles = persistentListOf(
+            "피드",
+            "컬렉션",
+            "좋아요",
+        ),
         selectedTabIndex = selectedMainTabIndex,
         onTabSelected = { tabIndex ->
             selectedMainTabIndex = tabIndex
