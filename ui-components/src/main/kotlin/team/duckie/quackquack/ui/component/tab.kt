@@ -27,7 +27,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
@@ -161,13 +160,10 @@ fun QuackMainTab(
         )
     }
 
-    Box(
+    QuackMainTabTextLazyRow(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .zIndex(
-                zIndex = 0f,
-            )
             .background(
                 color = QuackColor.White.composeColor,
             )
@@ -188,36 +184,33 @@ fun QuackMainTab(
                 width = QuackTabFullUnderBarHeight,
                 color = QuackTabFullUnderBarColor,
             ),
-    ) {
-        QuackMainTabTextLazyRow(
-            tabTitles = titles,
-            tabStartHorizontalPadding = tabStartHorizontalPadding,
-            selectedTabIndex = selectedTabIndex,
-            onTabSelected = onTabSelected,
-            onEachTabPositioned = { index, size, offset ->
-                with(density) {
-                    if (!dynamicSettingPerfectly[0]) {
-                        val dynamicTabUnderBarXOffset =
-                            offset.x - QuackMainTabTextInnerPadding.roundToPx()
-                        if (tabUnderBarXOffsets[index] != dynamicTabUnderBarXOffset) {
-                            tabUnderBarXOffsets[index] = dynamicTabUnderBarXOffset
-                        } else {
-                            dynamicSettingPerfectly[0] = true
-                        }
-                    }
-
-                    if (!dynamicSettingPerfectly[1]) {
-                        val dynamicTabWidth = size.width
-                        if (tabWidths[index] != dynamicTabWidth) {
-                            tabWidths[index] = dynamicTabWidth
-                        } else {
-                            dynamicSettingPerfectly[1] = true
-                        }
+        tabTitles = titles,
+        tabStartHorizontalPadding = tabStartHorizontalPadding,
+        selectedTabIndex = selectedTabIndex,
+        onTabSelected = onTabSelected,
+        onEachTabPositioned = { index, size, offset ->
+            with(density) {
+                if (!dynamicSettingPerfectly[0]) {
+                    val dynamicTabUnderBarXOffset =
+                        offset.x - QuackMainTabTextInnerPadding.roundToPx()
+                    if (tabUnderBarXOffsets[index] != dynamicTabUnderBarXOffset) {
+                        tabUnderBarXOffsets[index] = dynamicTabUnderBarXOffset
+                    } else {
+                        dynamicSettingPerfectly[0] = true
                     }
                 }
-            },
-        )
-    }
+
+                if (!dynamicSettingPerfectly[1]) {
+                    val dynamicTabWidth = size.width
+                    if (tabWidths[index] != dynamicTabWidth) {
+                        tabWidths[index] = dynamicTabWidth
+                    } else {
+                        dynamicSettingPerfectly[1] = true
+                    }
+                }
+            }
+        },
+    )
 }
 
 /**
@@ -227,6 +220,7 @@ fun QuackMainTab(
  * `clipToPadding = false` 로 첫 번째 탭과 마지막 탭에 패딩을 적용하기 위해서
  * [Row] 가 아닌 [LazyRow] 로 구현하였습니다.
  *
+ * @param modifier 이 컴포넌트를 그리기 위해 사용할 [Modifier]
  * @param tabTitles 탭 타이틀 리스트
  * @param tabStartHorizontalPadding 첫 번째와 마지막 탭의 가로 패딩
  * @param selectedTabIndex 현재 선택된 탭의 index
@@ -237,6 +231,7 @@ fun QuackMainTab(
  */
 @Composable
 private fun QuackMainTabTextLazyRow(
+    modifier: Modifier,
     tabTitles: PersistentList<String>,
     tabStartHorizontalPadding: Dp,
     selectedTabIndex: Int,
@@ -250,18 +245,12 @@ private fun QuackMainTabTextLazyRow(
     ) -> Unit,
 ) {
     LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .zIndex(
-                zIndex = 1f,
-            ),
+        modifier = modifier,
         contentPadding = PaddingValues(
             horizontal = tabStartHorizontalPadding,
         ),
         horizontalArrangement = Arrangement.spacedBy(
             space = QuackMainTabSpacedBy,
-            alignment = Alignment.CenterHorizontally,
         ),
     ) {
         itemsIndexed(
@@ -420,7 +409,7 @@ fun QuackSubTab(
         )
     }
 
-    Box(
+    QuackSubTabTextLazyRow(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
@@ -478,15 +467,12 @@ fun QuackSubTab(
                 width = QuackTabFullUnderBarHeight,
                 color = QuackTabFullUnderBarColor,
             ),
-    ) {
-        QuackSubTabTextLazyRow(
-            tabTitles = titles,
-            tabStartHorizontalPadding = tabStartHorizontalPadding,
-            eachTabWidth = eachTabWidth,
-            selectedTabIndex = selectedTabIndex,
-            onTabSelected = onTabSelected,
-        )
-    }
+        tabTitles = titles,
+        tabStartHorizontalPadding = tabStartHorizontalPadding,
+        eachTabWidth = eachTabWidth,
+        selectedTabIndex = selectedTabIndex,
+        onTabSelected = onTabSelected,
+    )
 }
 
 /**
@@ -496,6 +482,7 @@ fun QuackSubTab(
  * `clipToPadding = false` 로 첫 번째 탭과 마지막 탭에 패딩을 적용하기 위해서
  * [Row] 가 아닌 [LazyRow] 로 구현하였습니다.
  *
+ * @param modifier 이 컴포넌트를 그리기 위해 사용할 [Modifier]
  * @param tabTitles 탭 타이틀 리스트
  * @param tabStartHorizontalPadding 첫 번째와 마지막 탭의 가로 패딩
  * @param eachTabWidth 각각 탭들이 그려질 가로 길이
@@ -505,6 +492,7 @@ fun QuackSubTab(
  */
 @Composable
 private fun QuackSubTabTextLazyRow(
+    modifier: Modifier,
     tabTitles: PersistentList<String>,
     tabStartHorizontalPadding: Dp,
     eachTabWidth: Dp,
@@ -514,18 +502,12 @@ private fun QuackSubTabTextLazyRow(
     ) -> Unit,
 ) {
     LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .zIndex(
-                zIndex = 1f,
-            ),
+        modifier = modifier,
         contentPadding = PaddingValues(
             horizontal = tabStartHorizontalPadding,
         ),
         horizontalArrangement = Arrangement.spacedBy(
             space = QuackSubTabSpacedBy,
-            alignment = Alignment.CenterHorizontally,
         ),
     ) {
         itemsIndexed(
