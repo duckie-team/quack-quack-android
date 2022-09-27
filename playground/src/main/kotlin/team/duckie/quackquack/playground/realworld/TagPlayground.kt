@@ -10,6 +10,8 @@ package team.duckie.quackquack.playground.realworld
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundSection
@@ -17,7 +19,7 @@ import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.ui.component.QuackTagItem
 import team.duckie.quackquack.ui.component.QuackTagRow
 
-class RowPlayground : BaseActivity() {
+class TagPlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
         "QuackTagRowDemo" to { QuackTagRowDemo() },
@@ -38,9 +40,8 @@ class RowPlayground : BaseActivity() {
 
 @Composable
 fun QuackTagRowDemo() {
-    QuackTagRow(
-        title = "이런 점이 최고였어요",
-        items = persistentListOf(
+    val items = remember {
+        mutableStateListOf(
             QuackTagItem(
                 isSelected = false,
                 text = "친절하고 매너가 좋아요",
@@ -53,7 +54,16 @@ fun QuackTagRowDemo() {
                 isSelected = false,
                 text = "입금을 제때 해줘요",
             ),
-        ),
-        onClickItem = {},
+        )
+    }
+
+    QuackTagRow(
+        title = "이런 점이 최고였어요",
+        items = items,
+        onClick = { index ->
+            items[index].also { item ->
+                item.isSelected = !item.isSelected
+            }
+        },
     )
 }
