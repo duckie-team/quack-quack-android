@@ -4,11 +4,13 @@
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
-@file:Suppress("SpellCheckingInspection") // 리팩토링 하면서 재거
+@file:Suppress("SpellCheckingInspection", "KDocFields") // 리팩토링 하면서 재거
 
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -25,8 +27,19 @@ import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
+val QuackTitleFlowRowSpacing = 12.dp
+
+val QuackTagRowLineSpacing = 8.dp
 val QuackTagRowContentSpacing = 8.dp
 
+/**
+ * [QuackTagRow] 내부의 [QuackSimpleTag] 의 Argument 로 제공될 Class 입니다.
+ *
+ * @param isSelected Tag 가 선택되었는지 여부
+ * @param text Tag에 표시될 Text
+ *
+ * @constructor [isSelected], [text]를 초기화 하면서 생성합니다.
+ */
 @Immutable
 class QuackTagItem(
     val isSelected: Boolean,
@@ -50,35 +63,56 @@ class QuackTagItem(
         return result
     }
 }
+
 /**
- * 덕키의 메인 버튼인 QuackLargeButton 을 구현합니다.
- * QuackLargeButton 은 활성 상태에 따라 다른 배경 색상을
- * 가집니다.
+ * 덕키의 TagRow 를 구현합니다.
  *
- * @param text 버튼에 표시될 텍스트
- * @param active 버튼 활성화 여부. 배경 색상에
- * 영향을 미칩니다.
- * @param onClick 버튼 클릭 시 호출될 콜백
+ * [items] 의 원소 개수만큼 [QuackTagRowItem] 을 그립니다.
+ * [QuackFlowRow] 에 배치되기 때문에 부모의 width 를 넘어가면
+ * 다음 행에 [QuackTagRowItem] 를 배치합니다.
+ *
+ * @param title QuackTagRow 상단에 표시될 제목 Text
+ * @param items Tag 에 표시될 Text의 리스트
+ * @param onClickItem 사용자가 Tag를 클릭했을 때 호출되는 콜백
  */
 @Composable
 fun QuackTagRow(
+    title: String,
     items: PersistentList<QuackTagItem>,
     onClickItem: (
         item: QuackTagItem,
     ) -> Unit,
 ) {
-    FlowRow(
-        contentSpacing = QuackTagRowContentSpacing,
+    Column(
+        verticalArrangement = Arrangement.spacedBy(
+            space = QuackTitleFlowRowSpacing,
+        ),
     ) {
-        items.forEach { item: QuackTagItem ->
-            QuackTagRowItem(
-                item = item,
-                onClickItem = onClickItem,
-            )
+        QuackTitle2(
+            text = title,
+        )
+        QuackFlowRow(
+            contentSpacing = QuackTagRowContentSpacing,
+            rowSpacing = QuackTagRowLineSpacing,
+        ) {
+            items.forEach { item: QuackTagItem ->
+                QuackTagRowItem(
+                    item = item,
+                    onClickItem = onClickItem,
+                )
+            }
         }
     }
+
 }
 
+/**
+ * [QuackTagRow] 의 내부에 배치될 Composable 입니다.
+ * [QuackSimpleTag] 를 Deligate 합니다.
+ *
+ * @param item Tag 에 표시될 Text의 리스트
+ * @param onClickItem 사용자가 Tag를 클릭했을 때 호출되는 콜백
+ */
 @Composable
 @NonRestartableComposable
 private fun QuackTagRowItem(
@@ -86,36 +120,56 @@ private fun QuackTagRowItem(
     onClickItem: (
         item: QuackTagItem,
     ) -> Unit,
-) {
-    QuackSimpleTag(
-        isSelected = item.isSelected,
-        text = item.text,
-        onClick = {
-            onClickItem(item)
-        },
-    )
-}
+) = QuackSimpleTag(
+    isSelected = item.isSelected,
+    text = item.text,
+    onClick = {
+        onClickItem(item)
+    },
+)
 
+/**
+ * Duckie 컴포넌트에 사용될 FlowLayout 입니다.
+ *
+ * [contentSpacing] 과 [rowSpacing] 을 지정하여 요소들의 간격과,
+ * 행 간격을 조절할 수 있습니다.
+ *
+ * @param contentSpacing FlowRow 의 각 Content 들의 간격
+ * @param rowSpacing FlowRow 의 각 Row 들의 간격
+ * @param content FlowRow 내부에 들어갈 Composable
+ */
 @Composable
-private fun FlowRow(
-    modifier: Modifier = Modifier,
+internal fun QuackFlowRow(
     contentSpacing: Dp = 0.dp,
+    rowSpacing: Dp = 0.dp,
     content: @Composable () -> Unit,
 ) {
     val measurePolicy = flowRowMeasurePolicy(
         contentSpacing = contentSpacing,
+        rowSpacing = rowSpacing,
     )
     Layout(
         measurePolicy = measurePolicy,
         content = content,
-        modifier = modifier,
     )
 }
 
+/**
+ * 수평 흐름으로 하위 항목을 배열하는 레이아웃 모델입니다.
+ *
+ * 내부 element 를 순회하면서, element 들의 width 에 [contentSpacing] 을 더해가면서
+ * 상대 위치를 배정합니다. 만약 부모의 width 를 넘어간다면 element 의 height 의 최댓값 에 [rowSpacing] 을
+ * 더해서 다음 행과의 간격을 계산하고 다음 열에 배치됩니다.
+ *
+ * @param contentSpacing FlowRow 의 각 Content 들의 간격
+ * @param rowSpacing FlowRow 의 각 Row 들의 간격
+ * @return [MeasurePolicy]
+ */
 //measureables 측정할 element, 여기서는 내부 tag들
 //constraints, 부모로부터 받은 min/max의 width, height 범위
 private fun flowRowMeasurePolicy(
     contentSpacing: Dp,
+    rowSpacing: Dp,
 ) = MeasurePolicy { measurables: List<Measurable>, constraints: Constraints ->
     layout(
         width = constraints.maxWidth,
@@ -132,7 +186,7 @@ private fun flowRowMeasurePolicy(
         placeables.forEach { placeable ->
             if (xPosition + placeable.width > constraints.maxWidth) {
                 xPosition = 0
-                yPosition += maxY
+                yPosition += (maxY + rowSpacing.roundToPx())
                 maxY = 0
             }
             placeable.placeRelative(
@@ -146,7 +200,7 @@ private fun flowRowMeasurePolicy(
         }
     }
 }
-/*
+
 @Preview
 @Composable
 fun prev() {
@@ -155,6 +209,7 @@ fun prev() {
         contentAlignment = Alignment.Center,
     ) {
         QuackTagRow(
+            title = "이런 점이 최고였어요",
             items = persistentListOf(
                 QuackTagItem(
                     isSelected = false,
@@ -193,4 +248,3 @@ fun prev() {
         )
     }
 }
-*/
