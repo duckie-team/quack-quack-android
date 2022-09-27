@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -76,7 +75,6 @@ private val QuackRectangleCheckShape = RoundedCornerShape(
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
-@NonRestartableComposable
 fun QuackRoundCheckBox(
     checked: Boolean,
     onToggle: () -> Unit,
@@ -108,7 +106,6 @@ fun QuackRoundCheckBox(
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
-@NonRestartableComposable
 fun QuackSquareCheckBox(
     checked: Boolean,
     onToggle: () -> Unit,
@@ -144,7 +141,6 @@ fun QuackSquareCheckBox(
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
-@NonRestartableComposable
 fun QuackIconTextToggle(
     checkedIcon: QuackIcon?,
     unCheckedIcon: QuackIcon,
@@ -184,7 +180,6 @@ fun QuackIconTextToggle(
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
-@NonRestartableComposable
 fun QuackIconToggle(
     checkedIcon: QuackIcon?,
     unCheckedIcon: QuackIcon,
@@ -210,7 +205,6 @@ fun QuackIconToggle(
  */
 // TODO: 아이콘 전환 애니메이션?
 @Composable
-@NonRestartableComposable
 private fun QuackBasicIconToggle(
     modifier: Modifier = Modifier,
     checkedIcon: QuackIcon?,

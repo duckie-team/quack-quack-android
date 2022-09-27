@@ -8,13 +8,8 @@
 package team.duckie.quackquack.ui.component.internal
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.IntrinsicMeasurable
 import androidx.compose.ui.layout.IntrinsicMeasureScope
 import androidx.compose.ui.layout.Measurable
@@ -24,11 +19,7 @@ import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
-import team.duckie.quackquack.ui.color.QuackColor
-import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.component.QuackBasicTextField
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldMeasurePolicy.Companion.rememberQuackTextFieldMeasurePolicy
 import team.duckie.quackquack.ui.util.ZeroConstraints
@@ -410,41 +401,4 @@ private fun Placeable.PlacementScope.placeTextField(
             space = height,
         ),
     )
-}
-
-/**
- * QuackTextField 에 under bar 를 그리기 위해 사용됩니다.
- *
- * @param width under bar 의 두께
- * @param color under bar 의 색상
- * @param topPadding under bar 의 상단 여백
- *
- * @return under bar 를 그리기 위한 [drawWithContent] 가 적용된 [Modifier]
- */
-internal fun Modifier.drawUnderBarWithAnimation(
-    width: Dp,
-    color: QuackColor,
-    topPadding: Dp = 0.dp,
-) = composed {
-    val animatedBrush by animateQuackColorAsState(
-        targetValue = color,
-    )
-    drawWithContent {
-        drawContent()
-        if (width == Dp.Hairline) return@drawWithContent
-        val strokeWidth = width.toPx()
-        val y = size.height - strokeWidth / 2 + topPadding.toPx()
-        drawLine(
-            brush = animatedBrush.toBrush(),
-            start = Offset(
-                x = 0f,
-                y = y,
-            ),
-            end = Offset(
-                x = size.width,
-                y = y,
-            ),
-            strokeWidth = strokeWidth,
-        )
-    }
 }
