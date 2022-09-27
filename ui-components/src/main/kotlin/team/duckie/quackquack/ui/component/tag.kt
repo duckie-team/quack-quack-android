@@ -253,40 +253,7 @@ fun QuackIconTag(
 }
 
 /**
- * [QuackTagRow] 에서 사용되는 태그입니다.
- *
- * @param text 태그에 표시할 텍스트
- * @param isSelected 태그가 선택됐는지 여부
- * @param onClick 태그가 클릭됐을 떄 호출되는 람다
- */
-@Composable
-fun QuackRowTag(
-    text: String,
-    isSelected: Boolean,
-    onClick: (() -> Unit)? = null,
-) {
-    QuackText(
-        modifier = Modifier
-            .wrapContentSize()
-            .quackTag(
-                isSelected = isSelected,
-                type = QuackTagType.Row,
-                onClick = onClick,
-            ),
-        text = text,
-        style = QuackTextStyle.Body2.change(
-            color = QuackTagTextColor(
-                /*isSelected = */
-                isSelected,
-                /*isBorderTag = */
-                true,
-            ),
-        ),
-    )
-}
-
-/**
- * [QuackTagRow] 에 표시될 각각 태그들의 속성을 나타냅니다.
+ * [QuackRowTag] 에 표시될 각각 태그들의 속성을 나타냅니다.
  * 탭이 선택됐을 시 탭 내부 텍스트와 선택 여부 값 수정을 위해 가변으로
  * 필드들을 제공합니다.
  *
@@ -318,7 +285,7 @@ private typealias ImmutableQuackTagItemButMutable = List<QuackTagItem>
  * @see ImmutableQuackTagItemButMutable
  */
 @Composable
-fun QuackTagRow(
+fun QuackRowTag(
     title: String = "",
     items: ImmutableQuackTagItemButMutable,
     onClick: (
@@ -343,15 +310,28 @@ fun QuackTagRow(
             crossAxisSpacing = QuackTagRowFlowContentSpace,
         ) {
             items.forEachIndexed { index, item ->
-                QuackRowTag(
+                QuackText(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .quackTag(
+                            isSelected = item.isSelected,
+                            type = QuackTagType.Row,
+                            onClick = {
+                                onClick(
+                                    /*index = */
+                                    index,
+                                )
+                            },
+                        ),
                     text = item.text,
-                    isSelected = item.isSelected,
-                    onClick = {
-                        onClick(
-                            /*index = */
-                            index,
-                        )
-                    },
+                    style = QuackTextStyle.Body2.change(
+                        color = QuackTagTextColor(
+                            /*isSelected = */
+                            item.isSelected,
+                            /*isBorderTag = */
+                            true,
+                        ),
+                    ),
                 )
             }
         }
