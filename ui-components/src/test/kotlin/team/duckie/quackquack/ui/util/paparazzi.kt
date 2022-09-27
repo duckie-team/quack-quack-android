@@ -70,11 +70,15 @@ inline fun Paparazzi.boxSnapshot(
     crossinline composable: @Composable BoxScope.() -> Unit,
 ) {
     QuackFontScale = fontScale
-    snapshot(name = name) {
+    snapshot(
+        name = name,
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color.White),
+                .background(
+                    color = Color.White,
+                ),
             contentAlignment = Alignment.Center,
             content = composable,
         )
