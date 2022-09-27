@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlin.math.floor
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
@@ -60,10 +61,7 @@ private const val StopLocation = 0.5f
 private const val RoundCheckBoxAlpha = 0.2f
 private val CheckColor = QuackColor.White
 
-@Stable
 private val QuackRoundCheckShape = CircleShape
-
-@Stable
 private val QuackRectangleCheckShape = RoundedCornerShape(
     size = 4.dp,
 )
@@ -85,7 +83,7 @@ fun QuackRoundCheckBox(
     shape = QuackRoundCheckShape,
     backgroundColor = getCheckBoxBackgroundColor(
         isChecked = checked,
-        unCheckedColor = QuackColor.Black.changeAlpha(
+        uncheckedColor = QuackColor.Black.changeAlpha(
             alpha = RoundCheckBoxAlpha,
         ),
     ),
@@ -116,7 +114,7 @@ fun QuackSquareCheckBox(
     shape = QuackRectangleCheckShape,
     backgroundColor = getCheckBoxBackgroundColor(
         isChecked = checked,
-        unCheckedColor = QuackColor.Gray3,
+        uncheckedColor = QuackColor.Gray3,
     ),
     onClick = onToggle,
     rippleEnabled = false,
@@ -132,10 +130,10 @@ fun QuackSquareCheckBox(
  * 덕키의 IconTextToggle 입니다.
  *
  * [checked] 에 따라 보여지는 아이콘이 달라집니다.
- * [checkedIcon] 이 null 이면 [unCheckedIcon] 으로만 적용됩니다.
+ * [checkedIcon] 이 null 이면 [uncheckedIcon] 으로만 적용됩니다.
  *
  * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon],
- * @param unCheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
+ * @param uncheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
  * @param checked 체크되었는지 여부
  * @param text 아이콘 오른쪽에 표시될 Text
  * @param onToggle 체크시 호출되는 콜백
@@ -143,7 +141,7 @@ fun QuackSquareCheckBox(
 @Composable
 fun QuackIconTextToggle(
     checkedIcon: QuackIcon?,
-    unCheckedIcon: QuackIcon,
+    uncheckedIcon: QuackIcon,
     checked: Boolean,
     text: String,
     onToggle: () -> Unit,
@@ -155,11 +153,8 @@ fun QuackIconTextToggle(
         ),
     ) {
         QuackBasicIconToggle(
-            modifier = Modifier.size(
-                size = SmallIconSize,
-            ),
             checkedIcon = checkedIcon,
-            unCheckedIcon = unCheckedIcon,
+            uncheckedIcon = uncheckedIcon,
             checked = checked,
             onToggle = onToggle,
         )
@@ -187,7 +182,7 @@ fun QuackIconToggle(
     onToggle: () -> Unit,
 ) = QuackBasicIconToggle(
     checkedIcon = checkedIcon,
-    unCheckedIcon = unCheckedIcon,
+    uncheckedIcon = unCheckedIcon,
     checked = checked,
     onToggle = onToggle,
 )
@@ -197,29 +192,26 @@ fun QuackIconToggle(
  *
  * [checked] 에 따라 보여지는 아이콘이 달라집니다.
  *
- * @param modifier 이 컴포저블에서 사용할 [Modifier]
- * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon] , null 일 경우 [unCheckedIcon] 으로만 적용
- * @param unCheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
+ * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon] , null 일 경우 [uncheckedIcon] 으로만 적용
+ * @param uncheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
  * @param checked 체크되었는지 여부
  * @param onToggle 체크시 호출되는 콜백
  */
 // TODO: 아이콘 전환 애니메이션?
 @Composable
 private fun QuackBasicIconToggle(
-    modifier: Modifier = Modifier,
     checkedIcon: QuackIcon?,
-    unCheckedIcon: QuackIcon,
+    uncheckedIcon: QuackIcon,
     checked: Boolean,
     onToggle: () -> Unit,
-) = InternalQuackImage(
-    modifier = modifier,
-    icon = if (checkedIcon == null) {
-        unCheckedIcon
-    } else {
-        when (checked) {
-            true -> checkedIcon
-            else -> unCheckedIcon
-        }
+) = QuackImage(
+    overrideSize = DpSize(
+        width = SmallIconSize,
+        height = SmallIconSize,
+    ),
+    src = when (checkedIcon != null && checked) {
+        true -> checkedIcon
+        else -> uncheckedIcon
     },
     rippleEnabled = false,
     onClick = onToggle,
@@ -229,16 +221,16 @@ private fun QuackBasicIconToggle(
  * 체크 여부에 따라 CheckBox 의 배경색을 지정합니다.
  *
  * @param isChecked 체크 여부
- * @param unCheckedColor 체크되지 않았을 경우 배경색
+ * @param uncheckedColor 체크되지 않았을 경우 배경색
  * @return CheckBox 의 배경색
  */
 @Stable
 private fun getCheckBoxBackgroundColor(
     isChecked: Boolean,
-    unCheckedColor: QuackColor,
+    uncheckedColor: QuackColor,
 ) = when (isChecked) {
     true -> QuackColor.DuckieOrange
-    else -> unCheckedColor
+    else -> uncheckedColor
 }
 
 /**
