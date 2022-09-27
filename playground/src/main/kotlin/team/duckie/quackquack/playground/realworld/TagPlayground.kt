@@ -23,7 +23,6 @@ import team.duckie.quackquack.ui.component.QuackGrayscaleTag
 import team.duckie.quackquack.ui.component.QuackIconTag
 import team.duckie.quackquack.ui.component.QuackRowTag
 import team.duckie.quackquack.ui.component.QuackTag
-import team.duckie.quackquack.ui.component.QuackTagItem
 import team.duckie.quackquack.ui.icon.QuackIcon
 
 class TagPlayground : BaseActivity() {
@@ -103,41 +102,30 @@ fun QuackIconTagDemo() {
 @Composable
 fun QuackTagRowDemo() {
     val items = remember {
+        persistentListOf(
+            "친절하고 매너가 좋아요",
+            "답장이 빨라요",
+            "입금을 제때 해줘요",
+            "답장이 느려요",
+            "너무 늦은 시간에 연락해요",
+            "무리하게 가격을 깎아요",
+        )
+    }
+    val itemsSelection = remember {
         mutableStateListOf(
-            QuackTagItem(
-                isSelected = false,
-                text = "친절하고 매너가 좋아요",
-            ),
-            QuackTagItem(
-                isSelected = false,
-                text = "답장이 빨라요",
-            ),
-            QuackTagItem(
-                isSelected = false,
-                text = "입금을 제때 해줘요",
-            ),
-            QuackTagItem(
-                isSelected = false,
-                text = "답장이 느려요",
-            ),
-            QuackTagItem(
-                isSelected = false,
-                text = "너무 늦은 시간에 연락해요",
-            ),
-            QuackTagItem(
-                isSelected = false,
-                text = "무리하게 가격을 깎아요",
-            ),
+            elements = Array(
+                size = items.size,
+                init = { false },
+            )
         )
     }
 
     QuackRowTag(
         title = "이런 점이 최고였어요",
         items = items,
+        itemsSelection = itemsSelection,
         onClick = { index ->
-            items[index].also { item ->
-                item.isSelected = !item.isSelected
-            }
+            itemsSelection[index] = !itemsSelection[index]
         },
     )
 }
