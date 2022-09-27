@@ -197,7 +197,6 @@ fun QuackIconToggle(
  * @param checked 체크되었는지 여부
  * @param onToggle 체크시 호출되는 콜백
  */
-// TODO: 아이콘 전환 애니메이션?
 @Composable
 private fun QuackBasicIconToggle(
     checkedIcon: QuackIcon?,
