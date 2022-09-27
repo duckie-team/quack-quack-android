@@ -8,6 +8,7 @@
 @file:Suppress(
     "TestFunctionName",
     "SpellCheckingInspection",
+    "JUnitMalformedDeclaration",
 )
 
 package team.duckie.quackquack.ui

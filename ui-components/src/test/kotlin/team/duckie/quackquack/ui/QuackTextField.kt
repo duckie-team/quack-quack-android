@@ -5,7 +5,10 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("TestFunctionName")
+@file:Suppress(
+    "TestFunctionName",
+    "JUnitMalformedDeclaration",
+)
 
 package team.duckie.quackquack.ui
 

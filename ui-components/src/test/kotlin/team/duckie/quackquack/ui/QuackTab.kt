@@ -7,6 +7,7 @@
 
 @file:Suppress(
     "TestFunctionName",
+    "JUnitMalformedDeclaration",
 )
 
 package team.duckie.quackquack.ui
