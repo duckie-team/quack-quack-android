@@ -41,5 +41,9 @@ internal fun Project.configureApplication(commonExtension: CommonExtension<*, *,
         kotlinOptions {
             jvmTarget = ApplicationConstants.jvmTarget
         }
+
+        lint {
+            checkTestSources = true
+        }
     }
 }
