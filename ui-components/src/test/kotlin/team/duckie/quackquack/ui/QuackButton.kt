@@ -30,7 +30,7 @@ import team.duckie.quackquack.ui.wrapper.NamedValue
 @Ignore(
     value = """
         Cannot read field "metaData" because "appInfo" is null
-    """
+    """,
 )
 @RunWith(TestParameterInjector::class)
 class QuackButton {
