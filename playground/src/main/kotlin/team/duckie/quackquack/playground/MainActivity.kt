@@ -38,6 +38,7 @@ import team.duckie.quackquack.playground.base.showComponentBounds
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
 import team.duckie.quackquack.playground.realworld.FabPlayground
 import team.duckie.quackquack.playground.realworld.TabPlayground
+import team.duckie.quackquack.playground.realworld.TagPlayground
 import team.duckie.quackquack.playground.realworld.TextFieldPlayground
 import team.duckie.quackquack.playground.realworld.TogglePlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
@@ -53,6 +54,7 @@ private val PlaygroundActivities = persistentListOf(
     TextFieldPlayground::class,
     FabPlayground::class,
     TogglePlayground::class,
+    TagPlayground::class,
 )
 
 class MainActivity : BaseActivity() {
@@ -62,7 +64,7 @@ class MainActivity : BaseActivity() {
         setContent {
             PlaygroundDemo()
             /*SingleDemo {
-                QuackTextFieldErrorStateLiveDemo()
+                QuackTagRowDemo()
             }*/
             /*MultiDemo {
                 QuackTextFieldWithNoDecorationDemo()
