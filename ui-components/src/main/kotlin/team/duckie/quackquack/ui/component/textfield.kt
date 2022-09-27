@@ -46,10 +46,10 @@ import team.duckie.quackquack.ui.component.internal.QuackTextFieldLeadingContent
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldMeasurePolicy.Companion.rememberQuackTextFieldMeasurePolicy
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldPlaceholderLayoutId
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldTrailingContentLayoutId
-import team.duckie.quackquack.ui.component.internal.drawUnderBarWithAnimation
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.modifier.applyQuackSize
+import team.duckie.quackquack.ui.modifier.drawUnderBarWithAnimation
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.DoNotUseDirectly
 
