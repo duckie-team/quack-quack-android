@@ -7,22 +7,26 @@
 
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.unit.DpSize
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
+import team.duckie.quackquack.ui.util.runIf
 
 /**
  * 이미지 혹은 [QuackIcon] 을 표시합니다.
  *
  * @param src 표시할 리소스. 만약 null 이 들어온다면 리소스를 그리지 않습니다.
  * [GlideImage] 에서 지원하는 [Any] 에 추가로 [QuackIcon] 이 포함될 수 있습니다.
+ * @param overrideSize 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
  * @param tint 아이콘에 적용할 틴트 값
  * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
  * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
@@ -31,14 +35,21 @@ import team.duckie.quackquack.ui.modifier.quackClickable
 @NonRestartableComposable
 fun QuackImage(
     src: Any?,
+    overrideSize: DpSize? = null,
     tint: QuackColor? = null,
     rippleEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
-) = InternalQuackImage(
+) = QuackImageInternal(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
-    ),
+    ).runIf(
+        condition = overrideSize != null,
+    ) {
+        size(
+            size = overrideSize!!,
+        )
+    },
     src = src,
     tint = tint,
 )
@@ -55,7 +66,7 @@ fun QuackImage(
 // TODO: 로딩 effect
 @Composable
 @NonRestartableComposable
-private fun InternalQuackImage(
+internal fun QuackImageInternal(
     modifier: Modifier = Modifier,
     src: Any?,
     tint: QuackColor? = null,
