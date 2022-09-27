@@ -17,29 +17,40 @@ import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 
 /**
- * QuackTextField 에 under bar 를 그리기 위해 사용됩니다.
+ * 컴포넌트의 전체 가로에 under bar 를 그리기 위해 사용됩니다.
  *
  * @param width under bar 의 두께
  * @param color under bar 의 색상
- * @param topPadding under bar 의 상단 여백
+ * @param yOffsetProvider under bar 가 drawing 될 y 오프셋을 계산하는 람다.
+ * 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
  *
  * @return under bar 를 그리기 위한 [drawWithContent] 가 적용된 [Modifier]
  */
 internal fun Modifier.drawUnderBarWithAnimation(
     width: Dp,
     color: QuackColor,
-    topPadding: Dp = Dp.Hairline,
+    yOffsetProvider: (
+        height: Float,
+        strokeWidth: Float,
+    ) -> Float = { height, strokeWidth ->
+        height - strokeWidth
+    },
 ) = composed {
     if (width == Dp.Hairline) return@composed this
-    val animatedBrush by animateQuackColorAsState(
+    val animatedColor by animateQuackColorAsState(
         targetValue = color,
     )
     drawWithContent {
         drawContent()
         val strokeWidth = width.toPx()
-        val y = size.height - strokeWidth / 2 + topPadding.toPx()
+        val y = yOffsetProvider(
+            /*height =*/
+            size.height,
+            /*strokeWidth =*/
+            strokeWidth,
+        )
         drawLine(
-            brush = animatedBrush.toBrush(),
+            color = animatedColor.composeColor,
             start = Offset(
                 x = 0f,
                 y = y,
