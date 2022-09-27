@@ -13,10 +13,6 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Quack.Splash">
 
-        <profileable
-            android:shell="true"
-            tools:targetApi="29" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -25,9 +25,10 @@ import team.duckie.quackquack.convention.libs
 /**
  * Android 프레임워크에 의존적인 밴치마크 모듈을 구성합니다.
  *
- * 밴치마크 모듈은 baseline profiles 를 산출하기 위해 사용됩니다.
+ * benchmark-ui-components-app 모듈의 baseline profiles 을 생성하기 위해
+ * 사용됩니다.
  */
-internal class AndroidBenchmarkPlugin : Plugin<Project> {
+internal class AndroidQuackUiComponentsBenchmarkPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
             applyPlugins(
@@ -51,12 +52,14 @@ internal class AndroidBenchmarkPlugin : Plugin<Project> {
                     }
                 }
 
-                targetProjectPath = ":playground"
+                targetProjectPath = ":benchmark-ui-components-app"
                 experimentalProperties["android.experimental.self-instrumenting"] = true
             }
 
             dependencies {
-                implementations(libs.findBundle("benchmark").get())
+                implementations(
+                    libs.findBundle("benchmark").get(),
+                )
             }
 
             extensions.configure<TestAndroidComponentsExtension> {
