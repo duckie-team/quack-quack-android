@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlin.math.roundToInt
+import kotlinx.collections.immutable.ImmutableCollection
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
@@ -50,6 +51,8 @@ import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.fixedCopy
+
+/* ----- START: QuackMainTab ----- */
 
 private val QuackTabDividerHeight = 1.dp
 private val QuackTabDividerColor = QuackColor.Gray3
@@ -74,8 +77,18 @@ private val QuackTabVerticalPadding = 9.dp
 private val QuackMainTabSpacedBy = 28.dp
 private val QuackMainTabTextInnerPadding = 2.dp
 
+/* ----- END: QuackMainTab ----- */
+
+/* ----- START: QuackSubTab ----- */
+
+private val QuackSubTabSpacedBy = 2.dp
+
+/* ----- END: QuackSubTab ----- */
+
 /**
- * QuackMainTab 을 구현합니다.
+ * QuackMainTab 을 구현합니다. 선택된 탭 언더바의 위치가 각각 탭들 사이에서 겹쳐져
+ * 움직여야 하므로 [Row] 가 아닌 [Box] 를 이용하여 각각 컴포저블이 겹쳐질 수 있게
+ * 구현해야 합니다.
  *
  * QuackMainTab 은 탭 사이 간격이 항상 28dp 로 일정하며,
  * 현재 탭 언더바의 가로 사이즈는 현재 탭의 사이즈에 따라 유동적으로 변화합니다.
@@ -88,10 +101,10 @@ private val QuackMainTabTextInnerPadding = 2.dp
  * 로 구할 수 있습니다.
  *
  * 전체 탭 언더바의 가로 사이즈는 항상 전체 탭의 가로 사이즈와 동일합니다.
- *
  * 첫 번째와 마지막 탭은 화면에서 일정 사이즈 만큼 패딩이 적용되야 합니다.
  *
- * @param titles 탭 제목 리스트
+ * @param titles 탭 제목 리스트. 안정성을 위해 일반 [Collection] 이 아닌,
+ * [ImmutableCollection] 를 사용합니다.
  * @param tabStartHorizontalPadding 첫 번째와 마지막 탭의 가로 패딩
  * @param selectedTabIndex 현재 선택된 탭의 index
  * @param onTabSelected 새로운 탭이 선택됐을 때 호출되는 콜백 람다.
@@ -169,7 +182,7 @@ fun QuackMainTab(
                 tabWidths[index] = size.width.toDp()
             },
         )
-        QuackTabDivider(
+        QuackMainTabDivider(
             zIndex = 2f,
             offsetProvider = {
                 IntOffset(
@@ -180,7 +193,7 @@ fun QuackMainTab(
                 )
             },
         )
-        QuackSelectedTabUnderBar(
+        QuackMainTabSelectedUnderBar(
             color = QuackSelectedTabUnderBarColor,
             zIndex = 3f,
             offsetProvider = {
@@ -199,7 +212,7 @@ fun QuackMainTab(
 }
 
 /**
- * QuackMainTab 에서 사용되는 탭 제목을 그리는 컴포넌트입니다.
+ * QuackMainTab 에서 사용되는 개별 탭을 그리는 컴포넌트입니다.
  *
  * `clipToPadding = false` 로 첫 번째 탭과 마지막 탭에 패딩을 적용하기 위해서
  * [Row] 가 아닌 [LazyRow] 로 구현하였습니다.
@@ -238,7 +251,10 @@ private fun QuackMainTabTextLazyRow(
         modifier = modifier
             .wrapContentSize()
             .onSizeChanged { size ->
-                density.onTabContainerSizeChanged(size)
+                density.onTabContainerSizeChanged(
+                    /*size = */
+                    size,
+                )
             },
         contentPadding = PaddingValues(
             horizontal = tabStartHorizontalPadding,
@@ -257,7 +273,10 @@ private fun QuackMainTabTextLazyRow(
                     .quackClickable(
                         rippleEnabled = false,
                     ) {
-                        onTabSelected(index)
+                        onTabSelected(
+                            /*index = */
+                            index,
+                        )
                     }
                     .padding(
                         vertical = QuackTabVerticalPadding,
@@ -278,97 +297,18 @@ private fun QuackMainTabTextLazyRow(
                 modifier = tabModifier,
                 text = title,
                 style = QuackSelectedTabTextStyle(
-                    index == selectedTabIndex
+                    /*isSelected = */
+                    index == selectedTabIndex,
                 ),
             )
         }
     }
 }
 
-// TODO: 리팩토링 필요
-/*@Composable
-fun QuackSubTab(
-    selectedTabIndex: Int,
-    tabTitles: List<String>,
-    onTabSelected: (index: Int) -> Unit,
-) {
-    val density = LocalDensity.current
-    val width = remember { mutableStateOf(0.dp) }
-    val underBarStartPadding by animateDpAsState(
-        targetValue = QuackSubTabWidth * selectedTabIndex,
-        animationSpec = quackTween()
-    )
-
-    Box {
-        QuackTabDivider(
-            modifier = Modifier
-                .align(alignment = Alignment.BottomCenter)
-                .width(width = width.value + QuackTabHorizontalPadding * 2)
-        )
-        Box(
-            modifier = Modifier
-                .padding(paddingValues = TabPadding.Sub)
-                .height(height = QuackTabHeight)
-                .onSizeChanged { size ->
-                    with(density) {
-                        width.value = size.width.toDp()
-                    }
-                }
-        ) {
-            QuackSubTabTextRow(
-                modifier = Modifier.align(alignment = Alignment.CenterStart),
-                tabTitles = tabTitles,
-                onTabSelected = onTabSelected,
-                selectedTabIndex = selectedTabIndex,
-            )
-            QuackSelectedTabUnderBar(
-                modifier = Modifier.align(alignment = Alignment.BottomStart),
-                startPadding = underBarStartPadding,
-                width = QuackSubTabWidth,
-                color = QuackColor.Black,
-            )
-        }
-    }
-}
-
-// TODO: 리팩토링 필요
-@Composable
-private fun QuackSubTabTextRow(
-    modifier: Modifier,
-    tabTitles: List<String>,
-    onTabSelected: (index: Int) -> Unit,
-    selectedTabIndex: Int,
-) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        tabTitles.forEachIndexed { index, title ->
-            val textModifier = remember {
-                Modifier
-                    .width(width = QuackSubTabWidth)
-                    .clickable {
-                        onTabSelected(index)
-                    }
-            }
-            if (index == selectedTabIndex) {
-                QuackTitle2(
-                    text = title,
-                    modifier = textModifier,
-                )
-            } else {
-                QuackSubtitle(
-                    text = title,
-                    modifier = textModifier,
-                )
-            }
-        }
-    }
-}*/
 
 /**
- * QuackTab 의 전체 가로 길이 만큼 표시하는 Divider 인
- * QuackTabDivider 를 Offset 을 이용하여 구현합니다.
+ * [QuackMainTab] 의 **전체 가로 길이** 만큼 표시하는 Divider 를
+ * [Offset] 을 이용하여 구현합니다.
  *
  * @param modifier 이 컴포저블이 사용할 [Modifier]
  * @param zIndex Divider 의 z-index
@@ -378,7 +318,7 @@ private fun QuackSubTabTextRow(
  */
 @Composable
 @NonRestartableComposable
-private fun QuackTabDivider(
+private fun QuackMainTabDivider(
     modifier: Modifier = Modifier,
     zIndex: Float,
     offsetProvider: Density.() -> IntOffset,
@@ -400,8 +340,8 @@ private fun QuackTabDivider(
 )
 
 /**
- * QuackTab 의 현재 선택된 탭의 가로 길이 만큼 표시하는 Divider 인
- * QuackSelectedTabUnderBar 를 Offset 을 이용하여 구현합니다.
+ * [QuackMainTab] 의 **현재 선택된 탭**의 가로 길이 만큼 표시하는 Divider 를
+ * [Offset] 을 이용하여 구현합니다.
  *
  * @param modifier 이 컴포저블이 사용할 [Modifier]
  * @param color 이 컴포저블이 표시할 언더바의 색상
@@ -416,7 +356,7 @@ private fun QuackTabDivider(
  */
 @Composable
 @NonRestartableComposable
-private fun QuackSelectedTabUnderBar(
+private fun QuackMainTabSelectedUnderBar(
     modifier: Modifier = Modifier,
     color: QuackColor,
     zIndex: Float,
