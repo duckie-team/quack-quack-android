@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -14,16 +15,21 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableCollection
+import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.component.internal.flowlayout.FlowRow
@@ -119,12 +125,10 @@ fun QuackTag(
     QuackText(
         modifier = Modifier
             .wrapContentSize()
-            .quackClickable(
-                onClick = onClick,
-            )
-            .tagShape(
+            .quackTag(
                 isSelected = isSelected,
                 type = QuackTagType.Default,
+                onClick = onClick,
             ),
         text = text,
         style = QuackTextStyle.Title2.change(
@@ -157,13 +161,12 @@ fun QuackGrayscaleTag(
     Row(
         modifier = Modifier
             .wrapContentSize()
-            .quackClickable(
-                onClick = onClick,
-            )
-            .tagShape(
+            .quackTag(
                 isSelected = false,
                 type = QuackTagType.Grayscale,
+                onClick = onClick,
             ),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         QuackText(
             modifier = Modifier.wrapContentSize(),
@@ -210,12 +213,10 @@ fun QuackIconTag(
     Row(
         modifier = Modifier
             .wrapContentSize()
-            .quackClickable(
-                onClick = onClick,
-            )
-            .tagShape(
+            .quackTag(
                 isSelected = isSelected,
-                type = QuackTagType.Grayscale,
+                type = QuackTagType.Icon,
+                onClick = onClick,
             ),
     ) {
         QuackText(
@@ -227,13 +228,16 @@ fun QuackIconTag(
                     isSelected,
                     /*isBorderTag = */
                     false,
-                )
+                ),
             ),
         )
         QuackImageInternal(
             modifier = Modifier
                 .padding(
                     start = QuackTagContentSpace,
+                )
+                .size(
+                    size = 16.dp,
                 )
                 .quackClickable(
                     rippleEnabled = false,
@@ -264,12 +268,10 @@ fun QuackRowTag(
     QuackText(
         modifier = Modifier
             .wrapContentSize()
-            .quackClickable(
-                onClick = onClick,
-            )
-            .tagShape(
+            .quackTag(
                 isSelected = isSelected,
                 type = QuackTagType.Row,
+                onClick = onClick,
             ),
         text = text,
         style = QuackTextStyle.Body2.change(
@@ -278,7 +280,7 @@ fun QuackRowTag(
                 isSelected,
                 /*isBorderTag = */
                 true,
-            )
+            ),
         ),
     )
 }
@@ -388,42 +390,62 @@ private enum class QuackTagType {
  * @param isSelected 태그가 선택되었는지 여부.
  * 표시하려는 태그가 [QuackGrayscaleTag] 일 경우 무시됩니다.
  * @param type 태그의 타입
+ * @param rippleEnabled 태그를 클릭했을 때 ripple 효과를 사용할지 여부
+ * @param onClick 태그를 클릭했을 때 호출되는 람다
+ *
  * @return 주어진 옵션에 따른 QuackTag 의 기본 모양이 적용된 [Modifier]
  */
-private fun Modifier.tagShape(
+private fun Modifier.quackTag(
     isSelected: Boolean,
     type: QuackTagType,
-): Modifier {
-    val shape = when (type) {
-        QuackTagType.Default, QuackTagType.Icon -> QuackTagShape
-        QuackTagType.Grayscale, QuackTagType.Row -> QuackGrayscaleFlexRowTagShape
+    rippleEnabled: Boolean = true,
+    onClick: (() -> Unit)? = null,
+) = composed {
+    val shape = remember(
+        key1 = type,
+    ) {
+        when (type) {
+            QuackTagType.Default, QuackTagType.Icon -> QuackTagShape
+            QuackTagType.Grayscale, QuackTagType.Row -> QuackGrayscaleFlexRowTagShape
+        }
     }
 
-    return this
+    this
+        .clip(
+            shape = shape,
+        )
+        .background(
+            color = animateColorAsState(
+                targetValue = when (type) {
+                    QuackTagType.Grayscale -> QuackGrayscaleTagBackgroundColor
+                    QuackTagType.Default, QuackTagType.Row -> QuackColor.White
+                    QuackTagType.Icon -> QuackTagBackgroundColor(
+                        /*isSelected = */
+                        isSelected,
+                    )
+                }.composeColor,
+                animationSpec = quackAnimationSpec(),
+            ).value,
+        )
+        .quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        )
+        .border(
+            width = QuackTagBorderWidth,
+            color = animateColorAsState(
+                targetValue = QuackTagBorderColor(
+                    /*isSelected = */
+                    isSelected,
+                ).composeColor,
+                animationSpec = quackAnimationSpec(),
+            ).value,
+            shape = shape,
+        )
         .padding(
             paddingValues = when (type) {
                 QuackTagType.Default, QuackTagType.Row, QuackTagType.Grayscale -> QuackTagPadding
                 QuackTagType.Icon -> QuackIconTagPadding
             },
-        )
-        .clip(
-            shape = shape,
-        )
-        .background(
-            color = when (type) {
-                QuackTagType.Grayscale -> QuackGrayscaleTagBackgroundColor
-                else -> QuackTagBackgroundColor(
-                    /*isSelected = */
-                    isSelected,
-                )
-            }.composeColor,
-        )
-        .border(
-            width = QuackTagBorderWidth,
-            color = QuackTagBorderColor(
-                /*isSelected = */
-                isSelected,
-            ).composeColor,
-            shape = shape,
         )
 }
