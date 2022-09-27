@@ -34,9 +34,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
@@ -332,6 +334,8 @@ internal fun QuackBasicTextField(
     ),
     keyboardActions: KeyboardActions = KeyboardActions(),
 ) {
+    val density = LocalDensity.current
+
     // 리컴포지션이 되는 메인 조건은 Text 가 바뀌었을 때인데 그러면
     // 어차피 항상 재계산 되므로 굳이 remember 를 할 필요가 없음
     val isPlaceholder = text.isEmpty()
@@ -355,19 +359,18 @@ internal fun QuackBasicTextField(
                 width = width,
                 height = height,
             )
+            .drawUnderBarWithAnimation(
+                width = QuackTextFieldUnderBarHeight,
+                color = QuackTextFieldColors.underBarColor(
+                    isError = isError,
+                ),
+            )
             .background(
                 color = QuackColor.White.composeColor,
             )
             .padding(
                 top = textStyle.calcQuackTextFieldTopPadding(),
                 bottom = QuackTextFieldBottomPadding,
-            )
-            .drawUnderBarWithAnimation(
-                width = QuackTextFieldUnderBarHeight,
-                color = QuackTextFieldColors.underBarColor(
-                    isError = isError,
-                ),
-                topPadding = QuackTextFieldBottomPadding,
             ),
         value = text,
         onValueChange = onTextChanged,
@@ -388,6 +391,9 @@ internal fun QuackBasicTextField(
                             Text(
                                 text = placeholderText,
                                 style = composeTextStyle,
+                                maxLines = 1,
+                                softWrap = false,
+                                overflow = TextOverflow.Ellipsis,
                             )
                         }
                     }
