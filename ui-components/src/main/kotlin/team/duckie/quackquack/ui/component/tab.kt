@@ -5,8 +5,6 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("KDocUnresolvedReference")
-
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.core.animateDpAsState
