@@ -93,7 +93,6 @@ compose-material = { module = "androidx.compose.material:material", version.ref 
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "compose-constraintlayout" }
 compose-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapist" }
-compose-FlowLayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-core" } # debugImplementation
 compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-core" }
 
