@@ -6,6 +6,8 @@ complexity:
     ignoreAnnotated: [ 'Composable' ]
   LongParameterList:
     active: false
+  TooManyFunctions:
+    active: false
 
 performance:
   SpreadOperator:
