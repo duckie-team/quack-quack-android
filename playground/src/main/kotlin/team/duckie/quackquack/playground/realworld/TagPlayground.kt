@@ -21,9 +21,9 @@ import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.ui.component.QuackGrayscaleTag
 import team.duckie.quackquack.ui.component.QuackIconTag
+import team.duckie.quackquack.ui.component.QuackRowTag
 import team.duckie.quackquack.ui.component.QuackTag
 import team.duckie.quackquack.ui.component.QuackTagItem
-import team.duckie.quackquack.ui.component.QuackTagRow
 import team.duckie.quackquack.ui.icon.QuackIcon
 
 class TagPlayground : BaseActivity() {
@@ -131,7 +131,7 @@ fun QuackTagRowDemo() {
         )
     }
 
-    QuackTagRow(
+    QuackRowTag(
         title = "이런 점이 최고였어요",
         items = items,
         onClick = { index ->
