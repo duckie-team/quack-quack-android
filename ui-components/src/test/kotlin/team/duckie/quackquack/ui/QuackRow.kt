@@ -27,8 +27,8 @@ import team.duckie.quackquack.ui.util.buildPaparazzi
 class QuackRow {
     @get:Rule
     val paparazzi = buildPaparazzi {
-        screenHeight = 600
-        screenWidth /= 2
+        screenHeight = 500
+        screenWidth *= 2
     }
 
     @get:Rule
