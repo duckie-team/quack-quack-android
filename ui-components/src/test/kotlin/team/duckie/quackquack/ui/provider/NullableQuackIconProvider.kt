@@ -11,15 +11,15 @@ import com.google.testing.junit.testparameterinjector.TestParameter
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.wrapper.NamedValue
 
-class QuackIconProvider : TestParameter.TestParameterValuesProvider {
+class NullableQuackIconProvider : TestParameter.TestParameterValuesProvider {
     override fun provideValues() = listOf(
+        NamedValue(
+            value = null,
+            name = "none",
+        ),
         NamedValue(
             value = QuackIcon.Heart,
             name = "Heart",
-        ),
-        NamedValue(
-            value = QuackIcon.FilledHeart,
-            name = "FilledHeart",
         ),
     )
 }
