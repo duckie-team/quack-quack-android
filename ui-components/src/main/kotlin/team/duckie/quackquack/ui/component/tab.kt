@@ -7,7 +7,7 @@
 
 package team.duckie.quackquack.ui.component
 
-import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,14 +15,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -30,19 +29,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import kotlin.math.roundToInt
 import kotlinx.collections.immutable.ImmutableCollection
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
@@ -51,14 +48,12 @@ import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.modifier.drawUnderBarWithAnimation
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
-import team.duckie.quackquack.ui.util.fixedCopy
 
 private val QuackTabFullUnderBarHeight = 1.dp
 private val QuackTabFullUnderBarColor = QuackColor.Gray3
+private val QuackFullTabSelectedUnderBarHeight = 2.dp
 
 private val QuackTabVerticalPadding = 9.dp
-
-private val QuackTabSelectedUnderBarHeight = 2.dp
 
 private inline val QuackTabSelectedTextStyle: (isSelected: Boolean) -> QuackTextStyle
     get() = { isSelected ->
@@ -111,24 +106,31 @@ fun QuackMainTab(
     selectedTabIndex: Int,
     onTabSelected: (index: Int) -> Unit,
 ) {
+    val density = LocalDensity.current
+
+    val selectedUnderBarHeight = remember(
+        key1 = density,
+    ) {
+        with(
+            receiver = density,
+        ) {
+            QuackFullTabSelectedUnderBarHeight.toPx()
+        }
+    }
+
     val titleSize = remember {
         titles.size
-    }
-    var tabHeight by remember {
-        mutableStateOf(
-            value = 0,
-        )
     }
 
     val tabUnderBarXOffsets = remember {
         mutableStateListOf(
             elements = Array(
                 size = titleSize,
-                init = { 0 },
+                init = { 0f },
             ),
         )
     }
-    val selectedTabUnderBarXOffsetAnimation by animateIntAsState(
+    val selectedTabUnderBarXOffsetAnimation by animateFloatAsState(
         targetValue = tabUnderBarXOffsets[selectedTabIndex],
         animationSpec = quackAnimationSpec(),
     )
@@ -137,12 +139,16 @@ fun QuackMainTab(
         mutableStateListOf(
             elements = Array(
                 size = titleSize,
-                init = { 0.dp },
+                init = { 0 },
             )
         )
     }
-    val selectedTabUnderBarWidthAnimation by animateDpAsState(
-        targetValue = tabWidths[selectedTabIndex] + QuackMainTabTextInnerPadding * 2,
+    val selectedTabUnderBarWidthAnimation by animateIntAsState(
+        targetValue = tabWidths[selectedTabIndex] + with(
+            receiver = density,
+        ) {
+            QuackMainTabTextInnerPadding.roundToPx()
+        } * 2,
         animationSpec = quackAnimationSpec(),
     )
 
@@ -162,13 +168,21 @@ fun QuackMainTab(
             .zIndex(
                 zIndex = 0f,
             )
-            .onPlaced { layoutCoordinates ->
-                if (tabHeight == 0) {
-                    tabHeight = layoutCoordinates.size.height
-                }
-            }
             .background(
                 color = QuackColor.White.composeColor,
+            )
+            .drawQuackTabSelectedUnderBar(
+                isMainTab = true,
+                widthProvider = { selectedUnderBarHeight },
+                startXOffsetProvider = {
+                    selectedTabUnderBarXOffsetAnimation
+                },
+                endXOffsetProvider = { startXOffset ->
+                    startXOffset + selectedTabUnderBarWidthAnimation
+                },
+                yOffsetProvider = { height, strokeWidth ->
+                    height - strokeWidth / 2 // why needs to divide by 2?, really i can't understand... :thinking:
+                },
             )
             .drawUnderBarWithAnimation(
                 width = QuackTabFullUnderBarHeight,
@@ -181,38 +195,26 @@ fun QuackMainTab(
             selectedTabIndex = selectedTabIndex,
             onTabSelected = onTabSelected,
             onEachTabPositioned = { index, size, offset ->
-                if (!dynamicSettingPerfectly[0]) {
-                    val dynamicTabUnderBarXOffset =
-                        offset.x.roundToInt() - QuackMainTabTextInnerPadding.roundToPx()
-                    if (tabUnderBarXOffsets[index] != dynamicTabUnderBarXOffset) {
-                        tabUnderBarXOffsets[index] = dynamicTabUnderBarXOffset
-                    } else {
-                        dynamicSettingPerfectly[0] = true
+                with(density) {
+                    if (!dynamicSettingPerfectly[0]) {
+                        val dynamicTabUnderBarXOffset =
+                            offset.x - QuackMainTabTextInnerPadding.roundToPx()
+                        if (tabUnderBarXOffsets[index] != dynamicTabUnderBarXOffset) {
+                            tabUnderBarXOffsets[index] = dynamicTabUnderBarXOffset
+                        } else {
+                            dynamicSettingPerfectly[0] = true
+                        }
                     }
-                }
 
-                if (!dynamicSettingPerfectly[1]) {
-                    val dynamicTabWidth = size.width.toDp()
-                    if (tabWidths[index] != dynamicTabWidth) {
-                        tabWidths[index] = dynamicTabWidth
-                    } else {
-                        dynamicSettingPerfectly[1] = true
+                    if (!dynamicSettingPerfectly[1]) {
+                        val dynamicTabWidth = size.width
+                        if (tabWidths[index] != dynamicTabWidth) {
+                            tabWidths[index] = dynamicTabWidth
+                        } else {
+                            dynamicSettingPerfectly[1] = true
+                        }
                     }
                 }
-            },
-        )
-        QuackTabSelectedUnderBar(
-            isMainTab = true,
-            offsetProvider = {
-                IntOffset(
-                    x = selectedTabUnderBarXOffsetAnimation,
-                    y = (tabHeight - QuackTabSelectedUnderBarHeight.roundToPx()).coerceAtLeast(
-                        minimumValue = 0,
-                    ),
-                )
-            },
-            widthProvider = {
-                selectedTabUnderBarWidthAnimation.roundToPx()
             },
         )
     }
@@ -241,14 +243,12 @@ private fun QuackMainTabTextLazyRow(
     onTabSelected: (
         index: Int,
     ) -> Unit,
-    onEachTabPositioned: Density.(
+    onEachTabPositioned: (
         index: Int,
         size: IntSize,
         position: Offset,
     ) -> Unit,
 ) {
-    val density = LocalDensity.current
-
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -270,20 +270,7 @@ private fun QuackMainTabTextLazyRow(
         ) { index, title ->
             val tabModifier = remember {
                 Modifier
-                    .padding(
-                        vertical = QuackTabVerticalPadding,
-                        horizontal = QuackMainTabTextInnerPadding,
-                    )
-                    .onGloballyPositioned { layoutCoordinates ->
-                        density.onEachTabPositioned(
-                            /*index = */
-                            index,
-                            /*size = */
-                            layoutCoordinates.size,
-                            /*position = */
-                            layoutCoordinates.positionInParent(),
-                        )
-                    }
+                    .wrapContentSize()
                     .quackClickable(
                         rippleEnabled = false,
                     ) {
@@ -292,6 +279,20 @@ private fun QuackMainTabTextLazyRow(
                             index,
                         )
                     }
+                    .onGloballyPositioned { layoutCoordinates ->
+                        onEachTabPositioned(
+                            /*index = */
+                            index,
+                            /*size = */
+                            layoutCoordinates.size,
+                            /*position = */
+                            layoutCoordinates.positionInParent(),
+                        )
+                    }
+                    .padding(
+                        vertical = QuackTabVerticalPadding,
+                        horizontal = QuackMainTabTextInnerPadding,
+                    )
             }
             QuackText(
                 modifier = tabModifier,
@@ -306,56 +307,69 @@ private fun QuackMainTabTextLazyRow(
 }
 
 /**
- * 꽥꽥 탭 컴포넌트에서 **현재 선택된 탭**의 가로 길이 만큼 표시하는 Divider 를
- * [Offset] 을 이용하여 구현합니다. 이 컴포넌트는 꽥꽥 탭 컴포넌트의 drawing 순서에
- * 맞게 항상 두 번째 zIndex 에 배치됩니다.
+ * 꽥꽥 탭 컴포넌트에서 **현재 선택된 탭**의 가로 길이 만큼 under bar 를 그립니다.
+ * 각각 탭의 x 오프셋이 동적으로 계산되므로 해당 값은 인자로 제공받아야 합니다.
+ * 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
  *
- * 이 컴포넌트는 꽥꽥 탭 컴포넌트에서 공통으로 쓰입니다.
- *
- * @param isMainTab 사용되는 위치가 [QuackMainTab] 인지 여부
- * @param offsetProvider 이 컴포저블이 배치될 [Offset].
+ * @param isMainTab 사용되는 위치가 [QuackMainTab] 인지 여부. 이 값에 따라 under bar 의
+ * 색상이 달라집니다.
+ * @param widthProvider under bar 의 width 사이즈를 계산하는 람다
+ * @param startXOffsetProvider under bar drawing 을 시작할 x 오프셋을 계산하는 람다.
  * X 와 Y 위치가 동적으로 계산되므로 이 인자를 통해 해당 값을 제공받아야 합니다.
  * 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
- * @param widthProvider 이 컴포저블의 가로 길이.
- * 선택된 탭의 가로 길이에 추가로 값을 더해서 가로 길이가 계산됩니다.
- * 선택된 탭의 따라 동적으로 변화는 값이므로 인자를 통해 매번 새로운 값을
- * 제공받아야 합니다. 리컴포지션 스킵을 위해 값을 바로 받는게 아닌 람다를 통해 받습니다.
+ * @param endXOffsetProvider under bar drawing 을 끝낼 x 오프셋을 계산하는 람다
+ * @param yOffsetProvider under bar 가 drawing 될 y 오프셋을 계산하는 람다
+ *
+ * @return 선택된 탭의 under bar 가 그려진 [Modifier]
  */
-@Composable
-@NonRestartableComposable
-private fun QuackTabSelectedUnderBar(
+private fun Modifier.drawQuackTabSelectedUnderBar(
     isMainTab: Boolean,
-    offsetProvider: Density.() -> IntOffset,
-    widthProvider: Density.() -> Int,
-) = Box(
-    modifier = Modifier
-        .height(
-            height = QuackTabSelectedUnderBarHeight,
+    widthProvider: () -> Float,
+    startXOffsetProvider: () -> Float,
+    endXOffsetProvider: (
+        startXOffset: Float,
+    ) -> Float,
+    yOffsetProvider: (
+        height: Float,
+        strokeWidth: Float,
+    ) -> Float = { height, strokeWidth ->
+        height - strokeWidth
+    },
+) = composed {
+    val color = remember {
+        when (isMainTab) {
+            true -> QuackMainTabSelectedUnderBarColor
+            else -> QuackSubTabSelectedUnderBarColor
+        }.composeColor
+    }
+    drawWithContent {
+        val strokeWidth = widthProvider()
+        val startX = startXOffsetProvider()
+        val endX = endXOffsetProvider(
+            /*startXOffset =*/
+            startX,
         )
-        .layout { measurable, constraints ->
-            val width = widthProvider()
-            val placeable = measurable.measure(
-                constraints = constraints.fixedCopy(
-                    width = width,
-                ),
-            )
-            layout(
-                width = placeable.width,
-                height = placeable.height,
-            ) {
-                placeable.place(
-                    position = offsetProvider(),
-                    zIndex = 2f,
-                )
-            }
-        }
-        .background(
-            color = when (isMainTab) {
-                true -> QuackMainTabSelectedUnderBarColor
-                else -> QuackSubTabSelectedUnderBarColor
-            }.composeColor,
+        val height = yOffsetProvider(
+            /*height = */
+            size.height,
+            /*strokeWidth =*/
+            strokeWidth,
         )
-)
+        drawContent()
+        drawLine(
+            color = color,
+            start = Offset(
+                x = startX,
+                y = height,
+            ),
+            end = Offset(
+                x = endX,
+                y = height,
+            ),
+            strokeWidth = strokeWidth,
+        )
+    }
+}
 
 /**
  * QuackSubTab 을 구현합니다. 선택된 탭 언더바의 위치가 각각 탭들 사이에서 겹쳐져
@@ -384,6 +398,22 @@ fun QuackSubTab(
     onTabSelected: (index: Int) -> Unit,
 ) {
     val density = LocalDensity.current
+
+    var tabHeight by remember {
+        mutableStateOf(
+            value = 0,
+        )
+    }
+    val underBarHeight = remember(
+        key1 = density,
+    ) {
+        with(
+            receiver = density,
+        ) {
+            QuackFullTabSelectedUnderBarHeight.toPx()
+        }
+    }
+
     var eachTabWidth by remember {
         mutableStateOf(
             value = 0.dp,
@@ -400,12 +430,50 @@ fun QuackSubTab(
             .onPlaced { layoutCoordinate ->
                 if (eachTabWidth.value == 0f) {
                     with(density) {
-                        val tabPlaceableWidth =
-                            layoutCoordinate.size.width.toDp() - tabStartHorizontalPadding * 2
+                        val tabPlaceableWidth = layoutCoordinate.size.width
+                            .toDp()
+                            .minus(
+                                other = tabStartHorizontalPadding * 2,
+                            )
+                            .minus(
+                                other = QuackSubTabSpacedBy * (titles.size - 1),
+                            )
                         eachTabWidth = tabPlaceableWidth / titles.size
                     }
                 }
+
+                if (tabHeight == 0) {
+                    tabHeight = layoutCoordinate.size.height
+                }
             }
+            .drawQuackTabSelectedUnderBar(
+                isMainTab = false,
+                widthProvider = { underBarHeight },
+                startXOffsetProvider = {
+                    with(
+                        receiver = density,
+                    ) {
+                        (eachTabWidth * selectedTabIndex)
+                            .plus(
+                                other = tabStartHorizontalPadding,
+                            )
+                            .plus(
+                                other = QuackSubTabSpacedBy * selectedTabIndex
+                            )
+                            .toPx()
+                    }
+                },
+                endXOffsetProvider = { startXOffset ->
+                    with(
+                        receiver = density,
+                    ) {
+                        startXOffset + eachTabWidth.toPx()
+                    }
+                },
+                yOffsetProvider = { height, strokeWidth ->
+                    height - strokeWidth / 2 // why needs to divide by 2?, really i can't understand... :thinking:
+                },
+            )
             .drawUnderBarWithAnimation(
                 width = QuackTabFullUnderBarHeight,
                 color = QuackTabFullUnderBarColor,
@@ -417,22 +485,6 @@ fun QuackSubTab(
             eachTabWidth = eachTabWidth,
             selectedTabIndex = selectedTabIndex,
             onTabSelected = onTabSelected,
-        )
-        QuackTabSelectedUnderBar(
-            isMainTab = false,
-            offsetProvider = {
-                with(density) {
-                    IntOffset(
-                        x = ((eachTabWidth - tabStartHorizontalPadding) * selectedTabIndex).roundToPx(),
-                        y = 0,
-                    )
-                }
-            },
-            widthProvider = {
-                with(density) {
-                    eachTabWidth.roundToPx()
-                }
-            },
         )
     }
 }
@@ -472,7 +524,7 @@ private fun QuackSubTabTextLazyRow(
             horizontal = tabStartHorizontalPadding,
         ),
         horizontalArrangement = Arrangement.spacedBy(
-            space = QuackMainTabSpacedBy,
+            space = QuackSubTabSpacedBy,
             alignment = Alignment.CenterHorizontally,
         ),
     ) {
@@ -480,16 +532,14 @@ private fun QuackSubTabTextLazyRow(
             items = tabTitles,
             key = { _, title -> title },
         ) { index, title ->
-            val tabModifier = remember {
+            val tabModifier = remember(
+                key1 = eachTabWidth,
+            ) {
                 Modifier
                     .width(
                         width = eachTabWidth,
                     )
                     .wrapContentHeight()
-                    .padding(
-                        vertical = QuackTabVerticalPadding,
-                        horizontal = QuackMainTabTextInnerPadding,
-                    )
                     .quackClickable(
                         rippleEnabled = false,
                     ) {
@@ -498,6 +548,10 @@ private fun QuackSubTabTextLazyRow(
                             index,
                         )
                     }
+                    .padding(
+                        vertical = QuackTabVerticalPadding,
+                        horizontal = QuackMainTabTextInnerPadding,
+                    )
             }
             QuackText(
                 modifier = tabModifier,
