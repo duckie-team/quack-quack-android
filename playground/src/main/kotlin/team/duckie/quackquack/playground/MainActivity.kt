@@ -29,7 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.ContentBorder
@@ -48,14 +48,16 @@ import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.textstyle.QuackFontScale
 
 private const val DefaultSplashScreenExitAnimationDurationMillis = 200L
-private val PlaygroundActivities = persistentListOf(
+private val PlaygroundActivities = listOf(
     TabPlayground::class,
     ButtonPlayground::class,
     TextFieldPlayground::class,
     FabPlayground::class,
     TogglePlayground::class,
     TagPlayground::class,
-)
+).sortedBy { playgroundActivity ->
+    playgroundActivity.simpleName
+}.toPersistentList()
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
