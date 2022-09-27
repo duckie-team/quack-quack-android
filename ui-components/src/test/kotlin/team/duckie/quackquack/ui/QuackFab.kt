@@ -6,6 +6,7 @@
  */
 
 @file:Suppress(
+    "KDocFields",
     "TestFunctionName",
     "SpellCheckingInspection",
     "JUnitMalformedDeclaration",
