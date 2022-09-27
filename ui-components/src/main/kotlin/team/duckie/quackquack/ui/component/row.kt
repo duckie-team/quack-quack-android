@@ -4,28 +4,18 @@
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
-@file:Suppress("SpellCheckingInspection", "KDocFields") // 리팩토링 하면서 재거
+@file:Suppress("SpellCheckingInspection")
 
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.NonRestartableComposable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.layout.Measurable
-import androidx.compose.ui.layout.MeasurePolicy
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.flowlayout.FlowRow
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
 
 val QuackTitleFlowRowSpacing = 12.dp
 
@@ -68,7 +58,7 @@ class QuackTagItem(
  * 덕키의 TagRow 를 구현합니다.
  *
  * [items] 의 원소 개수만큼 [QuackTagRowItem] 을 그립니다.
- * [QuackFlowRow] 에 배치되기 때문에 부모의 width 를 넘어가면
+ * [FlowRow] 에 배치되기 때문에 부모의 width 를 넘어가면
  * 다음 행에 [QuackTagRowItem] 를 배치합니다.
  *
  * @param title QuackTagRow 상단에 표시될 제목 Text
@@ -91,9 +81,9 @@ fun QuackTagRow(
         QuackTitle2(
             text = title,
         )
-        QuackFlowRow(
-            contentSpacing = QuackTagRowContentSpacing,
-            rowSpacing = QuackTagRowLineSpacing,
+        FlowRow(
+            mainAxisSpacing = QuackTagRowContentSpacing,
+            crossAxisSpacing = QuackTagRowLineSpacing,
         ) {
             items.forEach { item: QuackTagItem ->
                 QuackTagRowItem(
@@ -103,7 +93,6 @@ fun QuackTagRow(
             }
         }
     }
-
 }
 
 /**
@@ -127,74 +116,3 @@ private fun QuackTagRowItem(
         onClickItem(item)
     },
 )
-
-/**
- * Duckie 컴포넌트에 사용될 FlowLayout 입니다.
- *
- * [contentSpacing] 과 [rowSpacing] 을 지정하여 요소들의 간격과,
- * 행 간격을 조절할 수 있습니다.
- *
- * @param contentSpacing FlowRow 의 각 Content 들의 간격
- * @param rowSpacing FlowRow 의 각 Row 들의 간격
- * @param content FlowRow 내부에 들어갈 Composable
- */
-@Composable
-internal fun QuackFlowRow(
-    contentSpacing: Dp = 0.dp,
-    rowSpacing: Dp = 0.dp,
-    content: @Composable () -> Unit,
-) {
-    val measurePolicy = flowRowMeasurePolicy(
-        contentSpacing = contentSpacing,
-        rowSpacing = rowSpacing,
-    )
-    Layout(
-        measurePolicy = measurePolicy,
-        content = content,
-    )
-}
-
-/**
- * 수평 흐름으로 하위 항목을 배열하는 레이아웃 모델입니다.
- *
- * 내부 element 를 순회하면서, element 들의 width 에 [contentSpacing] 을 더해가면서
- * 상대 위치를 배정합니다. 만약 부모의 width 를 넘어간다면 element 의 height 의 최댓값 에 [rowSpacing] 을
- * 더해서 다음 행과의 간격을 계산하고 다음 열에 배치됩니다.
- *
- * @param contentSpacing FlowRow 의 각 Content 들의 간격
- * @param rowSpacing FlowRow 의 각 Row 들의 간격
- * @return [MeasurePolicy]
- */
-private fun flowRowMeasurePolicy(
-    contentSpacing: Dp,
-    rowSpacing: Dp,
-) = MeasurePolicy { measurables: List<Measurable>, constraints: Constraints ->
-    layout(
-        width = constraints.maxWidth,
-        height = constraints.maxHeight,
-    ) {
-        val placeables = measurables.map { measurable -> 
-            measurable.measure(
-                constraints = constraints,
-            )
-        }
-        var yPosition = 0
-        var xPosition = 0
-        var maxY = 0
-        placeables.forEach { placeable ->
-            if (xPosition + placeable.width > constraints.maxWidth) {
-                xPosition = 0
-                yPosition += (maxY + rowSpacing.roundToPx())
-                maxY = 0
-            }
-            placeable.placeRelative(
-                x = xPosition,
-                y = yPosition
-            )
-            xPosition += (placeable.width + contentSpacing.roundToPx())
-            maxY = maxY.coerceAtLeast(
-                minimumValue = placeable.height,
-            )
-        }
-    }
-}
