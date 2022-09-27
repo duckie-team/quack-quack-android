@@ -8,17 +8,24 @@
 
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.MeasurePolicy
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 
+val QuackTagRowContentSpacing = 8.dp
 
 @Immutable
 class QuackTagItem(
@@ -47,10 +54,12 @@ class QuackTagItem(
 @Composable
 fun QuackTagRow(
     items: PersistentList<QuackTagItem>,
-    onClickItem: (item: QuackTagItem) -> Unit,
+    onClickItem: (
+        item: QuackTagItem,
+    ) -> Unit,
 ) {
     FlowRow(
-        contentSpacing = 8.dp,
+        contentSpacing = QuackTagRowContentSpacing,
     ) {
         items.forEach { item: QuackTagItem ->
             QuackTagRowItem(
@@ -62,9 +71,12 @@ fun QuackTagRow(
 }
 
 @Composable
+@NonRestartableComposable
 private fun QuackTagRowItem(
     item: QuackTagItem,
-    onClickItem: (item: QuackTagItem) -> Unit,
+    onClickItem: (
+        item: QuackTagItem,
+    ) -> Unit,
 ) {
     QuackSimpleTag(
         isSelected = item.isSelected,
@@ -126,3 +138,49 @@ private fun flowRowMeasurePolicy(
     }
 }
 
+@Preview
+@Composable
+fun prev() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        QuackTagRow(
+            items = persistentListOf(
+                QuackTagItem(
+                    isSelected = false,
+                    text = "음식이 친절하고 사장님이 맛있어요",
+                ),
+                QuackTagItem(
+                    isSelected = false,
+                    text = "발송이 빨라요",
+                ),
+                QuackTagItem(
+                    isSelected = false,
+                    text = "너가 그렇게 빠르냐",
+                ),
+                QuackTagItem(
+                    isSelected = false,
+                    text = "맛있으면 우는 개구리",
+                ),
+                QuackTagItem(
+                    isSelected = false,
+                    text = "개굴개굴 개굴",
+                ),
+                QuackTagItem(
+                    isSelected = false,
+                    text = "별로야",
+                ),
+                QuackTagItem(
+                    isSelected = false,
+                    text = "다신 안와",
+                ),
+                QuackTagItem(
+                    isSelected = false,
+                    text = "와아아아아아악",
+                ),
+            ),
+            onClickItem = {},
+        )
+    }
+}
