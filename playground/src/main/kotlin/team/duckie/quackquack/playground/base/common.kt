@@ -309,7 +309,9 @@ fun PlaygroundSection(
                     },
                 ) {
                     Text(
-                        text = contentTitle,
+                        text = contentTitle.removeSuffix(
+                            suffix = "Demo",
+                        ),
                     )
                 }
             }
