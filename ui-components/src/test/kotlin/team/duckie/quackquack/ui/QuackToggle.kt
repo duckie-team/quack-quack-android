@@ -89,7 +89,7 @@ class QuackToggle {
         ) {
             team.duckie.quackquack.ui.component.QuackIconTextToggle(
                 checkedIcon = QuackIcon.FilledHeart,
-                unCheckedIcon = QuackIcon.Heart,
+                uncheckedIcon = QuackIcon.Heart,
                 checked = checked,
                 text = "QuackIconTextToggle",
                 onToggle = {},
