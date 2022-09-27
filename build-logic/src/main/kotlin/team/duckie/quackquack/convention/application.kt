@@ -5,7 +5,10 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("UnstableApiUsage", "unused")
+@file:Suppress(
+    "UnstableApiUsage",
+    "UnusedReceiverParameter",
+)
 
 package team.duckie.quackquack.convention
 
@@ -37,6 +40,10 @@ internal fun Project.configureApplication(commonExtension: CommonExtension<*, *,
 
         kotlinOptions {
             jvmTarget = ApplicationConstants.jvmTarget
+        }
+
+        lint {
+            checkTestSources = true
         }
     }
 }

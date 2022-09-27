@@ -11,7 +11,7 @@ ksp = "1.7.10-1.0.6"
 gradle-maven-publish = "0.22.0"
 
 # build
-gradle = "7.4.0-alpha10"
+gradle = "8.0.0-alpha01"
 kotlin-core = "1.7.10"
 kotlin-metadata = "0.5.0"
 oss-license-plugin = "0.10.5"
@@ -23,7 +23,7 @@ compose-material3 = "1.0.0-beta03"
 compose-activity = "1.6.0"
 compose-lifecycle-vm = "2.4.1"
 compose-constraintlayout = "1.0.1"
-landscapist = "1.6.1"
+landscapist = "2.0.0"
 accompanist = "0.26.1-alpha"
 
 # tools

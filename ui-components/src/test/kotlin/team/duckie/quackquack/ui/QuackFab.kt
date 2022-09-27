@@ -6,8 +6,10 @@
  */
 
 @file:Suppress(
+    "KDocFields",
     "TestFunctionName",
     "SpellCheckingInspection",
+    "JUnitMalformedDeclaration",
 )
 
 package team.duckie.quackquack.ui

@@ -7,11 +7,17 @@
 
 package team.duckie.quackquack.ui.rule
 
+import androidx.compose.animation.core.SnapSpec
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.animation.isSnapshotMode
 
+/**
+ * 애니메이션 스팩을 [SnapSpec] 으로 전환합니다.
+ *
+ * @see isSnapshotMode
+ */
 class AnimationTestRule : TestWatcher() {
     override fun starting(description: Description?) {
         QuackAnimationSpec.isSnapshotMode = true

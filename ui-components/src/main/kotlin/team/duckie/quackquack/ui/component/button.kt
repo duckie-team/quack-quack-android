@@ -198,7 +198,6 @@ fun QuackLarge40WhiteButton(
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
 @Composable
-@NonRestartableComposable
 fun QuackMediumBorderToggleButton(
     text: String,
     selected: Boolean,
@@ -237,7 +236,6 @@ fun QuackMediumBorderToggleButton(
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
 @Composable
-@NonRestartableComposable
 fun QuackSmallButton(
     text: String,
     enabled: Boolean,
@@ -269,7 +267,6 @@ fun QuackSmallButton(
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
 @Composable
-@NonRestartableComposable
 fun QuackSmallBorderToggleButton(
     text: String,
     selected: Boolean,
@@ -310,7 +307,6 @@ fun QuackSmallBorderToggleButton(
  * @param onClick chip 클릭 시 호출될 콜백
  */
 @Composable
-@NonRestartableComposable
 fun QuackToggleChip(
     text: String,
     selected: Boolean,

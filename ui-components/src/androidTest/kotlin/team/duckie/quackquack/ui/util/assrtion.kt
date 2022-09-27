@@ -5,6 +5,11 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress(
+    "NewApi",
+    "KDocFields",
+)
+
 package team.duckie.quackquack.ui.util
 
 import androidx.compose.ui.graphics.Color

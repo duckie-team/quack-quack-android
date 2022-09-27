@@ -37,6 +37,7 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
@@ -46,10 +47,10 @@ import team.duckie.quackquack.ui.component.internal.QuackTextFieldLeadingContent
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldMeasurePolicy.Companion.rememberQuackTextFieldMeasurePolicy
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldPlaceholderLayoutId
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldTrailingContentLayoutId
-import team.duckie.quackquack.ui.component.internal.drawUnderBarWithAnimation
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.modifier.applyQuackSize
+import team.duckie.quackquack.ui.modifier.drawUnderBarWithAnimation
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.DoNotUseDirectly
 
@@ -355,19 +356,18 @@ internal fun QuackBasicTextField(
                 width = width,
                 height = height,
             )
+            .drawUnderBarWithAnimation(
+                width = QuackTextFieldUnderBarHeight,
+                color = QuackTextFieldColors.underBarColor(
+                    isError = isError,
+                ),
+            )
             .background(
                 color = QuackColor.White.composeColor,
             )
             .padding(
                 top = textStyle.calcQuackTextFieldTopPadding(),
                 bottom = QuackTextFieldBottomPadding,
-            )
-            .drawUnderBarWithAnimation(
-                width = QuackTextFieldUnderBarHeight,
-                color = QuackTextFieldColors.underBarColor(
-                    isError = isError,
-                ),
-                topPadding = QuackTextFieldBottomPadding,
             ),
         value = text,
         onValueChange = onTextChanged,
@@ -388,6 +388,9 @@ internal fun QuackBasicTextField(
                             Text(
                                 text = placeholderText,
                                 style = composeTextStyle,
+                                maxLines = 1,
+                                softWrap = false,
+                                overflow = TextOverflow.Ellipsis,
                             )
                         }
                     }

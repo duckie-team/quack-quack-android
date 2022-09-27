@@ -13,9 +13,15 @@ import androidx.compose.ui.layout.LayoutIdParentData
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.unit.Constraints
 
+/**
+ * [IntrinsicMeasurable] 에서 컴포저블의 layoutId 를 찾습니다.
+ */
 internal val IntrinsicMeasurable.layoutId
     get() = (parentData as? LayoutIdParentData)?.layoutId
 
+/**
+ * 0 으로 고정된 [Constraints] 을 나타냅니다.
+ */
 internal val ZeroConstraints = Constraints.fixed(
     width = 0,
     height = 0,

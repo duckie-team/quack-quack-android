@@ -10,9 +10,11 @@ package team.duckie.quackquack.ui.component
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.icon.QuackIcon
@@ -133,7 +135,13 @@ fun InternalQuackImage(
             onClick = onClick,
         ),
         imageModel = image,
-        colorFilter = tint.toColorFilter(),
+        imageOptions = remember(
+            key1 = tint,
+        ) {
+            ImageOptions(
+                colorFilter = tint.toColorFilter(),
+            )
+        },
     )
 }
 

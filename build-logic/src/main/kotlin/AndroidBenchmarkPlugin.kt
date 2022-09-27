@@ -5,7 +5,9 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("UnstableApiUsage", "unused")
+@file:Suppress(
+    "UnstableApiUsage",
+)
 
 import com.android.build.api.variant.TestAndroidComponentsExtension
 import com.android.build.gradle.TestExtension

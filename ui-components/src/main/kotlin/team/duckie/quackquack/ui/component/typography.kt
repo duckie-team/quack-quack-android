@@ -17,6 +17,8 @@ import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 
+// [Note] @NonRestartableComposable 안한 이유: 인자로 받은 Text 는 동적으로 바뀔 수 있음
+
 /**
  * [QuackText] 에 [QuackTextStyle.HeadLine1] 스타일을 적용하여
  * 주어진 텍스트를 표시합니다.
@@ -54,7 +56,6 @@ fun QuackHeadLine1(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-@NonRestartableComposable
 fun QuackHeadLine2(
     text: String,
     color: QuackColor = QuackColor.Black,
@@ -81,7 +82,6 @@ fun QuackHeadLine2(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-@NonRestartableComposable
 fun QuackTitle1(
     text: String,
     color: QuackColor = QuackColor.Black,
@@ -108,7 +108,6 @@ fun QuackTitle1(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-@NonRestartableComposable
 fun QuackTitle2(
     text: String,
     color: QuackColor = QuackColor.Black,
@@ -135,7 +134,6 @@ fun QuackTitle2(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-@NonRestartableComposable
 fun QuackSubtitle(
     text: String,
     color: QuackColor = QuackColor.Black,
@@ -162,7 +160,6 @@ fun QuackSubtitle(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-@NonRestartableComposable
 fun QuackBody1(
     text: String,
     color: QuackColor = QuackColor.Black,
@@ -189,7 +186,6 @@ fun QuackBody1(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-@NonRestartableComposable
 fun QuackBody2(
     text: String,
     color: QuackColor = QuackColor.Black,
@@ -216,7 +212,6 @@ fun QuackBody2(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-@NonRestartableComposable
 fun QuackBody3(
     text: String,
     color: QuackColor = QuackColor.Black,
