@@ -24,8 +24,25 @@ import kotlinx.collections.immutable.PersistentList
 class QuackTagItem(
     val isSelected: Boolean,
     val text: String,
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
+        other as QuackTagItem
+
+        if (isSelected != other.isSelected) return false
+        if (text != other.text) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = isSelected.hashCode()
+        result = 31 * result + text.hashCode()
+        return result
+    }
+}
 
 @Composable
 fun QuackTagRow(
