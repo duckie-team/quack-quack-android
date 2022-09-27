@@ -21,7 +21,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.icon.QuackIcon
-import team.duckie.quackquack.ui.provider.QuackIconProvider
+import team.duckie.quackquack.ui.provider.NullableQuackIconProvider
 import team.duckie.quackquack.ui.rule.AnimationTestRule
 import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
@@ -55,7 +55,7 @@ class QuackButton {
 
     @Test
     fun QuackLargeWhiteButton(
-        @TestParameter(valuesProvider = QuackIconProvider::class) leadingIcon: NamedValue<QuackIcon?>,
+        @TestParameter(valuesProvider = NullableQuackIconProvider::class) leadingIcon: NamedValue<QuackIcon?>,
         @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
     ) {
         paparazzi.boxSnapshot(
