@@ -28,7 +28,7 @@ val QuackTagRowContentSpacing = 8.dp
  * @param isSelected Tag 가 선택되었는지 여부
  * @param text Tag에 표시될 Text
  *
- * @constructor [isSelected], [text]를 초기화 하면서 생성합니다.
+ * @constructor [isSelected], [text] 를 초기화 하면서 생성합니다.
  */
 @Immutable
 class QuackTagItem(
@@ -99,8 +99,8 @@ fun QuackTagRow(
  * [QuackTagRow] 의 내부에 배치될 Composable 입니다.
  * [QuackSimpleTag] 를 Deligate 합니다.
  *
- * @param item Tag 에 표시될 Text의 리스트
- * @param onClickItem 사용자가 Tag를 클릭했을 때 호출되는 콜백
+ * @param item Tag 에 표시될 Text 의 리스트
+ * @param onClickItem 사용자가 Tag 를 클릭했을 때 호출되는 콜백
  */
 @Composable
 @NonRestartableComposable
