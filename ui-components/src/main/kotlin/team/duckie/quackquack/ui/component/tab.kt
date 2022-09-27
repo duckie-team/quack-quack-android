@@ -118,7 +118,12 @@ fun QuackMainTab(
     val tabUnderBarXOffsets = remember(
         key1 = titles,
     ) {
-        mutableStateListOf(*Array(titleSize) { 0 })
+        mutableStateListOf(
+            elements = Array(
+                size = titleSize,
+                init = { 0 },
+            ),
+        )
     }
     val currentTabUnderBarXOffsetAnimation by animateIntAsState(
         targetValue = tabUnderBarXOffsets[selectedTabIndex],
