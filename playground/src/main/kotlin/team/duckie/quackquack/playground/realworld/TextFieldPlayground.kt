@@ -46,6 +46,8 @@ class TextFieldPlayground : BaseActivity() {
     }
 }
 
+private const val Placeholder = "placeholder text"
+
 @Composable
 fun QuackTextFieldWithNoDecorationDemo() {
     // empty test
@@ -59,7 +61,7 @@ fun QuackTextFieldWithNoDecorationDemo() {
         onTextChanged = { newText ->
             fieldState = newText
         },
-        placeholderText = "QuackTextFieldWithNoDecorationDemo",
+        placeholderText = Placeholder,
     )
 }
 
@@ -169,7 +171,7 @@ fun QuackTextFieldErrorStateLiveDemo() {
         },
         isError = fieldState.length > 1,
         errorText = "한 글자만 가능!",
-        placeholderText = "input something!",
+        placeholderText = Placeholder,
         leadingContent = {
             QuackImage(
                 icon = QuackIcon.FilledHeart,
