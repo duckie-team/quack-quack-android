@@ -45,6 +45,7 @@ dependencies {
         projects.lintComposePublish,
         libs.compose.material,
         libs.compose.glide,
+        libs.compose.flowlayout,
     )
     testImplementation(libs.test.parameter.injector)
 }

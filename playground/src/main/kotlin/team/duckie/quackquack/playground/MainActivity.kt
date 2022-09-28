@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -25,11 +26,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.ContentBorder
@@ -48,14 +50,16 @@ import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.textstyle.QuackFontScale
 
 private const val DefaultSplashScreenExitAnimationDurationMillis = 200L
-private val PlaygroundActivities = persistentListOf(
+private val PlaygroundActivities = listOf(
     TabPlayground::class,
     ButtonPlayground::class,
     TextFieldPlayground::class,
     FabPlayground::class,
     TogglePlayground::class,
     TagPlayground::class,
-)
+).sortedBy { playgroundActivity ->
+    playgroundActivity.simpleName
+}.toPersistentList()
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,7 +107,11 @@ private fun SingleDemo(
     content: @Composable BoxScope.() -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = Color.White,
+            ),
         contentAlignment = Alignment.Center,
     ) {
         ContentBorder {

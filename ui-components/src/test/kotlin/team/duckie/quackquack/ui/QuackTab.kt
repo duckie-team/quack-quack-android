@@ -24,7 +24,11 @@ import team.duckie.quackquack.ui.rule.AnimationTestRule
 import team.duckie.quackquack.ui.util.boxSnapshot
 import team.duckie.quackquack.ui.util.buildPaparazzi
 
-@Ignore(value = "paparazzi 빌드 에러 발생")
+@Ignore(
+    value = """
+        Cannot invoke "String.toUpperCase(java.util.Locale)" because "buildCodename" is null
+    """,
+)
 @RunWith(TestParameterInjector::class)
 class QuackTab {
     @get:Rule

@@ -308,8 +308,8 @@ internal fun QuackDialogMenuContent(
             space = QuackIconTextSpacing,
         ),
     ) {
-        InternalQuackImage(
-            icon = menuItem.icon,
+        QuackImageInternal(
+            src = menuItem.icon,
         )
         QuackSubtitle(
             text = menuItem.text,
@@ -369,9 +369,9 @@ private fun QuackBasicFloatingActionButton(
             ),
         contentAlignment = Alignment.Center,
     ) {
-        InternalQuackImage(
+        QuackImageInternal(
             tint = QuackColor.White,
-            icon = icon,
+            src = icon,
         )
     }
 }

@@ -12,11 +12,8 @@ package team.duckie.quackquack.ui.color
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector4D
-import androidx.compose.animation.core.SnapSpec
-import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
@@ -298,29 +295,33 @@ value class QuackColor internal constructor(
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = composeColor
 }
 
-/**
- * [TweenSpec] 의 durationMillis 를 2로 나눈 값을 반환합니다.
- *
- * 색상 애니메이션은 애니메이션 뒷쪽에 색상 변화가 몰려있기 때문에
- * 다른 애니메이션과 조화를 위해선 색상 애니메이션을
- * 일찍 진행해야 합니다. 따라서 입력받은 [AnimationSpec] 의
- * 진행 시간을 2로 나눠서 다른 애니메이션 보다 일찍 진행합니다.
- *
- * QuackQuack 에서는 [AnimationSpec] 을 [TweenSpec], [SnapSpec]
- * 이렇게 2개만 사용합니다. 따라서 [SnapSpec] 을 사용중일 때는
- * 작업을 진행하지 않고 원본 [AnimationSpec] 을 그대로 반환합니다.
- *
- * @receiver 애니메이션에 사용할 [AnimationSpec]
- * @return receiver 의 durationMillis 를 2로 나눈 새로운 [AnimationSpec]
- */
-private fun <T> AnimationSpec<T>.toColorSpec(): AnimationSpec<T> {
-    val tweenSpec = this as? TweenSpec<T> ?: return this
-    return tween(
-        durationMillis = tweenSpec.durationMillis / 2,
-        delayMillis = tweenSpec.delay,
-        easing = tweenSpec.easing,
-    )
-}
+// /**
+//  * [TweenSpec] 의 durationMillis 를 2로 나눈 값을 반환합니다.
+//  *
+//  * 색상 애니메이션은 애니메이션 뒷쪽에 색상 변화가 몰려있기 때문에
+//  * 다른 애니메이션과 조화를 위해선 색상 애니메이션을
+//  * 일찍 진행해야 합니다. 따라서 입력받은 [AnimationSpec] 의
+//  * 진행 시간을 2로 나눠서 다른 애니메이션 보다 일찍 진행합니다.
+//  *
+//  * QuackQuack 에서는 [AnimationSpec] 을 [TweenSpec], [SnapSpec]
+//  * 이렇게 2개만 사용합니다. 따라서 [SnapSpec] 을 사용중일 때는
+//  * 작업을 진행하지 않고 원본 [AnimationSpec] 을 그대로 반환합니다.
+//  *
+//  * @receiver 애니메이션에 사용할 [AnimationSpec]
+//  * @return receiver 의 durationMillis 를 2로 나눈 새로운 [AnimationSpec]
+//  */
+// @Deprecated(
+//     message = "이제 이 옵션은 사용되지 않습니다. " +
+//             "원래의 색상 애니메이션을 그대로 사용해 주세요."
+// )
+// private fun <T> AnimationSpec<T>.toColorSpec(): AnimationSpec<T> {
+//     val tweenSpec = this as? TweenSpec<T> ?: return this
+//     return tween(
+//         durationMillis = tweenSpec.durationMillis / 2,
+//         delayMillis = tweenSpec.delay,
+//         easing = tweenSpec.easing,
+//     )
+// }
 
 /**
  * [QuackColor] 에 색상에 변경이 있을 때 애니메이션을 적용합니다.
@@ -343,7 +344,7 @@ internal fun animateQuackColorAsState(
     return animateValueAsState(
         targetValue = targetValue,
         typeConverter = converter,
-        animationSpec = animationSpec.toColorSpec(),
+        animationSpec = animationSpec,
         finishedListener = null,
     )
 }

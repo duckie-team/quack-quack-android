@@ -7,24 +7,28 @@
 
 package team.duckie.quackquack.ui.component
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.DpSize
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
+import team.duckie.quackquack.ui.animation.AnimatedContentTransform
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
+import team.duckie.quackquack.ui.util.runIf
 
 /**
- * 이미지 하나만 표시하는 컴포넌트의 아이콘 버전
+ * 이미지 혹은 [QuackIcon] 을 표시합니다.
  *
- * @param icon 표시할 아이콘의 drawable 아이디.
- * 만약 null 이 들어온다면 아이콘을 그리지 않습니다.
+ * @param src 표시할 리소스. 만약 null 이 들어온다면 리소스를 그리지 않습니다.
+ * [GlideImage] 에서 지원하는 [Any] 에 추가로 [QuackIcon] 이 포함될 수 있습니다.
+ * @param overrideSize 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
  * @param tint 아이콘에 적용할 틴트 값
  * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
  * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
@@ -32,117 +36,69 @@ import team.duckie.quackquack.ui.modifier.quackClickable
 @Composable
 @NonRestartableComposable
 fun QuackImage(
-    icon: QuackIcon?,
+    src: Any?,
+    overrideSize: DpSize? = null,
     tint: QuackColor? = null,
     rippleEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
-) {
-    InternalQuackImage(
-        icon = icon,
-        tint = tint,
+) = QuackImageInternal(
+    modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
-    )
-}
+    ).runIf(
+        condition = overrideSize != null,
+    ) {
+        size(
+            size = overrideSize!!,
+        )
+    },
+    src = src,
+    tint = tint,
+)
 
 /**
- * 이미지 하나만 표시하는 컴포넌트의 이미지 버전
+ * [QuackImage] 를 실제로 그립니다. 내부에서 사용되는 컴포넌트이므로
+ * [Modifier] 를 추가로 받습니다.
  *
- * @param image 표시할 이미지의 값.
+ * @param modifier 이 컴포저블에서 사용할 [Modifier]
+ * @param src 표시할 이미지의 값.
  * 만약 null 이 들어온다면 이미지를 그리지 않습니다.
  * @param tint 아이콘에 적용할 틴트 값
- * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
- * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
  */
 // TODO: 로딩 effect
 @Composable
 @NonRestartableComposable
-fun QuackImage(
-    image: Any?,
-    tint: QuackColor? = null,
-    rippleEnabled: Boolean = true,
-    onClick: (() -> Unit)? = null,
-) {
-    InternalQuackImage(
-        image = image,
-        tint = tint,
-        rippleEnabled = rippleEnabled,
-        onClick = onClick,
-    )
-}
-
-/**
- * 이미지 하나만 표시하는 컴포넌트의 아이콘 버전
- *
- * 모듈 내에서 [Modifier] 및 [tint] 변경하여 사용 가능
- *
- * @param modifier 이 컴포저블에서 사용할 [Modifier]
- * @param icon 표시할 아이콘의 drawable 아이디.
- * 만약 null 이 들어온다면 아이콘을 그리지 않습니다.
- * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
- * @param tint 아이콘에 적용할 틴트 값
- * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
- */
-@Composable
-@NonRestartableComposable
-internal fun InternalQuackImage(
+internal fun QuackImageInternal(
     modifier: Modifier = Modifier,
-    icon: QuackIcon?,
+    src: Any?,
     tint: QuackColor? = null,
-    rippleEnabled: Boolean = true,
-    onClick: (() -> Unit)? = null,
 ) {
-    if (icon == null) return
-    Image(
-        modifier = modifier.quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
-        painter = painterResource(
-            id = icon.drawableId,
-        ),
-        contentDescription = null,
-        colorFilter = tint.toColorFilter(),
-    )
-}
-
-/**
- * 이미지 하나만 표시하는 컴포넌트의 이미지 버전
- *
- * 모듈 내에서 [Modifier] 및 [tint] 변경하여 사용 가능
- *
- * @param modifier 이 컴포저블에서 사용할 [Modifier]
- * @param image 표시할 이미지의 값.
- * 만약 null 이 들어온다면 이미지를 그리지 않습니다.
- * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
- * @param tint 아이콘에 적용할 틴트 값
- * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
- */
-// TODO: 로딩 effect
-@Composable
-@NonRestartableComposable
-fun InternalQuackImage(
-    modifier: Modifier = Modifier,
-    image: Any?,
-    rippleEnabled: Boolean = true,
-    tint: QuackColor? = null,
-    onClick: (() -> Unit)? = null,
-) {
-    if (image == null) return
-    GlideImage(
-        modifier = modifier.quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
-        imageModel = image,
-        imageOptions = remember(
-            key1 = tint,
-        ) {
-            ImageOptions(
-                colorFilter = tint.toColorFilter(),
-            )
-        },
-    )
+    if (src == null) return
+    val imageModel = remember(
+        key1 = src,
+    ) {
+        if (src is QuackIcon) src.drawableId else src
+    }
+    val animatedTint = tint?.let {
+        animateQuackColorAsState(
+            targetValue = tint,
+        )
+    }
+    AnimatedContentTransform(
+        targetState = imageModel,
+    ) { animatedImageModel ->
+        GlideImage(
+            modifier = modifier,
+            imageModel = animatedImageModel,
+            imageOptions = remember(
+                key1 = animatedTint?.value?.composeColor,
+            ) {
+                ImageOptions(
+                    colorFilter = animatedTint?.value?.toColorFilter(),
+                )
+            },
+        )
+    }
 }
 
 /**

@@ -23,7 +23,7 @@ class DecorationContentProvider : TestParameter.TestParameterValuesProvider {
         NamedValue(
             value = {
                 QuackImage(
-                    icon = QuackIcon.FilledHeart,
+                    src = QuackIcon.FilledHeart,
                 )
             },
             name = "icon",

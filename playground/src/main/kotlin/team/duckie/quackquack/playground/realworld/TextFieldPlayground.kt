@@ -79,7 +79,7 @@ fun QuackTextFieldWithLeadingDecorationDemo() {
         },
         leadingContent = {
             QuackImage(
-                icon = QuackIcon.FilledHeart,
+                src = QuackIcon.FilledHeart,
             )
         },
     )
@@ -99,7 +99,7 @@ fun QuackTextFieldWithTrailingDecorationDemo() {
         },
         trailingContent = {
             QuackImage(
-                icon = QuackIcon.FilledHeart,
+                src = QuackIcon.FilledHeart,
             )
         },
     )
@@ -119,12 +119,12 @@ fun QuackTextFieldWithAllDecorationDemo() {
         },
         leadingContent = {
             QuackImage(
-                icon = QuackIcon.FilledHeart,
+                src = QuackIcon.FilledHeart,
             )
         },
         trailingContent = {
             QuackImage(
-                icon = QuackIcon.FilledHeart,
+                src = QuackIcon.FilledHeart,
             )
         },
     )
@@ -146,12 +146,12 @@ fun QuackTextFieldErrorStateDemo() {
         errorText = "QuackTextFieldErrorStateDemo",
         leadingContent = {
             QuackImage(
-                icon = QuackIcon.Heart,
+                src = QuackIcon.Heart,
             )
         },
         trailingContent = {
             QuackImage(
-                icon = QuackIcon.Heart,
+                src = QuackIcon.Heart,
             )
         },
     )
@@ -174,12 +174,12 @@ fun QuackTextFieldErrorStateLiveDemo() {
         placeholderText = Placeholder,
         leadingContent = {
             QuackImage(
-                icon = QuackIcon.FilledHeart,
+                src = QuackIcon.FilledHeart,
             )
         },
         trailingContent = {
             QuackImage(
-                icon = QuackIcon.FilledHeart,
+                src = QuackIcon.FilledHeart,
             )
         },
     )
