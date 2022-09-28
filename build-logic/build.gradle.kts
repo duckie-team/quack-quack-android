@@ -45,9 +45,9 @@ gradlePlugin {
             id = "$prefix.android.common.lint"
             implementationClass = "AndroidCommonLintPlugin"
         }
-        register("androidBenchmarkPlugin") {
-            id = "$prefix.android.benchmark"
-            implementationClass = "AndroidBenchmarkPlugin"
+        register("androidQuackUiComponentsBenchmarkPlugin") {
+            id = "$prefix.android.quack.ui.components.benchmark"
+            implementationClass = "AndroidQuackUiComponentsBenchmarkPlugin"
         }
         register("androidApplicationPlugin") {
             id = "$prefix.android.application"

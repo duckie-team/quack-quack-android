@@ -7,4 +7,4 @@
 
 package team.duckie.quackquack.ui.benchmark
 
-internal const val AppPackageName = "team.duckie.quackquack.playground"
+internal const val AppPackageName = "team.duckie.quackquack.ui.benchmark.app"

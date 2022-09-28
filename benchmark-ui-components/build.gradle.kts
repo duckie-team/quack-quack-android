@@ -8,7 +8,7 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
 plugins {
-    id(ConventionEnum.AndroidBenchmark)
+    id(ConventionEnum.AndroidQuackUiComponentsBenchmark)
     id(ConventionEnum.JvmDokka)
     alias(libs.plugins.kover)
 }

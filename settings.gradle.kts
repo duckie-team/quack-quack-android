@@ -20,7 +20,6 @@ pluginManagement {
 
 rootProject.name = "quack-quack"
 include(
-    ":benchmark",
     ":playground",
     ":common-lint",
     ":common-lint-test",
@@ -35,4 +34,6 @@ include(
     ":lint-quack-publish",
     ":lint-compose-publish",
     ":quack-publish-bom",
+    ":benchmark-ui-components",
+    ":benchmark-ui-components-app",
 )

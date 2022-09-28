@@ -37,14 +37,15 @@ android {
 }
 
 dependencies {
+    apis(
+        libs.kotlin.collections.immutable,
+    )
     implementations(
         projects.lintCorePublish,
         projects.lintComposePublish,
-        libs.util.profileinstaller,
         libs.compose.material,
         libs.compose.glide,
         libs.compose.flowlayout,
-        libs.kotlin.collections.immutable,
     )
     testImplementation(libs.test.parameter.injector)
 }

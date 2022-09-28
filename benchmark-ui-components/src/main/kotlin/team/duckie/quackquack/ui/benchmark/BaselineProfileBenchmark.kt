@@ -24,21 +24,31 @@ class BaselineProfileBenchmark {
 
     @Test
     fun startupNoCompilation() {
-        startup(CompilationMode.None())
+        startup(
+            compilationMode = CompilationMode.None(),
+        )
     }
 
     @Test
     fun startupBaselineProfile() {
-        startup(CompilationMode.Partial(baselineProfileMode = BaselineProfileMode.Require))
+        startup(
+            compilationMode = CompilationMode.Partial(
+                baselineProfileMode = BaselineProfileMode.Require,
+            ),
+        )
     }
 
-    private fun startup(compilationMode: CompilationMode) {
+    private fun startup(
+        compilationMode: CompilationMode,
+    ) {
         benchmarkRule.measureRepeated(
             packageName = AppPackageName,
-            metrics = listOf(StartupTimingMetric()),
+            metrics = listOf(
+                StartupTimingMetric(),
+            ),
             iterations = 10,
             startupMode = StartupMode.COLD,
-            compilationMode = compilationMode
+            compilationMode = compilationMode,
         ) {
             pressHome()
             startActivityAndWait()
