@@ -36,3 +36,75 @@ inline fun QuackColorBenchmark() {
     QuackColor.OrangeRed
     QuackColor.White
 }
+
+inline fun QuackButtonBenchMark() {
+    QuackLarge40WhiteButton(
+        text = "",
+        onClick = {},
+    )
+
+    QuackLargeButton(
+        text = "",
+        onClick = {},
+    )
+
+    QuackLargeWhiteButton(
+        text = "",
+        onClick = {},
+    )
+
+    QuackMediumBorderToggleButton(
+        text = "",
+        selected = true,
+        onClick = {},
+    )
+
+    QuackSmallBorderToggleButton(
+        text = "",
+        selected = true,
+        onClick = {},
+    )
+
+    QuackSmallButton(
+        text = "",
+        enabled = true,
+        onClick = {},
+    )
+
+    QuackToggleChip(
+        text = "",
+        selected = true,
+        onClick = {},
+    )
+}
+
+inline fun QuackFabBenchMark() {
+    QuackDialogMenuItem(icon = QuackIcon.Area, text = "")
+
+    QuackFloatingActionButton(icon = QuackIcon.Area) {
+
+    }
+
+    QuackMenuFloatingActionButton(
+        expanded = true,
+        onClickButton = {},
+        onDismissRequest = {},
+        menuItems =  persistentListOf(
+            QuackDialogMenuItem(
+                icon = QuackIcon.Feed,
+                text = "피드",
+            ),
+        ),
+        onClickMenuItem = {}
+    )
+}
+
+inline fun QuackImageBenchMark() {
+    QuackImage(
+        src = null,
+        overrideSize = DpSize.Zero,
+        tint = QuackColor.Black,
+        rippleEnabled = true,
+        onClick = {}
+    )
+}
