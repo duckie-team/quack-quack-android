@@ -18,6 +18,18 @@ class MainActivity : ComponentActivity() {
             ImmutableCollectionsBenchmark()
             QuackAnimationSpecBenchmark()
             QuackColorBenchmark()
+            QuackButtonBenchmark()
+            QuackFabBenchmark()
+            QuackImageBenchMark()
+            QuackTabBenchMark()
+            QuackTagBenchMark()
+            QuackTextFieldBenchMark()
+            QuackToggleBenchMark()
+            QuackTypographyBenchMark()
+            QuackHeightBenchMark()
+            QuackWidthBenchMark()
+            QuackIconBenchMark()
+            QuackTextStyleBenchMark()
         }
     }
 }
