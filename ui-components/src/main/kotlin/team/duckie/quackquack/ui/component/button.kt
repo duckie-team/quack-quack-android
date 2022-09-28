@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -34,50 +33,34 @@ import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
-import team.duckie.quackquack.ui.textstyle.animateQuackTextStyleAsState
 
-@Stable
 private val QuackLargeButtonShape = RoundedCornerShape(
     size = 8.dp,
 )
-
-@Stable
 private val QuackMediumButtonShape = RoundedCornerShape(
     size = 12.dp,
 )
 
 // 2개 스팩이 동일함, 하지만 도메인적 의미를 위해 분리
-@Stable
 private val QuackSmallButtonShape = QuackLargeButtonShape
-
-@Stable
 private val QuackChipShape = RoundedCornerShape(
     size = 18.dp,
 )
 
-@Stable
 private val QuackLargeButtonTextPadding = PaddingValues(
     vertical = 13.dp,
 )
-
-@Stable
 private val QuackLargeButton40TextPadding = PaddingValues(
     vertical = 11.dp,
 )
-
-@Stable
 private val QuackMediumButtonTextPadding = PaddingValues(
     horizontal = 62.dp,
     vertical = 11.dp,
 )
-
-@Stable
 private val QuackSmallButtonTextPadding = PaddingValues(
     horizontal = 12.dp,
     vertical = 8.dp,
 )
-
-@Stable
 private val QuackChipTextPadding = PaddingValues(
     horizontal = 8.dp,
     vertical = 4.dp,
@@ -389,9 +372,6 @@ private fun QuackBasicButton(
     rippleColor: QuackColor = QuackColor.Unspecified,
     onClick: () -> Unit,
 ) {
-    val textStyleAnimation by animateQuackTextStyleAsState(
-        targetValue = textStyle,
-    )
     QuackSurface(
         modifier = Modifier
             .applyQuackSize(
@@ -415,11 +395,10 @@ private fun QuackBasicButton(
             horizontalArrangement = Arrangement.Center,
         ) {
             AnimatedContentTransform(
-                // animated visibility 대응
                 targetState = leadingIcon,
             ) { animatedLeadingIcon ->
-                InternalQuackImage(
-                    icon = animatedLeadingIcon,
+                QuackImage(
+                    src = animatedLeadingIcon,
                     tint = QuackColor.Gray1,
                 )
             }
@@ -429,7 +408,7 @@ private fun QuackBasicButton(
                     paddingValues = textPadding,
                 ),
                 text = text,
-                style = textStyleAnimation,
+                style = textStyle,
             )
         }
     }
