@@ -12,10 +12,24 @@
 
 package team.duckie.quackquack.ui.benchmark.app
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.DpSize
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.component.QuackDialogMenuItem
+import team.duckie.quackquack.ui.component.QuackFloatingActionButton
+import team.duckie.quackquack.ui.component.QuackImage
+import team.duckie.quackquack.ui.component.QuackLarge40WhiteButton
+import team.duckie.quackquack.ui.component.QuackLargeButton
+import team.duckie.quackquack.ui.component.QuackLargeWhiteButton
+import team.duckie.quackquack.ui.component.QuackMediumBorderToggleButton
+import team.duckie.quackquack.ui.component.QuackMenuFloatingActionButton
+import team.duckie.quackquack.ui.component.QuackSmallBorderToggleButton
+import team.duckie.quackquack.ui.component.QuackSmallButton
+import team.duckie.quackquack.ui.component.QuackToggleChip
+import team.duckie.quackquack.ui.icon.QuackIcon
 
 inline fun ImmutableCollectionsBenchmark() {
     persistentListOf<Any>()
@@ -37,7 +51,8 @@ inline fun QuackColorBenchmark() {
     QuackColor.White
 }
 
-inline fun QuackButtonBenchMark() {
+@Composable
+inline fun QuackButtonBenchmark() {
     QuackLarge40WhiteButton(
         text = "",
         onClick = {},
@@ -78,33 +93,39 @@ inline fun QuackButtonBenchMark() {
     )
 }
 
-inline fun QuackFabBenchMark() {
-    QuackDialogMenuItem(icon = QuackIcon.Area, text = "")
+@Composable
+inline fun QuackFabBenchmark() {
+    QuackDialogMenuItem(
+        icon = QuackIcon.Area,
+        text = "",
+    )
 
-    QuackFloatingActionButton(icon = QuackIcon.Area) {
-
-    }
+    QuackFloatingActionButton(
+        icon = QuackIcon.Area,
+        onClick = {},
+    )
 
     QuackMenuFloatingActionButton(
         expanded = true,
         onClickButton = {},
         onDismissRequest = {},
-        menuItems =  persistentListOf(
+        menuItems = persistentListOf(
             QuackDialogMenuItem(
                 icon = QuackIcon.Feed,
-                text = "피드",
+                text = "",
             ),
         ),
-        onClickMenuItem = {}
+        onClickMenuItem = {},
     )
 }
 
-inline fun QuackImageBenchMark() {
+@Composable
+inline fun QuackImageBenchmark() {
     QuackImage(
         src = null,
         overrideSize = DpSize.Zero,
         tint = QuackColor.Black,
         rippleEnabled = true,
-        onClick = {}
+        onClick = {},
     )
 }
