@@ -34,6 +34,10 @@ android {
             kotlin.srcDir("build/generated/ksp/release/kotlin")
         }
     }
+
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-Xexplicit-api=strict"
+    }
 }
 
 dependencies {
