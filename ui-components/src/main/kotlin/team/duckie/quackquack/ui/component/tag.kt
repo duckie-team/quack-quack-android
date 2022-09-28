@@ -165,6 +165,7 @@ fun QuackGrayscaleTag(
             .quackTag(
                 isSelected = false,
                 type = QuackTagType.Grayscale,
+                rippleEnabled = false,
                 onClick = onClick,
             ),
         verticalAlignment = Alignment.CenterVertically,
