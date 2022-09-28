@@ -125,11 +125,11 @@ fun QuackLargeButton(
  */
 @Composable
 @NonRestartableComposable
-fun QuackLargeWhiteButton(
+public fun QuackLargeWhiteButton(
     text: String,
     leadingIcon: QuackIcon? = null,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     width = QuackWidth.Fill,
     shape = QuackLargeButtonShape,
     leadingIcon = leadingIcon,
