@@ -29,7 +29,7 @@ import team.duckie.quackquack.ui.textstyle.QuackFontScale
  * @param screenWidth 스냅샷의 가로 길이. 기본값으론 덕키의 스냅샷 테스트에서
  * 사용하는 디바이스인 PIXEL_5 의 기본 가로 길이를 사용합니다.
  */
-data class PaparazziConfig(
+public data class PaparazziConfig(
     var screenHeight: Int = 200,
     var screenWidth: Int = DeviceConfig.PIXEL_5.screenWidth,
 )
@@ -41,7 +41,7 @@ data class PaparazziConfig(
  * @param config [Paparazzi] 의 추가 설정
  * @return 스냅샷을 찍기 위한 준비를 마친 [Paparazzi] 객체
  */
-fun buildPaparazzi(@QuackDsl config: PaparazziConfig.() -> Unit = {}): Paparazzi {
+public fun buildPaparazzi(@QuackDsl config: PaparazziConfig.() -> Unit = {}): Paparazzi {
     val paparazziConfig = PaparazziConfig().apply(config)
     return Paparazzi(
         environment = detectEnvironment().copy(
@@ -65,7 +65,7 @@ fun buildPaparazzi(@QuackDsl config: PaparazziConfig.() -> Unit = {}): Paparazzi
  * @param composable 캡처할 컴포저블
  */
 // Needs Paparazzi#gif: https://github.com/cashapp/paparazzi/issues/496
-inline fun Paparazzi.boxSnapshot(
+public inline fun Paparazzi.boxSnapshot(
     name: String? = null,
     fontScale: Double = QuackFontScale,
     crossinline composable: @Composable BoxScope.() -> Unit,

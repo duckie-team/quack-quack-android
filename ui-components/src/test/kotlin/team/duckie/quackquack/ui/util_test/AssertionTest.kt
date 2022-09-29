@@ -19,14 +19,14 @@ import team.duckie.quackquack.ui.util.runtimeCheck
 
 private const val ByeWorld = "bye world"
 
-class AssertionTest {
+public class AssertionTest {
     @Test(expected = IllegalStateException::class)
-    fun `throw ise with default message`() {
+    public fun `throw ise with default message`() {
         runtimeCheck(false)
     }
 
     @Test
-    fun `throw ise with custom message`() {
+    public fun `throw ise with custom message`() {
         val exception = Assert.assertThrows(
             IllegalStateException::class.java
         ) {
@@ -36,17 +36,17 @@ class AssertionTest {
     }
 
     @Test
-    fun passed() {
+    public fun passed() {
         runtimeCheck(true)
     }
 
     @Test(expected = NullPointerException::class)
-    fun `throw npe with default message`() {
+    public fun `throw npe with default message`() {
         npe()
     }
 
     @Test
-    fun `throw npe with custom message`() {
+    public fun `throw npe with custom message`() {
         val exception = Assert.assertThrows(
             NullPointerException::class.java
         ) {

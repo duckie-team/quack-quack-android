@@ -29,7 +29,7 @@ import team.duckie.quackquack.ui.modifier.applyQuackSize
  * @see Modifier.applyQuackSize
  */
 @Immutable
-sealed class QuackWidth {
+public sealed class QuackWidth {
     /**
      * 현재 보이는 화면의 가로 사이즈로 꽉 채웁니다.
      * Modifier.fillMaxWidth() 와 동일합니다.
@@ -37,7 +37,7 @@ sealed class QuackWidth {
      * @see Modifier.fillMaxWidth
      */
     @Immutable
-    object Fill : QuackWidth()
+    public object Fill : QuackWidth()
 
     /**
      * 현재 컴포넌트의 가로 사이즈로 꽉 채웁니다.
@@ -46,7 +46,7 @@ sealed class QuackWidth {
      * @see Modifier.wrapContentWidth
      */
     @Immutable
-    object Wrap : QuackWidth()
+    public object Wrap : QuackWidth()
 
     /**
      * width 로 지정할 사이즈를 직접 지정합니다.
@@ -57,7 +57,7 @@ sealed class QuackWidth {
      * @param width width 로 지정할 사이즈
      */
     @Immutable
-    class Custom(val width: Dp) : QuackWidth()
+    public class Custom(public val width: Dp) : QuackWidth()
 }
 
 /**
@@ -71,7 +71,7 @@ sealed class QuackWidth {
  * @see Modifier.applyQuackSize
  */
 @Immutable
-sealed class QuackHeight {
+public sealed class QuackHeight {
     /**
      * 현재 보이는 화면의 세로 사이즈로 꽉 채웁니다.
      * Modifier.fillMaxHeight() 와 동일합니다.
@@ -79,7 +79,7 @@ sealed class QuackHeight {
      * @see Modifier.fillMaxHeight
      */
     @Immutable
-    object Fill : QuackHeight()
+    public object Fill : QuackHeight()
 
     /**
      * 현재 컴포넌트의 세로 사이즈로 꽉 채웁니다.
@@ -88,7 +88,7 @@ sealed class QuackHeight {
      * @see Modifier.wrapContentHeight
      */
     @Immutable
-    object Wrap : QuackHeight()
+    public object Wrap : QuackHeight()
 
     /**
      * height 로 지정할 사이즈를 직접 지정합니다.
@@ -99,5 +99,5 @@ sealed class QuackHeight {
      * @param height height 로 지정할 사이즈
      */
     @Immutable
-    class Custom(val height: Dp) : QuackHeight()
+    public class Custom(public val height: Dp) : QuackHeight()
 }

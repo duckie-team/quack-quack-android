@@ -35,13 +35,13 @@ import team.duckie.quackquack.ui.util.runIf
  */
 @Composable
 @NonRestartableComposable
-fun QuackImage(
+public fun QuackImage(
     src: Any?,
     overrideSize: DpSize? = null,
     tint: QuackColor? = null,
     rippleEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
-) = QuackImageInternal(
+): Unit = QuackImageInternal(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,

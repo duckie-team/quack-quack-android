@@ -44,14 +44,14 @@ import team.duckie.quackquack.ui.util.AllowMagicNumber
  * Playground 에서 [QuackFontScale] 편집 후 기본값으로 되돌리고
  * 싶을 때 기본값을 참조하기 위해 public 으로 설정함
  */
-const val QuackDefaultFontScale = 1.0
+public const val QuackDefaultFontScale: Double = 1.0
 
 /**
  * 덕키에서 사용할 [QuackTextStyle] 의 font scale
  *
  * Playground 에서 자유로운 font scale 편집으로 쉬운 디버깅을 위해 public 으로 설정함
  */
-var QuackFontScale by mutableStateOf(QuackDefaultFontScale)
+public var QuackFontScale: Double by mutableStateOf(QuackDefaultFontScale)
 
 /**
  * 덕키에서 사용할 텍스트 스타일을 정의합니다. 추상화를 위해 컴포즈의
@@ -70,13 +70,13 @@ var QuackFontScale by mutableStateOf(QuackDefaultFontScale)
  */
 // animateQuackTextStyleAsState() 있어서 internal constructor
 @Immutable
-class QuackTextStyle internal constructor(
-    val color: QuackColor = QuackColor.Black,
-    val size: TextUnit,
-    val weight: FontWeight,
-    val letterSpacing: TextUnit,
-    val lineHeight: TextUnit,
-    val textAlign: TextAlign = TextAlign.Center,
+public class QuackTextStyle internal constructor(
+    public val color: QuackColor = QuackColor.Black,
+    public val size: TextUnit,
+    public val weight: FontWeight,
+    public val letterSpacing: TextUnit,
+    public val lineHeight: TextUnit,
+    public val textAlign: TextAlign = TextAlign.Center,
 ) {
     @Stable
     private val suit = FontFamily(Font(R.font.suit_variable))
@@ -98,11 +98,11 @@ class QuackTextStyle internal constructor(
         lineHeight = lineHeight,
     )
 
-    companion object {
+    public companion object {
         // FontWeight NOTE: normal == regular
 
         @Stable
-        val HeadLine1 = QuackTextStyle(
+        public val HeadLine1: QuackTextStyle = QuackTextStyle(
             size = 20.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.01).sp,
@@ -110,7 +110,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val HeadLine2 = QuackTextStyle(
+        public val HeadLine2: QuackTextStyle = QuackTextStyle(
             size = 16.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.01).sp,
@@ -118,7 +118,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val Title1 = QuackTextStyle(
+        public val Title1: QuackTextStyle = QuackTextStyle(
             size = 16.sp,
             weight = FontWeight.Normal,
             letterSpacing = (-0.01).sp,
@@ -126,7 +126,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val Title2 = QuackTextStyle(
+        public val Title2: QuackTextStyle = QuackTextStyle(
             size = 14.sp,
             weight = FontWeight.Bold,
             letterSpacing = 0.sp,
@@ -134,7 +134,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val Subtitle = QuackTextStyle(
+        public val Subtitle: QuackTextStyle = QuackTextStyle(
             size = 14.sp,
             weight = FontWeight.Medium,
             letterSpacing = 0.sp,
@@ -142,7 +142,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val Body1 = QuackTextStyle(
+        public val Body1: QuackTextStyle = QuackTextStyle(
             size = 14.sp,
             weight = FontWeight.Normal,
             letterSpacing = 0.sp,
@@ -150,7 +150,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val Body2 = QuackTextStyle(
+        public val Body2: QuackTextStyle = QuackTextStyle(
             size = 12.sp,
             weight = FontWeight.Normal,
             letterSpacing = 0.sp,
@@ -158,7 +158,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val Body3 = QuackTextStyle(
+        public val Body3: QuackTextStyle = QuackTextStyle(
             size = 10.sp,
             weight = FontWeight.Normal,
             letterSpacing = 0.sp,

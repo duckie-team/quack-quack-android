@@ -18,7 +18,7 @@ import team.duckie.quackquack.ui.animation.isSnapshotMode
  *
  * @see isSnapshotMode
  */
-class AnimationTestRule : TestWatcher() {
+public class AnimationTestRule : TestWatcher() {
     override fun starting(description: Description?) {
         QuackAnimationSpec.isSnapshotMode = true
         super.starting(description)

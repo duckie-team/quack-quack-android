@@ -18,6 +18,7 @@ package team.duckie.quackquack.ui
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import app.cash.paparazzi.Paparazzi
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import kotlin.random.Random
@@ -25,6 +26,7 @@ import kotlinx.collections.immutable.persistentListOf
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestWatcher
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.provider.QuackIconProvider
@@ -39,18 +41,18 @@ import team.duckie.quackquack.ui.wrapper.NamedValue
     """,
 )
 @RunWith(TestParameterInjector::class)
-class QuackTag {
+public class QuackTag {
     @get:Rule
-    val paparazzi = buildPaparazzi {
+    public val paparazzi: Paparazzi = buildPaparazzi {
         screenHeight = 500
         screenWidth *= 2
     }
 
     @get:Rule
-    val animationTest = AnimationTestRule()
+    public val animationTest: TestWatcher = AnimationTestRule()
 
     @Test
-    fun QuackTag(
+    public fun QuackTag(
         @TestParameter isSelected: Boolean,
         @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
     ) {
@@ -66,7 +68,7 @@ class QuackTag {
     }
 
     @Test
-    fun QuackGrayscaleTag(
+    public fun QuackGrayscaleTag(
         @TestParameter("99+", "") trailingText: String,
         @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
     ) {
@@ -82,7 +84,7 @@ class QuackTag {
     }
 
     @Test
-    fun QuackIconTag(
+    public fun QuackIconTag(
         @TestParameter isSelected: Boolean,
         @TestParameter(valuesProvider = QuackIconProvider::class) icon: NamedValue<QuackIcon>,
         @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
@@ -100,7 +102,7 @@ class QuackTag {
     }
 
     @Test
-    fun QuackRowTag(
+    public fun QuackRowTag(
         @TestParameter isSelected: Boolean,
         @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
     ) {

@@ -30,12 +30,12 @@ import team.duckie.quackquack.ui.textstyle.QuackTextStyle
  */
 @Composable
 @NonRestartableComposable
-fun QuackHeadLine1(
+public fun QuackHeadLine1(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
-) = QuackText(
+): Unit = QuackText(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
@@ -56,12 +56,12 @@ fun QuackHeadLine1(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-fun QuackHeadLine2(
+public fun QuackHeadLine2(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
-) = QuackText(
+): Unit = QuackText(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
@@ -82,12 +82,12 @@ fun QuackHeadLine2(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-fun QuackTitle1(
+public fun QuackTitle1(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
-) = QuackText(
+): Unit = QuackText(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
@@ -108,12 +108,12 @@ fun QuackTitle1(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-fun QuackTitle2(
+public fun QuackTitle2(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
-) = QuackText(
+): Unit = QuackText(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
@@ -134,12 +134,12 @@ fun QuackTitle2(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-fun QuackSubtitle(
+public fun QuackSubtitle(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
-) = QuackText(
+): Unit = QuackText(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
@@ -160,12 +160,12 @@ fun QuackSubtitle(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-fun QuackBody1(
+public fun QuackBody1(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
-) = QuackText(
+): Unit = QuackText(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
@@ -186,12 +186,12 @@ fun QuackBody1(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-fun QuackBody2(
+public fun QuackBody2(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
-) = QuackText(
+): Unit = QuackText(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
@@ -212,12 +212,12 @@ fun QuackBody2(
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
-fun QuackBody3(
+public fun QuackBody3(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
-) = QuackText(
+): Unit = QuackText(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
