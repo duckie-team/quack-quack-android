@@ -11,8 +11,8 @@ import com.google.testing.junit.testparameterinjector.TestParameter
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.wrapper.NamedValue
 
-class NullableQuackIconProvider : TestParameter.TestParameterValuesProvider {
-    override fun provideValues() = listOf(
+public class NullableQuackIconProvider : TestParameter.TestParameterValuesProvider {
+    override fun provideValues(): List<NamedValue<out QuackIcon?>> = listOf(
         NamedValue(
             value = null,
             name = "none",

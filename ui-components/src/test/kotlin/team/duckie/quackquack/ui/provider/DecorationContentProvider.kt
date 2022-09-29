@@ -14,28 +14,29 @@ import team.duckie.quackquack.ui.component.QuackImage
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.wrapper.NamedValue
 
-class DecorationContentProvider : TestParameter.TestParameterValuesProvider {
-    override fun provideValues() = listOf<NamedValue<(@Composable () -> Unit)?>>(
-        NamedValue(
-            value = null,
-            name = "none",
-        ),
-        NamedValue(
-            value = {
-                QuackImage(
-                    src = QuackIcon.FilledHeart,
-                )
-            },
-            name = "icon",
-        ),
-        NamedValue(
-            value = {
-                QuackBody1(
-                    text = "LongDecorationContent",
-                )
-            },
-            name = "long-text",
-        ),
-    )
+public class DecorationContentProvider : TestParameter.TestParameterValuesProvider {
+    override fun provideValues(): List<NamedValue<@Composable() (() -> Unit)?>> =
+        listOf(
+            NamedValue(
+                value = null,
+                name = "none",
+            ),
+            NamedValue(
+                value = {
+                    QuackImage(
+                        src = QuackIcon.FilledHeart,
+                    )
+                },
+                name = "icon",
+            ),
+            NamedValue(
+                value = {
+                    QuackBody1(
+                        text = "LongDecorationContent",
+                    )
+                },
+                name = "long-text",
+            ),
+        )
 }
 
