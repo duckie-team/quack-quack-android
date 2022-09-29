@@ -25,7 +25,7 @@ import androidx.compose.runtime.setValue
  * Playground 에서 [QuackAnimationMillis] 편집 후 기본값으로 되돌리고
  * 싶을 때 기본값을 참조하기 위해 public 으로 설정함
  */
-const val QuackDefaultAnimationMillis = 250
+public const val QuackDefaultAnimationMillis: Int = 250
 
 /**
  * 덕키에서 사용할 애니메이션의 지속 시간
@@ -36,7 +36,7 @@ const val QuackDefaultAnimationMillis = 250
  *
  * Playground 에서 자유로운 지속 시간 편집으로 쉬운 디버깅을 위해 public 으로 설정함
  */
-var QuackAnimationMillis by mutableStateOf(QuackDefaultAnimationMillis)
+public var QuackAnimationMillis: Int by mutableStateOf(QuackDefaultAnimationMillis)
 
 /**
  * [isSnapshotMode] 의 receiver 입니다.
