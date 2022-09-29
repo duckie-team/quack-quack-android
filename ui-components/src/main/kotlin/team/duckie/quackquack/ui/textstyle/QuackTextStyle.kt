@@ -126,7 +126,7 @@ public class QuackTextStyle internal constructor(
         )
 
         @Stable
-        public val Title2: QuackTextStyle  = QuackTextStyle(
+        public val Title2: QuackTextStyle = QuackTextStyle(
             size = 14.sp,
             weight = FontWeight.Bold,
             letterSpacing = 0.sp,
