@@ -118,7 +118,7 @@ private val QuackTagIconTintColor: (
  * @param onClick 태그가 클릭됐을 때 호출되는 람다
  */
 @Composable
-fun QuackTag(
+public fun QuackTag(
     text: String,
     isSelected: Boolean,
     onClick: (() -> Unit)? = null,
@@ -154,7 +154,7 @@ fun QuackTag(
  * @param onClick 태그가 클릭됐을 때 호출되는 람다
  */
 @Composable
-fun QuackGrayscaleTag(
+public fun QuackGrayscaleTag(
     text: String,
     trailingText: String = "",
     onClick: (() -> Unit)? = null,
@@ -205,7 +205,7 @@ fun QuackGrayscaleTag(
  * @param onClickIcon 태그의 아이콘이 클릭됐을 때 호출되는 람다
  */
 @Composable
-fun QuackIconTag(
+public fun QuackIconTag(
     text: String,
     icon: QuackIcon,
     isSelected: Boolean,
@@ -273,7 +273,7 @@ private typealias ImmutableQuackTagItemButMutable = List<Boolean>
  * @see ImmutableQuackTagItemButMutable
  */
 @Composable
-fun QuackRowTag(
+public fun QuackRowTag(
     title: String = "",
     items: PersistentList<String>,
     itemsSelection: ImmutableQuackTagItemButMutable,
