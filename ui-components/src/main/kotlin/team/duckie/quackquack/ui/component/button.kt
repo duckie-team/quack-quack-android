@@ -91,12 +91,12 @@ private fun quackButtonStandardBackgroundColorFor(enabled: Boolean) = when (enab
  */
 @Composable
 @NonRestartableComposable
-fun QuackLargeButton(
+public fun QuackLargeButton(
     text: String,
     active: Boolean = true,
     // TODO: imeAnimation: Boolean = false,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     // TODO: imeAnimation; modifier = Modifier,
     width = QuackWidth.Fill,
     shape = QuackLargeButtonShape,
@@ -153,10 +153,10 @@ public fun QuackLargeWhiteButton(
  */
 @Composable
 @NonRestartableComposable
-fun QuackLarge40WhiteButton(
+public fun QuackLarge40WhiteButton(
     text: String,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     width = QuackWidth.Fill,
     shape = QuackLargeButtonShape,
     text = text,
@@ -181,11 +181,11 @@ fun QuackLarge40WhiteButton(
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
 @Composable
-fun QuackMediumBorderToggleButton(
+public fun QuackMediumBorderToggleButton(
     text: String,
     selected: Boolean,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     shape = QuackMediumButtonShape,
     text = text,
     textStyle = QuackTextStyle.Body1.change(
@@ -219,11 +219,11 @@ fun QuackMediumBorderToggleButton(
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
 @Composable
-fun QuackSmallButton(
+public fun QuackSmallButton(
     text: String,
     enabled: Boolean,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     shape = QuackSmallButtonShape,
     text = text,
     textStyle = QuackTextStyle.Body1.change(
@@ -250,11 +250,11 @@ fun QuackSmallButton(
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
 @Composable
-fun QuackSmallBorderToggleButton(
+public fun QuackSmallBorderToggleButton(
     text: String,
     selected: Boolean,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     shape = QuackSmallButtonShape,
     text = text,
     textStyle = QuackTextStyle.Body1.change(
@@ -290,11 +290,11 @@ fun QuackSmallBorderToggleButton(
  * @param onClick chip 클릭 시 호출될 콜백
  */
 @Composable
-fun QuackToggleChip(
+public fun QuackToggleChip(
     text: String,
     selected: Boolean,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     shape = QuackChipShape,
     text = text,
     textStyle = QuackTextStyle.Body2.change(
@@ -371,7 +371,7 @@ private fun QuackBasicButton(
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor = QuackColor.Unspecified,
     onClick: () -> Unit,
-) {
+): Unit {
     QuackSurface(
         modifier = Modifier
             .applyQuackSize(
