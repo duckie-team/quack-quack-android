@@ -18,13 +18,13 @@ import team.duckie.quackquack.ui.util.runIf
 private const val Empty = ""
 private const val ByeWorld = "bye world"
 
-class RunIfTest {
+public class RunIfTest {
     private class StringWrapper {
         var value = Empty
     }
 
     @Test
-    fun `string changed`() {
+    public fun `string changed`() {
         val string = StringWrapper()
         string.runIf(string.value == Empty) {
             value = ByeWorld
@@ -34,7 +34,7 @@ class RunIfTest {
     }
 
     @Test
-    fun `string not changed`() {
+    public fun `string not changed`() {
         val string = StringWrapper()
         string.runIf(string.value == ByeWorld) {
             value = Empty
