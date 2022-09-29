@@ -24,6 +24,7 @@ import team.duckie.quackquack.ui.component.QuackCardImageRow
 import team.duckie.quackquack.ui.component.QuackSelectableCardImage
 import team.duckie.quackquack.ui.icon.QuackIcon
 
+private val imageUrl = "https://picsum.photos/id/237/200/300"
 class CardPlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
@@ -50,7 +51,7 @@ class CardPlayground : BaseActivity() {
 @Composable
 fun QuackCardImageDemo() {
     QuackCardImage(
-        image = "https://picsum.photos/id/237/200/300",
+        image = imageUrl,
         size = 150.dp,
         cornerIcon = QuackIcon.ImageEdit,
     )
@@ -65,22 +66,22 @@ fun QuackCardImageRowDemo() {
     ) {
         QuackCardImageRow(
             images = persistentListOf(
-                "https://picsum.photos/id/237/200/300",
+                imageUrl,
             ),
             cornerIcon = QuackIcon.ImageEdit,
         )
         QuackCardImageRow(
             images = persistentListOf(
-                "https://picsum.photos/id/237/200/300",
-                "https://picsum.photos/id/237/200/300",
+                imageUrl,
+                imageUrl,
             ),
             cornerIcon = QuackIcon.ImageEdit,
         )
         QuackCardImageRow(
             images = persistentListOf(
-                "https://picsum.photos/id/237/200/300",
-                "https://picsum.photos/id/237/200/300",
-                "https://picsum.photos/id/237/200/300",
+                imageUrl,
+                imageUrl,
+                imageUrl,
             ),
             cornerIcon = QuackIcon.ImageEdit,
         )
@@ -93,7 +94,7 @@ fun QuackCheckableCardImageDemo(){
     val isSelected = remember { mutableStateOf(false)}
     QuackSelectableCardImage(
         checked = isSelected.value,
-        image = "https://picsum.photos/id/237/200/300",
+        image = imageUrl,
         onClick = {
             isSelected.value = !isSelected.value
         },
