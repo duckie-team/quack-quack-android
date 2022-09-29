@@ -62,9 +62,9 @@ private val QuackIconTextSpacing = 4.dp
 
 // TODO: KDoc 필요
 @Immutable
-class QuackDialogMenuItem(
-    val icon: QuackIcon,
-    val text: String,
+public class QuackDialogMenuItem(
+    public val icon: QuackIcon,
+    public val text: String,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -100,7 +100,7 @@ class QuackDialogMenuItem(
  * @see QuackDialogMenuItem
  */
 @Composable
-fun QuackMenuFloatingActionButton(
+public fun QuackMenuFloatingActionButton(
     expanded: Boolean,
     onClickButton: () -> Unit,
     onDismissRequest: () -> Unit,
@@ -327,7 +327,7 @@ internal fun QuackDialogMenuContent(
  */
 @Composable
 @NonRestartableComposable
-fun QuackFloatingActionButton(
+public fun QuackFloatingActionButton(
     icon: QuackIcon,
     onClick: () -> Unit,
 ) {
