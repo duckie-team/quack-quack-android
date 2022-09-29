@@ -57,7 +57,7 @@ public sealed class QuackWidth {
      * @param width width 로 지정할 사이즈
      */
     @Immutable
-    public class Custom(private val width: Dp) : QuackWidth()
+    public class Custom(public val width: Dp) : QuackWidth()
 }
 
 /**
@@ -99,5 +99,5 @@ public sealed class QuackHeight {
      * @param height height 로 지정할 사이즈
      */
     @Immutable
-    public class Custom(private val height: Dp) : QuackHeight()
+    public class Custom(public val height: Dp) : QuackHeight()
 }
