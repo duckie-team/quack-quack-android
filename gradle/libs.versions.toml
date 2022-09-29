@@ -12,7 +12,7 @@ gradle-maven-publish = "0.22.0"
 
 # build
 gradle = "8.0.0-alpha02"
-kotlin-core = "1.7.10"
+kotlin-core = "1.7.20"
 kotlin-metadata = "0.5.0"
 oss-license-plugin = "0.10.5"
 
