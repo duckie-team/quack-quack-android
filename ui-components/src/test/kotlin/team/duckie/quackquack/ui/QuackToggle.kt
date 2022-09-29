@@ -14,11 +14,13 @@
 
 package team.duckie.quackquack.ui
 
+import app.cash.paparazzi.Paparazzi
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestWatcher
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.rule.AnimationTestRule
@@ -31,17 +33,17 @@ import team.duckie.quackquack.ui.util.buildPaparazzi
     """,
 )
 @RunWith(TestParameterInjector::class)
-class QuackToggle {
+public class QuackToggle {
     @get:Rule
-    val paparazzi = buildPaparazzi {
+    public val paparazzi: Paparazzi = buildPaparazzi {
         screenWidth *= 2
     }
 
     @get:Rule
-    val animationTest = AnimationTestRule()
+    public val animationTest: TestWatcher = AnimationTestRule()
 
     @Test
-    fun QuackRoundCheckBox(
+    public fun QuackRoundCheckBox(
         @TestParameter checked: Boolean,
     ) {
         paparazzi.boxSnapshot(
@@ -55,7 +57,7 @@ class QuackToggle {
     }
 
     @Test
-    fun QuackSquareCheckBox(
+    public fun QuackSquareCheckBox(
         @TestParameter checked: Boolean,
     ) {
         paparazzi.boxSnapshot(
@@ -69,7 +71,7 @@ class QuackToggle {
     }
 
     @Test
-    fun QuackIconToggle(
+    public fun QuackIconToggle(
         @TestParameter checked: Boolean,
     ) {
         paparazzi.boxSnapshot(
@@ -85,7 +87,7 @@ class QuackToggle {
     }
 
     @Test
-    fun QuackIconTextToggle(
+    public fun QuackIconTextToggle(
         @TestParameter checked: Boolean,
         @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
     ) {
