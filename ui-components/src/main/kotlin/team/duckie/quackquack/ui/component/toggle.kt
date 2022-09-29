@@ -73,10 +73,10 @@ private val QuackRectangleCheckShape = RoundedCornerShape(
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
-fun QuackRoundCheckBox(
+public fun QuackRoundCheckBox(
     checked: Boolean,
     onToggle: () -> Unit,
-) = QuackSurface(
+): Unit = QuackSurface(
     modifier = Modifier.size(
         size = RoundCheckboxSize,
     ),
@@ -104,10 +104,10 @@ fun QuackRoundCheckBox(
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
-fun QuackSquareCheckBox(
+public fun QuackSquareCheckBox(
     checked: Boolean,
     onToggle: () -> Unit,
-) = QuackSurface(
+): Unit = QuackSurface(
     modifier = Modifier.size(
         size = SquareCheckboxSize,
     ),
@@ -139,13 +139,13 @@ fun QuackSquareCheckBox(
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
-fun QuackIconTextToggle(
+public fun QuackIconTextToggle(
     checkedIcon: QuackIcon?,
     uncheckedIcon: QuackIcon,
     checked: Boolean,
     text: String,
     onToggle: () -> Unit,
-) {
+): Unit {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
@@ -175,12 +175,12 @@ fun QuackIconTextToggle(
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
-fun QuackIconToggle(
+public fun QuackIconToggle(
     checkedIcon: QuackIcon?,
     unCheckedIcon: QuackIcon,
     checked: Boolean,
     onToggle: () -> Unit,
-) = QuackBasicIconToggle(
+): Unit = QuackBasicIconToggle(
     checkedIcon = checkedIcon,
     uncheckedIcon = unCheckedIcon,
     checked = checked,
@@ -266,6 +266,7 @@ private fun Check(
                 targetState == ToggleableState.Off -> snap(
                     delayMillis = BoxOutDuration,
                 )
+
                 else -> quackAnimationSpec()
             }
         },
