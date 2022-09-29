@@ -13,12 +13,14 @@
 
 package team.duckie.quackquack.ui
 
+import app.cash.paparazzi.Paparazzi
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestWatcher
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.rule.AnimationTestRule
 import team.duckie.quackquack.ui.util.boxSnapshot
@@ -30,15 +32,15 @@ import team.duckie.quackquack.ui.util.buildPaparazzi
     """,
 )
 @RunWith(TestParameterInjector::class)
-class QuackTab {
+public class QuackTab {
     @get:Rule
-    val paparazzi = buildPaparazzi()
+    public val paparazzi: Paparazzi = buildPaparazzi()
 
     @get:Rule
-    val animationTest = AnimationTestRule()
+    public val animationTest: TestWatcher = AnimationTestRule()
 
     @Test
-    fun QuackMainTab(
+    public fun QuackMainTab(
         @TestParameter("0", "1", "2") selectedTabIndex: Int,
         @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
     ) {
@@ -59,7 +61,7 @@ class QuackTab {
     }
 
     @Test
-    fun QuackSubTab(
+    public fun QuackSubTab(
         @TestParameter("0", "1", "2") selectedTabIndex: Int,
         @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
     ) {
