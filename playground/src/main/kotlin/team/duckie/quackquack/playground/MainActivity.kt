@@ -42,6 +42,7 @@ private val PlaygroundActivities = persistentListOf(
     FabPlayground::class,
     TogglePlayground::class,
     TypoPlayground::class,
+    CardPlayground::class,
 )
 
 class MainActivity : BaseActivity() {
