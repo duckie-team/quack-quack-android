@@ -203,7 +203,7 @@ private object QuackTextFieldColors {
  * @param keyboardActions Keyboard actions in QuackTextField
  */
 @Composable
-fun QuackTextField(
+public fun QuackTextField(
     width: QuackWidth = QuackWidth.Fill,
     height: QuackHeight = QuackHeight.Wrap,
     text: String,
