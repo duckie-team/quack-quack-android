@@ -26,7 +26,7 @@ import team.duckie.quackquack.ui.R
 @Immutable
 @JvmInline
 public value class QuackIcon private constructor(
-    @DrawableRes private val drawableId: Int,
+    @DrawableRes public val drawableId: Int,
 ) {
     public companion object {
         @Stable
