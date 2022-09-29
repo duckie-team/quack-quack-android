@@ -371,7 +371,7 @@ private fun QuackBasicButton(
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor = QuackColor.Unspecified,
     onClick: () -> Unit,
-): Unit {
+) {
     QuackSurface(
         modifier = Modifier
             .applyQuackSize(

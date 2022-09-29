@@ -145,7 +145,7 @@ public fun QuackIconTextToggle(
     checked: Boolean,
     text: String,
     onToggle: () -> Unit,
-): Unit {
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
