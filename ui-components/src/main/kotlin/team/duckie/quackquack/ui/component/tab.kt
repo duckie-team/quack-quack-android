@@ -106,7 +106,7 @@ private val QuackSubTabSpacedBy = 2.dp
  * 인자로는 선택된 탭의 index 가 들어옵니다.
  */
 @Composable
-fun QuackMainTab(
+public fun QuackMainTab(
     titles: PersistentList<String>,
     tabStartHorizontalPadding: Dp = 16.dp,
     selectedTabIndex: Int,
@@ -408,7 +408,7 @@ private fun Modifier.drawQuackTabSelectedUnderBar(
  * 인자로는 선택된 탭의 index 가 들어옵니다.
  */
 @Composable
-fun QuackSubTab(
+public fun QuackSubTab(
     titles: PersistentList<String>,
     tabStartHorizontalPadding: Dp = 16.dp,
     selectedTabIndex: Int,
