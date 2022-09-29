@@ -7,9 +7,9 @@
 
 package team.duckie.quackquack.ui.wrapper
 
-class NamedValue<T>(
-    val value: T,
+public class NamedValue<T>(
+    public val value: T,
     private val name: String,
 ) {
-    override fun toString() = name
+    override fun toString(): String = name
 }
