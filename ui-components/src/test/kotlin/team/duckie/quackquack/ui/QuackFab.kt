@@ -14,12 +14,14 @@
 
 package team.duckie.quackquack.ui
 
+import app.cash.paparazzi.Paparazzi
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestWatcher
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.component.QuackDialogMenuItem
 import team.duckie.quackquack.ui.icon.QuackIcon
@@ -33,17 +35,17 @@ import team.duckie.quackquack.ui.util.buildPaparazzi
     """,
 )
 @RunWith(TestParameterInjector::class)
-class QuackFab {
+public class QuackFab {
     @get:Rule
-    val paparazzi = buildPaparazzi {
+    public val paparazzi: Paparazzi = buildPaparazzi {
         screenHeight = 500
     }
 
     @get:Rule
-    val animationTest = AnimationTestRule()
+    public val animationTest: TestWatcher = AnimationTestRule()
 
     @Test
-    fun QuackFloatingActionButton(
+    public fun QuackFloatingActionButton(
         @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
     ) {
         paparazzi.boxSnapshot(
@@ -58,7 +60,7 @@ class QuackFab {
     }
 
     @Test
-    fun QuackMenuFloatingActionButton(
+    public fun QuackMenuFloatingActionButton(
         @TestParameter expanded: Boolean,
         @TestParameter("0.5", "1.0", "1.5", "2.0") fontScale: Double,
     ) {
