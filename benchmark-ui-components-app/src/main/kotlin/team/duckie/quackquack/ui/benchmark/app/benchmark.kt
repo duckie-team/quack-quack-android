@@ -147,7 +147,7 @@ inline fun QuackFabBenchmark() {
 }
 
 @Composable
-inline fun QuackImageBenchMark() {
+inline fun QuackImageBenchmark() {
     QuackImage(
         src = null,
         overrideSize = DpSize.Zero,
@@ -158,16 +158,16 @@ inline fun QuackImageBenchMark() {
 }
 
 @Composable
-inline fun QuackTabBenchMark() {
+inline fun QuackTabBenchmark() {
     QuackMainTab(
-        titles = persistentListOf(""),
+        titles = persistentListOf(),
         tabStartHorizontalPadding = 0.dp,
         selectedTabIndex = 0,
         onTabSelected = {},
     )
 
     QuackSubTab(
-        titles = persistentListOf(""),
+        titles = persistentListOf(),
         tabStartHorizontalPadding = 0.dp,
         selectedTabIndex = 0,
         onTabSelected = {},
@@ -175,7 +175,7 @@ inline fun QuackTabBenchMark() {
 }
 
 @Composable
-inline fun QuackTagBenchMark() {
+inline fun QuackTagBenchmark() {
     QuackGrayscaleTag(
         text = "",
         trailingText = "",
@@ -192,8 +192,8 @@ inline fun QuackTagBenchMark() {
 
     QuackRowTag(
         title = "",
-        items = persistentListOf(""),
-        itemsSelection = listOf(true),
+        items = persistentListOf(),
+        itemsSelection = emptyList(),
         onClick = {},
     )
 
@@ -205,7 +205,7 @@ inline fun QuackTagBenchMark() {
 }
 
 @Composable
-inline fun QuackTextFieldBenchMark() {
+inline fun QuackTextFieldBenchmark() {
     QuackTextField(
         width = QuackWidth.Wrap,
         height = QuackHeight.Wrap,
@@ -224,7 +224,7 @@ inline fun QuackTextFieldBenchMark() {
 }
 
 @Composable
-inline fun QuackToggleBenchMark() {
+inline fun QuackToggleBenchmark() {
     QuackIconTextToggle(
         checkedIcon = QuackIcon.Area,
         uncheckedIcon = QuackIcon.Area,
@@ -252,7 +252,7 @@ inline fun QuackToggleBenchMark() {
 }
 
 @Composable
-inline fun QuackTypographyBenchMark() {
+inline fun QuackTypographyBenchmark() {
     QuackBody1(
         text = "",
         color = QuackColor.Black,
@@ -311,25 +311,25 @@ inline fun QuackTypographyBenchMark() {
 }
 
 @Composable
-inline fun QuackHeightBenchMark() {
+inline fun QuackHeightBenchmark() {
     QuackHeight.Wrap
     QuackHeight.Custom(
-        height = 0.dp
+        height = 0.dp,
     )
     QuackHeight.Fill
 }
 
 @Composable
-inline fun QuackWidthBenchMark() {
+inline fun QuackWidthBenchmark() {
     QuackWidth.Wrap
     QuackWidth.Custom(
-        width = 0.dp
+        width = 0.dp,
     )
     QuackWidth.Fill
 }
 
 @Composable
-inline fun QuackIconBenchMark() {
+inline fun QuackIconBenchmark() {
     QuackIcon.Area
     QuackIcon.ArrowBack
     QuackIcon.ArrowDown
@@ -368,7 +368,7 @@ inline fun QuackIconBenchMark() {
 }
 
 @Composable
-inline fun QuackTextStyleBenchMark() {
+inline fun QuackTextStyleBenchmark() {
     QuackTextStyle.Body1
     QuackTextStyle.Body2
     QuackTextStyle.Body3
