@@ -160,14 +160,18 @@ inline fun QuackImageBenchmark() {
 @Composable
 inline fun QuackTabBenchmark() {
     QuackMainTab(
-        titles = persistentListOf(),
+        titles = persistentListOf(
+            "",
+        ),
         tabStartHorizontalPadding = 0.dp,
         selectedTabIndex = 0,
         onTabSelected = {},
     )
 
     QuackSubTab(
-        titles = persistentListOf(),
+        titles = persistentListOf(
+            "",
+        ),
         tabStartHorizontalPadding = 0.dp,
         selectedTabIndex = 0,
         onTabSelected = {},
