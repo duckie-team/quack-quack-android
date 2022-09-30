@@ -103,9 +103,9 @@ class TrailingCommaDetector : Detector(), SourceCodeScanner {
                 val argumentNode = argument.sourcePsi?.node
                 val argumentTreeParent = argumentNode?.treeParent ?: return
 
-                val lastParameterNextSibling = if (argument is KotlinStringULiteralExpression) {
+                val lastParameterNextSibling = (if (argument is KotlinStringULiteralExpression) {
                     argumentTreeParent.treeParent.psi.nextSibling
-                } else argumentTreeParent.psi.nextSibling ?: return
+                } else argumentTreeParent.psi.nextSibling) ?: return
 
                 if (!lastParameterNextSibling.textContains(',')) {
                     context.report(
