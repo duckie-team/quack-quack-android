@@ -79,7 +79,7 @@ public class QuackTextStyle internal constructor(
     public val textAlign: TextAlign = TextAlign.Center,
 ) {
     @Stable
-    private val suit = FontFamily(Font(R.font.suit_variable))
+    private val suit = FontFamily(Font(R.font.quack_suit_variable))
 
     /**
      * [QuackTextStyle] 을 컴포즈 Text 컴포넌트에 사용하기 위해

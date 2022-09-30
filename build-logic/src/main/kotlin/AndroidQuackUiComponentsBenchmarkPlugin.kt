@@ -37,7 +37,9 @@ internal class AndroidQuackUiComponentsBenchmarkPlugin : Plugin<Project> {
             )
 
             extensions.configure<TestExtension> {
-                configureApplication(this)
+                configureApplication(
+                    extension = this,
+                )
 
                 defaultConfig {
                     targetSdk = ApplicationConstants.targetSdk

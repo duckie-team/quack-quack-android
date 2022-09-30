@@ -5,12 +5,19 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
+/*
+ * Designed and developed by 2022 SungbinLand, Team Duckie
+ *
+ * Licensed under the MIT.
+ * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ */
+
 @file:Suppress(
     "KDocFields",
     "PackageNaming",
 )
 
-package team.duckie.quackquack.ui.util_test
+package team.duckie.quackquack.ui
 
 import org.junit.Test
 import team.duckie.quackquack.ui.util.runIf
