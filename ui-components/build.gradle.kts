@@ -37,12 +37,12 @@ dependencies {
         libs.kotlin.collections.immutable,
     )
     implementations(
-        projects.lintCore,
-        projects.lintCompose,
         libs.compose.material,
         libs.compose.glide,
         libs.compose.flowlayout,
     )
+    lintChecks(projects.lintCore)
+    lintChecks(projects.lintCompose)
     // testImplementations(libs.test.parameter.injector)
 }
 
