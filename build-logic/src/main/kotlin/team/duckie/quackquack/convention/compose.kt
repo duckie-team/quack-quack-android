@@ -15,10 +15,12 @@ import org.gradle.api.Project
 /**
  * Jetpack Compose 를 사용하기 위한 그레이들 환경을 설정합니다.
  *
- * @param commonExtension 설정할 그레이들의 [CommonExtension]
+ * @param extension 설정할 그레이들의 [CommonExtension]
  */
-internal fun Project.configureCompose(commonExtension: CommonExtension<*, *, *, *>) {
-    commonExtension.apply {
+internal fun Project.configureCompose(
+    extension: CommonExtension<*, *, *, *>,
+) {
+    extension.apply {
         buildFeatures {
             compose = true
         }
