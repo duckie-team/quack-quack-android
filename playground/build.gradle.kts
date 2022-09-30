@@ -35,6 +35,11 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
 
+        create("benchmark") {
+            signingConfig = signingConfigs.getByName("release")
+            isDebuggable = false
+        }
+
         sourceSets.getByName("debug") {
             kotlin.srcDir("build/generated/ksp/debug/kotlin")
         }
