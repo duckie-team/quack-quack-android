@@ -21,7 +21,9 @@ import team.duckie.quackquack.convention.libs
 internal class JvmDokkaPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
-            applyPlugins(libs.findPlugin("dokka").get().get().pluginId)
+            applyPlugins(
+                libs.findPlugin("dokka").get().get().pluginId,
+            )
 
             tasks.withType<DokkaTaskPartial> {
                 suppressInheritedMembers.set(true)

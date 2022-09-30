@@ -41,8 +41,12 @@ internal class AndroidCommonLintPlugin : Plugin<Project> {
             }
 
             dependencies {
-                apis(libs.findLibrary("kotlin-metadata").get())
-                compileOnlys(libs.findLibrary("kotlin-stdlib").get())
+                apis(
+                    libs.findLibrary("kotlin-metadata").get(),
+                )
+                compileOnlys(
+                    libs.findLibrary("kotlin-stdlib").get(),
+                )
                 setupJunit(
                     core = libs.findLibrary("test-junit-core").get(),
                     engine = libs.findLibrary("test-junit-engine").get(),

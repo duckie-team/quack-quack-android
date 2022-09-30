@@ -19,7 +19,9 @@ import team.duckie.quackquack.convention.setupJunit
 internal class JvmKoverPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
-            applyPlugins(libs.findPlugin("kover").get().get().pluginId)
+            applyPlugins(
+                libs.findPlugin("kover").get().get().pluginId,
+            )
             dependencies {
                 setupJunit(
                     core = libs.findLibrary("test-junit-core").get(),

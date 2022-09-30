@@ -34,23 +34,10 @@ android {
         release {
             signingConfig = signingConfigs.getByName("release")
         }
-
-        create("benchmark") {
-            signingConfig = signingConfigs.getByName("release")
-            isDebuggable = false
-        }
-
-        sourceSets.getByName("debug") {
-            kotlin.srcDir("build/generated/ksp/debug/kotlin")
-        }
-        sourceSets.getByName("release") {
-            kotlin.srcDir("build/generated/ksp/release/kotlin")
-        }
     }
 
     lint {
         disable.apply {
-            add("NotificationPermission")
             // 플레이그라운드용 데모 컴포저블에 주석을 필수로 명시하는건 너무 과함
             add("KDocFields")
         }

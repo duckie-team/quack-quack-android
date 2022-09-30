@@ -19,22 +19,13 @@ plugins {
     id(ConventionEnum.AndroidQuackPublish)
     id(ConventionEnum.JvmKover)
     id(ConventionEnum.JvmDokka)
-    alias(libs.plugins.paparazzi)
+    // alias(libs.plugins.paparazzi)
     alias(libs.plugins.kotlin.api.validation)
 }
 
 android {
     namespace = "team.duckie.quackquack.ui"
     resourcePrefix = "quack_"
-
-    buildTypes {
-        sourceSets.getByName("debug") {
-            kotlin.srcDir("build/generated/ksp/debug/kotlin")
-        }
-        sourceSets.getByName("release") {
-            kotlin.srcDir("build/generated/ksp/release/kotlin")
-        }
-    }
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + "-Xexplicit-api=strict"
@@ -46,13 +37,13 @@ dependencies {
         libs.kotlin.collections.immutable,
     )
     implementations(
-        projects.lintCorePublish,
-        projects.lintComposePublish,
+        projects.lintCore,
+        projects.lintCompose,
         libs.compose.material,
         libs.compose.glide,
         libs.compose.flowlayout,
     )
-    testImplementation(libs.test.parameter.injector)
+    // testImplementations(libs.test.parameter.injector)
 }
 
 quackArtifactPublish {

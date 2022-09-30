@@ -30,12 +30,21 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
             )
 
             extensions.configure<BaseAppModuleExtension> {
-                configureApplication(this)
+                configureApplication(
+                    extension = this,
+                )
 
                 defaultConfig {
                     targetSdk = ApplicationConstants.targetSdk
                     versionCode = ApplicationConstants.versionCode
                     versionName = ApplicationConstants.versionName
+                }
+
+                buildTypes {
+                    create("benchmark") {
+                        signingConfig = getByName("debug").signingConfig
+                        matchingFallbacks += listOf("release")
+                    }
                 }
             }
         }
