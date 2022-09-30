@@ -20,11 +20,12 @@ plugins {
     id(ConventionEnum.JvmKover)
     id(ConventionEnum.JvmDokka)
     alias(libs.plugins.paparazzi)
+    alias(libs.plugins.kotlin.api.validation)
 }
 
-// TODO: resourcePrefix
 android {
     namespace = "team.duckie.quackquack.ui"
+    resourcePrefix = "quack_"
 
     buildTypes {
         sourceSets.getByName("debug") {

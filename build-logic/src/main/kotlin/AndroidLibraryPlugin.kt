@@ -36,6 +36,13 @@ internal class AndroidLibraryPlugin : Plugin<Project> {
                     buildConfig = false
                 }
 
+                buildTypes {
+                    create("benchmark") {
+                        signingConfig = getByName("debug").signingConfig
+                        matchingFallbacks += listOf("release")
+                    }
+                }
+
                 defaultConfig.targetSdk = ApplicationConstants.targetSdk
             }
         }

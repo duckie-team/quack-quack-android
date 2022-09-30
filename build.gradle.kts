@@ -7,13 +7,13 @@
 
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.TimeZone
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.TimeZone
 
 plugins {
     alias(libs.plugins.detekt)
