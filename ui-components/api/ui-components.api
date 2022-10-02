@@ -42,28 +42,26 @@ public final class team/duckie/quackquack/ui/component/ButtonKt {
 	public static final fun QuackToggleChip (Ljava/lang/String;ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 }
 
-public final class team/duckie/quackquack/ui/component/ComposableSingletons$ButtonKt {
-	public static final field INSTANCE Lteam/duckie/quackquack/ui/component/ComposableSingletons$ButtonKt;
-	public static field lambda-1 Lkotlin/jvm/functions/Function4;
-	public fun <init> ()V
-	public final fun getLambda-1$ui_components_release ()Lkotlin/jvm/functions/Function4;
-}
-
 public final class team/duckie/quackquack/ui/component/FabKt {
-	public static final fun QuackFloatingActionButton-SHPQz2U (ILkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
-	public static final fun QuackMenuFloatingActionButton (ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlinx/collections/immutable/PersistentList;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)V
+	public static final fun QuackFab-SHPQz2U (ILkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
+	public static final fun QuackMenuFab (Lkotlinx/collections/immutable/PersistentList;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
 }
 
 public final class team/duckie/quackquack/ui/component/ImageKt {
 	public static final fun QuackImage-vg9M6Qc (Ljava/lang/Object;Landroidx/compose/ui/unit/DpSize;Lteam/duckie/quackquack/ui/color/QuackColor;ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class team/duckie/quackquack/ui/component/QuackDialogMenuItem {
+public final class team/duckie/quackquack/ui/component/QuackMenuFabItem {
 	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-oyUPibY ()I
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy-DQreGJE (ILjava/lang/String;)Lteam/duckie/quackquack/ui/component/QuackMenuFabItem;
+	public static synthetic fun copy-DQreGJE$default (Lteam/duckie/quackquack/ui/component/QuackMenuFabItem;ILjava/lang/String;ILjava/lang/Object;)Lteam/duckie/quackquack/ui/component/QuackMenuFabItem;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getIcon-oyUPibY ()I
 	public final fun getText ()Ljava/lang/String;
 	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class team/duckie/quackquack/ui/component/TabKt {

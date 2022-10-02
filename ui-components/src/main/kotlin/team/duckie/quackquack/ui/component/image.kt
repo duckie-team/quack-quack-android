@@ -9,11 +9,12 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
+import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 import team.duckie.quackquack.ui.animation.AnimatedContentTransform
@@ -34,7 +35,6 @@ import team.duckie.quackquack.ui.util.runIf
  * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
  */
 @Composable
-@NonRestartableComposable
 public fun QuackImage(
     src: Any?,
     overrideSize: DpSize? = null,
@@ -45,14 +45,9 @@ public fun QuackImage(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
-    ).runIf(
-        condition = overrideSize != null,
-    ) {
-        size(
-            size = overrideSize!!,
-        )
-    },
+    ),
     src = src,
+    overrideSize = overrideSize,
     tint = tint,
 )
 
@@ -63,14 +58,15 @@ public fun QuackImage(
  * @param modifier 이 컴포저블에서 사용할 [Modifier]
  * @param src 표시할 이미지의 값.
  * 만약 null 이 들어온다면 이미지를 그리지 않습니다.
+ * @param overrideSize 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
  * @param tint 아이콘에 적용할 틴트 값
  */
 // TODO: 로딩 effect
 @Composable
-@NonRestartableComposable
 internal fun QuackImageInternal(
     modifier: Modifier = Modifier,
     src: Any?,
+    overrideSize: DpSize? = null,
     tint: QuackColor? = null,
 ) {
     if (src == null) return
@@ -84,11 +80,35 @@ internal fun QuackImageInternal(
             targetValue = tint,
         )
     }
+    val density = LocalDensity.current
     AnimatedContentTransform(
         targetState = imageModel,
     ) { animatedImageModel ->
         GlideImage(
-            modifier = modifier,
+            modifier = modifier.runIf(
+                condition = overrideSize != null,
+            ) {
+              size(
+                  size = overrideSize!!,
+              )
+            },
+            requestOptions = {
+                RequestOptions().runIf(
+                    condition = overrideSize != null,
+                ) {
+                    with(
+                        receiver = density,
+                    ) {
+                        val size = overrideSize!!
+                        override(
+                            /* width = */
+                            size.width.roundToPx(),
+                            /* height = */
+                            size.height.roundToPx(),
+                        )
+                    }
+                }
+            },
             imageModel = animatedImageModel,
             imageOptions = remember(
                 key1 = animatedTint?.value?.composeColor,

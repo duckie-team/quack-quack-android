@@ -27,10 +27,10 @@ class ToastWrapper(context: Context) {
     private val toastInstance = Toast.makeText(_context, "", Toast.LENGTH_SHORT)
 
     operator fun invoke(
-        message: String,
+        message: Any,
         length: Int = Toast.LENGTH_SHORT,
     ) = toastInstance.run {
-        setText(message)
+        setText(message.toString())
         duration = length
         show()
     }

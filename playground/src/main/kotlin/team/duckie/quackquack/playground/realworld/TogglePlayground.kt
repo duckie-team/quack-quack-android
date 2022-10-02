@@ -41,7 +41,7 @@ class TogglePlayground : BaseActivity() {
         setContent {
             PlaygroundTheme {
                 PlaygroundSection(
-                    title = "QuackRoundCheck",
+                    title = "Toggle",
                     items = items,
                 )
             }
@@ -82,7 +82,7 @@ fun QuackIconToggleDemo() {
     }
     QuackIconToggle(
         checkedIcon = QuackIcon.Heart,
-        unCheckedIcon = QuackIcon.FilledHeart,
+        uncheckedIcon = QuackIcon.FilledHeart,
         checked = checked,
         onToggle = {
             checked = !checked

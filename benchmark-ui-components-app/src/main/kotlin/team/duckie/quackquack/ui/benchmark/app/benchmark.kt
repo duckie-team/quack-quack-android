@@ -24,8 +24,7 @@ import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.QuackBody1
 import team.duckie.quackquack.ui.component.QuackBody2
 import team.duckie.quackquack.ui.component.QuackBody3
-import team.duckie.quackquack.ui.component.QuackDialogMenuItem
-import team.duckie.quackquack.ui.component.QuackFloatingActionButton
+import team.duckie.quackquack.ui.component.QuackFab
 import team.duckie.quackquack.ui.component.QuackGrayscaleTag
 import team.duckie.quackquack.ui.component.QuackHeadLine1
 import team.duckie.quackquack.ui.component.QuackHeadLine2
@@ -38,7 +37,8 @@ import team.duckie.quackquack.ui.component.QuackLargeButton
 import team.duckie.quackquack.ui.component.QuackLargeWhiteButton
 import team.duckie.quackquack.ui.component.QuackMainTab
 import team.duckie.quackquack.ui.component.QuackMediumBorderToggleButton
-import team.duckie.quackquack.ui.component.QuackMenuFloatingActionButton
+import team.duckie.quackquack.ui.component.QuackMenuFab
+import team.duckie.quackquack.ui.component.QuackMenuFabItem
 import team.duckie.quackquack.ui.component.QuackRoundCheckBox
 import team.duckie.quackquack.ui.component.QuackRowTag
 import team.duckie.quackquack.ui.component.QuackSmallBorderToggleButton
@@ -122,27 +122,20 @@ inline fun QuackButtonBenchmark() {
 
 @Composable
 inline fun QuackFabBenchmark() {
-    QuackDialogMenuItem(
-        icon = QuackIcon.Area,
-        text = "",
-    )
-
-    QuackFloatingActionButton(
-        icon = QuackIcon.Area,
+    QuackFab(
+        icon = QuackIcon.Heart,
         onClick = {},
     )
-
-    QuackMenuFloatingActionButton(
-        expanded = true,
-        onClickButton = {},
-        onDismissRequest = {},
-        menuItems = persistentListOf(
-            QuackDialogMenuItem(
-                icon = QuackIcon.Feed,
-                text = "",
+    QuackMenuFab(
+        items = persistentListOf(
+            QuackMenuFabItem(
+                icon = QuackIcon.FilledHeart,
+                text = "FilledHeart",
             ),
         ),
-        onClickMenuItem = {},
+        expanded = true,
+        onFabClick = {},
+        onItemClick = { _, _ -> },
     )
 }
 
@@ -239,7 +232,7 @@ inline fun QuackToggleBenchmark() {
 
     QuackIconToggle(
         checkedIcon = QuackIcon.Area,
-        unCheckedIcon = QuackIcon.Area,
+        uncheckedIcon = QuackIcon.Area,
         checked = true,
         onToggle = {},
     )

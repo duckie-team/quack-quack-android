@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlin.math.floor
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.icon.QuackIcon
 
@@ -45,8 +46,8 @@ private const val BoxOutDuration = 100
 
 private val RoundCheckboxSize = 28.dp
 private val SquareCheckboxSize = 24.dp
-private val SmallIconSize = 18.dp
-private val StrokeWidth = 2.dp
+private val IconSize = 24.dp
+private val StrokeWidth = 1.5.dp
 
 private val QuackIconTextToggleSpacing = 4.dp
 
@@ -76,25 +77,33 @@ private val QuackRectangleCheckShape = RoundedCornerShape(
 public fun QuackRoundCheckBox(
     checked: Boolean,
     onToggle: () -> Unit,
-): Unit = QuackSurface(
-    modifier = Modifier.size(
-        size = RoundCheckboxSize,
-    ),
-    shape = QuackRoundCheckShape,
-    backgroundColor = getCheckBoxBackgroundColor(
-        isChecked = checked,
-        uncheckedColor = QuackColor.Black.changeAlpha(
-            alpha = RoundCheckBoxAlpha,
-        ),
-    ),
-    onClick = onToggle,
-    rippleEnabled = false,
 ) {
-    Check(
-        value = ToggleableState(
-            value = checked,
+    QuackSurface(
+        modifier = Modifier.size(
+            size = RoundCheckboxSize,
         ),
-    )
+        shape = QuackRoundCheckShape,
+        backgroundColor = getCheckBoxBackgroundColor(
+            isChecked = checked,
+            uncheckedColor = QuackColor.Black.changeAlpha(
+                alpha = RoundCheckBoxAlpha,
+            ),
+        ),
+        border = QuackBorder(
+            color = getCheckBoxBackgroundColor(
+                isChecked = checked,
+                uncheckedColor = QuackColor.White,
+            ),
+        ),
+        onClick = onToggle,
+        rippleEnabled = false,
+    ) {
+        Check(
+            value = ToggleableState(
+                value = checked,
+            ),
+        )
+    }
 }
 
 /**
@@ -169,20 +178,20 @@ public fun QuackIconTextToggle(
  *
  * [checked] 에 따라 보여지는 아이콘이 달라집니다.
  *
- * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon], null 일 경우 [unCheckedIcon] 으로만 적용
- * @param unCheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
+ * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon], null 일 경우 [uncheckedIcon] 으로만 적용
+ * @param uncheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
  * @param checked 체크되었는지 여부
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
 public fun QuackIconToggle(
     checkedIcon: QuackIcon?,
-    unCheckedIcon: QuackIcon,
+    uncheckedIcon: QuackIcon,
     checked: Boolean,
     onToggle: () -> Unit,
 ): Unit = QuackBasicIconToggle(
     checkedIcon = checkedIcon,
-    uncheckedIcon = unCheckedIcon,
+    uncheckedIcon = uncheckedIcon,
     checked = checked,
     onToggle = onToggle,
 )
@@ -205,8 +214,8 @@ private fun QuackBasicIconToggle(
     onToggle: () -> Unit,
 ) = QuackImage(
     overrideSize = DpSize(
-        width = SmallIconSize,
-        height = SmallIconSize,
+        width = IconSize,
+        height = IconSize,
     ),
     src = when (checkedIcon != null && checked) {
         true -> checkedIcon

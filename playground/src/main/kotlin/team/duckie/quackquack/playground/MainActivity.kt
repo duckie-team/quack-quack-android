@@ -67,16 +67,6 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PlaygroundDemo()
-            /*SingleDemo {
-                QuackTagRowDemo()
-            }*/
-            /*MultiDemo {
-                QuackTextFieldWithNoDecorationDemo()
-                QuackTextFieldWithLeadingDecorationDemo()
-                QuackTextFieldWithTrailingDecorationDemo()
-                QuackTextFieldWithAllDecorationDemo()
-                QuackTextFieldErrorStateDemo()
-            }*/
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
