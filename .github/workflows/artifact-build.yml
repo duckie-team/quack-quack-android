@@ -1,4 +1,4 @@
-name: Artifact Publish
+name: Artifact Build
 
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
@@ -41,16 +41,10 @@ jobs:
         with:
           gradle-home-cache-cleanup: true
 
-      # A "fake" build configuration file can be used for artifacts deploy works.
+      # A "fake" build configuration file can be used for artifacts build works.
       # See: https://github.com/sungbinland/duckie-quack-quack/pull/102#issuecomment-1244937186
       - name: Unzip quackuser-secrets.tar
         run: tar xvf quackuser-secrets.tar
-
-      - name: Unzip secrets.tar
-        run: tar xvf secrets.tar
-
-      - name: Bump artifact version
-        run: tar xvf secrets.tar
 
       - name: Run build (includes ktlint/detekt/test check)
         id: gradle
