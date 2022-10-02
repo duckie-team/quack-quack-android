@@ -12,7 +12,7 @@ jobs:
   artifacts-publish:
     if: ${{
       github.event.pull_request.merged &&
-      contains(github.event.pull_request.labels.*.name, 'deploy') &&
+      contains(github.event.pull_request.labels.*.name, 'publish') &&
       (contains(github.event.pull_request.labels.*.name, 'bump_major') ||
       contains(github.event.pull_request.labels.*.name, 'bump_minor') ||
       contains(github.event.pull_request.labels.*.name, 'bump_patch')
@@ -46,16 +46,10 @@ jobs:
         with:
           gradle-home-cache-cleanup: true
 
-      # A "fake" build configuration file can be used for artifacts deploy works.
+      # A "fake" build configuration file can be used for artifacts publish works.
       # See: https://github.com/sungbinland/duckie-quack-quack/pull/102#issuecomment-1244937186
       - name: Unzip quackuser-secrets.tar
         run: tar xvf quackuser-secrets.tar
-
-      - name: Unzip secrets.tar
-        run: tar xvf secrets.tar
-
-      - name: Bump artifact version
-        run: tar xvf secrets.tar
 
       # [bumpVersion-steps-generator.kt]
       # https://gist.github.com/jisungbin/5cac715eb5133d289f2565c26db9b5e9
