@@ -82,7 +82,7 @@ fun QuackIconToggleDemo() {
     }
     QuackIconToggle(
         checkedIcon = QuackIcon.Heart,
-        unCheckedIcon = QuackIcon.FilledHeart,
+        uncheckedIcon = QuackIcon.FilledHeart,
         checked = checked,
         onToggle = {
             checked = !checked
