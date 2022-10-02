@@ -61,6 +61,7 @@ allprojects {
                 freeCompilerArgs = freeCompilerArgs + listOf(
                     "-opt-in=kotlin.OptIn",
                     "-opt-in=kotlin.RequiresOptIn",
+                    "Xsam-conversions=class", // https://twitter.com/ZacSweers/status/1520399593577582593?s=20&t=cwZyDPyT9HQGGIK1zxkybQ
                 )
                 freeCompilerArgs = freeCompilerArgs + listOf(
                     "-P",
@@ -118,8 +119,15 @@ subprojects {
     }
 }
 
-tasks.register("cleanAll", Delete::class) {
-    allprojects.map { it.buildDir }.forEach(::delete)
+tasks.register(
+    name = "cleanAll",
+    type = Delete::class
+) {
+    allprojects.map { project ->
+        project.buildDir
+    }.forEach(::delete)
 }
 
-apply(from = "gradle/projectDependencyGraph.gradle")
+apply(
+    from = "gradle/projectDependencyGraph.gradle",
+)

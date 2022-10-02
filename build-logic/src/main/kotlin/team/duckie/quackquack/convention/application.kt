@@ -30,6 +30,10 @@ internal fun Project.configureApplication(
             minSdk = ApplicationConstants.minSdk
         }
 
+        buildFeatures {
+            buildConfig = true
+        }
+
         sourceSets {
             getByName("main").java.srcDirs("src/main/kotlin/")
         }

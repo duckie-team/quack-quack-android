@@ -22,6 +22,7 @@ internal fun Project.configureCompose(
 ) {
     extension.apply {
         buildFeatures {
+            buildConfig = true
             compose = true
         }
 
