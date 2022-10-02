@@ -22,9 +22,6 @@ plugins {
 
 koverMerged {
     enable()
-    htmlReport {
-        reportDir.set(file("$rootDir/report/test-coverage"))
-    }
     xmlReport {
         reportFile.set(file("$rootDir/report/test-coverage/report.xml"))
     }
