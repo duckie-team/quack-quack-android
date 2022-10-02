@@ -23,8 +23,11 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.NoLiveLiterals
 import androidx.compose.runtime.Stable
@@ -350,57 +353,66 @@ internal fun QuackBasicTextField(
         ).asComposeStyle()
     }
 
-    BasicTextField(
-        modifier = Modifier
-            .applyQuackSize(
-                width = width,
-                height = height,
-            )
-            .drawUnderBarWithAnimation(
-                width = QuackTextFieldUnderBarHeight,
-                color = QuackTextFieldColors.underBarColor(
-                    isError = isError,
+    CompositionLocalProvider(
+        LocalTextSelectionColors provides TextSelectionColors(
+            handleColor = QuackColor.DuckieOrange.composeColor,
+            backgroundColor = QuackColor.DuckieOrange.changeAlpha(
+                alpha = 0.2f,
+            ).composeColor,
+        ),
+    ) {
+        BasicTextField(
+            modifier = Modifier
+                .applyQuackSize(
+                    width = width,
+                    height = height,
+                )
+                .drawUnderBarWithAnimation(
+                    width = QuackTextFieldUnderBarHeight,
+                    color = QuackTextFieldColors.underBarColor(
+                        isError = isError,
+                    ),
+                )
+                .background(
+                    color = QuackColor.White.composeColor,
+                )
+                .padding(
+                    top = textStyle.calcQuackTextFieldTopPadding(),
+                    bottom = QuackTextFieldBottomPadding,
                 ),
-            )
-            .background(
-                color = QuackColor.White.composeColor,
-            )
-            .padding(
-                top = textStyle.calcQuackTextFieldTopPadding(),
-                bottom = QuackTextFieldBottomPadding,
-            ),
-        value = text,
-        onValueChange = onTextChanged,
-        textStyle = composeTextStyle,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        // TextField is always single line
-        // TextArea is always multi line
-        singleLine = true,
-        cursorBrush = QuackTextFieldColors.QuackTextFieldCursorColor.toBrush(),
-        decorationBox = { textField ->
-            QuackTextFieldDecorationBox(
-                textField = textField,
-                // placeholder is displayed when text is empty
-                placeholderContent = when (isPlaceholder && placeholderText != null) {
-                    true -> {
-                        {
-                            Text(
-                                text = placeholderText,
-                                style = composeTextStyle,
-                                maxLines = 1,
-                                softWrap = false,
-                                overflow = TextOverflow.Ellipsis,
-                            )
+            value = text,
+            onValueChange = onTextChanged,
+            textStyle = composeTextStyle,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            // TextField is always single line
+            // TextArea is always multi line
+            singleLine = true,
+            cursorBrush = QuackTextFieldColors.QuackTextFieldCursorColor.toBrush(),
+            decorationBox = { textField ->
+                QuackTextFieldDecorationBox(
+                    textField = textField,
+                    // placeholder is displayed when text is empty
+                    placeholderContent = when (isPlaceholder && placeholderText != null) {
+                        true -> {
+                            {
+                                Text(
+                                    text = placeholderText,
+                                    style = composeTextStyle,
+                                    maxLines = 1,
+                                    softWrap = false,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                            }
                         }
-                    }
-                    else -> null
-                },
-                leadingContent = leadingContent,
-                trailingContent = trailingContent,
-            )
-        },
-    )
+                        else -> null
+                    },
+                    leadingContent = leadingContent,
+                    trailingContent = trailingContent,
+                )
+            },
+        )
+    }
 }
 
 /**
