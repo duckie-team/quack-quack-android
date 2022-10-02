@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlin.math.floor
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.icon.QuackIcon
 
@@ -76,25 +77,33 @@ private val QuackRectangleCheckShape = RoundedCornerShape(
 public fun QuackRoundCheckBox(
     checked: Boolean,
     onToggle: () -> Unit,
-): Unit = QuackSurface(
-    modifier = Modifier.size(
-        size = RoundCheckboxSize,
-    ),
-    shape = QuackRoundCheckShape,
-    backgroundColor = getCheckBoxBackgroundColor(
-        isChecked = checked,
-        uncheckedColor = QuackColor.Black.changeAlpha(
-            alpha = RoundCheckBoxAlpha,
-        ),
-    ),
-    onClick = onToggle,
-    rippleEnabled = false,
 ) {
-    Check(
-        value = ToggleableState(
-            value = checked,
+    QuackSurface(
+        modifier = Modifier.size(
+            size = RoundCheckboxSize,
         ),
-    )
+        shape = QuackRoundCheckShape,
+        backgroundColor = getCheckBoxBackgroundColor(
+            isChecked = checked,
+            uncheckedColor = QuackColor.Black.changeAlpha(
+                alpha = RoundCheckBoxAlpha,
+            ),
+        ),
+        border = QuackBorder(
+            color = getCheckBoxBackgroundColor(
+                isChecked = checked,
+                uncheckedColor = QuackColor.White,
+            ),
+        ),
+        onClick = onToggle,
+        rippleEnabled = false,
+    ) {
+        Check(
+            value = ToggleableState(
+                value = checked,
+            ),
+        )
+    }
 }
 
 /**
