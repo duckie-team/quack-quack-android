@@ -87,10 +87,17 @@ internal fun QuackSurface(
 
     Box(
         modifier = modifier
-            .surface(
-                shape = shape,
-                backgroundColor = backgroundColorAnimation,
+            .shadow(
                 elevation = elevation,
+                shape = shape,
+                clip = false,
+            )
+            .clip(
+                shape = shape,
+            )
+            .background(
+                color = backgroundColorAnimation.composeColor,
+                shape = shape,
             )
             .quackClickable(
                 onClick = onClick,
@@ -114,30 +121,3 @@ internal fun QuackSurface(
     )
 }
 
-/**
- * 컴포넌트에 기본 테마를 입힙니다.
- * 최하위 Modifier 이므로 인자들의 기본값이 정의되지 않았습니다.
- *
- * @param shape 컴포넌트의 모양
- * @param backgroundColor 컴포넌트의 색상
- * @param elevation 컴포넌트의 그림자 크기
- *
- * @return 테마가 적용된 [Modifier]
- */
-private fun Modifier.surface(
-    shape: Shape,
-    backgroundColor: QuackColor,
-    elevation: Dp,
-) = this
-    .clip(
-        shape = shape,
-    )
-    .shadow(
-        elevation = elevation,
-        shape = shape,
-        clip = false,
-    )
-    .background(
-        color = backgroundColor.composeColor,
-        shape = shape,
-    )
