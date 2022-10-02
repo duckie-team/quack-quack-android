@@ -48,9 +48,9 @@ jobs:
         if: contains(github.event.pull_request.labels.*.name, 'test')
         uses: codecov/codecov-action@v3
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: report/test-coverage/report.xml
           flags: unittests
-          fail_ci_if_error: true
           verbose: true
 
       # - name: Generate test coverage html report configuration files
