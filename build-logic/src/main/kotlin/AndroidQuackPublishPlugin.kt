@@ -6,6 +6,7 @@
  */
 
 @file:Suppress(
+    "unused",
     "UnstableApiUsage",
 )
 
@@ -23,9 +24,9 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.withType
-import team.duckie.quackquack.convention.QuackArtifactType
 import team.duckie.quackquack.convention.QuackPublishExtension
 import team.duckie.quackquack.convention.applyPlugins
+import team.duckie.quackquack.convention.getArtifectVersion
 import team.duckie.quackquack.convention.libs
 import team.duckie.quackquack.convention.lintPublish
 
@@ -61,7 +62,13 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                     )
                 }
 
-                version = extension.type.getVersion(this)
+                version = getArtifectVersion(
+                    type = extension.type,
+                ).also { version ->
+                    println(
+                        "${extension.type.deployModuleName} version: $version",
+                    )
+                }
 
                 extensions.configure<PublishingExtension> {
                     publications.withType<MavenPublication> {
@@ -89,7 +96,7 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                         name.set(extension.type.artifactId)
                         description.set(extension.type.description)
                         inceptionYear.set("2022")
-                        url.set("https://github.com/sungbinland/duckie-quack-quack")
+                        url.set("https://github.com/duckie-team/duckie-quack-quack")
 
                         configureQuackPom()
                     }
@@ -104,24 +111,6 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                                 // https://github.com/dialogflow/dialogflow-android-client/issues/57#issuecomment-341329755
                             )
                         )
-                    } else if (extension.type == QuackArtifactType.Bom) {
-                        val quackArtifacts = listOf(
-                            "quack-ui-components",
-                            "quack-lint-core",
-                            "quack-lint-quack",
-                            "quack-lint-compose",
-                        )
-                        val quackArtifactLibraries = quackArtifacts.map { artifact ->
-                            libs.findLibrary(artifact).get()
-                        }
-                        constraints {
-                            quackArtifactLibraries.forEach { artifact ->
-                                add(
-                                    configurationName = "api",
-                                    dependencyConstraintNotation = artifact,
-                                )
-                            }
-                        }
                     }
                 }
             }
@@ -133,7 +122,7 @@ private fun MavenPom.configureQuackPom() {
     licenses {
         license {
             name.set("MIT License")
-            url.set("https://github.com/sungbinland/duckie-quack-quack/blob/develop/LICENSE")
+            url.set("https://github.com/duckie-team/duckie-quack-quack/blob/develop/LICENSE")
         }
     }
     developers {
@@ -145,8 +134,8 @@ private fun MavenPom.configureQuackPom() {
         }
     }
     scm {
-        url.set("https://github.com/sungbinland/duckie-quack-quack/tree/main")
-        connection.set("scm:git:github.com/sungbinland/duckie-quack-quack.git")
-        developerConnection.set("scm:git:ssh://github.com/sungbinland/duckie-quack-quack.git")
+        url.set("https://github.com/duckie-team/duckie-quack-quack/tree/main")
+        connection.set("scm:git:github.com/duckie-team/duckie-quack-quack.git")
+        developerConnection.set("scm:git:ssh://github.com/duckie-team/duckie-quack-quack.git")
     }
 }

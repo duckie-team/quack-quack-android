@@ -7,8 +7,6 @@
 
 package team.duckie.quackquack.convention
 
-import org.gradle.api.Project
-
 // needs `open` class
 open class QuackPublishExtension {
     open lateinit var type: QuackArtifactType
@@ -25,11 +23,12 @@ sealed class QuackArtifactType(
     val description: String,
     val deployModuleName: String,
 ) {
-    object Bom : QuackArtifactType(
+    // https://github.com/duckie-team/duckie-quack-quack/issues/114
+    /*object Bom : QuackArtifactType(
         artifactId = "quack-bom",
         description = "Duckie's design system artifacts BOM",
         deployModuleName = ":quack-publish-bom",
-    )
+    )*/
 
     object UiComponents : QuackArtifactType(
         artifactId = "quack-ui-components",
@@ -71,16 +70,6 @@ sealed class QuackArtifactType(
     )*/
 
     internal val isLint = deployModuleName.contains("lint")
-
-    fun getVersion(project: Project) = project.libs.findVersion(
-        when (this) {
-            is Bom -> "quack-bom"
-            is UiComponents -> "quack-ui-components"
-            is LintCore -> "quack-lint-core"
-            is LintQuack -> "quack-lint-quack"
-            is LintCompose -> "quack-lint-compose"
-        }
-    ).get().toString()
 }
 
 private fun buildLintArtifactDescription(
