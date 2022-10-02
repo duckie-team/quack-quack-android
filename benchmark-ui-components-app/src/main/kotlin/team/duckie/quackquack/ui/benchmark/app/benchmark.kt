@@ -24,6 +24,7 @@ import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.QuackBody1
 import team.duckie.quackquack.ui.component.QuackBody2
 import team.duckie.quackquack.ui.component.QuackBody3
+import team.duckie.quackquack.ui.component.QuackFab
 import team.duckie.quackquack.ui.component.QuackGrayscaleTag
 import team.duckie.quackquack.ui.component.QuackHeadLine1
 import team.duckie.quackquack.ui.component.QuackHeadLine2
@@ -36,6 +37,8 @@ import team.duckie.quackquack.ui.component.QuackLargeButton
 import team.duckie.quackquack.ui.component.QuackLargeWhiteButton
 import team.duckie.quackquack.ui.component.QuackMainTab
 import team.duckie.quackquack.ui.component.QuackMediumBorderToggleButton
+import team.duckie.quackquack.ui.component.QuackMenuFab
+import team.duckie.quackquack.ui.component.QuackMenuFabItem
 import team.duckie.quackquack.ui.component.QuackRoundCheckBox
 import team.duckie.quackquack.ui.component.QuackRowTag
 import team.duckie.quackquack.ui.component.QuackSmallBorderToggleButton
@@ -114,6 +117,25 @@ inline fun QuackButtonBenchmark() {
         text = "",
         selected = true,
         onClick = {},
+    )
+}
+
+@Composable
+inline fun QuackFabBenchmark() {
+    QuackFab(
+        icon = QuackIcon.Heart,
+        onClick = {},
+    )
+    QuackMenuFab(
+        items = persistentListOf(
+            QuackMenuFabItem(
+                icon = QuackIcon.FilledHeart,
+                text = "FilledHeart",
+            ),
+        ),
+        expanded = true,
+        onFabClick = {},
+        onItemClick = { _, _ -> },
     )
 }
 
