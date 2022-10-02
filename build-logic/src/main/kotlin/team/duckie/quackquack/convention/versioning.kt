@@ -10,7 +10,7 @@ package team.duckie.quackquack.convention
 import java.io.File
 import org.gradle.api.Project
 
-internal fun Project.getArtifectVersion(
+internal fun Project.getArtifactVersion(
     type: QuackArtifactType,
 ): String {
     val versionFileFolder = "$rootDir/quackquack-version"

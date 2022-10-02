@@ -26,7 +26,7 @@ import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.withType
 import team.duckie.quackquack.convention.QuackPublishExtension
 import team.duckie.quackquack.convention.applyPlugins
-import team.duckie.quackquack.convention.getArtifectVersion
+import team.duckie.quackquack.convention.getArtifactVersion
 import team.duckie.quackquack.convention.libs
 import team.duckie.quackquack.convention.lintPublish
 
@@ -62,7 +62,7 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                     )
                 }
 
-                version = getArtifectVersion(
+                version = getArtifactVersion(
                     type = extension.type,
                 ).also { version ->
                     println(
