@@ -22,6 +22,16 @@ android {
     namespace = "team.duckie.quackquack.lint.compose.publish"
 }
 
+dependencies {
+    lintPublish(
+        project(
+            path = ":lint-compose",
+            configuration = "default",
+            // https://github.com/dialogflow/dialogflow-android-client/issues/57#issuecomment-341329755
+        )
+    )
+}
+
 quackArtifactPublish {
     type = QuackArtifactType.LintCompose
 }

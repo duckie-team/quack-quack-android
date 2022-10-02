@@ -19,6 +19,16 @@ android {
     namespace = "team.duckie.quackquack.lint.quack.publish"
 }
 
+dependencies {
+    lintPublish(
+        project(
+            path = ":lint-quack",
+            configuration = "default",
+            // https://github.com/dialogflow/dialogflow-android-client/issues/57#issuecomment-341329755
+        )
+    )
+}
+
 quackArtifactPublish {
     type = QuackArtifactType.LintQuack
 }

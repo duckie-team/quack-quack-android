@@ -21,14 +21,11 @@ import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.withType
 import team.duckie.quackquack.convention.QuackPublishExtension
 import team.duckie.quackquack.convention.applyPlugins
 import team.duckie.quackquack.convention.getArtifactVersion
 import team.duckie.quackquack.convention.libs
-import team.duckie.quackquack.convention.lintPublish
 
 private const val QuackLintPublishExtensionName = "quackArtifactPublish"
 
@@ -66,7 +63,7 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                     type = extension.type,
                 ).also { version ->
                     println(
-                        "${extension.type.deployModuleName} version: $version",
+                        "${extension.type.artifactId} version: $version",
                     )
                 }
 
@@ -97,20 +94,7 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                         description.set(extension.type.description)
                         inceptionYear.set("2022")
                         url.set("https://github.com/duckie-team/duckie-quack-quack")
-
                         configureQuackPom()
-                    }
-                }
-
-                dependencies {
-                    if (extension.type.isLint) {
-                        lintPublish(
-                            project(
-                                path = extension.type.deployModuleName,
-                                configuration = "default",
-                                // https://github.com/dialogflow/dialogflow-android-client/issues/57#issuecomment-341329755
-                            )
-                        )
                     }
                 }
             }
