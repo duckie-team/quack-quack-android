@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.ui.component.internal
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -39,6 +40,9 @@ internal fun QuackBackgroundDimmed(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .background(
+                    color = color,
+                )
                 .zIndex(
                     zIndex = zIndex,
                 )
