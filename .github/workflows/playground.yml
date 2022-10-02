@@ -18,13 +18,13 @@ jobs:
         run: touch foo.txt
 
       - name: Create foo.txt
-        run: echo "foo! - 2" > ./foo.txt
+        run: echo "foo! - 3" > ./foo.txt
 
       - name: Touch bar.txt
         run: touch bar.txt
 
       - name: Create bar.txt
-        run: echo "bar! - 2" > ./bar.txt
+        run: echo "bar! - 3" > ./bar.txt
 
       - name: Commit and Push generate files
         run: |
