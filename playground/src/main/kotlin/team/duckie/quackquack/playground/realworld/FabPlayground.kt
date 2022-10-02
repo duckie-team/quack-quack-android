@@ -18,16 +18,17 @@ import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
-import team.duckie.quackquack.ui.component.QuackDialogMenuItem
-import team.duckie.quackquack.ui.component.QuackFloatingActionButton
-import team.duckie.quackquack.ui.component.QuackMenuFloatingActionButton
+import team.duckie.quackquack.playground.util.rememberToast
+import team.duckie.quackquack.ui.component.QuackFab
+import team.duckie.quackquack.ui.component.QuackMenuFab
+import team.duckie.quackquack.ui.component.QuackMenuFabItem
 import team.duckie.quackquack.ui.icon.QuackIcon
 
 class FabPlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
-        "QuackFloatingActionButton" to { QuackFloatingActionButtonDemo() },
-        "QuackMenuFloatingActionButton" to { QuackMenuFloatingActionButtonDemo() },
+        "QuackFabDemo" to { QuackFabDemo() },
+        "QuackMenuFabDemo" to { QuackMenuFabDemo() },
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,40 +45,42 @@ class FabPlayground : BaseActivity() {
 }
 
 @Composable
-fun QuackFloatingActionButtonDemo() {
-    QuackFloatingActionButton(
-        icon = QuackIcon.Dm,
+fun QuackFabDemo() {
+    QuackFab(
+        icon = QuackIcon.Heart,
         onClick = {},
     )
 }
 
-@Suppress("RedundantLambdaArrow")
 @Composable
-fun QuackMenuFloatingActionButtonDemo() {
-    var expanded by remember {
+fun QuackMenuFabDemo() {
+    val toast = rememberToast()
+    var state by remember {
         mutableStateOf(
             value = false,
         )
     }
-
-    QuackMenuFloatingActionButton(
-        expanded = expanded,
-        onClickButton = {
-            expanded = true
-        },
-        onDismissRequest = {
-            expanded = false
-        },
-        menuItems = persistentListOf(
-            QuackDialogMenuItem(
-                icon = QuackIcon.Feed,
-                text = "피드",
+    QuackMenuFab(
+        items = persistentListOf(
+            QuackMenuFabItem(
+                icon = QuackIcon.FilledHeart,
+                text = "FilledHeart",
             ),
-            QuackDialogMenuItem(
-                icon = QuackIcon.Buy,
-                text = "덕딜",
+            QuackMenuFabItem(
+                icon = QuackIcon.Heart,
+                text = "Heart",
+            ),
+            QuackMenuFabItem(
+                icon = QuackIcon.WhiteHeart,
+                text = "WhiteHeart",
             ),
         ),
-        onClickMenuItem = { _ -> },
+        expanded = state,
+        onFabClick = { state = !state },
+        onItemClick = { _, item ->
+            toast(
+                message = item,
+            )
+        },
     )
 }
