@@ -1,0 +1,35 @@
+name: Playground
+on:
+  pull_request:
+    branches: [ develop-copy ]
+
+jobs:
+  ci-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Touch foo.txt
+        run: touch foo.txt
+
+      - name: Create foo.txt
+        run: echo "foo! - 2" > ./foo.txt
+
+      - name: Touch bar.txt
+        run: touch bar.txt
+
+      - name: Create bar.txt
+        run: echo "bar! - 2" > ./bar.txt
+
+      - name: Commit and Push generate files
+        run: |
+          git config user.name "jisungbin"
+          git config user.email "ji@sungb.in"
+          git add .
+          git commit -m "[CI] bump versions"
+          git push
