@@ -4,7 +4,7 @@ on:
     branches: [ develop ]
 
 jobs:
-  android-build:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,7 +37,7 @@ jobs:
         run: ./gradlew build --scan
 
       - name: "Add build scan URL as PR comment"
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         if: failure()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

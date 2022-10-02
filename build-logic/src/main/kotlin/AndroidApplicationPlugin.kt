@@ -17,6 +17,8 @@ import team.duckie.quackquack.convention.ApplicationConstants
 import team.duckie.quackquack.convention.PluginEnum
 import team.duckie.quackquack.convention.applyPlugins
 import team.duckie.quackquack.convention.configureApplication
+import team.duckie.quackquack.convention.getPlaygroundVersionCode
+import team.duckie.quackquack.convention.getPlaygroundVersionName
 
 /**
  * Android 프레임워크의 Application 환경을 구성합니다.
@@ -36,8 +38,12 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
 
                 defaultConfig {
                     targetSdk = ApplicationConstants.targetSdk
-                    versionCode = ApplicationConstants.versionCode
-                    versionName = ApplicationConstants.versionName
+                    versionCode = getPlaygroundVersionCode().also { code ->
+                        println("playground versionCode: $code")
+                    }
+                    versionName = getPlaygroundVersionName().also { name ->
+                        println("playground versionName: $name")
+                    }
                 }
 
                 buildTypes {

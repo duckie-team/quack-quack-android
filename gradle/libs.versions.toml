@@ -50,13 +50,6 @@ junit = "4.13.2"
 junit-engine = "5.9.1"
 test-parameter-injector = "1.8"
 
-# quack
-quack-bom = "1.0.0-dev06"
-quack-ui-components = "1.0.0-dev07"
-quack-lint-core = "1.0.0-dev07"
-quack-lint-quack = "1.0.0-dev07"
-quack-lint-compose = "1.0.0-dev07"
-
 [plugins]
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
@@ -83,11 +76,6 @@ ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.re
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin-core" }
 kotlin-metadata = { module = "org.jetbrains.kotlinx:kotlinx-metadata-jvm", version.ref = "kotlin-metadata" }
 kotlin-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-collections-immutable" }
-
-quack-ui-components = { module = "team.duckie.quack:quack-ui-components", version.ref = "quack-ui-components" }
-quack-lint-core = { module = "team.duckie.quack:quack-lint-core", version.ref = "quack-lint-core" }
-quack-lint-quack = { module = "team.duckie.quack:quack-lint-quack", version.ref = "quack-lint-quack" }
-quack-lint-compose = { module = "team.duckie.quack:quack-lint-compose", version.ref = "quack-lint-compose" }
 
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-core" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
