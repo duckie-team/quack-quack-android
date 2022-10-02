@@ -61,7 +61,6 @@ allprojects {
                 freeCompilerArgs = freeCompilerArgs + listOf(
                     "-opt-in=kotlin.OptIn",
                     "-opt-in=kotlin.RequiresOptIn",
-                    "Xsam-conversions=class", // https://twitter.com/ZacSweers/status/1520399593577582593?s=20&t=cwZyDPyT9HQGGIK1zxkybQ
                 )
                 freeCompilerArgs = freeCompilerArgs + listOf(
                     "-P",
@@ -121,11 +120,94 @@ subprojects {
 
 tasks.register(
     name = "cleanAll",
-    type = Delete::class
+    type = Delete::class,
 ) {
     allprojects.map { project ->
         project.buildDir
     }.forEach(::delete)
+}
+
+enum class VersionType {
+    Majer,
+    Minor,
+    Patch;
+}
+
+enum class BumpTarget {
+    Playground,
+    UiComponents,
+    LintCore,
+    LintQuack,
+    LintCompose;
+}
+
+fun Project.getVersionPath(
+    target: BumpTarget,
+) = when (target) {
+    BumpTarget.Playground -> "$rootDir/playground-version.txt"
+    BumpTarget.UiComponents -> "$rootDir/quackquack-version/ui-components.txt"
+    BumpTarget.LintCore -> "$rootDir/quackquack-version/lint-core.txt"
+    BumpTarget.LintQuack -> "$rootDir/quackquack-version/lint-quack.txt"
+    BumpTarget.LintCompose -> "$rootDir/quackquack-version/lint-compose.txt"
+}
+
+fun Project.bumpVersion(
+    type: VersionType,
+    target: BumpTarget,
+): String {
+    val versionFile = File(
+        getVersionPath(
+            target = target,
+        )
+    )
+    val lines = versionFile.readLines().toMutableList()
+    when (type) {
+        VersionType.Majer -> {
+            val major = lines[0].split("=")[1].toInt()
+            lines[0] = "major=${major + 1}"
+            lines[1] = "minor=0"
+            lines[2] = "patch=0"
+        }
+        VersionType.Minor -> {
+            val minor = lines[1].split("=")[1].toInt()
+            lines[1] = "minor=${minor + 1}"
+            lines[2] = "patch=0"
+        }
+        VersionType.Patch -> {
+            val patch = lines[2].split("=")[1].toInt()
+            lines[2] = "patch=${patch + 1}"
+        }
+    }
+    if (target == BumpTarget.Playground) {
+        val code = lines[3].split("=")[1].toInt()
+        lines[3] = "code=${code + 1}"
+    }
+    return lines.joinToString(
+        separator = "\n",
+    )
+}
+
+tasks.create(
+    name = "bumpVersion",
+) {
+    val type = (properties["type"] ?: return@create).let { type ->
+        VersionType.valueOf(type.toString())
+    }
+    val target = (properties["target"] ?: return@create).let { target ->
+        BumpTarget.valueOf(target.toString())
+    }
+    val version = bumpVersion(
+        type = type,
+        target = target,
+    )
+    val versionFile = File(
+        getVersionPath(
+            target = target,
+        )
+    )
+    versionFile.writeText(
+        text = version,
+    )
 }
 
 apply(
