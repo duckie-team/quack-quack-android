@@ -115,7 +115,6 @@ internal fun QuackSurface(
             .animateContentSize(
                 animationSpec = quackAnimationSpec(),
             ),
-        propagateMinConstraints = true,
         contentAlignment = contentAlignment,
         content = content,
     )
