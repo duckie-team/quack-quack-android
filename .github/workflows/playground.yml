@@ -12,19 +12,18 @@ jobs:
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
 
       - name: Touch foo.txt
         run: touch foo.txt
 
       - name: Create foo.txt
-        run: echo "foo! - 3" > ./foo.txt
+        run: echo "foo! - 4" > ./foo.txt
 
       - name: Touch bar.txt
         run: touch bar.txt
 
       - name: Create bar.txt
-        run: echo "bar! - 3" > ./bar.txt
+        run: echo "bar! - 4" > ./bar.txt
 
       - name: Commit and Push generate files
         run: |
