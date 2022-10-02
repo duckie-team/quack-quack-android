@@ -9,6 +9,7 @@ package team.duckie.quackquack.playground.realworld
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
@@ -60,9 +62,15 @@ fun QuackFabDemo() {
 @Composable
 fun QuackMenuFabDemo() {
     Box(
-        modifier = Modifier.size(
-            size = 250.dp,
-        ),
+        modifier = Modifier
+            .size(
+                size = 250.dp,
+            )
+            .background(
+                color = Color.LightGray.copy(
+                    alpha = 0.5f,
+                )
+            ),
         contentAlignment = Alignment.BottomEnd,
     ) {
         val toast = rememberToast()
