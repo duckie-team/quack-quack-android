@@ -18,6 +18,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Setup JDK 11
         uses: actions/setup-java@v3
@@ -55,6 +58,14 @@ jobs:
       - name: Bump playground Patch version
         if: contains(github.event.pull_request.labels.*.name, 'bump_patch')
         run: ./gradlew bumpVersion -Ptype="Patch" -Ptarget="Playground"
+
+      - name: Update new versions
+        run: |
+          git config user.name "jisungbin"
+          git config user.email "ji@sungb.in"
+          git add .
+          git commit -m "[CI] bump versions"
+          git push
 
       - name: Build apk
         id: gradle
