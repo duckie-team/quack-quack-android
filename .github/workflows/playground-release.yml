@@ -94,3 +94,12 @@ jobs:
           file: playground/build/outputs/apk/release/playground-release.apk
           releaseNotes: |
             마지막 변경 사항 제목: ${{ github.event.pull_request.title }}
+
+      - name: Post to a Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.22.0
+        with:
+          channel-id: 'C03CM18M529'
+          slack-message: "QuackQuack 플레이그라운드의 새로운 버전이 배포됐습니다. 🥳"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
