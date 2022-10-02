@@ -49,23 +49,26 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           files: report/test-coverage/report.xml
+          flags: unittests
+          fail_ci_if_error: true
+          verbose: true
 
-      - name: Generate test coverage html report configuration files
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
-        run: ./gradlew configurationTestCoverageHtmlReport --stacktrace
+      # - name: Generate test coverage html report configuration files
+      #   if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+      #   run: ./gradlew configurationTestCoverageHtmlReport --stacktrace
 
-      - name: Pushes report html to deploy repository
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
-        uses: cpina/github-action-push-to-another-repository@v1.5
-        env:
-          SSH_DEPLOY_KEY: ${{ secrets.SSH_COVERAGE_DEPLOY_KEY }}
-        with:
-          source-directory: "report/test-coverage"
-          destination-github-username: "sungbinland"
-          destination-repository-name: "duckie-quack-test-coverage-deploy"
-          user-email: ji@sungb.in
-          commit-message: |
-            #${{ github.event.number }} 에서 생성된 테스트 커버리지
+      # - name: Pushes report html to deploy repository
+      #   if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+      #   uses: cpina/github-action-push-to-another-repository@v1.5
+      #   env:
+      #     SSH_DEPLOY_KEY: ${{ secrets.SSH_COVERAGE_DEPLOY_KEY }}
+      #   with:
+      #     source-directory: "report/test-coverage"
+      #     destination-github-username: "sungbinland"
+      #     destination-repository-name: "duckie-quack-test-coverage-deploy"
+      #     user-email: ji@sungb.in
+      #     commit-message: |
+      #       #${{ github.event.number }} 에서 생성된 테스트 커버리지
 
       # Disabled due to Paparazzi build issues
       # - name: Generate ui components snapshot
@@ -93,17 +96,17 @@ jobs:
       #     commit-message: |
       #       #${{ github.event.number }} 에서 생성된 스냅샷
 
-      - name: Comment test coverage is deployed
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
-        uses: Code-Hex/neo-cowsay-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          cow: 'random'
-          cowsay_on_comment: true
-          message: |
-            새로운 테스트 커버리지 HTML 리포트가 배포되었습니다.
-            https://quack-test.duckie.team/ 에서 확인하실 수 있습니다.
+      # - name: Comment test coverage is deployed
+      #   if: ${{ contains(github.event.pull_request.labels.*.name, 'test') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+      #   uses: Code-Hex/neo-cowsay-action@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     cow: 'random'
+      #     cowsay_on_comment: true
+      #     message: |
+      #       새로운 테스트 커버리지 HTML 리포트가 배포되었습니다.
+      #       https://quack-test.duckie.team/ 에서 확인하실 수 있습니다.
 
       # - name: Comment snapshots is deployed
       #   if: ${{ contains(github.event.pull_request.labels.*.name, 'UI') && contains(github.event.pull_request.labels.*.name, 'deploy') }}
