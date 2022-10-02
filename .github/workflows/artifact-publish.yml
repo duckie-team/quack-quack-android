@@ -9,7 +9,7 @@ on:
     types: [ closed ]
 
 jobs:
-  build:
+  artifact-publish-build:
     if: ${{
       github.event.pull_request.merged &&
       contains(github.event.pull_request.labels.*.name, 'deploy') &&
