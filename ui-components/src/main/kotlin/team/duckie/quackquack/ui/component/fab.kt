@@ -17,14 +17,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -32,10 +31,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
@@ -76,14 +80,14 @@ private val QuackFabMenuItemTextStyle = QuackTextStyle.Subtitle.change(
 )
 
 private val QuackFabMenuPadding = PaddingValues(
-    horizontal = 16.dp,
-    vertical = 20.dp,
+    horizontal = 16.dp - 8.dp,
+    vertical = 20.dp - 8.dp,
 )
 private val QuackFabAndMenuSpace = 8.dp
-private val QuackFabMenuSpacedBy = 16.dp
+private val QuackFabMenuHorizontalPadding = 8.dp
+private val QuackMenuContentSpacedBy = 4.dp
 private val QuackFabMenuTextPadding = PaddingValues(
-    horizontal = 4.dp,
-    vertical = 3.dp,
+    vertical = 3.dp + 8.dp,
 )
 
 /**
@@ -175,6 +179,34 @@ public fun QuackMenuFab(
     onFabClick: () -> Unit,
     onItemClick: (index: Int, item: QuackMenuFabItem) -> Unit,
 ) {
+    val density = LocalDensity.current
+    val textWidths = remember(
+        key1 = items,
+    ) {
+        mutableStateListOf(
+            elements = Array(
+                size = items.size,
+                init = { 0.dp },
+            )
+        )
+    }
+    val textWidthModifier = remember(
+        key1 = items,
+        key2 = textWidths.all { width ->
+            width.value != 0f
+        },
+    ) {
+        when (
+            textWidths.all { width ->
+                width.value != 0f
+            }
+        ) {
+            true -> Modifier.width(
+                width = textWidths.max(),
+            )
+            else -> Modifier.wrapContentWidth()
+        }
+    }
     Column(
         modifier = Modifier.wrapContentSize(),
         verticalArrangement = Arrangement.spacedBy(
@@ -206,9 +238,6 @@ public fun QuackMenuFab(
         ) {
             LazyColumn(
                 modifier = Modifier.wrapContentSize(),
-                verticalArrangement = Arrangement.spacedBy(
-                    space = QuackFabMenuSpacedBy,
-                ),
                 contentPadding = QuackFabMenuPadding,
             ) {
                 itemsIndexed(
@@ -217,12 +246,9 @@ public fun QuackMenuFab(
                 ) { index, item ->
                     Row(
                         modifier = Modifier
-                            .wrapContentHeight()
-                            .width(
-                                intrinsicSize = IntrinsicSize.Max,
-                            )
+                            .wrapContentSize()
                             .quackClickable(
-                                // rippleEnabled = false,
+                                rippleEnabled = false,
                                 onClick = {
                                     onItemClick(
                                         /*index = */
@@ -232,18 +258,41 @@ public fun QuackMenuFab(
                                     )
                                 },
                             ),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(
+                            space = QuackMenuContentSpacedBy,
+                        ),
                     ) {
-                        QuackImage(
+                        QuackImageInternal(
+                            modifier = Modifier.padding(
+                                start = QuackFabMenuHorizontalPadding,
+                            ),
                             src = item.icon,
                             overrideSize = QuackFabMenuIconSize,
                             tint = QuackFabMenuItemColor,
                         )
                         QuackText(
-                            modifier = Modifier.padding(
-                                paddingValues = QuackFabMenuTextPadding,
-                            ),
+                            modifier = Modifier
+                                .then(
+                                    other = textWidthModifier,
+                                )
+                                .onSizeChanged { size ->
+                                    with(
+                                        receiver = density,
+                                    ) {
+                                        textWidths[index] = size.width.toDp()
+                                    }
+                                }
+                                .padding(
+                                    paddingValues = QuackFabMenuTextPadding,
+                                )
+                                .padding(
+                                    end = QuackFabMenuHorizontalPadding,
+                                ),
                             text = item.text,
-                            style = QuackFabMenuItemTextStyle,
+                            style = QuackFabMenuItemTextStyle.change(
+                                textAlign = TextAlign.Start,
+                            ),
                         )
                     }
                 }
