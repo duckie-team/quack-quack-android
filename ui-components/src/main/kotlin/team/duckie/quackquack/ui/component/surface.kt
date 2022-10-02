@@ -119,4 +119,3 @@ internal fun QuackSurface(
         content = content,
     )
 }
-
