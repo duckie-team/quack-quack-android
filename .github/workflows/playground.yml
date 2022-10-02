@@ -12,7 +12,6 @@ jobs:
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
 
       - name: Touch foo.txt
         run: touch foo.txt
