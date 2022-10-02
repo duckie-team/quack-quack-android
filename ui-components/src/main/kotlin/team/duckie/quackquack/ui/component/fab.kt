@@ -139,7 +139,7 @@ private fun QuackFabImpl(
                 modifier = Modifier.rotate(
                     degrees = rotate,
                 ),
-                src = QuackFabIconResource,
+                src = icon,
                 overrideSize = QuackFabIconSize,
                 tint = QuackFabIconTint,
             )
@@ -299,7 +299,7 @@ public fun QuackMenuFab(
             }
         }
         QuackFabImpl(
-            icon = QuackIcon.Plus,
+            icon = QuackFabIconResource,
             onClick = onFabClick,
             rotate = animateFloatAsState(
                 targetValue = if (expanded) QuackFabIconRotate else 0f,
