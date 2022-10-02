@@ -22,8 +22,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.ui.animation.AnimatedContentTransform
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
@@ -46,6 +46,12 @@ private val QuackSmallButtonShape = QuackLargeButtonShape
 private val QuackChipShape = RoundedCornerShape(
     size = 18.dp,
 )
+
+private val QuackButtonIconSize = DpSize(
+    width = 24.dp,
+    height = 24.dp,
+)
+private val QuackButtonIconTint = QuackColor.Gray1
 
 private val QuackLargeButtonTextPadding = PaddingValues(
     vertical = 13.dp,
@@ -394,14 +400,11 @@ private fun QuackBasicButton(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            AnimatedContentTransform(
-                targetState = leadingIcon,
-            ) { animatedLeadingIcon ->
-                QuackImage(
-                    src = animatedLeadingIcon,
-                    tint = QuackColor.Gray1,
-                )
-            }
+            QuackImage(
+                src = leadingIcon,
+                overrideSize = QuackButtonIconSize,
+                tint = QuackButtonIconTint,
+            )
             // 아이콘 - 텍스트 사이 간격 없음
             QuackText(
                 modifier = Modifier.padding(
