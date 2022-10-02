@@ -128,17 +128,17 @@ tasks.register(
 }
 
 enum class VersionType {
-    Majer,
+    Major,
     Minor,
     Patch;
 }
 
 enum class BumpTarget {
     Playground,
-    UiComponents,
     LintCore,
     LintQuack,
-    LintCompose;
+    LintCompose,
+    UiComponents;
 }
 
 fun Project.getVersionPath(
@@ -162,7 +162,7 @@ fun Project.bumpVersion(
     )
     val lines = versionFile.readLines().toMutableList()
     when (type) {
-        VersionType.Majer -> {
+        VersionType.Major -> {
             val major = lines[0].split("=")[1].toInt()
             lines[0] = "major=${major + 1}"
             lines[1] = "minor=0"
