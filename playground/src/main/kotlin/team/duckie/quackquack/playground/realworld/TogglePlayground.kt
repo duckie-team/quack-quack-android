@@ -41,7 +41,7 @@ class TogglePlayground : BaseActivity() {
         setContent {
             PlaygroundTheme {
                 PlaygroundSection(
-                    title = "QuackRoundCheck",
+                    title = "Toggle",
                     items = items,
                 )
             }
