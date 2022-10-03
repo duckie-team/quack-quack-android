@@ -51,97 +51,97 @@ jobs:
       - name: Unzip quackuser-secrets.tar
         run: tar xvf quackuser-secrets.tar
 
-      # [bumpVersion-steps-generator.kt]
+      # [bumpVersion --scan-steps-generator.kt]
       # https://gist.github.com/jisungbin/5cac715eb5133d289f2565c26db9b5e9
       - name: Bump artifact version (type_Major, target_LintCore)
         if: ${{
           contains(github.event.pull_request.labels.*.name, 'bump_major') &&
           contains(github.event.pull_request.labels.*.name, 'target_lint-core')
           }}
-        run: ./gradlew bumpVersion -Ptype="Major" -Ptarget="LintCore"
+        run: ./gradlew bumpVersion --scan -Ptype="Major" -Ptarget="LintCore"
 
       - name: Bump artifact version (type_Major, target_LintQuack)
         if: ${{
           contains(github.event.pull_request.labels.*.name, 'bump_major') &&
           contains(github.event.pull_request.labels.*.name, 'target_lint-quack')
           }}
-        run: ./gradlew bumpVersion -Ptype="Major" -Ptarget="LintQuack"
+        run: ./gradlew bumpVersion --scan -Ptype="Major" -Ptarget="LintQuack"
 
       - name: Bump artifact version (type_Major, target_LintCompose)
         if: ${{
           contains(github.event.pull_request.labels.*.name, 'bump_major') &&
           contains(github.event.pull_request.labels.*.name, 'target_lint-compose')
           }}
-        run: ./gradlew bumpVersion -Ptype="Major" -Ptarget="LintCompose"
+        run: ./gradlew bumpVersion --scan -Ptype="Major" -Ptarget="LintCompose"
 
       - name: Bump artifact version (type_Major, target_UiComponents)
         if: ${{
           contains(github.event.pull_request.labels.*.name, 'bump_major') &&
           contains(github.event.pull_request.labels.*.name, 'target_ui-components')
           }}
-        run: ./gradlew bumpVersion -Ptype="Major" -Ptarget="UiComponents"
+        run: ./gradlew bumpVersion --scan -Ptype="Major" -Ptarget="UiComponents"
 
       - name: Bump artifact version (type_Minor, target_LintCore)
         if: ${{
           contains(github.event.pull_request.labels.*.name, 'bump_minor') &&
           contains(github.event.pull_request.labels.*.name, 'target_lint-core')
           }}
-        run: ./gradlew bumpVersion -Ptype="Minor" -Ptarget="LintCore"
+        run: ./gradlew bumpVersion --scan -Ptype="Minor" -Ptarget="LintCore"
 
       - name: Bump artifact version (type_Minor, target_LintQuack)
         if: ${{
           contains(github.event.pull_request.labels.*.name, 'bump_minor') &&
           contains(github.event.pull_request.labels.*.name, 'target_lint-quack')
           }}
-        run: ./gradlew bumpVersion -Ptype="Minor" -Ptarget="LintQuack"
+        run: ./gradlew bumpVersion --scan -Ptype="Minor" -Ptarget="LintQuack"
 
       - name: Bump artifact version (type_Minor, target_LintCompose)
         if: ${{
           contains(github.event.pull_request.labels.*.name, 'bump_minor') &&
           contains(github.event.pull_request.labels.*.name, 'target_lint-compose')
           }}
-        run: ./gradlew bumpVersion -Ptype="Minor" -Ptarget="LintCompose"
+        run: ./gradlew bumpVersion --scan -Ptype="Minor" -Ptarget="LintCompose"
 
       - name: Bump artifact version (type_Minor, target_UiComponents)
         if: ${{
           contains(github.event.pull_request.labels.*.name, 'bump_minor') &&
           contains(github.event.pull_request.labels.*.name, 'target_ui-components')
           }}
-        run: ./gradlew bumpVersion -Ptype="Minor" -Ptarget="UiComponents"
+        run: ./gradlew bumpVersion --scan -Ptype="Minor" -Ptarget="UiComponents"
 
       - name: Bump artifact version (type_Patch, target_LintCore)
         if: ${{
           contains(github.event.pull_request.labels.*.name, 'bump_patch') &&
           contains(github.event.pull_request.labels.*.name, 'target_lint-core')
           }}
-        run: ./gradlew bumpVersion -Ptype="Patch" -Ptarget="LintCore"
+        run: ./gradlew bumpVersion --scan -Ptype="Patch" -Ptarget="LintCore"
 
       - name: Bump artifact version (type_Patch, target_LintQuack)
         if: ${{
           contains(github.event.pull_request.labels.*.name, 'bump_patch') &&
           contains(github.event.pull_request.labels.*.name, 'target_lint-quack')
           }}
-        run: ./gradlew bumpVersion -Ptype="Patch" -Ptarget="LintQuack"
+        run: ./gradlew bumpVersion --scan -Ptype="Patch" -Ptarget="LintQuack"
 
       - name: Bump artifact version (type_Patch, target_LintCompose)
         if: ${{
           contains(github.event.pull_request.labels.*.name, 'bump_patch') &&
           contains(github.event.pull_request.labels.*.name, 'target_lint-compose')
           }}
-        run: ./gradlew bumpVersion -Ptype="Patch" -Ptarget="LintCompose"
+        run: ./gradlew bumpVersion --scan -Ptype="Patch" -Ptarget="LintCompose"
 
       - name: Bump artifact version (type_Patch, target_UiComponents)
         if: ${{
           contains(github.event.pull_request.labels.*.name, 'bump_patch') &&
           contains(github.event.pull_request.labels.*.name, 'target_ui-components')
           }}
-        run: ./gradlew bumpVersion -Ptype="Patch" -Ptarget="UiComponents"
+        run: ./gradlew bumpVersion --scan -Ptype="Patch" -Ptarget="UiComponents"
 
       # [publish-steps-generator.kt]
       # https://gist.github.com/jisungbin/ef87cc3d96a40a86689a5bc413cd0763
       - name: Publish lint-core-publish to MavenCentral
         if: contains(github.event.pull_request.labels.*.name, 'target_lint-core')
-        run: ./gradlew :lint-core-publish:publish --no-parallel
+        run: ./gradlew :lint-core-publish:publish --no-parallel --scan
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
@@ -149,7 +149,7 @@ jobs:
 
       - name: Publish lint-quack-publish to MavenCentral
         if: contains(github.event.pull_request.labels.*.name, 'target_lint-quack')
-        run: ./gradlew :lint-quack-publish:publish --no-parallel
+        run: ./gradlew :lint-quack-publish:publish --no-parallel --scan
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
@@ -157,7 +157,7 @@ jobs:
 
       - name: Publish lint-compose-publish to MavenCentral
         if: contains(github.event.pull_request.labels.*.name, 'target_lint-compose')
-        run: ./gradlew :lint-compose-publish:publish --no-parallel
+        run: ./gradlew :lint-compose-publish:publish --no-parallel --scan
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
@@ -165,7 +165,7 @@ jobs:
 
       - name: Publish ui-components to MavenCentral
         if: contains(github.event.pull_request.labels.*.name, 'target_ui-components')
-        run: ./gradlew :ui-components:publish --no-parallel
+        run: ./gradlew :ui-components:publish --no-parallel --scan
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
