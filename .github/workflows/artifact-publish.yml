@@ -137,6 +137,24 @@ jobs:
           }}
         run: ./gradlew bumpVersion -Ptype="Patch" -Ptarget="UiComponents"
 
+      # [publish-steps-generator.kt]
+      # https://gist.github.com/jisungbin/ef87cc3d96a40a86689a5bc413cd0763
+      - name: Publish lint-core-publish to MavenCentral
+        if: contains(github.event.pull_request.labels.*.name, 'target_lint-core')
+        run: ./gradlew :lint-core-publish:publish --no-parallel
+
+      - name: Publish lint-quack-publish to MavenCentral
+        if: contains(github.event.pull_request.labels.*.name, 'target_lint-quack')
+        run: ./gradlew :lint-quack-publish:publish --no-parallel
+
+      - name: Publish lint-compose-publish to MavenCentral
+        if: contains(github.event.pull_request.labels.*.name, 'target_lint-compose')
+        run: ./gradlew :lint-compose-publish:publish --no-parallel
+
+      - name: Publish ui-components to MavenCentral
+        if: contains(github.event.pull_request.labels.*.name, 'target_ui-components')
+        run: ./gradlew :ui-components:publish --no-parallel
+
       - name: Update new versions
         run: |
           git config user.name "jisungbin"
@@ -144,21 +162,3 @@ jobs:
           git add .
           git commit -m "[CI] bump versions"
           git push
-
-      # [publish-steps-generator.kt]
-      # https://gist.github.com/jisungbin/ef87cc3d96a40a86689a5bc413cd0763
-      - name: Publish lint-core-publish to MavenCentral
-        if: contains(github.event.pull_request.labels.*.name, 'target_lint-core')
-        run: ./gradlew :lint-core-publish:publish --no-paralle
-
-      - name: Publish lint-quack-publish to MavenCentral
-        if: contains(github.event.pull_request.labels.*.name, 'target_lint-quack')
-        run: ./gradlew :lint-quack-publish:publish --no-paralle
-
-      - name: Publish lint-compose-publish to MavenCentral
-        if: contains(github.event.pull_request.labels.*.name, 'target_lint-compose')
-        run: ./gradlew :lint-compose-publish:publish --no-paralle
-
-      - name: Publish ui-components to MavenCentral
-        if: contains(github.event.pull_request.labels.*.name, 'target_ui-components')
-        run: ./gradlew :ui-components:publish --no-paralle
