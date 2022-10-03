@@ -60,14 +60,6 @@ jobs:
         if: contains(github.event.pull_request.labels.*.name, 'bump_patch')
         run: ./gradlew bumpVersion -Ptype="Patch" -Ptarget="Playground"
 
-      - name: Update new versions
-        run: |
-          git config user.name "jisungbin"
-          git config user.email "ji@sungb.in"
-          git add .
-          git commit -m "[CI] bump versions"
-          git push
-
       - name: Build apk
         id: gradle
         run: ./gradlew assembleRelease --scan
@@ -103,3 +95,11 @@ jobs:
           slack-message: "QuackQuack 플레이그라운드의 새로운 버전이 배포됐습니다. 🥳"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: Update new versions
+        run: |
+          git config user.name "jisungbin"
+          git config user.email "ji@sungb.in"
+          git add .
+          git commit -m "[CI] bump versions"
+          git push
