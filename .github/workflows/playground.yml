@@ -1,0 +1,19 @@
+name: playground
+
+env:
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
+  ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+  ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+  ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ARTIFACT_SIGNING_PRIVATE_KEY }}
+
+on:
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  playground:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print env variables
+        run: echo $ORG_GRADLE_PROJECT_mavenCentralUsername $ORG_GRADLE_PROJECT_mavenCentralPassword $ORG_GRADLE_PROJECT_signingInMemoryKey
