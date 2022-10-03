@@ -15,5 +15,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print env variables
-        run: echo $ORG_GRADLE_PROJECT_mavenCentralUsername $ORG_GRADLE_PROJECT_mavenCentralPassword $ORG_GRADLE_PROJECT_signingInMemoryKey
+      - name: Print mavenCentralUsername
+        run: echo $ORG_GRADLE_PROJECT_mavenCentralUsername
+
+      - name: Print mavenCentralPassword
+        run: echo $ORG_GRADLE_PROJECT_mavenCentralPassword
+
+      - name: Print signingInMemoryKey
+        run: echo $ORG_GRADLE_PROJECT_signingInMemoryKey
