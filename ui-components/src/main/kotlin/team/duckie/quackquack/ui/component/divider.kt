@@ -28,7 +28,7 @@ private val QuackDividerColor = QuackColor.Gray3
  */
 @Composable
 @NonRestartableComposable
-public fun QuackDivider() = Box(
+public fun QuackDivider(): Unit = Box(
     modifier = Modifier
         .fillMaxWidth()
         .height(
