@@ -142,18 +142,34 @@ jobs:
       - name: Publish lint-core-publish to MavenCentral
         if: contains(github.event.pull_request.labels.*.name, 'target_lint-core')
         run: ./gradlew :lint-core-publish:publish --no-parallel
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ARTIFACT_SIGNING_PRIVATE_KEY }}
 
       - name: Publish lint-quack-publish to MavenCentral
         if: contains(github.event.pull_request.labels.*.name, 'target_lint-quack')
         run: ./gradlew :lint-quack-publish:publish --no-parallel
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ARTIFACT_SIGNING_PRIVATE_KEY }}
 
       - name: Publish lint-compose-publish to MavenCentral
         if: contains(github.event.pull_request.labels.*.name, 'target_lint-compose')
         run: ./gradlew :lint-compose-publish:publish --no-parallel
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ARTIFACT_SIGNING_PRIVATE_KEY }}
 
       - name: Publish ui-components to MavenCentral
         if: contains(github.event.pull_request.labels.*.name, 'target_ui-components')
         run: ./gradlew :ui-components:publish --no-parallel
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ARTIFACT_SIGNING_PRIVATE_KEY }}
 
       - name: Update new versions
         run: |
