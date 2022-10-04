@@ -23,10 +23,12 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.material.DrawerValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.SwipeableState
@@ -41,7 +43,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.semantics.dismiss
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CancellationException
@@ -68,6 +71,7 @@ private val QuackEndDrawerPadding = 76.dp
 @Composable
 public fun QuackModalDrawer(
     drawerState: QuackDrawerState,
+    drawerContent: @Composable ColumnScope.() -> Unit,
     content: @Composable () -> Unit,
 ): Unit {
     val scope = rememberCoroutineScope()
@@ -91,19 +95,23 @@ public fun QuackModalDrawer(
             modifier = Modifier.swipeable(
                 state = drawerState.swipeableState,
                 anchors = anchors,
-                thresholds = { _, _ -> FractionalThreshold(0.5f) },
+                thresholds = { _, _ ->
+                    FractionalThreshold(
+                        fraction = 0.5f,
+                    )
+                },
                 orientation = Orientation.Horizontal,
-                enabled = true,
                 velocityThreshold = QuackDrawerVelocityThreshold,
                 resistance = null,
             ),
         ) {
+            Box {
+                content()
+            }
             Scrim(
                 open = drawerState.isOpen,
                 onClose = {
-                    if (drawerState.confirmStateChange(
-                            QuackDrawerValue.Closed
-                        )
+                    if (drawerState.confirmStateChange(QuackDrawerValue.Closed)
                     ) {
                         scope.launch {
                             drawerState.close()
@@ -145,7 +153,7 @@ public fun QuackModalDrawer(
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     content = {
-                        content()
+                        drawerContent()
                     },
                 )
             }

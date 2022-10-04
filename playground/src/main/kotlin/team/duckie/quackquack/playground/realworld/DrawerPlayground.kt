@@ -9,6 +9,7 @@ package team.duckie.quackquack.playground.realworld
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.collections.immutable.persistentListOf
@@ -27,7 +28,7 @@ class DrawerPlayground : BaseActivity() {
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
         "QuackModalDrawerDemo" to { QuackModalDrawerDemo() },
 
-    )
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,23 +47,27 @@ class DrawerPlayground : BaseActivity() {
 fun QuackModalDrawerDemo() {
     val drawerState = rememberQuackDrawerState()
     val coroutineScope = rememberCoroutineScope()
-    QuackLarge40WhiteButton(
-            text = "실행",
-            onClick = {
-                coroutineScope.launch {
-                    drawerState.open()
-                }
-            },
-        )
+
     QuackModalDrawer(
         drawerState = drawerState,
-    ){
-        QuackBody1(
-            text = "안녕하세요 감사합니다"
-        )
-        QuackDivider()
-        QuackBody1(
-            text = "네 들어가세요"
-        )
-    }
+        drawerContent = {
+            QuackBody1(
+                text = "안녕하세요 감사합니다"
+            )
+            QuackDivider()
+            QuackBody1(
+                text = "네 들어가세요"
+            )
+        },
+        content = {
+            QuackLarge40WhiteButton(
+                text = "실행",
+                onClick = {
+                    coroutineScope.launch {
+                        drawerState.open()
+                    }
+                },
+            )
+        },
+    )
 }
