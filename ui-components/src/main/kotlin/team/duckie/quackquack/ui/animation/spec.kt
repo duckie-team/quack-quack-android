@@ -4,7 +4,7 @@
 * [spec.kt] created by Ji Sungbin on 22. 8. 14. 오후 8:13
 *
 * Licensed under the MIT.
-* Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+* Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
 */
 
 package team.duckie.quackquack.ui.animation
