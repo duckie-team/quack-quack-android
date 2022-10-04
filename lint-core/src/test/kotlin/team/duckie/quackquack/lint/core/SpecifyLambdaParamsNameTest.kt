@@ -4,7 +4,7 @@
  * [SpecifyLambdaParamsNameTest.kt] created by ricky_0_k on 22. 9, 11. 오후 3:54
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 @file:Suppress("NonAsciiCharacters")

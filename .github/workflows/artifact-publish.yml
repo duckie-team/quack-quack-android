@@ -161,8 +161,8 @@ jobs:
 
       - name: Update new versions
         run: |
-          git config user.name "jisungbin"
-          git config user.email "ji@sungb.in"
+          git config user.name "sungbinland-bot"
+          git config user.email "sungbinland.project@gmail.com"
           git add .
           git commit -m "[CI] bump versions"
           git push
