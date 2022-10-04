@@ -21,16 +21,18 @@ import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.ui.component.QuackCardImage
 import team.duckie.quackquack.ui.component.QuackCardImageRow
+import team.duckie.quackquack.ui.component.QuackImage
 import team.duckie.quackquack.ui.component.QuackSelectableCardImage
 import team.duckie.quackquack.ui.icon.QuackIcon
 
-private val imageUrl = "https://picsum.photos/id/237/200/300"
+private const val imageUrl = "https://picsum.photos/id/237/200/300"
+
 class CardPlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
         "QuackCardImageDemo" to { QuackCardImageDemo() },
         "QuackCardImageRow" to { QuackCardImageRowDemo() },
-        "QuackCheckableCardImage" to { QuackCheckableCardImageDemo()}
+        "QuackCheckableCardImage" to { QuackCheckableCardImageDemo() }
     )
 
 
@@ -53,7 +55,9 @@ fun QuackCardImageDemo() {
     QuackCardImage(
         image = imageUrl,
         size = 150.dp,
-        cornerIcon = QuackIcon.ImageEdit,
+        cornerIcon = {
+            QuackImageEdit()
+        },
     )
 }
 
@@ -68,14 +72,18 @@ fun QuackCardImageRowDemo() {
             images = persistentListOf(
                 imageUrl,
             ),
-            cornerIcon = QuackIcon.ImageEdit,
+            cornerIcon = {
+                QuackImageEdit()
+            },
         )
         QuackCardImageRow(
             images = persistentListOf(
                 imageUrl,
                 imageUrl,
             ),
-            cornerIcon = QuackIcon.ImageEdit,
+            cornerIcon = {
+                QuackImageEdit()
+            },
         )
         QuackCardImageRow(
             images = persistentListOf(
@@ -83,15 +91,24 @@ fun QuackCardImageRowDemo() {
                 imageUrl,
                 imageUrl,
             ),
-            cornerIcon = QuackIcon.ImageEdit,
+            cornerIcon = {
+                QuackImageEdit()
+            },
         )
 
     }
 }
 
 @Composable
-fun QuackCheckableCardImageDemo(){
-    val isSelected = remember { mutableStateOf(false)}
+fun QuackImageEdit() {
+    QuackImage(
+        icon = QuackIcon.ImageEdit
+    )
+}
+
+@Composable
+fun QuackCheckableCardImageDemo() {
+    val isSelected = remember { mutableStateOf(false) }
     QuackSelectableCardImage(
         checked = isSelected.value,
         image = imageUrl,
