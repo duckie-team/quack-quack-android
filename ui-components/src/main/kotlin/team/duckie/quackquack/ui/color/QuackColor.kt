@@ -91,6 +91,15 @@ public value class QuackColor internal constructor(
         )
 
         @Stable
+        public val BlackOpacity60: QuackColor = QuackColor(
+            composeColor = Color(
+                color = 0xFF000000,
+            ).copy(
+                alpha = 0.6f,
+            ),
+        )
+
+        @Stable
         public val Gray1: QuackColor = QuackColor(
             composeColor = Color(
                 color = 0xFF666666,
