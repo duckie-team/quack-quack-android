@@ -73,7 +73,7 @@ class QuackTextStyle internal constructor(
     val weight: FontWeight,
     val letterSpacing: TextUnit,
     val lineHeight: TextUnit,
-    val textAlign: TextAlign = TextAlign.Center,
+    val textAlign: TextAlign = TextAlign.Start,
 ) {
     @Stable
     private val suit = FontFamily(Font(R.font.suit_variable))
