@@ -5,7 +5,10 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("KDocFields")
+@file:Suppress("KDocFields", "OPT_IN_MARKER_ON_WRONG_TARGET")
+@file:OptIn(
+    ExperimentalMaterialApi::class,
+)
 
 package team.duckie.quackquack.ui.component
 
@@ -63,7 +66,6 @@ public fun QuackModalDrawer(
     drawerState: QuackDrawerState,
     content: @Composable () -> Unit,
 ): Unit {
-    val drawerState = drawerState
     val scope = rememberCoroutineScope()
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize(),// drawer 크기
@@ -160,8 +162,14 @@ private fun Scrim(
     }
 }
 
-private fun calculateFraction(a: Float, b: Float, pos: Float) =
-    ((pos - a) / (b - a)).coerceIn(0f, 1f)
+private fun calculateFraction(
+    a: Float,
+    b: Float,
+    pos: Float,
+) = ((pos - a) / (b - a)).coerceIn(
+    minimumValue = 0f,
+    maximumValue = 1f,
+)
 
 
 @Composable
@@ -172,7 +180,7 @@ public fun rememberQuackDrawerState(
     ) -> Boolean = { true },
 ): QuackDrawerState {
     return rememberSaveable(
-        saver = QuackDrawerState.Saver(
+        saver = QuackDrawerState.saver(
             confirmStateChange = confirmStateChange,
         ),
     ) {
@@ -188,8 +196,6 @@ public class QuackDrawerState(
     initialValue: QuackDrawerValue,
     confirmStateChange: (QuackDrawerValue) -> Boolean = { true },
 ) {
-
-    @OptIn(ExperimentalMaterialApi::class)
     internal val swipeableState: SwipeableState<QuackDrawerValue> = SwipeableState(
         initialValue = initialValue,
         animationSpec = quackAnimationSpec(),
@@ -215,7 +221,7 @@ public class QuackDrawerState(
      * currently in. If a swipe or an animation is in progress, this corresponds the state drawer
      * was in before the swipe or animation started.
      */
-    @OptIn(ExperimentalMaterialApi::class)
+
     public val currentValue: QuackDrawerValue
         get() {
             return swipeableState.currentValue
@@ -224,7 +230,6 @@ public class QuackDrawerState(
     /**
      * Whether the state is currently animating.
      */
-    @OptIn(ExperimentalMaterialApi::class)
     public val isAnimationRunning: Boolean
         get() {
             return swipeableState.isAnimationRunning
@@ -237,7 +242,6 @@ public class QuackDrawerState(
      *
      * @return the reason the open animation ended
      */
-    @OptIn(ExperimentalMaterialApi::class)
     public suspend fun open(): Unit = animateTo(QuackDrawerValue.Open, quackAnimationSpec())
 
     /**
@@ -247,7 +251,6 @@ public class QuackDrawerState(
      *
      * @return the reason the close animation ended
      */
-    @OptIn(ExperimentalMaterialApi::class)
     public suspend fun close(): Unit = animateTo(QuackDrawerValue.Closed, quackAnimationSpec())
 
     /**
@@ -256,7 +259,6 @@ public class QuackDrawerState(
      * @param targetValue The new value to animate to.
      * @param anim The animation that will be used to animate to the new value.
      */
-    @ExperimentalMaterialApi
     public suspend fun animateTo(targetValue: QuackDrawerValue, anim: AnimationSpec<Float>) {
         swipeableState.animateTo(targetValue, anim)
     }
@@ -266,7 +268,6 @@ public class QuackDrawerState(
      *
      * @param targetValue The new target value
      */
-    @ExperimentalMaterialApi
     public suspend fun snapTo(targetValue: QuackDrawerValue) {
         swipeableState.snapTo(targetValue)
     }
@@ -278,26 +279,20 @@ public class QuackDrawerState(
      * Swipe 마감 Animation 이 실행 중인 경우 이 값이 해당 Animation 의 대상 값 입니다.
      * Swipe 또는 Animation 이 진행 되지 않으면 [currentValue] 와 동일합 니다.
      */
-    @Suppress("OPT_IN_MARKER_ON_WRONG_TARGET")
-    @ExperimentalMaterialApi
-    @get:ExperimentalMaterialApi
     public val targetValue: QuackDrawerValue
         get() = swipeableState.targetValue
 
     /**
      * The current position (in pixels) of the drawer sheet.
      */
-    @Suppress("OPT_IN_MARKER_ON_WRONG_TARGET")
-    @ExperimentalMaterialApi
-    @get:ExperimentalMaterialApi
     public val offset: State<Float>
         get() = swipeableState.offset
 
     public companion object {
         /**
-         * The default [Saver] implementation for [DrawerState].
+         * The default [Saver] implementation for [QuackDrawerState].
          */
-        public fun Saver(confirmStateChange: (QuackDrawerValue) -> Boolean): Saver<QuackDrawerState, QuackDrawerValue> =
+        public fun saver(confirmStateChange: (QuackDrawerValue) -> Boolean): Saver<QuackDrawerState, QuackDrawerValue> =
             Saver(
                 save = { drawerState ->
                     drawerState.currentValue
