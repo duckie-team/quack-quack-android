@@ -5,7 +5,11 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("KDocFields", "OPT_IN_MARKER_ON_WRONG_TARGET")
+@file:Suppress(
+    "KDocFields",
+    "OPT_IN_MARKER_ON_WRONG_TARGET",
+    "SameParameterValue",
+)
 @file:OptIn(
     ExperimentalMaterialApi::class,
 )
@@ -25,7 +29,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.Surface
 import androidx.compose.material.SwipeableState
 import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
@@ -45,6 +48,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.util.runIf
 import kotlin.math.roundToInt
 
 private val QuackDrawerVelocityThreshold = 400.dp
@@ -97,11 +101,15 @@ public fun QuackModalDrawer(
                     scope.launch { drawerState.close() }
                 },
                 fraction = {
-                    calculateFraction(minValue, maxValue, drawerState.offset.value)
+                    calculateFraction(
+                        a = minValue,
+                        b = maxValue,
+                        pos = drawerState.offset.value
+                    )
                 },
                 color = QuackColor.BlackOpacity60.composeColor,
             )
-            Surface(
+            QuackSurface(
                 modifier = with(
                     receiver = LocalDensity.current,
                 ) {
@@ -122,7 +130,7 @@ public fun QuackModalDrawer(
                             end = QuackEndDrawerPadding
                         )
                 },
-                color = QuackColor.White.composeColor,
+                backgroundColor = QuackColor.White,
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -142,23 +150,25 @@ private fun Scrim(
     fraction: () -> Float,
     color: Color,
 ) {
-    val dismissDrawer = if (open) {
-        Modifier
-            .pointerInput(
-                key1 = onClose,
-            ) { detectTapGestures { onClose() } }
-    } else {
-        Modifier
-    }
-
     Canvas(
         modifier = Modifier
             .fillMaxSize()
-            .then(
-                other = dismissDrawer,
-            ),
+            .runIf(
+                condition = open,
+            ) {
+                pointerInput(
+                    key1 = onClose,
+                ) {
+                    detectTapGestures {
+                        onClose()
+                    }
+                }
+            },
     ) {
-        drawRect(color, alpha = fraction())
+        drawRect(
+            color = color,
+            alpha = fraction(),
+        )
     }
 }
 
@@ -317,32 +327,4 @@ public enum class QuackDrawerValue {
      * The state of the drawer when it is open.
      */
     Open
-}
-
-
-@Preview
-@Composable
-public fun `프리뷰`(): Unit {
-    val drawerState = rememberQuackDrawerState()
-    val coroutineScope = rememberCoroutineScope()
-    QuackLarge40WhiteButton(
-        text = "실행",
-        onClick = {
-            coroutineScope.launch {
-                drawerState.open()
-            }
-        },
-    )
-    QuackModalDrawer(
-        drawerState = drawerState,
-    ) {
-        QuackBody1(
-            text = "22"
-        )
-        QuackDivider()
-        QuackBody1(
-            text = "22"
-        )
-    }
-
 }
