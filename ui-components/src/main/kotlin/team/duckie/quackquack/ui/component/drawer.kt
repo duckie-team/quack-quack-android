@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Surface
@@ -29,8 +28,6 @@ import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -47,7 +44,9 @@ import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import kotlin.math.roundToInt
 
-private val DrawerVelocityThreshold = 400.dp
+private val QuackDrawerVelocityThreshold = 400.dp
+
+private val QuackEndDrawerPadding = 76.dp
 
 /*
 열 때
@@ -67,9 +66,7 @@ public fun QuackModalDrawer(
     val drawerState = drawerState
     val scope = rememberCoroutineScope()
     BoxWithConstraints(
-        modifier = Modifier.fillMaxSize(
-            0.5f,
-        ),
+        modifier = Modifier.fillMaxSize(),// drawer 크기
     ) {
         val modalDrawerConstraints = constraints
 
@@ -88,7 +85,7 @@ public fun QuackModalDrawer(
                 thresholds = { _, _ -> FractionalThreshold(0.5f) },
                 orientation = Orientation.Horizontal,
                 enabled = true,
-                velocityThreshold = DrawerVelocityThreshold,
+                velocityThreshold = QuackDrawerVelocityThreshold,
                 resistance = null,
             ),
         ) {
@@ -100,7 +97,7 @@ public fun QuackModalDrawer(
                 fraction = {
                     calculateFraction(minValue, maxValue, drawerState.offset.value)
                 },
-                color = QuackColor.White.composeColor,
+                color = QuackColor.BlackOpacity60.composeColor,
             )
             Surface(
                 modifier = with(
@@ -119,6 +116,9 @@ public fun QuackModalDrawer(
                                 y = 0,
                             )
                         }
+                        .padding(
+                            end = QuackEndDrawerPadding
+                        )
                 },
                 color = QuackColor.White.composeColor,
             ) {
@@ -330,15 +330,14 @@ public enum class QuackDrawerValue {
 public fun `프리뷰`(): Unit {
     val drawerState = rememberQuackDrawerState()
     val coroutineScope = rememberCoroutineScope()
-    Button(
+    QuackLarge40WhiteButton(
+        text = "실행",
         onClick = {
             coroutineScope.launch {
                 drawerState.open()
             }
         },
-    ) {
-        QuackBody1("실행")
-    }
+    )
     QuackModalDrawer(
         drawerState = drawerState,
     ) {
