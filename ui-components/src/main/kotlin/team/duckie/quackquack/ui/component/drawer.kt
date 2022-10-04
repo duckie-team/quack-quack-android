@@ -75,6 +75,9 @@ public fun QuackModalDrawer(
         modifier = Modifier.fillMaxSize(),// drawer 크기
     ) {
         val modalDrawerConstraints = constraints
+        if (!modalDrawerConstraints.hasBoundedWidth) {
+            throw IllegalStateException("Drawer shouldn't have infinite width")
+        }
 
         val minValue = -modalDrawerConstraints.maxWidth.toFloat()
         val maxValue = 0f
@@ -98,7 +101,14 @@ public fun QuackModalDrawer(
             Scrim(
                 open = drawerState.isOpen,
                 onClose = {
-                    scope.launch { drawerState.close() }
+                    if (drawerState.confirmStateChange(
+                            QuackDrawerValue.Closed
+                        )
+                    ) {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    }
                 },
                 fraction = {
                     calculateFraction(
@@ -204,7 +214,7 @@ public fun rememberQuackDrawerState(
 @Stable
 public class QuackDrawerState(
     initialValue: QuackDrawerValue,
-    confirmStateChange: (QuackDrawerValue) -> Boolean = { true },
+    internal val confirmStateChange: (QuackDrawerValue) -> Boolean = { true },
 ) {
     internal val swipeableState: SwipeableState<QuackDrawerValue> = SwipeableState(
         initialValue = initialValue,

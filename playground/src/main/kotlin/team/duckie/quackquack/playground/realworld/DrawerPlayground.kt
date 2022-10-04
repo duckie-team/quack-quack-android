@@ -47,13 +47,13 @@ fun QuackModalDrawerDemo() {
     val drawerState = rememberQuackDrawerState()
     val coroutineScope = rememberCoroutineScope()
     QuackLarge40WhiteButton(
-        text = "실행",
-        onClick = {
-            coroutineScope.launch {
-                drawerState.open()
-            }
-        },
-    )
+            text = "실행",
+            onClick = {
+                coroutineScope.launch {
+                    drawerState.open()
+                }
+            },
+        )
     QuackModalDrawer(
         drawerState = drawerState,
     ){
