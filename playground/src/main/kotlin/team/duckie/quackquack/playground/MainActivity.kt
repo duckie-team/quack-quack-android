@@ -43,6 +43,7 @@ private val PlaygroundActivities = persistentListOf(
     TogglePlayground::class,
     TypoPlayground::class,
     CardPlayground::class,
+    GridLayoutPlayground::class,
 )
 
 class MainActivity : BaseActivity() {

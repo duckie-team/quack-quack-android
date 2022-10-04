@@ -35,6 +35,8 @@
         <activity android:name=".realworld.TogglePlayground" />
         <activity android:name=".realworld.TypoPlayground" />
         <activity android:name=".realworld.CardPlayground" />
+        <activity android:name=".realworld.GridLayoutPlayground" />
+
 
     </application>
 
