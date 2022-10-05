@@ -71,7 +71,7 @@ fun QuackSmallDeletableImageDemo() {
         if (isDeleted.value) {
             QuackTitle1(
                 text = "이미지 복구하기",
-                modifier = Modifier.clickable {
+                onClick =  {
                     isDeleted.value = false
                 },
             )
@@ -93,7 +93,7 @@ fun QuackLargeDeletableImageDemo() {
         if (isDeleted.value) {
             QuackTitle1(
                 text = "이미지 복구하기",
-                modifier = Modifier.clickable {
+                onClick = {
                     isDeleted.value = false
                 },
             )

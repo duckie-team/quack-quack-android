@@ -135,8 +135,8 @@ fun QuackTopAppBar(
 
             if (trailingText != null) {
                 QuackSubtitle(
-                    modifier = Modifier.quackClickable { onClickTrailingText?.invoke() },
                     text = trailingText,
+                    onClick = onClickTrailingText,
                 )
             }
         }
