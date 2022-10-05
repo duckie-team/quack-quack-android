@@ -58,4 +58,9 @@ dependencies {
         libs.androidx.datastore,
         libs.kotlin.collections.immutable,
     )
+    implementations(
+        projects.uxWritingRule,
+        projects.uxWritingModel,
+        projects.uxWritingOverlay,
+    )
 }

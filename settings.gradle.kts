@@ -7,6 +7,8 @@
 
 @file:Suppress("UnstableApiUsage")
 
+rootProject.name = "quack-quack"
+
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -18,7 +20,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "quack-quack"
 include(
     ":playground",
     ":common-lint",
@@ -34,6 +35,9 @@ include(
     ":lint-quack-publish",
     ":lint-compose-publish",
     ":quack-publish-bom",
+    ":ux-writing-rule",
+    ":ux-writing-overlay",
+    ":ux-writing-model",
     ":benchmark-ui-components",
     ":benchmark-ui-components-app",
 )

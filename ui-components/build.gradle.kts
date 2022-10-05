@@ -41,6 +41,9 @@ dependencies {
         libs.compose.glide,
         libs.compose.flowlayout,
     )
+    implementations(
+        projects.uxWritingModel,
+    )
     lintChecks(projects.lintCore)
     lintChecks(projects.lintCompose)
     // testImplementations(libs.test.parameter.injector)
