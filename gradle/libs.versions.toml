@@ -27,7 +27,7 @@ landscapist = "2.0.0"
 accompanist = "0.26.4-beta"
 
 # tools
-kover = "0.6.0"
+kover = "0.6.1"
 lint = "30.3.0"
 logeukes = "1.0.0"
 ktx-core = "1.9.0"
