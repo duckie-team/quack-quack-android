@@ -36,6 +36,7 @@
         <activity android:name=".realworld.EtcPlayground" />
         <activity android:name=".realworld.NavigationPlayground" />
         <activity android:name=".realworld.TogglePlayground" />
+        <activity android:name=".realworld.BottomSheetPlayground" />
 
     </application>
 

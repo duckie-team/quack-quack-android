@@ -20,11 +20,11 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundActivities
+import team.duckie.quackquack.playground.realworld.BottomSheetPlayground
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
 import team.duckie.quackquack.playground.realworld.EtcPlayground
 import team.duckie.quackquack.playground.realworld.FabPlayground
 import team.duckie.quackquack.playground.realworld.NavigationPlayground
-import team.duckie.quackquack.playground.realworld.QuackBasicTextFieldWithAllDecorationDemo
 import team.duckie.quackquack.playground.realworld.SelectableImagePlayground
 import team.duckie.quackquack.playground.realworld.TabPlayground
 import team.duckie.quackquack.playground.realworld.TextFieldPlayground
@@ -44,6 +44,7 @@ private val PlaygroundActivities = persistentListOf(
     EtcPlayground::class,
     NavigationPlayground::class,
     TogglePlayground::class,
+    BottomSheetPlayground::class,
 )
 
 class MainActivity : BaseActivity() {
