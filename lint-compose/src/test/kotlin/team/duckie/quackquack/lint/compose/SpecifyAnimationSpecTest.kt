@@ -22,7 +22,8 @@ import team.duckie.quackquack.common.lint.test.composableTestFile
  *
  * 1. 코틀린 함수여야 함
  * 2. animate*AsState 함수를 대상으로 경고해야 함 [AnimateStateOfList]
- * 2. argument animationSpec 에 quackAnimationSpec 을 사용해야 함
+ * 3. argument animationSpec 에 quackAnimationSpec 을 사용해야 함
+ * 4. default argument 를 사용하지 않아야 함
  */
 class SpecifyAnimationSpecTest {
 
@@ -36,6 +37,10 @@ class SpecifyAnimationSpecTest {
                 files = listOf(
                     composableTestFile(
                         """
+                                val defaultFailed = animateDpAsState(
+                                    targetValue = 10.dp,
+                                )
+
                                 // float
                                 val floatFailed = animateFloatAsState(
                                     targetValue = 0f,
@@ -159,7 +164,7 @@ class SpecifyAnimationSpecTest {
                 issues = listOf(
                     SpecifyAnimationSpecIssue,
                 ),
-                expectedCount = 9,
+                expectedCount = 10,
             )
     }
 }

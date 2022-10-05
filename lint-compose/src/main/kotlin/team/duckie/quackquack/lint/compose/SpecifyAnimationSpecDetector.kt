@@ -21,6 +21,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.intellij.psi.PsiElement
 import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.kotlin.KotlinUFunctionCallExpression
 import team.duckie.quackquack.common.lint.util.fastForEach
@@ -62,7 +63,8 @@ private val AnimateStateOfList = listOf(
  * 다음과 같은 조건에서 린트 에러가 발생합니다.
  * 1. 코틀린 함수여야 함
  * 2. [AnimateStateOfList] 를 호출해야 함
- * 3. animationSpec 에 quackAnimationSpec 를 사용하지 않아야 함
+ * 3. animationSpec 에 quackAnimationSpec 를 사용하지 않은 경우
+ * 4. default argument 를 사용한 경우
  */
 class SpecifyAnimationSpecDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes() = listOf(
@@ -89,16 +91,26 @@ class SpecifyAnimationSpecDetector : Detector(), SourceCodeScanner {
                             argumentTreeParent.lastChildNode.firstChildNode.firstChildNode.text
 
                         if (argumentValue != "quackAnimationSpec") {
-                            context.report(
-                                issue = SpecifyAnimationSpecIssue,
-                                scope = argumentSourcePsi,
-                                location = context.getNameLocation(argumentSourcePsi),
-                                message = Explanation,
-                            )
+                            sendErrorReport(argumentSourcePsi)
                         }
+
+                        return
                     }
                 }
+
+                sendErrorReport(node.sourcePsi)
             }
+        }
+
+        private fun sendErrorReport(
+            psi: PsiElement,
+        ) {
+            context.report(
+                issue = SpecifyAnimationSpecIssue,
+                scope = psi,
+                location = context.getNameLocation(psi),
+                message = Explanation,
+            )
         }
     }
 }
