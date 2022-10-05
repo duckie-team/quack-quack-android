@@ -23,6 +23,7 @@ import team.duckie.quackquack.ui.textstyle.QuackTextStyle
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
+ * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
@@ -31,6 +32,7 @@ fun QuackHeadLine1(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
+    singleLine: Boolean = true,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
@@ -41,6 +43,7 @@ fun QuackHeadLine1(
     style = QuackTextStyle.HeadLine1.change(
         color = color,
     ),
+    singleLine = singleLine,
 )
 
 /**
@@ -50,6 +53,7 @@ fun QuackHeadLine1(
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
+ * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
@@ -58,6 +62,7 @@ fun QuackHeadLine2(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
+    singleLine: Boolean = true,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
@@ -68,6 +73,7 @@ fun QuackHeadLine2(
     style = QuackTextStyle.HeadLine2.change(
         color = color,
     ),
+    singleLine = singleLine,
 )
 
 /**
@@ -77,6 +83,7 @@ fun QuackHeadLine2(
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
+ * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
@@ -85,6 +92,7 @@ fun QuackTitle1(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
+    singleLine: Boolean = true,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
@@ -95,6 +103,7 @@ fun QuackTitle1(
     style = QuackTextStyle.Title1.change(
         color = color,
     ),
+    singleLine = singleLine,
 )
 
 /**
@@ -104,6 +113,7 @@ fun QuackTitle1(
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
+ * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
@@ -112,6 +122,7 @@ fun QuackTitle2(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
+    singleLine: Boolean = true,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
@@ -122,6 +133,7 @@ fun QuackTitle2(
     style = QuackTextStyle.Title2.change(
         color = color,
     ),
+    singleLine = singleLine,
 )
 
 /**
@@ -131,6 +143,7 @@ fun QuackTitle2(
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
+ * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
@@ -139,6 +152,7 @@ fun QuackSubtitle(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
+    singleLine: Boolean = true,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
@@ -149,6 +163,7 @@ fun QuackSubtitle(
     style = QuackTextStyle.Subtitle.change(
         color = color,
     ),
+    singleLine = singleLine,
 )
 
 /**
@@ -158,7 +173,9 @@ fun QuackSubtitle(
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
+ * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
+
  */
 @Composable
 @NonRestartableComposable
@@ -166,6 +183,7 @@ fun QuackBody1(
     text: String,
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
+    singleLine: Boolean = true,
     onClick: (() -> Unit)? = null,
 ) = QuackText(
     modifier = Modifier.quackClickable(
@@ -176,6 +194,7 @@ fun QuackBody1(
     style = QuackTextStyle.Body1.change(
         color = color,
     ),
+    singleLine = singleLine,
 )
 
 /**
@@ -185,6 +204,7 @@ fun QuackBody1(
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
+ * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
@@ -194,6 +214,7 @@ fun QuackBody2(
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
+    singleLine: Boolean = true,
 ) = QuackText(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
@@ -203,6 +224,7 @@ fun QuackBody2(
     style = QuackTextStyle.Body2.change(
         color = color,
     ),
+    singleLine = singleLine,
 )
 
 /**
@@ -212,6 +234,7 @@ fun QuackBody2(
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
+ * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
 @Composable
@@ -221,6 +244,7 @@ fun QuackBody3(
     color: QuackColor = QuackColor.Black,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
+    singleLine: Boolean = true,
 ) = QuackText(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
@@ -230,4 +254,5 @@ fun QuackBody3(
     style = QuackTextStyle.Body3.change(
         color = color,
     ),
+    singleLine = singleLine,
 )
