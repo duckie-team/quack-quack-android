@@ -10,26 +10,36 @@ package team.duckie.quackquack.playground.realworld
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
+import team.duckie.quackquack.ui.component.QuackBody1
 import team.duckie.quackquack.ui.component.QuackBottomSheet
 import team.duckie.quackquack.ui.component.QuackBottomSheetItem
 import team.duckie.quackquack.ui.component.QuackHeadlineBottomSheet
+import team.duckie.quackquack.ui.component.QuackLargeButton
+import team.duckie.quackquack.ui.component.QuackRoundImage
 import team.duckie.quackquack.ui.component.QuackSimpleBottomSheet
 import team.duckie.quackquack.ui.component.QuackSubtitleBottomSheet
 import team.duckie.quackquack.ui.component.QuackTitle1
+
+private const val ImageUrl = "https://picsum.photos/id/237/200/300"
 
 class BottomSheetPlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
@@ -65,7 +75,49 @@ fun QuackBottomSheetDemo() {
         useHandle = true,
         bottomSheetState = bottomSheetState,
         sheetContent = {
-            Text("Hello World")
+            Column(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 16.dp,
+                ),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Spacer(
+                    modifier = Modifier.height(
+                        height = 16.dp
+                    )
+                )
+                QuackRoundImage(
+                    image = ImageUrl,
+                    size = 72.dp,
+                )
+                Spacer(
+                    modifier = Modifier.height(
+                        height = 16.dp
+                    )
+                )
+                QuackTitle1(
+                    text = "더키?오키!")
+                Spacer(
+                    modifier = Modifier.height(
+                        height = 12.dp
+                    )
+                )
+                QuackBody1(
+                    text = "반가워요 new 오키님!\n덕키에서 마음껏 취향을 넓혀보세요",
+                    singleLine = false,
+                )
+                Spacer(
+                    modifier = Modifier.height(
+                        height = 43.dp
+                    )
+                )
+                QuackLargeButton(
+                    text = "대표 배지로 설정",
+                    onClick = {},
+                )
+            }
         },
         content = {
             Box(

@@ -14,9 +14,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,7 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
@@ -60,17 +57,19 @@ private val QuackBottomSheetPadding = PaddingValues(
     vertical = 16.dp,
 )
 
-private val QuackSheetContentPadding = PaddingValues(
-    bottom = 8.dp,
+private val QuackBottomSheetStartPadding = PaddingValues(
+    start = 16.dp,
 )
+
+private val QuackBottomSheetSubtitleItemHeight = 38.dp
 
 /**
  * [QuackBottomSheet]를 구현합니다.
  *
- * @param useHandle
- * @param bottomSheetState
- * @param sheetContent
- * @param content
+ * @param useHandle BottomSheet 의 handle 을 사용할지에 대한 여부
+ * @param bottomSheetState BottomSheet 의 상태값
+ * @param sheetContent BottomSheet 의 sheetContent 에 그릴 화면
+ * @param content BottomSheet 를 호출하는 나머지 화면
  */
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -82,14 +81,17 @@ fun QuackBottomSheet(
     content: @Composable () -> Unit,
 ) {
     ModalBottomSheetLayout(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.applyQuackSize(
+            width = QuackWidth.Fill,
+            height = QuackHeight.Fill,
+        ),
         sheetContent = {
-            QuackSheetContent(
+            QuackBottomSheetContent(
                 useHandle = useHandle,
                 sheetContent = sheetContent,
             )
         },
-        sheetBackgroundColor = Color.Transparent,
+        sheetBackgroundColor = QuackColor.Transparent.value,
         sheetState = bottomSheetState,
         scrimColor = QuackColor.Black80.value,
     ) {
@@ -98,85 +100,12 @@ fun QuackBottomSheet(
 }
 
 /**
- * [QuackSheetContent] 를 구현합니다.
- *
- * @param useHandle
- * @param sheetContent
- */
-@Composable
-private fun QuackSheetContent(
-    useHandle: Boolean,
-    sheetContent: @Composable () -> Unit,
-) {
-
-    Column(
-        modifier = Modifier
-            .clip(
-                shape = BottomSheetShape
-            ),
-    ) {
-        Column(
-            modifier = Modifier
-                .applyQuackSize(
-                    width = QuackWidth.Fill,
-                    height = QuackHeight.Wrap,
-                )
-                .background(
-                    color = QuackColor.White.value,
-                )
-                .padding(
-                    paddingValues = QuackSheetContentPadding,
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            QuackBottomSheetHandle(
-                useHandle = useHandle,
-            )
-            sheetContent()
-        }
-    }
-}
-
-/**
- * @param useHandle
- */
-@Composable
-private fun QuackBottomSheetHandle(
-    useHandle: Boolean
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                paddingValues = QuackBottomSheetContentPadding,
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-        if (useHandle) {
-            Box(
-                modifier = Modifier
-                    .size(
-                        size = QuackBottomSheetHandleSize,
-                    )
-                    .background(
-                        color = Gray3.value,
-                    )
-                    .clip(
-                        shape = QuackBottomSheetHandleShape,
-                    )
-            )
-        }
-    }
-}
-
-
-/**
  * [QuackSimpleBottomSheet]를 구현합니다.
  *
- * @param bottomSheetState
- * @param items
- * @param onClick
- * @param content
+ * @param bottomSheetState BottomSheet 의 상태값
+ * @param items BottomSheet 에 나타날 목록형 아이템 데이터 값
+ * @param onClick BottomSheet 의 목록형 아이템 클릭 이벤트
+ * @param content BottomSheet 를 호출하는 나머지 화면
  */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -205,11 +134,11 @@ fun QuackSimpleBottomSheet(
 /**
  * [QuackHeadlineBottomSheet]를 구현합니다.
  *
- * @param bottomSheetState
- * @param headline
- * @param items
- * @param onClick
- * @param content
+ * @param bottomSheetState BottomSheet 의 상태값
+ * @param headline Headline 텍스트 값
+ * @param items BottomSheet 에 나타날 목록형 아이템 데이터 값
+ * @param onClick BottomSheet 의 목록형 아이템 클릭 이벤트
+ * @param content BottomSheet 를 호출하는 나머지 화면
  */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -247,11 +176,11 @@ fun QuackHeadlineBottomSheet(
 /**
  * [QuackSubtitleBottomSheet]를 구현합니다.
  *
- * @param bottomSheetState
- * @param items
- * @param subtitle
- * @param onClick
- * @param content
+ * @param bottomSheetState BottomSheet 의 상태값
+ * @param items BottomSheet 에 나타날 목록형 아이템 데이터 값
+ * @param subtitle Subtitle 텍스트 값
+ * @param onClick BottomSheet 의 목록형 아이템 클릭 이벤트
+ * @param content BottomSheet 를 호출하는 나머지 화면
  */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -289,13 +218,93 @@ fun QuackSubtitleBottomSheet(
         },
         useHandle = true,
     )
-
 }
 
 /**
- * @param item
- * @param onClick
- * @param rippleEnabled
+ * 이 아래부터는
+ * Quack*BottomSheet 를 구현하기 위해서 필요한 private @Composable 함수들입니다.
+ */
+
+
+/**
+ * [QuackBottomSheetContent] 를 구현합니다.
+ *
+ * @param useHandle BottomSheet 의 handle을 사용할지 여부
+ * @param sheetContent sheetContent 에서 그려질 @Composable 함수
+ */
+@Composable
+private fun QuackBottomSheetContent(
+    useHandle: Boolean,
+    sheetContent: @Composable () -> Unit,
+) {
+
+    Column(
+        modifier = Modifier.clip(
+                shape = BottomSheetShape
+            ),
+    ) {
+        Column(
+            modifier = Modifier
+                .applyQuackSize(
+                    width = QuackWidth.Fill,
+                    height = QuackHeight.Wrap,
+                ).background(
+                    color = QuackColor.White.value,
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            QuackBottomSheetHandle(
+                useHandle = useHandle,
+            )
+            sheetContent()
+        }
+    }
+}
+
+/**
+ * [QuackBottomSheetHandle] 을 구현합니다.
+ *
+ * @param useHandle BottomSheet 의 handle을 사용할지 여부
+ */
+@Composable
+private fun QuackBottomSheetHandle(
+    useHandle: Boolean
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                paddingValues = QuackBottomSheetContentPadding,
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (useHandle) {
+            Box(
+                modifier = Modifier
+                    .size(
+                        size = QuackBottomSheetHandleSize,
+                    )
+                    .background(
+                        color = Gray3.value,
+                    )
+                    .clip(
+                        shape = QuackBottomSheetHandleShape,
+                    )
+            )
+        }
+    }
+}
+
+
+
+/**
+ * [QuackBottomSheetSubtitleItem] 을 구현합니다.
+ *
+ * BottomSheet 의 목록형 UI를 나타내기 위해 필요한 함수입니다.
+ *
+ * @param item Subtitle 의 아이템 데이터 값
+ * @param onClick Subtitle 을 onClick 했을 떄 이벤트
+ * @param rippleEnabled onClick 이벤트 발생시 ripple 이 발생하는지 여부
  */
 @Composable
 private fun QuackBottomSheetSubtitleItem(
@@ -313,17 +322,15 @@ private fun QuackBottomSheetSubtitleItem(
             .applyQuackSize(
                 width = QuackWidth.Fill,
                 height = QuackHeight.Custom(
-                    height = 38.dp,
+                    height = QuackBottomSheetSubtitleItemHeight,
                 ),
-            )
-            .quackClickable(
+            ).quackClickable(
                 onClick = {
                     onClick(item)
                 },
                 rippleEnabled = rippleEnabled,
-            )
-            .padding(
-                start = 16.dp,
+            ).padding(
+                paddingValues = QuackBottomSheetStartPadding,
             ),
         contentAlignment = Alignment.CenterStart,
     ) {
@@ -335,10 +342,10 @@ private fun QuackBottomSheetSubtitleItem(
 }
 
 /**
- * [QuackBottomSheetSubtitles]
+ * [QuackBottomSheetSubtitles] 를 구현합니다.
  *
- * @param items
- * @param onClick
+ * @param items Subtitle 의 아이템 데이터 리스트 값
+ * @param onClick Subtitle 을 onClick 했을 떄 이벤트
  */
 @Composable
 private fun QuackBottomSheetSubtitles(
@@ -354,9 +361,11 @@ private fun QuackBottomSheetSubtitles(
 }
 
 /**
- * [QuackBottomSheetHandle] 은 BottomSheet 상단에 있는 Handle 입니다.
+ * [QuackBottomSheetHeadline] 을 구현합니다.
  *
- * @param headline
+ * [QuackHeadlineBottomSheet] 에서 패딩을 넣는 용도로 구현했습니다.
+ *
+ * @param headline 헤드라인 텍스트 값
  */
 @Composable
 private fun QuackBottomSheetHeadline(
@@ -364,7 +373,7 @@ private fun QuackBottomSheetHeadline(
 ) {
     Box(
         modifier = Modifier.padding(
-            start = 16.dp,
+            paddingValues = QuackBottomSheetStartPadding,
         ),
     ) {
         QuackHeadLine2(
@@ -376,7 +385,11 @@ private fun QuackBottomSheetHeadline(
 /**
  * [QuackBottomSheetColumn] 은 BottomSheet 에서 공통적으로 사용되는 Column 입니다.
  *
- * @param content
+ * 공통적으로 사용하는 Padding 를 재활용 가능합니다.
+ * 또한 [ModalBottomSheetLayout] 의 sheetContent 를 한 번 더 감싸서 사용해야
+ * RoundedCornerShape 의 모양을 완성할 수 있습니다.
+ *
+ * @param content sheetContent 에서 그려질 @Composable 함수
  */
 @Composable
 private fun QuackBottomSheetColumn(
