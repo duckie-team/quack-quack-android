@@ -124,6 +124,9 @@ fun QuackSimpleBottomSheetDemo() {
                 isImportant = true,
             ),
         ),
+        onClick = {
+
+        },
     )
 }
 
@@ -167,6 +170,9 @@ fun QuackHeadlineBottomSheetDemo() {
             ),
         ),
         headline = "Headline 2",
+        onClick = {
+
+        },
     )
 }
 
@@ -210,6 +216,9 @@ fun QuackSubtitleBottomSheetDemo() {
             ),
         ),
         subtitle = "subtitle",
+        onClick = {
+
+        },
     )
 
 }

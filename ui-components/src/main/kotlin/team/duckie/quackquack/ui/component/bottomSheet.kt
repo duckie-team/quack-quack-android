@@ -37,6 +37,7 @@ import team.duckie.quackquack.ui.color.QuackColor.Companion.Gray3
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.modifier.applyQuackSize
+import team.duckie.quackquack.ui.modifier.quackClickable
 
 private val BottomSheetShape = RoundedCornerShape(
     topStart = 24.dp,
@@ -51,12 +52,16 @@ private val QuackBottomSheetHandleSize = DpSize(
 private val QuackBottomSheetHandleShape = RoundedCornerShape(
     size = 2.dp,
 )
-private val QuackBottomSheetHandlePadding = PaddingValues(
+private val QuackBottomSheetContentPadding = PaddingValues(
     vertical = 8.dp,
 )
 
 private val QuackBottomSheetPadding = PaddingValues(
     vertical = 16.dp,
+)
+
+private val QuackSheetContentPadding = PaddingValues(
+    bottom = 8.dp,
 )
 
 /**
@@ -79,29 +84,10 @@ fun QuackBottomSheet(
     ModalBottomSheetLayout(
         modifier = Modifier.fillMaxSize(),
         sheetContent = {
-            Column(
-                modifier = Modifier
-                    .clip(
-                        shape = BottomSheetShape
-                    ),
-            ) {
-                Column(
-                    modifier = Modifier
-                        .applyQuackSize(
-                            width = QuackWidth.Fill,
-                            height = QuackHeight.Wrap,
-                        )
-                        .background(
-                            color = QuackColor.White.value,
-                        ),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    QuackBottomSheetHandle(
-                        useHandle = useHandle,
-                    )
-                    sheetContent()
-                }
-            }
+            QuackSheetContent(
+                useHandle = useHandle,
+                sheetContent = sheetContent,
+            )
         },
         sheetBackgroundColor = Color.Transparent,
         sheetState = bottomSheetState,
@@ -109,7 +95,46 @@ fun QuackBottomSheet(
     ) {
         content()
     }
+}
 
+/**
+ * [QuackSheetContent] 를 구현합니다.
+ *
+ * @param useHandle
+ * @param sheetContent
+ */
+@Composable
+private fun QuackSheetContent(
+    useHandle: Boolean,
+    sheetContent: @Composable () -> Unit,
+) {
+
+    Column(
+        modifier = Modifier
+            .clip(
+                shape = BottomSheetShape
+            ),
+    ) {
+        Column(
+            modifier = Modifier
+                .applyQuackSize(
+                    width = QuackWidth.Fill,
+                    height = QuackHeight.Wrap,
+                )
+                .background(
+                    color = QuackColor.White.value,
+                )
+                .padding(
+                    paddingValues = QuackSheetContentPadding,
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            QuackBottomSheetHandle(
+                useHandle = useHandle,
+            )
+            sheetContent()
+        }
+    }
 }
 
 /**
@@ -123,7 +148,7 @@ private fun QuackBottomSheetHandle(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                paddingValues = QuackBottomSheetHandlePadding,
+                paddingValues = QuackBottomSheetContentPadding,
             ),
         contentAlignment = Alignment.Center,
     ) {
@@ -144,11 +169,13 @@ private fun QuackBottomSheetHandle(
     }
 }
 
+
 /**
  * [QuackSimpleBottomSheet]를 구현합니다.
  *
  * @param bottomSheetState
  * @param items
+ * @param onClick
  * @param content
  */
 @OptIn(ExperimentalMaterialApi::class)
@@ -156,6 +183,7 @@ private fun QuackBottomSheetHandle(
 fun QuackSimpleBottomSheet(
     bottomSheetState: ModalBottomSheetState,
     items: PersistentList<QuackBottomSheetItem>,
+    onClick: (QuackBottomSheetItem) -> Unit,
     content: @Composable () -> Unit,
 ) {
     QuackBottomSheet(
@@ -165,6 +193,7 @@ fun QuackSimpleBottomSheet(
             QuackBottomSheetColumn {
                 QuackBottomSheetSubtitles(
                     items = items,
+                    onClick = onClick,
                 )
             }
         },
@@ -179,6 +208,7 @@ fun QuackSimpleBottomSheet(
  * @param bottomSheetState
  * @param headline
  * @param items
+ * @param onClick
  * @param content
  */
 @OptIn(ExperimentalMaterialApi::class)
@@ -187,6 +217,7 @@ fun QuackHeadlineBottomSheet(
     bottomSheetState: ModalBottomSheetState,
     headline: String,
     items: PersistentList<QuackBottomSheetItem>,
+    onClick: (QuackBottomSheetItem) -> Unit,
     content: @Composable () -> Unit,
 ) {
     QuackBottomSheet(
@@ -198,12 +229,13 @@ fun QuackHeadlineBottomSheet(
                     headline = headline,
                 )
                 Spacer(
-                    modifier = Modifier.height(
-                        height = 16.dp,
+                    modifier = Modifier.padding(
+                        paddingValues = QuackBottomSheetContentPadding,
                     ),
                 )
                 QuackBottomSheetSubtitles(
                     items = items,
+                    onClick = onClick,
                 )
             }
         },
@@ -218,6 +250,7 @@ fun QuackHeadlineBottomSheet(
  * @param bottomSheetState
  * @param items
  * @param subtitle
+ * @param onClick
  * @param content
  */
 @OptIn(ExperimentalMaterialApi::class)
@@ -226,6 +259,7 @@ fun QuackSubtitleBottomSheet(
     bottomSheetState: ModalBottomSheetState,
     subtitle: String,
     items: PersistentList<QuackBottomSheetItem>,
+    onClick: (QuackBottomSheetItem) -> Unit,
     content: @Composable () -> Unit,
 ) {
     QuackBottomSheet(
@@ -234,17 +268,22 @@ fun QuackSubtitleBottomSheet(
         sheetContent = {
             QuackBottomSheetColumn {
                 QuackBottomSheetSubtitleItem(
-                    isImportant = false,
-                    title = subtitle,
+                    item = QuackBottomSheetItem(
+                        title = subtitle,
+                        isImportant = false,
+                    ),
+                    onClick = onClick,
+                    rippleEnabled = false,
                 )
                 Divider(
                     modifier = Modifier.padding(
-                        vertical = 8.dp
+                        paddingValues = QuackBottomSheetContentPadding
                     ),
                     color = Gray3.value,
                 )
                 QuackBottomSheetSubtitles(
                     items = items,
+                    onClick = onClick,
                 )
             }
         },
@@ -254,15 +293,17 @@ fun QuackSubtitleBottomSheet(
 }
 
 /**
- * @param isImportant
- * @param title
+ * @param item
+ * @param onClick
+ * @param rippleEnabled
  */
 @Composable
 private fun QuackBottomSheetSubtitleItem(
-    isImportant: Boolean,
-    title: String,
+    item: QuackBottomSheetItem,
+    onClick: (QuackBottomSheetItem) -> Unit,
+    rippleEnabled: Boolean = true,
 ) {
-    val textColor = when (isImportant) {
+    val textColor = when (item.isImportant) {
         true -> QuackColor.OrangeRed
         else -> QuackColor.Black
     }
@@ -275,13 +316,19 @@ private fun QuackBottomSheetSubtitleItem(
                     height = 38.dp,
                 ),
             )
+            .quackClickable(
+                onClick = {
+                    onClick(item)
+                },
+                rippleEnabled = rippleEnabled,
+            )
             .padding(
                 start = 16.dp,
             ),
         contentAlignment = Alignment.CenterStart,
     ) {
         QuackSubtitle(
-            text = title,
+            text = item.title,
             color = textColor,
         )
     }
@@ -291,15 +338,17 @@ private fun QuackBottomSheetSubtitleItem(
  * [QuackBottomSheetSubtitles]
  *
  * @param items
+ * @param onClick
  */
 @Composable
 private fun QuackBottomSheetSubtitles(
     items: PersistentList<QuackBottomSheetItem>,
+    onClick: (QuackBottomSheetItem) -> Unit,
 ) {
     items.forEach { item ->
         QuackBottomSheetSubtitleItem(
-            isImportant = item.isImportant,
-            title = item.title,
+            item = item,
+            onClick = onClick,
         )
     }
 }
