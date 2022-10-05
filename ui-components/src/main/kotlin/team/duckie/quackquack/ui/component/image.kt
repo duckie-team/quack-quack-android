@@ -8,15 +8,25 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.glide.GlideImage
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
+private val QuackRoundImageShape = RoundedCornerShape(
+    size = 24.dp,
+)
+private val QuackRoundImageSize = 72.dp
 
 /**
  * 이미지 하나만 표시하는 컴포넌트의 아이콘 버전
@@ -67,6 +77,34 @@ fun QuackImage(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
     )
+}
+
+/**
+ * [QuackRoundImage] 를 구현합니다.
+ *
+ * 내부적으로 [InternalQuackImage] 를 사용하고
+ * [Box]로 감싸 Shape만 관여합니다.
+ *
+ * @param image 표시할 이비지의 값
+ * @param size 이미지의 사이즈 값
+ */
+// TODO: 로딩 effect
+@Composable
+fun QuackRoundImage(
+    image: Any?,
+    size: Dp = QuackRoundImageSize,
+){
+    Box(
+        modifier = Modifier.size(
+                size = size,
+            ).clip(
+                shape = QuackRoundImageShape,
+        ),
+    ){
+        InternalQuackImage(
+            image = image,
+        )
+    }
 }
 
 /**
