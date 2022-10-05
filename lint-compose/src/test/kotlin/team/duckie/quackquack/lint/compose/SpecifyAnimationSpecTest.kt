@@ -7,6 +7,7 @@
 @file:Suppress(
     "UnstableApiUsage",
     "TestFunctionName",
+    "LongMethod",
 )
 
 package team.duckie.quackquack.lint.compose
