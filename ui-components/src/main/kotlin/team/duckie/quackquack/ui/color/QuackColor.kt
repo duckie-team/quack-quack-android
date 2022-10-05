@@ -155,6 +155,13 @@ value class QuackColor internal constructor(
             ),
         )
 
+        @Stable
+        val Transparent = QuackColor(
+            value = Color(
+                color = 0x00000000,
+            )
+        )
+
         private val M1 = floatArrayOf(
             0.80405736f,
             0.026893456f,
