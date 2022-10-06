@@ -55,8 +55,11 @@ import team.duckie.quackquack.ui.util.runIf
 import kotlin.math.roundToInt
 
 private val QuackDrawerVelocityThreshold = 400.dp
-
 private val QuackEndDrawerPadding = 76.dp
+
+private const val QuackThresholdFraction = 0.5f
+
+private const val QuackDrawerExceptionMessage = "Drawer shouldn't have infinite width"
 
 /*
 열 때
@@ -75,12 +78,15 @@ public fun QuackModalDrawer(
     content: @Composable () -> Unit,
 ): Unit {
     val scope = rememberCoroutineScope()
+
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize(),// drawer 크기
     ) {
         val modalDrawerConstraints = constraints
         if (!modalDrawerConstraints.hasBoundedWidth) {
-            throw IllegalStateException("Drawer shouldn't have infinite width")
+            throw IllegalStateException(
+                QuackDrawerExceptionMessage
+            )
         }
 
         val minValue = -modalDrawerConstraints.maxWidth.toFloat()
@@ -97,7 +103,7 @@ public fun QuackModalDrawer(
                 anchors = anchors,
                 thresholds = { _, _ ->
                     FractionalThreshold(
-                        fraction = 0.5f,
+                        fraction = QuackThresholdFraction,
                     )
                 },
                 orientation = Orientation.Horizontal,
@@ -145,16 +151,14 @@ public fun QuackModalDrawer(
                             )
                         }
                         .padding(
-                            end = QuackEndDrawerPadding
+                            end = QuackEndDrawerPadding,
                         )
                 },
                 backgroundColor = QuackColor.White,
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
-                    content = {
-                        drawerContent()
-                    },
+                    content = drawerContent,
                 )
             }
         }
