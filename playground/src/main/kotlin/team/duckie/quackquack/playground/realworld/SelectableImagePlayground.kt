@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundSection
@@ -67,7 +66,7 @@ fun QuackSmallDeletableImageDemo() {
         if (isDeleted.value) {
             QuackTitle1(
                 text = "이미지 복구하기",
-                onClick =  {
+                onClick = {
                     isDeleted.value = false
                 },
             )

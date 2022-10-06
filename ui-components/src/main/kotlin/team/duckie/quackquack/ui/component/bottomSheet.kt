@@ -128,7 +128,6 @@ public fun QuackSimpleBottomSheet(
         },
         useHandle = true,
     )
-
 }
 
 /**
@@ -170,7 +169,6 @@ public fun QuackHeadlineBottomSheet(
         },
         useHandle = true,
     )
-
 }
 
 /**
@@ -219,13 +217,6 @@ public fun QuackSubtitleBottomSheet(
         useHandle = true,
     )
 }
-
-/**
- * 이 아래부터는
- * Quack*BottomSheet 를 구현하기 위해서 필요한 private @Composable 함수들입니다.
- */
-
-
 /**
  * [QuackBottomSheetContent] 를 구현합니다.
  *

@@ -11,7 +11,6 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -60,8 +59,6 @@ private val DeletableIconSize = DpSize(
  * 클릭될 때마다 SelectedFilterBox 가 나타나게 됨
  *
  */
-//TODO: 요놈은 Size 뿐만 아니라 GridLayout 에서도 사용이 되어야 하는건데..
-
 @Composable
 public fun QuackSelectableImage(
     overrideSize: Dp = SelectableImageDefaultSize,
@@ -82,7 +79,7 @@ public fun QuackSelectableImage(
             overrideSize = DpSize(
                 width = overrideSize,
                 height = overrideSize,
-            )
+            ),
         )
         if (isSelected) SelectedFilterBox()
         QuackSelectedIcon(
@@ -128,14 +125,16 @@ private fun QuackSelectedIcon(
  *
  */
 @Composable
-private fun BoxScope.SelectedFilterBox() {
-    Box(
-        modifier = Modifier
-            .matchParentSize()
-            .background(
-                color = Black80.composeColor,
-            )
-    )
+private fun SelectedFilterBox() {
+    Box {
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .background(
+                    color = Black80.composeColor,
+                )
+        )
+    }
 }
 
 /**
@@ -156,14 +155,16 @@ public fun QuackLargeDeletableImage(
     Box(
         modifier = Modifier.size(
             size = overrideSize,
-        )
+        ),
     ) {
         QuackDeleteImage(
             image = image,
             overrideSize = overrideSize,
         )
         QuackDeleteIcon(
-            modifier = Modifier.align(Alignment.TopEnd),
+            modifier = Modifier.align(
+                alignment = Alignment.TopEnd,
+            ),
             onClick = onClick,
             paddingValues = LargeDeletableImagePadding,
         )
@@ -173,6 +174,7 @@ public fun QuackLargeDeletableImage(
 /**
  * QuackDeletableImage 의 Small Component 를 구현합니다
  * @param image 이미지 Resource
+ * @param overrideSize 이미지 size
  * @param onClick deleteIcon 을 클릭헀을 때 발생하는 클릭 이벤트
  */
 @Composable
@@ -195,7 +197,9 @@ public fun QuackSmallDeletableImage(
             overrideSize = overrideSize,
         )
         QuackDeleteIcon(
-            modifier = Modifier.align(Alignment.TopEnd),
+            modifier = Modifier.align(
+                alignment = Alignment.TopEnd,
+            ),
             onClick = onClick,
         )
     }
@@ -205,6 +209,7 @@ public fun QuackSmallDeletableImage(
  * Quack*DeletableImage 에서 공통적으로 사용되는 Background 이미지
  * @param modifier matchParentSize() 값을 전달받기 위한 Modifier
  * @param image 이미지 resource
+ * @param overrideSize 이미지 size
  */
 @Composable
 private fun QuackDeleteImage(
@@ -216,14 +221,14 @@ private fun QuackDeleteImage(
         modifier = modifier
             .clip(
                 shape = QuackDeletableImageShape,
-            )
+            ),
     ) {
         QuackImageInternal(
             src = image,
             overrideSize = DpSize(
                 width = overrideSize,
                 height = overrideSize,
-            )
+            ),
         )
     }
 }
@@ -231,8 +236,8 @@ private fun QuackDeleteImage(
 /**
  * Quack*DeletableImage 에서 공통적으로 사용되는 Delete 아이콘
  *
- * @param modifier
- * @param paddingValues
+ * @param modifier 상위 Composable로부터 넘겨받는 Modifier
+ * @param paddingValues 아이콘에 들어가는 Padding 값
  * @param onClick 아이콘을 클릭했을 떄 발생한느 클릭 이벤트
  */
 

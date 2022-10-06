@@ -96,7 +96,8 @@ fun QuackBottomSheetDemo() {
                     )
                 )
                 QuackTitle1(
-                    text = "더키?오키!")
+                    text = "더키?오키!"
+                )
                 Spacer(
                     modifier = Modifier.height(
                         height = 12.dp
@@ -180,7 +181,6 @@ fun QuackSimpleBottomSheetDemo() {
     )
 }
 
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun QuackHeadlineBottomSheetDemo() {
@@ -220,9 +220,7 @@ fun QuackHeadlineBottomSheetDemo() {
             ),
         ),
         headline = "Headline 2",
-        onClick = {
-
-        },
+        onClick = {},
     )
 }
 
@@ -266,9 +264,6 @@ fun QuackSubtitleBottomSheetDemo() {
             ),
         ),
         subtitle = "subtitle",
-        onClick = {
-
-        },
+        onClick = {},
     )
-
 }

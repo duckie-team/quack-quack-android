@@ -23,7 +23,6 @@ import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.applyQuackSize
-import team.duckie.quackquack.ui.modifier.quackClickable
 
 private val QuackTopAppBarPadding = PaddingValues(
     horizontal = 16.dp,
