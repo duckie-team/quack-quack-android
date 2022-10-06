@@ -2,10 +2,22 @@
   ~ Designed and developed by 2022 SungbinLand, Team Duckie
   ~
   ~ Licensed under the MIT.
-  ~ Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+  ~ Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
   -->
 
 <resources>
 
-    <style name="Theme.Quackquack" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Quack" parent="android:Theme.Material.NoActionBar" />
+
+    <style name="Theme.Quack.AppCompat" parent="Theme.AppCompat.Light" />
+
+    <style name="Theme.Quack.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/quack_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/quack_splash_icon</item>
+        <item name="postSplashScreenTheme">@style/Theme.Quack</item>
+
+        <item name="android:statusBarColor">@color/quack_background</item>
+        <item name="android:navigationBarColor">@color/quack_background</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 </resources>

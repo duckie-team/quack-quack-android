@@ -74,7 +74,7 @@ private val QuackBottomSheetSubtitleItemHeight = 38.dp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun QuackBottomSheet(
+public fun QuackBottomSheet(
     useHandle: Boolean = false,
     bottomSheetState: ModalBottomSheetState,
     sheetContent: @Composable () -> Unit,
@@ -91,9 +91,9 @@ fun QuackBottomSheet(
                 sheetContent = sheetContent,
             )
         },
-        sheetBackgroundColor = QuackColor.Transparent.value,
+        sheetBackgroundColor = QuackColor.Transparent.composeColor,
         sheetState = bottomSheetState,
-        scrimColor = QuackColor.Black80.value,
+        scrimColor = QuackColor.Black80.composeColor,
     ) {
         content()
     }
@@ -109,7 +109,7 @@ fun QuackBottomSheet(
  */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun QuackSimpleBottomSheet(
+public fun QuackSimpleBottomSheet(
     bottomSheetState: ModalBottomSheetState,
     items: PersistentList<QuackBottomSheetItem>,
     onClick: (QuackBottomSheetItem) -> Unit,
@@ -142,7 +142,7 @@ fun QuackSimpleBottomSheet(
  */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun QuackHeadlineBottomSheet(
+public fun QuackHeadlineBottomSheet(
     bottomSheetState: ModalBottomSheetState,
     headline: String,
     items: PersistentList<QuackBottomSheetItem>,
@@ -184,7 +184,7 @@ fun QuackHeadlineBottomSheet(
  */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun QuackSubtitleBottomSheet(
+public fun QuackSubtitleBottomSheet(
     bottomSheetState: ModalBottomSheetState,
     subtitle: String,
     items: PersistentList<QuackBottomSheetItem>,
@@ -208,7 +208,7 @@ fun QuackSubtitleBottomSheet(
                     modifier = Modifier.padding(
                         paddingValues = QuackBottomSheetContentPadding
                     ),
-                    color = Gray3.value,
+                    color = Gray3.composeColor,
                 )
                 QuackBottomSheetSubtitles(
                     items = items,
@@ -249,7 +249,7 @@ private fun QuackBottomSheetContent(
                     width = QuackWidth.Fill,
                     height = QuackHeight.Wrap,
                 ).background(
-                    color = QuackColor.White.value,
+                    color = QuackColor.White.composeColor,
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -285,7 +285,7 @@ private fun QuackBottomSheetHandle(
                         size = QuackBottomSheetHandleSize,
                     )
                     .background(
-                        color = Gray3.value,
+                        color = Gray3.composeColor,
                     )
                     .clip(
                         shape = QuackBottomSheetHandleShape,
@@ -404,7 +404,7 @@ private fun QuackBottomSheetColumn(
     }
 }
 
-data class QuackBottomSheetItem(
+public data class QuackBottomSheetItem(
     val title: String,
     val isImportant: Boolean,
 )

@@ -1,0 +1,30 @@
+<!--
+  ~ Designed and developed by 2022 SungbinLand, Team Duckie
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <group>
+        <clip-path android:pathData="M4.152,4.153h15.694v15.694h-15.694z" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M11.999,5.239L11.999,18.76"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M5.239,12L18.76,12"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+</vector>

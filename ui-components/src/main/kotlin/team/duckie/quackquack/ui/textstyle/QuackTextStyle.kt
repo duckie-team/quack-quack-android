@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 @file:Suppress("MemberVisibilityCanBePrivate")
@@ -11,11 +11,14 @@
 package team.duckie.quackquack.ui.textstyle
 
 import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.AnimationVector1D
+import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -28,8 +31,8 @@ import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
+import kotlin.math.roundToInt
 import team.duckie.quackquack.ui.R
-import team.duckie.quackquack.ui.animation.animateQuackAsState
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
@@ -41,14 +44,14 @@ import team.duckie.quackquack.ui.util.AllowMagicNumber
  * Playground 에서 [QuackFontScale] 편집 후 기본값으로 되돌리고
  * 싶을 때 기본값을 참조하기 위해 public 으로 설정함
  */
-const val QuackDefaultFontScale = 1.0
+public const val QuackDefaultFontScale: Double = 1.0
 
 /**
  * 덕키에서 사용할 [QuackTextStyle] 의 font scale
  *
  * Playground 에서 자유로운 font scale 편집으로 쉬운 디버깅을 위해 public 으로 설정함
  */
-var QuackFontScale by mutableStateOf(QuackDefaultFontScale)
+public var QuackFontScale: Double by mutableStateOf(QuackDefaultFontScale)
 
 /**
  * 덕키에서 사용할 텍스트 스타일을 정의합니다. 추상화를 위해 컴포즈의
@@ -67,16 +70,16 @@ var QuackFontScale by mutableStateOf(QuackDefaultFontScale)
  */
 // animateQuackTextStyleAsState() 있어서 internal constructor
 @Immutable
-class QuackTextStyle internal constructor(
-    val color: QuackColor = QuackColor.Black,
-    val size: TextUnit,
-    val weight: FontWeight,
-    val letterSpacing: TextUnit,
-    val lineHeight: TextUnit,
-    val textAlign: TextAlign = TextAlign.Center,
+public class QuackTextStyle internal constructor(
+    public val color: QuackColor = QuackColor.Black,
+    public val size: TextUnit,
+    public val weight: FontWeight,
+    public val letterSpacing: TextUnit,
+    public val lineHeight: TextUnit,
+    public val textAlign: TextAlign = TextAlign.Center,
 ) {
     @Stable
-    private val suit = FontFamily(Font(R.font.suit_variable))
+    private val suit = FontFamily(Font(R.font.quack_suit_variable))
 
     /**
      * [QuackTextStyle] 을 컴포즈 Text 컴포넌트에 사용하기 위해
@@ -86,7 +89,7 @@ class QuackTextStyle internal constructor(
      */
     @Stable
     internal fun asComposeStyle() = TextStyle(
-        color = color.value,
+        color = color.composeColor,
         fontSize = size * QuackFontScale,
         fontFamily = suit,
         fontWeight = weight,
@@ -95,9 +98,11 @@ class QuackTextStyle internal constructor(
         lineHeight = lineHeight,
     )
 
-    companion object {
+    public companion object {
+        // FontWeight NOTE: normal == regular
+
         @Stable
-        val HeadLine1 = QuackTextStyle(
+        public val HeadLine1: QuackTextStyle = QuackTextStyle(
             size = 20.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.01).sp,
@@ -105,7 +110,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val HeadLine2 = QuackTextStyle(
+        public val HeadLine2: QuackTextStyle = QuackTextStyle(
             size = 16.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.01).sp,
@@ -113,7 +118,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val Title1 = QuackTextStyle(
+        public val Title1: QuackTextStyle = QuackTextStyle(
             size = 16.sp,
             weight = FontWeight.Normal,
             letterSpacing = (-0.01).sp,
@@ -121,7 +126,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val Title2 = QuackTextStyle(
+        public val Title2: QuackTextStyle = QuackTextStyle(
             size = 14.sp,
             weight = FontWeight.Bold,
             letterSpacing = 0.sp,
@@ -129,7 +134,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val Subtitle = QuackTextStyle(
+        public val Subtitle: QuackTextStyle = QuackTextStyle(
             size = 14.sp,
             weight = FontWeight.Medium,
             letterSpacing = 0.sp,
@@ -137,7 +142,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val Body1 = QuackTextStyle(
+        public val Body1: QuackTextStyle = QuackTextStyle(
             size = 14.sp,
             weight = FontWeight.Normal,
             letterSpacing = 0.sp,
@@ -145,7 +150,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val Body2 = QuackTextStyle(
+        public val Body2: QuackTextStyle = QuackTextStyle(
             size = 12.sp,
             weight = FontWeight.Normal,
             letterSpacing = 0.sp,
@@ -153,7 +158,7 @@ class QuackTextStyle internal constructor(
         )
 
         @Stable
-        val Body3 = QuackTextStyle(
+        public val Body3: QuackTextStyle = QuackTextStyle(
             size = 10.sp,
             weight = FontWeight.Normal,
             letterSpacing = 0.sp,
@@ -209,57 +214,98 @@ private fun Float.toSp() = TextUnit(
 @AllowMagicNumber(
     because = "6번째 요소는 항상 5번째 인덱스를 갖기 때문에 5로 고정합니다.",
 )
-private operator fun <T> List<T>.component6() = get(5)
+private operator fun <T> List<T>.component6() = get(
+    index = 5,
+)
+
+/**
+ * TextAlign 의 TwoWayConverter 를 구현합니다.
+ *
+ * TextAlign 의 생성자와 필드가 다 internal 로 돼있어서
+ *
+ * ```kotlin
+ * value class TextAlign internal constructor(internal val value: Int)
+ * ```
+ *
+ * TextAlign 의 인자 값으로 될 수 있는 1 ~ 6 까지의 Int 값을
+ * 애니메이션 하여 각각 값에 맞는 TextAlign 을 찾아서 생성하는
+ * 식으로 구현하였습니다.
+ */
+private val TextAlign.Companion.VectorConverter
+    get() = object : TwoWayConverter<TextAlign, AnimationVector1D> {
+        override val convertFromVector: (vector: AnimationVector1D) -> TextAlign
+            get() = { vector ->
+                @AllowMagicNumber(
+                    because = "TextAlign 의 range 를 나타냅니다.",
+                )
+                val index = vector.value.roundToInt().coerceIn(
+                    // TextAlign 의 값이 1 부터 시작
+                    range = 1..6,
+                )
+                values()[index]
+            }
+        override val convertToVector: (value: TextAlign) -> AnimationVector1D
+            get() = { value ->
+                // TextAlign 의 값이 1 부터 시작해서 +1
+                AnimationVector1D(values().indexOf(value) + 1f)
+            }
+    }
 
 /**
  * [QuackTextStyle] 에 변경이 있을 때 애니메이션을 적용합니다.
  *
- * [QuackTextStyle.color], [QuackTextStyle.size] 에 애니메이션을 적용합니다.
+ * [QuackTextStyle.color], [QuackTextStyle.size], [QuackTextStyle.weight],
+ * [QuackTextStyle.letterSpacing], [QuackTextStyle.lineHeight], [QuackTextStyle.textAlign]
+ * 에 애니메이션을 적용합니다.
+ *
+ * 현재 weight 애니메이션이 적용되지 않습니다. weight 는 100 단위로 증가하기
+ * 때문에 100 ~ n00 으로 애니메이션 되는 weight 가 구현돼 있지 않아 생기는 이슈 입니다.
  *
  * @param targetValue 변경을 감지할 [QuackTextStyle]
  * @param animationSpec 변경을 감지했을 때 적용할 애니메이션 스팩
  *
- * @return [targetValue] 가 변경됐을 때 변경되는 애니메이션의 [State] 객체
+ * @return 애니메이션이 적용되고 있는 [QuackTextStyle] 객체
  */
-// FIXME: [QuackTextStyle.color], [QuackTextStyle.size] 의외에 애니메이션을 적용하면
-//        애니메이션이 정상적으로 진행되지 않을 뿐더러, 올바른 리컴포지션 타이밍에
-//        값 갱신이 되지 않고, 추후 두 번째 리컴포지션 때 값 변경이 반영됩니다.
-//        따라서 현재는 [QuackTextStyle.color], [QuackTextStyle.size] 에만 애니메이션을 적용합니다.
-//        예전 구현: https://gist.github.com/jisungbin/397da79ffecdc264a6524c1720779e6e
 @Suppress("UNCHECKED_CAST")
 @Composable
-internal fun animateQuackTextStyleAsState(
+internal fun animatedQuackTextStyleAsState(
     targetValue: QuackTextStyle,
     animationSpec: AnimationSpec<Any> = quackAnimationSpec(),
-): State<QuackTextStyle> {
-    val targetColorAnimationState = animateQuackColorAsState(
+): QuackTextStyle {
+    val targetColorAnimationState by animateQuackColorAsState(
         targetValue = targetValue.color,
         animationSpec = animationSpec as AnimationSpec<QuackColor>,
     )
-    val targetSizeAnimationState = animateFloatAsState(
+    val targetSizeAnimationState by animateFloatAsState(
         targetValue = targetValue.size.value,
         animationSpec = animationSpec as AnimationSpec<Float>,
     )
+    val targetWeightAnimationState by animateIntAsState(
+        targetValue = targetValue.weight.weight,
+        animationSpec = animationSpec as AnimationSpec<Int>,
+    )
+    val targetLetterSpacingAnimationState by animateFloatAsState(
+        targetValue = targetValue.letterSpacing.value,
+        animationSpec = animationSpec as AnimationSpec<Float>,
+    )
+    val targetLineHeightAnimationState by animateFloatAsState(
+        targetValue = targetValue.lineHeight.value,
+        animationSpec = animationSpec as AnimationSpec<Float>,
+    )
+    val targetTextAlignAnimationState by animateValueAsState(
+        targetValue = targetValue.textAlign,
+        typeConverter = TextAlign.VectorConverter,
+        animationSpec = animationSpec as AnimationSpec<TextAlign>,
+    )
 
-    return animateQuackAsState(
-        initialValue = targetValue,
-        animationStates = listOf(
-            targetColorAnimationState,
-            targetSizeAnimationState,
+    return QuackTextStyle(
+        color = targetColorAnimationState,
+        size = targetSizeAnimationState.toSp(),
+        weight = FontWeight(
+            weight = targetWeightAnimationState,
         ),
-        targetBuilder = { animateValues ->
-            val (
-                color,
-                size,
-            ) = animateValues
-            QuackTextStyle(
-                color = color as QuackColor,
-                size = (size as Float).toSp(),
-                weight = targetValue.weight,
-                letterSpacing = targetValue.letterSpacing,
-                lineHeight = targetValue.lineHeight,
-                textAlign = targetValue.textAlign,
-            )
-        },
+        letterSpacing = targetLetterSpacingAnimationState.toSp(),
+        lineHeight = targetLineHeightAnimationState.toSp(),
+        textAlign = targetTextAlignAnimationState,
     )
 }

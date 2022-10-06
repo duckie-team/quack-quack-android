@@ -2,10 +2,8 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
-
-@file:Suppress("unused")
 
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
@@ -24,7 +22,9 @@ internal class AndroidLibraryComposeUiTestPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
             val extension = extensions.getByType<LibraryExtension>()
-            configureCompose(extension)
+            configureCompose(
+                extension = extension,
+            )
 
             extension.apply {
                 defaultConfig {
@@ -33,8 +33,12 @@ internal class AndroidLibraryComposeUiTestPlugin : Plugin<Project> {
             }
 
             dependencies {
-                debugImplementations(libs.findLibrary("test-compose-manifest").get())
-                androidTestImplementations(libs.findLibrary("test-compose-junit").get())
+                debugImplementations(
+                    libs.findLibrary("test-compose-manifest").get(),
+                )
+                androidTestImplementations(
+                    libs.findLibrary("test-compose-junit").get(),
+                )
             }
         }
     }

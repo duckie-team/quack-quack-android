@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 package team.duckie.quackquack.ui.modifier
@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.util.runIf
 
 /**
  * 컴포저블에 Clickable 을 설정해 주는 Modifier 입니다.
@@ -36,17 +37,16 @@ internal fun Modifier.quackClickable(
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor? = null,
     onClick: (() -> Unit)?,
-) = when (onClick != null) {
-    true -> composed {
+) = runIf(onClick != null) {
+    composed {
         clickable(
-            onClick = onClick,
+            onClick = onClick!!,
             indication = rememberRipple(
-                color = rippleColor?.value ?: Color.Unspecified,
+                color = rippleColor?.composeColor ?: Color.Unspecified,
             ).takeIf {
                 rippleEnabled
             },
             interactionSource = remember { MutableInteractionSource() },
         )
     }
-    else -> this
 }

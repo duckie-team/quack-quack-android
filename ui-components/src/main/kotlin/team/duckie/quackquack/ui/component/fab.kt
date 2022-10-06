@@ -2,376 +2,309 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
+
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.NonRestartableComposable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.boundsInWindow
-import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import kotlinx.collections.immutable.PersistentList
+import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
-import team.duckie.quackquack.ui.constant.QuackHeight
-import team.duckie.quackquack.ui.constant.QuackWidth
+import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.icon.QuackIcon
-import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.modifier.quackClickable
+import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 
-private val QuackFabSize = 48.dp
+private val QuackFabContainerElevation = 3.dp
 
-private val QuackFabShape = CircleShape
-private val QuackPopUpMenuShape = RoundedCornerShape(12.dp)
+private val QuackFabContainerShape = CircleShape
+private val QuackFabMenuShape = RoundedCornerShape(
+    size = 12.dp,
+)
 
-private val QuackMenuTopPadding = 20.dp
-private val QuackMenuHorizontalPadding = 16.dp
-private val QuackFabItemPadding = 16.dp
-private val QuackFabItemSpacing = 8.dp
-private val QuackIconTextSpacing = 4.dp
+private val QuackFabContainerSize = 48.dp
 
-// TODO: KDoc 필요
-@Immutable
-class QuackDialogMenuItem(
-    val icon: QuackIcon,
-    val text: String,
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+private val QuackFabIconResource = QuackIcon.Plus
+private val QuackFabIconTint = QuackColor.White
+private val QuackFabIconSize = DpSize(
+    width = 20.dp,
+    height = 20.dp,
+)
+private const val QuackFabIconRotate = 45f
+private val QuackFabMenuIconSize = DpSize(
+    width = 24.dp,
+    height = 24.dp,
+)
 
-        other as QuackDialogMenuItem
+private val QuackFabContainerColor = QuackColor.DuckieOrange
+private val QuackFabMenuBackgroundColor = QuackColor.White
+private val QuackFabMenuItemColor = QuackColor.Black
 
-        if (icon != other.icon) return false
-        if (text != other.text) return false
+private val QuackFabMenuItemTextStyle = QuackTextStyle.Subtitle.change(
+    color = QuackFabMenuItemColor
+)
 
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = icon.hashCode()
-        result = 31 * result + text.hashCode()
-        return result
-    }
-}
-
-/**
- * QuackMenuFloatingActionButton 를 구현하였습니다.
- *
- * [QuackFloatingActionButton] 과는 다르게, 버튼을 클릭하였을 때
- * DialogMenu 가 출력됩니다.
- * [QuackDialogMenuItem] 을 통해 메뉴 아이템에 들어갈 icon, text 를 설정할 수 있습니다.
- *
- * @param expanded 메뉴가 현재 열려 있고 사용자에게 표시되는지 여부
- * @param onClickButton 버튼을 클릭했을 때 호출되는 콜백
- * @param onDismissRequest 사용자가 메뉴 닫기를 요청할 때 호출되는 콜백
- * @param menuItems 버튼을 클릭했을 때 나오는 메뉴의 [QuackDialogMenuItem] 리스트
- * @param onClickMenuItem 사용자가 메뉴 아이템을 클릭했을 때 호출되는 콜백
- * @see QuackDialogMenuItem
- */
-@Composable
-fun QuackMenuFloatingActionButton(
-    expanded: Boolean,
-    onClickButton: () -> Unit,
-    onDismissRequest: () -> Unit,
-    menuItems: PersistentList<QuackDialogMenuItem>,
-    onClickMenuItem: (
-        item: QuackDialogMenuItem,
-    ) -> Unit,
-) {
-    val density = LocalDensity.current
-    var buttonXOffset by remember {
-        mutableStateOf(0.dp)
-    }
-    var buttonYOffset by remember {
-        mutableStateOf(0.dp)
-    }
-    var buttonWidth by remember {
-        mutableStateOf(0)
-    }
-    var dialogContentWidth by remember {
-        mutableStateOf(0)
-    }
-    var dialogContentHeight by remember {
-        mutableStateOf(0)
-    }
-
-    QuackBasicFloatingActionButton(
-        modifier = Modifier
-            .onGloballyPositioned { layoutCoordinates ->
-                with(density) {
-                    buttonXOffset = layoutCoordinates.boundsInWindow().center.x.toDp()
-                    buttonYOffset = layoutCoordinates.boundsInWindow().center.y.toDp()
-                    buttonWidth = layoutCoordinates.size.width
-                }
-            },
-        icon = QuackIcon.Plus,
-        onClick = onClickButton,
-    )
-    AnimatedVisibility(
-        visible = expanded,
-    ) {
-        QuackDialog(
-            offsetProvider = {
-                IntOffset(
-                    x = buttonXOffset.roundToPx() - dialogContentWidth + buttonWidth / 2,
-                    y = buttonYOffset.roundToPx() - dialogContentHeight,
-                )
-            },
-            onDismissRequest = onDismissRequest,
-        ) {
-            Column(
-                modifier = Modifier
-                    .onGloballyPositioned { layoutCoordinates ->
-                        dialogContentWidth = layoutCoordinates.size.width
-                        dialogContentHeight = layoutCoordinates.size.height
-                    },
-                horizontalAlignment = Alignment.End,
-                verticalArrangement = Arrangement.spacedBy(
-                    space = QuackFabItemSpacing,
-                ),
-            ) {
-                QuackDialogMenu(
-                    menuItems = menuItems,
-                    onClickMenuItem = onClickMenuItem,
-                    onDismissRequest = onDismissRequest,
-                )
-                QuackBasicFloatingActionButton(
-                    icon = QuackIcon.Close,
-                    onClick = onDismissRequest,
-                )
-            }
-        }
-    }
-}
+private val QuackFabMenuPadding = PaddingValues(
+    horizontal = 16.dp - 8.dp,
+    vertical = 20.dp - 8.dp,
+)
+private val QuackFabAndMenuSpace = 8.dp
+private val QuackFabMenuHorizontalPadding = 8.dp
+private val QuackMenuContentSpacedBy = 4.dp
+private val QuackFabMenuTextPadding = PaddingValues(
+    vertical = 3.dp + 8.dp,
+)
 
 /**
- * [QuackMenuFloatingActionButton] 를 클릭했을 때 나오는 다이얼로그 입니다.
+ * 꽥꽥의 기본 FloatingActionButton 을 그립니다.
  *
- * Dialog 는 내부적으로 Android Dialog 로 구현되어있고, Compose View 로 래핑되어 있습니다.
- * 따라서 위치를 수동으로 조절할 수는 없고, Full Size Box 에서 offset 으로 조정되어야 합니다.
- *
- * 따라서 FloatingActionButton 의 Offset 을 구한 다음,
- *
- * xOffset = buttonXOffset - dialogContentWidth + buttonWidth / 2
- *
- * yOffset = buttonYOffset - dialogContentHeight
- *
- * 으로 위치를 조정시킬 수 있습니다.
- *
- * @param offsetProvider 내부 Composable 이 배치 될 offset
- * @param onDismissRequest 사용자가 메뉴 닫기를 요청할 때 호출되는 콜백
- * @param content Dialog 내부에 들어갈 Composable
+ * @param icon 이 FAB 에 표시할 아이콘
+ * @param onClick 이 FAB 이 클릭됐을 때 호출될 람다
  */
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun QuackDialog(
-    offsetProvider: Density.() -> IntOffset,
-    onDismissRequest: () -> Unit,
-    content: @Composable BoxScope.() -> Unit,
-) {
-    Dialog(
-        onDismissRequest = onDismissRequest,
-        properties = DialogProperties(
-            usePlatformDefaultWidth = false,
-        ),
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .quackClickable(
-                    onClick = onDismissRequest
-                ),
-        ) {
-            Box(
-                modifier = Modifier.offset(
-                    offset = offsetProvider,
-                ),
-                content = content,
-            )
-        }
-    }
-}
+@NonRestartableComposable
+public fun QuackFab(
+    icon: QuackIcon,
+    onClick: () -> Unit,
+): Unit = QuackFabImpl(
+    icon = icon,
+    onClick = onClick,
+    rotate = 0f,
+)
 
 /**
- * QuackDialogMenu 를 구현하였습니다.
+ * 꽥꽥의 기본 FloatingActionButton 을 실제로 그립니다.
  *
- * Dialog Menu 에 표시될 Item List 입니다.
- *
- * @param menuItems 버튼을 클릭했을 때 나오는 메뉴의 [QuackDialogMenuItem] 리스트
- * @param onClickMenuItem 사용자가 메뉴 아이템을 클릭했을 때 호출되는 콜백
- * @param onDismissRequest 사용자가 메뉴 닫기를 요청할 때 호출되는 콜백
- * @see QuackDialogMenuItem
+ * @param icon 이 FAB 에 표시할 아이콘
+ * @param onClick 이 FAB 이 클릭됐을 때 호출될 람다
+ * @param rotate [icon] 의 회전 정도
  */
 @Composable
-private fun QuackDialogMenu(
-    menuItems: PersistentList<QuackDialogMenuItem>,
-    onClickMenuItem: (
-        item: QuackDialogMenuItem,
-    ) -> Unit,
-    onDismissRequest: () -> Unit,
+private fun QuackFabImpl(
+    icon: QuackIcon,
+    onClick: () -> Unit,
+    rotate: Float,
 ) {
     QuackSurface(
-        modifier = Modifier.applyQuackSize(
-            width = QuackWidth.Wrap,
-            height = QuackHeight.Wrap,
+        modifier = Modifier.size(
+            size = QuackFabContainerSize,
         ),
-        shape = QuackPopUpMenuShape,
-        backgroundColor = QuackColor.White,
+        shape = QuackFabContainerShape,
+        backgroundColor = QuackFabContainerColor,
+        elevation = QuackFabContainerElevation,
+        onClick = onClick,
     ) {
-        LazyColumn(
-            contentPadding = PaddingValues(
-                start = QuackMenuHorizontalPadding,
-                end = QuackMenuHorizontalPadding,
-                top = QuackMenuTopPadding,
+        Box(
+            // needs for set size in box inlining
+            modifier = Modifier.size(
+                size = QuackFabIconSize,
             ),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            items(
-                items = menuItems,
-                key = { item: QuackDialogMenuItem ->
-                    item.text
-                },
-            ) { item: QuackDialogMenuItem ->
-                QuackDialogMenuContent(
-                    menuItem = item,
-                    onClickMenuItem = onClickMenuItem,
-                    onDismissRequest = onDismissRequest,
-                )
-            }
+            QuackImageInternal(
+                modifier = Modifier.rotate(
+                    degrees = rotate,
+                ),
+                src = icon,
+                overrideSize = QuackFabIconSize,
+                tint = QuackFabIconTint,
+            )
         }
     }
 }
 
 /**
- * QuackDialogMenuContent 를 구현하였습니다.
+ * [QuackMenuFab] 에서 표시할 아이템
  *
- * DialogMenu 의 item 이 어떻게 구성되는지 정의합니다.
+ * @param icon 메뉴에 표시될 아이콘
+ * @param text 메뉴에 표시될 텍스트
+ */
+@Immutable
+public data class QuackMenuFabItem(
+    public val icon: QuackIcon,
+    public val text: String,
+)
+
+/**
+ * [QuackFab] 위에 팝업 메뉴를 추가로 그립니다.
  *
- * @param menuItem [QuackDialogMenu] 에 들어갈 [QuackDialogMenuItem]
- * @param onClickMenuItem 사용자가 메뉴 아이템을 클릭했을 때 호출되는 콜백
- * @param onDismissRequest 사용자가 메뉴 닫기를 요청할 때 호출되는 콜백
+ * 꽥꽥의 경우 팝업이 있는 FAB 은 항상 [QuackIcon.Plus] 아이콘을 사용하고, [45도][QuackFabIconRotate] 회전하는
+ * 형태를 갖고 있습니다. 또한 메뉴는 FAB 의 위치에서 8 dp 만큼 위로 떨어져 있습니다.
+ * 이를 구현하기 위해 FAB 와 메뉴를 [Column] 으로 감싸 하나로 처리합니다.
+ *
+ * @param items 메뉴에 표시할 아이템들
+ * @param expanded FAB 이 expand 됐는지 여부. 만약 true 이면
+ * FAB 의 아이콘이 [45도][QuackFabIconRotate] 회전하고, 메뉴가 표시됩니다.
+ * @param onFabClick FAB 이 클릭됐을 때 실행될 람다
+ * @param onItemClick 메뉴의 아이템이 클릭됐을 때 실행될 람다
  */
 @Composable
-@NonRestartableComposable
-internal fun QuackDialogMenuContent(
-    menuItem: QuackDialogMenuItem,
-    onClickMenuItem: (
-        item: QuackDialogMenuItem,
-    ) -> Unit,
-    onDismissRequest: () -> Unit,
+public fun QuackMenuFab(
+    items: PersistentList<QuackMenuFabItem>,
+    expanded: Boolean,
+    onFabClick: () -> Unit,
+    onItemClick: (index: Int, item: QuackMenuFabItem) -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .padding(
-                bottom = QuackFabItemPadding,
-            )
-            .quackClickable(
-                onClick = {
-                    onClickMenuItem(menuItem)
-                    onDismissRequest()
-                },
-            ),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(
-            space = QuackIconTextSpacing,
-        ),
+    val density = LocalDensity.current
+    val textWidths = remember(
+        key1 = items,
     ) {
-        InternalQuackImage(
-            icon = menuItem.icon,
-        )
-        QuackSubtitle(
-            text = menuItem.text,
+        mutableStateListOf(
+            elements = Array(
+                size = items.size,
+                init = { 0.dp },
+            )
         )
     }
-}
-
-/**
- * QuackFloatingActionButton 을 구현하였습니다.
- *
- * Box 로 구현되어 있기 때문에, 다른 Composable 위에 배치될 수 있습니다.
- *
- * @param icon FloatingActionButton 에 들어갈 icon
- * @param onClick 버튼 클릭 이벤트
- */
-@Composable
-@NonRestartableComposable
-fun QuackFloatingActionButton(
-    icon: QuackIcon,
-    onClick: () -> Unit,
-) {
-    QuackBasicFloatingActionButton(
-        icon = icon,
-        onClick = onClick,
-    )
-}
-
-/**
- * QuackFloatingActionButton 의 기초가 되는 Composable
- *
- * Content 의 사이즈를 알아야 하는 경우로 인해 Modifier 를 가집니다.
- *
- * @param modifier [Modifier]
- * @param icon FloatingActionButton 에 들어갈 icon
- * @param onClick 버튼 클릭 이벤트
- */
-@Composable
-@NonRestartableComposable
-private fun QuackBasicFloatingActionButton(
-    modifier: Modifier = Modifier,
-    icon: QuackIcon,
-    onClick: () -> Unit,
-) {
-    Box(
-        modifier = modifier
-            .size(
-                size = QuackFabSize,
-            )
-            .clip(
-                shape = QuackFabShape,
-            )
-            .background(
-                color = QuackColor.DuckieOrange.value,
-            )
-            .quackClickable(
-                onClick = onClick,
-            ),
-        contentAlignment = Alignment.Center,
+    val textWidthModifier = remember(
+        key1 = items,
+        key2 = textWidths.all { width ->
+            width.value != 0f
+        },
     ) {
-        InternalQuackImage(
-            tint = QuackColor.White,
-            icon = icon,
+        when (
+            textWidths.all { width ->
+                width.value != 0f
+            }
+        ) {
+            true -> Modifier.width(
+                width = textWidths.max(),
+            )
+            else -> Modifier.wrapContentWidth()
+        }
+    }
+    Column(
+        modifier = Modifier.wrapContentSize(),
+        verticalArrangement = Arrangement.spacedBy(
+            space = QuackFabAndMenuSpace,
+        ),
+        horizontalAlignment = Alignment.End,
+    ) {
+        AnimatedVisibility(
+            modifier = Modifier
+                .wrapContentSize()
+                .background(
+                    color = QuackFabMenuBackgroundColor.composeColor,
+                    shape = QuackFabMenuShape,
+                )
+                .clip(
+                    shape = QuackFabMenuShape,
+                ),
+            visible = expanded,
+            enter = fadeIn(
+                animationSpec = quackAnimationSpec(),
+            ) + expandVertically(
+                animationSpec = quackAnimationSpec(),
+            ),
+            exit = fadeOut(
+                animationSpec = quackAnimationSpec(),
+            ) + shrinkVertically(
+                animationSpec = quackAnimationSpec(),
+            ),
+        ) {
+            LazyColumn(
+                modifier = Modifier.wrapContentSize(),
+                contentPadding = QuackFabMenuPadding,
+            ) {
+                itemsIndexed(
+                    items = items,
+                    key = { _, item -> item.text },
+                ) { index, item ->
+                    Row(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .quackClickable(
+                                rippleEnabled = false,
+                                onClick = {
+                                    onItemClick(
+                                        /*index = */
+                                        index,
+                                        /*item = */
+                                        item,
+                                    )
+                                },
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(
+                            space = QuackMenuContentSpacedBy,
+                        ),
+                    ) {
+                        QuackImageInternal(
+                            modifier = Modifier.padding(
+                                start = QuackFabMenuHorizontalPadding,
+                            ),
+                            src = item.icon,
+                            overrideSize = QuackFabMenuIconSize,
+                            tint = QuackFabMenuItemColor,
+                        )
+                        QuackText(
+                            modifier = Modifier
+                                .then(
+                                    other = textWidthModifier,
+                                )
+                                .onSizeChanged { size ->
+                                    with(
+                                        receiver = density,
+                                    ) {
+                                        textWidths[index] = size.width.toDp()
+                                    }
+                                }
+                                .padding(
+                                    paddingValues = QuackFabMenuTextPadding,
+                                )
+                                .padding(
+                                    end = QuackFabMenuHorizontalPadding,
+                                ),
+                            text = item.text,
+                            style = QuackFabMenuItemTextStyle.change(
+                                textAlign = TextAlign.Start,
+                            ),
+                        )
+                    }
+                }
+            }
+        }
+        QuackFabImpl(
+            icon = QuackFabIconResource,
+            onClick = onFabClick,
+            rotate = animateFloatAsState(
+                targetValue = if (expanded) QuackFabIconRotate else 0f,
+                animationSpec = quackAnimationSpec(),
+            ).value,
         )
     }
 }

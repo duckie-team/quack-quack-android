@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.constant.QuackHeight
@@ -30,6 +31,10 @@ private val QuackTopAppBarPadding = PaddingValues(
 private val QuackTopAppBarHeight = 48.dp
 private val QuackTopAppBarLeadingIconSpacedBy = 12.dp
 private val QuackTopAppBarTrailingIconSpacedBy = 8.dp
+private val QuackTopAppBarIconSize = DpSize(
+    width = 24.dp,
+    height = 24.dp,
+)
 
 /**
  * TODO : centerContent 의 width 를 어떻게 처리를 해줘야할듯
@@ -55,7 +60,7 @@ private val QuackTopAppBarTrailingIconSpacedBy = 8.dp
  */
 
 @Composable
-fun QuackTopAppBar(
+public fun QuackTopAppBar(
     modifier: Modifier = Modifier,
     leadingIcon: QuackIcon,
     trailingIcon: QuackIcon? = null,
@@ -81,14 +86,14 @@ fun QuackTopAppBar(
             .applyQuackSize(
                 width = QuackWidth.Fill,
                 height = QuackHeight.Custom(
-                    height = QuackTopAppBarHeight
+                    height = QuackTopAppBarHeight,
                 ),
             )
             .background(
-                color = QuackColor.White.value
+                color = QuackColor.White.composeColor,
             )
             .padding(
-                paddingValues = QuackTopAppBarPadding
+                paddingValues = QuackTopAppBarPadding,
             ),
     ) {
         Row(
@@ -96,13 +101,14 @@ fun QuackTopAppBar(
                 alignment = Alignment.CenterStart
             ),
             horizontalArrangement = Arrangement.spacedBy(
-                space = QuackTopAppBarLeadingIconSpacedBy
+                space = QuackTopAppBarLeadingIconSpacedBy,
             ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             QuackImage(
-                icon = leadingIcon,
+                src = leadingIcon,
                 onClick = onClickLeadingIcon,
+                overrideSize = QuackTopAppBarIconSize,
             )
             if (headline != null) {
                 QuackHeadLine2(
@@ -113,23 +119,25 @@ fun QuackTopAppBar(
 
         Row(
             modifier = Modifier.align(
-                alignment = Alignment.CenterEnd
+                alignment = Alignment.CenterEnd,
             ),
             horizontalArrangement = Arrangement.spacedBy(
-                space = QuackTopAppBarTrailingIconSpacedBy
+                space = QuackTopAppBarTrailingIconSpacedBy,
             ),
         ) {
             if (secondTrailingIcon != null) {
                 QuackImage(
-                    icon = secondTrailingIcon,
+                    src = secondTrailingIcon,
                     onClick = onClickSecondTrailingIcon,
+                    overrideSize = QuackTopAppBarIconSize,
                 )
             }
 
             if (trailingIcon != null) {
                 QuackImage(
-                    icon = trailingIcon,
+                    src = trailingIcon,
                     onClick = onClickTrailingIcon,
+                    overrideSize = QuackTopAppBarIconSize,
                 )
             }
 
@@ -143,7 +151,7 @@ fun QuackTopAppBar(
 
         Box(
             modifier = Modifier.align(
-                alignment = Alignment.Center
+                alignment = Alignment.Center,
             ),
         ) {
             centerContent?.invoke()

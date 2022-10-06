@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
@@ -42,29 +43,24 @@ private val QuackDropDownSpace = 4.dp
  * @param onClick DropDown 클릭시 발생하는 이벤트
  */
 @Composable
-fun QuackDropDown(
+public fun QuackDropDown(
     title: String,
     onClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier
-            .clip(
-                shape = QuackDropDownShape
-            )
-            .border(
+        modifier = Modifier.clip(
+                shape = QuackDropDownShape,
+            ).border(
                 border = QuackBorder(
                     color = Gray3,
                 ).asComposeBorder(),
                 shape = QuackDropDownShape,
-            )
-            .quackClickable {
+            ).quackClickable {
                 onClick()
-            }
-            .background(
-                color = QuackColor.White.value
-            )
-            .padding(
-                paddingValues = QuackDropDownPadding
+            }.background(
+                color = QuackColor.White.composeColor,
+            ).padding(
+                paddingValues = QuackDropDownPadding,
             ),
         horizontalArrangement = Arrangement.spacedBy(
             space = QuackDropDownSpace
@@ -72,10 +68,14 @@ fun QuackDropDown(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         QuackBody1(
-            text = title
+            text = title,
         )
         QuackImage(
-            icon = QuackIcon.ArrowDown
+            src = QuackIcon.ArrowDown,
+            overrideSize = DpSize(
+                width = 24.dp,
+                height = 24.dp,
+            ),
         )
     }
 }

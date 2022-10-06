@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 @file:Suppress("SameParameterValue")
@@ -11,11 +11,9 @@ package team.duckie.quackquack.convention
 
 import org.gradle.api.artifacts.dsl.DependencyHandler as DependencyScope
 import com.android.build.api.dsl.CommonExtension
-import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
-import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
@@ -30,9 +28,6 @@ private const val DebugImplementation = "debugImplementation"
 private const val TestRuntimeOnly = "testRuntimeOnly"
 private const val TestImplementation = "testImplementation"
 private const val AndroidTestImplementation = "androidTestImplementation"
-
-internal fun Project.ext(configure: Action<ExtraPropertiesExtension>) =
-    (this as ExtensionAware).extensions.configure("ext", configure)
 
 internal fun Project.applyPlugins(vararg plugins: String) {
     plugins.forEach { plugin ->

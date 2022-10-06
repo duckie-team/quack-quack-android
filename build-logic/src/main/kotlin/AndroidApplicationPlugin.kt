@@ -2,10 +2,12 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("UnstableApiUsage", "unused")
+@file:Suppress(
+    "UnstableApiUsage",
+)
 
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.Plugin
@@ -15,6 +17,8 @@ import team.duckie.quackquack.convention.ApplicationConstants
 import team.duckie.quackquack.convention.PluginEnum
 import team.duckie.quackquack.convention.applyPlugins
 import team.duckie.quackquack.convention.configureApplication
+import team.duckie.quackquack.convention.getPlaygroundVersionCode
+import team.duckie.quackquack.convention.getPlaygroundVersionName
 
 /**
  * Android 프레임워크의 Application 환경을 구성합니다.
@@ -28,12 +32,25 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
             )
 
             extensions.configure<BaseAppModuleExtension> {
-                configureApplication(this)
+                configureApplication(
+                    extension = this,
+                )
 
                 defaultConfig {
                     targetSdk = ApplicationConstants.targetSdk
-                    versionCode = ApplicationConstants.versionCode
-                    versionName = ApplicationConstants.versionName
+                    versionCode = getPlaygroundVersionCode().also { code ->
+                        println("playground versionCode: $code")
+                    }
+                    versionName = getPlaygroundVersionName().also { name ->
+                        println("playground versionName: $name")
+                    }
+                }
+
+                buildTypes {
+                    create("benchmark") {
+                        signingConfig = getByName("debug").signingConfig
+                        matchingFallbacks += listOf("release")
+                    }
                 }
             }
         }

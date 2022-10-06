@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 package team.duckie.quackquack.playground.realworld
@@ -14,21 +14,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
-import team.duckie.quackquack.ui.component.QuackBasicTextField
 import team.duckie.quackquack.ui.component.QuackImage
+import team.duckie.quackquack.ui.component.QuackTextField
 import team.duckie.quackquack.ui.icon.QuackIcon
 
 class TextFieldPlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
-        "QuackBasicTextFieldWithNoDecoration" to { QuackBasicTextFieldWithNoDecorationDemo() },
-        "QuackBasicTextFieldWithLeadingDecoration" to { QuackBasicTextFieldWithLeadingDecorationDemo() },
-        "QuackBasicTextFieldWithTrailingDecoration" to { QuackBasicTextFieldWithTrailingDecorationDemo() },
-        "QuackBasicTextFieldWithAllDecoration" to { QuackBasicTextFieldWithAllDecorationDemo() },
+        "QuackTextFieldWithNoDecoration" to { QuackTextFieldWithNoDecorationDemo() },
+        "QuackTextFieldWithLeadingDecoration" to { QuackTextFieldWithLeadingDecorationDemo() },
+        "QuackTextFieldWithTrailingDecoration" to { QuackTextFieldWithTrailingDecorationDemo() },
+        "QuackTextFieldWithAllDecoration" to { QuackTextFieldWithAllDecorationDemo() },
+        "QuackTextFieldErrorState" to { QuackTextFieldErrorStateDemo() },
+        "QuackTextFieldErrorState - Live" to { QuackTextFieldErrorStateLiveDemo() }
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,84 +48,172 @@ class TextFieldPlayground : BaseActivity() {
     }
 }
 
-@Composable
-fun QuackBasicTextFieldWithNoDecorationDemo() {
-    var fieldState by remember {
-        mutableStateOf(
-            value = "QuackBasicTextFieldDemo",
-        )
-    }
-    QuackBasicTextField(
-        text = fieldState,
-        onTextChanged = { newText ->
-            fieldState = newText
-        },
-    )
-}
+private const val Placeholder = "placeholder text"
 
 @Composable
-fun QuackBasicTextFieldWithLeadingDecorationDemo() {
-    var fieldState by remember {
-        mutableStateOf(
-            value = "QuackBasicTextFieldDemo",
-        )
-    }
-    QuackBasicTextField(
-        text = fieldState,
-        onTextChanged = { newText ->
-            fieldState = newText
-        },
-        leadingContent = {
-            QuackImage(
-                icon = QuackIcon.MarketPrice,
-            )
-        },
-    )
-}
-
-@Composable
-fun QuackBasicTextFieldWithTrailingDecorationDemo() {
-    var fieldState by remember {
-        mutableStateOf(
-            value = "QuackBasicTextFieldDemo",
-        )
-    }
-    QuackBasicTextField(
-        text = fieldState,
-        onTextChanged = { newText ->
-            fieldState = newText
-        },
-        trailingContent = {
-            QuackImage(
-                icon = QuackIcon.Badge,
-            )
-        },
-    )
-}
-
-@Composable
-fun QuackBasicTextFieldWithAllDecorationDemo() {
+fun QuackTextFieldWithNoDecorationDemo() {
+    // empty test
     var fieldState by remember {
         mutableStateOf(
             value = "",
         )
     }
-    QuackBasicTextField(
+    QuackTextField(
         text = fieldState,
         onTextChanged = { newText ->
             fieldState = newText
         },
-        /*height = QuackHeight.Custom(
-            height = 50.dp,
-        ),*/
+        placeholderText = Placeholder,
+    )
+}
+
+@Composable
+fun QuackTextFieldWithLeadingDecorationDemo() {
+    var fieldState by remember {
+        mutableStateOf(
+            value = "QuackTextFieldWithLeadingDecorationDemo",
+        )
+    }
+    QuackTextField(
+        text = fieldState,
+        onTextChanged = { newText ->
+            fieldState = newText
+        },
         leadingContent = {
             QuackImage(
-                icon = QuackIcon.ImageEditBg,
+                src = QuackIcon.FilledHeart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
+            )
+        },
+    )
+}
+
+@Composable
+fun QuackTextFieldWithTrailingDecorationDemo() {
+    var fieldState by remember {
+        mutableStateOf(
+            value = "QuackTextFieldWithTrailingDecorationDemo",
+        )
+    }
+    QuackTextField(
+        text = fieldState,
+        onTextChanged = { newText ->
+            fieldState = newText
+        },
+        trailingContent = {
+            QuackImage(
+                src = QuackIcon.FilledHeart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
+            )
+        },
+    )
+}
+
+@Composable
+fun QuackTextFieldWithAllDecorationDemo() {
+    var fieldState by remember {
+        mutableStateOf(
+            value = "QuackTextFieldWithAllDecorationDemo",
+        )
+    }
+    QuackTextField(
+        text = fieldState,
+        onTextChanged = { newText ->
+            fieldState = newText
+        },
+        leadingContent = {
+            QuackImage(
+                src = QuackIcon.FilledHeart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
             )
         },
         trailingContent = {
             QuackImage(
-                icon = QuackIcon.Area,
+                src = QuackIcon.FilledHeart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
+            )
+        },
+    )
+}
+
+@Composable
+fun QuackTextFieldErrorStateDemo() {
+    var fieldState by remember {
+        mutableStateOf(
+            value = "wow!",
+        )
+    }
+    QuackTextField(
+        text = fieldState,
+        onTextChanged = { newText ->
+            fieldState = newText
+        },
+        isError = true,
+        errorText = "QuackTextFieldErrorStateDemo",
+        leadingContent = {
+            QuackImage(
+                src = QuackIcon.Heart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
+            )
+        },
+        trailingContent = {
+            QuackImage(
+                src = QuackIcon.Heart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
+            )
+        },
+    )
+}
+
+@Composable
+fun QuackTextFieldErrorStateLiveDemo() {
+    var fieldState by remember {
+        mutableStateOf(
+            value = "1",
+        )
+    }
+    QuackTextField(
+        text = fieldState,
+        onTextChanged = { newText ->
+            fieldState = newText
+        },
+        isError = fieldState.length > 1,
+        errorText = "한 글자만 가능!",
+        placeholderText = Placeholder,
+        leadingContent = {
+            QuackImage(
+                src = QuackIcon.FilledHeart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
+            )
+        },
+        trailingContent = {
+            QuackImage(
+                src = QuackIcon.FilledHeart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
             )
         },
     )

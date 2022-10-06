@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 import org.gradle.api.Plugin
@@ -21,7 +21,9 @@ import team.duckie.quackquack.convention.libs
 internal class JvmDokkaPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
-            applyPlugins(libs.findPlugin("dokka").get().get().pluginId)
+            applyPlugins(
+                libs.findPlugin("dokka").get().get().pluginId,
+            )
 
             tasks.withType<DokkaTaskPartial> {
                 suppressInheritedMembers.set(true)

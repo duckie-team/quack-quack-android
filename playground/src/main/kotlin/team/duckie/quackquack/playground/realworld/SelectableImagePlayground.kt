@@ -9,12 +9,10 @@ package team.duckie.quackquack.playground.realworld
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
@@ -25,7 +23,6 @@ import team.duckie.quackquack.ui.component.QuackSelectableImage
 import team.duckie.quackquack.ui.component.QuackSmallDeletableImage
 import team.duckie.quackquack.ui.component.QuackTitle1
 
-private val size = 118.dp
 private const val ImageUrl = "https://picsum.photos/id/237/200/300"
 
 class SelectableImagePlayground : BaseActivity() {
@@ -55,7 +52,6 @@ fun QuackSelectableImageDemo() {
     val isSelected = remember { mutableStateOf(false) }
 
     QuackSelectableImage(
-        size = size,
         isSelected = isSelected.value,
         image = ImageUrl,
         onClick = {

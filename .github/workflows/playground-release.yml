@@ -1,0 +1,105 @@
+name: Playground Release
+on:
+  pull_request:
+    branches: [ develop ]
+    types: [ closed ]
+
+jobs:
+  release:
+    if: ${{
+        github.event.pull_request.merged &&
+        contains(github.event.pull_request.labels.*.name, 'release') &&
+        (contains(github.event.pull_request.labels.*.name, 'bump_major') ||
+          contains(github.event.pull_request.labels.*.name, 'bump_minor') ||
+          contains(github.event.pull_request.labels.*.name, 'bump_patch')
+        )
+      }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Setup JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: 11
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-home-cache-cleanup: true
+
+      # We should use the "real" build configuration file for app deployments.
+      - name: Decrypt secrets.tar.gpg
+        run: gpg --quiet --batch --yes --always-trust --decrypt --passphrase="$SECRET_GPG_PASSWORD" --output secrets.tar secrets.tar.gpg
+        env:
+          SECRET_GPG_PASSWORD: ${{ secrets.SECRET_GPG_PASSWORD }}
+
+      - name: Unzip secrets.tar
+        run: tar xvf secrets.tar
+
+      # [bumpVersion-steps-generator.kt]
+      # https://gist.github.com/jisungbin/5cac715eb5133d289f2565c26db9b5e9
+      - name: Bump playground Major version
+        if: contains(github.event.pull_request.labels.*.name, 'bump_major')
+        run: ./gradlew bumpVersion -Ptype="Major" -Ptarget="Playground"
+
+      - name: Bump playground Minor version
+        if: contains(github.event.pull_request.labels.*.name, 'bump_minor')
+        run: ./gradlew bumpVersion -Ptype="Minor" -Ptarget="Playground"
+
+      - name: Bump playground Patch version
+        if: contains(github.event.pull_request.labels.*.name, 'bump_patch')
+        run: ./gradlew bumpVersion -Ptype="Patch" -Ptarget="Playground"
+
+      - name: Build apk
+        id: gradle
+        run: ./gradlew assembleRelease --scan
+
+      - name: "Add build scan URL as PR comment"
+        uses: actions/github-script@v6
+        if: failure()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ ${{ github.workflow }} failed: ${{ steps.gradle.outputs.build-scan-url }}'
+            })
+
+      - name: Upload apk to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: duckie
+          file: playground/build/outputs/apk/release/playground-release.apk
+          releaseNotes: |
+            마지막 변경 사항 제목: ${{ github.event.pull_request.title }}
+
+      - name: Post to a Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.22.0
+        with:
+          channel-id: 'C03CM18M529'
+          slack-message: "QuackQuack 플레이그라운드의 새로운 버전이 배포됐습니다. 🥳"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: Update new versions
+        run: |
+          git config user.name "sungbinland-bot"
+          git config user.email "sungbinland.project@gmail.com"
+          git add .
+          git commit -m "[CI] bump versions"
+          git push

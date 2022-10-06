@@ -15,19 +15,20 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.ui.color.QuackColor
-import team.duckie.quackquack.ui.component.BottomNavigationItem
 import team.duckie.quackquack.ui.component.QuackBody1
 import team.duckie.quackquack.ui.component.QuackBottomNavigation
 import team.duckie.quackquack.ui.component.QuackImage
@@ -61,14 +62,14 @@ fun QuackTopAppBarDemo() {
     Column(
         modifier = Modifier
             .background(
-                color = QuackColor.Gray3.value
+                color = QuackColor.Gray3.composeColor,
             )
             .fillMaxSize()
             .padding(
-                top = 100.dp
+                top = 100.dp,
             ),
         verticalArrangement = Arrangement.spacedBy(
-            space = 5.dp
+            space = 5.dp,
         ),
     ) {
         QuackTopAppBar(
@@ -116,25 +117,39 @@ fun QuackTopAppBarDemo() {
 @Composable
 private fun DuckieLogo() {
     Box(
-        modifier = Modifier.width(
-            width = 100.dp
-        ),
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center,
     ) {
         QuackImage(
-            image = team.duckie.quackquack.ui.R.drawable.duckie_text_logo
+            src = team.duckie.quackquack.ui.R.drawable.duckie_text_logo,
+            overrideSize = DpSize(
+                width = 72.dp,
+                height = 24.dp,
+            )
         )
     }
 }
 
 @Composable
 private fun DropDown() {
-    Row {
-        QuackBody1(
-            text = "body1"
-        )
-        QuackImage(
-            icon = QuackIcon.ArrowDown
-        )
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            QuackBody1(
+                text = "body1",
+            )
+            QuackImage(
+                src = QuackIcon.ArrowDown,
+                overrideSize = DpSize(
+                    width = 24.dp,
+                    height = 24.dp,
+                ),
+            )
+        }
     }
 }
 
@@ -144,15 +159,14 @@ fun QuackBottomNavigationDemo() {
     Column(
         modifier = Modifier
             .background(
-                color = QuackColor.Gray3.value
+                color = QuackColor.Gray3.composeColor,
             )
             .fillMaxSize()
             .padding(
-                top = 100.dp
+                top = 100.dp,
             ),
     ) {
         QuackBottomNavigation(
-            icons = getBottomNavigationIcons(),
             selectedIndex = selectedIndex.value,
             onClick = { index ->
                 selectedIndex.value = index
@@ -160,22 +174,3 @@ fun QuackBottomNavigationDemo() {
         )
     }
 }
-
-private fun getBottomNavigationIcons() = persistentListOf(
-    BottomNavigationItem(
-        defaultIcon = QuackIcon.ArrowDown,
-        selectedIcon = QuackIcon.ImageEdit,
-    ),
-    BottomNavigationItem(
-        defaultIcon = QuackIcon.Setting,
-        selectedIcon = QuackIcon.Delete,
-    ),
-    BottomNavigationItem(
-        defaultIcon = QuackIcon.ArrowRight,
-        selectedIcon = QuackIcon.Camera,
-    ),
-    BottomNavigationItem(
-        defaultIcon = QuackIcon.Feed,
-        selectedIcon = QuackIcon.MarketPrice,
-    ),
-)

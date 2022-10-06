@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.color.QuackColor
@@ -29,6 +30,10 @@ import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.modifier.quackClickable
 
 private val QuackBottomNavigationHeight = 52.dp
+private val QuackBottomNavigationItemSize = DpSize(
+    width = 24.dp,
+    height = 24.dp,
+)
 
 /**
  * QuackBottomNavigation 을 구현합니다.
@@ -48,13 +53,13 @@ private val QuackBottomNavigationHeight = 52.dp
  */
 
 @Composable
-fun QuackBottomNavigation(
+public fun QuackBottomNavigation(
     modifier: Modifier = Modifier,
-    icons: PersistentList<BottomNavigationItem>,
     backgroundColor: QuackColor = QuackColor.White,
     selectedIndex: Int,
     onClick: (Int) -> Unit,
 ) {
+    val icons = getBottomNavigationItems()
     val density = LocalDensity.current
     val barWidth = remember { mutableStateOf(0.dp) }
     val screenWidth = barWidth.value / icons.size
@@ -64,11 +69,11 @@ fun QuackBottomNavigation(
             .applyQuackSize(
                 width = QuackWidth.Fill,
                 height = QuackHeight.Custom(
-                    height = QuackBottomNavigationHeight
+                    height = QuackBottomNavigationHeight,
                 ),
             )
             .background(
-                color = backgroundColor.value
+                color = backgroundColor.composeColor,
             )
             .onSizeChanged { size ->
                 with(density) {
@@ -120,12 +125,33 @@ private fun QuackBottomNavigationItem(
         contentAlignment = Alignment.Center,
     ) {
         QuackImage(
-            icon = icon,
+            src = icon,
+            overrideSize = QuackBottomNavigationItemSize,
+            rippleEnabled = false,
         )
     }
 }
 
-data class BottomNavigationItem(
+private fun getBottomNavigationItems() = listOf(
+    BottomNavigationItem(
+        defaultIcon = QuackIcon.BottomNavHome,
+        selectedIcon = QuackIcon.BottomNavHomeSelected,
+    ),
+    BottomNavigationItem(
+        defaultIcon = QuackIcon.BottomNavSearch,
+        selectedIcon = QuackIcon.BottomNavSearchSelected,
+    ),
+    BottomNavigationItem(
+        defaultIcon = QuackIcon.BottomNavNotice,
+        selectedIcon = QuackIcon.BottomNavNoticeSelected,
+    ),
+    BottomNavigationItem(
+        defaultIcon = QuackIcon.BottomNavMessage,
+        selectedIcon = QuackIcon.BottomNavMessageSelected,
+    ),
+)
+
+private data class BottomNavigationItem(
     val defaultIcon: QuackIcon,
     val selectedIcon: QuackIcon,
 )

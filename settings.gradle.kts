@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 @file:Suppress("UnstableApiUsage")
@@ -20,7 +20,6 @@ pluginManagement {
 
 rootProject.name = "quack-quack"
 include(
-    ":benchmark",
     ":playground",
     ":common-lint",
     ":common-lint-test",
@@ -35,4 +34,6 @@ include(
     ":lint-quack-publish",
     ":lint-compose-publish",
     ":quack-publish-bom",
+    ":benchmark-ui-components",
+    ":benchmark-ui-components-app",
 )

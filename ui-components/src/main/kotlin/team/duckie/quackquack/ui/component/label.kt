@@ -21,7 +21,9 @@ import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.QuackColor.Companion.SkyBlueColor
 
-private val QuackLabelShape = RoundedCornerShape(11.dp)
+private val QuackLabelShape = RoundedCornerShape(
+    size = 11.dp,
+)
 private val QuackLabelPadding = PaddingValues(
     horizontal = 6.dp,
     vertical = 4.dp,
@@ -37,7 +39,7 @@ private val QuackLabelPadding = PaddingValues(
  */
 
 @Composable
-fun QuackSimpleLabel(
+public fun QuackSimpleLabel(
     text: String,
     active: Boolean,
 ) {
@@ -53,13 +55,13 @@ fun QuackSimpleLabel(
     Box(
         modifier = Modifier
             .clip(
-                shape = QuackLabelShape
+                shape = QuackLabelShape,
             )
             .background(
-                color = backgroundColor.value
+                color = backgroundColor.composeColor,
             )
             .padding(
-                paddingValues = QuackLabelPadding
+                paddingValues = QuackLabelPadding,
             ),
     ) {
         QuackBody3(

@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 @file:Suppress(
@@ -19,33 +19,31 @@ plugins {
     id(ConventionEnum.AndroidQuackPublish)
     id(ConventionEnum.JvmKover)
     id(ConventionEnum.JvmDokka)
-    alias(libs.plugins.paparazzi)
+    // alias(libs.plugins.paparazzi)
+    alias(libs.plugins.kotlin.api.validation)
 }
 
-// TODO: resourcePrefix
 android {
     namespace = "team.duckie.quackquack.ui"
+    resourcePrefix = "quack_"
 
-    buildTypes {
-        sourceSets.getByName("debug") {
-            kotlin.srcDir("build/generated/ksp/debug/kotlin")
-        }
-        sourceSets.getByName("release") {
-            kotlin.srcDir("build/generated/ksp/release/kotlin")
-        }
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-Xexplicit-api=strict"
     }
 }
 
 dependencies {
-    implementations(
-        projects.lintCorePublish,
-        projects.lintComposePublish,
-        libs.util.profileinstaller,
-        libs.compose.material,
-        libs.compose.glide,
+    apis(
         libs.kotlin.collections.immutable,
     )
-    testImplementation(libs.test.parameter.injector)
+    implementations(
+        libs.compose.material,
+        libs.compose.glide,
+        libs.compose.flowlayout,
+    )
+    lintChecks(projects.lintCore)
+    lintChecks(projects.lintCompose)
+    // testImplementations(libs.test.parameter.injector)
 }
 
 quackArtifactPublish {
