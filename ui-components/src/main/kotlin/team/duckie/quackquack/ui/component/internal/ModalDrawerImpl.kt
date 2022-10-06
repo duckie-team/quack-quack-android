@@ -5,13 +5,7 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress(
-    "KDocFields",
-    "SameParameterValue",
-)
-@file:OptIn(
-    ExperimentalMaterialApi::class,
-)
+
 
 package team.duckie.quackquack.ui.component.internal
 
@@ -55,17 +49,29 @@ private const val QuackThresholdFraction = 0.5f
 
 private const val QuackDrawerExceptionMessage = "Drawer shouldn't have infinite width"
 
+/**
+ * QuackModalDrawer 의 구현체 입니다.
+ *
+ * QuackModalDrawer 가 open 상태가 아닐 때 원래 content 를
+ * 인식하기 위해 [content] 를 인수로 받습니다.
+ *
+ * @param drawerState Drawer 의 상태 [QuackDrawerState]
+ * @param gesturesEnabled drag gesture 의 허용 여부
+ * @param drawerContent Drawer 내부에 들어갈 content
+ * @param content Drawer 가 Close 일 때 표시 할 컴포저블
+ */
+@ExperimentalMaterialApi
 @Composable
 internal fun QuackModalDrawerImpl(
     drawerState: QuackDrawerState,
     gesturesEnabled: Boolean = true,
     drawerContent: @Composable ColumnScope.() -> Unit,
     content: @Composable () -> Unit,
-): Unit {
+) {
     val scope = rememberCoroutineScope()
 
     BoxWithConstraints(
-        modifier = Modifier.fillMaxSize(),// drawer 크기
+        modifier = Modifier.fillMaxSize(),
     ) {
         val modalDrawerConstraints = constraints
         if (!modalDrawerConstraints.hasBoundedWidth) {
@@ -163,6 +169,15 @@ internal fun QuackModalDrawerImpl(
     }
 }
 
+
+/**
+ * QuackModalDrawer 외부에 표시 될 배경 오버레이
+ *
+ * @param open Drawer 가 open 되었는지 여부
+ * @param onClose Drawer 외부를 터치 했을 때의 닫힘 이벤트
+ * @param fraction 배경에 적용 될 명암 정도
+ * @param color 배경에 적용 될 색상
+ */
 @Composable
 private fun Scrim(
     open: Boolean,
@@ -192,6 +207,16 @@ private fun Scrim(
     }
 }
 
+/**
+ * 화면의 어느 포인트에 위치하고 있는지에 대한 Fraction
+ * Drawer 가 열려 있는 정도에 따라 큰 값을 반환합니다.
+ *
+ * @param a 최소 값
+ * @param b 최대 값
+ * @param pos 현재 Drawer 가 위치한 offset
+ * @return Drawer 가 열려있는 정도
+ */
+@Suppress("SameParameterValue")
 private fun calculateFraction(
     a: Float,
     b: Float,
