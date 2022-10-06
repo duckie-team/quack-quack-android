@@ -47,7 +47,7 @@ class DrawerPlayground : BaseActivity() {
 fun QuackModalDrawerDemo() {
     val drawerState = rememberQuackDrawerState()
     val coroutineScope = rememberCoroutineScope()
-
+    
     QuackModalDrawer(
         drawerState = drawerState,
         drawerContent = {
