@@ -48,7 +48,6 @@ public fun QuackModalDrawer(
     content = content,
 )
 
-
 /**
  * [QuackDrawerState] 을 생성 하고, remember 합니다.
  *
