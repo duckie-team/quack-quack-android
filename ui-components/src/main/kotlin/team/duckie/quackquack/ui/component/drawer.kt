@@ -174,7 +174,7 @@ public class QuackDrawerState(
     public val offset: State<Float>
         get() = swipeableState.offset
 
-    companion object {
+    public companion object {
         /**
          * The default [Saver] implementation for [QuackDrawerState].
          *

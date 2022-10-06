@@ -51,11 +51,11 @@ fun QuackModalDrawerDemo() {
         drawerState = drawerState,
         drawerContent = {
             QuackBody1(
-                text = "안녕하세요 감사합니다"
+                text = "안녕하세요 감사합니다",
             )
             QuackDivider()
             QuackBody1(
-                text = "네 들어가세요"
+                text = "네 들어가세요",
             )
         },
         content = {
