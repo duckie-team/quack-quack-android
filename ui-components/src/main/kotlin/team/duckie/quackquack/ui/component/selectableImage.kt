@@ -11,6 +11,7 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -125,16 +126,15 @@ private fun QuackSelectedIcon(
  *
  */
 @Composable
-private fun SelectedFilterBox() {
-    Box {
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .background(
-                    color = Black80.composeColor,
-                )
-        )
-    }
+private fun BoxScope.SelectedFilterBox() {
+    Box(
+        modifier = Modifier
+            .matchParentSize()
+            .background(
+                color = Black80.composeColor,
+            )
+    )
+
 }
 
 /**
