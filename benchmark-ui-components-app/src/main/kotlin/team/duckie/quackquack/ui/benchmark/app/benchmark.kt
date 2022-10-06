@@ -249,6 +249,20 @@ inline fun QuackToggleBenchmark() {
 }
 
 @Composable
+inline fun QuackModalDrawerBenchmark() {
+    QuackModalDrawer(
+        drawerState = drawerState,
+        drawerContent = {},
+        content = {},
+    )
+}
+
+@Composable
+inline fun QuackModalDrawerBenchmark() {
+    QuackDivider()
+}
+
+@Composable
 inline fun QuackTypographyBenchmark() {
     QuackBody1(
         text = "",
