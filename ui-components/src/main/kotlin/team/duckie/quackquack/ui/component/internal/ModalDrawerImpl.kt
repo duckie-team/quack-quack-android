@@ -5,8 +5,6 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-
-
 package team.duckie.quackquack.ui.component.internal
 
 import androidx.compose.foundation.Canvas

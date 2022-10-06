@@ -5,9 +5,6 @@
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress(
-    "KDocFields",
-)
 @file:OptIn(
     ExperimentalMaterialApi::class,
 )
@@ -27,6 +24,19 @@ import kotlinx.coroutines.CancellationException
 import team.duckie.quackquack.ui.animation.quackAnimationSpec
 import team.duckie.quackquack.ui.component.internal.QuackModalDrawerImpl
 
+/**
+ * 덕키의 QuackModalDrawer 입니다.
+ *
+ * Drag 를 통해서 Drawer 를 활성화 할 수 있으며,
+ * [drawerState] 의 [QuackDrawerState.open] 을 통해서 활성화 할 수 있습니다.
+ *
+ * QuackModalDrawer 가 open 상태가 아닐 때 원래 content 를
+ * 인식하기 위해 [content] 를 인수로 받습니다.
+ *
+ * @param drawerState Drawer 의 상태 [QuackDrawerState]
+ * @param drawerContent Drawer 내부에 들어갈 content
+ * @param content Drawer 가 Close 일 때 표시 할 컴포저블
+ */
 @Composable
 public fun QuackModalDrawer(
     drawerState: QuackDrawerState,
@@ -39,6 +49,13 @@ public fun QuackModalDrawer(
 )
 
 
+/**
+ * [QuackDrawerState] 을 생성 하고, remember 합니다.
+ *
+ * @param initialValue state 의 초기값 입니다.
+ * @param confirmStateChange 상태 변경을 확인 하기 위한 콜백 입니다.
+ * @return [QuackDrawerState]
+ */
 @Composable
 public fun rememberQuackDrawerState(
     initialValue: QuackDrawerValue = QuackDrawerValue.Closed,
@@ -125,6 +142,7 @@ public class QuackDrawerState(
      *
      * @param targetValue The new value to animate to.
      * @param anim The animation that will be used to animate to the new value.
+     * @return Unit
      */
     public suspend fun animateTo(targetValue: QuackDrawerValue, anim: AnimationSpec<Float>) {
         swipeableState.animateTo(targetValue, anim)
@@ -134,6 +152,7 @@ public class QuackDrawerState(
      * Set the state without any animation and suspend until it's set
      *
      * @param targetValue The new target value
+     * @return Unit
      */
     public suspend fun snapTo(targetValue: QuackDrawerValue) {
         swipeableState.snapTo(targetValue)
@@ -155,22 +174,26 @@ public class QuackDrawerState(
     public val offset: State<Float>
         get() = swipeableState.offset
 
-    public companion object {
+    companion object {
         /**
          * The default [Saver] implementation for [QuackDrawerState].
+         *
+         * @param confirmStateChange Optional callback invoked to confirm or veto a pending state change.
+         * @return [Saver]
          */
-        public fun saver(confirmStateChange: (QuackDrawerValue) -> Boolean): Saver<QuackDrawerState, QuackDrawerValue> =
-            Saver(
-                save = { drawerState ->
-                    drawerState.currentValue
-                },
-                restore = { QuackDrawerValue ->
-                    QuackDrawerState(
-                        initialValue = QuackDrawerValue,
-                        confirmStateChange = confirmStateChange,
-                    )
-                }
-            )
+        internal fun saver(
+            confirmStateChange: (QuackDrawerValue) -> Boolean,
+        ): Saver<QuackDrawerState, QuackDrawerValue> = Saver(
+            save = { drawerState ->
+                drawerState.currentValue
+            },
+            restore = { QuackDrawerValue ->
+                QuackDrawerState(
+                    initialValue = QuackDrawerValue,
+                    confirmStateChange = confirmStateChange,
+                )
+            }
+        )
     }
 }
 
