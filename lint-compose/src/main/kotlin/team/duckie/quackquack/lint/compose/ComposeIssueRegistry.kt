@@ -22,5 +22,6 @@ class ComposeIssueRegistry : IssueProvider(
         TrailingCommaIssue,
         FixedModifierOrderIssue,
         NewLineArgumentIssue,
+        SpecifyAnimationSpecIssue,
     ),
 )
