@@ -44,13 +44,11 @@ private val QuackBottomNavigationItemSize = DpSize(
  * selectedIndex 의 상태값과 비교하여 보여줘야하는 Icon 을 결정합니다.
  *
  * @param modifier 다양한 Align 에서 사용하기 위해 Modifier 를 열어둡니다.
- * @param icons BottomNavigation 에서 사용될 Icon 들을 [BottomNavigationItem] data class 로 받습니다.
  * @param backgroundColor BottomNavigation 배경색
  * @param selectedIndex 현재 선택되어있는 index 상태값
  * @param onClick BottomNavigation 의 클릭 이벤트
  *
  */
-
 @Composable
 public fun QuackBottomNavigation(
     modifier: Modifier = Modifier,
@@ -131,6 +129,11 @@ private fun QuackBottomNavigationItem(
     }
 }
 
+/**
+ * [getBottomNavigationItems] 을 구현합니다
+ *
+ * @return [QuackBottomNavigation] 에서 사용되는 아이콘들의 data class list를 반환해줍니다.
+ */
 private fun getBottomNavigationItems() = listOf(
     BottomNavigationItem(
         defaultIcon = QuackIcon.BottomNavHome,

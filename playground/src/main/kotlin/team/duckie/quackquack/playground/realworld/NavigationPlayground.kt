@@ -121,11 +121,11 @@ private fun DuckieLogo() {
         contentAlignment = Alignment.Center,
     ) {
         QuackImage(
-            src = team.duckie.quackquack.ui.R.drawable.duckie_text_logo,
+            src = team.duckie.quackquack.ui.R.drawable.quack_duckie_text_logo,
             overrideSize = DpSize(
                 width = 72.dp,
                 height = 24.dp,
-            )
+            ),
         )
     }
 }

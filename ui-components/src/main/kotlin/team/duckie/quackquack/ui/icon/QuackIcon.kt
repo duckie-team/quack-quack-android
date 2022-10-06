@@ -191,12 +191,12 @@ public value class QuackIcon private constructor(
 
         @Stable
         public val Checked: QuackIcon = QuackIcon(
-            drawableId = R.drawable.ic_checked_round_28
+            drawableId = R.drawable.quack_ic_checked_round_24
         )
 
         @Stable
         public val UnChecked: QuackIcon = QuackIcon(
-            drawableId = R.drawable.ic_un_checked_round_28
+            drawableId = R.drawable.quack_ic_un_checked_round_24
         )
 
         @Stable

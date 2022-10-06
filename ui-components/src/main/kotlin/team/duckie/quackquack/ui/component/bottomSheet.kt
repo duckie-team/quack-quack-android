@@ -286,8 +286,6 @@ private fun QuackBottomSheetHandle(
     }
 }
 
-
-
 /**
  * [QuackBottomSheetSubtitleItem] 을 구현합니다.
  *

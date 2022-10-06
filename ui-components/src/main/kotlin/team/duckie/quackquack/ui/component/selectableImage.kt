@@ -264,5 +264,4 @@ private fun QuackDeleteIcon(
             overrideSize = DeletableIconSize,
         )
     }
-
 }

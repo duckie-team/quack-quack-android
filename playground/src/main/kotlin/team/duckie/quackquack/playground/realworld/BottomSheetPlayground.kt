@@ -175,9 +175,7 @@ fun QuackSimpleBottomSheetDemo() {
                 isImportant = true,
             ),
         ),
-        onClick = {
-
-        },
+        onClick = {},
     )
 }
 
