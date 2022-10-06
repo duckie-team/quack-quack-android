@@ -20,10 +20,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.LocalAbsoluteElevation
 import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -125,12 +123,6 @@ internal fun QuackModalDrawerImpl(
                 },
                 color = QuackColor.BlackOpacity60.composeColor,
             )
-            val absoluteElevation = LocalAbsoluteElevation.current + 0.dp
-            CompositionLocalProvider(
-                LocalAbsoluteElevation provides absoluteElevation,
-            ) {
-
-            }
             QuackSurface(
                 modifier = with(
                     receiver = LocalDensity.current,
@@ -166,7 +158,6 @@ internal fun QuackModalDrawerImpl(
         }
     }
 }
-
 
 /**
  * QuackModalDrawer 외부에 표시 될 배경 오버레이
