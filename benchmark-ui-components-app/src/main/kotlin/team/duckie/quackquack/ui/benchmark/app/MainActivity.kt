@@ -30,6 +30,8 @@ class MainActivity : ComponentActivity() {
             QuackWidthBenchmark()
             QuackIconBenchmark()
             QuackTextStyleBenchmark()
+            QuackModalDrawerBenchmark()
+            QuackDividerBenchmark()
         }
     }
 }

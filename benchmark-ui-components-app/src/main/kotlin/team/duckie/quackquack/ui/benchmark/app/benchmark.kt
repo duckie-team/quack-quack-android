@@ -24,6 +24,7 @@ import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.QuackBody1
 import team.duckie.quackquack.ui.component.QuackBody2
 import team.duckie.quackquack.ui.component.QuackBody3
+import team.duckie.quackquack.ui.component.QuackDivider
 import team.duckie.quackquack.ui.component.QuackFab
 import team.duckie.quackquack.ui.component.QuackGrayscaleTag
 import team.duckie.quackquack.ui.component.QuackHeadLine1
@@ -39,6 +40,7 @@ import team.duckie.quackquack.ui.component.QuackMainTab
 import team.duckie.quackquack.ui.component.QuackMediumBorderToggleButton
 import team.duckie.quackquack.ui.component.QuackMenuFab
 import team.duckie.quackquack.ui.component.QuackMenuFabItem
+import team.duckie.quackquack.ui.component.QuackModalDrawer
 import team.duckie.quackquack.ui.component.QuackRoundCheckBox
 import team.duckie.quackquack.ui.component.QuackRowTag
 import team.duckie.quackquack.ui.component.QuackSmallBorderToggleButton
@@ -51,6 +53,7 @@ import team.duckie.quackquack.ui.component.QuackTextField
 import team.duckie.quackquack.ui.component.QuackTitle1
 import team.duckie.quackquack.ui.component.QuackTitle2
 import team.duckie.quackquack.ui.component.QuackToggleChip
+import team.duckie.quackquack.ui.component.rememberQuackDrawerState
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.icon.QuackIcon
@@ -249,20 +252,6 @@ inline fun QuackToggleBenchmark() {
 }
 
 @Composable
-inline fun QuackModalDrawerBenchmark() {
-    QuackModalDrawer(
-        drawerState = drawerState,
-        drawerContent = {},
-        content = {},
-    )
-}
-
-@Composable
-inline fun QuackModalDrawerBenchmark() {
-    QuackDivider()
-}
-
-@Composable
 inline fun QuackTypographyBenchmark() {
     QuackBody1(
         text = "",
@@ -391,4 +380,18 @@ inline fun QuackTextStyleBenchmark() {
 
     QuackDefaultFontScale
     QuackFontScale
+}
+
+@Composable
+inline fun QuackModalDrawerBenchmark() {
+    QuackModalDrawer(
+        drawerState = rememberQuackDrawerState(),
+        drawerContent = {},
+        content = {},
+    )
+}
+
+@Composable
+inline fun QuackDividerBenchmark() {
+    QuackDivider()
 }
