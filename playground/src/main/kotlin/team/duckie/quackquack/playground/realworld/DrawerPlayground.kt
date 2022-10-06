@@ -9,7 +9,6 @@ package team.duckie.quackquack.playground.realworld
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.collections.immutable.persistentListOf
@@ -47,7 +46,7 @@ class DrawerPlayground : BaseActivity() {
 fun QuackModalDrawerDemo() {
     val drawerState = rememberQuackDrawerState()
     val coroutineScope = rememberCoroutineScope()
-    
+
     QuackModalDrawer(
         drawerState = drawerState,
         drawerContent = {
