@@ -216,42 +216,42 @@ public value class QuackIcon private constructor(
 
         @Stable
         internal val BottomNavHome: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_home_bottom_nav
+            drawableId = R.drawable.quack_ic_home_bottom_nav_24
         )
 
         @Stable
         internal val BottomNavHomeSelected: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_home_bottom_nav_selected
+            drawableId = R.drawable.quack_ic_home_bottom_nav_selected_24
         )
 
         @Stable
         internal val BottomNavSearch: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_search_bottom_nav
+            drawableId = R.drawable.quack_ic_search_bottom_nav_24
         )
 
         @Stable
         internal val BottomNavSearchSelected: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_search_bottom_nav_selected
+            drawableId = R.drawable.quack_ic_search_bottom_nav_selected_24
         )
 
         @Stable
         internal val BottomNavNotice: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_notice_bottom_nav
+            drawableId = R.drawable.quack_ic_notice_bottom_nav_24
         )
 
         @Stable
         internal val BottomNavNoticeSelected: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_notice_bottom_nav_selected
+            drawableId = R.drawable.quack_ic_notice_bottom_nav_selected_24
         )
 
         @Stable
         internal val BottomNavMessage: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_message_bottom_nav
+            drawableId = R.drawable.quack_ic_message_bottom_nav_24
         )
 
         @Stable
         internal val BottomNavMessageSelected: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_message_bottom_nav_selected
+            drawableId = R.drawable.quack_ic_message_bottom_nav_selected_24
         )
     }
 }

@@ -5,7 +5,7 @@
     android:viewportHeight="24">
   <group>
     <clip-path
-        android:pathData="M3.701,3.701h20v20L3.701,23.701z"/>
+        android:pathData="M2,2h20v20h-20z"/>
     <path
         android:pathData="M10.727,10.727m-7.026,0a7.026,7.026 0,1 1,14.052 0a7.026,7.026 0,1 1,-14.052 0"
         android:strokeLineJoin="round"
@@ -13,19 +13,11 @@
         android:fillColor="#00000000"
         android:strokeColor="#222"
         android:strokeLineCap="round"/>
-  </group>
-  <group>
-    <clip-path
-        android:pathData="M15.696,15.696h20v20L15.696,35.696z"/>
     <path
-        android:pathData="m15.696,15.696 l4.603,4.603"
+        android:pathData="M15.696,15.696L20.299,20.299"
         android:fillColor="#fff"/>
-  </group>
-  <group>
-    <clip-path
-        android:pathData="M15.696,15.696h20v20L15.696,35.696z"/>
     <path
-        android:pathData="m15.696,15.696 l4.603,4.603"
+        android:pathData="M15.696,15.696L20.299,20.299"
         android:strokeLineJoin="round"
         android:strokeWidth="2.5"
         android:fillColor="#00000000"
