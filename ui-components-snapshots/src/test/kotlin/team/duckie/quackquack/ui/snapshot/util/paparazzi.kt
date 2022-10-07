@@ -50,7 +50,9 @@ data class PaparazziConfig(
  * @param config [Paparazzi] 의 추가 설정
  * @return 스냅샷을 찍기 위한 준비를 마친 [Paparazzi] 객체
  */
-fun buildPaparazzi(@QuackDsl config: PaparazziConfig.() -> Unit = {}): Paparazzi {
+fun buildPaparazzi(
+    @QuackDsl config: PaparazziConfig.() -> Unit = {},
+): Paparazzi {
     val paparazziConfig = PaparazziConfig().apply(config)
     return Paparazzi(
         environment = detectEnvironment().copy(
