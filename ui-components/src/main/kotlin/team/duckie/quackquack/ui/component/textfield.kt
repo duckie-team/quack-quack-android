@@ -43,7 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldLayoutId
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldLeadingContentLayoutId
@@ -189,6 +189,8 @@ private object QuackTextFieldColors {
  * Draws the most basic QuackQuack's TextField.
  * Add only decoration items that fit QuackTextField to BasicTextField.
  *
+ * Always use [QuackAnimationSpec] as animationSpec.
+ *
  * @param width Width of QuackTextField
  * @param height height of QuackTextField
  * @param text text to display
@@ -277,14 +279,14 @@ public fun QuackTextField(
                     zIndex = 2f,
                 ),
                 enter = fadeIn(
-                    animationSpec = quackAnimationSpec(),
+                    animationSpec = QuackAnimationSpec(),
                 ) + expandVertically(
-                    animationSpec = quackAnimationSpec(),
+                    animationSpec = QuackAnimationSpec(),
                 ),
                 exit = fadeOut(
-                    animationSpec = quackAnimationSpec(),
+                    animationSpec = QuackAnimationSpec(),
                 ) + shrinkVertically(
-                    animationSpec = quackAnimationSpec(),
+                    animationSpec = QuackAnimationSpec(),
                 ),
             ) {
                 checkNotNull(

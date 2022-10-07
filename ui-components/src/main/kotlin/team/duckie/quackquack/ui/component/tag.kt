@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
 import kotlinx.collections.immutable.ImmutableCollection
 import kotlinx.collections.immutable.PersistentList
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.icon.QuackIcon
@@ -364,6 +364,8 @@ private enum class QuackTagType {
  * 주어진 옵션에 따라 QuackTag 의 기본 모양을 조정합니다.
  * padding, clip, background, border 가 조정됩니다.
  *
+ * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
+ *
  * @param isSelected 태그가 선택되었는지 여부.
  * 표시하려는 태그가 [QuackGrayscaleTag] 일 경우 무시됩니다.
  * @param type 태그의 타입
@@ -401,7 +403,7 @@ private fun Modifier.quackTag(
                         isSelected,
                     )
                 }.composeColor,
-                animationSpec = quackAnimationSpec(),
+                animationSpec = QuackAnimationSpec(),
             ).value,
         )
         .quackClickable(
@@ -415,7 +417,7 @@ private fun Modifier.quackTag(
                     /*isSelected = */
                     isSelected,
                 ).composeColor,
-                animationSpec = quackAnimationSpec(),
+                animationSpec = QuackAnimationSpec(),
             ).value,
             shape = shape,
         )
