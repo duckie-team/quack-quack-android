@@ -75,6 +75,13 @@ public value class QuackColor internal constructor(
             composeColor = Color.Unspecified,
         )
 
+        // Transparent 는 색상의 기본 값으로만 사용되야 하며,
+        // 실제 컴포넌트에서는 사용되서는 안됩니다.
+        @Stable
+        internal val Transparent: QuackColor = QuackColor(
+            composeColor = Color.Transparent,
+        )
+
         @Stable
         public val DuckieOrange: QuackColor = QuackColor(
             composeColor = Color(
