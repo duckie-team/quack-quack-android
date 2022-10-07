@@ -128,14 +128,9 @@ public fun QuackMainTab(
     }
 
     // `@SuppressLint("SpecifyAnimationSpec")` is not working
-    @Composable
-    fun <T> quackAnimationSpec(): AnimationSpec<T> = remember(
-        key1 = isPlacedDone,
-    ) {
-        when (isPlacedDone) {
-            true -> team.duckie.quackquack.ui.animation.quackAnimationSpec()
-            else -> snap()
-        }
+    fun <T> quackAnimationSpec(): AnimationSpec<T> = when (isPlacedDone) {
+        true -> team.duckie.quackquack.ui.animation.quackAnimationSpec()
+        else -> snap()
     }
 
     val selectedUnderBarHeight = remember(
