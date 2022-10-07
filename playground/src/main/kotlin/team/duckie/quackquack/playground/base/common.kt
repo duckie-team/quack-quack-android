@@ -54,6 +54,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -67,8 +68,10 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.datastore.preferences.core.edit
@@ -84,13 +87,20 @@ import team.duckie.quackquack.playground.util.noRippleClickable
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
-import team.duckie.quackquack.ui.textstyle.QuackDefaultFontScale
-import team.duckie.quackquack.ui.textstyle.QuackFontScale
+
+/**
+ * 텍스트 컴포넌트의 font scale
+ */
+var fontScale by mutableStateOf(
+    value = 1f,
+)
 
 /**
  * 컴포넌트의 경계(테두리)를 표시할 지 여부
  */
-var showComponentBounds by mutableStateOf(true)
+var showComponentBounds by mutableStateOf(
+    value = true,
+)
 
 /**
  * 액티비티를 애니메이션과 함께 시작합니다.
@@ -359,7 +369,7 @@ private fun PlaygroundSettingAlert(
         }
         var fontScaleInputState by remember {
             mutableStateOf(
-                value = QuackFontScale.toString(),
+                value = fontScale.toString(),
             )
         }
         var showComponentBoundsState by remember {
@@ -374,7 +384,7 @@ private fun PlaygroundSettingAlert(
                     animationDurationInputState = QuackDefaultAnimationMillis.msToSecondString()
                 }
                 if (fontScaleInputState.isEmpty()) {
-                    fontScaleInputState = QuackDefaultFontScale.toString()
+                    fontScaleInputState = "1"
                 }
 
                 context.dataStore.edit { preference ->
@@ -387,11 +397,11 @@ private fun PlaygroundSettingAlert(
                         )
                     }
                     preference[PreferenceConfigs.FontScaleKey] = when (reset) {
-                        true -> QuackDefaultFontScale
-                        else -> fontScaleInputState.toDouble()
+                        true -> 1f
+                        else -> fontScaleInputState.toFloat()
                     }.also { newFontScale ->
-                        QuackFontScale = newFontScale.coerceAtLeast(
-                            minimumValue = 0.0,
+                        fontScale = newFontScale.coerceAtLeast(
+                            minimumValue = 1f,
                         )
                     }
 
@@ -601,7 +611,13 @@ private fun PreviewAlert(
                 contentAlignment = Alignment.Center,
             ) {
                 ContentBorder {
-                    content()
+                    CompositionLocalProvider(
+                        LocalDensity provides Density(
+                            density = LocalDensity.current.density,
+                            fontScale = fontScale,
+                        ),
+                        content = content,
+                    )
                 }
             }
         }
