@@ -14,14 +14,12 @@ package team.duckie.quackquack.ui.snapshot
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
-import app.cash.paparazzi.Paparazzi
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import kotlin.random.Random
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestWatcher
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.snapshot.provider.QuackIconProvider
@@ -33,13 +31,13 @@ import team.duckie.quackquack.ui.snapshot.wrapper.NamedValue
 @RunWith(TestParameterInjector::class)
 class QuackTag {
     @get:Rule
-    val paparazzi: Paparazzi = buildPaparazzi {
+    val paparazzi = buildPaparazzi {
         screenHeight = 500
         screenWidth *= 2
     }
 
     @get:Rule
-    val animationTest: TestWatcher = AnimationTestRule()
+    val animationTest = AnimationTestRule()
 
     @Suppress(
         "NotConstructor", // https://github.com/duckie-team/duckie-quack-quack/issues/108

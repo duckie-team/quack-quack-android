@@ -12,12 +12,10 @@
 
 package team.duckie.quackquack.ui.snapshot
 
-import app.cash.paparazzi.Paparazzi
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestWatcher
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.snapshot.rule.AnimationTestRule
@@ -27,12 +25,12 @@ import team.duckie.quackquack.ui.snapshot.util.buildPaparazzi
 @RunWith(TestParameterInjector::class)
 class QuackToggle {
     @get:Rule
-    val paparazzi: Paparazzi = buildPaparazzi {
+    val paparazzi = buildPaparazzi {
         screenWidth *= 2
     }
 
     @get:Rule
-    val animationTest: TestWatcher = AnimationTestRule()
+    val animationTest = AnimationTestRule()
 
     @Test
     fun QuackRoundCheckBox(

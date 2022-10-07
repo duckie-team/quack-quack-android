@@ -13,12 +13,10 @@
 package team.duckie.quackquack.ui.snapshot
 
 import androidx.compose.runtime.Composable
-import app.cash.paparazzi.Paparazzi
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestWatcher
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.snapshot.provider.DecorationContentProvider
 import team.duckie.quackquack.ui.snapshot.rule.AnimationTestRule
@@ -29,12 +27,12 @@ import team.duckie.quackquack.ui.snapshot.wrapper.NamedValue
 @RunWith(TestParameterInjector::class)
 class QuackTextField {
     @get:Rule
-    val paparazzi: Paparazzi = buildPaparazzi {
+    val paparazzi = buildPaparazzi {
         screenHeight *= 2
     }
 
     @get:Rule
-    val animationTest: TestWatcher = AnimationTestRule()
+    val animationTest = AnimationTestRule()
 
     @Test
     fun QuackBasicTextField(
