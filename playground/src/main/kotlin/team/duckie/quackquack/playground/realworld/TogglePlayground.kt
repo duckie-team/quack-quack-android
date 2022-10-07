@@ -32,7 +32,7 @@ class TogglePlayground : BaseActivity() {
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
         "QuackRoundCheck" to { QuackRoundCheckDemo() },
         "QuackSquareCheck" to { QuackSquareCheckDemo() },
-        "QuackToggle" to { QuackIconToggleDemo() },
+        "QuackIconToggle" to { QuackIconToggleDemo() },
         "QuackIconTextToggle" to { QuackIconTextToggleDemo() },
     )
 

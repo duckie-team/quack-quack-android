@@ -215,9 +215,3 @@ public final class team/duckie/quackquack/ui/textstyle/QuackTextStyle$Companion 
 	public final fun getTitle2 ()Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;
 }
 
-public final class team/duckie/quackquack/ui/textstyle/QuackTextStyleKt {
-	public static final field QuackDefaultFontScale D
-	public static final fun getQuackFontScale ()D
-	public static final fun setQuackFontScale (D)V
-}
-
