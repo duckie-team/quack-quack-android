@@ -25,6 +25,7 @@ include(
     ":common-lint",
     ":common-lint-test",
     ":ui-components",
+    ":ui-components-snapshots",
     ":lint-core",
     ":lint-quack",
     ":lint-compose",
