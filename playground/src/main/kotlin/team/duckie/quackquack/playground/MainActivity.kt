@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.ContentBorder
 import team.duckie.quackquack.playground.base.PlaygroundActivities
+import team.duckie.quackquack.playground.base.fontScale
 import team.duckie.quackquack.playground.base.showComponentBounds
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
 import team.duckie.quackquack.playground.realworld.FabPlayground
@@ -47,7 +48,6 @@ import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
-import team.duckie.quackquack.ui.textstyle.QuackFontScale
 
 private const val DefaultSplashScreenExitAnimationDurationMillis = 200L
 private val PlaygroundActivities = listOf(
@@ -137,6 +137,7 @@ private fun MultiDemo(
 @Composable
 private fun PlaygroundDemo() {
     val context = LocalContext.current.applicationContext
+
     LaunchedEffect(
         key1 = Unit,
     ) {
@@ -147,11 +148,11 @@ private fun PlaygroundDemo() {
                     ).coerceAtLeast(
                     minimumValue = 0,
                 )
-            QuackFontScale = (
+            fontScale = (
                     preference[PreferenceConfigs.FontScaleKey]
-                        ?: QuackFontScale
+                        ?: 1f
                     ).coerceAtLeast(
-                    minimumValue = 0.0,
+                    minimumValue = 1f,
                 )
             showComponentBounds =
                 preference[PreferenceConfigs.ShowComponentBounds] ?: showComponentBounds

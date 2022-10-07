@@ -19,8 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -36,21 +34,6 @@ import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.util.AllowMagicNumber
-
-/**
- * 덕키에서 사용할 [QuackTextStyle] 의 기본 font scale
- *
- * Playground 에서 [QuackFontScale] 편집 후 기본값으로 되돌리고
- * 싶을 때 기본값을 참조하기 위해 public 으로 설정함
- */
-public const val QuackDefaultFontScale: Double = 1.0
-
-/**
- * 덕키에서 사용할 [QuackTextStyle] 의 font scale
- *
- * Playground 에서 자유로운 font scale 편집으로 쉬운 디버깅을 위해 public 으로 설정함
- */
-public var QuackFontScale: Double by mutableStateOf(QuackDefaultFontScale)
 
 /**
  * 덕키에서 사용할 텍스트 스타일을 정의합니다. 추상화를 위해 컴포즈의
@@ -89,7 +72,7 @@ public class QuackTextStyle internal constructor(
     @Stable
     internal fun asComposeStyle() = TextStyle(
         color = color.composeColor,
-        fontSize = size * QuackFontScale,
+        fontSize = size,
         fontFamily = suit,
         fontWeight = weight,
         letterSpacing = letterSpacing,
