@@ -34,7 +34,7 @@ android {
 dependencies {
     implementations(
         libs.compose.material,
-        libs.compose.glide,
+        libs.compose.coil,
         libs.compose.flowlayout,
         projects.uxWritingModel,
     )
