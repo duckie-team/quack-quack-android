@@ -23,8 +23,8 @@ compose-material3 = "1.0.0-rc01"
 compose-activity = "1.6.0"
 compose-lifecycle-vm = "2.4.1"
 compose-constraintlayout = "1.0.1"
-landscapist = "2.0.0"
 accompanist = "0.26.4-beta"
+coil = "2.2.2"
 
 # tools
 kover = "0.6.1"
@@ -83,7 +83,7 @@ compose-material = { module = "androidx.compose.material:material", version.ref 
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 compose-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "compose-constraintlayout" }
-compose-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapist" }
+compose-coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-core" } # debugImplementation
 compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-core" }
 

@@ -12,11 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
-import com.bumptech.glide.request.RequestOptions
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.glide.GlideImage
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import team.duckie.quackquack.ui.animation.AnimatedContentTransform
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
@@ -84,39 +84,37 @@ internal fun QuackImageInternal(
     AnimatedContentTransform(
         targetState = imageModel,
     ) { animatedImageModel ->
-        GlideImage(
+        AsyncImage(
             modifier = modifier.runIf(
                 condition = overrideSize != null,
             ) {
-              size(
-                  size = overrideSize!!,
-              )
+                size(
+                    size = overrideSize!!,
+                )
             },
-            requestOptions = {
-                RequestOptions().runIf(
+            model = ImageRequest
+                .Builder(
+                    context = LocalContext.current,
+                )
+                .data(
+                    data = animatedImageModel,
+                )
+                .runIf(
                     condition = overrideSize != null,
                 ) {
                     with(
                         receiver = density,
                     ) {
                         val size = overrideSize!!
-                        override(
-                            /* width = */
-                            size.width.roundToPx(),
-                            /* height = */
-                            size.height.roundToPx(),
+                        size(
+                            width = (size.width * density.density).roundToPx(),
+                            height = (size.height * density.density).roundToPx(),
                         )
                     }
                 }
-            },
-            imageModel = animatedImageModel,
-            imageOptions = remember(
-                key1 = animatedTint?.value?.composeColor,
-            ) {
-                ImageOptions(
-                    colorFilter = animatedTint?.value?.toColorFilter(),
-                )
-            },
+                .build(),
+            colorFilter = animatedTint?.value?.toColorFilter(),
+            contentDescription = null,
         )
     }
 }
