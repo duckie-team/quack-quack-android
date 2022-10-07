@@ -31,7 +31,7 @@ class SpecifyAnimationSpecTest {
     val lintTestRule = LintTestRule()
 
     @Test
-    fun `NOT Using quackAnimationSpec in animate*AsState function`() {
+    fun `NOT Using quackAnimationSpec in animateAsState function`() {
         lintTestRule
             .assertErrorCount(
                 files = listOf(

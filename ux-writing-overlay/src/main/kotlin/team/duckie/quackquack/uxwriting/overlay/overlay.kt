@@ -18,6 +18,8 @@ import kotlin.math.roundToInt
 import team.duckie.quackquack.uxwriting.model.QuackWrting
 import team.duckie.quackquack.uxwriting.rule.BasicWritingRule
 
+private const val UxWritingOverlayYOffset = 20
+
 /**
  * QuackText 로 표시되고 있는 텍스트가 QuackQuack 의 ux writing
  * 규칙에 맞게 표시되고 있는지 검사합니다.
@@ -43,7 +45,7 @@ fun QuackUxWritingOverlay(
                         quackText.offset.run {
                             IntOffset(
                                 x = x.roundToInt(),
-                                y = y.roundToInt() + 20,
+                                y = y.roundToInt() + UxWritingOverlayYOffset,
                             )
                         }
                     },
