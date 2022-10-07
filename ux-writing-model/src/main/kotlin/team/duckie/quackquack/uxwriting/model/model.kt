@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("UNUSED_VARIABLE")
+
 package team.duckie.quackquack.uxwriting.model
 
 import androidx.compose.runtime.Immutable
