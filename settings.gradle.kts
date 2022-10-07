@@ -1,4 +1,4 @@
-/*
+ /*
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
@@ -39,6 +39,6 @@ include(
     ":ux-writing-rule",
     ":ux-writing-overlay",
     ":ux-writing-model",
-    ":benchmark-ui-components",
-    ":benchmark-ui-components-app",
+    ":ui-components-benchmark",
+    ":ui-components-benchmark-app",
 )
