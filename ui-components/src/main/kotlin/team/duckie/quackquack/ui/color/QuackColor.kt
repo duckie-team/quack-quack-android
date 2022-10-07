@@ -10,7 +10,6 @@
 package team.duckie.quackquack.ui.color
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector4D
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
@@ -327,14 +326,12 @@ public value class QuackColor internal constructor(
  * [QuackColor] 에 색상에 변경이 있을 때 애니메이션을 적용합니다.
  *
  * @param targetValue 색상 변경을 감지할 [QuackColor]
- * @param animationSpec 색상 변경을 감지했을 때 적용할 애니메이션 스팩
  *
  * @return 색상이 변경됐을 때 색상이 변경되는 애니메이션의 [State] 객체
  */
 @Composable
 internal fun animateQuackColorAsState(
     targetValue: QuackColor,
-    animationSpec: AnimationSpec<QuackColor> = quackAnimationSpec(),
 ): State<QuackColor> {
     val converter = remember(
         key1 = targetValue.composeColor.colorSpace,
@@ -344,7 +341,7 @@ internal fun animateQuackColorAsState(
     return animateValueAsState(
         targetValue = targetValue,
         typeConverter = converter,
-        animationSpec = animationSpec,
+        animationSpec = quackAnimationSpec(),
         finishedListener = null,
     )
 }

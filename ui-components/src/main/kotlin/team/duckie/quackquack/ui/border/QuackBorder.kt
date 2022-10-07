@@ -61,24 +61,26 @@ internal class QuackBorder(
  * [QuackBorder] 의 변화에 애니메이션을 적용합니다.
  * [QuackBorder.width] 와 [QuackBorder.color] 모두 애니메이션이 적용됩니다.
  *
+ * animationSpec 으로 항상 [quackAnimationSpec] 을 사용합니다.
+ *
  * @param targetValue 애니메이션을 적용할 [QuackBorder]
- * @param animationSpec 애니메이션에 사용할 [AnimationSpec]
  *
  * @return 애니메이션이 적용되고 있는 [QuackBorder] 객체
  */
-@Suppress("UNCHECKED_CAST")
 @Composable
 internal fun animatedQuackBorderAsState(
     targetValue: QuackBorder,
-    animationSpec: AnimationSpec<Any> = quackAnimationSpec(),
 ): QuackBorder {
+    // `@SuppressLint("SpecifyAnimationSpec")` is not working
+    fun <T> quackAnimationSpec(): AnimationSpec<T> =
+        team.duckie.quackquack.ui.animation.quackAnimationSpec()
+
     val widthAnimationState by animateDpAsState(
         targetValue = targetValue.width,
-        animationSpec = animationSpec as AnimationSpec<Dp>,
+        animationSpec = quackAnimationSpec(),
     )
     val colorAnimationState by animateQuackColorAsState(
         targetValue = targetValue.color,
-        animationSpec = animationSpec as AnimationSpec<QuackColor>,
     )
     return QuackBorder(
         width = widthAnimationState,
