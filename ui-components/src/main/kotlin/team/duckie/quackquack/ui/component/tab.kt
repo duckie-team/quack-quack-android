@@ -5,10 +5,6 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress(
-    "UNCHECKED_CAST",
-)
-
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.core.AnimationSpec
@@ -130,12 +126,15 @@ public fun QuackMainTab(
             false,
         )
     }
-    val animationSpec = remember(
+
+    // `@SuppressLint("SpecifyAnimationSpec")` is not working
+    @Composable
+    fun <T> quackAnimationSpec(): AnimationSpec<T> = remember(
         key1 = isPlacedDone,
     ) {
         when (isPlacedDone) {
-            true -> quackAnimationSpec()
-            else -> snap<Any>()
+            true -> team.duckie.quackquack.ui.animation.quackAnimationSpec()
+            else -> snap()
         }
     }
 
@@ -165,7 +164,7 @@ public fun QuackMainTab(
     // 에니메이션도 끝난걸로 간주합니다.
     val selectedTabUnderBarXOffsetAnimation by animateFloatAsState(
         targetValue = tabUnderBarXOffsets[selectedTabIndex],
-        animationSpec = animationSpec as AnimationSpec<Float>,
+        animationSpec = quackAnimationSpec(),
         finishedListener = {
             isPlacedDone = true
         },
@@ -185,7 +184,7 @@ public fun QuackMainTab(
         ) {
             QuackMainTabTextInnerPadding.roundToPx()
         } * 2,
-        animationSpec = animationSpec as AnimationSpec<Int>,
+        animationSpec = quackAnimationSpec(),
     )
 
     QuackMainTabTextLazyRow(

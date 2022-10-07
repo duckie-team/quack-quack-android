@@ -261,41 +261,43 @@ private val TextAlign.Companion.VectorConverter
  * 현재 weight 애니메이션이 적용되지 않습니다. weight 는 100 단위로 증가하기
  * 때문에 100 ~ n00 으로 애니메이션 되는 weight 가 구현돼 있지 않아 생기는 이슈 입니다.
  *
+ * animationSpec 으로 항상 [quackAnimationSpec] 을 사용합니다.
+ *
  * @param targetValue 변경을 감지할 [QuackTextStyle]
- * @param animationSpec 변경을 감지했을 때 적용할 애니메이션 스팩
  *
  * @return 애니메이션이 적용되고 있는 [QuackTextStyle] 객체
  */
-@Suppress("UNCHECKED_CAST")
 @Composable
 internal fun animatedQuackTextStyleAsState(
     targetValue: QuackTextStyle,
-    animationSpec: AnimationSpec<Any> = quackAnimationSpec(),
 ): QuackTextStyle {
+    // `@SuppressLint("SpecifyAnimationSpec")` is not working
+    fun <T> quackAnimationSpec(): AnimationSpec<T> =
+        team.duckie.quackquack.ui.animation.quackAnimationSpec()
+
     val targetColorAnimationState by animateQuackColorAsState(
         targetValue = targetValue.color,
-        animationSpec = animationSpec as AnimationSpec<QuackColor>,
     )
     val targetSizeAnimationState by animateFloatAsState(
         targetValue = targetValue.size.value,
-        animationSpec = animationSpec as AnimationSpec<Float>,
+        animationSpec = quackAnimationSpec(),
     )
     val targetWeightAnimationState by animateIntAsState(
         targetValue = targetValue.weight.weight,
-        animationSpec = animationSpec as AnimationSpec<Int>,
+        animationSpec = quackAnimationSpec(),
     )
     val targetLetterSpacingAnimationState by animateFloatAsState(
         targetValue = targetValue.letterSpacing.value,
-        animationSpec = animationSpec as AnimationSpec<Float>,
+        animationSpec = quackAnimationSpec(),
     )
     val targetLineHeightAnimationState by animateFloatAsState(
         targetValue = targetValue.lineHeight.value,
-        animationSpec = animationSpec as AnimationSpec<Float>,
+        animationSpec = quackAnimationSpec(),
     )
     val targetTextAlignAnimationState by animateValueAsState(
         targetValue = targetValue.textAlign,
         typeConverter = TextAlign.VectorConverter,
-        animationSpec = animationSpec as AnimationSpec<TextAlign>,
+        animationSpec = quackAnimationSpec(),
     )
 
     return QuackTextStyle(
