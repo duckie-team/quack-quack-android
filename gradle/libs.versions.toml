@@ -7,7 +7,7 @@ ktlint-gradle = "11.0.0"
 ktlint-source = "0.45.2"
 detekt = "1.21.0"
 paparazzi = "1.0.0"
-ksp = "1.7.10-1.0.6"
+ksp = "1.7.20-1.0.6"
 gradle-maven-publish = "0.22.0"
 
 # build
