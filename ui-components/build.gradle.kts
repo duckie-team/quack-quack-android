@@ -19,7 +19,6 @@ plugins {
     id(ConventionEnum.AndroidQuackPublish)
     id(ConventionEnum.JvmKover)
     id(ConventionEnum.JvmDokka)
-    // alias(libs.plugins.paparazzi)
     alias(libs.plugins.kotlin.api.validation)
 }
 
@@ -33,20 +32,15 @@ android {
 }
 
 dependencies {
-    apis(
-        libs.kotlin.collections.immutable,
-    )
     implementations(
         libs.compose.material,
-        libs.compose.glide,
+        libs.compose.coil,
         libs.compose.flowlayout,
-    )
-    implementations(
         projects.uxWritingModel,
     )
+    api(libs.kotlin.collections.immutable)
     lintChecks(projects.lintCore)
     lintChecks(projects.lintCompose)
-    // testImplementations(libs.test.parameter.injector)
 }
 
 quackArtifactPublish {

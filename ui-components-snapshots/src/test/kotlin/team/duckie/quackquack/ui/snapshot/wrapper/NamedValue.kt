@@ -5,10 +5,11 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.ui.util
+package team.duckie.quackquack.ui.snapshot.wrapper
 
-/**
- * QuackQuack 에서 DSL Builder 를 만들 때 사용됩니다.
- */
-@DslMarker
-internal annotation class QuackDsl
+class NamedValue<T>(
+    val value: T,
+    private val name: String,
+) {
+    override fun toString() = name
+}

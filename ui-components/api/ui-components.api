@@ -1,3 +1,10 @@
+public final class team/duckie/quackquack/ui/animation/QuackAnimationSpec {
+	public static final field $stable I
+	public static final field INSTANCE Lteam/duckie/quackquack/ui/animation/QuackAnimationSpec;
+	public final fun isSnapshotMode ()Z
+	public final fun setSnapshotMode (Z)V
+}
+
 public final class team/duckie/quackquack/ui/animation/SpecKt {
 	public static final field QuackDefaultAnimationMillis I
 	public static final fun getQuackAnimationMillis ()I

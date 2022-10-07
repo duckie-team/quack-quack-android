@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.colorspace.ColorSpace
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
 import kotlin.math.pow
 import kotlin.reflect.KProperty
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.util.AllowMagicNumber
 
 /**
@@ -325,6 +325,8 @@ public value class QuackColor internal constructor(
 /**
  * [QuackColor] 에 색상에 변경이 있을 때 애니메이션을 적용합니다.
  *
+ * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
+ *
  * @param targetValue 색상 변경을 감지할 [QuackColor]
  *
  * @return 색상이 변경됐을 때 색상이 변경되는 애니메이션의 [State] 객체
@@ -341,7 +343,7 @@ internal fun animateQuackColorAsState(
     return animateValueAsState(
         targetValue = targetValue,
         typeConverter = converter,
-        animationSpec = quackAnimationSpec(),
+        animationSpec = QuackAnimationSpec(),
         finishedListener = null,
     )
 }
