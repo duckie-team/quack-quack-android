@@ -19,17 +19,16 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.snapshot.provider.DecorationContentProvider
+import team.duckie.quackquack.ui.snapshot.provider.QuackDeviceConfig
 import team.duckie.quackquack.ui.snapshot.rule.AnimationTestRule
 import team.duckie.quackquack.ui.snapshot.util.boxSnapshot
-import team.duckie.quackquack.ui.snapshot.util.buildPaparazzi
+import team.duckie.quackquack.ui.snapshot.util.paparazzi
 import team.duckie.quackquack.ui.snapshot.wrapper.NamedValue
 
 @RunWith(TestParameterInjector::class)
 class QuackTextField {
     @get:Rule
-    val paparazzi = buildPaparazzi {
-        screenHeight *= 2
-    }
+    val paparazzi = paparazzi()
 
     @get:Rule
     val animationTest = AnimationTestRule()
@@ -37,6 +36,7 @@ class QuackTextField {
     @Test
     fun QuackBasicTextField(
         @TestParameter("1.0", "1.5") fontScale: Float,
+        @TestParameter deviceConfig: QuackDeviceConfig,
         @TestParameter(valuesProvider = DecorationContentProvider::class)
         decorationContent: NamedValue<(@Composable () -> Unit)?>,
         @TestParameter isError: Boolean,
@@ -46,6 +46,8 @@ class QuackTextField {
             name = "[fontScale:$fontScale]-[decorationContent:$decorationContent]-" +
                     "[isError:$isError]-[text:$text]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
+            screenHeight = 400,
         ) {
             team.duckie.quackquack.ui.component.QuackTextField(
                 text = text,

@@ -16,25 +16,23 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import kotlin.random.Random
 import kotlinx.collections.immutable.persistentListOf
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.icon.QuackIcon
+import team.duckie.quackquack.ui.snapshot.provider.QuackDeviceConfig
 import team.duckie.quackquack.ui.snapshot.provider.QuackIconProvider
 import team.duckie.quackquack.ui.snapshot.rule.AnimationTestRule
 import team.duckie.quackquack.ui.snapshot.util.boxSnapshot
-import team.duckie.quackquack.ui.snapshot.util.buildPaparazzi
+import team.duckie.quackquack.ui.snapshot.util.paparazzi
 import team.duckie.quackquack.ui.snapshot.wrapper.NamedValue
 
 @RunWith(TestParameterInjector::class)
 class QuackTag {
     @get:Rule
-    val paparazzi = buildPaparazzi {
-        screenHeight = 500
-        screenWidth *= 2
-    }
+    val paparazzi = paparazzi()
 
     @get:Rule
     val animationTest = AnimationTestRule()
@@ -47,10 +45,14 @@ class QuackTag {
     fun QuackTag(
         @TestParameter isSelected: Boolean,
         @TestParameter("1.0", "1.5") fontScale: Float,
+        @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
             name = "[isSelected:$isSelected]-[fontScale:$fontScale]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
+            screenHeight = 400,
+            screenWidth = 200,
         ) {
             team.duckie.quackquack.ui.component.QuackTag(
                 text = "QuackTag",
@@ -63,10 +65,14 @@ class QuackTag {
     fun QuackGrayscaleTag(
         @TestParameter("99+", "") trailingText: String,
         @TestParameter("1.0", "1.5") fontScale: Float,
+        @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
             name = "[trailingText:$trailingText]-[fontScale:$fontScale]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
+            screenHeight = 400,
+            screenWidth = 200,
         ) {
             team.duckie.quackquack.ui.component.QuackGrayscaleTag(
                 text = "QuackTag",
@@ -80,10 +86,14 @@ class QuackTag {
         @TestParameter isSelected: Boolean,
         @TestParameter(valuesProvider = QuackIconProvider::class) icon: NamedValue<QuackIcon>,
         @TestParameter("1.0", "1.5") fontScale: Float,
+        @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
             name = "[isSelected:$isSelected]-[icon:$icon]-[fontScale:$fontScale]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
+            screenHeight = 400,
+            screenWidth = 200,
         ) {
             team.duckie.quackquack.ui.component.QuackIconTag(
                 text = "QuackTag",
@@ -93,14 +103,19 @@ class QuackTag {
         }
     }
 
+    @Ignore(
+        value = "Needs Redesign",
+    )
     @Test
     fun QuackRowTag(
         @TestParameter isSelected: Boolean,
         @TestParameter("1.0", "1.5") fontScale: Float,
+        @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
             name = "[isSelected:$isSelected]-[fontScale:$fontScale]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
         ) {
             val items = remember {
                 persistentListOf(
@@ -116,7 +131,9 @@ class QuackTag {
                 mutableStateListOf(
                     elements = Array(
                         size = items.size,
-                        init = { Random.nextBoolean() },
+                        init = { index ->
+                            listOf(true, false)[index / 2]
+                        },
                     )
                 )
             }

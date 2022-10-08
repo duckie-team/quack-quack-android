@@ -1,4 +1,6 @@
 name: Playground Release
+env:
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
 on:
   pull_request:
     branches: [ develop ]
@@ -62,20 +64,7 @@ jobs:
 
       - name: Build apk
         id: gradle
-        run: ./gradlew assembleRelease --scan
-
-      - name: "Add build scan URL as PR comment"
-        uses: actions/github-script@v6
-        if: failure()
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '❌ ${{ github.workflow }} failed: ${{ steps.gradle.outputs.build-scan-url }}'
-            })
+        run: ./gradlew assembleRelease
 
       - name: Upload apk to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1

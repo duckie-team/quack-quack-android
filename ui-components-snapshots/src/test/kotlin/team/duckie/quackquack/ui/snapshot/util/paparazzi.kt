@@ -19,54 +19,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.Density
-import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.Paparazzi
 import app.cash.paparazzi.androidHome
 import app.cash.paparazzi.detectEnvironment
+import team.duckie.quackquack.ui.snapshot.provider.QuackDeviceConfig
 
 /**
- * QuackQuack 에서 DSL Builder 를 만들 때 사용됩니다.
- */
-@DslMarker
-private annotation class QuackDsl
-
-/**
- * [Paparazzi] 의 추가 설정을 위한 DSL 객체
+ * 덕키 디자인 시스템의 스냅샷 테스트를 위한 맞춤 설정을 마친
+ * [Paparazzi] 객체를 생성합니다.
  *
- * @param screenHeight 스냅샷의 세로 길이. 기존의 방법이였던
- * 1로 고정하면 스냅샷이 올바르게 찍히지 않아 조정하였습니다.
- * @param screenWidth 스냅샷의 가로 길이. 기본값으론 덕키의 스냅샷 테스트에서
- * 사용하는 디바이스인 PIXEL_5 의 기본 가로 길이를 사용합니다.
- */
-data class PaparazziConfig(
-    var screenHeight: Int = 200,
-    var screenWidth: Int = DeviceConfig.PIXEL_5.screenWidth,
-)
-
-/**
- * 덕키 디자인 시스템의 스냅샷 테스트를 위한
- * 맞춤 설정을 마친 [Paparazzi] 객체를 생성합니다.
+ * 각각 테스트에서 개별 인스턴스를 사용하기 위해 변수가 아닌
+ * 함수를 사용합니다.
  *
- * @param config [Paparazzi] 의 추가 설정
  * @return 스냅샷을 찍기 위한 준비를 마친 [Paparazzi] 객체
  */
-fun buildPaparazzi(
-    @QuackDsl config: PaparazziConfig.() -> Unit = {},
-): Paparazzi {
-    val paparazziConfig = PaparazziConfig().apply(config)
-    return Paparazzi(
-        environment = detectEnvironment().copy(
-            platformDir = "${androidHome()}/platforms/android-31",
-            compileSdkVersion = 31,
-        ),
-        maxPercentDifference = 0.0,
-        deviceConfig = DeviceConfig.PIXEL_5.copy(
-            softButtons = false,
-            screenHeight = paparazziConfig.screenHeight,
-            screenWidth = paparazziConfig.screenWidth,
-        ),
-    )
-}
+fun paparazzi() = Paparazzi(
+    environment = detectEnvironment().copy(
+        platformDir = "${androidHome()}/platforms/android-31",
+        compileSdkVersion = 31,
+    ),
+    maxPercentDifference = 0.0,
+    deviceConfig = QuackDeviceConfig.PIXEL_5.value,
+)
 
 /**
  * [Paparazzi.snapshot] 을 진행할 때 캡처할 컴포저블을 [Box] 로 감싸고
@@ -74,14 +48,24 @@ fun buildPaparazzi(
  *
  * @param name 스냅샷의 추가 명칭
  * @param fontScale 스냅샷에 적용할 폰트 스케일
+ * @param deviceConfig 스냅샷을 찍을 디바이스
  * @param content 캡처할 컴포저블
  */
 // Needs Paparazzi#gif: https://github.com/cashapp/paparazzi/issues/496
 inline fun Paparazzi.boxSnapshot(
     name: String, // required with parameterized test
     fontScale: Float = 1f,
+    deviceConfig: QuackDeviceConfig,
+    screenHeight: Int = 200,
+    screenWidth: Int = deviceConfig.value.screenWidth,
     crossinline content: @Composable BoxScope.() -> Unit,
 ) {
+    unsafeUpdateConfig(
+        deviceConfig = deviceConfig.value.copy(
+            screenHeight = screenHeight,
+            screenWidth = screenWidth,
+        ),
+    )
     snapshot(
         name = name,
     ) {

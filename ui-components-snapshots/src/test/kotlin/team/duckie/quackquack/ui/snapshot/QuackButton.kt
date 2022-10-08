@@ -19,15 +19,16 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.snapshot.provider.NullableQuackIconProvider
+import team.duckie.quackquack.ui.snapshot.provider.QuackDeviceConfig
 import team.duckie.quackquack.ui.snapshot.rule.AnimationTestRule
 import team.duckie.quackquack.ui.snapshot.util.boxSnapshot
-import team.duckie.quackquack.ui.snapshot.util.buildPaparazzi
+import team.duckie.quackquack.ui.snapshot.util.paparazzi
 import team.duckie.quackquack.ui.snapshot.wrapper.NamedValue
 
 @RunWith(TestParameterInjector::class)
 class QuackButton {
     @get:Rule
-    val paparazzi = buildPaparazzi()
+    val paparazzi = paparazzi()
 
     @get:Rule
     val animationTest = AnimationTestRule()
@@ -35,11 +36,13 @@ class QuackButton {
     @Test
     fun QuackLargeButton(
         @TestParameter active: Boolean,
+        @TestParameter deviceConfig: QuackDeviceConfig,
         @TestParameter("1.0", "1.5") fontScale: Float,
     ) {
         paparazzi.boxSnapshot(
-            name = "[active:$active]-[fontScale:$fontScale]",
+            name = "[active:$active]-[fontScale:$fontScale]-[devicetype:$deviceConfig]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
         ) {
             team.duckie.quackquack.ui.component.QuackLargeButton(
                 text = "QuackLargeButton",
@@ -51,12 +54,15 @@ class QuackButton {
 
     @Test
     fun QuackLargeWhiteButton(
-        @TestParameter(valuesProvider = NullableQuackIconProvider::class) leadingIcon: NamedValue<QuackIcon?>,
+        @TestParameter(valuesProvider = NullableQuackIconProvider::class)
+        leadingIcon: NamedValue<QuackIcon?>,
         @TestParameter("1.0", "1.5") fontScale: Float,
+        @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
             name = "[quackicon:$leadingIcon]-[fontScale:$fontScale]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
         ) {
             team.duckie.quackquack.ui.component.QuackLargeWhiteButton(
                 text = "QuackLargeWhiteButton",
@@ -69,10 +75,12 @@ class QuackButton {
     @Test
     fun QuackLarge40WhiteButton(
         @TestParameter("1.0", "1.5") fontScale: Float,
+        @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
             name = "[fontScale:$fontScale]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
         ) {
             team.duckie.quackquack.ui.component.QuackLarge40WhiteButton(
                 text = "QuackLarge40WhiteButton",
@@ -85,10 +93,12 @@ class QuackButton {
     fun QuackMediumBorderToggleButton(
         @TestParameter selected: Boolean,
         @TestParameter("1.0", "1.5") fontScale: Float,
+        @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
             name = "[selected:$selected]-[fontScale:$fontScale]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
         ) {
             team.duckie.quackquack.ui.component.QuackMediumBorderToggleButton(
                 text = "QuackMediumBorderToggleButton",
@@ -102,10 +112,12 @@ class QuackButton {
     fun QuackSmallButton(
         @TestParameter enabled: Boolean,
         @TestParameter("1.0", "1.5") fontScale: Float,
+        @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
             name = "[enabled:$enabled]-[fontScale:$fontScale]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
         ) {
             team.duckie.quackquack.ui.component.QuackSmallButton(
                 text = "QuackSmallButton",
@@ -119,10 +131,12 @@ class QuackButton {
     fun QuackSmallBorderToggleButton(
         @TestParameter selected: Boolean,
         @TestParameter("1.0", "1.5") fontScale: Float,
+        @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
             name = "[selected:$selected]-[fontScale:$fontScale]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
         ) {
             team.duckie.quackquack.ui.component.QuackSmallBorderToggleButton(
                 text = "QuackSmallBorderToggleButton",
@@ -136,10 +150,12 @@ class QuackButton {
     fun QuackToggleChip(
         @TestParameter selected: Boolean,
         @TestParameter("1.0", "1.5") fontScale: Float,
+        @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
             name = "[selected:$selected]-[fontScale:$fontScale]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
         ) {
             team.duckie.quackquack.ui.component.QuackToggleChip(
                 text = "QuackToggleChip",
