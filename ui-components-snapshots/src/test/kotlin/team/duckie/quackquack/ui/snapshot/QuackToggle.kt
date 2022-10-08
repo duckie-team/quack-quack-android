@@ -20,13 +20,22 @@ import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.snapshot.provider.QuackDeviceConfig
 import team.duckie.quackquack.ui.snapshot.rule.AnimationTestRule
+import team.duckie.quackquack.ui.snapshot.util.DeviceOption
 import team.duckie.quackquack.ui.snapshot.util.boxSnapshot
 import team.duckie.quackquack.ui.snapshot.util.paparazzi
 
 @RunWith(TestParameterInjector::class)
 class QuackToggle {
+    private val deviceConfigId = "QuackToggle"
+
     @get:Rule
-    val paparazzi = paparazzi()
+    val paparazzi = paparazzi(
+        deviceOption = DeviceOption(
+            screenWidth = 200,
+            matchFullWidth = false,
+        ),
+        configId = deviceConfigId,
+    )
 
     @get:Rule
     val animationTest = AnimationTestRule()
@@ -37,9 +46,12 @@ class QuackToggle {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[checked:$checked]",
+            parameterNames = listOf(
+                "checked",
+                "deviceConfig",
+            ),
+            configId = deviceConfigId,
             deviceConfig = deviceConfig,
-            screenWidth = 200,
         ) {
             team.duckie.quackquack.ui.component.QuackRoundCheckBox(
                 checked = checked,
@@ -54,9 +66,12 @@ class QuackToggle {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[checked:$checked]",
+            parameterNames = listOf(
+                "checked",
+                "deviceConfig",
+            ),
+            configId = deviceConfigId,
             deviceConfig = deviceConfig,
-            screenWidth = 200,
         ) {
             team.duckie.quackquack.ui.component.QuackSquareCheckBox(
                 checked = checked,
@@ -71,9 +86,12 @@ class QuackToggle {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[checked:$checked]",
+            parameterNames = listOf(
+                "checked",
+                "deviceConfig",
+            ),
+            configId = deviceConfigId,
             deviceConfig = deviceConfig,
-            screenWidth = 200,
         ) {
             team.duckie.quackquack.ui.component.QuackIconToggle(
                 checkedIcon = QuackIcon.FilledHeart,
@@ -91,10 +109,15 @@ class QuackToggle {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[checked:$checked]-[fontScale:$fontScale]",
+            parameterNames = listOf(
+                "checked",
+                "fontScale",
+                "deviceConfig",
+            ),
             fontScale = fontScale,
+            configId = deviceConfigId,
             deviceConfig = deviceConfig,
-            screenWidth = 400,
+            overrideScreenWidth = 400,
         ) {
             team.duckie.quackquack.ui.component.QuackIconTextToggle(
                 checkedIcon = QuackIcon.FilledHeart,

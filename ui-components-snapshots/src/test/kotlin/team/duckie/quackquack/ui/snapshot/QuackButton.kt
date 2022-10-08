@@ -40,7 +40,11 @@ class QuackButton {
         @TestParameter("1.0", "1.5") fontScale: Float,
     ) {
         paparazzi.boxSnapshot(
-            name = "[active:$active]-[fontScale:$fontScale]-[devicetype:$deviceConfig]",
+            parameterNames = listOf(
+                "active",
+                "deviceConfig",
+                "fontScale",
+            ),
             fontScale = fontScale,
             deviceConfig = deviceConfig,
         ) {
@@ -60,7 +64,11 @@ class QuackButton {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[quackicon:$leadingIcon]-[fontScale:$fontScale]",
+            parameterNames = listOf(
+                "leadingIcon",
+                "fontScale",
+                "deviceConfig",
+            ),
             fontScale = fontScale,
             deviceConfig = deviceConfig,
         ) {
@@ -78,7 +86,10 @@ class QuackButton {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[fontScale:$fontScale]",
+            parameterNames = listOf(
+                "fontScale",
+                "deviceConfig",
+            ),
             fontScale = fontScale,
             deviceConfig = deviceConfig,
         ) {
@@ -96,7 +107,11 @@ class QuackButton {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[selected:$selected]-[fontScale:$fontScale]",
+            parameterNames = listOf(
+                "selected",
+                "fontScale",
+                "deviceConfig",
+            ),
             fontScale = fontScale,
             deviceConfig = deviceConfig,
         ) {
@@ -115,7 +130,11 @@ class QuackButton {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[enabled:$enabled]-[fontScale:$fontScale]",
+            parameterNames = listOf(
+                "enabled",
+                "fontScale",
+                "deviceConfig",
+            ),
             fontScale = fontScale,
             deviceConfig = deviceConfig,
         ) {
@@ -134,7 +153,11 @@ class QuackButton {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[selected:$selected]-[fontScale:$fontScale]",
+            parameterNames = listOf(
+                "selected",
+                "fontScale",
+                "deviceConfig",
+            ),
             fontScale = fontScale,
             deviceConfig = deviceConfig,
         ) {
@@ -153,7 +176,11 @@ class QuackButton {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[selected:$selected]-[fontScale:$fontScale]",
+            parameterNames = listOf(
+                "selected",
+                "fontScale",
+                "deviceConfig",
+            ),
             fontScale = fontScale,
             deviceConfig = deviceConfig,
         ) {
