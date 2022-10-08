@@ -17,5 +17,5 @@ keystore
 /documents/dokka/
 /report
 snapshots
-/ui-components/out/
+/ui-components-snapshots/out/
 /lint-compose/quack-lint-custom-rule
