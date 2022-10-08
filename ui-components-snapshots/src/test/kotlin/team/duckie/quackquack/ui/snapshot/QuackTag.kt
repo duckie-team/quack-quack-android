@@ -127,13 +127,11 @@ class QuackTag {
     )
     @Test
     fun QuackRowTag(
-        @TestParameter isSelected: Boolean,
         @TestParameter("1.0", "1.5") fontScale: Float,
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
             parameterNames = listOf(
-                "isSelected",
                 "fontScale",
                 "deviceConfig",
             ),
