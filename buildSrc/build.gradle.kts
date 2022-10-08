@@ -11,6 +11,6 @@ plugins {
 
 dependencies {
     // Unresolved reference: implementations
-    implementation(libs.build.gradle)
     implementation(libs.build.kotlin)
+    implementation(libs.build.gradle.agp)
 }

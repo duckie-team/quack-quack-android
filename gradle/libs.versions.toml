@@ -11,7 +11,7 @@ ksp = "1.7.20-1.0.6"
 gradle-maven-publish = "0.22.0"
 
 # build
-gradle = "8.0.0-alpha03"
+gradle-agp = "8.0.0-alpha03"
 kotlin-core = "1.7.20"
 kotlin-metadata = "0.5.0"
 oss-license-plugin = "0.10.5"
@@ -57,7 +57,7 @@ ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-gradle-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "gradle-maven-publish" }
+gradle-maven-publish-core = { id = "com.vanniktech.maven.publish", version.ref = "gradle-maven-publish" }
 gradle-maven-publish-base = { id = "com.vanniktech.maven.publish.base", version.ref = "gradle-maven-publish" }
 oss-license = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "oss-license-plugin" }
 kotlin-api-validation = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlin-api-validation" }
@@ -65,7 +65,7 @@ kotlin-api-validation = { id = "org.jetbrains.kotlinx.binary-compatibility-valid
 [libraries]
 build-dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 build-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
-build-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+build-gradle-agp = { module = "com.android.tools.build:gradle", version.ref = "gradle-agp" }
 build-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-core" }
 build-kover = { module = "org.jetbrains.kotlinx:kover", version.ref = "kover" }
 build-oss-license = { module = "com.google.android.gms:oss-licenses-plugin", version.ref = "oss-license-plugin" }
