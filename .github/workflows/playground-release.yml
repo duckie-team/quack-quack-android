@@ -8,15 +8,15 @@ on:
 
 jobs:
   playground-release:
-    if: ${{
-        github.event.pull_request.merged &&
-        contains(github.event.pull_request.labels.*.name, 'release') &&
-        (contains(github.event.pull_request.labels.*.name, 'bump_major') ||
-          contains(github.event.pull_request.labels.*.name, 'bump_minor') ||
-          contains(github.event.pull_request.labels.*.name, 'bump_patch')
-        )
-      }}
     runs-on: ubuntu-latest
+    if: ${{
+      github.event.pull_request.merged &&
+      contains(github.event.pull_request.labels.*.name, 'release') &&
+      (contains(github.event.pull_request.labels.*.name, 'bump_major') ||
+      contains(github.event.pull_request.labels.*.name, 'bump_minor') ||
+      contains(github.event.pull_request.labels.*.name, 'bump_patch')
+      )
+      }}
 
     steps:
       - uses: actions/checkout@v3
