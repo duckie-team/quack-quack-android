@@ -27,7 +27,7 @@ dependencies {
     implementation(libs.build.dokka.base)
     implementation(libs.build.dokka.plugin)
     implementation(libs.build.gradle.agp)
-    implementation(libs.build.gradle.maven.publish)
+    implementation(libs.build.gradle.maven.publish.core)
 }
 
 gradlePlugin {
