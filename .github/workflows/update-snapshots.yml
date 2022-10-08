@@ -1,0 +1,44 @@
+# https://github.com/DroidKaigi/conference-app-2022/blob/main/.github/workflows/UpdateScreenshots.yml
+
+name: Update Snapshots
+on:
+  pull_request:
+    branches: [ develop ]
+    types: [ closed ]
+
+jobs:
+  update-snapshots:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: 11
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-home-cache-cleanup: true
+
+      # A "fake" build configuration file can be used for simple CI works.
+      # See: https://github.com/sungbinland/duckie-quack-quack/pull/102#issuecomment-1244937186
+      - name: Unzip quackuser-secrets.tar
+        run: tar xvf quackuser-secrets.tar
+
+      - name: Record new snapshots
+        run: ./gradlew :ui-components-snapshots:recordPaparazziDebug
+
+      - name: Upload snapshots
+        uses: actions/upload-artifact@v3
+        with:
+          name: snapshots
+          path: ui-components-snapshots/src/test/snapshots/images
+          retention-days: 15

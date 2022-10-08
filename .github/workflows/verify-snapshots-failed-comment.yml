@@ -1,0 +1,139 @@
+# https://github.com/DroidKaigi/conference-app-2022/blob/main/.github/workflows/CommentPR.yml
+
+name: Verify snapshots failed comment
+on:
+  workflow_run:
+    workflows: [ Verify snapshots ]
+    types: [ completed ]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    if: verify-snapshots-failed-comment.yml
+    steps:
+      - name: Download snapshots verify result
+        uses: actions/github-script@v3.1.1
+        with:
+          script: |
+            const artifacts = await github.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: ${{ github.event.workflow_run.id }},
+            })
+            const snapshotsVerifyResultArtifact = artifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "snapshots-verify-result"
+            })[0]
+            const download = await github.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: snapshotsVerifyResultArtifact.id,
+               archive_format: 'zip',
+            })
+            const fs = require('fs')
+            fs.writeFileSync('${{ github.workspace }}/snapshots-verify-result.zip', Buffer.from(download.data))
+
+      - name: Unzip snapshots verify result
+        run: |
+          mkdir -p ui-components-snapshots/out/failures
+          unzip snapshots-verify-result.zip -d ui-components-snapshots/out/failures
+
+      - name: New checkout for the companion branch
+        id: checkout_diff
+        if: ${{ hashFiles('ui-components-snapshots/out/failures/*.png') != '' }}
+        uses: actions/checkout@v3
+        with:
+          path: temp_diff
+
+      # Can I remove this step?
+      - name: Commit the snapshots to the branch
+        id: diff_snapshots
+        if: steps.checkout_diff.outcome == 'success'
+        continue-on-error: true
+        env:
+          BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
+        run: |
+          cd $GITHUB_WORKSPACE/temp_diff/
+          git switch -C $BRANCH_NAME
+          mkdir -p diff-snapshots/
+          cp -a ../ui-components-snapshots/out/failures/delta* diff-snapshots/
+          git add .
+          git config --global user.name "sungbinland-bot"
+          git config --global user.email "sungbinland.project@gmail.com"
+          git config --global push.default current
+          git config --global remote.pushDefault origin
+          git commit -m "Upload diff snapshots"
+          git push -f
+          cd $GITHUB_WORKSPACE/ui-components-snapshots/out/failures
+          echo ::set-output name=snapshots::$(ls -d delta* | jq -R -s -c 'split("\n")[:-1]' | jq -r --arg SNAPSHOT_PATH "https://raw.githubusercontent.com/duckie-team/duckie-quack-quack/$BRANCH_NAME/diff-snapshots/" '.[] |= $SNAPSHOT_PATH + .')
+          cd $GITHUB_WORKSPACE/
+
+      - name: Build PR Comment with Diffs
+        id: pr_comment
+        if: steps.diff_snapshots.outcome == 'success'
+        continue-on-error: true
+        env:
+          ALL_DIFF: ${{ steps.diff_snapshots.outputs.snapshots }}
+        run: |
+          echo "`ui-components` 스냅샷에 변동이 있습니다." > report.md
+          echo >> report.md # A blank line
+          echo "$ALL_DIFF" | jq -r '.[]' | while read -r diff do 
+            echo "![]($diff)" >> report.md
+          done
+          echo ::set-output name=content::$(cat report.md)
+
+      - name: Comment on PR
+        if: steps.pr_comment.outcome == 'success'
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs')
+            const issueNumber = Number(fs.readFileSync('./ui-components-snapshots/out/failures/pr_number.txt'))
+            const comment = steps.pr_comment.outputs.content
+            // Get the existing comments.
+            const {data: comments} = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+            })
+            // Find any comment already made by the bot.                                                                                                    
+            const botComment = comments.find(comment => comment.user.id === 114893900)                                                                                    
+            if (context.payload.pull_request.head.repo.full_name !== 'duckie-team/duckie-quack-quack') {
+              console.log('Not attempting to write comment on PR from fork')
+            } else {
+              if (botComment) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: botComment.id,
+                  body: comment
+                })
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  body: comment
+                })
+              }
+            }
+
+      - name: Delete old branch saving snapshots
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXPIRED_TERM: 14 day ago
+          REMOTE_REPO: origin
+          TARGET_BRANCH_PREFIX: companion_
+          DATE_FORMAT: '%Y%m%d'
+        run: |
+          cd $GITHUB_WORKSPACE/temp_diff/
+          expired_date=`date --date="$EXPIRED_TERM" "+${DATE_FORMAT}"` 
+          git fetch --all
+          git branch -r | grep "[^* ]+" -Eo | grep "${REMOTE_REPO}/${TARGET_BRANCH_PREFIX}.+" -Eo |
+          while read branch do
+            commit_date=`git show -s $branch --format='%cd' --date=format:"${DATE_FORMAT}"`
+            if [[ $commit_date -le $expired_date ]] then
+              short_branch=`echo $branch | sed "s/${REMOTE_REPO}\///g"`
+              git push ${REMOTE_REPO} --delete $short_branch
+            fi 
+          done
