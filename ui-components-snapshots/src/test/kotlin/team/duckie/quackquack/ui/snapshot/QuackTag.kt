@@ -25,14 +25,23 @@ import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.snapshot.provider.QuackDeviceConfig
 import team.duckie.quackquack.ui.snapshot.provider.QuackIconProvider
 import team.duckie.quackquack.ui.snapshot.rule.AnimationTestRule
+import team.duckie.quackquack.ui.snapshot.util.DeviceOption
 import team.duckie.quackquack.ui.snapshot.util.boxSnapshot
 import team.duckie.quackquack.ui.snapshot.util.paparazzi
 import team.duckie.quackquack.ui.snapshot.wrapper.NamedValue
 
 @RunWith(TestParameterInjector::class)
 class QuackTag {
+    private val deviceConfigId = "QuackTag"
+
     @get:Rule
-    val paparazzi = paparazzi()
+    val paparazzi = paparazzi(
+        deviceOption = DeviceOption(
+            screenWidth = 400,
+            matchFullWidth = false,
+        ),
+        configId = deviceConfigId,
+    )
 
     @get:Rule
     val animationTest = AnimationTestRule()
@@ -48,11 +57,14 @@ class QuackTag {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[isSelected:$isSelected]-[fontScale:$fontScale]",
+            parameterNames = listOf(
+                "isSelected",
+                "fontScale",
+                "deviceConfig",
+            ),
             fontScale = fontScale,
+            configId = deviceConfigId,
             deviceConfig = deviceConfig,
-            screenHeight = 400,
-            screenWidth = 200,
         ) {
             team.duckie.quackquack.ui.component.QuackTag(
                 text = "QuackTag",
@@ -68,11 +80,14 @@ class QuackTag {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[trailingText:$trailingText]-[fontScale:$fontScale]",
+            parameterNames = listOf(
+                "trailingText",
+                "fontScale",
+                "deviceConfig",
+            ),
             fontScale = fontScale,
+            configId = deviceConfigId,
             deviceConfig = deviceConfig,
-            screenHeight = 400,
-            screenWidth = 200,
         ) {
             team.duckie.quackquack.ui.component.QuackGrayscaleTag(
                 text = "QuackTag",
@@ -89,11 +104,15 @@ class QuackTag {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[isSelected:$isSelected]-[icon:$icon]-[fontScale:$fontScale]",
+            parameterNames = listOf(
+                "isSelected",
+                "icon",
+                "fontScale",
+                "deviceConfig",
+            ),
             fontScale = fontScale,
+            configId = deviceConfigId,
             deviceConfig = deviceConfig,
-            screenHeight = 400,
-            screenWidth = 200,
         ) {
             team.duckie.quackquack.ui.component.QuackIconTag(
                 text = "QuackTag",
@@ -113,7 +132,11 @@ class QuackTag {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[isSelected:$isSelected]-[fontScale:$fontScale]",
+            parameterNames = listOf(
+                "isSelected",
+                "fontScale",
+                "deviceConfig",
+            ),
             fontScale = fontScale,
             deviceConfig = deviceConfig,
         ) {

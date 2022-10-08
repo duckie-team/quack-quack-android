@@ -16,12 +16,16 @@ import team.duckie.quackquack.ui.animation.QuackAnimationSpec
  * 애니메이션 스팩을 [SnapSpec] 으로 전환합니다.
  */
 class AnimationTestRule : TestWatcher() {
-    override fun starting(description: Description?) {
+    override fun starting(
+        description: Description?,
+    ) {
         QuackAnimationSpec.isSnapshotMode = true
         super.starting(description)
     }
 
-    override fun finished(description: Description?) {
+    override fun finished(
+        description: Description?,
+    ) {
         QuackAnimationSpec.isSnapshotMode = false
         super.finished(description)
     }

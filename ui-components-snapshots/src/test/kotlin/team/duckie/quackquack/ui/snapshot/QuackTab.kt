@@ -38,7 +38,11 @@ class QuackTab {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[selectedTabIndex:$selectedTabIndex]-[fontScale:$fontScale]",
+            parameterNames = listOf(
+                "selectedTabIndex",
+                "fontScale",
+                "deviceConfig",
+            ),
             fontScale = fontScale,
             deviceConfig = deviceConfig,
         ) {
@@ -61,7 +65,11 @@ class QuackTab {
         @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
-            name = "[selectedTabIndex:$selectedTabIndex]-[fontScale:$fontScale]",
+            parameterNames = listOf(
+                "selectedTabIndex",
+                "fontScale",
+                "deviceConfig",
+            ),
             fontScale = fontScale,
             deviceConfig = deviceConfig,
         ) {
