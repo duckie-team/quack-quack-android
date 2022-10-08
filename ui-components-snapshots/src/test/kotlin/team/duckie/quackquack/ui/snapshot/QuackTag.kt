@@ -16,8 +16,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import kotlin.random.Random
 import kotlinx.collections.immutable.persistentListOf
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -93,6 +93,9 @@ class QuackTag {
         }
     }
 
+    @Ignore(
+        value = "Needs Redesign",
+    )
     @Test
     fun QuackRowTag(
         @TestParameter isSelected: Boolean,
@@ -116,7 +119,9 @@ class QuackTag {
                 mutableStateListOf(
                     elements = Array(
                         size = items.size,
-                        init = { Random.nextBoolean() },
+                        init = { index ->
+                            listOf(true, false)[index / 2]
+                        },
                     )
                 )
             }
