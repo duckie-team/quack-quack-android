@@ -35,7 +35,7 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlin.math.floor
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.icon.QuackIcon
@@ -244,6 +244,8 @@ private fun getCheckBoxBackgroundColor(
 /**
  * [Canvas] 에 Check 모양을 그립니다.
  *
+ * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
+ *
  * @param value 현재 토글 상태를 의미하는 [ToggleableState]
  * @param checkColor Check 색상
  */
@@ -257,9 +259,7 @@ private fun Check(
         label = TransitionLabel,
     )
     val checkDrawFraction by transition.animateFloat(
-        transitionSpec = {
-            quackAnimationSpec()
-        },
+        transitionSpec = { QuackAnimationSpec() },
         label = TransitionLabel,
     ) { toggleableState ->
         when (toggleableState) {
@@ -276,7 +276,7 @@ private fun Check(
                     delayMillis = BoxOutDuration,
                 )
 
-                else -> quackAnimationSpec()
+                else -> QuackAnimationSpec()
             }
         },
         label = TransitionLabel,

@@ -9,14 +9,14 @@ package team.duckie.quackquack.playground.util
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.doublePreferencesKey
+import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 
 object PreferenceConfigs {
     const val Name = "quack_playground_datastore"
 
-    val FontScaleKey = doublePreferencesKey(
+    val FontScaleKey = floatPreferencesKey(
         name = "font_scale",
     )
 

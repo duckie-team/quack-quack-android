@@ -1,3 +1,10 @@
+public final class team/duckie/quackquack/ui/animation/QuackAnimationSpec {
+	public static final field $stable I
+	public static final field INSTANCE Lteam/duckie/quackquack/ui/animation/QuackAnimationSpec;
+	public final fun isSnapshotMode ()Z
+	public final fun setSnapshotMode (Z)V
+}
+
 public final class team/duckie/quackquack/ui/animation/SpecKt {
 	public static final field QuackDefaultAnimationMillis I
 	public static final fun getQuackAnimationMillis ()I
@@ -134,6 +141,10 @@ public final class team/duckie/quackquack/ui/component/TypographyKt {
 	public static final fun QuackTitle2-DBUIc8Q (Ljava/lang/String;JZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 }
 
+public final class team/duckie/quackquack/ui/component/internal/QuackTextKt {
+	public static final fun getQuackTexts ()Landroidx/compose/runtime/snapshots/SnapshotStateList;
+}
+
 public abstract class team/duckie/quackquack/ui/constant/QuackHeight {
 }
 
@@ -238,11 +249,5 @@ public final class team/duckie/quackquack/ui/textstyle/QuackTextStyle$Companion 
 	public final fun getSubtitle ()Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;
 	public final fun getTitle1 ()Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;
 	public final fun getTitle2 ()Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;
-}
-
-public final class team/duckie/quackquack/ui/textstyle/QuackTextStyleKt {
-	public static final field QuackDefaultFontScale D
-	public static final fun getQuackFontScale ()D
-	public static final fun setQuackFontScale (D)V
 }
 

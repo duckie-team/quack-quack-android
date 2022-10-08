@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.ui.modifier
 
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -26,10 +27,11 @@ import team.duckie.quackquack.ui.color.animateQuackColorAsState
  *
  * @return under bar 를 그리기 위한 [drawWithContent] 가 적용된 [Modifier]
  */
-internal fun Modifier.drawUnderBarWithAnimation(
+@Stable
+internal inline fun Modifier.drawUnderBarWithAnimation(
     width: Dp,
     color: QuackColor,
-    yOffsetProvider: (
+    crossinline yOffsetProvider: (
         height: Float,
         strokeWidth: Float,
     ) -> Float = { height, strokeWidth ->

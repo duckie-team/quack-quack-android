@@ -7,6 +7,8 @@
 
 @file:Suppress("UnstableApiUsage")
 
+rootProject.name = "quack-quack"
+
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -18,12 +20,24 @@ pluginManagement {
     }
 }
 
-rootProject.name = "quack-quack"
+plugins {
+    // libs 사용 불가
+    id("com.gradle.enterprise") version ("3.11.1")
+}
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+    }
+}
+
 include(
     ":playground",
     ":common-lint",
     ":common-lint-test",
     ":ui-components",
+    ":ui-components-snapshots",
     ":lint-core",
     ":lint-quack",
     ":lint-compose",
@@ -34,6 +48,9 @@ include(
     ":lint-quack-publish",
     ":lint-compose-publish",
     ":quack-publish-bom",
-    ":benchmark-ui-components",
-    ":benchmark-ui-components-app",
+    ":ux-writing-rule",
+    ":ux-writing-overlay",
+    ":ux-writing-model",
+    ":ui-components-benchmark",
+    ":ui-components-benchmark-app",
 )

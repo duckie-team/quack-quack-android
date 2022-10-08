@@ -17,7 +17,7 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
-    alias(libs.plugins.gradle.maven.publish.asProvider())
+    alias(libs.plugins.gradle.maven.publish.core)
 }
 
 koverMerged {
@@ -34,11 +34,11 @@ buildscript {
     }
 
     dependencies {
-        classpath(libs.build.gradle)
         classpath(libs.build.kotlin)
         classpath(libs.build.dokka.base)
         classpath(libs.build.oss.license)
-        classpath(libs.build.gradle.maven.publish)
+        classpath(libs.build.gradle.agp)
+        classpath(libs.build.gradle.maven.publish.core)
     }
 }
 

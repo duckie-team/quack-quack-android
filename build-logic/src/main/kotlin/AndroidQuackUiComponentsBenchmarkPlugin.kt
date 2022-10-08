@@ -54,7 +54,7 @@ internal class AndroidQuackUiComponentsBenchmarkPlugin : Plugin<Project> {
                     }
                 }
 
-                targetProjectPath = ":benchmark-ui-components-app"
+                targetProjectPath = ":ui-components-benchmark-app"
                 experimentalProperties["android.experimental.self-instrumenting"] = true
             }
 
@@ -65,8 +65,8 @@ internal class AndroidQuackUiComponentsBenchmarkPlugin : Plugin<Project> {
             }
 
             extensions.configure<TestAndroidComponentsExtension> {
-                beforeVariants(selector().all()) { testVariant ->
-                    testVariant.enable = testVariant.buildType == "benchmark"
+                beforeVariants(selector().all()) { variant ->
+                    variant.enable = variant.buildType == "benchmark"
                 }
             }
         }

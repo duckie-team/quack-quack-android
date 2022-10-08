@@ -10,7 +10,6 @@
 
 package team.duckie.quackquack.ui.textstyle
 
-import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateFloatAsState
@@ -20,8 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -33,25 +30,10 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
 import kotlin.math.roundToInt
 import team.duckie.quackquack.ui.R
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.util.AllowMagicNumber
-
-/**
- * 덕키에서 사용할 [QuackTextStyle] 의 기본 font scale
- *
- * Playground 에서 [QuackFontScale] 편집 후 기본값으로 되돌리고
- * 싶을 때 기본값을 참조하기 위해 public 으로 설정함
- */
-public const val QuackDefaultFontScale: Double = 1.0
-
-/**
- * 덕키에서 사용할 [QuackTextStyle] 의 font scale
- *
- * Playground 에서 자유로운 font scale 편집으로 쉬운 디버깅을 위해 public 으로 설정함
- */
-public var QuackFontScale: Double by mutableStateOf(QuackDefaultFontScale)
 
 /**
  * 덕키에서 사용할 텍스트 스타일을 정의합니다. 추상화를 위해 컴포즈의
@@ -90,7 +72,7 @@ public class QuackTextStyle internal constructor(
     @Stable
     internal fun asComposeStyle() = TextStyle(
         color = color.composeColor,
-        fontSize = size * QuackFontScale,
+        fontSize = size,
         fontFamily = suit,
         fontWeight = weight,
         letterSpacing = letterSpacing,
@@ -261,41 +243,39 @@ private val TextAlign.Companion.VectorConverter
  * 현재 weight 애니메이션이 적용되지 않습니다. weight 는 100 단위로 증가하기
  * 때문에 100 ~ n00 으로 애니메이션 되는 weight 가 구현돼 있지 않아 생기는 이슈 입니다.
  *
+ * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
+ *
  * @param targetValue 변경을 감지할 [QuackTextStyle]
- * @param animationSpec 변경을 감지했을 때 적용할 애니메이션 스팩
  *
  * @return 애니메이션이 적용되고 있는 [QuackTextStyle] 객체
  */
-@Suppress("UNCHECKED_CAST")
 @Composable
 internal fun animatedQuackTextStyleAsState(
     targetValue: QuackTextStyle,
-    animationSpec: AnimationSpec<Any> = quackAnimationSpec(),
 ): QuackTextStyle {
     val targetColorAnimationState by animateQuackColorAsState(
         targetValue = targetValue.color,
-        animationSpec = animationSpec as AnimationSpec<QuackColor>,
     )
     val targetSizeAnimationState by animateFloatAsState(
         targetValue = targetValue.size.value,
-        animationSpec = animationSpec as AnimationSpec<Float>,
+        animationSpec = QuackAnimationSpec(),
     )
     val targetWeightAnimationState by animateIntAsState(
         targetValue = targetValue.weight.weight,
-        animationSpec = animationSpec as AnimationSpec<Int>,
+        animationSpec = QuackAnimationSpec(),
     )
     val targetLetterSpacingAnimationState by animateFloatAsState(
         targetValue = targetValue.letterSpacing.value,
-        animationSpec = animationSpec as AnimationSpec<Float>,
+        animationSpec = QuackAnimationSpec(),
     )
     val targetLineHeightAnimationState by animateFloatAsState(
         targetValue = targetValue.lineHeight.value,
-        animationSpec = animationSpec as AnimationSpec<Float>,
+        animationSpec = QuackAnimationSpec(),
     )
     val targetTextAlignAnimationState by animateValueAsState(
         targetValue = targetValue.textAlign,
         typeConverter = TextAlign.VectorConverter,
-        animationSpec = animationSpec as AnimationSpec<TextAlign>,
+        animationSpec = QuackAnimationSpec(),
     )
 
     return QuackTextStyle(

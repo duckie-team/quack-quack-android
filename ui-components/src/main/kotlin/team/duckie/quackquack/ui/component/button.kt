@@ -54,7 +54,9 @@ private val QuackButtonIconSize = DpSize(
 private val QuackButtonIconTint = QuackColor.Gray1
 
 private val QuackLargeButtonTextPadding = PaddingValues(
-    vertical = 13.dp,
+    top = 13.dp,
+    bottom = 13.dp,
+    start = 4.dp,
 )
 private val QuackLargeButton40TextPadding = PaddingValues(
     vertical = 11.dp,
@@ -405,7 +407,6 @@ private fun QuackBasicButton(
                 overrideSize = QuackButtonIconSize,
                 tint = QuackButtonIconTint,
             )
-            // 아이콘 - 텍스트 사이 간격 없음
             QuackText(
                 modifier = Modifier.padding(
                     paddingValues = textPadding,

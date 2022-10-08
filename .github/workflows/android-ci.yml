@@ -1,4 +1,6 @@
 name: Android CI
+env:
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
 on:
   pull_request:
     branches: [ develop ]
@@ -36,7 +38,7 @@ jobs:
         id: gradle
         run: ./gradlew build --scan
 
-      - name: "Add build scan URL as PR comment"
+      - name: Comment gradle scan url if build failed
         uses: actions/github-script@v6
         if: failure()
         with:

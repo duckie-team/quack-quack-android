@@ -27,15 +27,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -54,7 +49,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -63,12 +58,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.datastore.preferences.core.edit
@@ -84,13 +80,20 @@ import team.duckie.quackquack.playground.util.noRippleClickable
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
-import team.duckie.quackquack.ui.textstyle.QuackDefaultFontScale
-import team.duckie.quackquack.ui.textstyle.QuackFontScale
+
+/**
+ * 텍스트 컴포넌트의 font scale
+ */
+var fontScale by mutableStateOf(
+    value = 1f,
+)
 
 /**
  * 컴포넌트의 경계(테두리)를 표시할 지 여부
  */
-var showComponentBounds by mutableStateOf(true)
+var showComponentBounds by mutableStateOf(
+    value = true,
+)
 
 /**
  * 액티비티를 애니메이션과 함께 시작합니다.
@@ -137,7 +140,6 @@ fun PlaygroundActivities(
             TopAppBar(
                 title = {
                     Text(
-                        modifier = Modifier.statusBarPadding(),
                         text = title,
                     )
                 }
@@ -260,7 +262,6 @@ fun PlaygroundSection(
             TopAppBar(
                 title = {
                     Text(
-                        modifier = Modifier.statusBarPadding(),
                         text = title,
                     )
                 }
@@ -320,20 +321,6 @@ fun PlaygroundSection(
 }
 
 /**
- * StatusBar 의 height 만큼 패딩을 적용하는 확장 함수
- *
- * @return StatusBar 의 height 만큼 패딩이 적용된 [Modifier]
- */
-@Stable
-private fun Modifier.statusBarPadding() = composed {
-    windowInsetsPadding(
-        insets = WindowInsets.systemBars.only(
-            sides = WindowInsetsSides.Top,
-        ),
-    )
-}
-
-/**
  * Playground 에서 표시할 디자인 컴포넌트의 세부 사항을 설정합니다.
  * 애니메이션의 지속 시간과 font scale 을 설정할 수 있습니다.
  *
@@ -359,7 +346,7 @@ private fun PlaygroundSettingAlert(
         }
         var fontScaleInputState by remember {
             mutableStateOf(
-                value = QuackFontScale.toString(),
+                value = fontScale.toString(),
             )
         }
         var showComponentBoundsState by remember {
@@ -374,7 +361,7 @@ private fun PlaygroundSettingAlert(
                     animationDurationInputState = QuackDefaultAnimationMillis.msToSecondString()
                 }
                 if (fontScaleInputState.isEmpty()) {
-                    fontScaleInputState = QuackDefaultFontScale.toString()
+                    fontScaleInputState = "1"
                 }
 
                 context.dataStore.edit { preference ->
@@ -387,11 +374,11 @@ private fun PlaygroundSettingAlert(
                         )
                     }
                     preference[PreferenceConfigs.FontScaleKey] = when (reset) {
-                        true -> QuackDefaultFontScale
-                        else -> fontScaleInputState.toDouble()
+                        true -> 1f
+                        else -> fontScaleInputState.toFloat()
                     }.also { newFontScale ->
-                        QuackFontScale = newFontScale.coerceAtLeast(
-                            minimumValue = 0.0,
+                        fontScale = newFontScale.coerceAtLeast(
+                            minimumValue = 1f,
                         )
                     }
 
@@ -601,7 +588,13 @@ private fun PreviewAlert(
                 contentAlignment = Alignment.Center,
             ) {
                 ContentBorder {
-                    content()
+                    CompositionLocalProvider(
+                        LocalDensity provides Density(
+                            density = LocalDensity.current.density,
+                            fontScale = fontScale,
+                        ),
+                        content = content,
+                    )
                 }
             }
         }
