@@ -47,6 +47,7 @@ import team.duckie.quackquack.playground.realworld.TogglePlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
+import team.duckie.quackquack.playground.util.verticalInsetsPadding
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 
 private const val DefaultSplashScreenExitAnimationDurationMillis = 200L
@@ -65,6 +66,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+
         setContent {
             PlaygroundDemo()
         }
@@ -101,7 +103,8 @@ private fun SingleDemo(
             .fillMaxSize()
             .background(
                 color = Color.White,
-            ),
+            )
+            .verticalInsetsPadding(),
         contentAlignment = Alignment.Center,
     ) {
         ContentBorder {
@@ -120,7 +123,9 @@ private fun MultiDemo(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalInsetsPadding(),
         verticalArrangement = Arrangement.spacedBy(
             space = 16.dp,
             alignment = Alignment.CenterVertically,
