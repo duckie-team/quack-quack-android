@@ -10,7 +10,7 @@ on:
     branches: [ develop ]
 
 jobs:
-  ci-build:
+  verify-snapshots:
     runs-on: ubuntu-latest
 
     steps:

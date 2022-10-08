@@ -7,7 +7,7 @@ on:
     types: [ closed ]
 
 jobs:
-  release:
+  playground-release:
     if: ${{
         github.event.pull_request.merged &&
         contains(github.event.pull_request.labels.*.name, 'release') &&
