@@ -18,14 +18,15 @@ import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import team.duckie.quackquack.ui.snapshot.provider.QuackDeviceConfig
 import team.duckie.quackquack.ui.snapshot.rule.AnimationTestRule
 import team.duckie.quackquack.ui.snapshot.util.boxSnapshot
-import team.duckie.quackquack.ui.snapshot.util.buildPaparazzi
+import team.duckie.quackquack.ui.snapshot.util.paparazzi
 
 @RunWith(TestParameterInjector::class)
 class QuackTab {
     @get:Rule
-    val paparazzi = buildPaparazzi()
+    val paparazzi = paparazzi()
 
     @get:Rule
     val animationTest = AnimationTestRule()
@@ -34,10 +35,12 @@ class QuackTab {
     fun QuackMainTab(
         @TestParameter("0", "1", "2") selectedTabIndex: Int,
         @TestParameter("1.0", "1.5") fontScale: Float,
+        @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
             name = "[selectedTabIndex:$selectedTabIndex]-[fontScale:$fontScale]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
         ) {
             team.duckie.quackquack.ui.component.QuackMainTab(
                 titles = persistentListOf(
@@ -55,10 +58,12 @@ class QuackTab {
     fun QuackSubTab(
         @TestParameter("0", "1", "2") selectedTabIndex: Int,
         @TestParameter("1.0", "1.5") fontScale: Float,
+        @TestParameter deviceConfig: QuackDeviceConfig,
     ) {
         paparazzi.boxSnapshot(
             name = "[selectedTabIndex:$selectedTabIndex]-[fontScale:$fontScale]",
             fontScale = fontScale,
+            deviceConfig = deviceConfig,
         ) {
             team.duckie.quackquack.ui.component.QuackSubTab(
                 titles = persistentListOf(

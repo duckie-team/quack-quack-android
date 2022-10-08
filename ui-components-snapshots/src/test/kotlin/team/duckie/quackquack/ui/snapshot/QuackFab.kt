@@ -17,7 +17,7 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.snapshot.rule.AnimationTestRule
-import team.duckie.quackquack.ui.snapshot.util.buildPaparazzi
+import team.duckie.quackquack.ui.snapshot.util.paparazzi
 
 @Ignore(
     value = "TODO",
@@ -25,9 +25,7 @@ import team.duckie.quackquack.ui.snapshot.util.buildPaparazzi
 @RunWith(TestParameterInjector::class)
 class QuackFab {
     @get:Rule
-    val paparazzi = buildPaparazzi {
-        screenHeight = 500
-    }
+    val paparazzi = paparazzi()
 
     @get:Rule
     val animationTest = AnimationTestRule()
