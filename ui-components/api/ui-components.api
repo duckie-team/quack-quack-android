@@ -200,10 +200,6 @@ public final class team/duckie/quackquack/ui/component/TypographyKt {
 	public static final fun QuackTitle2-pvt1sM8 (Ljava/lang/String;JZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class team/duckie/quackquack/ui/component/internal/QuackTextKt {
-	public static final fun getQuackTexts ()Landroidx/compose/runtime/snapshots/SnapshotStateList;
-}
-
 public abstract class team/duckie/quackquack/ui/constant/QuackHeight {
 }
 
