@@ -12,6 +12,9 @@ package team.duckie.quackquack.ui.component
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextDecoration
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.modifier.quackClickable
@@ -280,3 +283,49 @@ public fun QuackBody3(
     ),
     singleLine = singleLine,
 )
+
+/**
+ * [QuackHeadLine2] 에 원하는 부분에 원하는 색깔로 강조하여
+ * 주어진 텍스트를 표시합니다.
+ *
+ * @param text 표시할 텍스트
+ * @param highlightText 강조할 텍스트
+ * @param highlightColor 강조할 Text 의 색깔
+ * @param color 텍스트의 색상
+ * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
+ * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
+ */
+@Composable
+@NonRestartableComposable
+public fun QuackHighlightHeadLine2(
+    text: String,
+    highlightText: String,
+    highlightColor: QuackColor = QuackColor.DuckieOrange,
+    color: QuackColor = QuackColor.Black,
+    rippleEnabled: Boolean = false,
+    onClick: (() -> Unit)? = null,
+) {
+    val highlightStartIndex = text.indexOf(
+        string = highlightText
+    )
+    QuackText(
+        modifier = Modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ),
+        text = buildAnnotatedString {
+            append(text)
+            addStyle(
+                style = SpanStyle(
+                    color = highlightColor.composeColor,
+                    textDecoration = TextDecoration.Underline,
+                ),
+                start = highlightStartIndex,
+                end = highlightStartIndex + highlightText.length,
+            )
+        },
+        style = QuackTextStyle.HeadLine2.change(
+            color = color,
+        ),
+    )
+}

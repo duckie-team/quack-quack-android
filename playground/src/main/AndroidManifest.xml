@@ -72,7 +72,19 @@
 
         <activity
             android:name=".realworld.NavigationPlayground"
-            android:theme="@style/Theme.Quack"/>
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TypoPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.CardPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.GridLayoutPlayground"
+            android:theme="@style/Theme.Quack" />
 
 
     </application>

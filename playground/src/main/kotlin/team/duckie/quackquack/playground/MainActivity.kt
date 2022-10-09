@@ -40,15 +40,18 @@ import team.duckie.quackquack.playground.base.fontScale
 import team.duckie.quackquack.playground.base.showComponentBounds
 import team.duckie.quackquack.playground.realworld.BottomSheetPlayground
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
-import team.duckie.quackquack.playground.realworld.DrawerPlayground
+import team.duckie.quackquack.playground.realworld.CardPlayground
 import team.duckie.quackquack.playground.realworld.EtcPlayground
+import team.duckie.quackquack.playground.realworld.DrawerPlayground
 import team.duckie.quackquack.playground.realworld.FabPlayground
+import team.duckie.quackquack.playground.realworld.GridLayoutPlayground
 import team.duckie.quackquack.playground.realworld.NavigationPlayground
 import team.duckie.quackquack.playground.realworld.SelectableImagePlayground
 import team.duckie.quackquack.playground.realworld.TabPlayground
 import team.duckie.quackquack.playground.realworld.TagPlayground
 import team.duckie.quackquack.playground.realworld.TextFieldPlayground
 import team.duckie.quackquack.playground.realworld.TogglePlayground
+import team.duckie.quackquack.playground.realworld.TypoPlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
@@ -65,6 +68,9 @@ private val PlaygroundActivities = listOf(
     EtcPlayground::class,
     NavigationPlayground::class,
     TogglePlayground::class,
+    TypoPlayground::class,
+    CardPlayground::class,
+    GridLayoutPlayground::class,
     TagPlayground::class,
     DrawerPlayground::class,
     BottomSheetPlayground::class,

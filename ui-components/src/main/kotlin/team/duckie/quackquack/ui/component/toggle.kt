@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlin.math.floor
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
@@ -248,11 +249,13 @@ private fun getCheckBoxBackgroundColor(
  *
  * @param value 현재 토글 상태를 의미하는 [ToggleableState]
  * @param checkColor Check 색상
+ * @param size Check 의 크기
  */
 @Composable
-private fun Check(
+internal fun Check(
     value: ToggleableState,
     checkColor: QuackColor = CheckColor,
+    size: Dp = SquareCheckboxSize,
 ) {
     val transition = updateTransition(
         targetState = value,
@@ -296,7 +299,7 @@ private fun Check(
                 align = Alignment.Center,
             )
             .requiredSize(
-                size = SquareCheckboxSize,
+                size = size,
             ),
     ) {
         val strokeWidthPx = floor(
