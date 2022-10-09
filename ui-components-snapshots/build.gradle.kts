@@ -32,6 +32,9 @@ androidComponents {
     beforeVariants(selector().withBuildType("release")) { builder ->
         builder.enable = false
     }
+    beforeVariants(selector().withBuildType("benchmark")) { builder ->
+        builder.enable = false
+    }
 }
 
 dependencies {
