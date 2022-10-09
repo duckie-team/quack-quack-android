@@ -21,7 +21,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import kotlinx.coroutines.CancellationException
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.component.internal.QuackModalDrawerImpl
 
 /**
@@ -81,7 +81,7 @@ public class QuackDrawerState(
 ) {
     internal val swipeableState: SwipeableState<QuackDrawerValue> = SwipeableState(
         initialValue = initialValue,
-        animationSpec = quackAnimationSpec(),
+        animationSpec = QuackAnimationSpec(),
         confirmStateChange = confirmStateChange
     )
 
@@ -125,7 +125,7 @@ public class QuackDrawerState(
      *
      * @return the reason the open animation ended
      */
-    public suspend fun open(): Unit = animateTo(QuackDrawerValue.Open, quackAnimationSpec())
+    public suspend fun open(): Unit = animateTo(QuackDrawerValue.Open, QuackAnimationSpec())
 
     /**
      * Close the drawer with animation and suspend until it if fully closed or animation has been
@@ -134,7 +134,7 @@ public class QuackDrawerState(
      *
      * @return the reason the close animation ended
      */
-    public suspend fun close(): Unit = animateTo(QuackDrawerValue.Closed, quackAnimationSpec())
+    public suspend fun close(): Unit = animateTo(QuackDrawerValue.Closed, QuackAnimationSpec())
 
     /**
      * Set the state of the drawer with specific animation
