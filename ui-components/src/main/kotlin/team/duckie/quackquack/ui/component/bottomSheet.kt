@@ -201,7 +201,6 @@ public fun QuackSubtitleBottomSheet(
                         isImportant = false,
                     ),
                     onClick = onClick,
-                    rippleEnabled = false,
                 )
                 Divider(
                     modifier = Modifier.padding(
@@ -290,13 +289,11 @@ private fun QuackBottomSheetHandle(
  *
  * @param item Subtitle 의 아이템 데이터 값
  * @param onClick Subtitle 을 onClick 했을 떄 이벤트
- * @param rippleEnabled onClick 이벤트 발생시 ripple 이 발생하는지 여부
  */
 @Composable
 private fun QuackBottomSheetSubtitleItem(
     item: QuackBottomSheetItem,
     onClick: (QuackBottomSheetItem) -> Unit,
-    rippleEnabled: Boolean = true,
 ) {
     val textColor = when (item.isImportant) {
         true -> QuackColor.OrangeRed
@@ -315,7 +312,6 @@ private fun QuackBottomSheetSubtitleItem(
                 onClick = {
                     onClick(item)
                 },
-                rippleEnabled = rippleEnabled,
             )
             .padding(
                 paddingValues = QuackBottomSheetStartPadding,
