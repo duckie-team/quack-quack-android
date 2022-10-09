@@ -47,6 +47,7 @@ private val QuackRoundImageSize = DpSize(
  * @param tint 아이콘에 적용할 틴트 값
  * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
  * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
+ * @param contentScale 이미지에 들어갈 ContentScale 값
  */
 @Composable
 public fun QuackImage(
@@ -55,6 +56,7 @@ public fun QuackImage(
     tint: QuackColor? = null,
     rippleEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
+    contentScale: ContentScale = ContentScale.Crop,
 ): Unit = QuackImageInternal(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
@@ -63,6 +65,7 @@ public fun QuackImage(
     src = src,
     overrideSize = overrideSize,
     tint = tint,
+    contentScale = contentScale,
 )
 
 /**
@@ -98,6 +101,7 @@ public fun QuackRoundImage(
  * 만약 null 이 들어온다면 이미지를 그리지 않습니다.
  * @param overrideSize 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
  * @param tint 아이콘에 적용할 틴트 값
+ * @param contentScale 이미지에 들어갈 contentScale 값
  */
 // TODO: 로딩 effect
 @Composable
@@ -106,6 +110,7 @@ internal fun QuackImageInternal(
     src: Any?,
     overrideSize: DpSize? = null,
     tint: QuackColor? = null,
+    contentScale: ContentScale = ContentScale.Crop,
 ) {
     if (src == null) return
     val density = LocalDensity.current
@@ -130,7 +135,7 @@ internal fun QuackImageInternal(
                             id = imageModel.drawableId,
                         ),
                         colorFilter = animatedTint.toColorFilter(),
-                        contentScale = ContentScale.Fit,
+                        contentScale = contentScale,
                     )
             )
         }
@@ -173,7 +178,7 @@ internal fun QuackImageInternal(
                 .build(),
             colorFilter = animatedTint.toColorFilter(),
             contentDescription = null,
-            contentScale = ContentScale.Crop,
+            contentScale = contentScale,
         )
     }
 }
