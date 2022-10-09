@@ -11,6 +11,8 @@
 
 ---
 
+# ‼️ WIP ‼️
+
 ### Introduction
 
 QuackQuack is a design system to be used in [Duckie](https://github.com/duckie-team/duckie-app), and it consists of a total of 5 modules.
@@ -43,8 +45,8 @@ QuackQuack is available in the Maven repository. [BOM](https://maven.apache.org/
 dependencies {
     implementation("team.duckie.quack:quack-ui-components:{version}")
     implementation("team.duckie.quack:quack-lint-core:{version}")
-    implementation("team.duckie.quack:quack-lint-quack:{version}")
     implementation("team.duckie.quack:quack-lint-compose:{version}")
+    implementation("team.duckie.quack:quack-lint-quack:{version}") // wip, do NOT use!
     implementation("team.duckie.quack:quack-lint-writing:{version}") // wip
 }
 ```
