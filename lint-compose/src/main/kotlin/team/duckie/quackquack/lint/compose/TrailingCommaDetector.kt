@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 @file:Suppress("UnstableApiUsage")
@@ -103,9 +103,11 @@ class TrailingCommaDetector : Detector(), SourceCodeScanner {
                 val argumentNode = argument.sourcePsi?.node
                 val argumentTreeParent = argumentNode?.treeParent ?: return
 
-                val lastParameterNextSibling = if (argument is KotlinStringULiteralExpression) {
-                    argumentTreeParent.treeParent.psi.nextSibling
-                } else argumentTreeParent.psi.nextSibling ?: return
+                val lastParameterNextSibling = (
+                        if (argument is KotlinStringULiteralExpression) {
+                            argumentTreeParent.treeParent.psi.nextSibling
+                        } else argumentTreeParent.psi.nextSibling
+                        ) ?: return
 
                 if (!lastParameterNextSibling.textContains(',')) {
                     context.report(

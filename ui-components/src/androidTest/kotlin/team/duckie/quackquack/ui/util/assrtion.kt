@@ -2,8 +2,13 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
+
+@file:Suppress(
+    "NewApi",
+    "KDocFields",
+)
 
 package team.duckie.quackquack.ui.util
 
@@ -13,7 +18,7 @@ import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.captureToImage
 
 // https://stackoverflow.com/a/73456731/14299073
-fun SemanticsNodeInteraction.assertColor(
+public fun SemanticsNodeInteraction.assertColor(
     expectedColor: Color,
 ): SemanticsNodeInteraction {
     val imageBitmap = captureToImage()

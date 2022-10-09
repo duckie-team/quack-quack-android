@@ -2,8 +2,12 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
+
+@file:Suppress(
+    "KDocFields",
+)
 
 package team.duckie.quackquack.ui.modifier
 
@@ -13,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.assertHeightIsEqualTo
 import androidx.compose.ui.test.assertWidthIsEqualTo
+import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.unit.dp
@@ -22,12 +27,12 @@ import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.util.assertColor
 
-class QuackSizeTest {
+public class QuackSizeTest {
     @get:Rule
-    val testRule = createComposeRule()
+    public val testRule: ComposeContentTestRule = createComposeRule()
 
     @Test
-    fun all_quack_size_is_100_x_100() {
+    public fun all_quack_size_is_100_x_100() {
         val size = 100.dp
 
         testRule.setContent {
@@ -54,7 +59,7 @@ class QuackSizeTest {
     }
 
     @Test
-    fun all_quack_size_is_100_x_10() {
+    public fun all_quack_size_is_100_x_10() {
         val width = 100.dp
         val height = 10.dp
 
@@ -82,7 +87,7 @@ class QuackSizeTest {
     }
 
     @Test
-    fun size_is_match_device() {
+    public fun size_is_match_device() {
         val color = Color.Green
 
         testRule.setContent {
@@ -113,7 +118,7 @@ class QuackSizeTest {
     }
 
     @Test
-    fun size_is_wrap_content() {
+    public fun size_is_wrap_content() {
         val size = 100.dp
 
         testRule.setContent {

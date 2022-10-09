@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 @file:Suppress("MemberVisibilityCanBePrivate")
@@ -27,10 +27,10 @@ class ToastWrapper(context: Context) {
     private val toastInstance = Toast.makeText(_context, "", Toast.LENGTH_SHORT)
 
     operator fun invoke(
-        message: String,
+        message: Any,
         length: Int = Toast.LENGTH_SHORT,
     ) = toastInstance.run {
-        setText(message)
+        setText(message.toString())
         duration = length
         show()
     }

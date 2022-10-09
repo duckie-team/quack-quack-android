@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 @file:NoLiveLiterals
@@ -23,8 +23,11 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.NoLiveLiterals
 import androidx.compose.runtime.Stable
@@ -37,19 +40,20 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldLayoutId
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldLeadingContentLayoutId
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldMeasurePolicy.Companion.rememberQuackTextFieldMeasurePolicy
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldPlaceholderLayoutId
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldTrailingContentLayoutId
-import team.duckie.quackquack.ui.component.internal.drawUnderBarWithAnimation
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.modifier.applyQuackSize
+import team.duckie.quackquack.ui.modifier.drawUnderBarWithAnimation
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.DoNotUseDirectly
 
@@ -185,6 +189,8 @@ private object QuackTextFieldColors {
  * Draws the most basic QuackQuack's TextField.
  * Add only decoration items that fit QuackTextField to BasicTextField.
  *
+ * Always use [QuackAnimationSpec] as animationSpec.
+ *
  * @param width Width of QuackTextField
  * @param height height of QuackTextField
  * @param text text to display
@@ -202,7 +208,7 @@ private object QuackTextFieldColors {
  * @param keyboardActions Keyboard actions in QuackTextField
  */
 @Composable
-fun QuackTextField(
+public fun QuackTextField(
     width: QuackWidth = QuackWidth.Fill,
     height: QuackHeight = QuackHeight.Wrap,
     text: String,
@@ -273,14 +279,14 @@ fun QuackTextField(
                     zIndex = 2f,
                 ),
                 enter = fadeIn(
-                    animationSpec = quackAnimationSpec(),
+                    animationSpec = QuackAnimationSpec(),
                 ) + expandVertically(
-                    animationSpec = quackAnimationSpec(),
+                    animationSpec = QuackAnimationSpec(),
                 ),
                 exit = fadeOut(
-                    animationSpec = quackAnimationSpec(),
+                    animationSpec = QuackAnimationSpec(),
                 ) + shrinkVertically(
-                    animationSpec = quackAnimationSpec(),
+                    animationSpec = QuackAnimationSpec(),
                 ),
             ) {
                 checkNotNull(
@@ -349,55 +355,66 @@ internal fun QuackBasicTextField(
         ).asComposeStyle()
     }
 
-    BasicTextField(
-        modifier = Modifier
-            .applyQuackSize(
-                width = width,
-                height = height,
-            )
-            .background(
-                color = QuackColor.White.composeColor,
-            )
-            .padding(
-                top = textStyle.calcQuackTextFieldTopPadding(),
-                bottom = QuackTextFieldBottomPadding,
-            )
-            .drawUnderBarWithAnimation(
-                width = QuackTextFieldUnderBarHeight,
-                color = QuackTextFieldColors.underBarColor(
-                    isError = isError,
+    CompositionLocalProvider(
+        LocalTextSelectionColors provides TextSelectionColors(
+            handleColor = QuackColor.DuckieOrange.composeColor,
+            backgroundColor = QuackColor.DuckieOrange.changeAlpha(
+                alpha = 0.2f,
+            ).composeColor,
+        ),
+    ) {
+        BasicTextField(
+            modifier = Modifier
+                .applyQuackSize(
+                    width = width,
+                    height = height,
+                )
+                .drawUnderBarWithAnimation(
+                    width = QuackTextFieldUnderBarHeight,
+                    color = QuackTextFieldColors.underBarColor(
+                        isError = isError,
+                    ),
+                )
+                .background(
+                    color = QuackColor.White.composeColor,
+                )
+                .padding(
+                    top = textStyle.calcQuackTextFieldTopPadding(),
+                    bottom = QuackTextFieldBottomPadding,
                 ),
-                topPadding = QuackTextFieldBottomPadding,
-            ),
-        value = text,
-        onValueChange = onTextChanged,
-        textStyle = composeTextStyle,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        // TextField is always single line
-        // TextArea is always multi line
-        singleLine = true,
-        cursorBrush = QuackTextFieldColors.QuackTextFieldCursorColor.toBrush(),
-        decorationBox = { textField ->
-            QuackTextFieldDecorationBox(
-                textField = textField,
-                // placeholder is displayed when text is empty
-                placeholderContent = when (isPlaceholder && placeholderText != null) {
-                    true -> {
-                        {
-                            Text(
-                                text = placeholderText,
-                                style = composeTextStyle,
-                            )
+            value = text,
+            onValueChange = onTextChanged,
+            textStyle = composeTextStyle,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            // TextField is always single line
+            // TextArea is always multi line
+            singleLine = true,
+            cursorBrush = QuackTextFieldColors.QuackTextFieldCursorColor.toBrush(),
+            decorationBox = { textField ->
+                QuackTextFieldDecorationBox(
+                    textField = textField,
+                    // placeholder is displayed when text is empty
+                    placeholderContent = when (isPlaceholder && placeholderText != null) {
+                        true -> {
+                            {
+                                Text(
+                                    text = placeholderText,
+                                    style = composeTextStyle,
+                                    maxLines = 1,
+                                    softWrap = false,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                            }
                         }
-                    }
-                    else -> null
-                },
-                leadingContent = leadingContent,
-                trailingContent = trailingContent,
-            )
-        },
-    )
+                        else -> null
+                    },
+                    leadingContent = leadingContent,
+                    trailingContent = trailingContent,
+                )
+            },
+        )
+    }
 }
 
 /**

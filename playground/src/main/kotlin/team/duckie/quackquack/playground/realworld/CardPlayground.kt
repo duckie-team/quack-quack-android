@@ -102,7 +102,7 @@ fun QuackCardImageRowDemo() {
 @Composable
 fun QuackImageEdit() {
     QuackImage(
-        icon = QuackIcon.ImageEdit
+        src = QuackIcon.ImageEdit,
     )
 }
 

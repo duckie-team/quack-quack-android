@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 package team.duckie.quackquack.playground.realworld
@@ -55,7 +55,9 @@ class ButtonPlayground : BaseActivity() {
 @Composable
 fun QuackLargeButtonDemo() {
     var active by remember {
-        mutableStateOf(true)
+        mutableStateOf(
+            value = true,
+        )
     }
 
     QuackLargeButton(
@@ -67,19 +69,10 @@ fun QuackLargeButtonDemo() {
 
 @Composable
 fun QuackLargeWhiteButtonDemo() {
-    var leadingIcon by remember {
-        mutableStateOf<QuackIcon?>(QuackIcon.Close)
-    }
-
     QuackLargeWhiteButton(
-        text = "leadingIcon: ${leadingIcon != null}",
-        leadingIcon = leadingIcon,
-        onClick = {
-            leadingIcon = when (leadingIcon != null) {
-                true -> null
-                else -> QuackIcon.Close
-            }
-        },
+        text = "QuackLargeWhiteButton",
+        leadingIcon = QuackIcon.Heart,
+        onClick = {},
     )
 }
 
@@ -87,14 +80,16 @@ fun QuackLargeWhiteButtonDemo() {
 fun QuackLarge40WhiteButtonDemo() {
     QuackLarge40WhiteButton(
         text = "QuackLarge40WhiteButton",
-        onClick = { },
+        onClick = {},
     )
 }
 
 @Composable
 fun QuackMediumBorderToggleButtonDemo() {
     var selected by remember {
-        mutableStateOf(true)
+        mutableStateOf(
+            value = true,
+        )
     }
 
     QuackMediumBorderToggleButton(
@@ -107,7 +102,9 @@ fun QuackMediumBorderToggleButtonDemo() {
 @Composable
 fun QuackSmallButtonDemo() {
     var enabled by remember {
-        mutableStateOf(true)
+        mutableStateOf(
+            value = true,
+        )
     }
 
     QuackSmallButton(
@@ -120,7 +117,9 @@ fun QuackSmallButtonDemo() {
 @Composable
 fun QuackSmallBorderToggleButtonDemo() {
     var selected by remember {
-        mutableStateOf(true)
+        mutableStateOf(
+            value = true,
+        )
     }
 
     QuackSmallBorderToggleButton(
@@ -133,7 +132,9 @@ fun QuackSmallBorderToggleButtonDemo() {
 @Composable
 fun QuackToggleChipDemo() {
     var selected by remember {
-        mutableStateOf(true)
+        mutableStateOf(
+            value = true,
+        )
     }
 
     QuackToggleChip(

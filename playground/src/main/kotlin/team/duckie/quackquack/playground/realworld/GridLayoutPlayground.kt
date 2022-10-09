@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import java.util.Collections
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import team.duckie.quackquack.playground.base.BaseActivity
@@ -28,14 +29,13 @@ import team.duckie.quackquack.ui.component.QuackIconToggle
 import team.duckie.quackquack.ui.component.QuackSimpleGridLayout
 import team.duckie.quackquack.ui.component.QuackTitle2
 import team.duckie.quackquack.ui.icon.QuackIcon
-import java.util.Collections
 
 private const val imageUrl = "https://picsum.photos/id/237/200/300"
 
 class GridLayoutPlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
-            "QuackGridLayout" to { QuackGridLayoutDemo() },
+        "QuackGridLayout" to { QuackGridLayoutDemo() },
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,8 +43,8 @@ class GridLayoutPlayground : BaseActivity() {
         setContent {
             PlaygroundTheme {
                 PlaygroundSection(
-                        title = "Tab",
-                        items = items,
+                    title = "Tab",
+                    items = items,
                 )
             }
         }
@@ -54,62 +54,62 @@ class GridLayoutPlayground : BaseActivity() {
 @Composable
 fun QuackGridLayoutDemo() {
     QuackSimpleGridLayout(
-            columns = 3,
-            items = FavoriteItem.makeMockData(),
-            itemContent = { _, item ->
-                DuckieFavoriteItem(
-                        item = item,
-                )
-            },
-            horizontalSpace = 8.dp,
-            verticalSpace = 14.dp,
+        columns = 3,
+        items = FavoriteItem.makeMockData(),
+        itemContent = { _, item ->
+            DuckieFavoriteItem(
+                item = item,
+            )
+        },
+        horizontalSpace = 8.dp,
+        verticalSpace = 14.dp,
     )
 }
 
 @Composable
 fun DuckieFavoriteItem(
-        item: FavoriteItem,
+    item: FavoriteItem,
 ) {
 
     val checked = remember { mutableStateOf(true) }
     Column {
         QuackCardImage(
-                image = imageUrl,
-                cornerIcon = {
-                    QuackIconToggle(
-                            checkedIcon = QuackIcon.FilledHeart,
-                            unCheckedIcon = QuackIcon.WhiteHeart,
-                            checked = checked.value,
-                    ) {
-                        checked.value = !checked.value
-                    }
-                },
+            image = imageUrl,
+            cornerIcon = {
+                QuackIconToggle(
+                    checkedIcon = QuackIcon.FilledHeart,
+                    uncheckedIcon = QuackIcon.WhiteHeart,
+                    checked = checked.value,
+                ) {
+                    checked.value = !checked.value
+                }
+            },
         )
         Spacer(
-                modifier = Modifier.height(
-                        height = 8.dp
-                )
+            modifier = Modifier.height(
+                height = 8.dp
+            )
         )
         QuackBody1(
-                text = item.title,
+            text = item.title,
         )
         Spacer(
-                modifier = Modifier.height(
-                        height = 2.dp
-                )
+            modifier = Modifier.height(
+                height = 2.dp
+            )
         )
         QuackTitle2(
-                text = item.price,
+            text = item.price,
         )
     }
 }
 
 data class FavoriteItem(
-        val title: String = "덕딜 어쩌구 제목이 길면 뭔가 달라지는 것 같은 느낌적인 느낌",
-        val price: String = "69000원",
+    val title: String = "덕딜 어쩌구 제목이 길면 뭔가 달라지는 것 같은 느낌적인 느낌",
+    val price: String = "69000원",
 ) {
     companion object {
         fun makeMockData(count: Int = 10) =
-                Collections.nCopies(count, FavoriteItem()).toPersistentList()
+            Collections.nCopies(count, FavoriteItem()).toPersistentList()
     }
 }

@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 package team.duckie.quackquack.playground.realworld
@@ -14,6 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundSection
@@ -46,6 +48,8 @@ class TextFieldPlayground : BaseActivity() {
     }
 }
 
+private const val Placeholder = "placeholder text"
+
 @Composable
 fun QuackTextFieldWithNoDecorationDemo() {
     // empty test
@@ -59,7 +63,7 @@ fun QuackTextFieldWithNoDecorationDemo() {
         onTextChanged = { newText ->
             fieldState = newText
         },
-        placeholderText = "QuackTextFieldWithNoDecorationDemo",
+        placeholderText = Placeholder,
     )
 }
 
@@ -77,7 +81,11 @@ fun QuackTextFieldWithLeadingDecorationDemo() {
         },
         leadingContent = {
             QuackImage(
-                icon = QuackIcon.FilledHeart,
+                src = QuackIcon.FilledHeart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
             )
         },
     )
@@ -97,7 +105,11 @@ fun QuackTextFieldWithTrailingDecorationDemo() {
         },
         trailingContent = {
             QuackImage(
-                icon = QuackIcon.FilledHeart,
+                src = QuackIcon.FilledHeart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
             )
         },
     )
@@ -117,12 +129,20 @@ fun QuackTextFieldWithAllDecorationDemo() {
         },
         leadingContent = {
             QuackImage(
-                icon = QuackIcon.FilledHeart,
+                src = QuackIcon.FilledHeart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
             )
         },
         trailingContent = {
             QuackImage(
-                icon = QuackIcon.FilledHeart,
+                src = QuackIcon.FilledHeart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
             )
         },
     )
@@ -144,12 +164,20 @@ fun QuackTextFieldErrorStateDemo() {
         errorText = "QuackTextFieldErrorStateDemo",
         leadingContent = {
             QuackImage(
-                icon = QuackIcon.Heart,
+                src = QuackIcon.Heart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
             )
         },
         trailingContent = {
             QuackImage(
-                icon = QuackIcon.Heart,
+                src = QuackIcon.Heart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
             )
         },
     )
@@ -169,15 +197,23 @@ fun QuackTextFieldErrorStateLiveDemo() {
         },
         isError = fieldState.length > 1,
         errorText = "한 글자만 가능!",
-        placeholderText = "input something!",
+        placeholderText = Placeholder,
         leadingContent = {
             QuackImage(
-                icon = QuackIcon.FilledHeart,
+                src = QuackIcon.FilledHeart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
             )
         },
         trailingContent = {
             QuackImage(
-                icon = QuackIcon.FilledHeart,
+                src = QuackIcon.FilledHeart,
+                overrideSize = DpSize(
+                    width = 16.dp,
+                    height = 16.dp,
+                ),
             )
         },
     )

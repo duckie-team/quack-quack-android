@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 @file:Suppress("DSL_SCOPE_VIOLATION")
@@ -22,12 +22,12 @@ repositories {
 
 dependencies {
     // Unresolved reference: implementations
-    implementation(libs.build.gradle)
     implementation(libs.build.kotlin)
     implementation(libs.build.kover)
     implementation(libs.build.dokka.base)
     implementation(libs.build.dokka.plugin)
-    implementation(libs.build.gradle.maven.publish)
+    implementation(libs.build.gradle.agp)
+    implementation(libs.build.gradle.maven.publish.core)
 }
 
 gradlePlugin {
@@ -45,9 +45,9 @@ gradlePlugin {
             id = "$prefix.android.common.lint"
             implementationClass = "AndroidCommonLintPlugin"
         }
-        register("androidBenchmarkPlugin") {
-            id = "$prefix.android.benchmark"
-            implementationClass = "AndroidBenchmarkPlugin"
+        register("androidQuackUiComponentsBenchmarkPlugin") {
+            id = "$prefix.android.quack.ui.components.benchmark"
+            implementationClass = "AndroidQuackUiComponentsBenchmarkPlugin"
         }
         register("androidApplicationPlugin") {
             id = "$prefix.android.application"

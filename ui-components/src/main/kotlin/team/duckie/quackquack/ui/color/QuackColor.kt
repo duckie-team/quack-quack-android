@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 @file:Suppress("unused")
@@ -10,13 +10,9 @@
 package team.duckie.quackquack.ui.color
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector4D
-import androidx.compose.animation.core.SnapSpec
-import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
@@ -29,7 +25,7 @@ import androidx.compose.ui.graphics.colorspace.ColorSpace
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
 import kotlin.math.pow
 import kotlin.reflect.KProperty
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.util.AllowMagicNumber
 
 /**
@@ -45,15 +41,15 @@ import team.duckie.quackquack.ui.util.AllowMagicNumber
  */
 @Immutable
 @JvmInline
-value class QuackColor internal constructor(
-    val composeColor: Color,
+public value class QuackColor internal constructor(
+    public val composeColor: Color,
 ) {
     /**
      * [QuackColor] 를 [Brush] 로 변환합니다.
      *
      * @return 현재 [QuackColor] 를 [Brush] 로 변환한 값
      */
-    fun toBrush() = SolidColor(
+    public fun toBrush(): SolidColor = SolidColor(
         value = composeColor,
     )
 
@@ -63,88 +59,113 @@ value class QuackColor internal constructor(
      * @param alpha 투명도
      * @return [alpha] 값이 변경된 [QuackColor]
      */
-    fun changeAlpha(
+    public fun changeAlpha(
         alpha: Float,
-    ) = QuackColor(
+    ): QuackColor = QuackColor(
         composeColor.copy(
             alpha = alpha,
         )
     )
 
-    companion object {
+    public companion object {
         // Unspecified 는 색상의 기본 인자 값으로만 사용되야 하며,
         // 실제 컴포넌트에서는 사용되서는 안됩니다.
         @Stable
-        internal val Unspecified = QuackColor(
+        internal val Unspecified: QuackColor = QuackColor(
             composeColor = Color.Unspecified,
         )
 
+        // Transparent 는 색상의 기본 값으로만 사용되야 하며,
+        // 실제 컴포넌트에서는 사용되서는 안됩니다.
         @Stable
-        val DuckieOrange = QuackColor(
+        internal val Transparent: QuackColor = QuackColor(
+            composeColor = Color.Transparent,
+        )
+
+        @Stable
+        public val DuckieOrange: QuackColor = QuackColor(
             composeColor = Color(
                 color = 0xFFFF8300,
             ),
         )
 
         @Stable
-        val Black = QuackColor(
+        public val Black: QuackColor = QuackColor(
             composeColor = Color(
                 color = 0xFF222222,
             ),
         )
 
         @Stable
-        val Gray1 = QuackColor(
+        public val BlackOpacity60: QuackColor = QuackColor(
+            composeColor = Color(
+                color = 0xFF000000,
+            ).copy(
+                alpha = 0.6f,
+            ),
+        )
+
+        @Stable
+        public val Gray1: QuackColor = QuackColor(
             composeColor = Color(
                 color = 0xFF666666,
             ),
         )
 
         @Stable
-        val Gray2 = QuackColor(
+        public val Gray2: QuackColor = QuackColor(
             composeColor = Color(
                 color = 0xFFA8A8A8,
             ),
         )
 
         @Stable
-        val Gray3 = QuackColor(
+        public val Gray3: QuackColor = QuackColor(
             composeColor = Color(
                 color = 0xFFEFEFEF,
             ),
         )
 
         @Stable
-        val Gray4 = QuackColor(
+        public val Gray4: QuackColor = QuackColor(
             composeColor = Color(
                 color = 0xFFF6F6F6,
             ),
         )
 
         @Stable
-        val White = QuackColor(
+        public val Gray5: QuackColor = QuackColor(
+            composeColor = Color(
+                color = 0xFFD1D1D1,
+            ),
+        )
+
+        @Stable
+        public val White: QuackColor = QuackColor(
             composeColor = Color(
                 color = 0xFFFFFFFF,
             ),
         )
 
         @Stable
-        val OrangeRed = QuackColor(
+        public val OrangeRed: QuackColor = QuackColor(
             composeColor = Color(
                 color = 0xFFFF2929,
             ),
         )
 
         @Stable
-        val Black80 = QuackColor(
+        public val Black80: QuackColor = QuackColor(
             composeColor = Color(
-                color = 0x80222222
-            )
+                color = 0x80222222,
+            ),
         )
 
         @Stable
-        val Transparent = QuackColor(
-            composeColor = Color.Transparent
+        public val SkyBlueColor: QuackColor = QuackColor(
+            composeColor = Color(
+                color = 0xFF6DBBFF,
+            ),
         )
 
         private val M1 = floatArrayOf(
@@ -307,45 +328,49 @@ value class QuackColor internal constructor(
     }
 
     @SuppressLint("KDocFields")
-    operator fun getValue(thisRef: Any?, property: KProperty<*>) = composeColor
+    public operator fun getValue(thisRef: Any?, property: KProperty<*>): Color = composeColor
 }
 
-/**
- * [TweenSpec] 의 durationMillis 를 2로 나눈 값을 반환합니다.
- *
- * 색상 애니메이션은 애니메이션 뒷쪽에 색상 변화가 몰려있기 때문에
- * 다른 애니메이션과 조화를 위해선 색상 애니메이션을
- * 일찍 진행해야 합니다. 따라서 입력받은 [AnimationSpec] 의
- * 진행 시간을 2로 나눠서 다른 애니메이션 보다 일찍 진행합니다.
- *
- * QuackQuack 에서는 [AnimationSpec] 을 [TweenSpec], [SnapSpec]
- * 이렇게 2개만 사용합니다. 따라서 [SnapSpec] 을 사용중일 때는
- * 작업을 진행하지 않고 원본 [AnimationSpec] 을 그대로 반환합니다.
- *
- * @receiver 애니메이션에 사용할 [AnimationSpec]
- * @return receiver 의 durationMillis 를 2로 나눈 새로운 [AnimationSpec]
- */
-private fun <T> AnimationSpec<T>.toColorSpec(): AnimationSpec<T> {
-    val tweenSpec = this as? TweenSpec<T> ?: return this
-    return tween(
-        durationMillis = tweenSpec.durationMillis / 2,
-        delayMillis = tweenSpec.delay,
-        easing = tweenSpec.easing,
-    )
-}
+// /**
+//  * [TweenSpec] 의 durationMillis 를 2로 나눈 값을 반환합니다.
+//  *
+//  * 색상 애니메이션은 애니메이션 뒷쪽에 색상 변화가 몰려있기 때문에
+//  * 다른 애니메이션과 조화를 위해선 색상 애니메이션을
+//  * 일찍 진행해야 합니다. 따라서 입력받은 [AnimationSpec] 의
+//  * 진행 시간을 2로 나눠서 다른 애니메이션 보다 일찍 진행합니다.
+//  *
+//  * QuackQuack 에서는 [AnimationSpec] 을 [TweenSpec], [SnapSpec]
+//  * 이렇게 2개만 사용합니다. 따라서 [SnapSpec] 을 사용중일 때는
+//  * 작업을 진행하지 않고 원본 [AnimationSpec] 을 그대로 반환합니다.
+//  *
+//  * @receiver 애니메이션에 사용할 [AnimationSpec]
+//  * @return receiver 의 durationMillis 를 2로 나눈 새로운 [AnimationSpec]
+//  */
+// @Deprecated(
+//     message = "이제 이 옵션은 사용되지 않습니다. " +
+//             "원래의 색상 애니메이션을 그대로 사용해 주세요."
+// )
+// private fun <T> AnimationSpec<T>.toColorSpec(): AnimationSpec<T> {
+//     val tweenSpec = this as? TweenSpec<T> ?: return this
+//     return tween(
+//         durationMillis = tweenSpec.durationMillis / 2,
+//         delayMillis = tweenSpec.delay,
+//         easing = tweenSpec.easing,
+//     )
+// }
 
 /**
  * [QuackColor] 에 색상에 변경이 있을 때 애니메이션을 적용합니다.
  *
+ * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
+ *
  * @param targetValue 색상 변경을 감지할 [QuackColor]
- * @param animationSpec 색상 변경을 감지했을 때 적용할 애니메이션 스팩
  *
  * @return 색상이 변경됐을 때 색상이 변경되는 애니메이션의 [State] 객체
  */
 @Composable
 internal fun animateQuackColorAsState(
     targetValue: QuackColor,
-    animationSpec: AnimationSpec<QuackColor> = quackAnimationSpec(),
 ): State<QuackColor> {
     val converter = remember(
         key1 = targetValue.composeColor.colorSpace,
@@ -355,7 +380,7 @@ internal fun animateQuackColorAsState(
     return animateValueAsState(
         targetValue = targetValue,
         typeConverter = converter,
-        animationSpec = animationSpec.toColorSpec(),
+        animationSpec = QuackAnimationSpec(),
         finishedListener = null,
     )
 }

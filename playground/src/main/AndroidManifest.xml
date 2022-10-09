@@ -2,25 +2,19 @@
   ~ Designed and developed by 2022 SungbinLand, Team Duckie
   ~
   ~ Licensed under the MIT.
-  ~ Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+  ~ Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET" />
-    <application
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/Theme.Quackquack">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <profileable
-            android:shell="true"
-            tools:targetApi="29" />
+    <application
+        android:icon="@drawable/quack_icon"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Quack.Splash">
 
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,14 +22,69 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".realworld.TabPlayground" />
-        <activity android:name=".realworld.ButtonPlayground" />
-        <activity android:name=".realworld.TextFieldPlayground" />
-        <activity android:name=".realworld.FabPlayground" />
-        <activity android:name=".realworld.TogglePlayground" />
-        <activity android:name=".realworld.TypoPlayground" />
-        <activity android:name=".realworld.CardPlayground" />
-        <activity android:name=".realworld.GridLayoutPlayground" />
+        <activity
+            android:name=".realworld.TabPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.ButtonPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TextFieldPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.FabPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TogglePlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TagPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.DrawerPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.Quack.AppCompat" />
+
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Theme.Quack.AppCompat" />
+
+        <activity
+            android:name=".realworld.BottomSheetPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.SelectableImagePlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.EtcPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.NavigationPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TypoPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.CardPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.GridLayoutPlayground"
+            android:theme="@style/Theme.Quack" />
 
 
     </application>

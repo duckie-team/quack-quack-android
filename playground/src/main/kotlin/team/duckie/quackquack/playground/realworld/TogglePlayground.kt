@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 package team.duckie.quackquack.playground.realworld
@@ -32,7 +32,7 @@ class TogglePlayground : BaseActivity() {
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
         "QuackRoundCheck" to { QuackRoundCheckDemo() },
         "QuackSquareCheck" to { QuackSquareCheckDemo() },
-        "QuackToggle" to { QuackIconToggleDemo() },
+        "QuackIconToggle" to { QuackIconToggleDemo() },
         "QuackIconTextToggle" to { QuackIconTextToggleDemo() },
     )
 
@@ -41,7 +41,7 @@ class TogglePlayground : BaseActivity() {
         setContent {
             PlaygroundTheme {
                 PlaygroundSection(
-                    title = "QuackRoundCheck",
+                    title = "Toggle",
                     items = items,
                 )
             }
@@ -82,7 +82,7 @@ fun QuackIconToggleDemo() {
     }
     QuackIconToggle(
         checkedIcon = QuackIcon.Heart,
-        unCheckedIcon = QuackIcon.FilledHeart,
+        uncheckedIcon = QuackIcon.FilledHeart,
         checked = checked,
         onToggle = {
             checked = !checked
@@ -105,7 +105,7 @@ fun QuackIconTextToggleDemo() {
     ) {
         QuackIconTextToggle(
             checkedIcon = null,
-            unCheckedIcon = QuackIcon.Comment,
+            uncheckedIcon = QuackIcon.Comment,
             checked = checked,
             text = "10.2k",
             onToggle = {
@@ -114,7 +114,7 @@ fun QuackIconTextToggleDemo() {
         )
         QuackIconTextToggle(
             checkedIcon = QuackIcon.FilledHeart,
-            unCheckedIcon = QuackIcon.Heart,
+            uncheckedIcon = QuackIcon.Heart,
             checked = checked2,
             text = "10.2k",
             onToggle = {

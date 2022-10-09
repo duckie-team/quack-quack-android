@@ -1,0 +1,41 @@
+<!--
+  ~ Designed and developed by 2022 SungbinLand, Team Duckie
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="16"
+    android:viewportHeight="16">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M7.609,14.937a2.168,2.168 0,0 0,2.164 -2.057L5.444,12.88A2.169,2.169 0,0 0,7.609 14.937Z"
+        android:strokeWidth="1.5"
+        android:strokeColor="#222"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M7.272,1.836A5.308,5.308 0,0 0,2.431 7.137v4.812a0.93,0.93 0,0 0,0.93 0.93h8.5a0.93,0.93 0,0 0,0.93 -0.93L12.791,7.355"
+        android:strokeWidth="1.5"
+        android:strokeColor="#222"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M11.402,1.063L11.402,5.392"
+        android:strokeWidth="1.5"
+        android:strokeColor="#222"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M13.567,3.228L9.238,3.228"
+        android:strokeWidth="1.5"
+        android:strokeColor="#222"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

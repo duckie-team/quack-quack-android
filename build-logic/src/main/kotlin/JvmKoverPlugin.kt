@@ -2,10 +2,8 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
-
-@file:Suppress("unused")
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -21,7 +19,9 @@ import team.duckie.quackquack.convention.setupJunit
 internal class JvmKoverPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
-            applyPlugins(libs.findPlugin("kover").get().get().pluginId)
+            applyPlugins(
+                libs.findPlugin("kover").get().get().pluginId,
+            )
             dependencies {
                 setupJunit(
                     core = libs.findLibrary("test-junit-core").get(),

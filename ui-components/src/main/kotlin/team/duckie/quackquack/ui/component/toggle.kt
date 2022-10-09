@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 package team.duckie.quackquack.ui.component
@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -33,10 +32,12 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlin.math.floor
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
+import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.icon.QuackIcon
 
@@ -46,8 +47,8 @@ private const val BoxOutDuration = 100
 
 private val RoundCheckboxSize = 28.dp
 private val SquareCheckboxSize = 24.dp
-private val SmallIconSize = 18.dp
-private val StrokeWidth = 2.dp
+private val IconSize = 24.dp
+private val StrokeWidth = 1.5.dp
 
 private val QuackIconTextToggleSpacing = 4.dp
 
@@ -62,10 +63,7 @@ private const val StopLocation = 0.5f
 private const val RoundCheckBoxAlpha = 0.2f
 private val CheckColor = QuackColor.White
 
-@Stable
 private val QuackRoundCheckShape = CircleShape
-
-@Stable
 private val QuackRectangleCheckShape = RoundedCornerShape(
     size = 4.dp,
 )
@@ -77,29 +75,36 @@ private val QuackRectangleCheckShape = RoundedCornerShape(
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
-@NonRestartableComposable
-fun QuackRoundCheckBox(
+public fun QuackRoundCheckBox(
     checked: Boolean,
     onToggle: () -> Unit,
-) = QuackSurface(
-    modifier = Modifier.size(
-        size = RoundCheckboxSize,
-    ),
-    shape = QuackRoundCheckShape,
-    backgroundColor = getCheckBoxBackgroundColor(
-        isChecked = checked,
-        unCheckedColor = QuackColor.Black.changeAlpha(
-            alpha = RoundCheckBoxAlpha,
-        ),
-    ),
-    onClick = onToggle,
-    rippleEnabled = false,
 ) {
-    Check(
-        value = ToggleableState(
-            value = checked,
+    QuackSurface(
+        modifier = Modifier.size(
+            size = RoundCheckboxSize,
         ),
-    )
+        shape = QuackRoundCheckShape,
+        backgroundColor = getCheckBoxBackgroundColor(
+            isChecked = checked,
+            uncheckedColor = QuackColor.Black.changeAlpha(
+                alpha = RoundCheckBoxAlpha,
+            ),
+        ),
+        border = QuackBorder(
+            color = getCheckBoxBackgroundColor(
+                isChecked = checked,
+                uncheckedColor = QuackColor.White,
+            ),
+        ),
+        onClick = onToggle,
+        rippleEnabled = false,
+    ) {
+        Check(
+            value = ToggleableState(
+                value = checked,
+            ),
+        )
+    }
 }
 
 /**
@@ -109,18 +114,17 @@ fun QuackRoundCheckBox(
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
-@NonRestartableComposable
-fun QuackSquareCheckBox(
+public fun QuackSquareCheckBox(
     checked: Boolean,
     onToggle: () -> Unit,
-) = QuackSurface(
+): Unit = QuackSurface(
     modifier = Modifier.size(
         size = SquareCheckboxSize,
     ),
     shape = QuackRectangleCheckShape,
     backgroundColor = getCheckBoxBackgroundColor(
         isChecked = checked,
-        unCheckedColor = QuackColor.Gray3,
+        uncheckedColor = QuackColor.Gray3,
     ),
     onClick = onToggle,
     rippleEnabled = false,
@@ -136,19 +140,18 @@ fun QuackSquareCheckBox(
  * 덕키의 IconTextToggle 입니다.
  *
  * [checked] 에 따라 보여지는 아이콘이 달라집니다.
- * [checkedIcon] 이 null 이면 [unCheckedIcon] 으로만 적용됩니다.
+ * [checkedIcon] 이 null 이면 [uncheckedIcon] 으로만 적용됩니다.
  *
  * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon],
- * @param unCheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
+ * @param uncheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
  * @param checked 체크되었는지 여부
  * @param text 아이콘 오른쪽에 표시될 Text
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
-@NonRestartableComposable
-fun QuackIconTextToggle(
+public fun QuackIconTextToggle(
     checkedIcon: QuackIcon?,
-    unCheckedIcon: QuackIcon,
+    uncheckedIcon: QuackIcon,
     checked: Boolean,
     text: String,
     onToggle: () -> Unit,
@@ -160,11 +163,8 @@ fun QuackIconTextToggle(
         ),
     ) {
         QuackBasicIconToggle(
-            modifier = Modifier.size(
-                size = SmallIconSize,
-            ),
             checkedIcon = checkedIcon,
-            unCheckedIcon = unCheckedIcon,
+            uncheckedIcon = uncheckedIcon,
             checked = checked,
             onToggle = onToggle,
         )
@@ -179,21 +179,20 @@ fun QuackIconTextToggle(
  *
  * [checked] 에 따라 보여지는 아이콘이 달라집니다.
  *
- * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon], null 일 경우 [unCheckedIcon] 으로만 적용
- * @param unCheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
+ * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon], null 일 경우 [uncheckedIcon] 으로만 적용
+ * @param uncheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
  * @param checked 체크되었는지 여부
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
-@NonRestartableComposable
-fun QuackIconToggle(
+public fun QuackIconToggle(
     checkedIcon: QuackIcon?,
-    unCheckedIcon: QuackIcon,
+    uncheckedIcon: QuackIcon,
     checked: Boolean,
     onToggle: () -> Unit,
-) = QuackBasicIconToggle(
+): Unit = QuackBasicIconToggle(
     checkedIcon = checkedIcon,
-    unCheckedIcon = unCheckedIcon,
+    uncheckedIcon = uncheckedIcon,
     checked = checked,
     onToggle = onToggle,
 )
@@ -203,30 +202,25 @@ fun QuackIconToggle(
  *
  * [checked] 에 따라 보여지는 아이콘이 달라집니다.
  *
- * @param modifier 이 컴포저블에서 사용할 [Modifier]
- * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon] , null 일 경우 [unCheckedIcon] 으로만 적용
- * @param unCheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
+ * @param checkedIcon 체크되었을 때 보여지는 [QuackIcon] , null 일 경우 [uncheckedIcon] 으로만 적용
+ * @param uncheckedIcon 체크가 해제되었을 때 보여지는 [QuackIcon]
  * @param checked 체크되었는지 여부
  * @param onToggle 체크시 호출되는 콜백
  */
-// TODO: 아이콘 전환 애니메이션?
 @Composable
-@NonRestartableComposable
 private fun QuackBasicIconToggle(
-    modifier: Modifier = Modifier,
     checkedIcon: QuackIcon?,
-    unCheckedIcon: QuackIcon,
+    uncheckedIcon: QuackIcon,
     checked: Boolean,
     onToggle: () -> Unit,
-) = InternalQuackImage(
-    modifier = modifier,
-    icon = if (checkedIcon == null) {
-        unCheckedIcon
-    } else {
-        when (checked) {
-            true -> checkedIcon
-            else -> unCheckedIcon
-        }
+) = QuackImage(
+    overrideSize = DpSize(
+        width = IconSize,
+        height = IconSize,
+    ),
+    src = when (checkedIcon != null && checked) {
+        true -> checkedIcon
+        else -> uncheckedIcon
     },
     rippleEnabled = false,
     onClick = onToggle,
@@ -236,20 +230,22 @@ private fun QuackBasicIconToggle(
  * 체크 여부에 따라 CheckBox 의 배경색을 지정합니다.
  *
  * @param isChecked 체크 여부
- * @param unCheckedColor 체크되지 않았을 경우 배경색
+ * @param uncheckedColor 체크되지 않았을 경우 배경색
  * @return CheckBox 의 배경색
  */
 @Stable
 private fun getCheckBoxBackgroundColor(
     isChecked: Boolean,
-    unCheckedColor: QuackColor,
+    uncheckedColor: QuackColor,
 ) = when (isChecked) {
     true -> QuackColor.DuckieOrange
-    else -> unCheckedColor
+    else -> uncheckedColor
 }
 
 /**
  * [Canvas] 에 Check 모양을 그립니다.
+ *
+ * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
  *
  * @param value 현재 토글 상태를 의미하는 [ToggleableState]
  * @param checkColor Check 색상
@@ -266,9 +262,7 @@ internal fun Check(
         label = TransitionLabel,
     )
     val checkDrawFraction by transition.animateFloat(
-        transitionSpec = {
-            quackAnimationSpec()
-        },
+        transitionSpec = { QuackAnimationSpec() },
         label = TransitionLabel,
     ) { toggleableState ->
         when (toggleableState) {
@@ -284,7 +278,8 @@ internal fun Check(
                 targetState == ToggleableState.Off -> snap(
                     delayMillis = BoxOutDuration,
                 )
-                else -> quackAnimationSpec()
+
+                else -> QuackAnimationSpec()
             }
         },
         label = TransitionLabel,

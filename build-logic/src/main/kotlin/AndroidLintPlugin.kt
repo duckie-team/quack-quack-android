@@ -2,10 +2,8 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
-
-@file:Suppress("unused")
 
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
@@ -52,8 +50,12 @@ internal class AndroidLintPlugin : Plugin<Project> {
             }
 
             dependencies {
-                compileOnlys(libs.findLibrary("kotlin-stdlib").get())
-                testImplementations(project(":common-lint-test"))
+                compileOnlys(
+                    libs.findLibrary("kotlin-stdlib").get(),
+                )
+                testImplementations(
+                    project(":common-lint-test"),
+                )
                 setupJunit(
                     core = libs.findLibrary("test-junit-core").get(),
                     engine = libs.findLibrary("test-junit-engine").get(),

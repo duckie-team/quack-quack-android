@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by 2022 SungbinLand, Team Duckie
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
+  -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-sdk tools:overrideLibrary="androidx.benchmark.macro.junit4" />
+
+    <queries>
+        <package android:name="team.duckie.quackquack.ui.benchmark.app" />
+    </queries>
+</manifest>

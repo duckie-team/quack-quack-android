@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 package team.duckie.quackquack.convention
@@ -17,7 +17,5 @@ internal object ApplicationConstants {
     const val targetSdk = 33
     const val compileSdk = 33
     const val jvmTarget = "11"
-    const val versionCode = 5
-    const val versionName = "0.1.5"
     val javaVersion = JavaVersion.VERSION_11
 }

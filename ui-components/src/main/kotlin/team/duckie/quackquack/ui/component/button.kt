@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 package team.duckie.quackquack.ui.component
@@ -16,15 +16,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.ui.animation.AnimatedContentTransform
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
@@ -34,50 +33,42 @@ import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
-import team.duckie.quackquack.ui.textstyle.animateQuackTextStyleAsState
 
-@Stable
 private val QuackLargeButtonShape = RoundedCornerShape(
     size = 8.dp,
 )
-
-@Stable
 private val QuackMediumButtonShape = RoundedCornerShape(
     size = 12.dp,
 )
 
 // 2개 스팩이 동일함, 하지만 도메인적 의미를 위해 분리
-@Stable
 private val QuackSmallButtonShape = QuackLargeButtonShape
-
-@Stable
 private val QuackChipShape = RoundedCornerShape(
     size = 18.dp,
 )
 
-@Stable
-private val QuackLargeButtonTextPadding = PaddingValues(
-    vertical = 13.dp,
+private val QuackButtonIconSize = DpSize(
+    width = 24.dp,
+    height = 24.dp,
 )
+private val QuackButtonIconTint = QuackColor.Gray1
 
-@Stable
+private val QuackLargeButtonTextPadding = PaddingValues(
+    top = 13.dp,
+    bottom = 13.dp,
+    start = 4.dp,
+)
 private val QuackLargeButton40TextPadding = PaddingValues(
     vertical = 11.dp,
 )
-
-@Stable
 private val QuackMediumButtonTextPadding = PaddingValues(
     horizontal = 62.dp,
     vertical = 11.dp,
 )
-
-@Stable
 private val QuackSmallButtonTextPadding = PaddingValues(
     horizontal = 12.dp,
     vertical = 8.dp,
 )
-
-@Stable
 private val QuackChipTextPadding = PaddingValues(
     horizontal = 8.dp,
     vertical = 4.dp,
@@ -108,12 +99,12 @@ private fun quackButtonStandardBackgroundColorFor(enabled: Boolean) = when (enab
  */
 @Composable
 @NonRestartableComposable
-fun QuackLargeButton(
+public fun QuackLargeButton(
     text: String,
     active: Boolean = true,
     // TODO: imeAnimation: Boolean = false,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     // TODO: imeAnimation; modifier = Modifier,
     width = QuackWidth.Fill,
     shape = QuackLargeButtonShape,
@@ -142,11 +133,11 @@ fun QuackLargeButton(
  */
 @Composable
 @NonRestartableComposable
-fun QuackLargeWhiteButton(
+public fun QuackLargeWhiteButton(
     text: String,
     leadingIcon: QuackIcon? = null,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     width = QuackWidth.Fill,
     shape = QuackLargeButtonShape,
     leadingIcon = leadingIcon,
@@ -170,10 +161,10 @@ fun QuackLargeWhiteButton(
  */
 @Composable
 @NonRestartableComposable
-fun QuackLarge40WhiteButton(
+public fun QuackLarge40WhiteButton(
     text: String,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     width = QuackWidth.Fill,
     shape = QuackLargeButtonShape,
     text = text,
@@ -198,12 +189,11 @@ fun QuackLarge40WhiteButton(
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
 @Composable
-@NonRestartableComposable
-fun QuackMediumBorderToggleButton(
+public fun QuackMediumBorderToggleButton(
     text: String,
     selected: Boolean,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     shape = QuackMediumButtonShape,
     text = text,
     textStyle = QuackTextStyle.Body1.change(
@@ -237,12 +227,11 @@ fun QuackMediumBorderToggleButton(
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
 @Composable
-@NonRestartableComposable
-fun QuackSmallButton(
+public fun QuackSmallButton(
     text: String,
     enabled: Boolean,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     shape = QuackSmallButtonShape,
     text = text,
     textStyle = QuackTextStyle.Body1.change(
@@ -269,12 +258,11 @@ fun QuackSmallButton(
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
 @Composable
-@NonRestartableComposable
-fun QuackSmallBorderToggleButton(
+public fun QuackSmallBorderToggleButton(
     text: String,
     selected: Boolean,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     shape = QuackSmallButtonShape,
     text = text,
     textStyle = QuackTextStyle.Body1.change(
@@ -310,12 +298,11 @@ fun QuackSmallBorderToggleButton(
  * @param onClick chip 클릭 시 호출될 콜백
  */
 @Composable
-@NonRestartableComposable
-fun QuackToggleChip(
+public fun QuackToggleChip(
     text: String,
     selected: Boolean,
     onClick: () -> Unit,
-) = QuackBasicButton(
+): Unit = QuackBasicButton(
     shape = QuackChipShape,
     text = text,
     textStyle = QuackTextStyle.Body2.change(
@@ -393,9 +380,6 @@ private fun QuackBasicButton(
     rippleColor: QuackColor = QuackColor.Unspecified,
     onClick: () -> Unit,
 ) {
-    val textStyleAnimation by animateQuackTextStyleAsState(
-        targetValue = textStyle,
-    )
     QuackSurface(
         modifier = Modifier
             .applyQuackSize(
@@ -418,22 +402,17 @@ private fun QuackBasicButton(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            AnimatedContentTransform(
-                // animated visibility 대응
-                targetState = leadingIcon,
-            ) { animatedLeadingIcon ->
-                InternalQuackImage(
-                    icon = animatedLeadingIcon,
-                    tint = QuackColor.Gray1,
-                )
-            }
-            // 아이콘 - 텍스트 사이 간격 없음
+            QuackImage(
+                src = leadingIcon,
+                overrideSize = QuackButtonIconSize,
+                tint = QuackButtonIconTint,
+            )
             QuackText(
                 modifier = Modifier.padding(
                     paddingValues = textPadding,
                 ),
                 text = text,
-                style = textStyleAnimation,
+                style = textStyle,
             )
         }
     }

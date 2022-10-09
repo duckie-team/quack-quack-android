@@ -2,7 +2,7 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 package team.duckie.quackquack.playground.base
@@ -10,7 +10,6 @@ package team.duckie.quackquack.playground.base
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.addCallback
 import androidx.core.view.WindowCompat
@@ -25,7 +24,6 @@ open class BaseActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
         setSystemBarsColor(
             color = Color.TRANSPARENT,
@@ -36,7 +34,10 @@ open class BaseActivity : ComponentActivity() {
             owner = this,
         ) {
             finish()
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            overridePendingTransition(
+                android.R.anim.fade_in,
+                android.R.anim.fade_out,
+            )
         }
     }
 }

@@ -2,15 +2,20 @@
  * Designed and developed by 2022 SungbinLand, Team Duckie
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 @file:Suppress("UnusedPrivateMember")
 
 package team.duckie.quackquack.playground
 
+import android.animation.ObjectAnimator
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AnticipateInterpolator
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -21,46 +26,81 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import kotlinx.collections.immutable.persistentListOf
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.ContentBorder
 import team.duckie.quackquack.playground.base.PlaygroundActivities
-import team.duckie.quackquack.playground.realworld.*
+import team.duckie.quackquack.playground.base.fontScale
+import team.duckie.quackquack.playground.base.showComponentBounds
+import team.duckie.quackquack.playground.realworld.BottomSheetPlayground
+import team.duckie.quackquack.playground.realworld.ButtonPlayground
+import team.duckie.quackquack.playground.realworld.CardPlayground
+import team.duckie.quackquack.playground.realworld.EtcPlayground
+import team.duckie.quackquack.playground.realworld.DrawerPlayground
+import team.duckie.quackquack.playground.realworld.FabPlayground
+import team.duckie.quackquack.playground.realworld.GridLayoutPlayground
+import team.duckie.quackquack.playground.realworld.NavigationPlayground
+import team.duckie.quackquack.playground.realworld.SelectableImagePlayground
+import team.duckie.quackquack.playground.realworld.TabPlayground
+import team.duckie.quackquack.playground.realworld.TagPlayground
+import team.duckie.quackquack.playground.realworld.TextFieldPlayground
+import team.duckie.quackquack.playground.realworld.TogglePlayground
+import team.duckie.quackquack.playground.realworld.TypoPlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
+import team.duckie.quackquack.playground.util.verticalInsetsPadding
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
-import team.duckie.quackquack.ui.textstyle.QuackFontScale
 
-private val PlaygroundActivities = persistentListOf(
+private const val DefaultSplashScreenExitAnimationDurationMillis = 200L
+private val PlaygroundActivities = listOf(
     TabPlayground::class,
     ButtonPlayground::class,
     TextFieldPlayground::class,
     FabPlayground::class,
+    SelectableImagePlayground::class,
+    EtcPlayground::class,
+    NavigationPlayground::class,
     TogglePlayground::class,
     TypoPlayground::class,
     CardPlayground::class,
     GridLayoutPlayground::class,
-)
+    TagPlayground::class,
+    DrawerPlayground::class,
+    BottomSheetPlayground::class,
+).sortedBy { playgroundActivity ->
+    playgroundActivity.simpleName
+}.toPersistentList()
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
+
         setContent {
             PlaygroundDemo()
-            /*SingleDemo {
-                QuackTextFieldErrorStateLiveDemo()
-            }*/
-            /*MultiDemo {
-                QuackTextFieldWithNoDecorationDemo()
-                QuackTextFieldWithLeadingDecorationDemo()
-                QuackTextFieldWithTrailingDecorationDemo()
-                QuackTextFieldWithAllDecorationDemo()
-                QuackTextFieldErrorStateDemo()
-            }*/
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            splashScreen.setOnExitAnimationListener { splashScreenView ->
+                ObjectAnimator.ofFloat(
+                    splashScreenView,
+                    View.ALPHA,
+                    1f,
+                    0f,
+                ).run {
+                    interpolator = AnticipateInterpolator()
+                    duration = DefaultSplashScreenExitAnimationDurationMillis
+                    doOnEnd { splashScreenView.remove() }
+                    start()
+                }
+            }
         }
     }
 }
@@ -75,7 +115,12 @@ private fun SingleDemo(
     content: @Composable BoxScope.() -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = Color.White,
+            )
+            .verticalInsetsPadding(),
         contentAlignment = Alignment.Center,
     ) {
         ContentBorder {
@@ -94,7 +139,9 @@ private fun MultiDemo(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalInsetsPadding(),
         verticalArrangement = Arrangement.spacedBy(
             space = 16.dp,
             alignment = Alignment.CenterVertically,
@@ -111,6 +158,7 @@ private fun MultiDemo(
 @Composable
 private fun PlaygroundDemo() {
     val context = LocalContext.current.applicationContext
+
     LaunchedEffect(
         key1 = Unit,
     ) {
@@ -121,12 +169,11 @@ private fun PlaygroundDemo() {
                     ).coerceAtLeast(
                     minimumValue = 0,
                 )
-            QuackFontScale = (
-                    preference[PreferenceConfigs.FontScaleKey]
-                        ?: QuackFontScale
-                    ).coerceAtLeast(
-                    minimumValue = 0.0,
+            fontScale = (
+                    1f
                 )
+            showComponentBounds =
+                preference[PreferenceConfigs.ShowComponentBounds] ?: showComponentBounds
         }
     }
     PlaygroundTheme {

@@ -50,7 +50,7 @@ private val QuackCardPadding = PaddingValues(8.dp)
  *
  */
 @Composable
-fun QuackCardImage(
+public fun QuackCardImage(
     image: Any,
     size: Dp? = null,
     cornerIcon: (@Composable () -> Unit)? = null,
@@ -68,12 +68,12 @@ fun QuackCardImage(
         }
     }
     Box {
-        InternalQuackImage(
+        QuackImageInternal(
             modifier = sizeModifier
                 .clip(
                     shape = QuackCardShape
                 ),
-            image = image,
+            src = image,
         )
         QuackCornerIcon(
             cornerIcon = cornerIcon,
@@ -82,7 +82,9 @@ fun QuackCardImage(
 }
 
 /**
- * @param cornerIcon
+ * [QuackCornerIcon] 을 구현합니다
+ * 해당 아이콘은 우측 하단에 아이콘을 표시해야할 때 사용합니다.
+ * @param cornerIcon 아이콘 리소스
  */
 
 @Composable
@@ -103,14 +105,16 @@ private fun BoxScope.QuackCornerIcon(
 }
 
 /**
- * QuackCaredImageRow 를 구현합니다.
+ * [QuackCardImageRow] 를 구현합니다.
  *
- * @param images
- * @param cornerIcon
+ * Card 로 연속된 목록형 이미지 UI 를 만들어줍니다.
+ *
+ * @param images 이미지 리소스들
+ * @param cornerIcon 우측 하단에 들어갈 아이콘
  *
  */
 @Composable
-fun QuackCardImageRow(
+public fun QuackCardImageRow(
     images: PersistentList<Any>,
     cornerIcon: (@Composable () -> Unit)? = null,
 ) {
@@ -127,7 +131,7 @@ fun QuackCardImageRow(
                     space = 8.dp,
                 ),
             ) {
-                itemsIndexed(images) { index, image ->
+                itemsIndexed(images) { index, _ ->
                     QuackCardImage(
                         image = images[index],
                         size = 156.dp,
@@ -139,13 +143,21 @@ fun QuackCardImageRow(
     }
 }
 
+/**
+ * [QuackWideCardImage] 를 구현합니다.
+ *
+ * [QuackCardImageRow] 에서 Size가 1일 경우에 화면을 꽉 채워주는 컴포넌트 입니다.
+ *
+ * @param image 이미지 리소스
+ * @param cornerIcon 우측 하단에 들어갈 아이콘
+ */
 @Composable
 private fun QuackWideCardImage(
     image: Any,
     cornerIcon: (@Composable () -> Unit)?,
 ) {
     Box {
-        InternalQuackImage(
+        QuackImageInternal(
             modifier = Modifier
                 .applyQuackSize(
                     width = QuackWidth.Fill,
@@ -156,7 +168,7 @@ private fun QuackWideCardImage(
                 .clip(
                     shape = QuackCardShape,
                 ),
-            image = image,
+            src = image,
         )
         QuackCornerIcon(
             cornerIcon = cornerIcon,
@@ -166,15 +178,17 @@ private fun QuackWideCardImage(
 }
 
 /**
- * [QuackSelectableCardImage]
+ * [QuackSelectableCardImage] 를 구현합니다.
  *
- * @param checked
- * @param image
- * @param size
- * @param onClick
+ * Card 이미지에서 아이템을 선택해야할 경우에 사용합니다.
+ *
+ * @param checked 해당 아이템이 선택됐는지에 대한 여부
+ * @param image 이미지 리소스
+ * @param size 이미지 크기
+ * @param onClick 아이템 클릭 이벤트
  */
 @Composable
-fun QuackSelectableCardImage(
+public fun QuackSelectableCardImage(
     checked: Boolean,
     image: Any,
     size: Dp? = null,
@@ -203,8 +217,7 @@ fun QuackSelectableCardImage(
                 shape = QuackCardShape
             ),
     ) {
-
-        InternalQuackImage(
+        QuackCardImage(
             image = image,
         )
         CheckFilter(
@@ -213,8 +226,16 @@ fun QuackSelectableCardImage(
     }
 }
 
+/**
+ * [CheckFilter] 를 구현합니다.
+ *
+ * 이 Composable 함수를 호출하는 화면에서 해당 아이템이 선택이 되었을 경우
+ * Check 아이콘과 함께 deem 필터를 제공해줍니다.
+ *
+ * @param checked 해당 아이템이 선택됐는지 아닌지 여부
+ */
 @Composable
-fun CheckFilter(
+private fun CheckFilter(
     checked: Boolean
 ) {
     val targetColor = when (checked) {
