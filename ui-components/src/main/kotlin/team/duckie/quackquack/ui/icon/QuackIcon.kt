@@ -190,6 +190,16 @@ public value class QuackIcon private constructor(
         )
 
         @Stable
+        public val Checked: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_ic_checked_round_24
+        )
+
+        @Stable
+        public val UnChecked: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_ic_un_checked_round_24
+        )
+
+        @Stable
         public val WhiteHeart: QuackIcon = QuackIcon(
             drawableId = R.drawable.quack_ic_heart_24_white,
         )
@@ -202,6 +212,46 @@ public value class QuackIcon private constructor(
         @Stable
         public val FilledBookmark: QuackIcon = QuackIcon(
             drawableId = R.drawable.quack_ic_bookmark_24_filled,
+        )
+
+        @Stable
+        internal val BottomNavHome: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_ic_home_bottom_nav_24
+        )
+
+        @Stable
+        internal val BottomNavHomeSelected: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_ic_home_bottom_nav_selected_24
+        )
+
+        @Stable
+        internal val BottomNavSearch: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_ic_search_bottom_nav_24
+        )
+
+        @Stable
+        internal val BottomNavSearchSelected: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_ic_search_bottom_nav_selected_24
+        )
+
+        @Stable
+        internal val BottomNavNotice: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_ic_notice_bottom_nav_24
+        )
+
+        @Stable
+        internal val BottomNavNoticeSelected: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_ic_notice_bottom_nav_selected_24
+        )
+
+        @Stable
+        internal val BottomNavMessage: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_ic_message_bottom_nav_24
+        )
+
+        @Stable
+        internal val BottomNavMessageSelected: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_ic_message_bottom_nav_selected_24
         )
     }
 }

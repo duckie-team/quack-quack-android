@@ -52,6 +52,7 @@ dependencies {
         libs.compose.material3,
         libs.androidx.appcompat,
         libs.androidx.splash,
+        libs.compose.material,
         libs.androidx.datastore,
         libs.kotlin.collections.immutable,
         projects.uiComponents,
