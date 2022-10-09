@@ -125,6 +125,13 @@ public value class QuackColor internal constructor(
         )
 
         @Stable
+        public val Gray5: QuackColor = QuackColor(
+            composeColor = Color(
+                color = 0xFFD1D1D1,
+            ),
+        )
+
+        @Stable
         public val White: QuackColor = QuackColor(
             composeColor = Color(
                 color = 0xFFFFFFFF,
@@ -135,6 +142,20 @@ public value class QuackColor internal constructor(
         public val OrangeRed: QuackColor = QuackColor(
             composeColor = Color(
                 color = 0xFFFF2929,
+            ),
+        )
+
+        @Stable
+        public val Black80: QuackColor = QuackColor(
+            composeColor = Color(
+                color = 0x80222222,
+            ),
+        )
+
+        @Stable
+        public val SkyBlueColor: QuackColor = QuackColor(
+            composeColor = Color(
+                color = 0xFF6DBBFF,
             ),
         )
 

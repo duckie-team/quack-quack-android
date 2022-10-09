@@ -15,6 +15,7 @@ package team.duckie.quackquack.ui.benchmark.app
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
@@ -24,6 +25,9 @@ import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.QuackBody1
 import team.duckie.quackquack.ui.component.QuackBody2
 import team.duckie.quackquack.ui.component.QuackBody3
+import team.duckie.quackquack.ui.component.QuackBottomNavigation
+import team.duckie.quackquack.ui.component.QuackBottomSheet
+import team.duckie.quackquack.ui.component.QuackDropDown
 import team.duckie.quackquack.ui.component.QuackFab
 import team.duckie.quackquack.ui.component.QuackGrayscaleTag
 import team.duckie.quackquack.ui.component.QuackHeadLine1
@@ -34,6 +38,7 @@ import team.duckie.quackquack.ui.component.QuackIconToggle
 import team.duckie.quackquack.ui.component.QuackImage
 import team.duckie.quackquack.ui.component.QuackLarge40WhiteButton
 import team.duckie.quackquack.ui.component.QuackLargeButton
+import team.duckie.quackquack.ui.component.QuackLargeDeletableImage
 import team.duckie.quackquack.ui.component.QuackLargeWhiteButton
 import team.duckie.quackquack.ui.component.QuackMainTab
 import team.duckie.quackquack.ui.component.QuackMediumBorderToggleButton
@@ -41,8 +46,11 @@ import team.duckie.quackquack.ui.component.QuackMenuFab
 import team.duckie.quackquack.ui.component.QuackMenuFabItem
 import team.duckie.quackquack.ui.component.QuackRoundCheckBox
 import team.duckie.quackquack.ui.component.QuackRowTag
+import team.duckie.quackquack.ui.component.QuackSelectableImage
+import team.duckie.quackquack.ui.component.QuackSimpleLabel
 import team.duckie.quackquack.ui.component.QuackSmallBorderToggleButton
 import team.duckie.quackquack.ui.component.QuackSmallButton
+import team.duckie.quackquack.ui.component.QuackSmallDeletableImage
 import team.duckie.quackquack.ui.component.QuackSquareCheckBox
 import team.duckie.quackquack.ui.component.QuackSubTab
 import team.duckie.quackquack.ui.component.QuackSubtitle
@@ -51,6 +59,7 @@ import team.duckie.quackquack.ui.component.QuackTextField
 import team.duckie.quackquack.ui.component.QuackTitle1
 import team.duckie.quackquack.ui.component.QuackTitle2
 import team.duckie.quackquack.ui.component.QuackToggleChip
+import team.duckie.quackquack.ui.component.QuackTopAppBar
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.icon.QuackIcon
@@ -372,4 +381,65 @@ inline fun QuackTextStyleBenchmark() {
     QuackTextStyle.Subtitle
     QuackTextStyle.Title1
     QuackTextStyle.Title2
+}
+
+@Composable
+inline fun QuackBottomSheetBenchmark() {
+}
+
+@Composable
+inline fun QuackBottomNavigationBenchmark() {
+    QuackBottomNavigation(
+        modifier = Modifier,
+        backgroundColor = QuackColor.White,
+        selectedIndex = 0,
+        onClick = {},
+    )
+}
+
+@Composable
+inline fun QuackDropDownBenchmark() {
+    QuackDropDown(
+        title = "Body1",
+        onClick = {},
+    )
+}
+
+@Composable
+inline fun QuackLabelBenchmark() {
+    QuackSimpleLabel(
+        text = "판매중",
+        active = true,
+    )
+}
+
+@Composable
+inline fun QuackSelectableImageBenchmark() {
+
+    QuackSelectableImage(
+        isSelected = true,
+        image = "",
+        overrideSize = 24.dp,
+        onClick = {},
+    )
+
+    QuackLargeDeletableImage(
+        image = "",
+        overrideSize = 24.dp,
+        onClick = {},
+    )
+
+    QuackSmallDeletableImage(
+        image = "",
+        overrideSize = 24.dp,
+        onClick = {},
+    )
+}
+
+@Composable
+inline fun QuackTopAppBarBenchmark() {
+
+    QuackTopAppBar(
+        leadingIcon = QuackIcon.ArrowBack,
+    )
 }

@@ -30,6 +30,12 @@ class MainActivity : ComponentActivity() {
             QuackWidthBenchmark()
             QuackIconBenchmark()
             QuackTextStyleBenchmark()
+            QuackBottomSheetBenchmark()
+            QuackBottomNavigationBenchmark()
+            QuackDropDownBenchmark()
+            QuackLabelBenchmark()
+            QuackSelectableImageBenchmark()
+            QuackTopAppBarBenchmark()
         }
     }
 }

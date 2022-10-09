@@ -5,8 +5,7 @@
   ~ Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:icon="@drawable/quack_icon"
@@ -54,6 +53,23 @@
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:theme="@style/Theme.Quack.AppCompat" />
+
+        <activity
+            android:name=".realworld.BottomSheetPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.SelectableImagePlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.EtcPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.NavigationPlayground"
+            android:theme="@style/Theme.Quack"/>
+
 
     </application>
 

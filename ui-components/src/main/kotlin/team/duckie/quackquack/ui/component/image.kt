@@ -9,9 +9,11 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -19,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import team.duckie.quackquack.ui.animation.AnimatedContentTransform
@@ -27,6 +30,14 @@ import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.util.runIf
+
+private val QuackRoundImageShape = RoundedCornerShape(
+    size = 24.dp,
+)
+private val QuackRoundImageSize = DpSize(
+    width = 72.dp,
+    height = 72.dp,
+)
 
 /**
  * 이미지 혹은 [QuackIcon] 을 표시합니다.
@@ -53,6 +64,30 @@ public fun QuackImage(
     overrideSize = overrideSize,
     tint = tint,
 )
+
+/**
+ * [QuackRoundImage] 를 구현합니다.
+ *
+ * 내부적으로 [InternalQuackImage] 를 사용하고
+ * [Box]로 감싸 Shape만 관여합니다.
+ *
+ * @param src 표시할 이비지의 값
+ * @param size 이미지의 사이즈 값
+ */
+// TODO: 로딩 effect
+@Composable
+public fun QuackRoundImage(
+    src: Any?,
+    size: DpSize = QuackRoundImageSize,
+) {
+    QuackImageInternal(
+        modifier = Modifier.clip(
+            shape = QuackRoundImageShape,
+        ),
+        src = src,
+        overrideSize = size,
+    )
+}
 
 /**
  * [QuackImage] 를 실제로 그립니다. 내부에서 사용되는 컴포넌트이므로
@@ -109,7 +144,10 @@ internal fun QuackImageInternal(
                 condition = overrideSize != null,
             ) {
                 size(
-                    size = overrideSize!! * density.fontScale,
+                    size = overrideSize!!,
+                )
+                size(
+                    size = overrideSize * density.fontScale,
                 )
             },
             model = ImageRequest
@@ -135,6 +173,7 @@ internal fun QuackImageInternal(
                 .build(),
             colorFilter = animatedTint.toColorFilter(),
             contentDescription = null,
+            contentScale = ContentScale.Crop,
         )
     }
 }

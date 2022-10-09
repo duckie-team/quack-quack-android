@@ -38,10 +38,13 @@ import team.duckie.quackquack.playground.base.ContentBorder
 import team.duckie.quackquack.playground.base.PlaygroundActivities
 import team.duckie.quackquack.playground.base.fontScale
 import team.duckie.quackquack.playground.base.showComponentBounds
+import team.duckie.quackquack.playground.realworld.BottomSheetPlayground
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
+import team.duckie.quackquack.playground.realworld.EtcPlayground
 import team.duckie.quackquack.playground.realworld.FabPlayground
+import team.duckie.quackquack.playground.realworld.NavigationPlayground
+import team.duckie.quackquack.playground.realworld.SelectableImagePlayground
 import team.duckie.quackquack.playground.realworld.TabPlayground
-import team.duckie.quackquack.playground.realworld.TagPlayground
 import team.duckie.quackquack.playground.realworld.TextFieldPlayground
 import team.duckie.quackquack.playground.realworld.TogglePlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
@@ -56,8 +59,11 @@ private val PlaygroundActivities = listOf(
     ButtonPlayground::class,
     TextFieldPlayground::class,
     FabPlayground::class,
+    SelectableImagePlayground::class,
+    EtcPlayground::class,
+    NavigationPlayground::class,
     TogglePlayground::class,
-    TagPlayground::class,
+    BottomSheetPlayground::class,
 ).sortedBy { playgroundActivity ->
     playgroundActivity.simpleName
 }.toPersistentList()
@@ -154,10 +160,7 @@ private fun PlaygroundDemo() {
                     minimumValue = 0,
                 )
             fontScale = (
-                    preference[PreferenceConfigs.FontScaleKey]
-                        ?: 1f
-                    ).coerceAtLeast(
-                    minimumValue = 1f,
+                    1f
                 )
             showComponentBounds =
                 preference[PreferenceConfigs.ShowComponentBounds] ?: showComponentBounds
