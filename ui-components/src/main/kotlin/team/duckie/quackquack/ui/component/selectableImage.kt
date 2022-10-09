@@ -134,7 +134,6 @@ private fun BoxScope.SelectedFilterBox() {
                 color = Black80.composeColor,
             )
     )
-
 }
 
 /**
