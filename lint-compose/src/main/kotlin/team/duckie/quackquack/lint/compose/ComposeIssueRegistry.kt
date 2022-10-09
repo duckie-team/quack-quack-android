@@ -21,7 +21,7 @@ class ComposeIssueRegistry : IssueProvider(
         PreferredImmutableCollectionsIssue,
         TrailingCommaIssue,
         FixedModifierOrderIssue,
-        NewLineArgumentIssue,
+        // NewLineArgumentIssue,
         SpecifyAnimationSpecIssue,
     ),
 )

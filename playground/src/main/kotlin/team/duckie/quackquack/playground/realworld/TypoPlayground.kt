@@ -23,7 +23,6 @@ class TypoPlayground : BaseActivity() {
         "QuackHighlightHeadLine2" to { QuackHighlightHeadLine2Demo() }
     )
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -38,17 +37,14 @@ class TypoPlayground : BaseActivity() {
 }
 
 @Composable
-fun QuackHighlightHeadLine2Demo(){
-
+fun QuackHighlightHeadLine2Demo() {
     val text = "우주사령관님과 거래를 하셨군요!"
 
     Column {
         QuackHighlightHeadLine2(
             text = text,
             highlightText = "우주사령관",
-            onClick = {
-
-            }
+            onClick = {},
         )
     }
 }

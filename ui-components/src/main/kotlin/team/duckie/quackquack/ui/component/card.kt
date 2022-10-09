@@ -58,13 +58,16 @@ public fun QuackCardImage(
 
     val sizeModifier = remember {
         when (size) {
-            null -> Modifier
-                .wrapContentWidth()
-                .aspectRatio(1f)
-
-            else -> Modifier.size(
-                size = size
-            )
+            null -> {
+                Modifier
+                    .wrapContentWidth()
+                    .aspectRatio(1f)
+            }
+            else -> {
+                Modifier.size(
+                    size = size
+                )
+            }
         }
     }
     Box {
@@ -174,7 +177,6 @@ private fun QuackWideCardImage(
             cornerIcon = cornerIcon,
         )
     }
-
 }
 
 /**
@@ -197,13 +199,16 @@ public fun QuackSelectableCardImage(
 
     val sizeModifier = remember {
         when (size) {
-            null -> Modifier
-                .wrapContentWidth()
-                .aspectRatio(1f)
-
-            else -> Modifier.size(
-                size = size
-            )
+            null -> {
+                Modifier
+                    .wrapContentWidth()
+                    .aspectRatio(1f)
+            }
+            else -> {
+                Modifier.size(
+                    size = size
+                )
+            }
         }
     }
 
@@ -236,7 +241,7 @@ public fun QuackSelectableCardImage(
  */
 @Composable
 private fun CheckFilter(
-    checked: Boolean
+    checked: Boolean,
 ) {
     val targetColor = when (checked) {
         true -> Black80
