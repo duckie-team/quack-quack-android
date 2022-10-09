@@ -37,8 +37,8 @@ import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.modifier.quackClickable
 
 private val BottomSheetShape = RoundedCornerShape(
-    topStart = 12.dp,
-    topEnd = 12.dp,
+    topStart = 16.dp,
+    topEnd = 16.dp,
 )
 
 private val QuackBottomSheetHandleSize = DpSize(
