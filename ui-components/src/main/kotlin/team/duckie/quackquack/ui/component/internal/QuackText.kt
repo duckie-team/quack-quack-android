@@ -9,17 +9,14 @@ package team.duckie.quackquack.ui.component.internal
 
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import team.duckie.quackquack.ui.animation.AnimatedContentTransform
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.textstyle.animatedQuackTextStyleAsState
-import team.duckie.quackquack.uxwriting.model.QuackWrting
 
-public val quackTexts: SnapshotStateList<QuackWrting> = mutableStateListOf()
+// public val quackTexts: SnapshotStateList<QuackWrting> = mutableStateListOf()
 
 /**
  * 주어진 조건에 따라 텍스트를 표시합니다. 꽥꽥에서 텍스트를 표시하는데

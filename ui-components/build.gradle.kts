@@ -33,10 +33,10 @@ android {
 
 dependencies {
     implementations(
-        libs.compose.material,
         libs.compose.coil,
+        libs.compose.material,
         libs.compose.flowlayout,
-        projects.uxWritingModel,
+        // projects.uxWritingModel,
     )
     api(libs.kotlin.collections.immutable)
     lintChecks(projects.lintCore)
