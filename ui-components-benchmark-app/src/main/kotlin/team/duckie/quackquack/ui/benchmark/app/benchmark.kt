@@ -26,9 +26,8 @@ import team.duckie.quackquack.ui.component.QuackBody1
 import team.duckie.quackquack.ui.component.QuackBody2
 import team.duckie.quackquack.ui.component.QuackBody3
 import team.duckie.quackquack.ui.component.QuackBottomNavigation
-import team.duckie.quackquack.ui.component.QuackBottomSheet
-import team.duckie.quackquack.ui.component.QuackDropDown
 import team.duckie.quackquack.ui.component.QuackDivider
+import team.duckie.quackquack.ui.component.QuackDropDown
 import team.duckie.quackquack.ui.component.QuackFab
 import team.duckie.quackquack.ui.component.QuackGrayscaleTag
 import team.duckie.quackquack.ui.component.QuackHeadLine1
@@ -394,6 +393,7 @@ inline fun QuackTextStyleBenchmark() {
     QuackTextStyle.Title2
 }
 
+@Suppress("EmptyFunctionBlock") // TODO
 @Composable
 inline fun QuackBottomSheetBenchmark() {
 }
