@@ -31,6 +31,7 @@ public final class team/duckie/quackquack/ui/color/QuackColor {
 public final class team/duckie/quackquack/ui/color/QuackColor$Companion {
 	public final fun getBlack-yvcWADs ()J
 	public final fun getBlack80-yvcWADs ()J
+	public final fun getBlackOpacity60-yvcWADs ()J
 	public final fun getDuckieOrange-yvcWADs ()J
 	public final fun getGray1-yvcWADs ()J
 	public final fun getGray2-yvcWADs ()J
@@ -64,6 +65,15 @@ public final class team/duckie/quackquack/ui/component/ButtonKt {
 	public static final fun QuackToggleChip (Ljava/lang/String;ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 }
 
+public final class team/duckie/quackquack/ui/component/DividerKt {
+	public static final fun QuackDivider (Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class team/duckie/quackquack/ui/component/DrawerKt {
+	public static final fun QuackModalDrawer (Lteam/duckie/quackquack/ui/component/QuackDrawerState;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public static final fun rememberQuackDrawerState (Lteam/duckie/quackquack/ui/component/QuackDrawerValue;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lteam/duckie/quackquack/ui/component/QuackDrawerState;
+}
+
 public final class team/duckie/quackquack/ui/component/DropDownKt {
 	public static final fun QuackDropDown (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 }
@@ -94,6 +104,32 @@ public final class team/duckie/quackquack/ui/component/QuackBottomSheetItem {
 	public fun hashCode ()I
 	public final fun isImportant ()Z
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class team/duckie/quackquack/ui/component/QuackDrawerState {
+	public static final field Companion Lteam/duckie/quackquack/ui/component/QuackDrawerState$Companion;
+	public fun <init> (Lteam/duckie/quackquack/ui/component/QuackDrawerValue;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Lteam/duckie/quackquack/ui/component/QuackDrawerValue;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun animateTo (Lteam/duckie/quackquack/ui/component/QuackDrawerValue;Landroidx/compose/animation/core/AnimationSpec;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun close (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun getCurrentValue ()Lteam/duckie/quackquack/ui/component/QuackDrawerValue;
+	public final fun getOffset ()Landroidx/compose/runtime/State;
+	public final fun getTargetValue ()Lteam/duckie/quackquack/ui/component/QuackDrawerValue;
+	public final fun isAnimationRunning ()Z
+	public final fun isClosed ()Z
+	public final fun isOpen ()Z
+	public final fun open (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun snapTo (Lteam/duckie/quackquack/ui/component/QuackDrawerValue;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class team/duckie/quackquack/ui/component/QuackDrawerState$Companion {
+}
+
+public final class team/duckie/quackquack/ui/component/QuackDrawerValue : java/lang/Enum {
+	public static final field Closed Lteam/duckie/quackquack/ui/component/QuackDrawerValue;
+	public static final field Open Lteam/duckie/quackquack/ui/component/QuackDrawerValue;
+	public static fun valueOf (Ljava/lang/String;)Lteam/duckie/quackquack/ui/component/QuackDrawerValue;
+	public static fun values ()[Lteam/duckie/quackquack/ui/component/QuackDrawerValue;
 }
 
 public final class team/duckie/quackquack/ui/component/QuackMenuFabItem {

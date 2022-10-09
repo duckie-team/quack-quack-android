@@ -36,6 +36,8 @@ class MainActivity : ComponentActivity() {
             QuackLabelBenchmark()
             QuackSelectableImageBenchmark()
             QuackTopAppBarBenchmark()
+            QuackModalDrawerBenchmark()
+            QuackDividerBenchmark()
         }
     }
 }
