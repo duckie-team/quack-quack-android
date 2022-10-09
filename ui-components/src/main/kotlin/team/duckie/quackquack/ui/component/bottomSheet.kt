@@ -37,8 +37,8 @@ import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.modifier.quackClickable
 
 private val BottomSheetShape = RoundedCornerShape(
-    topStart = 24.dp,
-    topEnd = 24.dp,
+    topStart = 12.dp,
+    topEnd = 12.dp,
 )
 
 private val QuackBottomSheetHandleSize = DpSize(
@@ -91,6 +91,7 @@ public fun QuackBottomSheet(
                 sheetContent = sheetContent,
             )
         },
+        sheetShape = BottomSheetShape,
         sheetBackgroundColor = QuackColor.Transparent.composeColor,
         sheetState = bottomSheetState,
         scrimColor = QuackColor.Black80.composeColor,
@@ -217,6 +218,7 @@ public fun QuackSubtitleBottomSheet(
         useHandle = true,
     )
 }
+
 /**
  * [QuackBottomSheetContent] 를 구현합니다.
  *
@@ -228,28 +230,23 @@ private fun QuackBottomSheetContent(
     useHandle: Boolean,
     sheetContent: @Composable () -> Unit,
 ) {
-
     Column(
-        modifier = Modifier.clip(
-                shape = BottomSheetShape
-            ),
-    ) {
-        Column(
-            modifier = Modifier
-                .applyQuackSize(
-                    width = QuackWidth.Fill,
-                    height = QuackHeight.Wrap,
-                ).background(
-                    color = QuackColor.White.composeColor,
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            QuackBottomSheetHandle(
-                useHandle = useHandle,
+        modifier = Modifier
+            .applyQuackSize(
+                width = QuackWidth.Fill,
+                height = QuackHeight.Wrap,
             )
-            sheetContent()
-        }
+            .background(
+                color = QuackColor.White.composeColor,
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        QuackBottomSheetHandle(
+            useHandle = useHandle,
+        )
+        sheetContent()
     }
+
 }
 
 /**
@@ -259,7 +256,7 @@ private fun QuackBottomSheetContent(
  */
 @Composable
 private fun QuackBottomSheetHandle(
-    useHandle: Boolean
+    useHandle: Boolean,
 ) {
     Box(
         modifier = Modifier
@@ -313,12 +310,14 @@ private fun QuackBottomSheetSubtitleItem(
                 height = QuackHeight.Custom(
                     height = QuackBottomSheetSubtitleItemHeight,
                 ),
-            ).quackClickable(
+            )
+            .quackClickable(
                 onClick = {
                     onClick(item)
                 },
                 rippleEnabled = rippleEnabled,
-            ).padding(
+            )
+            .padding(
                 paddingValues = QuackBottomSheetStartPadding,
             ),
         contentAlignment = Alignment.CenterStart,
@@ -358,7 +357,7 @@ private fun QuackBottomSheetSubtitles(
  */
 @Composable
 private fun QuackBottomSheetHeadline(
-    headline: String
+    headline: String,
 ) {
     Box(
         modifier = Modifier.padding(
