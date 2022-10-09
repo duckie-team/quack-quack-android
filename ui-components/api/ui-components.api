@@ -64,6 +64,12 @@ public final class team/duckie/quackquack/ui/component/ButtonKt {
 	public static final fun QuackToggleChip (Ljava/lang/String;ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 }
 
+public final class team/duckie/quackquack/ui/component/CardKt {
+	public static final fun QuackCardImage-q2EtPuw (Ljava/lang/Object;Landroidx/compose/ui/unit/Dp;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun QuackCardImageRow (Lkotlinx/collections/immutable/PersistentList;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun QuackSelectableCardImage-u8CUcSQ (ZLjava/lang/Object;Landroidx/compose/ui/unit/Dp;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+}
+
 public final class team/duckie/quackquack/ui/component/DividerKt {
 	public static final fun QuackDivider (Landroidx/compose/runtime/Composer;I)V
 }
@@ -82,8 +88,12 @@ public final class team/duckie/quackquack/ui/component/FabKt {
 	public static final fun QuackMenuFab (Lkotlinx/collections/immutable/PersistentList;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
 }
 
+public final class team/duckie/quackquack/ui/component/GridLayoutKt {
+	public static final fun QuackSimpleGridLayout-Cxxc4bg (ILkotlinx/collections/immutable/PersistentList;FFFLkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+}
+
 public final class team/duckie/quackquack/ui/component/ImageKt {
-	public static final fun QuackImage-vg9M6Qc (Ljava/lang/Object;Landroidx/compose/ui/unit/DpSize;Lteam/duckie/quackquack/ui/color/QuackColor;ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun QuackImage-yfSwLIA (Ljava/lang/Object;Landroidx/compose/ui/unit/DpSize;Lteam/duckie/quackquack/ui/color/QuackColor;ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/layout/ContentScale;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackRoundImage-eVKgIn8 (Ljava/lang/Object;JLandroidx/compose/runtime/Composer;II)V
 }
 
@@ -183,6 +193,7 @@ public final class team/duckie/quackquack/ui/component/TypographyKt {
 	public static final fun QuackBody3-pvt1sM8 (Ljava/lang/String;JZLkotlin/jvm/functions/Function0;ZLandroidx/compose/runtime/Composer;II)V
 	public static final fun QuackHeadLine1-pvt1sM8 (Ljava/lang/String;JZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackHeadLine2-pvt1sM8 (Ljava/lang/String;JZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun QuackHighlightHeadLine2-fDVqG0k (Ljava/lang/String;Ljava/lang/String;JJZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackSubtitle-pvt1sM8 (Ljava/lang/String;JZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackSubtitle2-pvt1sM8 (Ljava/lang/String;JZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackTitle1-pvt1sM8 (Ljava/lang/String;JZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
