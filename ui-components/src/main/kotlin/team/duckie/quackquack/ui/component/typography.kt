@@ -166,6 +166,35 @@ public fun QuackSubtitle(
 )
 
 /**
+ * [QuackText] 에 [QuackTextStyle.Subtitle2] 스타일을 적용하여
+ * 주어진 텍스트를 표시합니다.
+ *
+ * @param text 표시할 텍스트
+ * @param color 텍스트의 색상
+ * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
+ * @param singleLine 텍스트를 한 줄만 사용할지 여부
+ * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
+ */
+@Composable
+public fun QuackSubtitle2(
+    text: String,
+    color: QuackColor = QuackColor.Black,
+    rippleEnabled: Boolean = false,
+    singleLine: Boolean = true,
+    onClick: (() -> Unit)? = null,
+): Unit = QuackText(
+    modifier = Modifier.quackClickable(
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    ),
+    text = text,
+    style = QuackTextStyle.Subtitle2.change(
+        color = color,
+    ),
+    singleLine = singleLine,
+)
+
+/**
  * [QuackText] 에 [QuackTextStyle.Body1] 스타일을 적용하여
  * 주어진 텍스트를 표시합니다.
  *

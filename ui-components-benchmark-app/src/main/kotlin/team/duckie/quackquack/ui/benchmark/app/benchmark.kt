@@ -56,11 +56,13 @@ import team.duckie.quackquack.ui.component.QuackSmallDeletableImage
 import team.duckie.quackquack.ui.component.QuackSquareCheckBox
 import team.duckie.quackquack.ui.component.QuackSubTab
 import team.duckie.quackquack.ui.component.QuackSubtitle
+import team.duckie.quackquack.ui.component.QuackSubtitle2
 import team.duckie.quackquack.ui.component.QuackTag
 import team.duckie.quackquack.ui.component.QuackTextField
 import team.duckie.quackquack.ui.component.QuackTitle1
 import team.duckie.quackquack.ui.component.QuackTitle2
 import team.duckie.quackquack.ui.component.QuackToggleChip
+import team.duckie.quackquack.ui.component.QuackTopAppBar
 import team.duckie.quackquack.ui.component.rememberQuackDrawerState
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
@@ -301,6 +303,13 @@ inline fun QuackTypographyBenchmark() {
         onClick = {},
     )
 
+    QuackSubtitle2(
+        text = "",
+        color = QuackColor.Black,
+        rippleEnabled = true,
+        onClick = {},
+    )
+
     QuackTitle1(
         text = "",
         color = QuackColor.Black,
@@ -440,7 +449,6 @@ inline fun QuackSelectableImageBenchmark() {
 
 @Composable
 inline fun QuackTopAppBarBenchmark() {
-
     QuackTopAppBar(
         leadingIcon = QuackIcon.ArrowBack,
     )
