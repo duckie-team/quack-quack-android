@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.border.animatedQuackBorderAsState
 import team.duckie.quackquack.ui.color.QuackColor
@@ -35,6 +35,7 @@ import team.duckie.quackquack.ui.util.runIf
  * 컴포넌트의 기본 모양을 정의합니다.
  *
  * **애니메이션 가능한 모든 요소들에는 자동으로 애니메이션이 적용됩니다.**
+ * animationSpec 으로는 항상 [QuackAnimationSpec] 을 사용합니다.
  * 현재 애니메이션이 적용되는 요소들은 다음과 같습니다.
  *
  * [backgroundColor], [border]
@@ -113,7 +114,7 @@ internal fun QuackSurface(
                 )
             }
             .animateContentSize(
-                animationSpec = quackAnimationSpec(),
+                animationSpec = QuackAnimationSpec(),
             ),
         contentAlignment = contentAlignment,
         content = content,

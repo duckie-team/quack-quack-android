@@ -7,11 +7,11 @@ ktlint-gradle = "11.0.0"
 ktlint-source = "0.45.2"
 detekt = "1.21.0"
 paparazzi = "1.0.0"
-ksp = "1.7.10-1.0.6"
+ksp = "1.7.20-1.0.6"
 gradle-maven-publish = "0.22.0"
 
 # build
-gradle = "8.0.0-alpha02"
+gradle-agp = "8.0.0-alpha03"
 kotlin-core = "1.7.20"
 kotlin-metadata = "0.5.0"
 oss-license-plugin = "0.10.5"
@@ -19,12 +19,12 @@ oss-license-plugin = "0.10.5"
 # compose
 compose-core = "1.2.1"
 compose-compiler = "1.3.2"
-compose-material3 = "1.0.0-beta03"
+compose-material3 = "1.0.0-rc01"
 compose-activity = "1.6.0"
 compose-lifecycle-vm = "2.4.1"
 compose-constraintlayout = "1.0.1"
-landscapist = "2.0.0"
 accompanist = "0.26.4-beta"
+coil = "2.2.2"
 
 # tools
 kover = "0.6.1"
@@ -57,7 +57,7 @@ ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-gradle-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "gradle-maven-publish" }
+gradle-maven-publish-core = { id = "com.vanniktech.maven.publish", version.ref = "gradle-maven-publish" }
 gradle-maven-publish-base = { id = "com.vanniktech.maven.publish.base", version.ref = "gradle-maven-publish" }
 oss-license = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "oss-license-plugin" }
 kotlin-api-validation = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlin-api-validation" }
@@ -65,11 +65,11 @@ kotlin-api-validation = { id = "org.jetbrains.kotlinx.binary-compatibility-valid
 [libraries]
 build-dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 build-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
-build-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+build-gradle-agp = { module = "com.android.tools.build:gradle", version.ref = "gradle-agp" }
 build-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-core" }
 build-kover = { module = "org.jetbrains.kotlinx:kover", version.ref = "kover" }
 build-oss-license = { module = "com.google.android.gms:oss-licenses-plugin", version.ref = "oss-license-plugin" }
-build-gradle-maven-publish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradle-maven-publish" }
+build-gradle-maven-publish-core = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradle-maven-publish" }
 
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 
@@ -83,7 +83,7 @@ compose-material = { module = "androidx.compose.material:material", version.ref 
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 compose-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "compose-constraintlayout" }
-compose-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapist" }
+compose-coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-core" } # debugImplementation
 compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-core" }
 

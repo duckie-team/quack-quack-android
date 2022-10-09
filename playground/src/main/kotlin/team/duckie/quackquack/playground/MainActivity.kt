@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.ContentBorder
 import team.duckie.quackquack.playground.base.PlaygroundActivities
+import team.duckie.quackquack.playground.base.fontScale
 import team.duckie.quackquack.playground.base.showComponentBounds
 import team.duckie.quackquack.playground.realworld.BottomSheetPlayground
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
@@ -49,8 +50,8 @@ import team.duckie.quackquack.playground.realworld.TogglePlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
+import team.duckie.quackquack.playground.util.verticalInsetsPadding
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
-import team.duckie.quackquack.ui.textstyle.QuackFontScale
 
 private const val DefaultSplashScreenExitAnimationDurationMillis = 200L
 private val PlaygroundActivities = listOf(
@@ -71,6 +72,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+
         setContent {
             PlaygroundDemo()
         }
@@ -107,7 +109,8 @@ private fun SingleDemo(
             .fillMaxSize()
             .background(
                 color = Color.White,
-            ),
+            )
+            .verticalInsetsPadding(),
         contentAlignment = Alignment.Center,
     ) {
         ContentBorder {
@@ -126,7 +129,9 @@ private fun MultiDemo(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalInsetsPadding(),
         verticalArrangement = Arrangement.spacedBy(
             space = 16.dp,
             alignment = Alignment.CenterVertically,
@@ -143,6 +148,7 @@ private fun MultiDemo(
 @Composable
 private fun PlaygroundDemo() {
     val context = LocalContext.current.applicationContext
+
     LaunchedEffect(
         key1 = Unit,
     ) {
@@ -153,11 +159,8 @@ private fun PlaygroundDemo() {
                     ).coerceAtLeast(
                     minimumValue = 0,
                 )
-            QuackFontScale = (
-                    preference[PreferenceConfigs.FontScaleKey]
-                        ?: QuackFontScale
-                    ).coerceAtLeast(
-                    minimumValue = 0.0,
+            fontScale = (
+                    1f
                 )
             showComponentBounds =
                 preference[PreferenceConfigs.ShowComponentBounds] ?: showComponentBounds

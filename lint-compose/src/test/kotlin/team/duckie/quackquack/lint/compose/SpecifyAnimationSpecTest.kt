@@ -4,8 +4,8 @@
  * Licensed under the MIT.
  * Please see full license: https://github.com/sungbinland/quack-quack/blob/main/LICENSE
  */
+
 @file:Suppress(
-    "UnstableApiUsage",
     "TestFunctionName",
     "LongMethod",
 )
@@ -22,7 +22,7 @@ import team.duckie.quackquack.common.lint.test.composableTestFile
  *
  * 1. 코틀린 함수여야 함
  * 2. animate*AsState 함수를 대상으로 경고해야 함 [AnimateStateOfList]
- * 3. argument animationSpec 에 quackAnimationSpec 을 사용해야 함
+ * 3. argument animationSpec 에 QuackAnimationSpec 을 사용해야 함
  * 4. default argument 를 사용하지 않아야 함
  */
 class SpecifyAnimationSpecTest {
@@ -31,7 +31,7 @@ class SpecifyAnimationSpecTest {
     val lintTestRule = LintTestRule()
 
     @Test
-    fun `NOT Using quackAnimationSpec in animate*AsState function`() {
+    fun `NOT Using QuackAnimationSpec in animateAsState function`() {
         lintTestRule
             .assertErrorCount(
                 files = listOf(
@@ -51,7 +51,7 @@ class SpecifyAnimationSpecTest {
 
                                 val floatSuccess = animateFloatAsState(
                                     targetValue = 0f,
-                                    animationSpec = quackAnimationSpec(),
+                                    animationSpec = QuackAnimationSpec(),
                                 )
 
 
@@ -65,7 +65,7 @@ class SpecifyAnimationSpecTest {
 
                                 val colorSuccess = animateColorAsState(
                                     targetValue = Color.Black,
-                                    animationSpec = quackAnimationSpec(),
+                                    animationSpec = QuackAnimationSpec(),
                                 )
 
                                 // dp
@@ -78,7 +78,7 @@ class SpecifyAnimationSpecTest {
 
                                 val borderSuccess = animateDpAsState(
                                     targetValue = 0.dp,
-                                    animationSpec = quackAnimationSpec(),
+                                    animationSpec = QuackAnimationSpec(),
                                 )
 
                                 // size
@@ -91,7 +91,7 @@ class SpecifyAnimationSpecTest {
 
                                 val sizeSuccess = animateSizeAsState(
                                     targetValue = Size.Unspecified,
-                                    animationSpec = quackAnimationSpec(),
+                                    animationSpec = QuackAnimationSpec(),
                                 )
 
                                 // offset
@@ -104,7 +104,7 @@ class SpecifyAnimationSpecTest {
 
                                 val offsetSuccess = animateOffsetAsState(
                                     targetValue = Offset.Unspecified,
-                                    animationSpec = quackAnimationSpec(),
+                                    animationSpec = QuackAnimationSpec(),
                                 )
 
                                 // rect
@@ -117,7 +117,7 @@ class SpecifyAnimationSpecTest {
 
                                 val rectSuccess = animateRectAsState(
                                     targetValue = Rect.Zero,
-                                    animationSpec = quackAnimationSpec(),
+                                    animationSpec = QuackAnimationSpec(),
                                 )
 
                                 // int
@@ -130,7 +130,7 @@ class SpecifyAnimationSpecTest {
 
                                 val intSuccess = animateIntAsState(
                                     targetValue = 0,
-                                    animationSpec = quackAnimationSpec(),
+                                    animationSpec = QuackAnimationSpec(),
                                 )
 
                                 // intOffset
@@ -143,7 +143,7 @@ class SpecifyAnimationSpecTest {
 
                                 val intOffsetSuccess = animateIntOffsetAsState(
                                     targetValue = IntOffset.Zero,
-                                    animationSpec = quackAnimationSpec(),
+                                    animationSpec = QuackAnimationSpec(),
                                 )
 
                                 // intSize
@@ -156,7 +156,7 @@ class SpecifyAnimationSpecTest {
 
                                 val intSizeSuccess = animateSizeAsState(
                                     targetValue = Size.Unspecified,
-                                    animationSpec = quackAnimationSpec(),
+                                    animationSpec = QuackAnimationSpec(),
                                 )
                         """.trimIndent()
                     ),

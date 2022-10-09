@@ -5,10 +5,6 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress(
-    "UNCHECKED_CAST",
-)
-
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.core.AnimationSpec
@@ -46,7 +42,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableCollection
 import kotlinx.collections.immutable.PersistentList
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.modifier.drawUnderBarWithAnimation
@@ -97,6 +93,7 @@ private val QuackSubTabSpacedBy = 2.dp
  * 첫 번째와 마지막 탭은 화면에서 일정 사이즈 만큼 패딩이 적용되야 합니다.
  *
  * **모든 구현은 [titles] 가 동적으로 변하지 않는다는 가정하에 진행됐습니다.**
+ * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
  *
  * @param titles 탭 제목 리스트. 안정성을 위해 일반 [Collection] 이 아닌,
  * [ImmutableCollection] 를 사용합니다.
@@ -130,13 +127,11 @@ public fun QuackMainTab(
             false,
         )
     }
-    val animationSpec = remember(
-        key1 = isPlacedDone,
-    ) {
-        when (isPlacedDone) {
-            true -> quackAnimationSpec()
-            else -> snap<Any>()
-        }
+
+    @Suppress("FunctionName")
+    fun <T> QuackAnimationSpec(): AnimationSpec<T> = when (isPlacedDone) {
+        true -> team.duckie.quackquack.ui.animation.QuackAnimationSpec()
+        else -> snap()
     }
 
     val selectedUnderBarHeight = remember(
@@ -165,7 +160,7 @@ public fun QuackMainTab(
     // 에니메이션도 끝난걸로 간주합니다.
     val selectedTabUnderBarXOffsetAnimation by animateFloatAsState(
         targetValue = tabUnderBarXOffsets[selectedTabIndex],
-        animationSpec = animationSpec as AnimationSpec<Float>,
+        animationSpec = QuackAnimationSpec(),
         finishedListener = {
             isPlacedDone = true
         },
@@ -185,7 +180,7 @@ public fun QuackMainTab(
         ) {
             QuackMainTabTextInnerPadding.roundToPx()
         } * 2,
-        animationSpec = animationSpec as AnimationSpec<Int>,
+        animationSpec = QuackAnimationSpec(),
     )
 
     QuackMainTabTextLazyRow(
@@ -399,6 +394,7 @@ private fun Modifier.drawQuackTabSelectedUnderBar(
  * 첫 번째와 마지막 탭은 화면에서 일정 사이즈 만큼 패딩이 적용되야 합니다.
  *
  * **모든 구현은 [titles] 가 동적으로 변하지 않는다는 가정하에 진행됐습니다.**
+ * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
  *
  * @param titles 탭 제목 리스트. 안정성을 위해 일반 [Collection] 이 아닌,
  * [ImmutableCollection] 를 사용합니다.
@@ -443,7 +439,7 @@ public fun QuackSubTab(
                 )
                 .toPx()
         },
-        animationSpec = quackAnimationSpec(),
+        animationSpec = QuackAnimationSpec(),
     )
 
     QuackSubTabTextLazyRow(

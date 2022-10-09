@@ -16,6 +16,6 @@ keystore
 /buildSrc/src/main/kotlin/BuildConstants.kt
 /documents/dokka/
 /report
-/ui-components/src/test/snapshots
-/ui-components/out/
+snapshots
+/ui-components-snapshots/out/
 /lint-compose/quack-lint-custom-rule

@@ -55,6 +55,7 @@ private val AnimateStateOfList = listOf(
     "animateIntAsState",
     "animateIntOffsetAsState",
     "animateSizeAsState",
+    "animateValueAsState",
 )
 
 /**
@@ -80,8 +81,7 @@ class SpecifyAnimationSpecDetector : Detector(), SourceCodeScanner {
             if (referencedName in AnimateStateOfList) {
                 node.valueArguments.fastForEach { argument ->
                     val argumentSourcePsi = argument.sourcePsi ?: return
-
-                    val argumentTreeParent = argumentSourcePsi.node.treeParent
+                    val argumentTreeParent = argumentSourcePsi.node.treeParent ?: return
 
                     val argumentName =
                         argumentTreeParent.firstChildNode.firstChildNode.firstChildNode.text
@@ -90,15 +90,19 @@ class SpecifyAnimationSpecDetector : Detector(), SourceCodeScanner {
                         val argumentValue =
                             argumentTreeParent.lastChildNode.firstChildNode.firstChildNode.text
 
-                        if (argumentValue != "quackAnimationSpec") {
-                            sendErrorReport(argumentSourcePsi)
+                        if (argumentValue != "QuackAnimationSpec") {
+                            sendErrorReport(
+                                psi = argumentSourcePsi,
+                            )
                         }
 
                         return
                     }
                 }
 
-                sendErrorReport(node.sourcePsi)
+                sendErrorReport(
+                    psi = node.sourcePsi,
+                )
             }
         }
 
@@ -108,7 +112,9 @@ class SpecifyAnimationSpecDetector : Detector(), SourceCodeScanner {
             context.report(
                 issue = SpecifyAnimationSpecIssue,
                 scope = psi,
-                location = context.getNameLocation(psi),
+                location = context.getNameLocation(
+                    element = psi,
+                ),
                 message = Explanation,
             )
         }

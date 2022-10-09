@@ -43,7 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.icon.QuackIcon
@@ -226,14 +226,14 @@ public fun QuackMenuFab(
                 ),
             visible = expanded,
             enter = fadeIn(
-                animationSpec = quackAnimationSpec(),
+                animationSpec = QuackAnimationSpec(),
             ) + expandVertically(
-                animationSpec = quackAnimationSpec(),
+                animationSpec = QuackAnimationSpec(),
             ),
             exit = fadeOut(
-                animationSpec = quackAnimationSpec(),
+                animationSpec = QuackAnimationSpec(),
             ) + shrinkVertically(
-                animationSpec = quackAnimationSpec(),
+                animationSpec = QuackAnimationSpec(),
             ),
         ) {
             LazyColumn(
@@ -303,7 +303,7 @@ public fun QuackMenuFab(
             onClick = onFabClick,
             rotate = animateFloatAsState(
                 targetValue = if (expanded) QuackFabIconRotate else 0f,
-                animationSpec = quackAnimationSpec(),
+                animationSpec = QuackAnimationSpec(),
             ).value,
         )
     }

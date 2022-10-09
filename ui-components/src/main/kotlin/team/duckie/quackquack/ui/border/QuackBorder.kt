@@ -7,7 +7,6 @@
 
 package team.duckie.quackquack.ui.border
 
-import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
@@ -18,7 +17,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 
@@ -61,24 +60,22 @@ internal class QuackBorder(
  * [QuackBorder] 의 변화에 애니메이션을 적용합니다.
  * [QuackBorder.width] 와 [QuackBorder.color] 모두 애니메이션이 적용됩니다.
  *
+ * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
+ *
  * @param targetValue 애니메이션을 적용할 [QuackBorder]
- * @param animationSpec 애니메이션에 사용할 [AnimationSpec]
  *
  * @return 애니메이션이 적용되고 있는 [QuackBorder] 객체
  */
-@Suppress("UNCHECKED_CAST")
 @Composable
 internal fun animatedQuackBorderAsState(
     targetValue: QuackBorder,
-    animationSpec: AnimationSpec<Any> = quackAnimationSpec(),
 ): QuackBorder {
     val widthAnimationState by animateDpAsState(
         targetValue = targetValue.width,
-        animationSpec = animationSpec as AnimationSpec<Dp>,
+        animationSpec = QuackAnimationSpec(),
     )
     val colorAnimationState by animateQuackColorAsState(
         targetValue = targetValue.color,
-        animationSpec = animationSpec as AnimationSpec<QuackColor>,
     )
     return QuackBorder(
         width = widthAnimationState,

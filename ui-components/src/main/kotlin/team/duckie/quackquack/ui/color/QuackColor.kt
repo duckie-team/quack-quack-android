@@ -10,7 +10,6 @@
 package team.duckie.quackquack.ui.color
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector4D
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
@@ -26,7 +25,7 @@ import androidx.compose.ui.graphics.colorspace.ColorSpace
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
 import kotlin.math.pow
 import kotlin.reflect.KProperty
-import team.duckie.quackquack.ui.animation.quackAnimationSpec
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.util.AllowMagicNumber
 
 /**
@@ -74,6 +73,13 @@ public value class QuackColor internal constructor(
         @Stable
         internal val Unspecified: QuackColor = QuackColor(
             composeColor = Color.Unspecified,
+        )
+
+        // Transparent 는 색상의 기본 값으로만 사용되야 하며,
+        // 실제 컴포넌트에서는 사용되서는 안됩니다.
+        @Stable
+        internal val Transparent: QuackColor = QuackColor(
+            composeColor = Color.Transparent,
         )
 
         @Stable
@@ -151,13 +157,6 @@ public value class QuackColor internal constructor(
             composeColor = Color(
                 color = 0xFF6DBBFF,
             ),
-        )
-
-        @Stable
-        public val Transparent: QuackColor = QuackColor(
-            composeColor = Color(
-                color = 0x00000000,
-            )
         )
 
         private val M1 = floatArrayOf(
@@ -354,15 +353,15 @@ public value class QuackColor internal constructor(
 /**
  * [QuackColor] 에 색상에 변경이 있을 때 애니메이션을 적용합니다.
  *
+ * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
+ *
  * @param targetValue 색상 변경을 감지할 [QuackColor]
- * @param animationSpec 색상 변경을 감지했을 때 적용할 애니메이션 스팩
  *
  * @return 색상이 변경됐을 때 색상이 변경되는 애니메이션의 [State] 객체
  */
 @Composable
 internal fun animateQuackColorAsState(
     targetValue: QuackColor,
-    animationSpec: AnimationSpec<QuackColor> = quackAnimationSpec(),
 ): State<QuackColor> {
     val converter = remember(
         key1 = targetValue.composeColor.colorSpace,
@@ -372,7 +371,7 @@ internal fun animateQuackColorAsState(
     return animateValueAsState(
         targetValue = targetValue,
         typeConverter = converter,
-        animationSpec = animationSpec,
+        animationSpec = QuackAnimationSpec(),
         finishedListener = null,
     )
 }

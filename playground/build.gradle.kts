@@ -46,11 +46,8 @@ android {
 
 dependencies {
     implementations(
-        projects.uiComponents,
-        projects.lintCorePublish,
-        projects.lintComposePublish,
-        libs.util.oss.license,
         libs.ktx.core,
+        libs.util.oss.license,
         libs.util.systemuicontroller,
         libs.compose.material3,
         libs.androidx.appcompat,
@@ -58,5 +55,11 @@ dependencies {
         libs.compose.material,
         libs.androidx.datastore,
         libs.kotlin.collections.immutable,
+        projects.uiComponents,
+        projects.uxWritingRule,
+        projects.uxWritingModel,
+        projects.uxWritingOverlay,
     )
+    lintChecks(projects.lintCore)
+    lintChecks(projects.lintCompose)
 }
