@@ -9,7 +9,6 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -23,7 +22,6 @@ import kotlinx.collections.immutable.PersistentList
 private val QuackGridHorizontalPadding = 8.dp
 private val QuackVerticalSpacePadding = 24.dp
 private val QuackHorizontalSpacePadding = 10.dp
-
 
 /**
  * [QuackSimpleGridLayout] 을 구현합니다.
@@ -74,64 +72,63 @@ public fun <T> QuackSimpleGridLayout(
         },
     )
 }
+
+// /**
+//  * QuackHeaderGridLayout 을 구현합니다.
+//  *
+//  * GridLayout 중에 첫 아이템만 다른 아이템으로 사용해야하는 UI에 사용할 수 있습니다.
+//  *
+//  * @param columns
+//  * @param items
+//  * @param verticalSpace
+//  * @param horizontalSpace
+//  * @param horizontalPadding
+//  * @param itemContent
+//  * @param header
+//  */
+// @Composable
+// fun <T> QuackHeaderGridLayout(
+//     columns: Int,
+//     items: PersistentList<T>,
+//     verticalSpace: Dp,
+//     horizontalSpace: Dp,
+//     horizontalPadding: Dp = QuackGridHorizontalPadding,
+//     itemContent: @Composable (Int, T) -> Unit,
+//     header: @Composable () -> Unit,
+// ) {
 //
-///**
-// * QuackHeaderGridLayout 을 구현합니다.
-// *
-// * GridLayout 중에 첫 아이템만 다른 아이템으로 사용해야하는 UI에 사용할 수 있습니다.
-// *
-// * @param columns
-// * @param items
-// * @param verticalSpace
-// * @param horizontalSpace
-// * @param horizontalPadding
-// * @param itemContent
-// * @param header
-// */
+//     val gridItems = listOf(items[0]) + items
 //
-//@Composable
-//fun <T> QuackHeaderGridLayout(
-//    columns: Int,
-//    items: PersistentList<T>,
-//    verticalSpace: Dp,
-//    horizontalSpace: Dp,
-//    horizontalPadding: Dp = QuackGridHorizontalPadding,
-//    itemContent: @Composable (Int, T) -> Unit,
-//    header: @Composable () -> Unit,
-//) {
-//
-//    val gridItems = listOf(items[0]) + items
-//
-//    LazyVerticalGrid(
-//        modifier = Modifier.padding(
-//            paddingValues = PaddingValues(
-//                horizontal = horizontalPadding,
-//            )
-//        ),
-//        columns = GridCells.Fixed(
-//            count = columns
-//        ),
-//        content = {
-//            itemsIndexed(
-//                items = gridItems,
-//            ) { index, item ->
-//                QuackSimpleGridItem(
-//                    verticalSpace = verticalSpace,
-//                    horizontalSpace = horizontalSpace,
-//                    itemContent = {
-//                        itemContent(
-//                            index,
-//                            item,
-//                        )
-//                    },
-//                    header = header,
-//                    index = index,
-//                    size = gridItems.size,
-//                )
-//            }
-//        },
-//    )
-//}
+//     LazyVerticalGrid(
+//         modifier = Modifier.padding(
+//             paddingValues = PaddingValues(
+//                 horizontal = horizontalPadding,
+//             )
+//         ),
+//         columns = GridCells.Fixed(
+//             count = columns
+//         ),
+//         content = {
+//             itemsIndexed(
+//                 items = gridItems,
+//             ) { index, item ->
+//                 QuackSimpleGridItem(
+//                     verticalSpace = verticalSpace,
+//                     horizontalSpace = horizontalSpace,
+//                     itemContent = {
+//                         itemContent(
+//                             index,
+//                             item,
+//                         )
+//                     },
+//                     header = header,
+//                     index = index,
+//                     size = gridItems.size,
+//                 )
+//             }
+//         },
+//     )
+// }
 
 /**
  * [QuackSimpleGridItem] 를 구현합니다
@@ -163,13 +160,11 @@ private fun QuackSimpleGridItem(
             )
         ),
     ) {
-        if ( index == 0 && header != null){
+        if (index == 0 && header != null) {
             header()
-        }
-        else if ( index == size && footer != null){
+        } else if (index == size && footer != null) {
             footer()
-        }
-        else {
+        } else {
             itemContent()
         }
     }

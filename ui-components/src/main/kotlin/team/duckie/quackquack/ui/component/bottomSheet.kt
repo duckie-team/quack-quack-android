@@ -245,7 +245,6 @@ private fun QuackBottomSheetContent(
         )
         sheetContent()
     }
-
 }
 
 /**

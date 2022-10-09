@@ -44,26 +44,27 @@ internal fun QuackText(
     )
 
     AnimatedContentTransform(
-        modifier = modifier/*.lifecycle(
-            key = text,
-            onAppear = { offset ->
-                quackTexts.add(
-                    QuackWrting(
-                        text = text,
-                        offset = offset,
-                    )
-                )
-                println("A! $offset")
-            },
-            onDisappear = {
-                quackTexts.remove(
-                    quackTexts.first { quackText ->
-                        quackText.text == text
-                    }
-                )
-                println("B! $quackTexts")
-            },
-        )*/,
+        modifier = modifier,
+        /*.lifecycle(
+                    key = text,
+                    onAppear = { offset ->
+                        quackTexts.add(
+                            QuackWrting(
+                                text = text,
+                                offset = offset,
+                            )
+                        )
+                        println("A! $offset")
+                    },
+                    onDisappear = {
+                        quackTexts.remove(
+                            quackTexts.first { quackText ->
+                                quackText.text == text
+                            }
+                        )
+                        println("B! $quackTexts")
+                    },
+                )*/
         targetState = text,
     ) { animatedText ->
         BasicText(
@@ -103,26 +104,27 @@ internal fun QuackText(
     )
 
     AnimatedContentTransform(
-        modifier = modifier/*.lifecycle(
-            key = text,
-            onAppear = { offset ->
-                quackTexts.add(
-                    QuackWrting(
-                        text = text,
-                        offset = offset,
-                    )
-                )
-                println("A! $offset")
-            },
-            onDisappear = {
-                quackTexts.remove(
-                    quackTexts.first { quackText ->
-                        quackText.text == text
-                    }
-                )
-                println("B! $quackTexts")
-            },
-        )*/,
+        modifier = modifier,
+        /*.lifecycle(
+                    key = text,
+                    onAppear = { offset ->
+                        quackTexts.add(
+                            QuackWrting(
+                                text = text,
+                                offset = offset,
+                            )
+                        )
+                        println("A! $offset")
+                    },
+                    onDisappear = {
+                        quackTexts.remove(
+                            quackTexts.first { quackText ->
+                                quackText.text == text
+                            }
+                        )
+                        println("B! $quackTexts")
+                    },
+                )*/
         targetState = text,
     ) { animatedText ->
         BasicText(
@@ -135,4 +137,3 @@ internal fun QuackText(
         )
     }
 }
-

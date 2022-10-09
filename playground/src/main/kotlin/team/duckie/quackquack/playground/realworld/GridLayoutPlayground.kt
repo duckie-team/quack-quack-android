@@ -30,7 +30,7 @@ import team.duckie.quackquack.ui.component.QuackSimpleGridLayout
 import team.duckie.quackquack.ui.component.QuackTitle2
 import team.duckie.quackquack.ui.icon.QuackIcon
 
-private const val imageUrl = "https://picsum.photos/id/237/200/300"
+private const val ImageUrl = "https://picsum.photos/id/237/200/300"
 
 class GridLayoutPlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
@@ -74,7 +74,7 @@ fun DuckieFavoriteItem(
     val checked = remember { mutableStateOf(true) }
     Column {
         QuackCardImage(
-            image = imageUrl,
+            image = ImageUrl,
             cornerIcon = {
                 QuackIconToggle(
                     checkedIcon = QuackIcon.FilledHeart,

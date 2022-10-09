@@ -25,7 +25,7 @@ import team.duckie.quackquack.ui.component.QuackImage
 import team.duckie.quackquack.ui.component.QuackSelectableCardImage
 import team.duckie.quackquack.ui.icon.QuackIcon
 
-private const val imageUrl = "https://picsum.photos/id/237/200/300"
+private const val ImageUrl = "https://picsum.photos/id/237/200/300"
 
 class CardPlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
@@ -34,7 +34,6 @@ class CardPlayground : BaseActivity() {
         "QuackCardImageRow" to { QuackCardImageRowDemo() },
         "QuackCheckableCardImage" to { QuackCheckableCardImageDemo() }
     )
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +48,10 @@ class CardPlayground : BaseActivity() {
     }
 }
 
-
 @Composable
 fun QuackCardImageDemo() {
     QuackCardImage(
-        image = imageUrl,
+        image = ImageUrl,
         size = 150.dp,
         cornerIcon = {
             QuackImageEdit()
@@ -70,7 +68,7 @@ fun QuackCardImageRowDemo() {
     ) {
         QuackCardImageRow(
             images = persistentListOf(
-                imageUrl,
+                ImageUrl,
             ),
             cornerIcon = {
                 QuackImageEdit()
@@ -78,8 +76,8 @@ fun QuackCardImageRowDemo() {
         )
         QuackCardImageRow(
             images = persistentListOf(
-                imageUrl,
-                imageUrl,
+                ImageUrl,
+                ImageUrl,
             ),
             cornerIcon = {
                 QuackImageEdit()
@@ -87,15 +85,14 @@ fun QuackCardImageRowDemo() {
         )
         QuackCardImageRow(
             images = persistentListOf(
-                imageUrl,
-                imageUrl,
-                imageUrl,
+                ImageUrl,
+                ImageUrl,
+                ImageUrl,
             ),
             cornerIcon = {
                 QuackImageEdit()
             },
         )
-
     }
 }
 
@@ -111,7 +108,7 @@ fun QuackCheckableCardImageDemo() {
     val isSelected = remember { mutableStateOf(false) }
     QuackSelectableCardImage(
         checked = isSelected.value,
-        image = imageUrl,
+        image = ImageUrl,
         onClick = {
             isSelected.value = !isSelected.value
         },
