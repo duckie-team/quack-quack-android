@@ -20,28 +20,29 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
 
-private val gridHorizontalPadding = 8.dp
+private val QuackGridHorizontalPadding = 8.dp
+private val QuackVerticalSpacePadding = 24.dp
+private val QuackHorizontalSpacePadding = 10.dp
 
 
 /**
- * QuackSimpleGridLayout을 구현합니다.
+ * [QuackSimpleGridLayout] 을 구현합니다.
  *
- * @param columns
- * @param items
- * @param verticalSpace
- * @param horizontalSpace
- * @param horizontalPadding
- * @param itemContent
+ * @param columns Grid가 몇 줄로 구성되어있는지에 대한 값
+ * @param items List로 사용할 아이템 데이터
+ * @param verticalSpace GridLayout 의 아이템간의 수직 간격
+ * @param horizontalSpace GridLayout 의 아이템간의 수평 간격
+ * @param horizontalPadding GridLayout 의 레이아웃 자체의 내부 패딩
+ * @param itemContent 구현할 아이템의 Composable 함수
  *
  */
-
 @Composable
-fun <T> QuackSimpleGridLayout(
+public fun <T> QuackSimpleGridLayout(
     columns: Int,
     items: PersistentList<T>,
-    verticalSpace: Dp,
-    horizontalSpace: Dp,
-    horizontalPadding: Dp = gridHorizontalPadding,
+    verticalSpace: Dp = QuackVerticalSpacePadding,
+    horizontalSpace: Dp = QuackHorizontalSpacePadding,
+    horizontalPadding: Dp = QuackGridHorizontalPadding,
     itemContent: @Composable (Int, T) -> Unit,
 ) {
     LazyVerticalGrid(
@@ -73,75 +74,75 @@ fun <T> QuackSimpleGridLayout(
         },
     )
 }
+//
+///**
+// * QuackHeaderGridLayout 을 구현합니다.
+// *
+// * GridLayout 중에 첫 아이템만 다른 아이템으로 사용해야하는 UI에 사용할 수 있습니다.
+// *
+// * @param columns
+// * @param items
+// * @param verticalSpace
+// * @param horizontalSpace
+// * @param horizontalPadding
+// * @param itemContent
+// * @param header
+// */
+//
+//@Composable
+//fun <T> QuackHeaderGridLayout(
+//    columns: Int,
+//    items: PersistentList<T>,
+//    verticalSpace: Dp,
+//    horizontalSpace: Dp,
+//    horizontalPadding: Dp = QuackGridHorizontalPadding,
+//    itemContent: @Composable (Int, T) -> Unit,
+//    header: @Composable () -> Unit,
+//) {
+//
+//    val gridItems = listOf(items[0]) + items
+//
+//    LazyVerticalGrid(
+//        modifier = Modifier.padding(
+//            paddingValues = PaddingValues(
+//                horizontal = horizontalPadding,
+//            )
+//        ),
+//        columns = GridCells.Fixed(
+//            count = columns
+//        ),
+//        content = {
+//            itemsIndexed(
+//                items = gridItems,
+//            ) { index, item ->
+//                QuackSimpleGridItem(
+//                    verticalSpace = verticalSpace,
+//                    horizontalSpace = horizontalSpace,
+//                    itemContent = {
+//                        itemContent(
+//                            index,
+//                            item,
+//                        )
+//                    },
+//                    header = header,
+//                    index = index,
+//                    size = gridItems.size,
+//                )
+//            }
+//        },
+//    )
+//}
 
 /**
- * QuackHeaderGridLayout 을 구현합니다.
+ * [QuackSimpleGridItem] 를 구현합니다
  *
- * GridLayout 중에 첫 아이템만 다른 아이템으로 사용해야하는 UI에 사용할 수 있습니다.
- *
- * @param columns
- * @param items
- * @param verticalSpace
- * @param horizontalSpace
- * @param horizontalPadding
- * @param itemContent
- * @param header
- */
-
-@Composable
-fun <T> QuackHeaderGridLayout(
-    columns: Int,
-    items: PersistentList<T>,
-    verticalSpace: Dp,
-    horizontalSpace: Dp,
-    horizontalPadding: Dp = gridHorizontalPadding,
-    itemContent: @Composable (Int, T) -> Unit,
-    header: @Composable () -> Unit,
-) {
-
-    val gridItems = listOf(items[0]) + items
-
-    LazyVerticalGrid(
-        modifier = Modifier.padding(
-            paddingValues = PaddingValues(
-                horizontal = horizontalPadding,
-            )
-        ),
-        columns = GridCells.Fixed(
-            count = columns
-        ),
-        content = {
-            itemsIndexed(
-                items = gridItems,
-            ) { index, item ->
-                QuackSimpleGridItem(
-                    verticalSpace = verticalSpace,
-                    horizontalSpace = horizontalSpace,
-                    itemContent = {
-                        itemContent(
-                            index,
-                            item,
-                        )
-                    },
-                    header = header,
-                    index = index,
-                    size = gridItems.size,
-                )
-            }
-        },
-    )
-}
-
-/**
- * QuackSimpleGridItem
- *
- * @param index
- * @param size
- * @param verticalSpace
- * @param horizontalSpace
- * @param itemContent
- * @param footer
- * @param header
+ * @param index 현재 아이템의 index
+ * @param size 아이템의 갯수
+ * @param verticalSpace 아이템간의 수직 간격
+ * @param horizontalSpace 아이템간의 수평 간격
+ * @param itemContent 일반적인 GridLayout 에서 사용되는 item @Composable 함수
+ * @param footer 마지막 아이템으로 올 수 있는 @Composable 함수
+ * @param header 첫 번째 아이템으로 올 수 있는 @Composable 함수
  */
 
 @Composable

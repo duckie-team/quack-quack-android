@@ -30,7 +30,7 @@ private const val imageUrl = "https://picsum.photos/id/237/200/300"
 class CardPlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
-        "QuackCardImageDemo" to { QuackCardImageDemo() },
+        "QuackCardImage" to { QuackCardImageDemo() },
         "QuackCardImageRow" to { QuackCardImageRowDemo() },
         "QuackCheckableCardImage" to { QuackCheckableCardImageDemo() }
     )
@@ -115,5 +115,6 @@ fun QuackCheckableCardImageDemo() {
         onClick = {
             isSelected.value = !isSelected.value
         },
+        size = 100.dp,
     )
 }

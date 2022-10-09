@@ -165,6 +165,14 @@ private fun QuackWideCardImage(
 
 }
 
+/**
+ * [QuackSelectableCardImage]
+ *
+ * @param checked
+ * @param image
+ * @param size
+ * @param onClick
+ */
 @Composable
 fun QuackSelectableCardImage(
     checked: Boolean,
