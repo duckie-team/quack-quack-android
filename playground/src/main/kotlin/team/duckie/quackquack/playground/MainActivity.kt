@@ -170,7 +170,10 @@ private fun PlaygroundDemo() {
                     minimumValue = 0,
                 )
             fontScale = (
-                    1f
+                    preference[PreferenceConfigs.FontScaleKey]
+                        ?: 1f
+                    ).coerceAtLeast(
+                    minimumValue = 1f,
                 )
             showComponentBounds =
                 preference[PreferenceConfigs.ShowComponentBounds] ?: showComponentBounds
