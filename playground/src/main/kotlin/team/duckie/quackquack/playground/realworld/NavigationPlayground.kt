@@ -22,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
@@ -123,9 +124,10 @@ private fun DuckieLogo() {
         QuackImage(
             src = team.duckie.quackquack.ui.R.drawable.quack_duckie_text_logo,
             overrideSize = DpSize(
-                width = 72.dp,
-                height = 24.dp,
+                width = 66.dp,
+                height = 16.dp,
             ),
+            contentScale = ContentScale.FillHeight,
         )
     }
 }
