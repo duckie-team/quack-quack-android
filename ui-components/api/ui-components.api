@@ -40,7 +40,6 @@ public final class team/duckie/quackquack/ui/color/QuackColor$Companion {
 	public final fun getGray5-yvcWADs ()J
 	public final fun getOrangeRed-yvcWADs ()J
 	public final fun getSkyBlueColor-yvcWADs ()J
-	public final fun getTransparent-yvcWADs ()J
 	public final fun getWhite-yvcWADs ()J
 }
 
@@ -185,6 +184,7 @@ public final class team/duckie/quackquack/ui/component/TypographyKt {
 	public static final fun QuackHeadLine1-pvt1sM8 (Ljava/lang/String;JZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackHeadLine2-pvt1sM8 (Ljava/lang/String;JZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackSubtitle-pvt1sM8 (Ljava/lang/String;JZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun QuackSubtitle2-pvt1sM8 (Ljava/lang/String;JZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackTitle1-pvt1sM8 (Ljava/lang/String;JZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackTitle2-pvt1sM8 (Ljava/lang/String;JZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 }
@@ -297,6 +297,7 @@ public final class team/duckie/quackquack/ui/textstyle/QuackTextStyle$Companion 
 	public final fun getHeadLine1 ()Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;
 	public final fun getHeadLine2 ()Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;
 	public final fun getSubtitle ()Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;
+	public final fun getSubtitle2 ()Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;
 	public final fun getTitle1 ()Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;
 	public final fun getTitle2 ()Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;
 }
