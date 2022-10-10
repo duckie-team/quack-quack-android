@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import team.duckie.quackquack.ui.animation.AnimatedContentTransform
+import team.duckie.quackquack.ui.border.QuackSquircle
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.icon.QuackIcon
@@ -85,7 +86,7 @@ public fun QuackRoundImage(
 ) {
     QuackImageInternal(
         modifier = Modifier.clip(
-            shape = QuackRoundImageShape,
+            shape = QuackSquircle(),
         ),
         src = src,
         overrideSize = size,
