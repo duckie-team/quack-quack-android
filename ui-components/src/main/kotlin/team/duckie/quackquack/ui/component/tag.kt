@@ -10,6 +10,7 @@ package team.duckie.quackquack.ui.component
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -18,6 +19,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -26,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
 import kotlinx.collections.immutable.ImmutableCollection
@@ -44,14 +48,17 @@ private val QuackTagRowFlowContentSpace = 8.dp
 // icon tag 와 grayscale tag 에 사용됩니다.
 private val QuackTagContentSpace = 8.dp
 private val QuackTagBorderWidth = 1.dp
+private val QuackTagHorizontalPadding = 8.dp
 
 private val QuackTagPadding = PaddingValues(
     horizontal = 12.dp,
     vertical = 8.dp,
 )
 private val QuackIconTagPadding = PaddingValues(
-    horizontal = 16.dp,
-    vertical = 8.dp,
+    start = 16.dp,
+    end = 10.dp,
+    top = 8.dp,
+    bottom = 8.dp,
 )
 
 private val QuackTagShape = RoundedCornerShape(
@@ -334,6 +341,120 @@ public fun QuackRowTag(
         }
     }
 }
+/**
+ * [QuackTagScrollableRow]
+ *
+ * [QuackRowTag] 와는 다르게 한 줄로 UI를 그리며 Scrollable 한 컴포넌트입니다.
+ *
+ * @param title QuackRowTag 상단에 표시될 제목 Text. 만약 공백을 제공할 시
+ * 제목이 표시되지 않습니다.
+ * @param items 표시할 태그들의 제목들
+ * @param itemsSelection 태그들의 선택 여부. 이 항목은 자주 바뀔 것으로
+ * 예상되어 [ImmutableCollection] 가 아닌 일반 [Collection] 으로 받습니다.
+ * @param horizontalSpace 태그들간의 간격
+ * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다
+*/
+@Composable
+public fun QuackTagScrollableRow(
+    title: String = "",
+    items: PersistentList<String>,
+    itemsSelection: ImmutableQuackTagItemButMutable,
+    horizontalSpace: Dp = QuackTagHorizontalPadding,
+    onClick: (
+        index: Int,
+    ) -> Unit,
+){
+    runtimeCheck(
+        value = items.size == itemsSelection.size,
+    ) {
+        "The size of items and the size of itemsSelection must always be the same. " +
+                "[items.size (${items.size}) != itemsSelection.size (${itemsSelection.size})]"
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+    ) {
+        if (title.isNotEmpty()) {
+            QuackText(
+                modifier = Modifier.padding(
+                    bottom = QuackTagRowTitleSpace,
+                ),
+                text = title,
+                style = QuackTextStyle.Title2,
+            )
+        }
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(
+                space = horizontalSpace,
+            ),
+        ){
+            itemsIndexed(items) { index, item ->
+                QuackTag(
+                    isSelected = itemsSelection[index],
+                    onClick = {
+                        onClick(index)
+                    },
+                    text = item,
+                )
+            }
+        }
+    }
+}
+
+/**
+ * [QuackMutableTagRow]
+ *
+ * TagRow 중에 QuackIcon.Close를 가지고 있고, 수정이 가능한 TagRow 를 구현합니다.
+ *
+ * @param title QuackRowTag 상단에 표시될 제목 Text. 만약 공백을 제공할 시
+ * 제목이 표시되지 않습니다.
+ * @param items 표시할 태그들의 제목들
+ * @param horizontalSpace 태그들간의 간격
+ * @param onClickIcon 사용자가 아이콘을 클릭했을 때 호출되는 람다
+ */
+@Composable
+public fun QuackMutableTagRow(
+    title: String = "",
+    items: PersistentList<String>,
+    horizontalSpace: Dp = QuackTagHorizontalPadding,
+    onClickIcon: (
+        index: Int,
+    ) -> Unit,
+){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+    ) {
+        if (title.isNotEmpty()) {
+            QuackText(
+                modifier = Modifier.padding(
+                    bottom = QuackTagRowTitleSpace,
+                ),
+                text = title,
+                style = QuackTextStyle.Title2,
+            )
+        }
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(
+                space = horizontalSpace,
+            ),
+        ){
+            itemsIndexed(items) { index, item ->
+                QuackIconTag(
+                    isSelected = false,
+                    onClickIcon = {
+                        onClickIcon(index)
+                    },
+                    text = item,
+                    icon = QuackIcon.Close,
+                )
+            }
+        }
+    }
+}
+
 
 /**
  * QuackTag 의 타입을 정의합니다.
