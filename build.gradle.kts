@@ -13,7 +13,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
-    alias(libs.plugins.detekt)
+    // alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
@@ -49,12 +49,12 @@ allprojects {
     }
 
     afterEvaluate {
-        detekt {
-            parallel = true
-            buildUponDefaultConfig = true
-            toolVersion = libs.versions.detekt.get()
-            config.setFrom(files("$rootDir/detekt-config.yml"))
-        }
+        // detekt {
+        //     parallel = true
+        //     buildUponDefaultConfig = true
+        //     toolVersion = libs.versions.detekt.get()
+        //     config.setFrom(files("$rootDir/detekt-config.yml"))
+        // }
 
         tasks.withType<KotlinCompile> {
             kotlinOptions {
@@ -88,7 +88,7 @@ allprojects {
     }
 
     apply {
-        plugin(rootProject.libs.plugins.detekt.get().pluginId)
+        // plugin(rootProject.libs.plugins.detekt.get().pluginId)
         plugin(rootProject.libs.plugins.ktlint.get().pluginId)
     }
 }
