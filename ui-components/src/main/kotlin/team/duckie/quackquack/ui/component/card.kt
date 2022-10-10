@@ -27,19 +27,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
+import team.duckie.quackquack.ui.border.QuackSquircle
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.QuackColor.Companion.Black80
+import team.duckie.quackquack.ui.color.QuackColor.Companion.Gray2
+import team.duckie.quackquack.ui.color.QuackColor.Companion.Gray3
 import team.duckie.quackquack.ui.color.QuackColor.Companion.Transparent
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
+import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.modifier.quackClickable
 
 private val QuackCardShape = RoundedCornerShape(12.dp)
 private val QuackCardPadding = PaddingValues(8.dp)
+private val QuackLargeIconCardSize = 80.dp
+private val QuackSmallIconCardSize = 36.dp
 
 /**
  * QuackCardImage 를 구현합니다.
@@ -227,6 +234,90 @@ public fun QuackSelectableCardImage(
         )
         CheckFilter(
             checked = checked,
+        )
+    }
+}
+
+/**
+ * [QuackLargeIconRoundCard]
+ *
+ * [QuackIconRoundCard] 에서 사이즈가 큰 컴포넌트를 구현합니다.
+ *
+ * @param icon 카드 안에 사용될 아이콘
+ * @param onClick 카드 클릭시 발생하는 이벤트
+ */
+@Composable
+public fun QuackLargeIconRoundCard(
+    icon: QuackIcon,
+    onClick: () -> Unit,
+){
+    QuackIconRoundCard(
+        size = QuackLargeIconCardSize,
+        icon = icon,
+        onClick = onClick,
+    )
+}
+
+/**
+ * [QuackSmallIconRoundCard]
+ *
+ * [QuackIconRoundCard] 에서 사이즈가 작은 컴포넌트를 구현합니다.
+ *
+ * @param icon 카드 안에 사용될 아이콘
+ * @param onClick 카드 클릭시 발생하는 이벤트
+ */
+@Composable
+public fun QuackSmallIconRoundCard(
+    icon: QuackIcon,
+    onClick: () -> Unit,
+){
+    QuackIconRoundCard(
+        size = QuackSmallIconCardSize,
+        icon = icon,
+        onClick = onClick,
+    )
+}
+
+
+/**
+ * [QuackIconRoundCard] 를 구현합니다.
+ *
+ * 회색 바탕을 가지고, 아이콘을 필요로 하는 카드 컴포넌트의 UI를 만들 때 사용합니다.
+ *
+ * @param size 카드의 사이즈
+ * @param icon 카드 안에 들어갈 icon 종류
+ * @param onClick 카드 클릭시 발생하는 이벤트
+ */
+@Composable
+private fun QuackIconRoundCard(
+    size: Dp,
+    icon: QuackIcon,
+    onClick: () -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .clip(
+                shape = QuackSquircle(),
+            )
+            .size(
+                size = size,
+            )
+            .background(
+                color = Gray3.composeColor,
+            )
+            .quackClickable(
+                rippleEnabled = true,
+                onClick = onClick,
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        QuackImageInternal(
+            src = icon,
+            overrideSize = DpSize(
+                width = 24.dp,
+                height = 24.dp,
+            ),
+            tint = Gray2,
         )
     }
 }

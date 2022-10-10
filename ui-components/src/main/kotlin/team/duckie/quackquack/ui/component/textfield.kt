@@ -504,3 +504,38 @@ private fun QuackTextFieldDecorationBox(
         measurePolicy = rememberQuackTextFieldMeasurePolicy(),
     )
 }
+
+/**
+ * [QuackCountableTextField]
+ *
+ * @param text
+ * @param onTextChanged
+ * @param textStyle
+ * @param placeholderText
+ * @param maxLength
+ */
+@Composable
+public fun QuackCountableTextField(
+    text: String,
+    onTextChanged: (text: String) -> Unit,
+    textStyle: QuackTextStyle = QuackTextStyle.Body1,
+    placeholderText: String? = null,
+    maxLength: Int,
+) {
+    QuackTextField(
+        text = text,
+        onTextChanged = { text ->
+            if (text.length <= maxLength) {
+                onTextChanged(text)
+            }
+        },
+        textStyle = textStyle,
+        placeholderText = placeholderText,
+        trailingContent = {
+            QuackBody2(
+                text = "${text.length} / $maxLength",
+                color = QuackColor.Gray2,
+            )
+        },
+    )
+}

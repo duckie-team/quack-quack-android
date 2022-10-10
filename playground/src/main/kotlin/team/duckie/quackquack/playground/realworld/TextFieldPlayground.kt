@@ -20,6 +20,7 @@ import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
+import team.duckie.quackquack.ui.component.QuackCountableTextField
 import team.duckie.quackquack.ui.component.QuackImage
 import team.duckie.quackquack.ui.component.QuackTextField
 import team.duckie.quackquack.ui.icon.QuackIcon
@@ -32,7 +33,8 @@ class TextFieldPlayground : BaseActivity() {
         "QuackTextFieldWithTrailingDecoration" to { QuackTextFieldWithTrailingDecorationDemo() },
         "QuackTextFieldWithAllDecoration" to { QuackTextFieldWithAllDecorationDemo() },
         "QuackTextFieldErrorState" to { QuackTextFieldErrorStateDemo() },
-        "QuackTextFieldErrorState - Live" to { QuackTextFieldErrorStateLiveDemo() }
+        "QuackTextFieldErrorState - Live" to { QuackTextFieldErrorStateLiveDemo() },
+        "QuackCountableTextField" to { QuackCountableTextFieldDemo() }
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -216,5 +218,19 @@ fun QuackTextFieldErrorStateLiveDemo() {
                 ),
             )
         },
+    )
+}
+
+@Composable
+fun QuackCountableTextFieldDemo(){
+    var text by remember { mutableStateOf("")}
+
+    QuackCountableTextField(
+        text = text,
+        onTextChanged = { value ->
+            text = value
+        },
+        placeholderText = "닉네임 입력",
+        maxLength = 10,
     )
 }
