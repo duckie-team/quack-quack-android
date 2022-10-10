@@ -215,6 +215,11 @@ public value class QuackIcon private constructor(
         )
 
         @Stable
+        public val FilledProfile: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_ic_profile_24_filled,
+        )
+
+        @Stable
         internal val BottomNavHome: QuackIcon = QuackIcon(
             drawableId = R.drawable.quack_ic_home_bottom_nav_24
         )
