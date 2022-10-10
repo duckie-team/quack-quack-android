@@ -11,9 +11,11 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.BaseActivity
@@ -22,7 +24,9 @@ import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.ui.component.QuackCardImage
 import team.duckie.quackquack.ui.component.QuackCardImageRow
 import team.duckie.quackquack.ui.component.QuackImage
+import team.duckie.quackquack.ui.component.QuackLargeIconRoundCard
 import team.duckie.quackquack.ui.component.QuackSelectableCardImage
+import team.duckie.quackquack.ui.component.QuackSmallIconRoundCard
 import team.duckie.quackquack.ui.icon.QuackIcon
 
 private const val ImageUrl = "https://picsum.photos/id/237/200/300"
@@ -32,7 +36,8 @@ class CardPlayground : BaseActivity() {
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
         "QuackCardImage" to { QuackCardImageDemo() },
         "QuackCardImageRow" to { QuackCardImageRowDemo() },
-        "QuackCheckableCardImage" to { QuackCheckableCardImageDemo() }
+        "QuackCheckableCardImage" to { QuackCheckableCardImageDemo() },
+        "QuackIconRoundCard" to { QuackIconRoundCardDemo() },
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,4 +119,23 @@ fun QuackCheckableCardImageDemo() {
         },
         size = 100.dp,
     )
+}
+
+@Composable
+fun QuackIconRoundCardDemo() {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(
+            space = 10.dp
+        ),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        QuackLargeIconRoundCard(
+            icon = QuackIcon.Camera,
+            onClick = {},
+        )
+        QuackSmallIconRoundCard(
+            icon = QuackIcon.Profile,
+            onClick = {},
+        )
+    }
 }
