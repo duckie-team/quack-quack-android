@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Download snapshots verify result
-        uses: actions/github-script@v3.1.1
+        uses: actions/github-script@v6.3.1
         with:
           script: |
             const artifacts = await github.actions.listWorkflowRunArtifacts({
@@ -84,7 +84,7 @@ jobs:
 
       - name: Comment on PR
         if: steps.pr_comment.outcome == 'success'
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6.3.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
