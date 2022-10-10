@@ -10,7 +10,6 @@
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
     // alias(libs.plugins.detekt)
@@ -89,7 +88,7 @@ allprojects {
 
     apply {
         // plugin(rootProject.libs.plugins.detekt.get().pluginId)
-        plugin(rootProject.libs.plugins.ktlint.get().pluginId)
+        // plugin(rootProject.libs.plugins.ktlint.get().pluginId)
     }
 }
 
@@ -110,12 +109,12 @@ subprojects {
         }
     }
 
-    configure<KtlintExtension> {
-        version.set(rootProject.libs.versions.ktlint.source.get())
-        android.set(true)
-        outputToConsole.set(true)
-        additionalEditorconfigFile.set(file("$rootDir/.editorconfig"))
-    }
+    // configure<KtlintExtension> {
+    //     version.set(rootProject.libs.versions.ktlint.source.get())
+    //     android.set(true)
+    //     outputToConsole.set(true)
+    //     additionalEditorconfigFile.set(file("$rootDir/.editorconfig"))
+    // }
 }
 
 tasks.register(
