@@ -9,12 +9,15 @@
 
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.modifier.quackClickable
@@ -28,6 +31,7 @@ import team.duckie.quackquack.ui.textstyle.QuackTextStyle
  *
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
+ * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
  * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
@@ -37,6 +41,7 @@ import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 public fun QuackHeadLine1(
     text: String,
     color: QuackColor = QuackColor.Black,
+    align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     singleLine: Boolean = true,
     onClick: (() -> Unit)? = null,
@@ -48,6 +53,7 @@ public fun QuackHeadLine1(
     text = text,
     style = QuackTextStyle.HeadLine1.change(
         color = color,
+        textAlign = align,
     ),
     singleLine = singleLine,
 )
@@ -58,6 +64,7 @@ public fun QuackHeadLine1(
  *
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
+ * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
  * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
@@ -66,6 +73,7 @@ public fun QuackHeadLine1(
 public fun QuackHeadLine2(
     text: String,
     color: QuackColor = QuackColor.Black,
+    align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     singleLine: Boolean = true,
     onClick: (() -> Unit)? = null,
@@ -77,6 +85,7 @@ public fun QuackHeadLine2(
     text = text,
     style = QuackTextStyle.HeadLine2.change(
         color = color,
+        textAlign = align,
     ),
     singleLine = singleLine,
 )
@@ -87,6 +96,7 @@ public fun QuackHeadLine2(
  *
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
+ * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
  * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
@@ -95,6 +105,7 @@ public fun QuackHeadLine2(
 public fun QuackTitle1(
     text: String,
     color: QuackColor = QuackColor.Black,
+    align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     singleLine: Boolean = true,
     onClick: (() -> Unit)? = null,
@@ -106,6 +117,7 @@ public fun QuackTitle1(
     text = text,
     style = QuackTextStyle.Title1.change(
         color = color,
+        textAlign = align,
     ),
     singleLine = singleLine,
 )
@@ -116,6 +128,7 @@ public fun QuackTitle1(
  *
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
+ * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
  * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
@@ -124,6 +137,7 @@ public fun QuackTitle1(
 public fun QuackTitle2(
     text: String,
     color: QuackColor = QuackColor.Black,
+    align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     singleLine: Boolean = true,
     onClick: (() -> Unit)? = null,
@@ -135,6 +149,7 @@ public fun QuackTitle2(
     text = text,
     style = QuackTextStyle.Title2.change(
         color = color,
+        textAlign = align,
     ),
     singleLine = singleLine,
 )
@@ -145,6 +160,7 @@ public fun QuackTitle2(
  *
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
+ * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
  * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
@@ -153,6 +169,7 @@ public fun QuackTitle2(
 public fun QuackSubtitle(
     text: String,
     color: QuackColor = QuackColor.Black,
+    align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     singleLine: Boolean = true,
     onClick: (() -> Unit)? = null,
@@ -164,6 +181,7 @@ public fun QuackSubtitle(
     text = text,
     style = QuackTextStyle.Subtitle.change(
         color = color,
+        textAlign = align,
     ),
     singleLine = singleLine,
 )
@@ -174,6 +192,7 @@ public fun QuackSubtitle(
  *
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
+ * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
  * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
@@ -182,6 +201,7 @@ public fun QuackSubtitle(
 public fun QuackSubtitle2(
     text: String,
     color: QuackColor = QuackColor.Black,
+    align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     singleLine: Boolean = true,
     onClick: (() -> Unit)? = null,
@@ -193,6 +213,7 @@ public fun QuackSubtitle2(
     text = text,
     style = QuackTextStyle.Subtitle2.change(
         color = color,
+        textAlign = align,
     ),
     singleLine = singleLine,
 )
@@ -203,6 +224,7 @@ public fun QuackSubtitle2(
  *
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
+ * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
  * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
@@ -211,6 +233,7 @@ public fun QuackSubtitle2(
 public fun QuackBody1(
     text: String,
     color: QuackColor = QuackColor.Black,
+    align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     singleLine: Boolean = true,
     onClick: (() -> Unit)? = null,
@@ -222,6 +245,7 @@ public fun QuackBody1(
     text = text,
     style = QuackTextStyle.Body1.change(
         color = color,
+        textAlign = align,
     ),
     singleLine = singleLine,
 )
@@ -232,6 +256,7 @@ public fun QuackBody1(
  *
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
+ * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
  * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
@@ -240,6 +265,7 @@ public fun QuackBody1(
 public fun QuackBody2(
     text: String,
     color: QuackColor = QuackColor.Black,
+    align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
     singleLine: Boolean = true,
@@ -251,6 +277,7 @@ public fun QuackBody2(
     text = text,
     style = QuackTextStyle.Body2.change(
         color = color,
+        textAlign = align,
     ),
     singleLine = singleLine,
 )
@@ -261,6 +288,7 @@ public fun QuackBody2(
  *
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
+ * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
  * @param singleLine 텍스트를 한 줄만 사용할지 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
@@ -269,6 +297,7 @@ public fun QuackBody2(
 public fun QuackBody3(
     text: String,
     color: QuackColor = QuackColor.Black,
+    align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
     singleLine: Boolean = true,
@@ -280,6 +309,7 @@ public fun QuackBody3(
     text = text,
     style = QuackTextStyle.Body3.change(
         color = color,
+        textAlign = align,
     ),
     singleLine = singleLine,
 )
@@ -292,6 +322,7 @@ public fun QuackBody3(
  * @param highlightText 강조할 텍스트
  * @param highlightColor 강조할 Text 의 색깔
  * @param color 텍스트의 색상
+ * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
  */
@@ -302,6 +333,7 @@ public fun QuackHighlightHeadLine2(
     highlightText: String,
     highlightColor: QuackColor = QuackColor.DuckieOrange,
     color: QuackColor = QuackColor.Black,
+    align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) {
@@ -326,6 +358,7 @@ public fun QuackHighlightHeadLine2(
         },
         style = QuackTextStyle.HeadLine2.change(
             color = color,
+            textAlign = align,
         ),
     )
 }
