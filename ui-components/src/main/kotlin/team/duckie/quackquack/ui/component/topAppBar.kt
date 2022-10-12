@@ -110,7 +110,7 @@ public fun QuackTopAppBar(
                 overrideSize = QuackTopAppBarIconSize,
             )
             if (headline != null) {
-                QuackHeadLine2(
+                team.duckie.quackquack.ui.component.QuackHeadLine2(
                     text = headline,
                 )
             }
@@ -141,7 +141,7 @@ public fun QuackTopAppBar(
             }
 
             if (trailingText != null) {
-                QuackSubtitle(
+                team.duckie.quackquack.ui.component.QuackSubtitle2(
                     text = trailingText,
                     onClick = onClickTrailingText,
                 )
