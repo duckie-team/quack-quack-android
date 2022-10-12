@@ -42,7 +42,7 @@ public fun QuackHeadLine1(
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
-    singleLine: Boolean = true,
+    singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = Modifier.quackClickable(
@@ -74,7 +74,7 @@ public fun QuackHeadLine2(
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
-    singleLine: Boolean = true,
+    singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = Modifier.quackClickable(
@@ -106,7 +106,7 @@ public fun QuackTitle1(
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
-    singleLine: Boolean = true,
+    singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = Modifier.quackClickable(
@@ -138,7 +138,7 @@ public fun QuackTitle2(
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
-    singleLine: Boolean = true,
+    singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = Modifier.quackClickable(
@@ -170,7 +170,7 @@ public fun QuackSubtitle(
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
-    singleLine: Boolean = true,
+    singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = Modifier.quackClickable(
@@ -202,7 +202,7 @@ public fun QuackSubtitle2(
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
-    singleLine: Boolean = true,
+    singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = Modifier.quackClickable(
@@ -234,7 +234,7 @@ public fun QuackBody1(
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
-    singleLine: Boolean = true,
+    singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = Modifier.quackClickable(
@@ -267,7 +267,7 @@ public fun QuackBody2(
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
-    singleLine: Boolean = true,
+    singleLine: Boolean = false,
 ): Unit = QuackText(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,
@@ -299,7 +299,7 @@ public fun QuackBody3(
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
-    singleLine: Boolean = true,
+    singleLine: Boolean = false,
 ): Unit = QuackText(
     modifier = Modifier.quackClickable(
         rippleEnabled = rippleEnabled,

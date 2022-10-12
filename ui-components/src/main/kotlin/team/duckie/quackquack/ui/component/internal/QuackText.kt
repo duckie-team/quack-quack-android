@@ -34,7 +34,7 @@ internal fun QuackText(
     modifier: Modifier = Modifier,
     text: String,
     style: QuackTextStyle,
-    singleLine: Boolean = true,
+    singleLine: Boolean = false,
 ) {
     val styleAnimationState = animatedQuackTextStyleAsState(
         targetValue = style,
@@ -94,7 +94,7 @@ internal fun QuackText(
     modifier: Modifier = Modifier,
     text: AnnotatedString,
     style: QuackTextStyle,
-    singleLine: Boolean = true,
+    singleLine: Boolean = false,
 ) {
     val styleAnimationState = animatedQuackTextStyleAsState(
         targetValue = style,
