@@ -12,6 +12,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -116,7 +117,9 @@ fun DuckieFavoriteItem(
 
 @Composable
 fun QuackSelectableGridLayoutDemo(){
-    val images = Array(20) { "https://picsum.photos/id/237/200/300" }
+    val images = Array(
+        size = 20,
+    ) { "https://picsum.photos/id/237/200/300" }
     var selectedIndex by remember { mutableStateOf(-1) }
 
     Column(
@@ -134,7 +137,11 @@ fun QuackSelectableGridLayoutDemo(){
             items = images.toList().toPersistentList(),
             horizontalSpace = 1.5.dp,
             verticalSpace = 1.5.dp,
-            horizontalPadding = 0.dp,
+            contentPadding = PaddingValues(
+                start = 8.dp,
+                end = 8.dp,
+                bottom = 30.dp,
+            ),
         ) { index, item ->
             val backgroundColor = if ( index % 2 == 0) QuackColor.SkyBlueColor else QuackColor.DuckieOrange
             Box(
