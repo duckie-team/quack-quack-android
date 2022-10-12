@@ -78,7 +78,7 @@ jobs:
 
       - name: Post to a Slack channel
         id: slack
-        uses: slackapi/slack-github-action@v1.22.0
+        uses: slackapi/slack-github-action@v1.23.0
         with:
           channel-id: 'C03CM18M529'
           slack-message: "QuackQuack 플레이그라운드의 새로운 버전이 배포됐습니다. 🥳"
