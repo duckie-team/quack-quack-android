@@ -19,7 +19,7 @@ plugins {
     id(ConventionEnum.AndroidQuackPublish)
     id(ConventionEnum.JvmKover)
     id(ConventionEnum.JvmDokka)
-    alias(libs.plugins.kotlin.api.validation)
+    // alias(libs.plugins.kotlin.api.validation)
 }
 
 android {
@@ -39,8 +39,8 @@ dependencies {
         // projects.uxWritingModel,
     )
     api(libs.kotlin.collections.immutable)
-    lintChecks(projects.lintCore)
-    lintChecks(projects.lintCompose)
+    // lintChecks(projects.lintCore)
+    // lintChecks(projects.lintCompose)
 }
 
 quackArtifactPublish {

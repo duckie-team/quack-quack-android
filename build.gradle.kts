@@ -10,11 +10,10 @@
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
-    alias(libs.plugins.detekt)
-    alias(libs.plugins.ktlint)
+    // alias(libs.plugins.detekt)
+    // alias(libs.plugins.ktlint)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
     alias(libs.plugins.gradle.maven.publish.core)
@@ -49,12 +48,12 @@ allprojects {
     }
 
     afterEvaluate {
-        detekt {
-            parallel = true
-            buildUponDefaultConfig = true
-            toolVersion = libs.versions.detekt.get()
-            config.setFrom(files("$rootDir/detekt-config.yml"))
-        }
+        // detekt {
+        //     parallel = true
+        //     buildUponDefaultConfig = true
+        //     toolVersion = libs.versions.detekt.get()
+        //     config.setFrom(files("$rootDir/detekt-config.yml"))
+        // }
 
         tasks.withType<KotlinCompile> {
             kotlinOptions {
@@ -87,10 +86,10 @@ allprojects {
         }
     }
 
-    apply {
-        plugin(rootProject.libs.plugins.detekt.get().pluginId)
-        plugin(rootProject.libs.plugins.ktlint.get().pluginId)
-    }
+    // apply {
+    //     plugin(rootProject.libs.plugins.detekt.get().pluginId)
+    //     plugin(rootProject.libs.plugins.ktlint.get().pluginId)
+    // }
 }
 
 subprojects {
@@ -110,12 +109,12 @@ subprojects {
         }
     }
 
-    configure<KtlintExtension> {
-        version.set(rootProject.libs.versions.ktlint.source.get())
-        android.set(true)
-        outputToConsole.set(true)
-        additionalEditorconfigFile.set(file("$rootDir/.editorconfig"))
-    }
+    // configure<KtlintExtension> {
+    //     version.set(rootProject.libs.versions.ktlint.source.get())
+    //     android.set(true)
+    //     outputToConsole.set(true)
+    //     additionalEditorconfigFile.set(file("$rootDir/.editorconfig"))
+    // }
 }
 
 tasks.register(
