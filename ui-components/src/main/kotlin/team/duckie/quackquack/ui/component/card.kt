@@ -47,6 +47,10 @@ private val QuackCardShape = RoundedCornerShape(12.dp)
 private val QuackCardPadding = PaddingValues(8.dp)
 private val QuackLargeIconCardSize = 80.dp
 private val QuackSmallIconCardSize = 36.dp
+private val QuackCardIconSize = DpSize(
+    width = 24.dp,
+    height = 24.dp,
+)
 
 /**
  * QuackCardImage 를 구현합니다.
@@ -244,17 +248,20 @@ public fun QuackSelectableCardImage(
  * [QuackIconRoundCard] 에서 사이즈가 큰 컴포넌트를 구현합니다.
  *
  * @param icon 카드 안에 사용될 아이콘
+ * @param iconSize 카드 안에 들어갈 아이콘의 사이즈
  * @param onClick 카드 클릭시 발생하는 이벤트
  */
 @Composable
 public fun QuackLargeIconRoundCard(
     icon: QuackIcon,
     onClick: () -> Unit,
+    iconSize: DpSize = QuackCardIconSize,
 ){
     QuackIconRoundCard(
         size = QuackLargeIconCardSize,
         icon = icon,
         onClick = onClick,
+        iconSize = iconSize,
     )
 }
 
@@ -264,17 +271,20 @@ public fun QuackLargeIconRoundCard(
  * [QuackIconRoundCard] 에서 사이즈가 작은 컴포넌트를 구현합니다.
  *
  * @param icon 카드 안에 사용될 아이콘
+ * @param iconSize 카드 안에 들어갈 아이콘의 사이즈
  * @param onClick 카드 클릭시 발생하는 이벤트
  */
 @Composable
 public fun QuackSmallIconRoundCard(
     icon: QuackIcon,
     onClick: () -> Unit,
+    iconSize: DpSize = QuackCardIconSize,
 ){
     QuackIconRoundCard(
         size = QuackSmallIconCardSize,
         icon = icon,
         onClick = onClick,
+        iconSize = iconSize,
     )
 }
 
@@ -286,12 +296,14 @@ public fun QuackSmallIconRoundCard(
  *
  * @param size 카드의 사이즈
  * @param icon 카드 안에 들어갈 icon 종류
+ * @param iconSize 카드 안에 들어갈 icon 사이즈
  * @param onClick 카드 클릭시 발생하는 이벤트
  */
 @Composable
 private fun QuackIconRoundCard(
     size: Dp,
     icon: QuackIcon,
+    iconSize: DpSize,
     onClick: () -> Unit,
 ) {
     Box(
@@ -313,10 +325,7 @@ private fun QuackIconRoundCard(
     ) {
         QuackImageInternal(
             src = icon,
-            overrideSize = DpSize(
-                width = 24.dp,
-                height = 24.dp,
-            ),
+            overrideSize = iconSize,
             tint = Gray2,
         )
     }
