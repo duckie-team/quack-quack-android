@@ -19,7 +19,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
 
-private val QuackGridHorizontalPadding = 8.dp
+private val QuackGridLayoutContentPadding = PaddingValues(
+    all = 0.dp,
+)
 private val QuackVerticalSpacePadding = 24.dp
 private val QuackHorizontalSpacePadding = 10.dp
 
@@ -30,7 +32,7 @@ private val QuackHorizontalSpacePadding = 10.dp
  * @param items List로 사용할 아이템 데이터
  * @param verticalSpace GridLayout 의 아이템간의 수직 간격
  * @param horizontalSpace GridLayout 의 아이템간의 수평 간격
- * @param horizontalPadding GridLayout 의 레이아웃 자체의 내부 패딩
+ * @param contentPadding GridLayout 의 레이아웃 자체의 내부 패딩
  * @param itemContent 구현할 아이템의 Composable 함수
  *
  */
@@ -40,18 +42,14 @@ public fun <T> QuackSimpleGridLayout(
     items: PersistentList<T>,
     verticalSpace: Dp = QuackVerticalSpacePadding,
     horizontalSpace: Dp = QuackHorizontalSpacePadding,
-    horizontalPadding: Dp = QuackGridHorizontalPadding,
+    contentPadding: PaddingValues = QuackGridLayoutContentPadding,
     itemContent: @Composable (Int, T) -> Unit,
 ) {
     LazyVerticalGrid(
-        modifier = Modifier.padding(
-            paddingValues = PaddingValues(
-                horizontal = horizontalPadding,
-            )
-        ),
         columns = GridCells.Fixed(
             count = columns
         ),
+        contentPadding = contentPadding,
         content = {
             itemsIndexed(
                 items = items,

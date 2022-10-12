@@ -117,6 +117,7 @@ public fun QuackLargeButton(
         enabled = active,
     ),
     onClick = onClick,
+    enabled = active,
 )
 
 /**
@@ -359,6 +360,7 @@ public fun QuackToggleChip(
  * @param rippleColor 버튼이 눌렸을 때, 버튼의 배경에 표시할 리플 효과의 색상.
  * [rippleEnabled] 가 true 일 때만 작용합니다. 기본값은 색상을 지정하지 않은걸 뜻하는
  * [QuackColor.Unspecified] 입니다.
+ * @param enabled 버튼을 clickable하게 만들어주는지 여부
  * @param onClick 버튼을 눌렀을 때 호출될 콜백 함수
  *
  * @see Modifier.applyQuackSize
@@ -378,6 +380,7 @@ private fun QuackBasicButton(
     border: QuackBorder? = null,
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor = QuackColor.Unspecified,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     QuackSurface(
@@ -395,14 +398,17 @@ private fun QuackBasicButton(
         shape = shape,
         rippleEnabled = rippleEnabled,
         rippleColor = rippleColor,
-        onClick = onClick,
+        onClick = when (enabled) {
+            true -> onClick
+            else -> null
+        },
     ) {
         Row(
             modifier = Modifier.wrapContentSize(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            QuackImage(
+            this@QuackSurface.QuackImage(
                 src = leadingIcon,
                 overrideSize = QuackButtonIconSize,
                 tint = QuackButtonIconTint,

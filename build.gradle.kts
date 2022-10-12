@@ -13,7 +13,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     // alias(libs.plugins.detekt)
-    alias(libs.plugins.ktlint)
+    // alias(libs.plugins.ktlint)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
     alias(libs.plugins.gradle.maven.publish.core)
@@ -86,10 +86,10 @@ allprojects {
         }
     }
 
-    apply {
-        // plugin(rootProject.libs.plugins.detekt.get().pluginId)
-        // plugin(rootProject.libs.plugins.ktlint.get().pluginId)
-    }
+    // apply {
+    //     plugin(rootProject.libs.plugins.detekt.get().pluginId)
+    //     plugin(rootProject.libs.plugins.ktlint.get().pluginId)
+    // }
 }
 
 subprojects {

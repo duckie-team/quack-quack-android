@@ -13,10 +13,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,9 +55,10 @@ private val DeletableIconSize = DpSize(
  *
  * QuackSelectableImage 를 구현합니다.
  *
- * @param overrideSize 이미지의 길이는 화면에 따라 가변적이므로 넘겨받습니다
+
  * @param isSelected 해당 이미지가 선택되었는지에 대한 상태값
  * @param image 이미지 resource
+ * @param overrideSize 이미지의 길이는 화면에 따라 가변적이므로 넘겨받습니다
  * @param onClick 이미지가 선택되었을 때 발생하는 클릭 이벤트 -> 이미지 자체가 아니라 아이콘의 클릭 이벤트
  *
  * 클릭될 때마다 SelectedFilterBox 가 나타나게 됨
@@ -62,11 +66,25 @@ private val DeletableIconSize = DpSize(
  */
 @Composable
 public fun QuackSelectableImage(
-    overrideSize: Dp = SelectableImageDefaultSize,
     isSelected: Boolean,
     image: Any,
+    overrideSize: Dp? = null,
     onClick: () -> Unit,
 ) {
+    val sizeModifier = remember {
+        when (overrideSize) {
+            null -> {
+                Modifier
+                    .wrapContentWidth()
+                    .aspectRatio(1f)
+            }
+            else -> {
+                Modifier.size(
+                    size = overrideSize
+                )
+            }
+        }
+    }
     Box(
         modifier = Modifier
             .quackBorderOrNull(
@@ -75,12 +93,9 @@ public fun QuackSelectableImage(
             ),
         contentAlignment = Alignment.TopEnd,
     ) {
-        QuackImage(
+        QuackImageInternal(
             src = image,
-            overrideSize = DpSize(
-                width = overrideSize,
-                height = overrideSize,
-            ),
+            modifier = sizeModifier,
         )
         if (isSelected) SelectedFilterBox()
         QuackSelectedIcon(
