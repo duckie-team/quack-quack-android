@@ -104,7 +104,7 @@ public fun QuackTopAppBar(
             ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            QuackImage(
+            this@Box.QuackImage(
                 src = leadingIcon,
                 onClick = onClickLeadingIcon,
                 overrideSize = QuackTopAppBarIconSize,
@@ -125,7 +125,7 @@ public fun QuackTopAppBar(
             ),
         ) {
             if (secondTrailingIcon != null) {
-                QuackImage(
+                this@Box.QuackImage(
                     src = secondTrailingIcon,
                     onClick = onClickSecondTrailingIcon,
                     overrideSize = QuackTopAppBarIconSize,
@@ -133,7 +133,7 @@ public fun QuackTopAppBar(
             }
 
             if (trailingIcon != null) {
-                QuackImage(
+                this@Box.QuackImage(
                     src = trailingIcon,
                     onClick = onClickTrailingIcon,
                     overrideSize = QuackTopAppBarIconSize,

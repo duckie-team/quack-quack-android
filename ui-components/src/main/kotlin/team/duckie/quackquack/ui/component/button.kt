@@ -408,7 +408,7 @@ private fun QuackBasicButton(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            QuackImage(
+            this@QuackSurface.QuackImage(
                 src = leadingIcon,
                 overrideSize = QuackButtonIconSize,
                 tint = QuackButtonIconTint,
