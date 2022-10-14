@@ -14,8 +14,10 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.sp
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
@@ -333,13 +335,13 @@ public fun QuackBody3(
 )
 
 /**
- * [QuackHeadLine2] 에 원하는 부분에 원하는 색깔로 강조하여
+ * [QuackHeadLine2] 에 원하는 부분에 원하는 색깔과 밑줄로 강조하여
  * 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
- * @param highlightTextList 강조할 텍스트 리스트
- * @param highlightColor 강조할 Text 의 색깔
+ * @param underlineText 강조할 텍스트 리스트
+ * @param underlineTextColor 강조할 Text 의 색깔
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
  * @param singleLine 텍스트를 한 줄로 사용할지 여부
@@ -348,11 +350,11 @@ public fun QuackBody3(
  */
 @Composable
 @NonRestartableComposable
-public fun QuackHighlightHeadLine2(
+public fun QuackUnderlineHeadLine2(
     modifier: Modifier = Modifier,
     text: String,
-    highlightTextList: PersistentList<String>,
-    highlightColor: QuackColor = QuackColor.DuckieOrange,
+    underlineText: PersistentList<String>,
+    underlineTextColor: QuackColor = QuackColor.DuckieOrange,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     singleLine: Boolean = false,
@@ -366,13 +368,13 @@ public fun QuackHighlightHeadLine2(
         ),
         text = buildAnnotatedString {
             append(text)
-            highlightTextList.forEach { highlightText ->
+            underlineText.forEach { highlightText ->
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
                 addStyle(
                     style = SpanStyle(
-                        color = highlightColor.composeColor,
+                        color = underlineTextColor.composeColor,
                         textDecoration = TextDecoration.Underline,
                     ),
                     start = highlightStartIndex,
@@ -389,13 +391,13 @@ public fun QuackHighlightHeadLine2(
 }
 
 /**
- * [QuackHighlightBody3] 에 원하는 부분에 원하는 색깔로 강조하여
+ * [QuackUnderlineBody3] 에 원하는 부분에 원하는 색깔과 밑줄로 강조하여
  * 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
- * @param highlightTextList 강조할 텍스트 리스트들
- * @param highlightColor 강조할 Text 의 색깔
+ * @param underlineText 강조할 텍스트 리스트들
+ * @param undelineTextColor 강조할 Text 의 색깔
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
@@ -404,11 +406,11 @@ public fun QuackHighlightHeadLine2(
  */
 @Composable
 @NonRestartableComposable
-public fun QuackHighlightBody3(
+public fun QuackUnderlineBody3(
     modifier: Modifier = Modifier,
     text: String,
-    highlightTextList: PersistentList<String>,
-    highlightColor: QuackColor = QuackColor.DuckieOrange,
+    underlineText: PersistentList<String>,
+    undelineTextColor: QuackColor = QuackColor.DuckieOrange,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
@@ -423,13 +425,13 @@ public fun QuackHighlightBody3(
         ),
         text = buildAnnotatedString {
             append(text)
-            highlightTextList.forEach { highlightText ->
+            underlineText.forEach { highlightText ->
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
                 addStyle(
                     style = SpanStyle(
-                        color = highlightColor.composeColor,
+                        color = undelineTextColor.composeColor,
                         textDecoration = TextDecoration.Underline,
                     ),
                     start = highlightStartIndex,
@@ -438,6 +440,61 @@ public fun QuackHighlightBody3(
             }
         },
         style = QuackTextStyle.Body3.change(
+            color = color,
+            textAlign = align,
+        ),
+        singleLine = singleLine,
+    )
+}
+
+/**
+ * [QuackUnderlineBody3] 에 원하는 부분에 원하는 색깔과 밑줄로 강조하여
+ * 주어진 텍스트를 표시합니다.
+ *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
+ * @param text 표시할 텍스트
+ * @param highlightText 강조할 텍스트 리스트들
+ * @param color 텍스트의 색상
+ * @param align 텍스트 정렬
+ * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
+ * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
+ * @param singleLine 텍스트를 한 줄로 사용할지 여부
+ */
+@Composable
+@NonRestartableComposable
+public fun QuackHighlightBody1(
+    modifier: Modifier = Modifier,
+    text: String,
+    highlightText: PersistentList<String>,
+    color: QuackColor = QuackColor.Black,
+    align: TextAlign = TextAlign.Start,
+    rippleEnabled: Boolean = false,
+    onClick: (() -> Unit)? = null,
+    singleLine: Boolean = false,
+) {
+
+    QuackText(
+        modifier = modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ),
+        text = buildAnnotatedString {
+            append(text)
+            highlightText.forEach { highlightText ->
+                val highlightStartIndex = text.indexOf(
+                    string = highlightText
+                )
+                addStyle(
+                    style = SpanStyle(
+                        fontWeight = FontWeight.SemiBold,
+                        letterSpacing = 0.sp,
+                    ),
+                    start = highlightStartIndex,
+                    end = highlightStartIndex + highlightText.length,
+                )
+            }
+        },
+        style = QuackTextStyle.Body1.change(
             color = color,
             textAlign = align,
         ),
