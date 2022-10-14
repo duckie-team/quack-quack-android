@@ -59,7 +59,7 @@ private val DeletableIconSize = DpSize(
  * @param isSelected 해당 이미지가 선택되었는지에 대한 상태값
  * @param image 이미지 resource
  * @param overrideSize 이미지의 길이는 화면에 따라 가변적이므로 넘겨받습니다
- * @param onClick 이미지가 선택되었을 때 발생하는 클릭 이벤트 -> 이미지 자체가 아니라 아이콘의 클릭 이벤트
+ * @param onClick 이미지가 선택되었을 때 발생하는 클릭 이벤트 -> 이미지 자체에 적용
  *
  * 클릭될 때마다 SelectedFilterBox 가 나타나게 됨
  *
@@ -95,12 +95,14 @@ public fun QuackSelectableImage(
     ) {
         QuackImageInternal(
             src = image,
-            modifier = sizeModifier,
+            modifier = sizeModifier.quackClickable(
+                rippleEnabled = true,
+                onClick = onClick,
+            ),
         )
         if (isSelected) SelectedFilterBox()
         QuackSelectedIcon(
             isSelected = isSelected,
-            onClick = onClick,
         )
     }
 }
@@ -109,12 +111,10 @@ public fun QuackSelectableImage(
  * QuackSelectedIcon 은 QuackSelectableImage 에서 사용되는 우상단 아이콘입니다.
  *
  * @param isSelected 아이콘이 선택되었는지에 대한 상태값, 어떤 아이콘을 보여줄지 결정합니다
- * @param onClick 아이콘 클릭시 발생하는 클릭 이벤트
  */
 @Composable
 private fun QuackSelectedIcon(
     isSelected: Boolean,
-    onClick: () -> Unit,
 ) {
     val selectableIcon = when (isSelected) {
         true -> QuackIcon.Checked
@@ -125,10 +125,6 @@ private fun QuackSelectedIcon(
         modifier = Modifier
             .padding(
                 paddingValues = ImagePadding,
-            )
-            .quackClickable(
-                rippleEnabled = false,
-                onClick = onClick,
             ),
         src = selectableIcon,
         overrideSize = SelectedIconSize,
