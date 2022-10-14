@@ -104,13 +104,13 @@ public fun QuackTopAppBar(
             ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            this@Box.QuackImage(
+            QuackImage(
                 src = leadingIcon,
                 onClick = onClickLeadingIcon,
                 overrideSize = QuackTopAppBarIconSize,
             )
             if (headline != null) {
-                team.duckie.quackquack.ui.component.QuackHeadLine2(
+                QuackHeadLine2(
                     text = headline,
                 )
             }
@@ -125,7 +125,7 @@ public fun QuackTopAppBar(
             ),
         ) {
             if (secondTrailingIcon != null) {
-                this@Box.QuackImage(
+                QuackImage(
                     src = secondTrailingIcon,
                     onClick = onClickSecondTrailingIcon,
                     overrideSize = QuackTopAppBarIconSize,
@@ -133,7 +133,7 @@ public fun QuackTopAppBar(
             }
 
             if (trailingIcon != null) {
-                this@Box.QuackImage(
+                QuackImage(
                     src = trailingIcon,
                     onClick = onClickTrailingIcon,
                     overrideSize = QuackTopAppBarIconSize,
@@ -141,7 +141,7 @@ public fun QuackTopAppBar(
             }
 
             if (trailingText != null) {
-                team.duckie.quackquack.ui.component.QuackSubtitle2(
+                QuackSubtitle2(
                     text = trailingText,
                     onClick = onClickTrailingText,
                 )
