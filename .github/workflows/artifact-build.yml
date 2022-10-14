@@ -49,7 +49,7 @@ jobs:
         run: ./gradlew build --scan
 
       - name: Comment gradle scan url if build failed
-        uses: actions/github-script@v6.3.2
+        uses: actions/github-script@v6.3.3
         if: failure()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
