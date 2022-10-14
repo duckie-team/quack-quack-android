@@ -53,7 +53,7 @@ To be written...
 
 ##  Build
 
-QuackQuack is developed using the latest version of Android Studio Canary. And also requires a build configuration file. Therefore, to build, you need to unzip the `quackuser-secrets.tar` file. You can do it easily with the following command:
+**QuackQuack is developed using the latest version of Android Studio Canary**. And also requires a build configuration file. Therefore, to build, you need to unzip the `quackuser-secrets.tar` file. You can do it easily with the following command:
 
 ```bash
 tar xvf quackuser-secrets.tar
@@ -65,7 +65,7 @@ tar xvf quackuser-secrets.tar
 
 Duckie's team is all Korean, so we're not good at English. So, most of the documentation was done in Korean. If you are familiar with Korean and English, perhaps the easiest and first contribution you can make is the English translation of documents. It will take some time, but it's a worthwhile incredible contribution for all of us, and we love English grammar improvements too, not just translations!
 
-Anyway, *any* contribution is welcome, just make sure you follow the [contribution guide]((.github/CONTRIBUTING.md)).
+Anyway, *any* contribution is welcome, just make sure you follow the [contribution guide](.github/CONTRIBUTING.md).
 
 ## Maintainer
 
