@@ -10,12 +10,15 @@ package team.duckie.quackquack.playground.realworld
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +36,10 @@ import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.QuackBody1
 import team.duckie.quackquack.ui.component.QuackCardImage
+import team.duckie.quackquack.ui.component.QuackFooterGridLayout
+import team.duckie.quackquack.ui.component.QuackHeaderGridLayout
 import team.duckie.quackquack.ui.component.QuackIconToggle
+import team.duckie.quackquack.ui.component.QuackImage
 import team.duckie.quackquack.ui.component.QuackSelectableImage
 import team.duckie.quackquack.ui.component.QuackSimpleGridLayout
 import team.duckie.quackquack.ui.component.QuackTitle2
@@ -46,7 +52,9 @@ class GridLayoutPlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
     private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
         "QuackGridLayout" to { QuackGridLayoutDemo() },
-        "QuackSelectableGridLayout" to { QuackSelectableGridLayoutDemo()},
+        "QuackSelectableGridLayout" to { QuackSelectableGridLayoutDemo() },
+        "QuackHeaderGridLayout" to { QuackHeaderGridLayoutDemo() },
+        "QuackFooterGridLayout" to { QuackFooterGridLayoutDemo() },
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,7 +124,7 @@ fun DuckieFavoriteItem(
 }
 
 @Composable
-fun QuackSelectableGridLayoutDemo(){
+fun QuackSelectableGridLayoutDemo() {
     val images = Array(
         size = 20,
     ) { "https://picsum.photos/id/237/200/300" }
@@ -143,11 +151,14 @@ fun QuackSelectableGridLayoutDemo(){
                 bottom = 30.dp,
             ),
         ) { index, item ->
-            val backgroundColor = if ( index % 2 == 0) QuackColor.SkyBlueColor else QuackColor.DuckieOrange
+            val backgroundColor =
+                if (index % 2 == 0) QuackColor.SkyBlueColor else QuackColor.DuckieOrange
             Box(
-                modifier = Modifier.fillMaxSize().background(
-                    color = backgroundColor.composeColor,
-                ),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        color = backgroundColor.composeColor,
+                    ),
                 contentAlignment = Alignment.Center,
             ) {
                 GalleryImageItem(
@@ -161,6 +172,7 @@ fun QuackSelectableGridLayoutDemo(){
         }
     }
 }
+
 @Composable
 private fun GalleryImageItem(
     isSelected: Boolean,
@@ -175,6 +187,83 @@ private fun GalleryImageItem(
         },
     )
 }
+
+@Composable
+fun QuackHeaderGridLayoutDemo() {
+
+    val images = Array(
+        size = 20,
+    ) { "https://picsum.photos/id/237/200/300" }
+    var selectedIndex by remember { mutableStateOf(-1) }
+
+    QuackHeaderGridLayout(
+        columns = 3,
+        items = images.toList().toPersistentList(),
+        horizontalSpace = 1.5.dp,
+        verticalSpace = 1.5.dp,
+        contentPadding = PaddingValues(
+            start = 8.dp,
+            end = 8.dp,
+            bottom = 30.dp,
+        ),
+        header = {
+            CameraIcon()
+        },
+        onClickHeader = {},
+        itemContent = { index, item ->
+            GalleryImageItem(
+                image = item,
+                onClick = {
+                    selectedIndex = index
+                },
+                isSelected = index == selectedIndex,
+            )
+        },
+    )
+}
+@Composable
+fun QuackFooterGridLayoutDemo() {
+
+    val images = Array(
+        size = 20,
+    ) { "https://picsum.photos/id/237/200/300" }
+    var selectedIndex by remember { mutableStateOf(-1) }
+
+    QuackFooterGridLayout(
+        columns = 3,
+        items = images.toList().toPersistentList(),
+        horizontalSpace = 1.5.dp,
+        verticalSpace = 1.5.dp,
+        contentPadding = PaddingValues(
+            start = 8.dp,
+            end = 8.dp,
+            bottom = 60.dp,
+        ),
+        footer = {
+            CameraIcon()
+        },
+        onClickFooter = {},
+        itemContent = { index, item ->
+            GalleryImageItem(
+                image = item,
+                onClick = {
+                    selectedIndex = index
+                },
+                isSelected = index == selectedIndex,
+            )
+        },
+    )
+}
+
+
+@Composable
+private fun CameraIcon(
+) {
+    QuackImage(
+        src = QuackIcon.Camera,
+    )
+}
+
 data class FavoriteItem(
     val title: String = "덕딜 어쩌구 제목이 길면 뭔가 달라지는 것 같은 느낌적인 느낌",
     val price: String = "69000원",
