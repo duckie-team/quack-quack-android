@@ -175,7 +175,7 @@ PR 이 `master` 브런치로 merge 될 때마다 실행되며, 꽥꽥 아티팩�
 
 #### Jvm Dokka, Jvm Kover, Jvm Library
 
-> [[1]](build-logic/src/main/kotlin/JvmDokkaPlugin.kt), [[2]](build-logic/src/main/kotlin/JvmKoverPlugin.kt], [[3]][/build-logic/src/main/kotlin/JvmLibraryPlugin.kt)
+> [[1]](build-logic/src/main/kotlin/JvmDokkaPlugin.kt), [[2]](build-logic/src/main/kotlin/JvmKoverPlugin.kt), [[3]](build-logic/src/main/kotlin/JvmLibraryPlugin.kt)
 
 각각 [dokka](https://github.com/Kotlin/dokka), [kover](https://github.com/Kotlin/kotlinx-kover), `java-library` 를 구성합니다.
 
