@@ -161,7 +161,7 @@ PR 이 `master` 브런치로 merge 될 때마다 실행되며, 꽥꽥 아티팩�
 
 `com.android.lint` 를 구성하고 린트 개발에 필요한 의존성들을 추가합니다.
 
-#### Android Compose [Application] [Libraray], Android Library Compose UI Test
+#### Android Compose [Application] [Library], Android Library Compose UI Test
 
 >  [[1 - Application]](build-logic/src/main/kotlin/AndroidApplicationComposePlugin.kt) [[1 - Library]](build-logic/src/main/kotlin/AndroidLibraryComposePlugin.kt), [[2]](build-logic/src/main/kotlin/AndroidLibraryComposeUiTestPlugin.kt)
 
