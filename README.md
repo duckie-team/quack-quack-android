@@ -267,9 +267,17 @@ Jetpack Compose 는 리컴포지션이 매우 많이 발생할 수 있습니다.
 
 ##### Lambda
 
-#### Stability
+##### Stability
 
 ##### Skippable
+
+#### 구현하는데 고민이 꽤 들었던 컴포넌트
+
+일부 컴포넌트들은 구현하기 위해 꽤 오랜 시간 고민이 필요했었습니다. 어떤 이유에서 고민이 길어졌고, 해결책은 무엇이었는지 기록합니다.
+
+##### QuackMainTab
+
+##### QuackRowTag
 
 ### Lints
 
