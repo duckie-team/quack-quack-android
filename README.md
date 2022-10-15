@@ -227,7 +227,7 @@ sealed class QuackArtifactType(
 
 꽥꽥에서 배포 가능한 아티팩트들을 미리 타입으로 한정지어 각각 아티팩트에 맞는 groupId 와 artifactId 를 하드코딩합니다. groupId 와 artifactId 를 한 곳에서 관리하여 추후 유지보수하기 편하고, 오탈자 방지를 위해 도입됐습니다.
 
-주어진 아티팩트 타입에 따라 배포 플러그인 구성을 자동으로 해주기 때문에 실제 사용에서는 단 3줄로 모든 배포 준비가 끝납니다.
+주어진 아티팩트 타입에 따라 배포 플러그인을 자동으로 구성해주기 때문에 실제 사용에서는 단 3줄로 모든 배포 준비가 끝납니다.
 
 ```kotlin
 import team.duckie.quackquack.convention.QuackArtifactType
@@ -241,9 +241,18 @@ quackArtifactPublish {
 }
 ```
 
-### UI-Components
+### UI Components
 
-To be written...
+꽥꽥의 UI 컴포넌트들은 다양한 스케일의 UI 를 빠른 속도로 개발하기 위해 모두 [Jetpack Compose](https://developer.android.com/jetpack/compose) 로 개발됐습니다. 또한 사용자의 접근성을 1순위로 고려하였습니다.
+
+- 넉넉한 터치 영역 ([touch target size](https://support.google.com/accessibility/android/answer/7101858)): 기본적으로 터치 영역이 작은 컴포넌트들은 주어진 터치 영역을 그대로 사용하는게 아닌 컴포넌트 마진의 절반 값을 패딩으로 적용하여 해당 패딩만큼 추가로 터치 영역을 가져가게 설계했습니다.
+- 유동적인 컴포넌트 사이즈: 대부분 컴포넌트들의 사이즈를 정적으로 고정시켜두는게 아닌 컴포넌트 내부 패딩으로 사이즈를 결정합니다. 따라서 다양한 font scale 에도 컴포넌트 텍스트의 뭉개짐 없이 완벽한 비율의 컴포넌트를 볼 수 있습니다. 추가로, font scale 에 따라 아이콘의 사이즈도 같이 조정됩니다.
+- 아름다운 UI 전환: 모든 컴포넌트들에는 변화 애니메이션이 적용돼 있습니다. 예를 들어 아이콘의 경우라면 틴트 색상 변화 및 아이콘 리소스 변화에 애니메이션이 적용되고, 텍스트의 경우라면 보여지고 있는 텍스트가 변할 때 애니메이션이 적용됩니다.
+
+| Quack Components |                            Animated Result                             |
+|:----------------:|:----------------------------------------------------------------------:|
+|  QuackHeadLine1  | <img src="assets/ui-components/animated-quacktext.mov" width="33%" />  |
+|    QuackImage    | <img src="assets/ui-components/animated-quackimage.mov" width="33%" /> |
 
 ### Lints
 
