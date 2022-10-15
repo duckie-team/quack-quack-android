@@ -243,19 +243,37 @@ quackArtifactPublish {
 
 ### UI Components
 
-꽥꽥의 UI 컴포넌트들은 다양한 스케일의 UI 를 빠른 속도로 개발하기 위해 모두 [Jetpack Compose](https://developer.android.com/jetpack/compose) 로 개발됐습니다. 또한 사용자의 접근성을 1순위로 고려하였습니다.
+꽥꽥의 UI 컴포넌트들은 다양한 스케일의 UI 를 빠른 속도로 개발하기 위해 모두 [Jetpack Compose](https://developer.android.com/jetpack/compose) 로 개발됐습니다. 
+
+#### 접근성
+
+덕키는 사용자의 접근성을 1순위로 고려하였습니다.
 
 - 넉넉한 터치 영역 ([touch target size](https://support.google.com/accessibility/android/answer/7101858)): 기본적으로 터치 영역이 작은 컴포넌트들은 주어진 터치 영역을 그대로 사용하는게 아닌 컴포넌트 마진의 절반 값을 패딩으로 적용하여 해당 패딩만큼 추가로 터치 영역을 가져가게 설계했습니다.
 - 유동적인 컴포넌트 사이즈: 대부분 컴포넌트들의 사이즈를 정적으로 고정시켜두는게 아닌 컴포넌트 내부 패딩으로 사이즈를 결정합니다. 따라서 다양한 font scale 에도 컴포넌트 텍스트의 뭉개짐 없이 완벽한 비율의 컴포넌트를 볼 수 있습니다. 추가로, font scale 에 따라 아이콘의 사이즈도 같이 조정됩니다.
 - 아름다운 UI 전환: 모든 컴포넌트들에는 변화 애니메이션이 적용돼 있습니다. 예를 들어 아이콘의 경우라면 틴트 색상 변화 및 아이콘 리소스 변화에 애니메이션이 적용되고, 텍스트의 경우라면 보여지고 있는 텍스트가 변할 때 애니메이션이 적용됩니다.
-  | Quack Components |                             Animated Result                             |
+  | Quack Component |                             Animation Result                             |
   |:----------------:|:-----------------------------------------------------------------------:|
   |  QuackHeadLine1  |  <img src="assets/ui-components/animated-quacktext.gif" width="33%" />  |
   |    QuackImage    | <img src="assets/ui-components/animated-quackimage.gif " width="33%" /> |
 
+#### 성능
+
+Jetpack Compose 는 리컴포지션이 매우 많이 발생할 수 있습니다. 따라서 덕키는 접근성 뿐만 아니라 컴포저블의 성능도 최상으로 유지하려 노력하였습니다.
+
+> TODO
+
+##### @NonRestartableComposable
+
+##### Lambda
+
+#### Stability
+
+##### Skippable
+
 ### Lints
 
-To be written...
+린트 파트는 린트 개발을 담당해주신 세현님께서 작성하신 [덕키팀에서 Custom Lint를 만드는 여정](https://blog.duckie.team/team-duckie%EC%97%90%EC%84%9C-custom-lint%EB%A5%BC-%EB%A7%8C%EB%93%9C%EB%8A%94-%EC%97%AC%EC%A0%95-a7ecca72a32f) 아티클로 확인하실 수 있습니다.
 
 ## Pronounce (Korean)
 
