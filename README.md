@@ -33,7 +33,7 @@ QuackQuack's design components can be previewed by building the Playground modul
 
 QuackQuack is available in the Maven repository. [BOM](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#bill-of-materials-bom-poms) is currently not supported due to [publishing issues](https://github.com/sungbinland/duckie-quack-quack/issues/114). Once the issue is resolved, BOM is published. (we are want for your help!)
 
-> **Warning**: Version 1.x.x was released for internal use for the MVP of Duckie products. Therefore, the stability/performance of some components has not been verified, so if you are interested in this project, we recommend using the 2.x.x version to be released later.
+> **Warning**: Version 1.x.x was released for internal use for the MVP of Duckie products. Therefore, the stability of some components has not been verified, so if you are interested in this project, we recommend using the 2.x.x version to be released later.
 
 ![quack-ui-components](https://img.shields.io/maven-central/v/team.duckie.quack/quack-ui-components?label=quack-ui-components&style=flat-square) ![quack-lint-core](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-core?label=quack-lint-core&style=flat-square) ![quack-lint-quack](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-quack?label=quack-lint-quack&style=flat-square) ![quack-lint-compose](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-compose?label=quack-lint-compose&style=flat-square) ![quack-lint-writing](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-writing?label=quack-lint-writing&style=flat-square)
 
@@ -70,22 +70,25 @@ Anyway, *any* contribution is welcome, just make sure you follow the [contributi
 ## Maintainers
 
 - Design: [Hyejin Kim](https://www.behance.net/hyejinkim32)
+- Documentations & Automations: [@jisungbin](https://github.com/jisungbin)
 - UI Components: [@jisungbin](https://github.com/jisungbin), [@EvergreenTree97](https://github.com/EvergreenTree97), [@goddoro](https://github.com/goddoro)
 - Lints: [@limsaehyun](https://github.com/limsaehyun), [@riflockle7](https://github.com/riflockle7)
 
 ## Tech Stacks (Korean)
 
-꽥꽥은 [NowInAndroid](https://github.com/android/nowinandroid)(Gradle Convention Plugins), [DroidKaigi](https://github.com/DroidKaigi/conference-app-2022)(Github Actions), [Paparazzi](https://github.com/cashapp/paparazzi)(Github Actions) 를 적극 참고하여 개발됐습니다. 이 중 중요하게 생각되는 것들을 기록합니다.
+꽥꽥은 [androidx](https://github.com/androidx/androidx)(Gradle), [NowInAndroid](https://github.com/android/nowinandroid)(Gradle Convention Plugins), [DroidKaigi](https://github.com/DroidKaigi/conference-app-2022)(Github Actions), [Paparazzi](https://github.com/cashapp/paparazzi)(Github Actions) 를 적극 참고하여 개발됐습니다. 이 중 가치있게 생각되는 것들을 기록합니다.
 
-### Github Actions
+### Automations
 
 [Github Actions](https://github.com/features/actions) 를 활용하여 CI/CD 를 진행하고 있습니다.
 
 #### [ALL] GRADLE_OPTS
 
-`-Dorg.gradle.daemon=false -Dkotlin.incremental=false` 
+`-Dorg.gradle.daemon=false` 
 
-모든 플로우에서는 ... TODO
+모든 자동화 워크플로우에서는 [Gradle Daemon](https://docs.gradle.org/current/userguide/gradle_daemon.html) 을 비활성화 합니다. 이는 자동화에서 할당된 Worker 가 이전 Job 과 동일한 Worker 라는 보장을 할 수 없기 때문입니다. 
+
+> **Note**: 모든 자동화 워크플로우에서는 [Gradle Build Action](https://github.com/marketplace/actions/gradle-build-action) 액션을 통해 [Build Caching](https://docs.gradle.org/current/userguide/build_cache.html) 을 하고 있습니다. 따라서 이 조건 하에는 [incremental build](https://docs.gradle.org/current/userguide/performance.html#incremental_build) 를 사용하는 것이 이득을 볼 수 있습니다.
 
 #### Android CI (android-ci.yml)
 
@@ -119,6 +122,8 @@ PR 이 `master` 브런치로 merge 될 때마다 실행되며, 꽥꽥 아티팩�
   - 매번 두 가지의 배포를 수동으로 진행하는 것은 번거로운 일이므로 이를 자동화하기 위한 과정입니다.
   - firebase app distribution 으로 배포된 플레이그라운드를 가지고 덕키팀 디자이너가 UI 컴포넌트가 올바르게 나왔는지 확인합니다. 만약 문제가 있다면 수정을 진행하고, 완벽하다면 다음 feature 개발을 진행합니다.
 
+##### [ALL] Publishing & Bump Target
+
 모든 배포는 해당 PR 의 label 로 지정된 target 을 기준으로 진행되며, `publish` 하기 전에 해당 target 의 버전을 bump 하는 단계가 진행됩니다. 꽥꽥 아티팩트의 모든 버전은 [quackquack-version](/quackquack-version) 폴더 안에 있는 텍스트 파일로 관리됩니다. 
 
 - [GitHub Script](https://github.com/marketplace/actions/github-script) 액션으로 PR 의 label 에서 target 만을 추출한 후, 해당 target 으로 `./gradlew bumpVersion ` 을 실행하여 bump 를 진행합니다. `bumpVersion` task 는 프로젝트 루트 [build.gradle.kts](build.gradle.kts) 에서 추가하고 있습니다.
@@ -129,16 +134,120 @@ PR 이 `master` 브런치로 merge 될 때마다 실행되며, 꽥꽥 아티팩�
 
 `master` 브런치로 merge 된 PR 에 `/publish` comment 가 추가될 때마다 실행되며 성공적으로 빌드됐다면 새로운 버전을 배포합니다.
 
-- 프로젝트 빌드
-  - 배포된 라이브러리는 여러 환경에서 실행될 수 있으므로 `MacOS`, `Windows`, `ubuntu` 환경에서 빌드를 각각 진행합니다. 또한 여러 자바 버전도 사용될 수 있으므로 ... TODO
+- 아티팩트 빌드
+  - 배포된 아티팩트는 여러 환경에서 실행될 수 있으므로 `MacOS`, `Windows`, `ubuntu` 환경에서 빌드를 각각 진행합니다. 또한 여러 자바 버전도 사용될 수 있으므로 LTS 에 해당되는 [11, 12, 16, 18] 버전을 기준으로 빌드를 진행합니다.
   - 만약 빌드 실패시 [Gradle Build Scan](https://scans.gradle.com/) 링크를 해당 PR 의 댓글로 첨부합니다.
-  - 라이브러리가 모든 환경에서 정상적으로 빌드되는지 자동으로 검사하기 위한 과정입니다.
-- 프로젝트 배포
+  - 아티팩트가 모든 환경에서 정상적으로 빌드되는지 검사하기 위한 과정입니다.
+- 아티팩트 배포
   - [gradle-maven-publish-plugin](https://github.com/vanniktech/gradle-maven-publish-plugin) 을 이용하여 MavenCentral 에 배포를 진행합니다. 
-  - `./gradlew :{target}:publish (--no-parallel) --scan` 를 사용합니다.
-  - `--no-parallel`: 아티팩트의 대상인 Sonatype 은 동시 업로드를 별도의 것으로 보고 각각 두 개의 staging repository 를 생성합니다 [[#]](https://github.com/JakeWharton/dagger-reflect/pull/38). 이를 방지하기 위해 `--no-parallel` 옵션이 필요하지만, 꽥꽥의 경우에는 배포할 모듈을 하나로 특정지어 `publish` 하므로 이 옵션이 필요하지 않습니다. 
   - 배포가 성공적으로 진행됐다면 GitHub Release 와 Git Tag 를 하는 것으로 배포 작업이 마무리됩니다.
   - 매번 수동 배포는 번거롭고 배포 키를 가진 사람만 배포를 할 수 있다는 문제가 있어서 이를 자동화하기 위한 과정입니다.
+
+> **Note**: 아티팩트의 대상인 Sonatype 은 동시 업로드를 별도의 것으로 보고 각각 두 개의 staging repository 를 생성합니다 [[#]](https://github.com/JakeWharton/dagger-reflect/pull/38). 이를 방지하기 위해 `--no-parallel` 옵션이 필요하지만, 꽥꽥의 경우에는 배포할 모듈을 하나로 특정지어 `publish` 하므로 이 옵션이 필요하지 않습니다. 
+
+### Gradle Convention Plugins
+
+모든 Gradle 에는 [Gradle Convention Plugins](https://docs.gradle.org/current/samples/sample_convention_plugins.html) 을 적용합니다. 반복적인 Gradle 코드를 줄이고, 최소한의 변경으로 공통되는 모든 부분에 변경 사항을 반영하기 위해 사용합니다.
+
+#### Android Application, Android Library
+
+> [[1]](build-logic/src/main/kotlin/AndroidApplicationPlugin.kt), [[2]](build-logic/src/main/kotlin/AndroidLibraryPlugin.kt)
+
+기본적인 `com.android.application` 또는 `com.android.library` 을 구성합니다. 추가로 벤치마크를 위해 `benchmark` variant 도 추가합니다.
+
+#### Android Lint, Android Lint Common
+
+> [[1]](build-logic/src/main/kotlin/AndroidLintPlugin.kt), [[2]](build-logic/src/main/kotlin/AndroidCommonLintPlugin.kt)
+
+`com.android.lint` 를 구성하고 린트 개발에 필요한 의존성들을 추가합니다.
+
+#### Android Compose [Application] [Library], Android Library Compose UI Test
+
+>  [[1 - Application]](build-logic/src/main/kotlin/AndroidApplicationComposePlugin.kt) [[1 - Library]](build-logic/src/main/kotlin/AndroidLibraryComposePlugin.kt), [[2]](build-logic/src/main/kotlin/AndroidLibraryComposeUiTestPlugin.kt)
+
+각각 variant 에 맞게 [Jetpack Compose](https://developer.android.com/jetpack/compose) 사용 환경을 구성합니다. 또한 `Library` variant 에서는 [Compose UI Test](https://developer.android.com/jetpack/compose/testing) 사용 환경도 추가로 구성합니다. 현재 꽥꽥 프로젝트에서는 `ui-components` 모듈만 UI 테스트가 필요하고, 해당 모듈이 `Library` variant 로 구성돼 있습니다.
+
+#### UI Components Benchmark
+
+> [[1]](build-logic/src/main/kotlin/AndroidQuackUiComponentsBenchmarkPlugin.kt)
+
+`com.android.test` 와 [Macrobenchmark](https://developer.android.com/topic/performance/benchmarking/macrobenchmark-overview) 을 구성합니다. `ui-components` 모듈을 대상으로 [baseline profiles](https://developer.android.com/topic/performance/baselineprofiles/overview) 을 추출하기 위해 사용됩니다.
+
+#### Jvm Dokka, Jvm Kover, Jvm Library
+
+> [[1]](build-logic/src/main/kotlin/JvmDokkaPlugin.kt), [[2]](build-logic/src/main/kotlin/JvmKoverPlugin.kt), [[3]](build-logic/src/main/kotlin/JvmLibraryPlugin.kt)
+
+각각 [dokka](https://github.com/Kotlin/dokka), [kover](https://github.com/Kotlin/kotlinx-kover), `java-library` 를 구성합니다.
+
+#### Artifacts Publishing
+
+> [[1]](build-logic/src/main/kotlin/AndroidQuackPublishPlugin.kt)
+
+[gradle-maven-publish-plugin](https://github.com/vanniktech/gradle-maven-publish-plugin) 을 구성합니다. 꽥꽥의 Conventions Plugins 중에 유일하게 별도 [extensions](build-logic/src/main/kotlin/team/duckie/quackquack/convention/QuackPublishExtension.kt) 을 만들어 진행됩니다.
+
+```kotlin
+open class QuackPublishExtension {
+    open lateinit var type: QuackArtifactType
+    internal val isNotInitialized get() = !::type.isInitialized
+    override fun toString() = "artifactName: ${type.artifactId}, " +
+            "description: ${type.description}"
+}
+
+sealed class QuackArtifactType(
+    val artifactId: String,
+    val description: String,
+) {
+    object UiComponents : QuackArtifactType(
+        artifactId = "quack-ui-components",
+        description = "Duckie's design system core module",
+    )
+
+    object LintCore : QuackArtifactType(
+        artifactId = "quack-lint-core",
+        description = buildLintArtifactDescription(
+            target = "Duckie codebase",
+        ),
+    )
+
+    object LintQuack : QuackArtifactType(
+        artifactId = "quack-lint-quack",
+        description = buildLintArtifactDescription(
+            target = "QuackQuack ui components",
+        ),
+    )
+
+    object LintCompose : QuackArtifactType(
+        artifactId = "quack-lint-compose",
+        description = buildLintArtifactDescription(
+            target = "Jetpack Compose codebase",
+        ),
+    )
+}
+```
+
+꽥꽥에서 배포 가능한 아티팩트들을 미리 타입으로 한정지어 각각 아티팩트에 맞는 groupId 와 artifactId 를 하드코딩합니다. groupId 와 artifactId 를 한 곳에서 관리하여 추후 유지보수하기 편하고, 오탈자 방지를 위해 도입됐습니다.
+
+주어진 아티팩트 타입에 따라 배포 플러그인 구성을 자동으로 해주기 때문에 실제 사용에서는 단 3줄로 모든 배포 준비가 끝납니다.
+
+```kotlin
+import team.duckie.quackquack.convention.QuackArtifactType
+
+plugins {
+    id(ConventionEnum.AndroidQuackPublish)
+}
+
+quackArtifactPublish {
+    type = QuackArtifactType.UiComponents
+}
+```
+
+### UI-Components
+
+To be written...
+
+### Lints
+
+To be written...
 
 ## Pronounce (Korean)
 
