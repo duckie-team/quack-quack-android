@@ -19,8 +19,9 @@ import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.ui.color.QuackColor
-import team.duckie.quackquack.ui.component.QuackHighlightBody3
-import team.duckie.quackquack.ui.component.QuackHighlightHeadLine2
+import team.duckie.quackquack.ui.component.QuackHighlightBody1
+import team.duckie.quackquack.ui.component.QuackUnderlineBody3
+import team.duckie.quackquack.ui.component.QuackUnderlineHeadLine2
 
 class TypoPlayground : BaseActivity() {
     @Suppress("RemoveExplicitTypeArguments")
@@ -50,19 +51,27 @@ fun QuackHighlightTextDemo() {
             space = 10.dp,
         ),
     ) {
-        QuackHighlightHeadLine2(
+        QuackUnderlineHeadLine2(
             text = text,
-            highlightTextList = persistentListOf("우주사령관"),
+            underlineText = persistentListOf("우주사령관"),
             onClick = {},
         )
-        QuackHighlightBody3(
+        QuackUnderlineBody3(
             text = "가입 시, 덕키의 필수 이용 약관과\n개인정보 수집 및 이용에 동의하게 됩니다.",
-            highlightTextList = persistentListOf(
+            underlineText = persistentListOf(
                 "필수 이용 약관",
                 "개인정보 수집 및 이용",
             ),
             color = QuackColor.Gray2,
-            highlightColor = QuackColor.Gray2,
+            undelineTextColor = QuackColor.Gray2,
+            align = TextAlign.Center,
+        )
+        QuackHighlightBody1(
+            text = "가입 시, 덕키의 필수 이용 약관과\n개인정보 수집 및 이용에 동의하게 됩니다.",
+            highlightText = persistentListOf(
+                "필수 이용 약관",
+                "개인정보 수집 및 이용",
+            ),
             align = TextAlign.Center,
         )
     }

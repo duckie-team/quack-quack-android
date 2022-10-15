@@ -141,10 +141,10 @@ private fun DropDown() {
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            this@Box.QuackBody1(
+            QuackBody1(
                 text = "body1",
             )
-            this@Box.QuackImage(
+            QuackImage(
                 src = QuackIcon.ArrowDown,
                 overrideSize = DpSize(
                     width = 24.dp,

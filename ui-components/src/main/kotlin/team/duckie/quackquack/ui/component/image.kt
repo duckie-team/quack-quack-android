@@ -37,9 +37,6 @@ import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.util.runIf
 
-private val QuackRoundImageShape = RoundedCornerShape(
-    size = 24.dp,
-)
 private val QuackRoundImageSize = DpSize(
     width = 72.dp,
     height = 72.dp,
@@ -48,6 +45,7 @@ private val QuackRoundImageSize = DpSize(
 /**
  * 이미지 혹은 [QuackIcon] 을 표시합니다.
  *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param src 표시할 리소스. 만약 null 이 들어온다면 리소스를 그리지 않습니다.
  * @param overrideSize 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
  * @param tint 아이콘에 적용할 틴트 값
@@ -57,6 +55,7 @@ private val QuackRoundImageSize = DpSize(
  */
 @Composable
 public fun QuackImage(
+    modifier: Modifier = Modifier,
     src: Any?,
     overrideSize: DpSize? = null,
     tint: QuackColor? = null,
@@ -64,7 +63,7 @@ public fun QuackImage(
     onClick: (() -> Unit)? = null,
     contentScale: ContentScale = ContentScale.Crop,
 ): Unit = QuackImageInternal(
-    modifier = Modifier.quackClickable(
+    modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
     ),
@@ -75,63 +74,21 @@ public fun QuackImage(
 )
 
 /**
- * 이미지 혹은 [QuackIcon] 을 표시합니다.
- *
- * @param src 표시할 리소스. 만약 null 이 들어온다면 리소스를 그리지 않습니다.
- * @param overrideSize 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
- * @param align [BoxScope] 내에서의 정렬
- * @param paddingProvider [PaddingValues] 를 제공할 람다
- * @param tint 아이콘에 적용할 틴트 값
- * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
- * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
- * @param contentScale 이미지에 들어갈 ContentScale 값
- */
-@Composable
-public fun BoxScope.QuackImage(
-    src: Any?,
-    overrideSize: DpSize? = null,
-    align: Alignment = Alignment.TopStart,
-    paddingProvider: () -> PaddingValues = { NoPadding },
-    tint: QuackColor? = null,
-    rippleEnabled: Boolean = true,
-    onClick: (() -> Unit)? = null,
-    contentScale: ContentScale = ContentScale.Crop,
-): Unit = QuackImageInternal(
-    modifier = Modifier
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        )
-        .align(
-            alignment = align,
-        )
-        .padding(
-            paddingValues = paddingProvider()
-        ),
-    src = src,
-    overrideSize = overrideSize,
-    tint = tint,
-    contentScale = contentScale,
-)
-
-
-/**
  * [QuackRoundImage] 를 구현합니다.
  *
- * 내부적으로 [QuackImageInternal] 를 사용하고
- * [Box]로 감싸 Shape 만 관여합니다.
- *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param src 표시할 이비지의 값
  * @param size 이미지의 사이즈 값
  */
 // TODO: 로딩 effect
 @Composable
 public fun QuackRoundImage(
+    modifier: Modifier = Modifier,
     src: Any?,
     size: DpSize = QuackRoundImageSize,
 ) {
     QuackImageInternal(
-        modifier = Modifier.clip(
+        modifier = modifier.clip(
             shape = QuackSquircle(),
         ),
         src = src,
@@ -139,40 +96,6 @@ public fun QuackRoundImage(
     )
 }
 
-/**
- * [QuackRoundImage] 를 구현합니다.
- *
- * 내부적으로 [QuackImageInternal] 를 사용하고
- * [Box]로 감싸 Shape만 관여합니다.
- *
- * @param src 표시할 이비지의 값
- * @param size 이미지의 사이즈 값
- * @param align [BoxScope] 내에서의 정렬
- * @param paddingProvider [PaddingValues] 를 제공할 람다
- */
-// TODO: 로딩 effect
-@Composable
-public fun BoxScope.QuackRoundImage(
-    src: Any?,
-    size: DpSize = QuackRoundImageSize,
-    align: Alignment = Alignment.TopStart,
-    paddingProvider: () -> PaddingValues = { NoPadding },
-) {
-    QuackImageInternal(
-        modifier = Modifier
-            .clip(
-                shape = QuackSquircle(),
-            )
-            .align(
-                alignment = align,
-            )
-            .padding(
-                paddingValues = paddingProvider()
-            ),
-        src = src,
-        overrideSize = size,
-    )
-}
 
 /**
  * [QuackImage] 를 실제로 그립니다. 내부에서 사용되는 컴포넌트이므로

@@ -9,21 +9,18 @@
 
 package team.duckie.quackquack.ui.component
 
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.sp
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
-import team.duckie.quackquack.ui.constant.NoPadding
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 
@@ -33,6 +30,7 @@ import team.duckie.quackquack.ui.textstyle.QuackTextStyle
  * [QuackText] 에 [QuackTextStyle.HeadLine1] 스타일을 적용하여
  * 주어진 텍스트를 표시합니다.
  *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -43,6 +41,7 @@ import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 @Composable
 @NonRestartableComposable
 public fun QuackHeadLine1(
+    modifier: Modifier = Modifier,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -50,7 +49,7 @@ public fun QuackHeadLine1(
     singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = Modifier.quackClickable(
+    modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
     ),
@@ -63,55 +62,10 @@ public fun QuackHeadLine1(
 )
 
 /**
- * [QuackText] 에 [QuackTextStyle.HeadLine1] 스타일을 적용하여
- * 주어진 텍스트를 표시합니다.
- *
- * BoxScope 내에서 정렬, padding 을 설정할 수 있습니다.
- *
- * @param text 표시할 텍스트
- * @param color 텍스트의 색상
- * @param textAlign 텍스트 정렬
- * @param align [BoxScope] 내에서의 정렬
- * @param paddingProvider [PaddingValues] 를 제공할 람다
- * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
- * @param singleLine 텍스트를 한 줄만 사용할지 여부
- * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
- */
-@Composable
-@NonRestartableComposable
-public fun BoxScope.QuackHeadLine1(
-    text: String,
-    color: QuackColor = QuackColor.Black,
-    textAlign: TextAlign = TextAlign.Start,
-    align: Alignment = Alignment.TopStart,
-    paddingProvider: () -> PaddingValues = { NoPadding },
-    rippleEnabled: Boolean = false,
-    singleLine: Boolean = false,
-    onClick: (() -> Unit)? = null,
-): Unit = QuackText(
-    modifier = Modifier
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        )
-        .align(
-            alignment = align,
-        )
-        .padding(
-            paddingValues = paddingProvider(),
-        ),
-    text = text,
-    style = QuackTextStyle.HeadLine1.change(
-        color = color,
-        textAlign = textAlign,
-    ),
-    singleLine = singleLine,
-)
-
-/**
  * [QuackText] 에 [QuackTextStyle.HeadLine2] 스타일을 적용하여
  * 주어진 텍스트를 표시합니다.
  *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -121,6 +75,7 @@ public fun BoxScope.QuackHeadLine1(
  */
 @Composable
 public fun QuackHeadLine2(
+    modifier: Modifier = Modifier,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -128,7 +83,7 @@ public fun QuackHeadLine2(
     singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = Modifier.quackClickable(
+    modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
     ),
@@ -140,56 +95,12 @@ public fun QuackHeadLine2(
     singleLine = singleLine,
 )
 
-/**
- * [QuackText] 에 [QuackTextStyle.HeadLine2] 스타일을 적용하여
- * 주어진 텍스트를 표시합니다.
- *
- * BoxScope 내에서 정렬, padding 을 설정할 수 있습니다.
- *
- * @param text 표시할 텍스트
- * @param color 텍스트의 색상
- * @param textAlign 텍스트 정렬
- * @param align [BoxScope] 내에서의 정렬
- * @param paddingProvider [PaddingValues] 를 제공할 람다
- * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
- * @param singleLine 텍스트를 한 줄만 사용할지 여부
- * @param onClick 텍스트가 클릭됐을 때 실행할 람다식
- */
-@Composable
-@NonRestartableComposable
-public fun BoxScope.QuackHeadLine2(
-    text: String,
-    color: QuackColor = QuackColor.Black,
-    textAlign: TextAlign = TextAlign.Start,
-    align: Alignment = Alignment.TopStart,
-    paddingProvider: () -> PaddingValues = { NoPadding },
-    rippleEnabled: Boolean = false,
-    singleLine: Boolean = false,
-    onClick: (() -> Unit)? = null,
-): Unit = QuackText(
-    modifier = Modifier
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        )
-        .align(
-            alignment = align,
-        )
-        .padding(
-            paddingValues = paddingProvider(),
-        ),
-    text = text,
-    style = QuackTextStyle.HeadLine2.change(
-        color = color,
-        textAlign = textAlign,
-    ),
-    singleLine = singleLine,
-)
 
 /**
  * [QuackText] 에 [QuackTextStyle.Title1] 스타일을 적용하여
  * 주어진 텍스트를 표시합니다.
  *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -199,6 +110,7 @@ public fun BoxScope.QuackHeadLine2(
  */
 @Composable
 public fun QuackTitle1(
+    modifier: Modifier = Modifier,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -206,7 +118,7 @@ public fun QuackTitle1(
     singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = Modifier.quackClickable(
+    modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
     ),
@@ -219,55 +131,10 @@ public fun QuackTitle1(
 )
 
 /**
- * [QuackText] 에 [QuackTextStyle.Title1] 스타일을 적용하여
- * 주어진 텍스트를 표시합니다.
- *
- * BoxScope 내에서 정렬, padding 을 설정할 수 있습니다.
- *
- * @param text 표시할 텍스트
- * @param color 텍스트의 색상
- * @param textAlign 텍스트 정렬
- * @param align [BoxScope] 내에서의 정렬
- * @param paddingProvider [PaddingValues] 를 제공할 람다
- * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
- * @param singleLine 텍스트를 한 줄만 사용할지 여부
- * @param onClick 텍스트가 클릭됐을 때 실행할 람다식
- */
-@Composable
-@NonRestartableComposable
-public fun BoxScope.QuackTitle1(
-    text: String,
-    color: QuackColor = QuackColor.Black,
-    textAlign: TextAlign = TextAlign.Start,
-    align: Alignment = Alignment.TopStart,
-    paddingProvider: () -> PaddingValues = { NoPadding },
-    rippleEnabled: Boolean = false,
-    singleLine: Boolean = false,
-    onClick: (() -> Unit)? = null,
-): Unit = QuackText(
-    modifier = Modifier
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        )
-        .align(
-            alignment = align,
-        )
-        .padding(
-            paddingValues = paddingProvider(),
-        ),
-    text = text,
-    style = QuackTextStyle.Title1.change(
-        color = color,
-        textAlign = textAlign,
-    ),
-    singleLine = singleLine,
-)
-
-/**
  * [QuackText] 에 [QuackTextStyle.Title2] 스타일을 적용하여
  * 주어진 텍스트를 표시합니다.
  *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -277,6 +144,7 @@ public fun BoxScope.QuackTitle1(
  */
 @Composable
 public fun QuackTitle2(
+    modifier: Modifier = Modifier,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -284,7 +152,7 @@ public fun QuackTitle2(
     singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = Modifier.quackClickable(
+    modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
     ),
@@ -297,55 +165,10 @@ public fun QuackTitle2(
 )
 
 /**
- * [QuackText] 에 [QuackTextStyle.Title2] 스타일을 적용하여
- * 주어진 텍스트를 표시합니다.
- *
- * BoxScope 내에서 정렬, padding 을 설정할 수 있습니다.
- *
- * @param text 표시할 텍스트
- * @param color 텍스트의 색상
- * @param textAlign 텍스트 정렬
- * @param align [BoxScope] 내에서의 정렬
- * @param paddingProvider [PaddingValues] 를 제공할 람다
- * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
- * @param singleLine 텍스트를 한 줄만 사용할지 여부
- * @param onClick 텍스트가 클릭됐을 때 실행할 람다식
- */
-@Composable
-@NonRestartableComposable
-public fun BoxScope.QuackTitle2(
-    text: String,
-    color: QuackColor = QuackColor.Black,
-    textAlign: TextAlign = TextAlign.Start,
-    align: Alignment = Alignment.TopStart,
-    paddingProvider: () -> PaddingValues = { NoPadding },
-    rippleEnabled: Boolean = false,
-    singleLine: Boolean = false,
-    onClick: (() -> Unit)? = null,
-): Unit = QuackText(
-    modifier = Modifier
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        )
-        .align(
-            alignment = align,
-        )
-        .padding(
-            paddingValues = paddingProvider(),
-        ),
-    text = text,
-    style = QuackTextStyle.Title2.change(
-        color = color,
-        textAlign = textAlign,
-    ),
-    singleLine = singleLine,
-)
-
-/**
  * [QuackText] 에 [QuackTextStyle.Subtitle] 스타일을 적용하여
  * 주어진 텍스트를 표시합니다.
  *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -355,6 +178,7 @@ public fun BoxScope.QuackTitle2(
  */
 @Composable
 public fun QuackSubtitle(
+    modifier: Modifier = Modifier,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -362,7 +186,7 @@ public fun QuackSubtitle(
     singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = Modifier.quackClickable(
+    modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
     ),
@@ -375,55 +199,10 @@ public fun QuackSubtitle(
 )
 
 /**
- * [QuackText] 에 [QuackTextStyle.Subtitle] 스타일을 적용하여
- * 주어진 텍스트를 표시합니다.
- *
- * BoxScope 내에서 정렬, padding 을 설정할 수 있습니다.
- *
- * @param text 표시할 텍스트
- * @param color 텍스트의 색상
- * @param textAlign 텍스트 정렬
- * @param align [BoxScope] 내에서의 정렬
- * @param paddingProvider [PaddingValues] 를 제공할 람다
- * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
- * @param singleLine 텍스트를 한 줄만 사용할지 여부
- * @param onClick 텍스트가 클릭됐을 때 실행할 람다식
- */
-@Composable
-@NonRestartableComposable
-public fun BoxScope.QuackSubtitle(
-    text: String,
-    color: QuackColor = QuackColor.Black,
-    textAlign: TextAlign = TextAlign.Start,
-    align: Alignment = Alignment.TopStart,
-    paddingProvider: () -> PaddingValues = { NoPadding },
-    rippleEnabled: Boolean = false,
-    singleLine: Boolean = false,
-    onClick: (() -> Unit)? = null,
-): Unit = QuackText(
-    modifier = Modifier
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        )
-        .align(
-            alignment = align,
-        )
-        .padding(
-            paddingValues = paddingProvider(),
-        ),
-    text = text,
-    style = QuackTextStyle.Subtitle.change(
-        color = color,
-        textAlign = textAlign,
-    ),
-    singleLine = singleLine,
-)
-
-/**
  * [QuackText] 에 [QuackTextStyle.Subtitle2] 스타일을 적용하여
  * 주어진 텍스트를 표시합니다.
  *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -433,6 +212,7 @@ public fun BoxScope.QuackSubtitle(
  */
 @Composable
 public fun QuackSubtitle2(
+    modifier: Modifier = Modifier,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -440,7 +220,7 @@ public fun QuackSubtitle2(
     singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = Modifier.quackClickable(
+    modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
     ),
@@ -453,55 +233,10 @@ public fun QuackSubtitle2(
 )
 
 /**
- * [QuackText] 에 [QuackTextStyle.Subtitle2] 스타일을 적용하여
- * 주어진 텍스트를 표시합니다.
- *
- * BoxScope 내에서 정렬, padding 을 설정할 수 있습니다.
- *
- * @param text 표시할 텍스트
- * @param color 텍스트의 색상
- * @param textAlign 텍스트 정렬
- * @param align [BoxScope] 내에서의 정렬
- * @param paddingProvider [PaddingValues] 를 제공할 람다
- * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
- * @param singleLine 텍스트를 한 줄만 사용할지 여부
- * @param onClick 텍스트가 클릭됐을 때 실행할 람다식
- */
-@Composable
-@NonRestartableComposable
-public fun BoxScope.QuackSubtitle2(
-    text: String,
-    color: QuackColor = QuackColor.Black,
-    textAlign: TextAlign = TextAlign.Start,
-    align: Alignment = Alignment.TopStart,
-    paddingProvider: () -> PaddingValues = { NoPadding },
-    rippleEnabled: Boolean = false,
-    singleLine: Boolean = false,
-    onClick: (() -> Unit)? = null,
-): Unit = QuackText(
-    modifier = Modifier
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        )
-        .align(
-            alignment = align,
-        )
-        .padding(
-            paddingValues = paddingProvider(),
-        ),
-    text = text,
-    style = QuackTextStyle.Subtitle2.change(
-        color = color,
-        textAlign = textAlign,
-    ),
-    singleLine = singleLine,
-)
-
-/**
  * [QuackText] 에 [QuackTextStyle.Body1] 스타일을 적용하여
  * 주어진 텍스트를 표시합니다.
  *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -511,6 +246,7 @@ public fun BoxScope.QuackSubtitle2(
  */
 @Composable
 public fun QuackBody1(
+    modifier: Modifier = Modifier,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -518,7 +254,7 @@ public fun QuackBody1(
     singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = Modifier.quackClickable(
+    modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
     ),
@@ -531,55 +267,10 @@ public fun QuackBody1(
 )
 
 /**
- * [QuackText] 에 [QuackTextStyle.Body1] 스타일을 적용하여
- * 주어진 텍스트를 표시합니다.
- *
- * BoxScope 내에서 정렬, padding 을 설정할 수 있습니다.
- *
- * @param text 표시할 텍스트
- * @param color 텍스트의 색상
- * @param textAlign 텍스트 정렬
- * @param align [BoxScope] 내에서의 정렬
- * @param paddingProvider [PaddingValues] 를 제공할 람다
- * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
- * @param singleLine 텍스트를 한 줄만 사용할지 여부
- * @param onClick 텍스트가 클릭됐을 때 실행할 람다식
- */
-@Composable
-@NonRestartableComposable
-public fun BoxScope.QuackBody1(
-    text: String,
-    color: QuackColor = QuackColor.Black,
-    textAlign: TextAlign = TextAlign.Start,
-    align: Alignment = Alignment.TopStart,
-    paddingProvider: () -> PaddingValues = { NoPadding },
-    rippleEnabled: Boolean = false,
-    singleLine: Boolean = false,
-    onClick: (() -> Unit)? = null,
-): Unit = QuackText(
-    modifier = Modifier
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        )
-        .align(
-            alignment = align,
-        )
-        .padding(
-            paddingValues = paddingProvider(),
-        ),
-    text = text,
-    style = QuackTextStyle.Body1.change(
-        color = color,
-        textAlign = textAlign,
-    ),
-    singleLine = singleLine,
-)
-
-/**
  * [QuackText] 에 [QuackTextStyle.Body2] 스타일을 적용하여
  * 주어진 텍스트를 표시합니다.
  *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -589,6 +280,7 @@ public fun BoxScope.QuackBody1(
  */
 @Composable
 public fun QuackBody2(
+    modifier: Modifier = Modifier,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -596,7 +288,7 @@ public fun QuackBody2(
     onClick: (() -> Unit)? = null,
     singleLine: Boolean = false,
 ): Unit = QuackText(
-    modifier = Modifier.quackClickable(
+    modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
     ),
@@ -609,55 +301,10 @@ public fun QuackBody2(
 )
 
 /**
- * [QuackText] 에 [QuackTextStyle.Body2] 스타일을 적용하여
- * 주어진 텍스트를 표시합니다.
- *
- * BoxScope 내에서 정렬, padding 을 설정할 수 있습니다.
- *
- * @param text 표시할 텍스트
- * @param color 텍스트의 색상
- * @param textAlign 텍스트 정렬
- * @param align [BoxScope] 내에서의 정렬
- * @param paddingProvider [PaddingValues] 를 제공할 람다
- * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
- * @param singleLine 텍스트를 한 줄만 사용할지 여부
- * @param onClick 텍스트가 클릭됐을 때 실행할 람다식
- */
-@Composable
-@NonRestartableComposable
-public fun BoxScope.QuackBody2(
-    text: String,
-    color: QuackColor = QuackColor.Black,
-    textAlign: TextAlign = TextAlign.Start,
-    align: Alignment = Alignment.TopStart,
-    paddingProvider: () -> PaddingValues = { NoPadding },
-    rippleEnabled: Boolean = false,
-    singleLine: Boolean = false,
-    onClick: (() -> Unit)? = null,
-): Unit = QuackText(
-    modifier = Modifier
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        )
-        .align(
-            alignment = align,
-        )
-        .padding(
-            paddingValues = paddingProvider(),
-        ),
-    text = text,
-    style = QuackTextStyle.Body2.change(
-        color = color,
-        textAlign = textAlign,
-    ),
-    singleLine = singleLine,
-)
-
-/**
  * [QuackText] 에 [QuackTextStyle.Body3] 스타일을 적용하여
  * 주어진 텍스트를 표시합니다.
  *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -667,6 +314,7 @@ public fun BoxScope.QuackBody2(
  */
 @Composable
 public fun QuackBody3(
+    modifier: Modifier = Modifier,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -674,7 +322,7 @@ public fun QuackBody3(
     onClick: (() -> Unit)? = null,
     singleLine: Boolean = false,
 ): Unit = QuackText(
-    modifier = Modifier.quackClickable(
+    modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
         onClick = onClick,
     ),
@@ -687,58 +335,13 @@ public fun QuackBody3(
 )
 
 /**
- * [QuackText] 에 [QuackTextStyle.Body3] 스타일을 적용하여
+ * [QuackHeadLine2] 에 원하는 부분에 원하는 색깔과 밑줄로 강조하여
  * 주어진 텍스트를 표시합니다.
  *
- * BoxScope 내에서 정렬, padding 을 설정할 수 있습니다.
- *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
- * @param color 텍스트의 색상
- * @param textAlign 텍스트 정렬
- * @param align [BoxScope] 내에서의 정렬
- * @param paddingProvider [PaddingValues] 를 제공할 람다
- * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
- * @param singleLine 텍스트를 한 줄만 사용할지 여부
- * @param onClick 텍스트가 클릭됐을 때 실행할 람다식
- */
-@Composable
-@NonRestartableComposable
-public fun BoxScope.QuackBody3(
-    text: String,
-    color: QuackColor = QuackColor.Black,
-    textAlign: TextAlign = TextAlign.Start,
-    align: Alignment = Alignment.TopStart,
-    paddingProvider: () -> PaddingValues = { NoPadding },
-    rippleEnabled: Boolean = false,
-    singleLine: Boolean = false,
-    onClick: (() -> Unit)? = null,
-): Unit = QuackText(
-    modifier = Modifier
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        )
-        .align(
-            alignment = align,
-        )
-        .padding(
-            paddingValues = paddingProvider(),
-        ),
-    text = text,
-    style = QuackTextStyle.Body3.change(
-        color = color,
-        textAlign = textAlign,
-    ),
-    singleLine = singleLine,
-)
-
-/**
- * [QuackHeadLine2] 에 원하는 부분에 원하는 색깔로 강조하여
- * 주어진 텍스트를 표시합니다.
- *
- * @param text 표시할 텍스트
- * @param highlightTextList 강조할 텍스트 리스트
- * @param highlightColor 강조할 Text 의 색깔
+ * @param underlineText 강조할 텍스트 리스트
+ * @param underlineTextColor 강조할 Text 의 색깔
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
  * @param singleLine 텍스트를 한 줄로 사용할지 여부
@@ -747,10 +350,11 @@ public fun BoxScope.QuackBody3(
  */
 @Composable
 @NonRestartableComposable
-public fun QuackHighlightHeadLine2(
+public fun QuackUnderlineHeadLine2(
+    modifier: Modifier = Modifier,
     text: String,
-    highlightTextList: PersistentList<String>,
-    highlightColor: QuackColor = QuackColor.DuckieOrange,
+    underlineText: PersistentList<String>,
+    underlineTextColor: QuackColor = QuackColor.DuckieOrange,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     singleLine: Boolean = false,
@@ -758,19 +362,19 @@ public fun QuackHighlightHeadLine2(
     onClick: (() -> Unit)? = null,
 ) {
     QuackText(
-        modifier = Modifier.quackClickable(
+        modifier = modifier.quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),
         text = buildAnnotatedString {
             append(text)
-            highlightTextList.forEach { highlightText ->
+            underlineText.forEach { highlightText ->
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
                 addStyle(
                     style = SpanStyle(
-                        color = highlightColor.composeColor,
+                        color = underlineTextColor.composeColor,
                         textDecoration = TextDecoration.Underline,
                     ),
                     start = highlightStartIndex,
@@ -787,77 +391,13 @@ public fun QuackHighlightHeadLine2(
 }
 
 /**
- * [QuackHeadLine2] 에 원하는 부분에 원하는 색깔로 강조하여
+ * [QuackUnderlineBody3] 에 원하는 부분에 원하는 색깔과 밑줄로 강조하여
  * 주어진 텍스트를 표시합니다.
  *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
- * @param highlightTextList 강조할 텍스트 리스트
- * @param highlightColor 강조할 Text 의 색깔
- * @param color 텍스트의 색상
- * @param textAlign 텍스트 정렬
- * @param align [BoxScope] 내에서의 정렬
- * @param paddingProvider [PaddingValues] 를 제공할 람다
- * @param singleLine 텍스트를 한 줄로 사용할지 여부
- * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
- * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
- */
-@Composable
-@NonRestartableComposable
-public fun BoxScope.QuackHighlightHeadLine2(
-    text: String,
-    highlightTextList: PersistentList<String>,
-    highlightColor: QuackColor = QuackColor.DuckieOrange,
-    color: QuackColor = QuackColor.Black,
-    textAlign: TextAlign = TextAlign.Start,
-    align: Alignment = Alignment.TopStart,
-    paddingProvider: () -> PaddingValues = { NoPadding },
-    singleLine: Boolean = false,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
-) {
-    QuackText(
-        modifier = Modifier
-            .quackClickable(
-                rippleEnabled = rippleEnabled,
-                onClick = onClick,
-            )
-            .align(
-                alignment = align,
-            )
-            .padding(
-                paddingValues = paddingProvider(),
-            ),
-        text = buildAnnotatedString {
-            append(text)
-            highlightTextList.forEach { highlightText ->
-                val highlightStartIndex = text.indexOf(
-                    string = highlightText
-                )
-                addStyle(
-                    style = SpanStyle(
-                        color = highlightColor.composeColor,
-                        textDecoration = TextDecoration.Underline,
-                    ),
-                    start = highlightStartIndex,
-                    end = highlightStartIndex + highlightText.length,
-                )
-            }
-        },
-        style = QuackTextStyle.HeadLine2.change(
-            color = color,
-            textAlign = textAlign,
-        ),
-        singleLine = singleLine,
-    )
-}
-
-/**
- * [QuackHighlightBody3] 에 원하는 부분에 원하는 색깔로 강조하여
- * 주어진 텍스트를 표시합니다.
- *
- * @param text 표시할 텍스트
- * @param highlightTextList 강조할 텍스트 리스트들
- * @param highlightColor 강조할 Text 의 색깔
+ * @param underlineText 강조할 텍스트 리스트들
+ * @param undelineTextColor 강조할 Text 의 색깔
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
@@ -866,10 +406,11 @@ public fun BoxScope.QuackHighlightHeadLine2(
  */
 @Composable
 @NonRestartableComposable
-public fun QuackHighlightBody3(
+public fun QuackUnderlineBody3(
+    modifier: Modifier = Modifier,
     text: String,
-    highlightTextList: PersistentList<String>,
-    highlightColor: QuackColor = QuackColor.DuckieOrange,
+    underlineText: PersistentList<String>,
+    undelineTextColor: QuackColor = QuackColor.DuckieOrange,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
@@ -878,19 +419,19 @@ public fun QuackHighlightBody3(
 ) {
 
     QuackText(
-        modifier = Modifier.quackClickable(
+        modifier = modifier.quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),
         text = buildAnnotatedString {
             append(text)
-            highlightTextList.forEach { highlightText ->
+            underlineText.forEach { highlightText ->
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
                 addStyle(
                     style = SpanStyle(
-                        color = highlightColor.composeColor,
+                        color = undelineTextColor.composeColor,
                         textDecoration = TextDecoration.Underline,
                     ),
                     start = highlightStartIndex,
@@ -907,65 +448,55 @@ public fun QuackHighlightBody3(
 }
 
 /**
- * [QuackHighlightBody3] 에 원하는 부분에 원하는 색깔로 강조하여
+ * [QuackUnderlineBody3] 에 원하는 부분에 원하는 색깔과 밑줄로 강조하여
  * 주어진 텍스트를 표시합니다.
  *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param text 표시할 텍스트
- * @param highlightTextList 강조할 텍스트 리스트
- * @param highlightColor 강조할 Text 의 색깔
+ * @param highlightText 강조할 텍스트 리스트들
  * @param color 텍스트의 색상
- * @param textAlign 텍스트 정렬
- * @param align [BoxScope] 내에서의 정렬
- * @param paddingProvider [PaddingValues] 를 제공할 람다
- * @param singleLine 텍스트를 한 줄로 사용할지 여부
+ * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
  * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
+ * @param singleLine 텍스트를 한 줄로 사용할지 여부
  */
 @Composable
 @NonRestartableComposable
-public fun BoxScope.QuackHighlightHeadLine3(
+public fun QuackHighlightBody1(
+    modifier: Modifier = Modifier,
     text: String,
-    highlightTextList: PersistentList<String>,
-    highlightColor: QuackColor = QuackColor.DuckieOrange,
+    highlightText: PersistentList<String>,
     color: QuackColor = QuackColor.Black,
-    textAlign: TextAlign = TextAlign.Start,
-    align: Alignment = Alignment.TopStart,
-    paddingProvider: () -> PaddingValues = { NoPadding },
-    singleLine: Boolean = false,
+    align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
+    singleLine: Boolean = false,
 ) {
+
     QuackText(
-        modifier = Modifier
-            .quackClickable(
-                rippleEnabled = rippleEnabled,
-                onClick = onClick,
-            )
-            .align(
-                alignment = align,
-            )
-            .padding(
-                paddingValues = paddingProvider(),
-            ),
+        modifier = modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ),
         text = buildAnnotatedString {
             append(text)
-            highlightTextList.forEach { highlightText ->
+            highlightText.forEach { highlightText ->
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
                 addStyle(
                     style = SpanStyle(
-                        color = highlightColor.composeColor,
-                        textDecoration = TextDecoration.Underline,
+                        fontWeight = FontWeight.SemiBold,
+                        letterSpacing = 0.sp,
                     ),
                     start = highlightStartIndex,
                     end = highlightStartIndex + highlightText.length,
                 )
             }
         },
-        style = QuackTextStyle.Body3.change(
+        style = QuackTextStyle.Body1.change(
             color = color,
-            textAlign = textAlign,
+            textAlign = align,
         ),
         singleLine = singleLine,
     )
