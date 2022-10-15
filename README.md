@@ -251,8 +251,8 @@ quackArtifactPublish {
 
 | Quack Components |                            Animated Result                             |
 |:----------------:|:----------------------------------------------------------------------:|
-|  QuackHeadLine1  | <img src="assets/ui-components/animated-quacktext.mov" width="33%" />  |
-|    QuackImage    | <img src="assets/ui-components/animated-quackimage.mov" width="33%" /> |
+|  QuackHeadLine1  | <img src="assets/ui-components/animated-quacktext.mp4" width="33%" />  |
+|    QuackImage    | <img src="assets/ui-components/animated-quackimage.mp4" width="33%" /> |
 
 ### Lints
 
