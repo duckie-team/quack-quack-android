@@ -8,8 +8,10 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,8 +21,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.layout.LazyLayout
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -28,10 +33,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.flowlayout.FlowRow
 import kotlinx.collections.immutable.ImmutableCollection
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
@@ -40,6 +44,7 @@ import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
+import team.duckie.quackquack.ui.util.NoOverscrollEffect
 import team.duckie.quackquack.ui.util.runtimeCheck
 
 private val QuackTagRowTitleSpace = 12.dp
@@ -218,9 +223,38 @@ public fun QuackIconTag(
     isSelected: Boolean,
     onClick: (() -> Unit)? = null,
     onClickIcon: (() -> Unit)? = null,
+): Unit = QuackIconTagInternal(
+    text = text,
+    icon = icon,
+    isSelected = isSelected,
+    onClick = onClick,
+    onClickIcon = onClickIcon,
+)
+
+/**
+ * QuackQuack 의 아이콘을 함께 표시하는 태그 입니다.
+ * 컴포넌트 오른쪽에 아이콘을 배치할 수 있습니다.
+ * 꽥꽥 내부에서 사용하도록 설계됐으며, 따라서 [Modifier] 인자를
+ * 받습니다.
+ *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
+ * @param text 태그에 표시할 텍스트
+ * @param icon 태그 오른쪽에 표시할 아이콘
+ * @param isSelected 태그가 선택됐는지 여부
+ * @param onClick 태그의 텍스트가 클릭됐을 떄 호출되는 람다
+ * @param onClickIcon 태그의 아이콘이 클릭됐을 때 호출되는 람다
+ */
+@Composable
+private fun QuackIconTagInternal(
+    modifier: Modifier = Modifier,
+    text: String,
+    icon: QuackIcon,
+    isSelected: Boolean,
+    onClick: (() -> Unit)? = null,
+    onClickIcon: (() -> Unit)? = null,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .wrapContentSize()
             .quackTag(
                 isSelected = isSelected,
@@ -264,26 +298,35 @@ public fun QuackIconTag(
 // Why `@Suppress("PreferredImmutableCollections")` is not working???
 // This typealias is just to avoid the `PreferredImmutableCollections` issue.
 // If the suppress issue is resolved, this typealias should be removed.
+// Issue: https://github.com/duckie-team/duckie-quack-quack-mvp/issues/144
 private typealias ImmutableQuackTagItemButMutable = List<Boolean>
 
 /**
- * 덕키의 TagRow 를 구현합니다. 내부적으로 [FlowRow] 를 이용하며, 항상 현재 화면의
- * 가로 길이만큼 width 가 지정됩니다.
+ * [QuackTag] 의 표시하는 방식을 정의합니다.
+ * 이 컴포넌트는 항상 현재 화면의 가로 길이만큼 width 가 지정되고,
+ * (즉, 좌우 패딩이 허용되지 않습니다) 한 줄에 최대 2개가 들어갈
+ * 수 있습니다. 또한 가로와 세로 스크롤을 모두 지원합니다.
+ *
+ * 스크롤 가능한 태그 컴포넌트는 OverscollEffect 를 사용하지 않습니다.
+ *
+ * 퍼포먼스 측면에서 [LazyLayout] 를 사용하는 것이 좋지만, 덕키의 경우
+ * 표시해야 하는 태그의 개수가 많지 않기 때문에 컴포저블을 직접 그려도
+ * 성능에 중대한 영향을 미치지 않을 것으로 판단하여 [LazyColumn] 과
+ * [Row] + [Modifier.horizontalScroll] 를 사용하여 구현하였습니다.
  *
  * @param title QuackRowTag 상단에 표시될 제목 Text. 만약 공백을 제공할 시
  * 제목이 표시되지 않습니다.
- * @param items 표시할 태그들의 제목들
+ * @param items 표시할 태그들의 제목들.
+ * **중복되는 태그 제목을 허용하지 않습니다.**
  * @param itemsSelection 태그들의 선택 여부. 이 항목은 자주 바뀔 것으로
- * 예상되어 [ImmutableCollection] 가 아닌 일반 [Collection] 으로 받습니다.
+ * 예상되어 [ImmutableCollection] 이 아닌 일반 [Collection] 으로 받습니다.
  * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다
- *
- * @see ImmutableQuackTagItemButMutable
  */
 @Composable
 public fun QuackRowTag(
     title: String = "",
     items: PersistentList<String>,
-    itemsSelection: ImmutableQuackTagItemButMutable,
+    itemsSelection: List<Boolean>,
     onClick: (
         index: Int,
     ) -> Unit,
@@ -294,170 +337,240 @@ public fun QuackRowTag(
         "The size of items and the size of itemsSelection must always be the same. " +
                 "[items.size (${items.size}) != itemsSelection.size (${itemsSelection.size})]"
     }
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
+    val chunkedItems = remember(
+        key1 = items,
     ) {
-        if (title.isNotEmpty()) {
-            QuackText(
-                modifier = Modifier.padding(
-                    bottom = QuackTagRowTitleSpace,
-                ),
-                text = title,
-                style = QuackTextStyle.Title2,
-            )
-        }
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            mainAxisSpacing = QuackTagRowFlowContentSpace,
-            crossAxisSpacing = QuackTagRowFlowContentSpace,
+        items.chunked(
+            size = 2,
+        )
+    }
+    NoOverscrollEffect {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            verticalArrangement = Arrangement.spacedBy(
+                space = QuackTagRowFlowContentSpace,
+            ),
         ) {
-            items.forEachIndexed { index, itemText ->
-                QuackText(
+            if (title.isNotEmpty()) {
+                item {
+                    QuackText(
+                        modifier = Modifier.padding(
+                            bottom = QuackTagRowTitleSpace,
+                        ),
+                        text = title,
+                        style = QuackTextStyle.Title2,
+                    )
+                }
+            }
+            itemsIndexed(
+                items = chunkedItems,
+                key = { _, item ->
+                    item
+                },
+            ) { rowIndex, rowItems ->
+                Row(
                     modifier = Modifier
-                        .wrapContentSize()
-                        .quackTag(
-                            isSelected = itemsSelection[index],
-                            type = QuackTagType.Row,
-                            onClick = {
-                                onClick(
-                                    /*index = */
-                                    index,
-                                )
-                            },
+                        .fillMaxWidth()
+                        .horizontalScroll(
+                            state = rememberScrollState(),
                         ),
-                    text = itemText,
-                    style = QuackTextStyle.Body2.change(
-                        color = QuackTagTextColor(
-                            /*isSelected = */
-                            itemsSelection[index],
-                            /*isBorderTag = */
-                            true,
-                        ),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        space = QuackTagRowFlowContentSpace,
                     ),
-                )
+                ) {
+                    rowItems.forEachIndexed { index, item ->
+                        val currentIndex = rowIndex * 2 + index
+                        QuackRowTagItem(
+                            itemsSelection = itemsSelection,
+                            item = item,
+                            index = currentIndex,
+                            onClick = onClick,
+                        )
+                    }
+                }
             }
         }
     }
 }
+
 /**
- * [QuackTagScrollableRow]
+ * [QuackRowTag] 에서 사용되는 태그를 그리기 위한 컴포넌트 입니다.
  *
- * [QuackRowTag] 와는 다르게 한 줄로 UI를 그리며 Scrollable 한 컴포넌트입니다.
- *
- * @param title QuackRowTag 상단에 표시될 제목 Text. 만약 공백을 제공할 시
- * 제목이 표시되지 않습니다.
- * @param items 표시할 태그들의 제목들
- * @param itemsSelection 태그들의 선택 여부. 이 항목은 자주 바뀔 것으로
- * 예상되어 [ImmutableCollection] 가 아닌 일반 [Collection] 으로 받습니다.
- * @param horizontalSpace 태그들간의 간격
+ * @param itemsSelection 태그들의 선택 여부
+ * @param item 표시할 태그의 제목
+ * @param index 표시할 태그의 인덱스
  * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다
-*/
+ */
 @Composable
-public fun QuackTagScrollableRow(
-    title: String = "",
-    items: PersistentList<String>,
-    itemsSelection: ImmutableQuackTagItemButMutable,
-    horizontalSpace: Dp = QuackTagHorizontalPadding,
+private fun QuackRowTagItem(
+    itemsSelection: List<Boolean>,
+    item: String,
+    index: Int,
     onClick: (
         index: Int,
     ) -> Unit,
-){
-    runtimeCheck(
-        value = items.size == itemsSelection.size,
-    ) {
-        "The size of items and the size of itemsSelection must always be the same. " +
-                "[items.size (${items.size}) != itemsSelection.size (${itemsSelection.size})]"
-    }
-    Column(
+) {
+    QuackText(
         modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-    ) {
-        if (title.isNotEmpty()) {
-            QuackText(
-                modifier = Modifier.padding(
-                    bottom = QuackTagRowTitleSpace,
-                ),
-                text = title,
-                style = QuackTextStyle.Title2,
-            )
-        }
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(
-                space = horizontalSpace,
+            .wrapContentSize()
+            .quackTag(
+                isSelected = itemsSelection[index],
+                type = QuackTagType.Row,
+                onClick = {
+                    onClick(
+                        /*index = */
+                        index,
+                    )
+                },
             ),
-        ){
-            itemsIndexed(items) { index, item ->
-                QuackTag(
-                    isSelected = itemsSelection[index],
-                    onClick = {
-                        onClick(index)
-                    },
-                    text = item,
-                )
-            }
-        }
-    }
+        text = item,
+        style = QuackTextStyle.Body2.change(
+            color = QuackTagTextColor(
+                /*isSelected = */
+                itemsSelection[index],
+                /*isBorderTag = */
+                true,
+            ),
+        ),
+    )
 }
 
 /**
- * [QuackMutableTagRow]
+ * [QuackTag] 의 표시하는 방식을 정의합니다.
+ * [QuackRowTag] 와는 다르게 한 줄로 태그들을 표시하며 가로 스크롤을
+ * 지원합니다. 또한 이 컴포넌트는 항상 현재 화면의 가로 길이만큼 width 가
+ * 지정됩니다. 즉, 좌우 패딩이 허용되지 않습니다.
  *
- * TagRow 중에 QuackIcon.Close를 가지고 있고, 수정이 가능한 TagRow 를 구현합니다.
+ * 스크롤 가능한 태그 컴포넌트는 OverscollEffect 를 사용하지 않습니다.
  *
  * @param title QuackRowTag 상단에 표시될 제목 Text. 만약 공백을 제공할 시
  * 제목이 표시되지 않습니다.
- * @param items 표시할 태그들의 제목들
- * @param horizontalSpace 태그들간의 간격
- * @param onClickIcon 사용자가 아이콘을 클릭했을 때 호출되는 람다
+ * @param items 표시할 태그들의 제목들. [deletable] 가 true 일 경우엔
+ * 자주 바뀔 것으로 예상되어 [ImmutableCollection] 이 아닌 일반 [Collection] 으로 받습니다.
+ * 아이템에 변동이 있는 경우 자동으로 [QuackAnimationSpec] 애니메이션을 적용합니다.
+ * @param itemsSelection 태그들의 선택 여부. 이 항목은 자주 바뀔 것으로
+ * 예상되어 [ImmutableCollection] 이 아닌 일반 [Collection] 으로 받습니다.
+ * 또한 [deletable] 이 true 일 경우 이 항목은 사용되지 않으므로 null 을 허용합니다.
+ * @param deletable 태그를 삭제할 수 있는지 여부. 이 옵션이 true 라면
+ * [QuackIconTag] 를 이용해 항상 `isSelected = false` 인 상태로 태그를 그리고,
+ * 아이콘으로 [QuackIcon.Close] 가 표시됩니다. 또한 태그가 다 삭제된 경우라면
+ * 컴포넌트의 높이가 갑자기 줄어듬으로써 화면이 일시적으로 줄어들 수 있으므로
+ * 태그 1개를 invisible 상태로 표시하여 컴포넌트의 높이를 유지합니다.
+ * 기본값은 false 이며, 이 경우 [QuackTag] 를 이용해 태그를 그립니다.
+ * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다.
+ * [deletable] 이 true 일 경우엔 태그의 삭제 아이콘을 클릭했을 때 호출됩니다.
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-public fun QuackMutableTagRow(
+public fun QuackSingleRowTag(
     title: String = "",
-    items: PersistentList<String>,
-    horizontalSpace: Dp = QuackTagHorizontalPadding,
-    onClickIcon: (
+    items: List<String>,
+    itemsSelection: List<Boolean>?,
+    deletable: Boolean = false,
+    onClick: ((
         index: Int,
-    ) -> Unit,
-){
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-    ) {
-        if (title.isNotEmpty()) {
-            QuackText(
-                modifier = Modifier.padding(
-                    bottom = QuackTagRowTitleSpace,
-                ),
-                text = title,
-                style = QuackTextStyle.Title2,
-            )
+    ) -> Unit)? = null,
+) {
+    if (deletable) {
+        runtimeCheck(
+            value = itemsSelection == null,
+        ) {
+            "If deleteable is true, the itemsSelection option is not supported."
         }
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(
-                space = horizontalSpace,
-            ),
-        ){
-            itemsIndexed(items) { index, item ->
-                QuackIconTag(
-                    isSelected = false,
-                    onClickIcon = {
-                        onClickIcon(index)
-                    },
-                    text = item,
-                    icon = QuackIcon.Close,
+    } else {
+        runtimeCheck(
+            value = itemsSelection != null,
+        ) {
+            "If deleteable is false, the itemsSelection option is required."
+        }
+        runtimeCheck(
+            value = items.size == itemsSelection!!.size,
+        ) {
+            "The size of items and the size of itemsSelection must always be the same. " +
+                    "[items.size (${items.size}) != itemsSelection.size (${itemsSelection.size})]"
+        }
+    }
+    NoOverscrollEffect {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+        ) {
+            if (title.isNotEmpty()) {
+                QuackText(
+                    modifier = Modifier.padding(
+                        bottom = QuackTagRowTitleSpace,
+                    ),
+                    text = title,
+                    style = QuackTextStyle.Title2,
                 )
+            }
+            if (items.isEmpty()) {
+                QuackText(
+                    modifier = Modifier
+                        .drawWithContent { } // only measure, not draw
+                        .wrapContentSize()
+                        .quackTag(
+                            isSelected = false,
+                            type = QuackTagType.Default,
+                        ),
+                    text = "invisible tag",
+                    style = QuackTextStyle.Title2,
+                )
+            } else {
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        space = QuackTagHorizontalPadding,
+                    ),
+                ) {
+                    itemsIndexed(
+                        items = items,
+                        key = { _, item ->
+                            item
+                        },
+                    ) { index, item ->
+                        // The feature "unit conversion" is disabled
+                        // 타입 명시 필수
+                        val onClickValue: () -> Unit = {
+                            onClick?.invoke(
+                                /*index = */
+                                index,
+                            )
+                        }
+                        if (deletable) {
+                            QuackIconTagInternal(
+                                modifier = Modifier.animateItemPlacement(
+                                    animationSpec = QuackAnimationSpec(),
+                                ),
+                                text = item,
+                                icon = QuackIcon.Close,
+                                isSelected = false,
+                                onClickIcon = onClickValue,
+                            )
+                        } else {
+                            QuackTag(
+                                isSelected = itemsSelection!![index], // assertion 은 함수 초반부에서 진행됨
+                                onClick = onClickValue,
+                                text = item,
+                            )
+                        }
+                    }
+                }
             }
         }
     }
 }
 
-
 /**
  * QuackTag 의 타입을 정의합니다.
+ *
+ * [Modifier.quackTag] 에 쓰이며 주어진 타입에 따라
+ * 태그의 모양이 결정됩니다.
+ *
+ * @see Modifier.quackTag
  */
 private enum class QuackTagType {
     /**
