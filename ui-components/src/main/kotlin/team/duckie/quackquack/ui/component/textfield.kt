@@ -23,11 +23,8 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.selection.LocalTextSelectionColors
-import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.NoLiveLiterals
 import androidx.compose.runtime.Stable
@@ -56,6 +53,7 @@ import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.modifier.drawUnderBarWithAnimation
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.DoNotUseDirectly
+import team.duckie.quackquack.ui.util.ProvideTextSelectionColors
 
 /**
  * QuackTextField 에서 표시할 텍스트의 [FontWeight] 에 따라 QuackTextField 의
@@ -175,14 +173,6 @@ private object QuackTextFieldColors {
         true -> QuackColor.OrangeRed
         else -> QuackColor.Gray3
     }
-
-    /**
-     * QuackTextField 에서 사용할 커서 색상을 정의합니다.
-     * QuackTextField 는 커서의 색상으로 항상 [QuackColor.DuckieOrange]
-     * 를 사용합니다.
-     */
-    @Stable
-    val QuackTextFieldCursorColor = QuackColor.DuckieOrange
 }
 
 /**
@@ -355,14 +345,7 @@ internal fun QuackBasicTextField(
         ).asComposeStyle()
     }
 
-    CompositionLocalProvider(
-        LocalTextSelectionColors provides TextSelectionColors(
-            handleColor = QuackColor.DuckieOrange.composeColor,
-            backgroundColor = QuackColor.DuckieOrange.changeAlpha(
-                alpha = 0.2f,
-            ).composeColor,
-        ),
-    ) {
+    ProvideTextSelectionColors {
         BasicTextField(
             modifier = Modifier
                 .applyQuackSize(
@@ -390,7 +373,7 @@ internal fun QuackBasicTextField(
             // TextField is always single line
             // TextArea is always multi line
             singleLine = true,
-            cursorBrush = QuackTextFieldColors.QuackTextFieldCursorColor.toBrush(),
+            cursorBrush = textFieldCursorColor.toBrush(),
             decorationBox = { textField ->
                 QuackTextFieldDecorationBox(
                     textField = textField,
