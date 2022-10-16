@@ -26,10 +26,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.QuackColor.Companion.Black80
 import team.duckie.quackquack.ui.icon.QuackIcon
-import team.duckie.quackquack.ui.modifier.quackBorderOrNull
+import team.duckie.quackquack.ui.modifier.applyQuackBorder
 import team.duckie.quackquack.ui.modifier.quackClickable
 
 private val ImagePadding = PaddingValues(top = 4.dp, end = 4.dp)
@@ -87,9 +88,11 @@ public fun QuackSelectableImage(
     }
     Box(
         modifier = Modifier
-            .quackBorderOrNull(
-                color = QuackColor.DuckieOrange,
+            .applyQuackBorder(
                 enabled = isSelected,
+                border = QuackBorder(
+                    color = QuackColor.DuckieOrange,
+                )
             ),
         contentAlignment = Alignment.TopEnd,
     ) {
