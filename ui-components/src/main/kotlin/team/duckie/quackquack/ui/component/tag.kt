@@ -316,8 +316,7 @@ private typealias ImmutableQuackTagItemButMutable = List<Boolean>
  *
  * @param title QuackRowTag 상단에 표시될 제목 Text. 만약 공백을 제공할 시
  * 제목이 표시되지 않습니다.
- * @param items 표시할 태그들의 제목들.
- * **중복되는 태그 제목을 허용하지 않습니다.**
+ * @param items 표시할 태그들의 제목들. **중복되는 태그 제목은 허용하지 않습니다.**
  * @param itemsSelection 태그들의 선택 여부. 이 항목은 자주 바뀔 것으로
  * 예상되어 [ImmutableCollection] 이 아닌 일반 [Collection] 으로 받습니다.
  * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다
@@ -450,6 +449,7 @@ private fun QuackRowTagItem(
  * @param items 표시할 태그들의 제목들. [deletable] 가 true 일 경우엔
  * 자주 바뀔 것으로 예상되어 [ImmutableCollection] 이 아닌 일반 [Collection] 으로 받습니다.
  * 아이템에 변동이 있는 경우 자동으로 [QuackAnimationSpec] 애니메이션을 적용합니다.
+ * **중복되는 태그 제목은 허용하지 않습니다.**
  * @param itemsSelection 태그들의 선택 여부. 이 항목은 자주 바뀔 것으로
  * 예상되어 [ImmutableCollection] 이 아닌 일반 [Collection] 으로 받습니다.
  * 또한 [deletable] 이 true 일 경우 이 항목은 사용되지 않으므로 null 을 허용합니다.
@@ -519,7 +519,7 @@ public fun QuackSingleRowTag(
                     text = "invisible tag",
                     style = QuackTextStyle.Title2,
                 )
-            } else {
+            } else { // 마지막 아이템의 제거는 항상 애니메이션이 적용되지 않으므로 불필요한 measure 를 없앰
                 LazyRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(
