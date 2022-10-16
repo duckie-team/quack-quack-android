@@ -51,14 +51,6 @@
             android:theme="@style/Theme.Quack" />
 
         <activity
-            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-            android:theme="@style/Theme.Quack.AppCompat" />
-
-        <activity
-            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
-            android:theme="@style/Theme.Quack.AppCompat" />
-
-        <activity
             android:name=".realworld.BottomSheetPlayground"
             android:theme="@style/Theme.Quack" />
 
@@ -85,6 +77,18 @@
         <activity
             android:name=".realworld.GridLayoutPlayground"
             android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TextAreaPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.Quack.AppCompat" />
+
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Theme.Quack.AppCompat" />
 
 
     </application>
