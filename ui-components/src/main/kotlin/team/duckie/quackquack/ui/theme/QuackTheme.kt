@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.ui.util
+package team.duckie.quackquack.ui.theme
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
@@ -13,14 +13,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 
 /**
- * [LocalOverscrollConfiguration] 을 null 로 제공합니다.
- * Overscroll effect 를 제거하기 위해 사용됩니다.
+ * 꽥꽥에서 사용하는 컴포저블 테마를 제공합니다.
+ * 이 테마에서는 다음과 같을 작업을 진행합니다.
  *
- * @param content Overscroll 이 없는 환경에서 표시할 컴포저블 컨텐츠
+ * 1. OverscrollEffect 제거
+ *
+ * @param content 꽥꽥 디자인에 맞게 표시할 컴포저블 컨텐츠
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun NoOverscrollEffect(
+public fun QuackTheme(
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
