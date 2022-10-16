@@ -161,7 +161,6 @@ fun QuackSingleRowTag() {
         onClick = { index ->
             itemsSelection[index] = !itemsSelection[index]
         },
-        deletable = false,
     )
 }
 
@@ -180,12 +179,19 @@ fun QuackSingleRowTagDeletable() {
     QuackSingleRowTag(
         title = "이런 점이 최고였어요",
         items = items,
-        itemsSelection = null,
+        itemsSelection = remember(
+            key1 = items.size,
+        ) {
+            List(
+                size = items.size,
+                init = { false },
+            )
+        },
         onClick = { index ->
             items.remove(
                 element = items[index],
             )
         },
-        deletable = true,
+        iconResource = QuackIcon.Close,
     )
 }
