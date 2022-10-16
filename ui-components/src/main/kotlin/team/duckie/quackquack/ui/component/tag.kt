@@ -437,7 +437,7 @@ private fun QuackRowTagItem(
  * 지원합니다. 또한 이 컴포넌트는 항상 현재 화면의 가로 길이만큼 width 가
  * 지정됩니다. 즉, 좌우 패딩이 허용되지 않습니다.
  *
- * @param title QuackRowTag 상단에 표시될 제목 Text. 만약 null 을 제공할 시
+ * @param title 상단에 표시될 제목 Text. 만약 null 을 제공할 시
  * 제목이 표시되지 않습니다.
  * @param items 표시할 태그들의 제목들. Scrollable Tag 의 경우 이 값은
  * 자주 바뀔 것으로 예상되어 [ImmutableCollection] 이 아닌 일반 [Collection]
