@@ -252,7 +252,7 @@ quackArtifactPublish {
 - 넉넉한 터치 영역 ([touch target size](https://support.google.com/accessibility/android/answer/7101858)): 기본적으로 터치 영역이 작은 컴포넌트들은 주어진 터치 영역을 그대로 사용하는게 아닌 컴포넌트 마진의 절반 값을 패딩으로 적용하여 해당 패딩만큼 추가로 터치 영역을 가져가게 설계했습니다.
 - 유동적인 컴포넌트 사이즈: 대부분 컴포넌트들의 사이즈를 정적으로 고정시켜두는게 아닌 컴포넌트 내부 패딩으로 사이즈를 결정합니다. 따라서 다양한 font scale 에도 컴포넌트 텍스트의 뭉개짐 없이 완벽한 비율의 컴포넌트를 볼 수 있습니다. 추가로, font scale 에 따라 아이콘의 사이즈도 같이 조정됩니다.
 - 아름다운 UI 전환: 모든 컴포넌트들에는 변화 애니메이션이 적용돼 있습니다. 예를 들어 아이콘의 경우라면 틴트 색상 변화 및 아이콘 리소스 변화에 애니메이션이 적용되고, 텍스트의 경우라면 보여지고 있는 텍스트가 변할 때 애니메이션이 적용됩니다.
-  | Quack Component |                             Animation Result                             |
+  |  Quack Component |                            Animation Result                             |
   |:----------------:|:-----------------------------------------------------------------------:|
   |  QuackHeadLine1  |  <img src="assets/ui-components/animated-quacktext.gif" width="33%" />  |
   |    QuackImage    | <img src="assets/ui-components/animated-quackimage.gif " width="33%" /> |
@@ -271,13 +271,13 @@ Jetpack Compose 는 리컴포지션이 매우 많이 발생할 수 있습니다.
 
 ##### Skippable
 
+이 외에 덕키팀에서 고려한 다양한 성능 최적화 방법들은 UI 컴포넌트 개발을 담당해주신 상록님께서 작성하신 [QuackQuack의 최고의 Performance를 위해](https://blog.duckie.team/quack-quack%EC%9D%98-%EC%B5%9C%EA%B3%A0%EC%9D%98-performance%EB%A5%BC-%EC%9C%84%ED%95%B4-ad54421715bc) 아티클에서 확안하실 수 있습니다.
+
 #### 구현하는데 고민이 꽤 들었던 컴포넌트
 
 일부 컴포넌트들은 구현하기 위해 꽤 오랜 시간 고민이 필요했었습니다. 어떤 이유에서 고민이 길어졌고, 해결책은 무엇이었는지 기록합니다.
 
 ##### QuackMainTab
-
-##### QuackRowTag
 
 ### Lints
 
