@@ -422,6 +422,7 @@ private fun QuackBasicButton(
                 style = textStyle.change(
                     textAlign = TextAlign.Center, // 버튼은 항상 Center 를 요구함
                 ),
+                singleLine = true, // 버튼은 항상 SingleLine 을 요구함
             )
         }
     }
