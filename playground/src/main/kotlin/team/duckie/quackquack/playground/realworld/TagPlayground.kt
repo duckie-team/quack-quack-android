@@ -21,6 +21,7 @@ import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.ui.component.QuackGrayscaleTag
 import team.duckie.quackquack.ui.component.QuackIconTag
+import team.duckie.quackquack.ui.component.QuackMultiLineTagRow
 import team.duckie.quackquack.ui.component.QuackRowTag
 import team.duckie.quackquack.ui.component.QuackSingleRowTag
 import team.duckie.quackquack.ui.component.QuackTag
@@ -35,7 +36,8 @@ class TagPlayground : BaseActivity() {
         "QuackTagRowDemo" to { QuackTagRowDemo() },
         "QuackTagScrollableRowDemo" to { QuackSingleRowTag() },
         "QuackSingleRowTag" to { QuackSingleRowTag() },
-        "QuackSingleRowTagDeletable" to { QuackSingleRowTagDeletable() }
+        "QuackSingleRowTagDeletable" to { QuackSingleRowTagDeletable() },
+        "QuackMultiTagRow" to { QuackMultiTagRowDemo() }
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -194,4 +196,36 @@ fun QuackSingleRowTagDeletable() {
         },
         iconResource = QuackIcon.Close,
     )
+}
+
+@Composable
+fun QuackMultiTagRowDemo() {
+
+    val list = remember {
+        mutableStateOf(
+            listOf(
+                "마블",
+                "덕키",
+                "픽사",
+                "아바타",
+                "탑건",
+                "무지개양말",
+                "피드내용",
+                "추가한태그",
+                "태그",
+                "피드",
+                "다른유저",
+                "제목",
+            )
+        )
+    }
+    QuackMultiLineTagRow(
+        title = "추가한 태그",
+        items = list.value,
+        icon = QuackIcon.Close,
+        onClickIcon = { index ->
+            list.value = list.value - list.value[index]
+        },
+    )
+
 }

@@ -34,7 +34,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.flowlayout.FlowRow
 import kotlinx.collections.immutable.ImmutableCollection
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
@@ -518,6 +520,62 @@ public fun QuackSingleRowTag(
                         isSelected = itemsSelection[index], // assertion 은 함수 초반부에서 진행됨
                         onClick = onClickValue,
                         text = item,
+                    )
+                }
+            }
+        }
+    }
+}
+
+/**
+ * [QuackMultiLineTagRow] 를 구현합니다.
+ *
+ * Tag 자체를 넘치지 않는한 우측으로 계속 쌓는 UI가 필요할 떄 사용합니다.
+ *
+ * @param title 태그 컴포넌트 위의 표시되는 텍스트
+ * @param items 태그에 사용될 텍스트들
+ * @param icon 태그에 사용될 아이콘
+ * @param mainAxisSpacing 태그들 사이의 간격
+ * @param onClickIcon 아이콘 클릭 이벤트
+ */
+@Composable
+public fun QuackMultiLineTagRow(
+    title: String? = null,
+    items: List<String>,
+    icon: QuackIcon? = null,
+    mainAxisSpacing: Dp = QuackTagContentSpace,
+    onClickIcon: ((
+        index: Int,
+    ) -> Unit)? = null,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+    ) {
+        if (title != null) {
+            QuackTitle2(
+                modifier = Modifier.padding(
+                    bottom = QuackTagRowTitleSpace,
+                ),
+                text = title,
+            )
+        }
+        FlowRow(
+            mainAxisSpacing = mainAxisSpacing,
+        ) {
+            items.forEachIndexed { index, text ->
+                when (icon) {
+                    null -> {
+                        QuackTag(text = text, isSelected = false)
+                    }
+                    else -> QuackIconTag(
+                        text = text,
+                        icon = icon,
+                        isSelected = false,
+                        onClickIcon = {
+                            onClickIcon?.invoke(index)
+                        }
                     )
                 }
             }

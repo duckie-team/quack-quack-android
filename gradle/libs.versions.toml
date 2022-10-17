@@ -85,6 +85,7 @@ compose-constraintlayout = { module = "androidx.constraintlayout:constraintlayou
 compose-coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-core" } # debugImplementation
 compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-core" }
+compose-accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 
 customview-poolingcontainer = { module = "androidx.customview:customview-poolingcontainer", version.ref = "customview-poolingcontainer" } # debugImplementation
 
