@@ -170,6 +170,7 @@ public fun QuackIconTextToggle(
         )
         QuackBody2(
             text = text,
+            singleLine = true,
         )
     }
 }
