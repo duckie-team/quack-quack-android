@@ -529,6 +529,14 @@ public fun QuackSingleRowTag(
 
 /**
  * [QuackMultiLineTagRow] 를 구현합니다.
+ *
+ * Tag 자체를 넘치지 않는한 우측으로 계속 쌓는 UI가 필요할 떄 사용합니다.
+ *
+ * @param title 태그 컴포넌트 위의 표시되는 텍스트
+ * @param items 태그에 사용될 텍스트들
+ * @param icon 태그에 사용될 아이콘
+ * @param mainAxisSpacing 태그들 사이의 간격
+ * @param onClickIcon 아이콘 클릭 이벤트
  */
 @Composable
 public fun QuackMultiLineTagRow(
