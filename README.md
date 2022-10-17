@@ -273,15 +273,21 @@ Jetpack Compose 는 리컴포지션이 매우 많이 발생할 수 있습니다.
 
 이 외에 덕키팀에서 고려한 다양한 성능 최적화 방법들은 UI 컴포넌트 개발을 담당해주신 상록님께서 작성하신 [QuackQuack의 최고의 Performance를 위해](https://blog.duckie.team/quack-quack%EC%9D%98-%EC%B5%9C%EA%B3%A0%EC%9D%98-performance%EB%A5%BC-%EC%9C%84%ED%95%B4-ad54421715bc) 아티클에서 확안하실 수 있습니다.
 
-#### 구현하는데 고민이 꽤 들었던 컴포넌트
+#### 디자인 시스템을 개발하면서 생겼던 고민들
 
-일부 컴포넌트들은 구현하기 위해 꽤 오랜 시간 고민이 필요했었습니다. 어떤 이유에서 고민이 길어졌고, 해결책은 무엇이었는지 기록합니다.
+디자인 시스템 개발이 처음이다 보니 개발하는 과정이 마냥 쉽지만은 않았습니다. 대부분 오랜 시간 고민이 필요했었고, 어떤 이유에서 고민이 길어졌고 덕키팀에서 채택한 해결 방법은 무엇이었는지 기록합니다.
+
+> TODO
 
 ##### QuackMainTab
 
+##### Modifier 노출 여부
+ 
 ### Lints
 
 린트 파트는 린트 개발을 담당해주신 세현님께서 작성하신 [덕키팀에서 Custom Lint를 만드는 여정](https://blog.duckie.team/team-duckie%EC%97%90%EC%84%9C-custom-lint%EB%A5%BC-%EB%A7%8C%EB%93%9C%EB%8A%94-%EC%97%AC%EC%A0%95-a7ecca72a32f) 아티클로 확인하실 수 있습니다.
+
+> TODO
 
 ## Pronounce (Korean)
 
