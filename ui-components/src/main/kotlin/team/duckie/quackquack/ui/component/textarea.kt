@@ -78,12 +78,10 @@ private val QuackBorderTextAreaTextStyle: (
         true -> QuackTextStyle.Subtitle2.change(
             color = QuackColor.Gray2,
             weight = FontWeight.Normal,
-            textAlign = TextAlign.Start,
         )
         else -> QuackTextStyle.Subtitle2.change(
             color = QuackColor.Black,
             weight = FontWeight.Normal,
-            textAlign = TextAlign.Start,
         )
     }
 }
@@ -102,12 +100,10 @@ private val QuackTextAreaTextStyle: (
         true -> QuackTextStyle.Subtitle.change(
             color = QuackColor.Gray2,
             weight = FontWeight.Normal,
-            textAlign = TextAlign.Start,
         )
         else -> QuackTextStyle.Subtitle.change(
             color = QuackColor.Black,
             weight = FontWeight.Normal,
-            textAlign = TextAlign.Start,
         )
     }
 }

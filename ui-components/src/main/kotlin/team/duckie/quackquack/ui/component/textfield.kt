@@ -338,7 +338,6 @@ internal fun QuackBasicTextField(
         key2 = isPlaceholder,
     ) {
         textStyle.change(
-            textAlign = TextAlign.Start,
             color = QuackTextFieldColors.textColor(
                 isPlaceholder = isPlaceholder,
             ),
