@@ -99,8 +99,10 @@ public fun <T> QuackHeaderGridLayout(
     itemContent: @Composable (Int, T) -> Unit,
     header: @Composable () -> Unit,
 ) {
-    if (items.isEmpty()) return
-    val gridItems = listOf(items[0]) + items
+    val gridItems = when(items.isEmpty()){
+        true -> listOf()
+        else -> listOf(items[0]) + items
+    }
 
     LazyVerticalGrid(
         contentPadding = contentPadding,
@@ -155,8 +157,10 @@ public fun <T> QuackFooterGridLayout(
     itemContent: @Composable (Int, T) -> Unit,
     footer: @Composable () -> Unit,
 ) {
-    if (items.isEmpty()) return
-    val gridItems = items + items[0]
+    val gridItems = when(items.isEmpty()){
+        true -> listOf()
+        else -> listOf(items[0]) + items
+    }
 
     LazyVerticalGrid(
         contentPadding = contentPadding,
