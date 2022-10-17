@@ -35,6 +35,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.flowlayout.FlowRow
 import kotlinx.collections.immutable.ImmutableCollection
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
@@ -518,6 +519,53 @@ public fun QuackSingleRowTag(
                         isSelected = itemsSelection[index], // assertion 은 함수 초반부에서 진행됨
                         onClick = onClickValue,
                         text = item,
+                    )
+                }
+            }
+        }
+    }
+}
+
+/**
+ * [QuackMultiLineTagRow] 를 구현합니다.
+ */
+@Composable
+public fun QuackMultiLineTagRow(
+    title: String? = null,
+    items: List<String>,
+    icon: QuackIcon? = null,
+    onClickIcon: ((
+        index: Int,
+    ) -> Unit)? = null,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+    ) {
+        if (title != null) {
+            QuackTitle2(
+                modifier = Modifier.padding(
+                    bottom = QuackTagRowTitleSpace,
+                ),
+                text = title,
+            )
+        }
+        FlowRow(
+            mainAxisSpacing = 8.dp
+        ) {
+            items.forEachIndexed { index, text ->
+                when (icon) {
+                    null -> {
+                        QuackTag(text = text, isSelected = false)
+                    }
+                    else -> QuackIconTag(
+                        text = text,
+                        icon = icon,
+                        isSelected = false,
+                        onClickIcon = {
+                            onClickIcon?.invoke(index)
+                        }
                     )
                 }
             }
