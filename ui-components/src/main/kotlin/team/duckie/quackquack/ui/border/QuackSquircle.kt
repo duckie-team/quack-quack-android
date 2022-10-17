@@ -24,12 +24,15 @@ public class QuackSquircle : Shape {
     public override fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,
-        density: Density
+        density: Density,
     ): Outline.Generic = Outline.Generic(
         path = createSquirclePath(size, SMOOTHING)
     )
 
-    private fun createSquirclePath(size: Size, smoothing: Double): androidx.compose.ui.graphics.Path {
+    private fun createSquirclePath(
+        size: Size,
+        smoothing: Double,
+    ): androidx.compose.ui.graphics.Path {
         return Path().apply {
             val oversize = size.width * OVERSAMPLING_MULTIPLIER
             val squircleRadius = (oversize / 2F).toInt()
