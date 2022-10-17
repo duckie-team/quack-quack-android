@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
 import kotlinx.collections.immutable.ImmutableCollection
@@ -534,6 +535,7 @@ public fun QuackMultiLineTagRow(
     title: String? = null,
     items: List<String>,
     icon: QuackIcon? = null,
+    mainAxisSpacing: Dp = QuackTagContentSpace,
     onClickIcon: ((
         index: Int,
     ) -> Unit)? = null,
@@ -552,7 +554,7 @@ public fun QuackMultiLineTagRow(
             )
         }
         FlowRow(
-            mainAxisSpacing = 8.dp
+            mainAxisSpacing = mainAxisSpacing,
         ) {
             items.forEachIndexed { index, text ->
                 when (icon) {
