@@ -39,7 +39,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
@@ -290,9 +289,7 @@ public fun QuackMenuFab(
                                     end = QuackFabMenuHorizontalPadding,
                                 ),
                             text = item.text,
-                            style = QuackFabMenuItemTextStyle.change(
-                                textAlign = TextAlign.Start,
-                            ),
+                            style = QuackFabMenuItemTextStyle,
                         )
                     }
                 }

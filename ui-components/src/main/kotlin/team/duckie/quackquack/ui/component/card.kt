@@ -256,7 +256,7 @@ public fun QuackLargeIconRoundCard(
     icon: QuackIcon,
     onClick: () -> Unit,
     iconSize: DpSize = QuackCardIconSize,
-){
+) {
     QuackIconRoundCard(
         size = QuackLargeIconCardSize,
         icon = icon,
@@ -279,7 +279,7 @@ public fun QuackSmallIconRoundCard(
     icon: QuackIcon,
     onClick: () -> Unit,
     iconSize: DpSize = QuackCardIconSize,
-){
+) {
     QuackIconRoundCard(
         size = QuackSmallIconCardSize,
         icon = icon,

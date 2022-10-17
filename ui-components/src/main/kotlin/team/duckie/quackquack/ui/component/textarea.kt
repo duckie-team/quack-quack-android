@@ -30,7 +30,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
@@ -78,12 +77,10 @@ private val QuackBorderTextAreaTextStyle: (
         true -> QuackTextStyle.Subtitle2.change(
             color = QuackColor.Gray2,
             weight = FontWeight.Normal,
-            textAlign = TextAlign.Start,
         )
         else -> QuackTextStyle.Subtitle2.change(
             color = QuackColor.Black,
             weight = FontWeight.Normal,
-            textAlign = TextAlign.Start,
         )
     }
 }
@@ -102,12 +99,10 @@ private val QuackTextAreaTextStyle: (
         true -> QuackTextStyle.Subtitle.change(
             color = QuackColor.Gray2,
             weight = FontWeight.Normal,
-            textAlign = TextAlign.Start,
         )
         else -> QuackTextStyle.Subtitle.change(
             color = QuackColor.Black,
             weight = FontWeight.Normal,
-            textAlign = TextAlign.Start,
         )
     }
 }

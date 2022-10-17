@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -418,7 +419,10 @@ private fun QuackBasicButton(
                     paddingValues = textPadding,
                 ),
                 text = text,
-                style = textStyle,
+                style = textStyle.change(
+                    textAlign = TextAlign.Center, // 버튼은 항상 Center 를 요구함
+                ),
+                singleLine = true, // 버튼은 항상 SingleLine 을 요구함
             )
         }
     }
