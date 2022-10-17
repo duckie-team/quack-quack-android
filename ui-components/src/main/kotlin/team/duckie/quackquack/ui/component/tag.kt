@@ -152,6 +152,7 @@ public fun QuackTag(
                 true,
             )
         ),
+        singleLine = true,
     )
 }
 
@@ -188,6 +189,7 @@ public fun QuackGrayscaleTag(
             style = QuackTextStyle.Title2.change(
                 weight = FontWeight.Normal,
             ),
+            singleLine = true,
         )
         if (trailingText.isNotEmpty()) {
             QuackText(
@@ -201,6 +203,7 @@ public fun QuackGrayscaleTag(
                     weight = FontWeight.Bold,
                     color = QuackColor.DuckieOrange,
                 ),
+                singleLine = true,
             )
         }
     }
@@ -261,6 +264,7 @@ private fun QuackIconTagInternal(
                 type = QuackTagType.Icon,
                 onClick = onClick,
             ),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         QuackText(
             modifier = Modifier.wrapContentSize(),
@@ -273,6 +277,7 @@ private fun QuackIconTagInternal(
                     false,
                 ),
             ),
+            singleLine = true,
         )
         QuackImageInternal(
             modifier = Modifier
@@ -358,6 +363,7 @@ public fun QuackRowTag(
                     ),
                     text = title,
                     style = QuackTextStyle.Title2,
+                    singleLine = true,
                 )
             }
         }
@@ -430,6 +436,7 @@ private fun QuackRowTagItem(
                 true,
             ),
         ),
+        singleLine = true,
     )
 }
 
@@ -483,6 +490,7 @@ public fun QuackSingleRowTag(
                 ),
                 text = title,
                 style = QuackTextStyle.Title2,
+                singleLine = true,
             )
         }
         LazyRow(
