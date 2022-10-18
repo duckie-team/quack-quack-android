@@ -46,7 +46,7 @@ private const val TransitionLabel = "CheckTransition"
 private const val BoxOutDuration = 100
 
 private val RoundCheckboxSize = 28.dp
-private val SquareCheckboxSize = 21.dp
+private val SquareCheckboxSize = 18.dp
 private val IconSize = 24.dp
 private val SmallIconSize = 18.dp
 private val StrokeWidth = 1.5.dp
