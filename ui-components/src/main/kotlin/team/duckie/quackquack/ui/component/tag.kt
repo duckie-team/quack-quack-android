@@ -54,6 +54,7 @@ private val QuackTagRowFlowContentSpace = 8.dp
 private val QuackTagContentSpace = 8.dp
 private val QuackTagBorderWidth = 1.dp
 private val QuackTagHorizontalPadding = 8.dp
+private val QuackTagVerticalSpace = 8.dp
 
 private val QuackTagPadding = PaddingValues(
     horizontal = 12.dp,
@@ -552,6 +553,7 @@ public fun QuackMultiLineTagRow(
     items: List<String>,
     icon: QuackIcon? = null,
     mainAxisSpacing: Dp = QuackTagContentSpace,
+    crossAxisSpacing: Dp = QuackTagVerticalSpace,
     onClickIcon: ((
         index: Int,
     ) -> Unit)? = null,
@@ -571,6 +573,7 @@ public fun QuackMultiLineTagRow(
         }
         FlowRow(
             mainAxisSpacing = mainAxisSpacing,
+            crossAxisSpacing = crossAxisSpacing,
         ) {
             items.forEachIndexed { index, text ->
                 when (icon) {
