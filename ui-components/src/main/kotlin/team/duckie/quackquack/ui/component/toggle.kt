@@ -48,6 +48,7 @@ private const val BoxOutDuration = 100
 private val RoundCheckboxSize = 28.dp
 private val SquareCheckboxSize = 24.dp
 private val IconSize = 24.dp
+private val SmallIconSize = 18.dp
 private val StrokeWidth = 1.5.dp
 
 private val QuackIconTextToggleSpacing = 4.dp
@@ -167,6 +168,7 @@ public fun QuackIconTextToggle(
             uncheckedIcon = uncheckedIcon,
             checked = checked,
             onToggle = onToggle,
+            size = SmallIconSize,
         )
         QuackBody2(
             text = text,
@@ -214,11 +216,16 @@ private fun QuackBasicIconToggle(
     uncheckedIcon: QuackIcon,
     checked: Boolean,
     onToggle: () -> Unit,
+    size: Dp = IconSize,
 ) = QuackImage(
     overrideSize = DpSize(
-        width = IconSize,
-        height = IconSize,
+        width = size,
+        height = size,
     ),
+    tint = when(checkedIcon != null && checked){
+        true -> QuackColor.DuckieOrange
+        false -> QuackColor.Gray1
+    },
     src = when (checkedIcon != null && checked) {
         true -> checkedIcon
         else -> uncheckedIcon
