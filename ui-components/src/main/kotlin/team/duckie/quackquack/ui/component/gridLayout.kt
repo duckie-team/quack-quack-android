@@ -99,10 +99,7 @@ public fun <T> QuackHeaderGridLayout(
     itemContent: @Composable (Int, T) -> Unit,
     header: @Composable () -> Unit,
 ) {
-    val gridItems = when(items.isEmpty()){
-        true -> listOf()
-        else -> listOf(items[0]) + items
-    }
+    val gridItems = listOf(null) + items
 
     LazyVerticalGrid(
         contentPadding = contentPadding,
@@ -117,10 +114,12 @@ public fun <T> QuackHeaderGridLayout(
                     verticalSpace = verticalSpace,
                     horizontalSpace = horizontalSpace,
                     itemContent = {
-                        itemContent(
-                            index,
-                            item,
-                        )
+                        if ( item != null) {
+                            itemContent(
+                                index,
+                                item,
+                            )
+                        }
                     },
                     header = header,
                     index = index,
@@ -157,10 +156,7 @@ public fun <T> QuackFooterGridLayout(
     itemContent: @Composable (Int, T) -> Unit,
     footer: @Composable () -> Unit,
 ) {
-    val gridItems = when(items.isEmpty()){
-        true -> listOf()
-        else -> listOf(items[0]) + items
-    }
+    val gridItems = items + listOf(null)
 
     LazyVerticalGrid(
         contentPadding = contentPadding,
@@ -175,10 +171,12 @@ public fun <T> QuackFooterGridLayout(
                     verticalSpace = verticalSpace,
                     horizontalSpace = horizontalSpace,
                     itemContent = {
-                        itemContent(
-                            index,
-                            item,
-                        )
+                        if (item != null) {
+                            itemContent(
+                                index,
+                                item,
+                            )
+                        }
                     },
                     footer = footer,
                     index = index,
