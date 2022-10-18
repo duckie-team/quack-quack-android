@@ -118,7 +118,7 @@ private val QuackBorderTextAreaPadding = PaddingValues(
  * [QuackTextArea] 의 안쪽에 들어갈 패딩 값
  */
 private val QuackTextAreaPadding = PaddingValues(
-    top = 18.dp,
+    top = 10.dp,
     bottom = 8.dp,
 )
 

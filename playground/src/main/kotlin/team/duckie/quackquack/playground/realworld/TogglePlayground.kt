@@ -54,12 +54,27 @@ fun QuackRoundCheckDemo() {
     var checked by remember {
         mutableStateOf(true)
     }
-    QuackRoundCheckBox(
-        checked = checked,
-        onToggle = {
-            checked = !checked
-        },
-    )
+    Column(
+        verticalArrangement = Arrangement.spacedBy(
+            space = 10.dp,
+        ),
+    ) {
+        QuackRoundCheckBox(
+            checked = checked,
+            onToggle = {
+                checked = !checked
+            },
+        )
+
+        QuackRoundCheckBox(
+            title = "판매 요청 받기",
+            checked = checked,
+            onToggle = {
+                checked = !checked
+            },
+        )
+    }
+
 }
 
 @Composable
@@ -67,12 +82,25 @@ fun QuackSquareCheckDemo() {
     var checked by remember {
         mutableStateOf(true)
     }
-    QuackSquareCheckBox(
-        checked = checked,
-        onToggle = {
-            checked = !checked
-        },
-    )
+    Column(
+        verticalArrangement = Arrangement.spacedBy(
+            space = 10.dp,
+        ),
+    ) {
+        QuackSquareCheckBox(
+            checked = checked,
+            onToggle = {
+                checked = !checked
+            },
+        )
+        QuackSquareCheckBox(
+            title = "판매 요청 받기",
+            checked = checked,
+            onToggle = {
+                checked = !checked
+            },
+        )
+    }
 }
 
 @Composable
