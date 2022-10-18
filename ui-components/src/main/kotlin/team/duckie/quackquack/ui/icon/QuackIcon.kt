@@ -220,6 +220,11 @@ public value class QuackIcon private constructor(
         )
 
         @Stable
+        public val Gallery: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_ic_gallery_24,
+        )
+
+        @Stable
         internal val BottomNavHome: QuackIcon = QuackIcon(
             drawableId = R.drawable.quack_ic_home_bottom_nav_24
         )
