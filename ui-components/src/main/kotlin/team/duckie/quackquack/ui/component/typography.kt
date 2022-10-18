@@ -17,6 +17,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.color.QuackColor
@@ -48,6 +49,7 @@ public fun QuackHeadLine1(
     rippleEnabled: Boolean = false,
     singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
 ): Unit = QuackText(
     modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
@@ -59,6 +61,7 @@ public fun QuackHeadLine1(
         textAlign = align,
     ),
     singleLine = singleLine,
+    overflow = overflow,
 )
 
 /**
@@ -82,6 +85,7 @@ public fun QuackHeadLine2(
     rippleEnabled: Boolean = false,
     singleLine: Boolean = false,
     onClick: (() -> Unit)? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
 ): Unit = QuackText(
     modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
@@ -93,6 +97,7 @@ public fun QuackHeadLine2(
         textAlign = align,
     ),
     singleLine = singleLine,
+    overflow = overflow,
 )
 
 
@@ -116,6 +121,7 @@ public fun QuackTitle1(
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier.quackClickable(
@@ -128,6 +134,7 @@ public fun QuackTitle1(
         textAlign = align,
     ),
     singleLine = singleLine,
+    overflow = overflow,
 )
 
 /**
@@ -150,6 +157,7 @@ public fun QuackTitle2(
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier.quackClickable(
@@ -162,6 +170,7 @@ public fun QuackTitle2(
         textAlign = align,
     ),
     singleLine = singleLine,
+    overflow = overflow,
 )
 
 /**
@@ -184,6 +193,7 @@ public fun QuackSubtitle(
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier.quackClickable(
@@ -196,6 +206,7 @@ public fun QuackSubtitle(
         textAlign = align,
     ),
     singleLine = singleLine,
+    overflow = overflow,
 )
 
 /**
@@ -218,6 +229,7 @@ public fun QuackSubtitle2(
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier.quackClickable(
@@ -230,6 +242,7 @@ public fun QuackSubtitle2(
         textAlign = align,
     ),
     singleLine = singleLine,
+    overflow = overflow,
 )
 
 /**
@@ -252,6 +265,7 @@ public fun QuackBody1(
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier.quackClickable(
@@ -264,6 +278,7 @@ public fun QuackBody1(
         textAlign = align,
     ),
     singleLine = singleLine,
+    overflow = overflow,
 )
 
 /**
@@ -285,8 +300,9 @@ public fun QuackBody2(
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
     singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
+    onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
@@ -298,6 +314,7 @@ public fun QuackBody2(
         textAlign = align,
     ),
     singleLine = singleLine,
+    overflow = overflow,
 )
 
 /**
@@ -319,8 +336,9 @@ public fun QuackBody3(
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
     singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
+    onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier.quackClickable(
         rippleEnabled = rippleEnabled,
@@ -332,6 +350,7 @@ public fun QuackBody3(
         textAlign = align,
     ),
     singleLine = singleLine,
+    overflow = overflow,
 )
 
 /**
@@ -359,6 +378,7 @@ public fun QuackUnderlineHeadLine2(
     align: TextAlign = TextAlign.Start,
     singleLine: Boolean = false,
     rippleEnabled: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
     onClick: (() -> Unit)? = null,
 ) {
     QuackText(
@@ -387,6 +407,7 @@ public fun QuackUnderlineHeadLine2(
             textAlign = align,
         ),
         singleLine = singleLine,
+        overflow = overflow,
     )
 }
 
@@ -414,8 +435,9 @@ public fun QuackUnderlineBody3(
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
     singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
+    onClick: (() -> Unit)? = null,
 ) {
 
     QuackText(
@@ -444,6 +466,7 @@ public fun QuackUnderlineBody3(
             textAlign = align,
         ),
         singleLine = singleLine,
+        overflow = overflow,
     )
 }
 
@@ -469,8 +492,10 @@ public fun QuackHighlightBody1(
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
     singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
+    onClick: (() -> Unit)? = null,
+
 ) {
 
     QuackText(
@@ -499,5 +524,6 @@ public fun QuackHighlightBody1(
             textAlign = align,
         ),
         singleLine = singleLine,
+        overflow = overflow,
     )
 }
