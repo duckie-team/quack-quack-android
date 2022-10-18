@@ -47,10 +47,10 @@ private const val BoxOutDuration = 100
 
 private val RoundCheckboxSize = 28.dp
 private val SquareCheckboxSize = 18.dp
-
 private val IconSize = 24.dp
 private val SmallIconSize = 18.dp
 private val StrokeWidth = 1.5.dp
+private val ToggleTitleSpace = 5.dp
 
 private val QuackIconTextToggleSpacing = 4.dp
 
@@ -73,69 +73,95 @@ private val QuackRectangleCheckShape = RoundedCornerShape(
 /**
  * 덕키의 원형 CheckBox 입니다.
  *
+ * @param title 체크박스의 타이틀
  * @param checked 체크되었는지 여부
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
 public fun QuackRoundCheckBox(
+    title: String? = null,
     checked: Boolean,
-    onToggle: () -> Unit,
+    onToggle: (Boolean) -> Unit,
 ) {
-    QuackSurface(
-        modifier = Modifier.size(
-            size = RoundCheckboxSize,
-        ),
-        shape = QuackRoundCheckShape,
-        backgroundColor = getCheckBoxBackgroundColor(
-            isChecked = checked,
-            uncheckedColor = QuackColor.Black.changeAlpha(
-                alpha = RoundCheckBoxAlpha,
-            ),
-        ),
-        border = QuackBorder(
-            color = getCheckBoxBackgroundColor(
-                isChecked = checked,
-                uncheckedColor = QuackColor.White,
-            ),
-        ),
-        onClick = onToggle,
-        rippleEnabled = false,
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(ToggleTitleSpace),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Check(
-            value = ToggleableState(
-                value = checked,
+        QuackSurface(
+            modifier = Modifier.size(
+                size = RoundCheckboxSize,
             ),
-        )
+            shape = QuackRoundCheckShape,
+            backgroundColor = getCheckBoxBackgroundColor(
+                isChecked = checked,
+                uncheckedColor = QuackColor.Black.changeAlpha(
+                    alpha = RoundCheckBoxAlpha,
+                ),
+            ),
+            border = QuackBorder(
+                color = getCheckBoxBackgroundColor(
+                    isChecked = checked,
+                    uncheckedColor = QuackColor.White,
+                ),
+            ),
+            onClick = {
+                onToggle(!checked)
+            },
+            rippleEnabled = false,
+        ) {
+            Check(
+                value = ToggleableState(
+                    value = checked,
+                ),
+            )
+        }
+        if (title != null) {
+            QuackBody2(text = title)
+        }
     }
 }
 
 /**
  * 덕키의 모서리가 둥근 사각형 CheckBox 입니다.
  *
+ * @param title 체크박스의 타이틀
  * @param checked 체크되었는지 여부
  * @param onToggle 체크시 호출되는 콜백
  */
 @Composable
 public fun QuackSquareCheckBox(
+    title: String? = null,
     checked: Boolean,
-    onToggle: () -> Unit,
-): Unit = QuackSurface(
-    modifier = Modifier.size(
-        size = SquareCheckboxSize,
-    ),
-    shape = QuackRectangleCheckShape,
-    backgroundColor = getCheckBoxBackgroundColor(
-        isChecked = checked,
-        uncheckedColor = QuackColor.Gray3,
-    ),
-    onClick = onToggle,
-    rippleEnabled = false,
+    onToggle: (Boolean) -> Unit,
 ) {
-    Check(
-        value = ToggleableState(
-            value = checked,
-        ),
-    )
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(ToggleTitleSpace),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        QuackSurface(
+            modifier = Modifier.size(
+                size = SquareCheckboxSize,
+            ),
+            shape = QuackRectangleCheckShape,
+            backgroundColor = getCheckBoxBackgroundColor(
+                isChecked = checked,
+                uncheckedColor = QuackColor.Gray3,
+            ),
+            onClick = {
+                onToggle(!checked)
+            },
+            rippleEnabled = false,
+        ) {
+            Check(
+                value = ToggleableState(
+                    value = checked,
+                ),
+            )
+        }
+        if (title != null) {
+            QuackBody2(text = title)
+        }
+    }
 }
 
 /**
@@ -156,7 +182,7 @@ public fun QuackIconTextToggle(
     uncheckedIcon: QuackIcon,
     checked: Boolean,
     text: String,
-    onToggle: () -> Unit,
+    onToggle: (Boolean) -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -168,7 +194,9 @@ public fun QuackIconTextToggle(
             checkedIcon = checkedIcon,
             uncheckedIcon = uncheckedIcon,
             checked = checked,
-            onToggle = onToggle,
+            onToggle = {
+                onToggle(!checked)
+            },
             size = SmallIconSize,
         )
         QuackBody2(
@@ -193,7 +221,7 @@ public fun QuackIconToggle(
     checkedIcon: QuackIcon?,
     uncheckedIcon: QuackIcon,
     checked: Boolean,
-    onToggle: () -> Unit,
+    onToggle: (Boolean) -> Unit,
 ): Unit = QuackBasicIconToggle(
     checkedIcon = checkedIcon,
     uncheckedIcon = uncheckedIcon,
@@ -216,14 +244,14 @@ private fun QuackBasicIconToggle(
     checkedIcon: QuackIcon?,
     uncheckedIcon: QuackIcon,
     checked: Boolean,
-    onToggle: () -> Unit,
+    onToggle: (Boolean) -> Unit,
     size: Dp = IconSize,
 ) = QuackImage(
     overrideSize = DpSize(
         width = size,
         height = size,
     ),
-    tint = when(checkedIcon != null && checked){
+    tint = when (checkedIcon != null && checked) {
         true -> QuackColor.DuckieOrange
         false -> QuackColor.Gray1
     },
@@ -232,7 +260,9 @@ private fun QuackBasicIconToggle(
         else -> uncheckedIcon
     },
     rippleEnabled = false,
-    onClick = onToggle,
+    onClick = {
+        onToggle(!checked)
+    },
 )
 
 /**
