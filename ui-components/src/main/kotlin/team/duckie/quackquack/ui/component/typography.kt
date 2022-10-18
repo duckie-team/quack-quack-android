@@ -392,14 +392,16 @@ public fun QuackUnderlineHeadLine2(
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
-                addStyle(
-                    style = SpanStyle(
-                        color = underlineTextColor.composeColor,
-                        textDecoration = TextDecoration.Underline,
-                    ),
-                    start = highlightStartIndex,
-                    end = highlightStartIndex + highlightText.length,
-                )
+                if ( highlightStartIndex != -1) {
+                    addStyle(
+                        style = SpanStyle(
+                            color = underlineTextColor.composeColor,
+                            textDecoration = TextDecoration.Underline,
+                        ),
+                        start = highlightStartIndex,
+                        end = highlightStartIndex + highlightText.length,
+                    )
+                }
             }
         },
         style = QuackTextStyle.HeadLine2.change(
@@ -451,14 +453,16 @@ public fun QuackUnderlineBody3(
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
-                addStyle(
-                    style = SpanStyle(
-                        color = undelineTextColor.composeColor,
-                        textDecoration = TextDecoration.Underline,
-                    ),
-                    start = highlightStartIndex,
-                    end = highlightStartIndex + highlightText.length,
-                )
+                if ( highlightStartIndex != -1) {
+                    addStyle(
+                        style = SpanStyle(
+                            color = undelineTextColor.composeColor,
+                            textDecoration = TextDecoration.Underline,
+                        ),
+                        start = highlightStartIndex,
+                        end = highlightStartIndex + highlightText.length,
+                    )
+                }
             }
         },
         style = QuackTextStyle.Body3.change(
@@ -509,14 +513,16 @@ public fun QuackHighlightBody1(
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
-                addStyle(
-                    style = SpanStyle(
-                        fontWeight = FontWeight.SemiBold,
-                        letterSpacing = 0.sp,
-                    ),
-                    start = highlightStartIndex,
-                    end = highlightStartIndex + highlightText.length,
-                )
+                if ( highlightStartIndex != -1) {
+                    addStyle(
+                        style = SpanStyle(
+                            fontWeight = FontWeight.SemiBold,
+                            letterSpacing = 0.sp,
+                        ),
+                        start = highlightStartIndex,
+                        end = highlightStartIndex + highlightText.length,
+                    )
+                }
             }
         },
         style = QuackTextStyle.Body1.change(
