@@ -65,6 +65,8 @@ public fun QuackCardImage(
     image: Any,
     size: Dp? = null,
     cornerIcon: (@Composable () -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
+    rippleEnabled: Boolean = true,
 ) {
 
     val sizeModifier = remember {
@@ -86,6 +88,10 @@ public fun QuackCardImage(
             modifier = sizeModifier
                 .clip(
                     shape = QuackCardShape
+                )
+                .quackClickable(
+                    onClick = onClick,
+                    rippleEnabled = rippleEnabled,
                 ),
             src = image,
         )

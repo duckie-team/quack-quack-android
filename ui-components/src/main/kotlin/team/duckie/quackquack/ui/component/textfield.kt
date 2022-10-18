@@ -32,6 +32,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.font.FontWeight
@@ -218,6 +221,8 @@ public fun QuackTextField(
         imeAction = ImeAction.Done,
     ),
     keyboardActions: KeyboardActions = KeyboardActions(),
+    focusRequester: FocusRequester = FocusRequester(),
+    onFocusChanged: (Boolean) -> Unit = {},
 ) {
     val errorComposeTextStyle = remember(
         key1 = errorTextStyle,
@@ -226,7 +231,12 @@ public fun QuackTextField(
     }
 
     Column(
-        modifier = Modifier.wrapContentSize(),
+        modifier = Modifier
+            .wrapContentSize()
+            .focusRequester(focusRequester)
+            .onFocusChanged {
+                onFocusChanged(it.isFocused)
+            },
     ) {
         QuackBasicTextField(
             width = width,

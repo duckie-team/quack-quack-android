@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import team.duckie.quackquack.ui.animation.AnimatedContentTransform
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.textstyle.animatedQuackTextStyleAsState
@@ -35,6 +36,7 @@ internal fun QuackText(
     text: String,
     style: QuackTextStyle,
     singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
 ) {
     val styleAnimationState = animatedQuackTextStyleAsState(
         targetValue = style,
@@ -71,6 +73,7 @@ internal fun QuackText(
                 true -> 1
                 else -> Int.MAX_VALUE
             },
+            overflow = overflow,
         )
     }
 }
@@ -95,6 +98,7 @@ internal fun QuackText(
     text: AnnotatedString,
     style: QuackTextStyle,
     singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
 ) {
     val styleAnimationState = animatedQuackTextStyleAsState(
         targetValue = style,
@@ -131,6 +135,7 @@ internal fun QuackText(
                 true -> 1
                 else -> Int.MAX_VALUE
             },
+            overflow = overflow,
         )
     }
 }
