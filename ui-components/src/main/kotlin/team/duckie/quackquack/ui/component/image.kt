@@ -119,6 +119,7 @@ internal fun QuackImageInternal(
     if (src is QuackIcon) {
         AnimatedContentTransform(
             targetState = src,
+            modifier = modifier,
         ) { imageModel ->
             Box(
                 modifier = modifier
@@ -142,6 +143,7 @@ internal fun QuackImageInternal(
     }
     AnimatedContentTransform(
         targetState = src,
+        modifier = modifier,
     ) { imageModel ->
         AsyncImage(
             modifier = modifier.runIf(

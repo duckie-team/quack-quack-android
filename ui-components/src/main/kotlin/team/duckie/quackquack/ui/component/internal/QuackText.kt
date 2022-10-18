@@ -98,6 +98,7 @@ internal fun QuackText(
     text: AnnotatedString,
     style: QuackTextStyle,
     singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
 ) {
     val styleAnimationState = animatedQuackTextStyleAsState(
         targetValue = style,
@@ -134,6 +135,7 @@ internal fun QuackText(
                 true -> 1
                 else -> Int.MAX_VALUE
             },
+            overflow = overflow,
         )
     }
 }
