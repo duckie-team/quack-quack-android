@@ -552,6 +552,7 @@ public fun QuackMultiLineTagRow(
     items: List<String>,
     icon: QuackIcon? = null,
     mainAxisSpacing: Dp = QuackTagContentSpace,
+    crossAxisSpacing: Dp = QuackTagContentSpace,
     onClickIcon: ((
         index: Int,
     ) -> Unit)? = null,
@@ -571,6 +572,7 @@ public fun QuackMultiLineTagRow(
         }
         FlowRow(
             mainAxisSpacing = mainAxisSpacing,
+            crossAxisSpacing = crossAxisSpacing,
         ) {
             items.forEachIndexed { index, text ->
                 when (icon) {
