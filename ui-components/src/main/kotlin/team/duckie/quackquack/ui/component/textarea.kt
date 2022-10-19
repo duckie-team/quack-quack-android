@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
@@ -160,12 +161,14 @@ public fun QuackBorderTextArea(
     text: String,
     onTextChanged: (text: String) -> Unit,
     placeholderText: String = "",
+    padding: PaddingValues = QuackBorderTextAreaPadding,
     doneAction: KeyboardActionScope.() -> Unit = {},
 ): Unit = QuackTextAreaInternal(
     text = text,
     onTextChanged = onTextChanged,
     placeholderText = placeholderText,
     doneAction = doneAction,
+    padding = padding,
     isBordered = true,
 )
 
@@ -187,12 +190,14 @@ public fun QuackTextArea(
     text: String,
     onTextChanged: (text: String) -> Unit,
     placeholderText: String = "",
+    padding: PaddingValues = QuackTextAreaPadding,
     doneAction: KeyboardActionScope.() -> Unit = {},
 ): Unit = QuackTextAreaInternal(
     text = text,
     onTextChanged = onTextChanged,
     placeholderText = placeholderText,
     doneAction = doneAction,
+    padding = padding,
     isBordered = false,
 )
 
@@ -216,6 +221,7 @@ private fun QuackTextAreaInternal(
     text: String,
     onTextChanged: (text: String) -> Unit,
     placeholderText: String,
+    padding: PaddingValues = QuackTextAreaPadding,
     doneAction: KeyboardActionScope.() -> Unit,
     isBordered: Boolean,
 ) {
@@ -283,10 +289,7 @@ private fun QuackTextAreaInternal(
                     shape = shape,
                 )
                 .padding(
-                    paddingValues = when (isBordered) {
-                        true -> QuackBorderTextAreaPadding
-                        else -> QuackTextAreaPadding
-                    },
+                    paddingValues = padding,
                 ),
         ) {
             if (isPlaceholder) {
