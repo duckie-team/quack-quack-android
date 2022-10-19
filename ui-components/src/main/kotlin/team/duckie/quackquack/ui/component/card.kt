@@ -139,6 +139,7 @@ public fun QuackCardImageRow(
     cornerIcon: (@Composable () -> Unit)? = null,
 ) {
     when (images.size) {
+        0 -> return
         1 -> {
             QuackWideCardImage(
                 image = images[0],
