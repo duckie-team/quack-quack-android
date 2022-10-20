@@ -126,24 +126,42 @@ tasks.register(
     }.forEach(::delete)
 }
 
-enum class VersionType {
+/**
+ * Bump 할 버전을 정의합니다.
+ *
+ * @property Major Major 버전을 bump 합니다.
+ * @property Minor Minor 버전을 bump 합니다.
+ * @property Patch Patch 버전을 bump 합니다.
+ */
+enum class BumpType {
     Major,
     Minor,
     Patch;
 }
 
-enum class BumpTarget {
+/**
+ * Release 할 대상을 정의합니다.
+ *
+ * @property Playground ui-components 의 playground 를 release 합니다.
+ * @property LintCore lint-core 를 release 합니다.
+ * @property LintQuack lint-quack 를 release 합니다.
+ * @property LintCompose lint-compose 를 release 합니다.
+ * @property LintWriting lint-writing 를 release 합니다.
+ * @property UiComponents ui-components 를 release 합니다.
+ */
+enum class ReleaseTarget {
     Playground,
     LintCore,
     LintQuack,
     LintCompose,
+    LintWriting,
     UiComponents;
 }
 
 fun Project.getVersionPath(
-    target: BumpTarget,
+    target: ReleaseTarget,
 ) = when (target) {
-    BumpTarget.Playground -> "$rootDir/playground-version.txt"
+    BumpTarget.Playground -> "$rootDir/playground.txt"
     BumpTarget.UiComponents -> "$rootDir/quackquack-version/ui-components.txt"
     BumpTarget.LintCore -> "$rootDir/quackquack-version/lint-core.txt"
     BumpTarget.LintQuack -> "$rootDir/quackquack-version/lint-quack.txt"
@@ -151,8 +169,8 @@ fun Project.getVersionPath(
 }
 
 fun Project.bumpVersion(
-    type: VersionType,
-    target: BumpTarget,
+    type: BumpType,
+    target: ReleaseTarget,
 ): String {
     val versionFile = File(
         getVersionPath(
@@ -190,10 +208,10 @@ tasks.create(
     name = "bumpVersion",
 ) {
     val type = (properties["type"] ?: return@create).let { type ->
-        VersionType.valueOf(type.toString())
+        BumpType.valueOf(type.toString())
     }
     val target = (properties["target"] ?: return@create).let { target ->
-        BumpTarget.valueOf(target.toString())
+        ReleaseTarget.valueOf(target.toString())
     }
     val version = bumpVersion(
         type = type,
