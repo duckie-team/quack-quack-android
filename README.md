@@ -29,6 +29,10 @@ If you are ok in Korean, you can check why QuackQuack was born on the [Duckie te
 
 QuackQuack's design components can be previewed by building the Playground module. If you don't feel like building it yourself, you can download it from the [Google PlayStore](https://play.google.com/store/apps/details?team.duckie.quackquack.playground).
 
+## Caveat
+
+QuackQuack's UI components are intended to be used in Duckie. Therefore, some component designs may not be suitable for non-Duckie services.
+
 ## Download
 
 QuackQuack is available in the Maven repository. [BOM](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#bill-of-materials-bom-poms) is currently not supported due to [publishing issues](https://github.com/sungbinland/duckie-quack-quack/issues/114). Once the issue is resolved, BOM is published. (we are want for your help!)
@@ -59,6 +63,8 @@ To be written...
 tar xvf quackuser-secrets.tar
 ```
 
+> **Note**: The build configuration file will be removed soon. ([#303](https://github.com/duckie-team/duckie-quack-quack-mvp/issues/303))
+
 ## Contribute
 
 > We love your contribution! 
@@ -69,6 +75,7 @@ Anyway, *any* contribution is welcome, just make sure you follow the [contributi
 
 ## Maintainers
 
+- Project Lead: [@jisungbin](https://github.com/jisungbin)
 - Design: [Hyejin Kim](https://www.behance.net/hyejinkim32)
 - Documentations & Automations: [@jisungbin](https://github.com/jisungbin)
 - UI Components: [@jisungbin](https://github.com/jisungbin), [@EvergreenTree97](https://github.com/EvergreenTree97), [@goddoro](https://github.com/goddoro)
@@ -149,39 +156,27 @@ PR 이 `master` 브런치로 merge 될 때마다 실행되며, 꽥꽥 아티팩�
 
 모든 Gradle 에는 [Gradle Convention Plugins](https://docs.gradle.org/current/samples/sample_convention_plugins.html) 을 적용합니다. 반복적인 Gradle 코드를 줄이고, 최소한의 변경으로 공통되는 모든 부분에 변경 사항을 반영하기 위해 사용합니다.
 
-#### Android Application, Android Library
-
-> [[1]](build-logic/src/main/kotlin/AndroidApplicationPlugin.kt), [[2]](build-logic/src/main/kotlin/AndroidLibraryPlugin.kt)
+#### [Android Application](build-logic/src/main/kotlin/AndroidApplicationPlugin.kt), [Android Library](build-logic/src/main/kotlin/AndroidLibraryPlugin.kt)
 
 기본적인 `com.android.application` 또는 `com.android.library` 을 구성합니다. 추가로 벤치마크를 위해 `benchmark` variant 도 추가합니다.
 
-#### Android Lint, Android Lint Common
-
-> [[1]](build-logic/src/main/kotlin/AndroidLintPlugin.kt), [[2]](build-logic/src/main/kotlin/AndroidCommonLintPlugin.kt)
+#### [Android Lint](build-logic/src/main/kotlin/AndroidLintPlugin.kt), [Android Lint Common](build-logic/src/main/kotlin/AndroidCommonLintPlugin.kt)
 
 `com.android.lint` 를 구성하고 린트 개발에 필요한 의존성들을 추가합니다.
 
-#### Android Compose [Application] [Library], Android Library Compose UI Test
-
->  [[1 - Application]](build-logic/src/main/kotlin/AndroidApplicationComposePlugin.kt) [[1 - Library]](build-logic/src/main/kotlin/AndroidLibraryComposePlugin.kt), [[2]](build-logic/src/main/kotlin/AndroidLibraryComposeUiTestPlugin.kt)
+#### Android Compose [[Application]](build-logic/src/main/kotlin/AndroidApplicationComposePlugin.kt) [[Library]](build-logic/src/main/kotlin/AndroidLibraryComposePlugin.kt), [Android Library Compose UI Test](build-logic/src/main/kotlin/AndroidLibraryComposeUiTestPlugin.kt)
 
 각각 variant 에 맞게 [Jetpack Compose](https://developer.android.com/jetpack/compose) 사용 환경을 구성합니다. 또한 `Library` variant 에서는 [Compose UI Test](https://developer.android.com/jetpack/compose/testing) 사용 환경도 추가로 구성합니다. 현재 꽥꽥 프로젝트에서는 `ui-components` 모듈만 UI 테스트가 필요하고, 해당 모듈이 `Library` variant 로 구성돼 있습니다.
 
-#### UI Components Benchmark
-
-> [[1]](build-logic/src/main/kotlin/AndroidQuackUiComponentsBenchmarkPlugin.kt)
+#### [UI Components Benchmark](build-logic/src/main/kotlin/AndroidQuackUiComponentsBenchmarkPlugin.kt)
 
 `com.android.test` 와 [Macrobenchmark](https://developer.android.com/topic/performance/benchmarking/macrobenchmark-overview) 을 구성합니다. `ui-components` 모듈을 대상으로 [baseline profiles](https://developer.android.com/topic/performance/baselineprofiles/overview) 을 추출하기 위해 사용됩니다.
 
-#### Jvm Dokka, Jvm Kover, Jvm Library
-
-> [[1]](build-logic/src/main/kotlin/JvmDokkaPlugin.kt), [[2]](build-logic/src/main/kotlin/JvmKoverPlugin.kt), [[3]](build-logic/src/main/kotlin/JvmLibraryPlugin.kt)
+#### [Jvm Dokka](build-logic/src/main/kotlin/JvmDokkaPlugin.kt), [Jvm Kover](build-logic/src/main/kotlin/JvmKoverPlugin.kt), [Jvm Library](build-logic/src/main/kotlin/JvmLibraryPlugin.kt)
 
 각각 [dokka](https://github.com/Kotlin/dokka), [kover](https://github.com/Kotlin/kotlinx-kover), `java-library` 를 구성합니다.
 
-#### Artifacts Publishing
-
-> [[1]](build-logic/src/main/kotlin/AndroidQuackPublishPlugin.kt)
+#### [Artifacts Publishing](build-logic/src/main/kotlin/AndroidQuackPublishPlugin.kt)
 
 [gradle-maven-publish-plugin](https://github.com/vanniktech/gradle-maven-publish-plugin) 을 구성합니다. 꽥꽥의 Conventions Plugins 중에 유일하게 별도 [extensions](build-logic/src/main/kotlin/team/duckie/quackquack/convention/QuackPublishExtension.kt) 을 만들어 진행됩니다.
 
@@ -261,27 +256,116 @@ quackArtifactPublish {
 
 Jetpack Compose 는 리컴포지션이 매우 많이 발생할 수 있습니다. 따라서 덕키는 접근성 뿐만 아니라 컴포저블의 성능도 최상으로 유지하려 노력하였습니다.
 
-> TODO
+##### @NonRestartableComposable + Skippable + Lambda
 
-##### @NonRestartableComposable
+꽥꽥은 특정상 베이스가 되는 컴포넌트를 여러번 델리게이트하며 구현됩니다. 
 
-##### Lambda
+```kotlin
+@Composable
+@NonRestartableComposable
+public fun QuackHeadLine1(
+    modifier: Modifier = Modifier,
+    text: String,
+    color: QuackColor = QuackColor.Black,
+    align: TextAlign = TextAlign.Start,
+    rippleEnabled: Boolean = false,
+    singleLine: Boolean = false,
+    onClick: (() -> Unit)? = null,
+): Unit = QuackText(
+    modifier = modifier.quackClickable(
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    ),
+    text = text,
+    style = QuackTextStyle.HeadLine1.change(
+        color = color,
+        textAlign = align,
+    ),
+    singleLine = singleLine,
+)
+
+@Composable
+@NonRestartableComposable
+public fun QuackLargeButton(
+    text: String,
+    active: Boolean = true,
+    onClick: () -> Unit,
+): Unit = QuackBasicButton(
+    width = QuackWidth.Fill,
+    shape = QuackLargeButtonShape,
+    text = text,
+    textPadding = QuackLargeButtonTextPadding,
+    textStyle = QuackTextStyle.Subtitle.change(
+        color = QuackColor.White,
+    ),
+    backgroundColor = quackButtonStandardBackgroundColorFor(
+        enabled = active,
+    ),
+    onClick = onClick,
+    enabled = active,
+)
+```
+
+위 예시 코드와 같이 컴포저블이 바로 다른 컴포저블을 델리게이트하는 경우에는 [`@NonRestartableComposable`](https://developer.android.com/reference/kotlin/androidx/compose/runtime/NonRestartableComposable)  를 사용하여 컴포저블을 최적화할 수 있습니다. 이 어노테이션을 사용하기 위해선 적어도 다음과 같은 조건을 따라야 합니다.
+
+1. 컴포저블의 인자가 변경되었을 때 해당 컴포저블에 직접적인 영향을 미치지 말아야 합니다. 이를 달성하는 가장 쉬운 조건은 변경될 가능성이 있는 인자를 람다로 제공하는 것입니다. 꽥꽥의 UI 컴포넌트 역시 내부 drawing 을 하는 과정에서 변경될 수 있는 값들은 사소하더라도 다 람다로 제공하여 최대한 이 규직을 지키려고 노력하였습니다. 값을 람다로 제공하게 되면 해당 값이 변경되더라도 `Function<T>` 로 래핑돼 있기 때문에 직접 invoke 되기 전까진 해당 컴포저블에 영향을 미치지 않습니다. 만약 영향을 미치게 된다면 해당 컴포저블이 리컴포지션될 것이고, 이는 NonRestartable 에서 어긋납니다.
+2. 컴포저블의 모든 인자가 [안정 상태](https://github.com/duckie-team/duckie-quack-quack-mvp#stability)야 합니다. 이는 해당 컴포저블을 Skippable 상태로 만들기 위함입니다. Skippable 상태가 보장되어야 해당 컴포저블은 NonRestartable, 즉 리컴포지션이 발생하지 않을 수 있다고 가정할 수 있습니다.
+3. 컴포저블 내부에 최소한의 로직만 있어야 합니다. 이를 달성하는 가장 쉬운 조건은 위 예시와 같이 컴포저블을 바로 다른 컴포저블로 델리게이트하게 설계하는 것입니다. 로직이 많아지면 어떠한 이유도로 리컴포지션이 발생할 확률이 높아지므로 해당 컴포저블이 NonRestartable 하다고 가정하기 어렵게 됩니다.
+
+컴포저블이 NonRestartable 한 상태가 되면 다음과 같은 이점이 있습니다.
+
+- SlotTable (ComposableTree) 에서 불필요한 공간을 차지하지 않습니다. 기본적으로 모든 컴포저블은 Restartable 한 상태로 간주되어 리컴포지션하는 로직과 함께 SlotTable 에 저장됩니다. 하지만 컴포저블을 NonRestartable 로 만들게 되면 리컴포지션하는 로직 없이 오직 컴포저블 자체에 대한 정보만 SlotTable 에 저장하기 때문에 컴포저블을 사용하기 위한 오버헤드를 약간 줄일 수 있고, 줄어든 공간만큼 (리)컴포지션이 발생할 때마다 SlotTable 을 순회하는 `O(N)` 의 시간이 줄어들게 됩니다.
 
 ##### Stability
 
+꽥꽥에서 새로 정의한 UI 상수들은 모두 안정 상태로 만들려 노력하였습니다.
+
+```kotlin
+@Immutable
+@JvmInline
+public value class QuackColor internal constructor(
+    public val composeColor: Color,
+)
+
+@Immutable
+@JvmInline
+public value class QuackIcon private constructor(
+    @DrawableRes public val drawableId: Int,
+)
+
+// TODO: QuackTextStyle 추가 (#302)
+```
+
+모든 상수들에 대해 안정 상태를 가져가기 위해 다음과 같은 방안을 적용하였습니다.
+
+1. 코틀린의 `value class` 를 이용하여 원시 타입 혹은 이미 안정 상태인 값을 래핑합니다. `value class` 에 의해 인라인되면서 안정 상태의 값이 그대로 적용되기 때문에 꽥꽥측에서 별도로 처리해 줄 필요가 없기 때문에 가장 효과적이고 강력한 방법입니다.
+2. [`@StableMarker`](https://developer.android.com/reference/kotlin/androidx/compose/runtime/StableMarker) 를 직접 사용하고, 도메인적 의미를 강조합니다. 1번이 방법을 부득이하게 사용하지 못하는 경우에는 `QuackTextStyle` 와 같이 직접 StableMarker 를 정의하였습니다. StableMarker 에는 [`@Stable`](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Stable) 과 [`@Immutable`](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Immutable) 로 2가지 종류가 존재합니다. 꽥꽥의 UI 상수는 말 그대로 "상수" 이기 때문에 항상 같은 인스턴스를 반환하여 `@Immutable` 만을 이용하여 Stable 처리를 진행했습니다. ...  TODO: #302
+
 ##### Skippable
+
+덕키팀은 컴포저블의 성능을 결정짓는 가장 큰 요소가 바로 Skippable 여부라고 생각합니다. 따라서 모든 컴포저블을 Skippable 상태로 만들기 위해 노력하였으며, 실제로 의도적으로 `Collection<T>` 을 받는 컴포저블 의외에는 모두 Skippable 상태라는 것을 [Compose Compiler Metrics](https://github.com/androidx/androidx/blob/androidx-main/compose/compiler/design/compiler-metrics.md) 을 통해 확인할 수 있습니다.
 
 이 외에 덕키팀에서 고려한 다양한 성능 최적화 방법들은 UI 컴포넌트 개발을 담당해주신 상록님께서 작성하신 [QuackQuack의 최고의 Performance를 위해](https://blog.duckie.team/quack-quack%EC%9D%98-%EC%B5%9C%EA%B3%A0%EC%9D%98-performance%EB%A5%BC-%EC%9C%84%ED%95%B4-ad54421715bc) 아티클에서 확안하실 수 있습니다.
 
-#### 구현하는데 고민이 꽤 들었던 컴포넌트
+#### 디자인 시스템을 개발하면서 생겼던 고민들
 
-일부 컴포넌트들은 구현하기 위해 꽤 오랜 시간 고민이 필요했었습니다. 어떤 이유에서 고민이 길어졌고, 해결책은 무엇이었는지 기록합니다.
+디자인 시스템 개발이 처음이다 보니 개발하는 과정이 마냥 쉽지만은 않았습니다. 대부분 오랜 시간 고민이 필요했었고, 어떤 이유에서 고민이 길어졌고 덕키팀에서 채택한 해결 방법은 무엇이었는지 기록합니다.
 
 ##### QuackMainTab
+
+TODO: [#148](https://github.com/duckie-team/duckie-quack-quack-mvp/issues/148)
+
+##### Modifier 노출 여부
+
+Jetpack Compose 에서 [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier) 는 아주 강력한 존재합니다. 컴포넌트를 아예 재정의할 수도 있으므로 이는 디자인 시스템의 목적이 무시될 수 있음을 의미합니다. 하지만 컴포저블에서 Modifier 사용은 정말 필수적인 상황이므로 덕키팀에서는 이를 해결하기 위해 기본적으로 모든 UI 컴포넌트에서 Modifier 를 막아놓되, 일부 Modifier 가 필수적으로 필요할 것으로 판단되는 컴포넌트에서는 허용되는 범위만큼 Modifier 를 재정의하여 노출하는 것으로 결정하였습니다.
+
+TODO: [#304](https://github.com/duckie-team/duckie-quack-quack-mvp/issues/304)
 
 ### Lints
 
 린트 파트는 린트 개발을 담당해주신 세현님께서 작성하신 [덕키팀에서 Custom Lint를 만드는 여정](https://blog.duckie.team/team-duckie%EC%97%90%EC%84%9C-custom-lint%EB%A5%BC-%EB%A7%8C%EB%93%9C%EB%8A%94-%EC%97%AC%EC%A0%95-a7ecca72a32f) 아티클로 확인하실 수 있습니다.
+
+> TODO
 
 ## Pronounce (Korean)
 
@@ -294,3 +378,4 @@ Jetpack Compose 는 리컴포지션이 매우 많이 발생할 수 있습니다.
 ## License
 
 QuackQuack is designed and developed by 2022 SungbinLand, Team Duckie, and licensed under MIT. please see the [License](LICENSE) file.
+
