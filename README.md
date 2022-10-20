@@ -353,7 +353,13 @@ public value class QuackIcon private constructor(
 
 ##### QuackMainTab
 
+TODO: [#148](https://github.com/duckie-team/duckie-quack-quack-mvp/issues/148)
+
 ##### Modifier 노출 여부
+
+Jetpack Compose 에서 [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier) 는 아주 강력한 존재합니다. 컴포넌트를 아예 재정의할 수도 있으므로 이는 디자인 시스템의 목적이 무시될 수 있음을 의미합니다. 하지만 컴포저블에서 Modifier 사용은 정말 필수적인 상황이므로 덕키팀에서는 이를 해결하기 위해 기본적으로 모든 UI 컴포넌트에서 Modifier 를 막아놓되, 일부 Modifier 가 필수적으로 필요할 것으로 판단되는 컴포넌트에서는 허용되는 범위만큼 Modifier 를 재정의하여 노출하는 것으로 결정하였습니다.
+
+TODO: [#304](https://github.com/duckie-team/duckie-quack-quack-mvp/issues/304)
 
 ### Lints
 
