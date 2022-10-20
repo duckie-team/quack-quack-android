@@ -23,11 +23,8 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.selection.LocalTextSelectionColors
-import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.NoLiveLiterals
 import androidx.compose.runtime.Stable
@@ -35,11 +32,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -56,6 +55,7 @@ import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.modifier.drawUnderBarWithAnimation
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.DoNotUseDirectly
+import team.duckie.quackquack.ui.util.ProvideTextSelectionColors
 
 /**
  * QuackTextField 에서 표시할 텍스트의 [FontWeight] 에 따라 QuackTextField 의
@@ -175,14 +175,6 @@ private object QuackTextFieldColors {
         true -> QuackColor.OrangeRed
         else -> QuackColor.Gray3
     }
-
-    /**
-     * QuackTextField 에서 사용할 커서 색상을 정의합니다.
-     * QuackTextField 는 커서의 색상으로 항상 [QuackColor.DuckieOrange]
-     * 를 사용합니다.
-     */
-    @Stable
-    val QuackTextFieldCursorColor = QuackColor.DuckieOrange
 }
 
 /**
@@ -229,6 +221,8 @@ public fun QuackTextField(
         imeAction = ImeAction.Done,
     ),
     keyboardActions: KeyboardActions = KeyboardActions(),
+    focusRequester: FocusRequester = FocusRequester(),
+    onFocusChanged: (Boolean) -> Unit = {},
 ) {
     val errorComposeTextStyle = remember(
         key1 = errorTextStyle,
@@ -237,7 +231,12 @@ public fun QuackTextField(
     }
 
     Column(
-        modifier = Modifier.wrapContentSize(),
+        modifier = Modifier
+            .wrapContentSize()
+            .focusRequester(focusRequester)
+            .onFocusChanged {
+                onFocusChanged(it.isFocused)
+            },
     ) {
         QuackBasicTextField(
             width = width,
@@ -348,21 +347,13 @@ internal fun QuackBasicTextField(
         key2 = isPlaceholder,
     ) {
         textStyle.change(
-            textAlign = TextAlign.Start,
             color = QuackTextFieldColors.textColor(
                 isPlaceholder = isPlaceholder,
             ),
         ).asComposeStyle()
     }
 
-    CompositionLocalProvider(
-        LocalTextSelectionColors provides TextSelectionColors(
-            handleColor = QuackColor.DuckieOrange.composeColor,
-            backgroundColor = QuackColor.DuckieOrange.changeAlpha(
-                alpha = 0.2f,
-            ).composeColor,
-        ),
-    ) {
+    ProvideTextSelectionColors {
         BasicTextField(
             modifier = Modifier
                 .applyQuackSize(
@@ -390,7 +381,7 @@ internal fun QuackBasicTextField(
             // TextField is always single line
             // TextArea is always multi line
             singleLine = true,
-            cursorBrush = QuackTextFieldColors.QuackTextFieldCursorColor.toBrush(),
+            cursorBrush = textFieldCursorColor.toBrush(),
             decorationBox = { textField ->
                 QuackTextFieldDecorationBox(
                     textField = textField,

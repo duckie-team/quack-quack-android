@@ -48,18 +48,23 @@ public fun QuackDropDown(
     onClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.clip(
+        modifier = Modifier
+            .clip(
                 shape = QuackDropDownShape,
-            ).border(
+            )
+            .border(
                 border = QuackBorder(
                     color = Gray3,
                 ).asComposeBorder(),
                 shape = QuackDropDownShape,
-            ).quackClickable {
+            )
+            .quackClickable {
                 onClick()
-            }.background(
+            }
+            .background(
                 color = QuackColor.White.composeColor,
-            ).padding(
+            )
+            .padding(
                 paddingValues = QuackDropDownPadding,
             ),
         horizontalArrangement = Arrangement.spacedBy(

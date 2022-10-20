@@ -65,6 +65,7 @@ public fun QuackTopAppBar(
     trailingIcon: QuackIcon? = null,
     secondTrailingIcon: QuackIcon? = null,
     trailingText: String? = null,
+    trailingTextColor: QuackColor = QuackColor.Black,
     headline: String? = null,
     centerContent: (@Composable () -> Unit)? = null,
     onClickLeadingIcon: (() -> Unit)? = null,
@@ -144,6 +145,8 @@ public fun QuackTopAppBar(
                 QuackSubtitle2(
                     text = trailingText,
                     onClick = onClickTrailingText,
+                    rippleEnabled = true,
+                    color = trailingTextColor,
                 )
             }
         }

@@ -65,6 +65,8 @@ public fun QuackCardImage(
     image: Any,
     size: Dp? = null,
     cornerIcon: (@Composable () -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
+    rippleEnabled: Boolean = true,
 ) {
 
     val sizeModifier = remember {
@@ -86,6 +88,10 @@ public fun QuackCardImage(
             modifier = sizeModifier
                 .clip(
                     shape = QuackCardShape
+                )
+                .quackClickable(
+                    onClick = onClick,
+                    rippleEnabled = rippleEnabled,
                 ),
             src = image,
         )
@@ -133,6 +139,7 @@ public fun QuackCardImageRow(
     cornerIcon: (@Composable () -> Unit)? = null,
 ) {
     when (images.size) {
+        0 -> return
         1 -> {
             QuackWideCardImage(
                 image = images[0],
@@ -256,7 +263,7 @@ public fun QuackLargeIconRoundCard(
     icon: QuackIcon,
     onClick: () -> Unit,
     iconSize: DpSize = QuackCardIconSize,
-){
+) {
     QuackIconRoundCard(
         size = QuackLargeIconCardSize,
         icon = icon,
@@ -279,7 +286,7 @@ public fun QuackSmallIconRoundCard(
     icon: QuackIcon,
     onClick: () -> Unit,
     iconSize: DpSize = QuackCardIconSize,
-){
+) {
     QuackIconRoundCard(
         size = QuackSmallIconCardSize,
         icon = icon,

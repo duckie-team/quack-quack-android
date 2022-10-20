@@ -49,6 +49,7 @@ import team.duckie.quackquack.playground.realworld.NavigationPlayground
 import team.duckie.quackquack.playground.realworld.SelectableImagePlayground
 import team.duckie.quackquack.playground.realworld.TabPlayground
 import team.duckie.quackquack.playground.realworld.TagPlayground
+import team.duckie.quackquack.playground.realworld.TextAreaPlayground
 import team.duckie.quackquack.playground.realworld.TextFieldPlayground
 import team.duckie.quackquack.playground.realworld.TogglePlayground
 import team.duckie.quackquack.playground.realworld.TypoPlayground
@@ -74,6 +75,7 @@ private val PlaygroundActivities = listOf(
     TagPlayground::class,
     DrawerPlayground::class,
     BottomSheetPlayground::class,
+    TextAreaPlayground::class,
 ).sortedBy { playgroundActivity ->
     playgroundActivity.simpleName
 }.toPersistentList()

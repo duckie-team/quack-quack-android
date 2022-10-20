@@ -81,11 +81,11 @@ compose-foundation = { module = "androidx.compose.foundation:foundation", versio
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose-core" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
-compose-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 compose-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "compose-constraintlayout" }
 compose-coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-core" } # debugImplementation
 compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-core" }
+compose-accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 
 customview-poolingcontainer = { module = "androidx.customview:customview-poolingcontainer", version.ref = "customview-poolingcontainer" } # debugImplementation
 

@@ -9,7 +9,6 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -100,7 +99,7 @@ public fun <T> QuackHeaderGridLayout(
     itemContent: @Composable (Int, T) -> Unit,
     header: @Composable () -> Unit,
 ) {
-    val gridItems = listOf(items[0]) + items
+    val gridItems = listOf(null) + items
 
     LazyVerticalGrid(
         contentPadding = contentPadding,
@@ -115,10 +114,12 @@ public fun <T> QuackHeaderGridLayout(
                     verticalSpace = verticalSpace,
                     horizontalSpace = horizontalSpace,
                     itemContent = {
-                        itemContent(
-                            index,
-                            item,
-                        )
+                        if ( item != null) {
+                            itemContent(
+                                index,
+                                item,
+                            )
+                        }
                     },
                     header = header,
                     index = index,
@@ -155,7 +156,7 @@ public fun <T> QuackFooterGridLayout(
     itemContent: @Composable (Int, T) -> Unit,
     footer: @Composable () -> Unit,
 ) {
-    val gridItems = items + items[0]
+    val gridItems = items + listOf(null)
 
     LazyVerticalGrid(
         contentPadding = contentPadding,
@@ -170,10 +171,12 @@ public fun <T> QuackFooterGridLayout(
                     verticalSpace = verticalSpace,
                     horizontalSpace = horizontalSpace,
                     itemContent = {
-                        itemContent(
-                            index,
-                            item,
-                        )
+                        if (item != null) {
+                            itemContent(
+                                index,
+                                item,
+                            )
+                        }
                     },
                     footer = footer,
                     index = index,
@@ -209,20 +212,18 @@ private fun QuackSimpleGridItem(
     footer: (@Composable () -> Unit)? = null,
     onClickFooter: (() -> Unit)? = null,
     header: (@Composable () -> Unit)? = null,
-    onClickHeader: ( () -> Unit)? = null,
+    onClickHeader: (() -> Unit)? = null,
 ) {
     Box(
         modifier = Modifier
             .wrapContentWidth()
-            .aspectRatio(
-                ratio = 1f,
-            )
             .padding(
                 paddingValues = PaddingValues(
                     horizontal = horizontalSpace,
                     vertical = verticalSpace,
                 )
-            ).quackClickable(
+            )
+            .quackClickable(
                 onClick = onClickFooter ?: onClickHeader,
                 rippleEnabled = true,
             ),

@@ -378,3 +378,4 @@ TODO: [#304](https://github.com/duckie-team/duckie-quack-quack-mvp/issues/304)
 ## License
 
 QuackQuack is designed and developed by 2022 SungbinLand, Team Duckie, and licensed under MIT. please see the [License](LICENSE) file.
+

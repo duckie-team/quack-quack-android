@@ -21,10 +21,10 @@ import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.ui.component.QuackGrayscaleTag
 import team.duckie.quackquack.ui.component.QuackIconTag
-import team.duckie.quackquack.ui.component.QuackMutableTagRow
+import team.duckie.quackquack.ui.component.QuackMultiLineTagRow
 import team.duckie.quackquack.ui.component.QuackRowTag
+import team.duckie.quackquack.ui.component.QuackSingleRowTag
 import team.duckie.quackquack.ui.component.QuackTag
-import team.duckie.quackquack.ui.component.QuackTagScrollableRow
 import team.duckie.quackquack.ui.icon.QuackIcon
 
 class TagPlayground : BaseActivity() {
@@ -34,8 +34,10 @@ class TagPlayground : BaseActivity() {
         "QuackGrayscaleTagDemo" to { QuackGrayscaleTagDemo() },
         "QuackIconTagDemo" to { QuackIconTagDemo() },
         "QuackTagRowDemo" to { QuackTagRowDemo() },
-        "QuackTagScrollableRowDemo" to { QuackTagScrollableRowDemo() },
-        "QuackIconTagScrollableRowDemo" to { QuackIconTagScrollableRowDemo() }
+        "QuackTagScrollableRowDemo" to { QuackSingleRowTag() },
+        "QuackSingleRowTag" to { QuackSingleRowTag() },
+        "QuackSingleRowTagDeletable" to { QuackSingleRowTagDeletable() },
+        "QuackMultiTagRow" to { QuackMultiTagRowDemo() }
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -135,7 +137,7 @@ fun QuackTagRowDemo() {
 }
 
 @Composable
-fun QuackTagScrollableRowDemo() {
+fun QuackSingleRowTag() {
     val items = remember {
         persistentListOf(
             "친절하고 매너가 좋아요",
@@ -154,7 +156,7 @@ fun QuackTagScrollableRowDemo() {
             )
         )
     }
-    QuackTagScrollableRow(
+    QuackSingleRowTag(
         title = "이런 점이 최고였어요",
         items = items,
         itemsSelection = itemsSelection,
@@ -165,9 +167,9 @@ fun QuackTagScrollableRowDemo() {
 }
 
 @Composable
-fun QuackIconTagScrollableRowDemo() {
+fun QuackSingleRowTagDeletable() {
     val items = remember {
-        persistentListOf(
+        mutableStateListOf(
             "친절하고 매너가 좋아요",
             "답장이 빨라요",
             "입금을 제때 해줘요",
@@ -176,14 +178,54 @@ fun QuackIconTagScrollableRowDemo() {
             "무리하게 가격을 깎아요",
         )
     }
-    val list = remember {
-        mutableStateOf(items)
-    }
-    QuackMutableTagRow(
+    QuackSingleRowTag(
         title = "이런 점이 최고였어요",
+        items = items,
+        itemsSelection = remember(
+            key1 = items.size,
+        ) {
+            List(
+                size = items.size,
+                init = { false },
+            )
+        },
+        onClick = { index ->
+            items.remove(
+                element = items[index],
+            )
+        },
+        iconResource = QuackIcon.Close,
+    )
+}
+
+@Composable
+fun QuackMultiTagRowDemo() {
+
+    val list = remember {
+        mutableStateOf(
+            listOf(
+                "마블",
+                "덕키",
+                "픽사",
+                "아바타",
+                "탑건",
+                "무지개양말",
+                "피드내용",
+                "추가한태그",
+                "태그",
+                "피드",
+                "다른유저",
+                "제목",
+            )
+        )
+    }
+    QuackMultiLineTagRow(
+        title = "추가한 태그",
         items = list.value,
+        icon = QuackIcon.Close,
         onClickIcon = { index ->
-            list.value = list.value.removeAt(index)
+            list.value = list.value - list.value[index]
         },
     )
+
 }

@@ -29,7 +29,6 @@ import team.duckie.quackquack.ui.color.animateQuackColorAsState
  * @param color border 의 색상
  */
 // 기본 값으로 정해진게 없기에 internal constructor
-@Suppress("MemberVisibilityCanBePrivate")
 @Immutable
 internal class QuackBorder(
     val width: Dp = 1.dp,

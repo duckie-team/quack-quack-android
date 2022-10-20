@@ -10,33 +10,30 @@ package team.duckie.quackquack.ui.modifier
 import androidx.compose.foundation.border
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import team.duckie.quackquack.ui.border.QuackBorder
-import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.util.runIf
 
 /**
- * 컴포저블에 Border 가 필요할 때만 보여주고 싶을 때 사용
+ * 선택적으로 [QuackBorder] 를 [Modifier] 에 적용합니다.
  *
- * @param enabled Border 를 보여주는 상태값
- * @param width Border 의 두께
- * @param color Border 의 색깔
+ * @param enabled border 를 적용할지 여부.
+ * 이 값이 true 일때만 border 가 적용됩니다.
+ * @param border 적용할 [QuackBorder] 객체
+ * @param shape border 를 적용할 [Shape] 값
  *
- * isSelected 가 true 일때만 param 으로 넘겨준 border 가 생성됨
- *
- * @return Border 가 필요할때만 표시해주는 Modifier
+ * @return [enabled] 여부에 따라서 [QuackBorder] 를 적용해주는 [Modifier]
+ * [enabled] 이 true 이고, [border] 값이 null 이 아닐때만 border 가 적용됩니다.
  */
 @Stable
-internal fun Modifier.quackBorderOrNull(
-    enabled: Boolean,
-    width: Dp = 1.dp,
-    color: QuackColor = QuackColor.DuckieOrange,
-) = runIf(enabled) {
+internal fun Modifier.applyQuackBorder(
+    enabled: Boolean = true,
+    border: QuackBorder?,
+    shape: Shape = RectangleShape,
+) = runIf(enabled && border != null) {
     border(
-        border = QuackBorder(
-            width = width,
-            color = color,
-        ).asComposeBorder()
+        border = border!!.asComposeBorder(),
+        shape = shape,
     )
 }
