@@ -265,6 +265,8 @@ Jetpack Compose 는 리컴포지션이 매우 많이 발생할 수 있습니다.
 
 ##### @NonRestartableComposable
 
+덕키는 특정상 QuackSurface 를 여러번 델리게이트하며 구현됩니다. 
+
 ##### Lambda
 
 ##### Stability
@@ -282,7 +284,7 @@ Jetpack Compose 는 리컴포지션이 매우 많이 발생할 수 있습니다.
 ##### QuackMainTab
 
 ##### Modifier 노출 여부
- 
+
 ### Lints
 
 린트 파트는 린트 개발을 담당해주신 세현님께서 작성하신 [덕키팀에서 Custom Lint를 만드는 여정](https://blog.duckie.team/team-duckie%EC%97%90%EC%84%9C-custom-lint%EB%A5%BC-%EB%A7%8C%EB%93%9C%EB%8A%94-%EC%97%AC%EC%A0%95-a7ecca72a32f) 아티클로 확인하실 수 있습니다.
