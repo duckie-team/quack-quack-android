@@ -66,7 +66,7 @@
 4. ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) :x:: 미리 정의한 `removeSnapshotVersion` gradle task 를 진행하여 이전에 설정한 스냅샷 버전을 제거합니다. 스냅샷 버전 설정은 versions 폴더 안에 있는 버전 파일을 수정하는 식으로 진행되기 때문에 스냅샷 배포 이후에 다시 복구시키는 과정이 필요합니다.
 5. ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) :o:: 새로운 버전으로 `git tag` 및 깃허브 Release 등록을 진행합니다.
 
-> **Warning**: `BumpType` 과 `ReleaseTarget` label 이 모두 지정돼 있지 않다면 배포에 필요한 gradle task 실행에 실패하여 배포 자동화가 실패합니다!
+> **Warning**: `BumpType` 과 `ReleaseTarget` label 이 모두 지정돼 있지 않다면 배포에 필요한 gradle task 실행에 실패하여 배포 자동화에 실패합니다.
 
 ## Playground 릴리스
 
