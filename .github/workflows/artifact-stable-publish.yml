@@ -57,10 +57,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
 
       - name: Label filtering
         id: label
-        uses: duckie-team/quack-label-filter-actions@1.0.1
+        uses: duckie-team/quack-label-filter-actions@1.0.4
         with:
           labels: "${{ toJson(github.event.pull_request.labels.*.name) }}"
 
@@ -79,24 +83,42 @@ jobs:
           gradle-home-cache-cleanup: true
 
       - name: Bump version
-        run: "./gradlew bump -PbumpType=${{ steps.label.outputs.bump_type }} -PreleaseTarget=${{ steps.label.outputs.release_target }}"
+        run: ./gradlew bump -PbumpType=${{ steps.label.outputs.bump_type }} -PreleaseTarget=${{ steps.label.outputs.release_target }}
 
       - name: Publish to MavenCentral
-        run: "./gradlew ${{ steps.label.outputs.publish_module_id }}:publish"
+        run: ./gradlew ${{ steps.label.outputs.publish_module_id }}:publish
+
+      - name: Quack version parsing
+        id: version
+        uses: duckie-team/quack-parse-version-actions@1.0.1
+        with:
+          path: ${{ steps.label.outputs.version_path }}
+
+      - name: Tag and Push new version
+        run: |
+          git config user.name "sungbinland-bot"
+          git config user.email "sungbinland.project@gmail.com"
+          git add .
+          git commit -m "[CI] bump artifact"
+          git tag ${{ steps.version.outputs.version }}
+          git push
+
+      - name: Export new version
+        id: new_version
+        run: echo "version=[${{ steps.label.outputs.release_target }}] ${{ steps.version.outputs.version }}" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub release
+        uses: ncipollo/release-action@v1.11.1
+        with:
+          generateReleaseNotes: true
+          name: ${{ steps.new_version.outputs.version }}
+          tag: ${{ steps.version.outputs.version }}
 
       - name: Post to a Slack channel
         id: slack
         uses: slackapi/slack-github-action@v1.23.0
         with:
           channel-id: C046H1UR2CA
-          slack-message: "꽥꽥의 새로운 버전이 배포됐어요 🥳"
+          slack-message: "꽥꽥의 새로운 버전 `${{ steps.new_version.outputs.version }}` 이 배포됐어요 🥳"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-
-      - name: Push new versions
-        run: |
-          git config user.name "sungbinland-bot"
-          git config user.email "sungbinland.project@gmail.com"
-          git add .
-          git commit -m "[CI] bump artifact"
-          git push
