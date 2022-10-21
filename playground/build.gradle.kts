@@ -20,13 +20,14 @@ plugins {
 android {
     namespace = "team.duckie.quackquack.playground"
 
-    if (isReleaseVariantAvailable) {
+    if (keystoreSigningAvailable) {
+        val (storePath, storePassword, keyAlias, keyPassword) = keystoreSecrets
         signingConfigs {
             create("release") {
-                storeFile = file(BuildConstants.StoreFilePath)
-                storePassword = BuildConstants.StorePassword
-                keyAlias = BuildConstants.KeyAlias
-                keyPassword = BuildConstants.KeyPassword
+                storeFile = file(storePath)
+                this.storePassword = storePassword
+                this.keyAlias = keyAlias
+                this.keyPassword = keyPassword
             }
         }
 

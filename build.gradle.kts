@@ -132,6 +132,16 @@ subprojects {
     // }
 }
 
+tasks.create("prebuild") {
+    doLast {
+        println("Prebuild executed")
+    }
+}
+
+//tasks.named("build") {
+//    dependsOn(tasks["MyTask"])
+//}
+
 tasks.register(
     name = "cleanAll",
     type = Delete::class,

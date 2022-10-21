@@ -51,15 +51,33 @@ fun DependencyScope.apis(
     )
 }
 
-val Project.isReleaseVariantAvailable: Boolean
+val Project.keystoreSigningAvailable: Boolean
     get() {
-        val fileConfigurationFile = File(
-            "$rootDir/buildSrc/src/main/kotlin/BuildConstants.kt",
-        ).also {
-            println("File: ${it.absolutePath}")
-            println("Exists: ${it.exists()}")
+        val keystoreFolder = File("$rootDir/keystore")
+        return keystoreFolder.exists().also { available ->
+            println("keystoreSigningAvailable: $available")
         }
-        return fileConfigurationFile.exists()
+    }
+
+data class KeystoreSecrets(
+    val storePath: String,
+    val storePassword: String,
+    val keyAlias: String,
+    val keyPassword: String,
+)
+
+val Project.keystoreSecrets: KeystoreSecrets
+    get() {
+        val content = File("$rootDir/keystore/secrets.txt")
+        val lines = content.readLines()
+        return KeystoreSecrets(
+            storePath = "$rootDir/keystore/quack.pepk",
+            storePassword = lines[0],
+            keyAlias = lines[1],
+            keyPassword = lines[0],
+        ).also { secrets ->
+            println("keystoreSecrets: $secrets")
+        }
     }
 
 private fun DependencyScope.delegate(
