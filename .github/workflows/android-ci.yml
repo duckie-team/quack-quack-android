@@ -62,6 +62,7 @@ jobs:
           path: assets/coverage.svg
 
       - name: Push test coverage badge
+        continue-on-error: true # continuation when up-to-date.
         run: |
           git config user.name "sungbinland-bot"
           git config user.email "sungbinland.project@gmail.com"
