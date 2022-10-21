@@ -30,17 +30,12 @@ internal class AndroidLibraryPlugin : Plugin<Project> {
             )
 
             extensions.configure<LibraryExtension> {
-                configureApplication(this)
+                configureApplication(
+                    extension = this,
+                )
 
                 buildFeatures {
                     buildConfig = false
-                }
-
-                buildTypes {
-                    create("benchmark") {
-                        signingConfig = getByName("debug").signingConfig
-                        matchingFallbacks += listOf("release")
-                    }
                 }
 
                 defaultConfig.targetSdk = ApplicationConstants.targetSdk

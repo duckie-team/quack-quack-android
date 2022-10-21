@@ -42,13 +42,6 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
                     this.versionName = versionName
                     this.versionCode = versionCode
                 }
-
-                buildTypes {
-                    create("benchmark") {
-                        signingConfig = getByName("debug").signingConfig
-                        matchingFallbacks += listOf("release")
-                    }
-                }
             }
         }
     }
