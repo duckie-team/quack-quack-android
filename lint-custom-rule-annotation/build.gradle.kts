@@ -7,6 +7,5 @@
 
 plugins {
     id(ConventionEnum.JvmLibrary)
-    id(ConventionEnum.JvmKover)
     id(ConventionEnum.JvmDokka)
 }

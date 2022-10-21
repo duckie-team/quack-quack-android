@@ -10,14 +10,12 @@
 plugins {
     id(ConventionEnum.AndroidLibrary)
     // id(ConventionEnum.AndroidQuackPublish)
-    id(ConventionEnum.JvmKover)
 }
 
 android {
     namespace = "team.duckie.quackquack.publish.bom"
 }
 
-// bom 배포는 따로 해야 함
 /*quackArtifactPublish {
     type = team.duckie.quackquack.convention.QuackArtifactType.Bom
 }*/

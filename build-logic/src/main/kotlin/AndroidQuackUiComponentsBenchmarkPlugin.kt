@@ -9,17 +9,19 @@
     "UnstableApiUsage",
 )
 
-import com.android.build.api.variant.TestAndroidComponentsExtension
+import com.android.build.api.dsl.ManagedVirtualDevice
 import com.android.build.gradle.TestExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.dependencies
 import team.duckie.quackquack.convention.ApplicationConstants
 import team.duckie.quackquack.convention.PluginEnum
 import team.duckie.quackquack.convention.applyPlugins
 import team.duckie.quackquack.convention.configureApplication
 import team.duckie.quackquack.convention.implementations
+import team.duckie.quackquack.convention.invoke
 import team.duckie.quackquack.convention.libs
 
 /**
@@ -46,28 +48,29 @@ internal class AndroidQuackUiComponentsBenchmarkPlugin : Plugin<Project> {
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
 
-                buildTypes {
-                    create("benchmark") {
-                        isDebuggable = true
-                        signingConfig = getByName("debug").signingConfig
-                        matchingFallbacks += listOf("release")
-                    }
-                }
-
                 targetProjectPath = ":ui-components-benchmark-app"
                 experimentalProperties["android.experimental.self-instrumenting"] = true
+
+                testOptions {
+                    managedDevices {
+                        devices {
+                            create(
+                                name = "pixel6Api31",
+                                type = ManagedVirtualDevice::class,
+                            ) {
+                                device = "Pixel 6"
+                                apiLevel = 31
+                                systemImageSource = "aosp"
+                            }
+                        }
+                    }
+                }
             }
 
             dependencies {
                 implementations(
                     libs.findBundle("benchmark").get(),
                 )
-            }
-
-            extensions.configure<TestAndroidComponentsExtension> {
-                beforeVariants(selector().all()) { variant ->
-                    variant.enable = variant.buildType == "benchmark"
-                }
             }
         }
     }

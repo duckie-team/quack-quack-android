@@ -6,7 +6,8 @@
 <p align="center">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-blue"/></a>
   <a href="https://developer.android.com/about/versions/marshmallow"><img alt="API 23+" src="https://img.shields.io/badge/API-23%2B-brightgreen.svg"/></a>
-  <a href="https://github.com/duckie-team/duckie-app/blob/main/documents/codestyle.md"><img alt="codestyle" src="https://raw.githubusercontent.com/duckie-team/duckie-app/main/assets/codestyle-duckie.svg"/></a>
+  <a href="https://github.com/duckie-team/duckie-app/blob/develop/documents/codestyle.md"><img alt="codestyle" src="https://raw.githubusercontent.com/duckie-team/duckie-app/main/assets/codestyle-duckie.svg"/></a>
+  <img alt="coverage" src="https://raw.githubusercontent.com/duckie-team/duckie-quack-quack-mvp/develop/assets/coverage.svg"/>
 </p>
 
 ---
@@ -41,7 +42,7 @@ QuackQuack is available in the Maven repository. [BOM](https://maven.apache.org/
 
 ![quack-ui-components](https://img.shields.io/maven-central/v/team.duckie.quack/quack-ui-components?label=quack-ui-components&style=flat-square) ![quack-lint-core](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-core?label=quack-lint-core&style=flat-square) ![quack-lint-quack](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-quack?label=quack-lint-quack&style=flat-square) ![quack-lint-compose](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-compose?label=quack-lint-compose&style=flat-square) ![quack-lint-writing](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-writing?label=quack-lint-writing&style=flat-square)
 
-```kotlin
+```groovy
 dependencies {
     implementation("team.duckie.quack:quack-ui-components:{version}")
     implementation("team.duckie.quack:quack-lint-core:{version}")
@@ -49,6 +50,19 @@ dependencies {
     implementation("team.duckie.quack:quack-lint-quack:{version}")
     // implementation("team.duckie.quack:quack-lint-writing:{version}")
 }
+```
+
+### Snapshot
+
+Snapshots of the development version are available in [Sonatype's `snapshots` repository](https://oss.sonatype.org/content/repositories/snapshots/team/duckie/quackquack/).
+
+```groovy
+ repositories {
+   // ...
+   maven {
+     url 'https://oss.sonatype.org/content/repositories/snapshots/'
+   }
+ }
 ```
 
 ## Usage
@@ -97,9 +111,9 @@ Anyway, *any* contribution is welcome, just make sure you follow the [contributi
 
 > **Note**: 모든 자동화 워크플로우에서는 [Gradle Build Action](https://github.com/marketplace/actions/gradle-build-action) 액션을 통해 [Build Caching](https://docs.gradle.org/current/userguide/build_cache.html) 을 하고 있습니다. 따라서 이 조건 하에는 [incremental build](https://docs.gradle.org/current/userguide/performance.html#incremental_build) 를 사용하는 것이 이득을 볼 수 있습니다.
 
-#### Android CI (android-ci.yml)
+#### Android CI
 
-`master` 브런치로 PR 이 올라올 때마다 실행되며, 빌드 여부와 테스트 커버리지를 검사합니다. 또한 UI 컴포넌트들의 스냅샷 이미지를 배포합니다.
+`master` 브런치로 PR 이 올라올 때마다 실행되며, 빌드 여부와 테스트 커버리지를 검사합니다. 또한 상황에 맞게 UI 컴포넌트들의 스냅샷 이미지를 배포합니다.
 
 - 프로젝트 빌드
   - `./gradlew build` 를 사용하여 프로젝트 빌드, 코드 린트 검사, 테스트 등을 진행합니다.
@@ -109,76 +123,75 @@ Anyway, *any* contribution is welcome, just make sure you follow the [contributi
   - [Kover](https://github.com/Kotlin/kotlinx-kover) 를 이용하여 테스트 커버리지를 검사합니다.
   - 커버리지 결과를 가지고 리드미 Badge 업데이트와 해당 PR 에 comment 첨부를 진행합니다. 각각 액션으로 [Kotlinx Kover Report](https://github.com/marketplace/actions/kotlinx-kover-report) 와 [Badge Action](https://github.com/marketplace/actions/badge-action) 를 이용합니다.
   - 전체 코드의 테스트 커버리지를 자동으로 추적하기 위한 과정입니다. 덕키는 테스트 커버리지 50% 이상을 목표로 합니다.
-- UI 컴포넌트들의 스냅샷 이미지 배포
+- [UI Components 변경일 때] UI 컴포넌트들의 스냅샷 이미지 배포
   - 새로운 UI 컴포넌트를 merge 하기 전에 미리 UI 를 확인해 보기 위해 각각 컴포넌트들의 스냅샷을 캡처하여 [snapshots.duckie.team](https://snapshots.duckie.team/quack) 으로 배포합니다.
   - 스냅샷을 에뮬레이터나 실기기 없이 CI 환경에서 캡처하기 위해 [Paparazzi](https://github.com/cashapp/paparazzi) 를 사용합니다.
   - 매번 UI 를 확인하기 위해 해당 브런치를 다운받고 빌드하는 것이 너무 번거로워 UI 컴포넌트들의 스냅샷 캡처부터 캡처 이미지들 배포까지의 모든 과정을 자동화합니다.
   - 단순 UI 컴포넌트 확인 의외에 다양한 font scale 과 device scale 에서도 의도한대로 디자인이 잘 나오는지 확인할 수 있습니다. 덕키에서는 1배수와 1.5배수의 font scale 과 일반과 테블릿의 device scale 에서 스냅샷 캡처를 진행합니다.
 
-#### Artifacts Snapshot (artifact-snapshot.yml)
+#### Artifact Snapshot Publish
 
-PR 이 `master` 브런치로 merge 될 때마다 실행되며, 꽥꽥 아티팩트의 스냅샷 버전과 새로운 플레이그라운드를 배포합니다.
+PR 이 `master` 브런치로 merge 될 때마다 실행되며, 대상 아티팩트를 스냅샷 버전으로 배포합니다.
 
 - 스냅샷 배포
   - `Android CI` 작업에 의해 빌드 성공이 검증된 상태이므로 별도의 빌드 확인 과정없이 바로 스냅샷 배포를 진행합니다.
-  - ... TODO
   - 항상 최신 버전의 아티팩트를 사용할 수 있게 스냅샷 버전 배포를 자동화합니다.
-- 새로운 플레이그라운드 배포
-  - 꽥꽥의 UI 컴포넌트는 빠른 미리보기를 위해 [플레이그라운드](/playground)를 제공합니다. 해당 플레이그라운드는 [플레이스토어](https://play.google.com/store/apps/details?team.duckie.quackquack.playground)와 [firebase app distribution](https://firebase.google.com/docs/app-distribution) 으로 배포됩니다. 
-  - 플레이스토어 배포는 [Upload Android Release to Play Store](https://github.com/marketplace/actions/upload-android-release-to-play-store) 액션을 이용하며, 모두가 다운로드할 수 있게 배포됩니다. firebase app distribution 은 [Firebase App Distribution](https://github.com/marketplace/actions/firebase-app-distribution) 액션을 이용하며, 플레이스토어 심사 과정 없이 덕키팀 내부에서 먼저 확인해보기 위해 덕키팀을 대상으로 배포됩니다.
-  - 매번 두 가지의 배포를 수동으로 진행하는 것은 번거로운 일이므로 이를 자동화하기 위한 과정입니다.
-  - firebase app distribution 으로 배포된 플레이그라운드를 가지고 덕키팀 디자이너가 UI 컴포넌트가 올바르게 나왔는지 확인합니다. 만약 문제가 있다면 수정을 진행하고, 완벽하다면 다음 feature 개발을 진행합니다.
 
-##### [ALL] Publishing & Bump Target
+#### Artifact Stable Publish
 
-모든 배포는 해당 PR 의 label 로 지정된 target 을 기준으로 진행되며, `publish` 하기 전에 해당 target 의 버전을 bump 하는 단계가 진행됩니다. 꽥꽥 아티팩트의 모든 버전은 [quackquack-version](/quackquack-version) 폴더 안에 있는 텍스트 파일로 관리됩니다. 
-
-- [GitHub Script](https://github.com/marketplace/actions/github-script) 액션으로 PR 의 label 에서 target 만을 추출한 후, 해당 target 으로 `./gradlew bumpVersion ` 을 실행하여 bump 를 진행합니다. `bumpVersion` task 는 프로젝트 루트 [build.gradle.kts](build.gradle.kts) 에서 추가하고 있습니다.
-- bump 로 변경된 버전 파일을 `git push` 하는 것으로 bump 과정이 마무리됩니다.
-- 버전 관리를 매번 수동으로 진행하는 것은 번거롭고 착고 가능성이 있어서 이를 자동화하기 위한 과정입니다.
-
-#### Artifacts Publish (artifact-publish.yml)
-
-`master` 브런치로 merge 된 PR 에 `/publish` comment 가 추가될 때마다 실행되며 성공적으로 빌드됐다면 새로운 버전을 배포합니다.
+`publish` label 이 붙은 PR 이 `master` 브런치로 merge 되면 실행되며, 이후 성공적으로 빌드됐다면 새로운 버전을 배포합니다.
 
 - 아티팩트 빌드
   - 배포된 아티팩트는 여러 환경에서 실행될 수 있으므로 `MacOS`, `Windows`, `ubuntu` 환경에서 빌드를 각각 진행합니다. 또한 여러 자바 버전도 사용될 수 있으므로 LTS 에 해당되는 [11, 12, 16, 18] 버전을 기준으로 빌드를 진행합니다.
-  - 만약 빌드 실패시 [Gradle Build Scan](https://scans.gradle.com/) 링크를 해당 PR 의 댓글로 첨부합니다.
   - 아티팩트가 모든 환경에서 정상적으로 빌드되는지 검사하기 위한 과정입니다.
 - 아티팩트 배포
-  - [gradle-maven-publish-plugin](https://github.com/vanniktech/gradle-maven-publish-plugin) 을 이용하여 MavenCentral 에 배포를 진행합니다. 
+  - [gradle-maven-publish-plugin](https://github.com/vanniktech/gradle-maven-publish-plugin) 을 이용하여 Maven Central 에 배포를 진행합니다. 
+  - 만약 배포하려는 아티팩트가 UI 컴포넌트라면 [baseline profile](https://developer.android.com/topic/performance/baselineprofiles/overview) 생성을 진행합니다.
   - 배포가 성공적으로 진행됐다면 GitHub Release 와 Git Tag 를 하는 것으로 배포 작업이 마무리됩니다.
   - 매번 수동 배포는 번거롭고 배포 키를 가진 사람만 배포를 할 수 있다는 문제가 있어서 이를 자동화하기 위한 과정입니다.
 
 > **Note**: 아티팩트의 대상인 Sonatype 은 동시 업로드를 별도의 것으로 보고 각각 두 개의 staging repository 를 생성합니다 [[#]](https://github.com/JakeWharton/dagger-reflect/pull/38). 이를 방지하기 위해 `--no-parallel` 옵션이 필요하지만, 꽥꽥의 경우에는 배포할 모듈을 하나로 특정지어 `publish` 하므로 이 옵션이 필요하지 않습니다. 
 
+#### Playground Release
+
+`release` label 이 붙은 PR 이 `master` 브런치로 merge 되면 실행되며, UI 컴포넌트의 플레이그라운드를 신규 버전으로 릴리스합니다.
+
+- 꽥꽥의 UI 컴포넌트는 빠른 미리보기를 위해 [플레이그라운드](playground)를 제공합니다. 해당 플레이그라운드는 [플레이스토어](https://play.google.com/store/apps/details?team.duckie.quackquack.playground)와 [firebase app distribution](https://firebase.google.com/docs/app-distribution) 으로 배포됩니다. 
+- 플레이스토어 배포는 [Upload Android Release to Play Store](https://github.com/marketplace/actions/upload-android-release-to-play-store) 액션을 이용하며, 모두가 다운로드할 수 있게 배포됩니다. firebase app distribution 은 [Firebase App Distribution](https://github.com/marketplace/actions/firebase-app-distribution) 액션을 이용하며, 플레이스토어 심사 과정 없이 덕키팀 내부에서 먼저 확인해보기 위해 덕키팀을 대상으로 배포됩니다.
+- 매번 두 가지의 배포를 수동으로 진행하는 것은 번거로운 일이므로 이를 자동화하기 위한 과정입니다.
+- firebase app distribution 으로 배포된 플레이그라운드를 가지고 덕키팀 디자이너분이 UI 컴포넌트가 올바르게 나왔는지 확인합니다. 만약 문제가 있다면 수정을 진행하고, 완벽하다면 다음 컴포넌트 개발을 진행합니다.
+
+#### RELEASING NOTE
+
+[RELEASING](RELEASING.md) 문서에서 꽥꽥의 배포 자동화 정책에 대해 자세히 보실 수 있습니다.
+
 ### Gradle Convention Plugins
 
 모든 Gradle 에는 [Gradle Convention Plugins](https://docs.gradle.org/current/samples/sample_convention_plugins.html) 을 적용합니다. 반복적인 Gradle 코드를 줄이고, 최소한의 변경으로 공통되는 모든 부분에 변경 사항을 반영하기 위해 사용합니다.
 
-#### [Android Application](build-logic/src/main/kotlin/AndroidApplicationPlugin.kt), [Android Library](build-logic/src/main/kotlin/AndroidLibraryPlugin.kt)
+#### Android Application, Android Library
 
 기본적인 `com.android.application` 또는 `com.android.library` 을 구성합니다. 추가로 벤치마크를 위해 `benchmark` variant 도 추가합니다.
 
-#### [Android Lint](build-logic/src/main/kotlin/AndroidLintPlugin.kt), [Android Lint Common](build-logic/src/main/kotlin/AndroidCommonLintPlugin.kt)
+#### Android Lint, Android Lint Common
 
 `com.android.lint` 를 구성하고 린트 개발에 필요한 의존성들을 추가합니다.
 
-#### Android Compose [[Application]](build-logic/src/main/kotlin/AndroidApplicationComposePlugin.kt) [[Library]](build-logic/src/main/kotlin/AndroidLibraryComposePlugin.kt), [Android Library Compose UI Test](build-logic/src/main/kotlin/AndroidLibraryComposeUiTestPlugin.kt)
+#### Android Compose, Android Compose UI Test
 
 각각 variant 에 맞게 [Jetpack Compose](https://developer.android.com/jetpack/compose) 사용 환경을 구성합니다. 또한 `Library` variant 에서는 [Compose UI Test](https://developer.android.com/jetpack/compose/testing) 사용 환경도 추가로 구성합니다. 현재 꽥꽥 프로젝트에서는 `ui-components` 모듈만 UI 테스트가 필요하고, 해당 모듈이 `Library` variant 로 구성돼 있습니다.
 
-#### [UI Components Benchmark](build-logic/src/main/kotlin/AndroidQuackUiComponentsBenchmarkPlugin.kt)
+#### UI Components Benchmark
 
-`com.android.test` 와 [Macrobenchmark](https://developer.android.com/topic/performance/benchmarking/macrobenchmark-overview) 을 구성합니다. `ui-components` 모듈을 대상으로 [baseline profiles](https://developer.android.com/topic/performance/baselineprofiles/overview) 을 추출하기 위해 사용됩니다.
+`com.android.test` 와 [Macrobenchmark](https://developer.android.com/topic/performance/benchmarking/macrobenchmark-overview) 을 구성합니다. `ui-components` 모듈을 대상으로 [baseline profile](https://developer.android.com/topic/performance/baselineprofiles/overview) 을 추출하기 위해 사용됩니다.
 
-#### [Jvm Dokka](build-logic/src/main/kotlin/JvmDokkaPlugin.kt), [Jvm Kover](build-logic/src/main/kotlin/JvmKoverPlugin.kt), [Jvm Library](build-logic/src/main/kotlin/JvmLibraryPlugin.kt)
+#### Jvm Dokka, Jvm Kover, Jvm Library
 
-각각 [dokka](https://github.com/Kotlin/dokka), [kover](https://github.com/Kotlin/kotlinx-kover), `java-library` 를 구성합니다.
+각각 [Dokka](https://github.com/Kotlin/dokka), [Kover](https://github.com/Kotlin/kotlinx-kover), `java-library` 를 구성합니다.
 
-#### [Artifacts Publishing](build-logic/src/main/kotlin/AndroidQuackPublishPlugin.kt)
+#### Artifact Publishing
 
-[gradle-maven-publish-plugin](https://github.com/vanniktech/gradle-maven-publish-plugin) 을 구성합니다. 꽥꽥의 Conventions Plugins 중에 유일하게 별도 [extensions](build-logic/src/main/kotlin/team/duckie/quackquack/convention/QuackPublishExtension.kt) 을 만들어 진행됩니다.
+[gradle-maven-publish-plugin](https://github.com/vanniktech/gradle-maven-publish-plugin) 을 구성합니다. 꽥꽥의 Convention Plugins 중에 유일하게 별도 [extensions](build-logic/src/main/kotlin/team/duckie/quackquack/convention/QuackPublishExtension.kt) 을 만들어 진행됩니다.
 
 ```kotlin
 open class QuackPublishExtension {
@@ -339,7 +352,7 @@ public value class QuackIcon private constructor(
 모든 상수들에 대해 안정 상태를 가져가기 위해 다음과 같은 방안을 적용하였습니다.
 
 1. 코틀린의 `value class` 를 이용하여 원시 타입 혹은 이미 안정 상태인 값을 래핑합니다. `value class` 에 의해 인라인되면서 안정 상태의 값이 그대로 적용되기 때문에 꽥꽥측에서 별도로 처리해 줄 필요가 없기 때문에 가장 효과적이고 강력한 방법입니다.
-2. [`@StableMarker`](https://developer.android.com/reference/kotlin/androidx/compose/runtime/StableMarker) 를 직접 사용하고, 도메인적 의미를 강조합니다. 1번이 방법을 부득이하게 사용하지 못하는 경우에는 `QuackTextStyle` 와 같이 직접 StableMarker 를 정의하였습니다. StableMarker 에는 [`@Stable`](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Stable) 과 [`@Immutable`](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Immutable) 로 2가지 종류가 존재합니다. 꽥꽥의 UI 상수는 말 그대로 "상수" 이기 때문에 항상 같은 인스턴스를 반환하여 `@Immutable` 만을 이용하여 Stable 처리를 진행했습니다. ...  TODO: #302
+2. [`@StableMarker`](https://developer.android.com/reference/kotlin/androidx/compose/runtime/StableMarker) 를 직접 사용하고, 도메인적 의미를 강조합니다. 1번이 방법을 부득이하게 사용하지 못하는 경우에는 `QuackTextStyle` 와 같이 직접 StableMarker 를 정의하였습니다. StableMarker 에는 [`@Stable`](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Stable) 과 [`@Immutable`](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Immutable) 로 2가지 종류가 존재합니다. 꽥꽥의 UI 상수는 말 그대로 "상수" 이기 때문에 항상 같은 인스턴스를 반환하여 `@Immutable` 만을 이용하여 Stable 처리를 진행했습니다. ...  TODO: [#302](https://github.com/duckie-team/duckie-quack-quack-mvp/issues/302)
 
 ##### Skippable
 
@@ -363,9 +376,9 @@ TODO: [#304](https://github.com/duckie-team/duckie-quack-quack-mvp/issues/304)
 
 ### Lints
 
-린트 파트는 린트 개발을 담당해주신 세현님께서 작성하신 [덕키팀에서 Custom Lint를 만드는 여정](https://blog.duckie.team/team-duckie%EC%97%90%EC%84%9C-custom-lint%EB%A5%BC-%EB%A7%8C%EB%93%9C%EB%8A%94-%EC%97%AC%EC%A0%95-a7ecca72a32f) 아티클로 확인하실 수 있습니다.
-
 > TODO
+
+더 자세한 내용은 린트 개발을 담당해주신 세현님께서 작성하신 [덕키팀에서 Custom Lint를 만드는 여정](https://blog.duckie.team/team-duckie%EC%97%90%EC%84%9C-custom-lint%EB%A5%BC-%EB%A7%8C%EB%93%9C%EB%8A%94-%EC%97%AC%EC%A0%95-a7ecca72a32f) 아티클로 확인하실 수 있습니다.
 
 ## Pronounce (Korean)
 
@@ -377,5 +390,5 @@ TODO: [#304](https://github.com/duckie-team/duckie-quack-quack-mvp/issues/304)
 
 ## License
 
-QuackQuack is designed and developed by 2022 SungbinLand, Team Duckie, and licensed under MIT. please see the [License](LICENSE) file.
+QuackQuack is designed and developed by 2022 Duckie Team, and licensed under MIT. please see the [License](LICENSE) file.
 

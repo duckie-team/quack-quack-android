@@ -13,7 +13,6 @@
 plugins {
     id(ConventionEnum.AndroidApplication)
     id(ConventionEnum.AndroidApplicationCompose)
-    id(ConventionEnum.JvmKover)
     id(ConventionEnum.JvmDokka)
     id(libs.plugins.oss.license.get().pluginId)
 }
@@ -21,26 +20,27 @@ plugins {
 android {
     namespace = "team.duckie.quackquack.playground"
 
-    signingConfigs {
-        create("release") {
-            storeFile = file(BuildConstants.StoreFilePath)
-            storePassword = BuildConstants.StorePassword
-            keyAlias = BuildConstants.KeyAlias
-            keyPassword = BuildConstants.KeyPassword
+    if (keystoreSigningAvailable) {
+        val (storePath, storePassword, keyAlias, keyPassword) = keystoreSecrets
+        signingConfigs {
+            create("release") {
+                storeFile = file(storePath)
+                this.storePassword = storePassword
+                this.keyAlias = keyAlias
+                this.keyPassword = keyPassword
+            }
         }
-    }
 
-    buildTypes {
-        release {
-            signingConfig = signingConfigs.getByName("release")
+        buildTypes {
+            release {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 
     lint {
-        disable.apply {
-            // 플레이그라운드용 데모 컴포저블에 주석을 필수로 명시하는건 너무 과함
-            add("KDocFields")
-        }
+        // 플레이그라운드용 데모 컴포저블에 주석을 필수로 명시하는건 너무 과함
+        disable.add("KDocFields")
     }
 }
 

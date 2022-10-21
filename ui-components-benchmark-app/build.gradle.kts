@@ -13,11 +13,29 @@
 plugins {
     id(ConventionEnum.AndroidApplication)
     id(ConventionEnum.AndroidApplicationCompose)
-    id(ConventionEnum.JvmKover)
 }
 
 android {
     namespace = "team.duckie.quackquack.ui.benchmark.app"
+
+    if (keystoreSigningAvailable) {
+        val (storePath, storePassword, keyAlias, keyPassword) = keystoreSecrets
+        signingConfigs {
+            create("release") {
+                storeFile = file(storePath)
+                this.storePassword = storePassword
+                this.keyAlias = keyAlias
+                this.keyPassword = keyPassword
+            }
+        }
+
+        buildTypes {
+            release {
+                isDebuggable = false
+                signingConfig = signingConfigs.getByName("release")
+            }
+        }
+    }
 }
 
 dependencies {

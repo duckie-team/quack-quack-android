@@ -13,7 +13,8 @@
 plugins {
     id(ConventionEnum.AndroidLibrary)
     id(ConventionEnum.AndroidLibraryCompose)
-    id(ConventionEnum.JvmKover)
+    id(ConventionEnum.JvmJUnit4)
+    id(ConventionEnum.JvmDokka)
     alias(libs.plugins.paparazzi)
 }
 
@@ -28,20 +29,17 @@ android {
     }
 }
 
-androidComponents {
-    beforeVariants(selector().withBuildType("release")) { builder ->
-        builder.enable = false
-    }
-    beforeVariants(selector().withBuildType("benchmark")) { builder ->
-        builder.enable = false
-    }
-}
-
 dependencies {
     implementation(projects.uiComponents)
     testImplementation(libs.test.parameter.injector)
     lintChecks(projects.lintCore)
     lintChecks(projects.lintCompose)
+}
+
+androidComponents {
+    beforeVariants(selector().withBuildType("release")) { builder ->
+        builder.enable = false
+    }
 }
 
 tasks.withType<Test>().configureEach {
