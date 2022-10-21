@@ -8,6 +8,7 @@
 plugins {
     id(ConventionEnum.AndroidLibrary)
     id(ConventionEnum.AndroidLibraryCompose)
+    id(ConventionEnum.JvmKover)
 }
 
 android {

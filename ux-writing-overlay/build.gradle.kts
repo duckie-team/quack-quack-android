@@ -11,6 +11,7 @@ plugins {
     id(ConventionEnum.AndroidLibrary)
     id(ConventionEnum.AndroidLibraryCompose)
     id(ConventionEnum.AndroidLibraryComposeUiTest)
+    id(ConventionEnum.JvmKover)
 }
 
 android {
