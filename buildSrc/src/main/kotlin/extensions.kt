@@ -76,7 +76,9 @@ val Project.keystoreSecrets: KeystoreSecrets
             keyAlias = lines[1],
             keyPassword = lines[0],
         ).also { secrets ->
-            println("keystoreSecrets: $secrets")
+            if (System.getenv("CI")?.toBoolean() != true) {
+                println("keystoreSecrets: $secrets")
+            }
         }
     }
 
