@@ -1,6 +1,6 @@
 name: Playground Release
 env:
-  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false"
 on:
   pull_request:
     branches: [ develop ]
