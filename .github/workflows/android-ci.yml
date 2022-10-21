@@ -53,15 +53,15 @@ jobs:
           title: Test Coverage
           update-comment: true
 
-      - name: Update test coverage badge
+      - name: Generate test coverage badge
         uses: emibcn/badge-action@v1.2.1
         with:
           label: Test Coverage
-          status: ${{ steps.kover.output.coverage-overall }}
+          status: ${{ steps.kover.outputs.coverage-overall }}
           color: FFF4E8
           path: assets/coverage.svg
 
-      - name: Update test coverage badge
+      - name: Push test coverage badge
         run: |
           git config user.name "sungbinland-bot"
           git config user.email "sungbinland.project@gmail.com"
