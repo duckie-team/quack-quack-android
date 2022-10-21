@@ -8,6 +8,5 @@
 plugins {
     id(ConventionEnum.JvmLibrary)
     id(ConventionEnum.AndroidCommonLintPlugin)
-    id(ConventionEnum.JvmKover)
     id(ConventionEnum.JvmDokka)
 }

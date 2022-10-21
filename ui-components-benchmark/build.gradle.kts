@@ -10,7 +10,6 @@
 plugins {
     id(ConventionEnum.AndroidQuackUiComponentsBenchmark)
     id(ConventionEnum.JvmDokka)
-    alias(libs.plugins.kover)
 }
 
 android {

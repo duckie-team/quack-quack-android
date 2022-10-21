@@ -9,7 +9,7 @@ BundleInsideHelper.forInsideLintJar(project)
 
 plugins {
     id(ConventionEnum.AndroidLint)
-    id(ConventionEnum.JvmKover)
+    id(ConventionEnum.JvmJUnit4)
     id(ConventionEnum.JvmDokka)
 }
 

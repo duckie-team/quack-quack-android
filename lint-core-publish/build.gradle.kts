@@ -12,7 +12,6 @@ import team.duckie.quackquack.convention.QuackArtifactType
 plugins {
     id(ConventionEnum.AndroidLibrary)
     id(ConventionEnum.AndroidQuackPublish)
-    id(ConventionEnum.JvmKover)
 }
 
 android {

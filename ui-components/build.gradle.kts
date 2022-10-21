@@ -17,7 +17,7 @@ plugins {
     id(ConventionEnum.AndroidLibraryCompose)
     id(ConventionEnum.AndroidLibraryComposeUiTest)
     id(ConventionEnum.AndroidQuackPublish)
-    id(ConventionEnum.JvmKover)
+    id(ConventionEnum.JvmJUnit4)
     id(ConventionEnum.JvmDokka)
     // alias(libs.plugins.kotlin.api.validation)
 }

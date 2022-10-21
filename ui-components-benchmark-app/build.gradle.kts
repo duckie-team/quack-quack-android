@@ -13,7 +13,6 @@
 plugins {
     id(ConventionEnum.AndroidApplication)
     id(ConventionEnum.AndroidApplicationCompose)
-    id(ConventionEnum.JvmKover)
 }
 
 android {

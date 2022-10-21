@@ -86,7 +86,7 @@ allprojects {
 
     if (pluginManager.hasPlugin(rootProject.libs.plugins.dokka.get().pluginId)) {
         tasks.dokkaHtmlMultiModule.configure {
-            moduleName.set("Duckie-QuackQuack")
+            moduleName.set("QuackQuack")
             outputDirectory.set(file("$rootDir/documents/dokka"))
 
             pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
@@ -95,6 +95,10 @@ allprojects {
                 customAssets = listOf(file("assets/logo-icon.svg"))
             }
         }
+    }
+
+    apply {
+        plugin(rootProject.libs.plugins.kover.get().pluginId)
     }
 
     // apply {
