@@ -54,13 +54,12 @@ sealed class QuackArtifactType(
         ),
     )
 
-    // TODO: UX Writing 린트 완성되면 주석 해제
-    /*object LintWriting : QuackArtifactType(
-        artifactName = "quack-lint-writing",
+    object LintWriting : QuackArtifactType(
+        artifactId = "quack-lint-writing",
         description = buildLintArtifactDescription(
             target = "UX Writing",
         ),
-    )*/
+    )
 }
 
 private fun buildLintArtifactDescription(
