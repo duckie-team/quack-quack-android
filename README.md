@@ -131,7 +131,7 @@ PR 이 `master` 브런치로 merge 될 때마다 실행되며, 대상 아티팩�
   - 배포된 아티팩트는 여러 환경에서 실행될 수 있으므로 `MacOS`, `Windows`, `ubuntu` 환경에서 빌드를 각각 진행합니다. 또한 여러 자바 버전도 사용될 수 있으므로 LTS 에 해당되는 [11, 12, 16, 18] 버전을 기준으로 빌드를 진행합니다.
   - 아티팩트가 모든 환경에서 정상적으로 빌드되는지 검사하기 위한 과정입니다.
 - 아티팩트 배포
-  - [gradle-maven-publish-plugin](https://github.com/vanniktech/gradle-maven-publish-plugin) 을 이용하여 MavenCentral 에 배포를 진행합니다. 
+  - [gradle-maven-publish-plugin](https://github.com/vanniktech/gradle-maven-publish-plugin) 을 이용하여 Maven Central 에 배포를 진행합니다. 
   - 만약 배포하려는 아티팩트가 UI 컴포넌트라면 [baseline profile](https://developer.android.com/topic/performance/baselineprofiles/overview) 생성을 진행합니다.
   - 배포가 성공적으로 진행됐다면 GitHub Release 와 Git Tag 를 하는 것으로 배포 작업이 마무리됩니다.
   - 매번 수동 배포는 번거롭고 배포 키를 가진 사람만 배포를 할 수 있다는 문제가 있어서 이를 자동화하기 위한 과정입니다.
