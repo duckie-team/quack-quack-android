@@ -24,7 +24,7 @@ jobs:
 
       - name: Label filtering
         id: label
-        uses: duckie-team/quack-label-filter-actions@1.0.4
+        uses: duckie-team/quack-label-filter-actions@1.0.2
         with:
           labels: "${{ toJson(github.event.pull_request.labels.*.name) }}"
 
@@ -50,7 +50,7 @@ jobs:
       - name: Set SNAPSHOT version
         run: ./gradlew setSnapshotVersion -Ptarget=${{ steps.label.outputs.release_target }}
 
-      - name: Publish to MavenCentral
+      - name: Publish to Maven Central
         run: ./gradlew ${{ steps.label.outputs.publish_module_id }}:publish
 
       - name: Post to a Slack channel
