@@ -4,10 +4,10 @@ env:
 on:
   pull_request:
     branches: [ master ]
+    types: [ review_requested, ready_for_review ]
 
 jobs:
   ci-build:
-    if: ! github.event.pull_request.draft
     runs-on: ubuntu-latest
 
     steps:
