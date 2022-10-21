@@ -17,6 +17,24 @@ plugins {
 
 android {
     namespace = "team.duckie.quackquack.ui.benchmark.app"
+
+    if (isReleaseVariantAvailable) {
+        signingConfigs {
+            create("release") {
+                storeFile = file(BuildConstants.StoreFilePath)
+                storePassword = BuildConstants.StorePassword
+                keyAlias = BuildConstants.KeyAlias
+                keyPassword = BuildConstants.KeyPassword
+            }
+        }
+
+        buildTypes {
+            release {
+                isDebuggable = false
+                signingConfig = signingConfigs.getByName("release")
+            }
+        }
+    }
 }
 
 dependencies {

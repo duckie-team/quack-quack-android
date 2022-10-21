@@ -20,13 +20,7 @@ plugins {
 android {
     namespace = "team.duckie.quackquack.playground"
 
-    val fileConfigurationFile = File(
-        "$rootDir/buildSrc/src/main/kotlin/BuildConstants.kt",
-    ).also {
-        println("File: ${it.absolutePath}")
-        println("Exists: ${it.exists()}")
-    }
-    if (fileConfigurationFile.exists()) {
+    if (isReleaseVariantAvailable) {
         signingConfigs {
             create("release") {
                 storeFile = file(BuildConstants.StoreFilePath)
