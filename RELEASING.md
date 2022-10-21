@@ -50,7 +50,9 @@
 
 스냅샷 버전은 versions 폴더 안에 있는 현재 버전에서 `y` 값을 +1 하고, `z` 값을 0 으로 교체한 값을 사용합니다. 즉, **`z` 는 항상 0 으로 고정**됩니다. 이는 "스냅샷" 버전임을 강조하기 위함입니다.
 
-**스냅샷 배포는 bump 하는 과정을 진행하지 않고, 해당 PR 에 ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) label 이 없을 때**만 진행됩니다.
+**스냅샷 배포는 bump 하는 과정을 진행하지 않고, 해당 PR 에 ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) label 이 없을 때**만 진행됩니다. 
+
+만약 `ReleaseTarget` label 이 설정되지 않았다면 스냅샷 배포는 건너뜁니다. 
 
 ### 정식 배포
 
