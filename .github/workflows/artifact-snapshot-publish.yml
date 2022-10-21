@@ -28,6 +28,11 @@ jobs:
         with:
           labels: "${{ toJson(github.event.pull_request.labels.*.name) }}"
 
+      - name: Unarchive keystore signing files
+        run: |
+          gpg --quiet --batch --yes --always-trust --decrypt --passphrase=${{ secrets.SECRET_GPG_PASSWORD }} --output secrets.tar secrets.tar.gpg
+          tar xvf secrets.tar
+
       - name: Setup JDK 11
         uses: actions/setup-java@v3
         with:
