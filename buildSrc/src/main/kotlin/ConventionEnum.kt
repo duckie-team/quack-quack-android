@@ -19,7 +19,7 @@ object ConventionEnum {
 
     const val AndroidQuackUiComponentsBenchmark = "$prefix.android.quack.ui.components.benchmark"
 
-    const val JvmKover = "$prefix.jvm.kover"
+    const val JvmJUnit4 = "$prefix.jvm.junit4"
     const val JvmLibrary = "$prefix.jvm.library"
     const val JvmDokka = "$prefix.jvm.dokka"
 }
