@@ -7,6 +7,17 @@
 
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
+import Build_gradle.BumpType
+import Build_gradle.BumpType.Major
+import Build_gradle.BumpType.Minor
+import Build_gradle.BumpType.Patch
+import Build_gradle.ReleaseTarget
+import Build_gradle.ReleaseTarget.LintCompose
+import Build_gradle.ReleaseTarget.LintCore
+import Build_gradle.ReleaseTarget.LintQuack
+import Build_gradle.ReleaseTarget.LintWriting
+import Build_gradle.ReleaseTarget.Playground
+import Build_gradle.ReleaseTarget.UiComponents
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -150,52 +161,66 @@ enum class BumpType {
  * @property UiComponents ui-components 를 release 합니다.
  */
 enum class ReleaseTarget {
+    UiComponents,
     Playground,
     LintCore,
     LintQuack,
     LintCompose,
-    LintWriting,
-    UiComponents;
+    LintWriting;
 }
 
-fun Project.getVersionPath(
+/**
+ * 특정 [ReleaseTarget] 에 맞는 versioning [파일][File] 인스턴스를 반환합니다.
+ *
+ * @param target versioning 파일을 얻어오고자 하는 [ReleaseTarget]
+ * @return [ReleaseTarget] 에 맞는 versioning [파일][File] 인스턴스
+ */
+fun Project.getVersionFile(
     target: ReleaseTarget,
-) = when (target) {
-    BumpTarget.Playground -> "$rootDir/playground.txt"
-    BumpTarget.UiComponents -> "$rootDir/quackquack-version/ui-components.txt"
-    BumpTarget.LintCore -> "$rootDir/quackquack-version/lint-core.txt"
-    BumpTarget.LintQuack -> "$rootDir/quackquack-version/lint-quack.txt"
-    BumpTarget.LintCompose -> "$rootDir/quackquack-version/lint-compose.txt"
-}
+) = File(
+    when (target) {
+        UiComponents -> "$rootDir/versions/ui-components.txt"
+        Playground -> "$rootDir/versions/playground.txt"
+        LintCore -> "$rootDir/versions/lint-core.txt"
+        LintQuack -> "$rootDir/versions/lint-quack.txt"
+        LintCompose -> "$rootDir/versions/lint-compose.txt"
+        LintWriting -> "$rootDir/versions/lint-writing.txt"
+    }
+)
 
+/**
+ * 주어진 [BumpType] 과 [ReleaseTarget] 에 해당하는 버전을 bump 하여 반환합니다.
+ *
+ * @param type Bump 할 버전
+ * @param target Bump 할 대상
+ * @return Bump 된 버전
+ */
 fun Project.bumpVersion(
     type: BumpType,
     target: ReleaseTarget,
 ): String {
-    val versionFile = File(
-        getVersionPath(
-            target = target,
-        )
+    val versionFile = getVersionFile(
+        target = target,
     )
     val lines = versionFile.readLines().toMutableList()
     when (type) {
-        VersionType.Major -> {
+        Major -> {
             val major = lines[0].split("=")[1].toInt()
             lines[0] = "major=${major + 1}"
             lines[1] = "minor=0"
             lines[2] = "patch=0"
         }
-        VersionType.Minor -> {
+        Minor -> {
             val minor = lines[1].split("=")[1].toInt()
             lines[1] = "minor=${minor + 1}"
             lines[2] = "patch=0"
         }
-        VersionType.Patch -> {
+        Patch -> {
             val patch = lines[2].split("=")[1].toInt()
             lines[2] = "patch=${patch + 1}"
         }
     }
-    if (target == BumpTarget.Playground) {
+    if (target == Playground) {
         val code = lines[3].split("=")[1].toInt()
         lines[3] = "code=${code + 1}"
     }
@@ -204,26 +229,88 @@ fun Project.bumpVersion(
     )
 }
 
-tasks.create(
-    name = "bumpVersion",
-) {
-    val type = (properties["type"] ?: return@create).let { type ->
-        BumpType.valueOf(type.toString())
-    }
-    val target = (properties["target"] ?: return@create).let { target ->
-        ReleaseTarget.valueOf(target.toString())
-    }
-    val version = bumpVersion(
-        type = type,
+/**
+ * 주어진 [ReleaseTarget] 에 해당하는 버전을 스냅샷으로 설정하여 반환합니다.
+ *
+ * 스냅샷 버전은 versions 폴더 안에 있는 현재 버전에서 `y` 값을 +1 하고,
+ * `z` 값을 0 으로 교체한 값을 사용합니다. **즉, `z` 는 항상 0 으로 고정됩니다.**
+ * 이는 "스냅샷" 버전임을 강조하기 위함입니다.
+ *
+ * @param target 스냅샷 버전을 사용할 대상
+ * @return 스냅샷 설정된 버전
+ */
+fun Project.setSnapshotVersion(
+    target: ReleaseTarget,
+): String {
+    val versionFile = getVersionFile(
         target = target,
     )
-    val versionFile = File(
-        getVersionPath(
-            target = target,
+    val lines = versionFile.readLines().toMutableList()
+    val minor = lines[1].split("=")[1].toInt()
+    lines[1] = "minor=${minor + 1}"
+    lines[2] = "patch=0"
+    return lines.joinToString(
+        separator = "\n",
+        postfix = "-SNAPSHOT",
+    )
+}
+
+/**
+ * 주어진 label 을 파싱하여 설정된 [BumpType] 과 [ReleaseTarget] 에 맞게
+ * bump 를 진행합니다.
+ */
+tasks.create(
+    name = "bump",
+) {
+    // labels: [
+    //   test_boo!,
+    //   test_woo!,
+    //   test_bar!,
+    // ]
+    val labels = (properties["labels"] ?: return@create) as String
+    val bumpType = BumpType.values().first { type ->
+        labels.contains(
+            other = type.name,
         )
+    }
+    val releaseTarget = ReleaseTarget.values().first { target ->
+        labels.contains(
+            other = target.name,
+        )
+    }
+    val version = bumpVersion(
+        type = bumpType,
+        target = releaseTarget,
+    )
+    val versionFile = getVersionFile(
+        target = releaseTarget,
     )
     versionFile.writeText(
         text = version,
+    )
+}
+
+/**
+ * 주어진 label 을 파싱하여 설정된 [ReleaseTarget] 의 버전을
+ * 스냅샷 버전으로 설정합니다.
+ */
+tasks.create(
+    name = "setSnapshotVersion",
+) {
+    val labels = (properties["labels"] ?: return@create) as String
+    val releaseTarget = ReleaseTarget.values().first { target ->
+        labels.contains(
+            other = target.name,
+        )
+    }
+    val snapshotVersion = setSnapshotVersion(
+        target = releaseTarget,
+    )
+    val versionFile = getVersionFile(
+        target = releaseTarget,
+    )
+    versionFile.writeText(
+        text = snapshotVersion,
     )
 }
 
