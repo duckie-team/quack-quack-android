@@ -57,8 +57,8 @@ jobs:
         uses: emibcn/badge-action@v1.2.1
         with:
           label: Test Coverage
-          status: ${{ steps.kover.outputs.coverage-overall }}
-          color: FFF4E8
+          status: ${{ steps.kover.outputs.coverage-overall }}%
+          color: FFB341
           path: assets/coverage.svg
 
       - name: Push test coverage badge
