@@ -24,36 +24,43 @@ jobs:
 
       - name: Label filtering
         id: label
-        uses: duckie-team/quack-label-filter-actions@1.0.2
+        uses: duckie-team/quack-label-filter-actions@1.0.3
         with:
           labels: "${{ toJson(github.event.pull_request.labels.*.name) }}"
 
       - name: Unarchive keystore signing files
+        if: steps.label.outputs.has_target
         run: |
           gpg --quiet --batch --yes --always-trust --decrypt --passphrase=${{ secrets.SECRET_GPG_PASSWORD }} --output secrets.tar secrets.tar.gpg
           tar xvf secrets.tar
 
       - name: Setup JDK 11
+        if: steps.label.outputs.has_target
         uses: actions/setup-java@v3
         with:
           distribution: zulu
           java-version: 11
 
       - name: Setup Android SDK
+        if: steps.label.outputs.has_target
         uses: android-actions/setup-android@v2
 
       - name: Setup Gradle
+        if: steps.label.outputs.has_target
         uses: gradle/gradle-build-action@v2
         with:
           gradle-home-cache-cleanup: true
 
       - name: Set SNAPSHOT version
+        if: steps.label.outputs.has_target
         run: ./gradlew setSnapshotVersion -Ptarget=${{ steps.label.outputs.release_target }}
 
       - name: Publish to Maven Central
+        if: steps.label.outputs.has_target
         run: ./gradlew ${{ steps.label.outputs.publish_module_id }}:publish
 
       - name: Post to a Slack channel
+        if: steps.label.outputs.has_target
         id: slack
         uses: slackapi/slack-github-action@v1.23.0
         with:
