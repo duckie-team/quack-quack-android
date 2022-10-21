@@ -1,4 +1,4 @@
-name-major=1
-name-minor=1
-name-patch=2
+major=1
+minor=1
+patch=2
 code=12
