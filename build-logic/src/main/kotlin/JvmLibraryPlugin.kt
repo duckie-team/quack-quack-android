@@ -5,11 +5,11 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
+import team.duckie.quackquack.convention.ApplicationConstants
 import team.duckie.quackquack.convention.PluginEnum
 import team.duckie.quackquack.convention.applyPlugins
 
@@ -25,9 +25,8 @@ internal class JvmLibraryPlugin : Plugin<Project> {
             )
 
             extensions.configure<JavaPluginExtension> {
-                val version = JavaVersion.VERSION_11
-                sourceCompatibility = version
-                targetCompatibility = version
+                sourceCompatibility = ApplicationConstants.javaVersion
+                targetCompatibility = ApplicationConstants.javaVersion
             }
         }
     }
