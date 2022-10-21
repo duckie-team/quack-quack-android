@@ -82,6 +82,17 @@ jobs:
         with:
           gradle-home-cache-cleanup: true
 
+      - name: Generate baseline profile
+        if: ${{ steps.label.outputs.release_target == 'UiComponents' }}
+        run: ./gradlew :ui-components-benchmark:pixel6Api31ReleaseAndroidTest
+
+      - name: Move baseline profile
+        if: ${{ steps.label.outputs.release_target == 'UiComponents' }}
+        run: >
+          mv
+          ui-components-benchmark/build/outputs/managed_device_android_test_additional_output/pixel6Api31/BaselineProfileGenerator_startup-baseline-prof.txt
+          ui-components/src/main/baseline-prof.txt
+
       - name: Bump version
         run: ./gradlew bump -PbumpType=${{ steps.label.outputs.bump_type }} -PreleaseTarget=${{ steps.label.outputs.release_target }}
 
