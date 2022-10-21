@@ -31,14 +31,14 @@
 
 모든 아티팩트의 버전은 프로젝트 루트에 [versions](versions) 폴더로 관리됩니다.
 
-| File name           | Content                                             | Description                                                  |
-| ------------------- | --------------------------------------------------- | ------------------------------------------------------------ |
-| `ui-components.txt` | `major=x; minor=y; patch=z;`                        | `x.y.z` 버전을 `ui-components` 배포에 사용합니다.            |
-| `playground.txt`    | `name-major=x; name-minor=y; name-patch=z; code=n;` | `name-X` 는 `versionName` 을 의미하고, `code` 는 `versionCode` 를 의미합니다. `x.y.z` 을 `versionName`, `n` 을 `verionCode` 로 `playground` 릴리스에 사용합니다. |
-| `lint-core.txt`     | `major=x; minor=y; patch=z;`                        | `x.y.z` 버전을 `lint-core` 배포에 사용합니다.                |
-| `lint-quack.txt`    | `major=x; minor=y; patch=z;`                        | `x.y.z` 버전을 `lint-quack` 배포에 사용합니다.               |
-| `lint-compose.txt`  | `major=x; minor=y; patch=z;`                        | `x.y.z` 버전을 `lint-compose` 배포에 사용합니다.             |
-| `lint-writing.txt`  | `major=x; minor=y; patch=z;`                        | `x.y.z` 버전을 `lint-writing` 배포에 사용합니다.             |
+| File name           | Content                                        | Description                                                  |
+| ------------------- | ---------------------------------------------- | ------------------------------------------------------------ |
+| `ui-components.txt` | `major=x; minor=y; patch=z;`                   | `x.y.z` 버전을 `ui-components` 배포에 사용합니다.            |
+| `playground.txt`    | `major=x; minor=y; patch=z; code=n;` | `x.y.z` 을 `versionName`, `n` 을 `verionCode` 로 `playground` 릴리스에 사용합니다. |
+| `lint-core.txt`     | `major=x; minor=y; patch=z;`                   | `x.y.z` 버전을 `lint-core` 배포에 사용합니다.                |
+| `lint-quack.txt`    | `major=x; minor=y; patch=z;`                   | `x.y.z` 버전을 `lint-quack` 배포에 사용합니다.               |
+| `lint-compose.txt`  | `major=x; minor=y; patch=z;`                   | `x.y.z` 버전을 `lint-compose` 배포에 사용합니다.             |
+| `lint-writing.txt`  | `major=x; minor=y; patch=z;`                   | `x.y.z` 버전을 `lint-writing` 배포에 사용합니다.             |
 
 자동화의 bump 과정에서 `BumpType` 과 `ReleaseTarget` label 에 맞게 각각 버전 파일에서 bump 가 진행됩니다.
 
@@ -63,7 +63,6 @@
 1. ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) :o:: 미리 정의한 `bump` gradle task 를 label 된 이름들로 진행하여 `BumpType` 과 `ReleaseTarget` label 에 맞게 bump 과정을 진행합니다.
 2. ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) :x:: 미리 정의한 `setSnapshotVersion` gradle task 를 진행하여 스냅샷 버전을 설정합니다.
 3. 지정된 `ReleaseTarget` label 에 맞게 publish 과정을 시작합니다.
-4. ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) :x:: 미리 정의한 `removeSnapshotVersion` gradle task 를 진행하여 이전에 설정한 스냅샷 버전을 제거합니다. 스냅샷 버전 설정은 versions 폴더 안에 있는 버전 파일을 수정하는 식으로 진행되기 때문에 스냅샷 배포 이후에 다시 복구시키는 과정이 필요합니다.
 5. ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) :o:: 새로운 버전으로 `git tag` 및 깃허브 Release 등록을 진행합니다.
 
 > **Warning**: `BumpType` 과 `ReleaseTarget` label 이 모두 지정돼 있지 않다면 배포에 필요한 gradle task 실행에 실패하여 배포 자동화에 실패합니다.
@@ -76,3 +75,7 @@
 2. `playground` 의 release 과정을 시작합니다. Releasing 되면서 덕키팀 슬랙에 APK 가 [Firebase App Distribution](https://firebase.google.com/docs/app-distribution) 을 통해 전달되고, AAB 가 Google Playstore 에 업데이트 요청됩니다.
 
 > **Note**: Playground 릴리스는 Artifact 배포와는 다르게 `BumpType` label 만 요구합니다.
+
+## 경고
+
+모든 자동화는 최대 1개까지만 배포를 진행할 수 있습니다. **동시에 여러 배포는 불가능합니다.** 따라서 `BumpType` 과 `ReleaseTarget` label 은 각각 하나씩만 설정돼야 합니다.
