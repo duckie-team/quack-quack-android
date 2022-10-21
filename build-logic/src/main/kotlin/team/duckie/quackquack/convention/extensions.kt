@@ -11,9 +11,12 @@ package team.duckie.quackquack.convention
 
 import org.gradle.api.artifacts.dsl.DependencyHandler as DependencyScope
 import com.android.build.api.dsl.CommonExtension
+import org.gradle.api.Action
+import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.kotlin.dsl.NamedDomainObjectContainerScope
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
@@ -21,7 +24,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
  * 그레이들에서 좀 더 쉽게 사용하기 위한 확장 함수들을 정의합니다.
  */
 private const val Api = "api"
-private const val LintPublish = "lintPublish"
 private const val CompileOnly = "compileOnly"
 private const val Implementation = "implementation"
 private const val DebugImplementation = "debugImplementation"
@@ -38,17 +40,19 @@ internal fun Project.applyPlugins(vararg plugins: String) {
 internal val Project.libs
     get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
-internal fun CommonExtension<*, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
-    (this as ExtensionAware).extensions.configure("kotlinOptions", block)
+@Suppress("nothing_to_inline")
+internal inline operator fun <T : Any, C : NamedDomainObjectContainer<T>> C.invoke(
+    configuration: Action<NamedDomainObjectContainerScope<T>>,
+) = apply {
+    configuration.execute(
+        NamedDomainObjectContainerScope.of(
+            container = this,
+        )
+    )
 }
 
-internal fun DependencyScope.lintPublish(
-    path: Any,
-) {
-    delegate(
-        method = LintPublish,
-        paths = arrayOf(path),
-    )
+internal fun CommonExtension<*, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
+    (this as ExtensionAware).extensions.configure("kotlinOptions", block)
 }
 
 internal fun DependencyScope.apis(
