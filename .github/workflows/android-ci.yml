@@ -33,9 +33,12 @@ jobs:
         with:
           gradle-home-cache-cleanup: true
 
-      - name: Run build (includes ktlint/detekt/test check)
+      - name: Run build (includes ktlint/detekt/test/binary-compatibility check)
         id: gradle
         run: ./gradlew build --scan
+
+      - name: Generate merged report by Kover
+        run: ./gradlew koverMergedReport --scan
 
       - name: Comment gradle scan url if build failed
         uses: actions/github-script@v6.3.3
@@ -48,11 +51,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: '❌ ${{ github.workflow }} failed: ${{ steps.gradle.outputs.build-scan-url }}'
-            })
-
-      - name: Generate merged report by Kover
-        if: contains(github.event.pull_request.labels.*.name, 'test')
-        run: ./gradlew koverMergedReport --stacktrace
+            })   
 
       - name: Add coverage report to PR
         id: kover
