@@ -22,6 +22,7 @@ internal class AndroidLibraryComposeUiTestPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
             val extension = extensions.getByType<LibraryExtension>()
+
             configureCompose(
                 extension = extension,
             )

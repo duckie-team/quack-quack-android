@@ -21,6 +21,7 @@ internal class AndroidApplicationComposePlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
             val extension = extensions.getByType<BaseAppModuleExtension>()
+
             configureCompose(
                 extension = extension,
             )
