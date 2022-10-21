@@ -1,48 +1,48 @@
-name: 'Android CI'
+name: Android CI
 env:
-  GRADLE_OPTS: '-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false'
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false"
 on:
   pull_request:
-    branches: [ 'master' ]
+    branches: [ master ]
 
 jobs:
   ci-build:
-    if: '${{ !github.event.pull_request.draft }}'
-    runs-on: 'ubuntu-latest'
+    if: !github.event.pull_request.draft
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: 'actions/checkout@v3'
+      - uses: actions/checkout@v3
         with:
-          repository: '${{ github.event.pull_request.head.repo.full_name }}'
-          ref: '${{ github.event.pull_request.head.ref }}'
-          fetch-depth: '0'
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
 
-      - name: 'Validate Gradle Wrapper'
-        uses: 'gradle/wrapper-validation-action@v1.0.4'
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.4
 
-      - name: 'Setup JDK 11'
-        uses: 'actions/setup-java@v3'
+      - name: Setup JDK 11
+        uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
-          java-version: '11'
+          distribution: zulu
+          java-version: 11
 
-      - name: 'Setup Android SDK'
-        uses: 'android-actions/setup-android@v2'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
 
-      - name: 'Setup Gradle'
-        uses: 'gradle/gradle-build-action@v2'
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
         with:
-          gradle-home-cache-cleanup: 'true'
+          gradle-home-cache-cleanup: true
 
-      - name: 'Run build (includes ktlint/detekt/test check)'
-        id: 'gradle'
-        run: './gradlew build --scan'
+      - name: Run build (includes ktlint/detekt/test check)
+        id: gradle
+        run: ./gradlew build --scan
 
-      - name: 'Comment gradle scan url if build failed'
-        uses: 'actions/github-script@v6.3.3'
-        if: '${{ failure() }}'
+      - name: Comment gradle scan url if build failed
+        uses: actions/github-script@v6.3.3
+        if: failure()
         with:
-          github-token: '${{ secrets.GITHUB_TOKEN }}'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
@@ -51,28 +51,28 @@ jobs:
               body: '❌ ${{ github.workflow }} failed: ${{ steps.gradle.outputs.build-scan-url }}'
             })
 
-      - name: 'Generate merged report by Kover'
-        if: 'contains(github.event.pull_request.labels.*.name, 'test')'
-        run: './gradlew koverMergedReport --stacktrace'
+      - name: Generate merged report by Kover
+        if: contains(github.event.pull_request.labels.*.name, 'test')
+        run: ./gradlew koverMergedReport --stacktrace
 
-      - name: 'Add coverage report to PR'
-        id: 'kover'
-        uses: 'mi-kas/kover-report@v1'
+      - name: Add coverage report to PR
+        id: kover
+        uses: mi-kas/kover-report@v1
         with:
-          path: 'report/test-coverage/report.xml'
-          token: '${{ secrets.GITHUB_TOKEN }}'
-          title: 'Test Coverage'
-          update-comment: 'true'
+          path: report/test-coverage/report.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: Test Coverage
+          update-comment: true
 
-      - name: 'Update test coverage badge'
-        uses: 'emibcn/badge-action@v1.2.1'
+      - name: Update test coverage badge
+        uses: emibcn/badge-action@v1.2.1
         with:
-          label: 'Test Coverage'
-          status: '${{ steps.kover.output.coverage-overall }}'
-          color: 'FFF4E8'
-          path: 'assets/coverage.svg'
+          label: Test Coverage
+          status: ${{ steps.kover.output.coverage-overall }}
+          color: FFF4E8
+          path: assets/coverage.svg
 
-      - name: 'Update test coverage badge'
+      - name: Update test coverage badge
         run: |
           git config user.name "sungbinland-bot"
           git config user.email "sungbinland.project@gmail.com"
