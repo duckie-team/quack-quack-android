@@ -34,24 +34,10 @@ jobs:
           gradle-home-cache-cleanup: true
 
       - name: Run build (includes ktlint/detekt/test/binary-compatibility check)
-        id: gradle
-        run: ./gradlew build --scan
+        run: ./gradlew build
 
       - name: Generate merged report by Kover
-        run: ./gradlew koverMergedReport --scan
-
-      - name: Comment gradle scan url if build failed
-        uses: actions/github-script@v6.3.3
-        if: failure()
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '❌ ${{ github.workflow }} failed: ${{ steps.gradle.outputs.build-scan-url }}'
-            })   
+        run: ./gradlew koverMergedReport
 
       - name: Add coverage report to PR
         id: kover
