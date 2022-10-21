@@ -14,10 +14,10 @@ on:
 jobs:
   artifact-snapshot-publish:
     runs-on: ubuntu-latest
-    if: ${{ 
+    if: ${{
       github.event.pull_request.merged &&
-      contains(github.event.pull_request.labels.*.name, 'publish') == false
-    }}
+      ! contains(github.event.pull_request.labels.*.name, 'publish')
+      }}
 
     steps:
       - uses: actions/checkout@v3
