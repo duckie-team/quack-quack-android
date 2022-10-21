@@ -11,11 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{
       github.event.pull_request.merged &&
-      contains(github.event.pull_request.labels.*.name, 'release') &&
-      (contains(github.event.pull_request.labels.*.name, 'bump_major') ||
-      contains(github.event.pull_request.labels.*.name, 'bump_minor') ||
-      contains(github.event.pull_request.labels.*.name, 'bump_patch')
-      )
+      contains(github.event.pull_request.labels.*.name, 'release')
       }}
 
     steps:
@@ -28,8 +24,14 @@ jobs:
       - name: Setup JDK 11
         uses: actions/setup-java@v3
         with:
-          distribution: "zulu"
+          distribution: zulu
           java-version: 11
+
+      - name: Label filtering
+        id: label
+        uses: duckie-team/quack-label-filter-actions@1.0.1
+        with:
+          labels: "${{ toJson(github.event.pull_request.labels.*.name) }}"
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
@@ -39,7 +41,6 @@ jobs:
         with:
           gradle-home-cache-cleanup: true
 
-      # We should use the "real" build configuration file for app deployments.
       - name: Decrypt secrets.tar.gpg
         run: gpg --quiet --batch --yes --always-trust --decrypt --passphrase="$SECRET_GPG_PASSWORD" --output secrets.tar secrets.tar.gpg
         env:
@@ -48,19 +49,8 @@ jobs:
       - name: Unzip secrets.tar
         run: tar xvf secrets.tar
 
-      # [bumpVersion-steps-generator.kt]
-      # https://gist.github.com/jisungbin/5cac715eb5133d289f2565c26db9b5e9
-      - name: Bump playground Major version
-        if: contains(github.event.pull_request.labels.*.name, 'bump_major')
-        run: ./gradlew bumpVersion -Ptype="Major" -Ptarget="Playground"
-
-      - name: Bump playground Minor version
-        if: contains(github.event.pull_request.labels.*.name, 'bump_minor')
-        run: ./gradlew bumpVersion -Ptype="Minor" -Ptarget="Playground"
-
-      - name: Bump playground Patch version
-        if: contains(github.event.pull_request.labels.*.name, 'bump_patch')
-        run: ./gradlew bumpVersion -Ptype="Patch" -Ptarget="Playground"
+      - name: Bump version
+        run: "./gradlew bump -PbumpType=${{ steps.label.outputs.bump_type }} -PreleaseTarget=Playground"
 
       - name: Build apk
         id: gradle
@@ -80,8 +70,8 @@ jobs:
         id: slack
         uses: slackapi/slack-github-action@v1.23.0
         with:
-          channel-id: 'C03CM18M529'
-          slack-message: "QuackQuack 플레이그라운드의 새로운 버전이 배포됐습니다. 🥳"
+          channel-id: C046H1UR2CA
+          slack-message: "꽥꽥의 새로운 플레이그라운드가 배포됐어요 🥳"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
