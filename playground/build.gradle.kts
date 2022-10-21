@@ -13,7 +13,6 @@
 plugins {
     id(ConventionEnum.AndroidApplication)
     id(ConventionEnum.AndroidApplicationCompose)
-    id(ConventionEnum.JvmKover)
     id(ConventionEnum.JvmDokka)
     id(libs.plugins.oss.license.get().pluginId)
 }
@@ -23,7 +22,10 @@ android {
 
     val fileConfigurationFile = File(
         "$rootDir/buildSrc/src/main/kotlin/BuildConstants.kt",
-    )
+    ).also {
+        println("File: ${it.absolutePath}")
+        println("Exists: ${it.exists()}")
+    }
     if (fileConfigurationFile.exists()) {
         signingConfigs {
             create("release") {
@@ -42,10 +44,8 @@ android {
     }
 
     lint {
-        disable.apply {
-            // 플레이그라운드용 데모 컴포저블에 주석을 필수로 명시하는건 너무 과함
-            add("KDocFields")
-        }
+        // 플레이그라운드용 데모 컴포저블에 주석을 필수로 명시하는건 너무 과함
+        disable.add("KDocFields")
     }
 }
 
