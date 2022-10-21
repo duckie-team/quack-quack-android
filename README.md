@@ -67,17 +67,7 @@ Snapshots of the development version are available in [Sonatype's `snapshots` re
 
 ## Usage
 
-To be written...
-
-##  Build
-
-**QuackQuack is developed using the latest version of Android Studio Canary**. And also requires a build configuration file. Therefore, to build, you need to unzip the `quackuser-secrets.tar` file. You can do it easily with the following command:
-
-```bash
-tar xvf quackuser-secrets.tar
-```
-
-> **Note**: The build configuration file will be removed soon. ([#303](https://github.com/duckie-team/duckie-quack-quack-mvp/issues/303))
+You can check out QuackQuack's documentation at [opensource.duckie.team/quackquack](https://opensource.duckie.team/quackquack).
 
 ## Contribute
 
