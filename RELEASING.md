@@ -44,21 +44,21 @@
 
 ## 배포 시나리오
 
-꽥꽥은 master 브런치 하나를 메인으로 가져갑니다. 따라서 **master 브런치로 들어오는 모든 커밋은 스냅샷 버전으로 배포**되고, **정식 배포는 ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) label 을 가진 PR 이 master 브런치에 merge 됐을 때 진행**됩니다. 
+꽥꽥은 master 브런치 하나를 메인으로 가져갑니다. 따라서 **master 브런치로 들어오는 모든 커밋은 스냅샷 버전으로 배포**되고, **정식 배포는 ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) label 을 가진 PR 이 master 브런치에 merge 됐을 때** 진행됩니다. 
 
 ### 스냅샷 배포
 
-스냅샷 버전은 versions 폴더 안에 있는 현재 버전에서 `y` 값을 +1 하고, `z` 값을 0 으로 교체한 값을 사용합니다. **즉, `z` 는 항상 0 으로 고정됩니다.** 이는 "스냅샷" 버전임을 강조하기 위함입니다.
+스냅샷 버전은 versions 폴더 안에 있는 현재 버전에서 `y` 값을 +1 하고, `z` 값을 0 으로 교체한 값을 사용합니다. 즉, **`z` 는 항상 0 으로 고정**됩니다. 이는 "스냅샷" 버전임을 강조하기 위함입니다.
 
-스냅샷 배포는 bump 하는 과정을 진행하지 않고, 해당 PR 에 ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) label 이 없을 때만 진행됩니다.
+**스냅샷 배포는 bump 하는 과정을 진행하지 않고, 해당 PR 에 ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) label 이 없을 때**만 진행됩니다.
 
 ### 정식 배포
 
-정식 배포는 해당 PR 에 ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) label 이 있을 때 진행됩니다. 정식 배포 과정이 진행되면 bump 하는 과정을 먼저 시작하고, bump 가 진행된 이후 결정된 버전으로 publishing 을 시작합니다. bump 된 파일은 배포가 마무리된 이후 `git push` 를 통해 `master` 브런치에 바로 반영됩니다.
+**정식 배포는 해당 PR 에 ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) label 이 있을 때** 진행됩니다. 정식 배포 과정이 진행되면 bump 하는 과정을 먼저 시작하고, bump 가 진행된 이후 결정된 버전으로 publishing 을 시작합니다. bump 된 파일은 배포가 마무리된 이후 `git push` 를 통해 `master` 브런치에 바로 반영됩니다.
 
 ## Artifact 배포
 
-꽥꽥 아티팩트 배포는 ![label-preview](https://img.shields.io/badge/release-D4C5F9?style=flat-square) label 이 없을 때만 진행되며, 진행 순서는 다음과 같습니다.
+꽥꽥 **아티팩트 배포는 ![label-preview](https://img.shields.io/badge/release-D4C5F9?style=flat-square) label 이 없을 때**만 진행되며, 진행 순서는 다음과 같습니다.
 
 1. ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) :o:: 미리 정의한 `bump` gradle task 를 label 된 이름들로 진행하여 `BumpType` 과 `ReleaseTarget` label 에 맞게 bump 과정을 진행합니다.
 2. ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) :x:: 미리 정의한 `setSnapshotVersion` gradle task 를 진행하여 스냅샷 버전을 설정합니다.
@@ -69,7 +69,7 @@
 
 ## Playground 릴리스
 
-꽥꽥 플레이그라운드 릴리스는 ![label-preview](https://img.shields.io/badge/release-D4C5F9?style=flat-square) label 이 있을 때만 진행되며, 진행 순서는 다음과 같습니다.
+꽥꽥 **플레이그라운드 릴리스는 ![label-preview](https://img.shields.io/badge/release-D4C5F9?style=flat-square) label 이 있을 때**만 진행되며, 진행 순서는 다음과 같습니다.
 
 1. 미리 정의한 `bump` gradle task 를 진행하여 `BumpType` label 에 맞게 `playground` 의 bump 과정을 진행합니다.
 2. `playground` 의 release 과정을 시작합니다. Releasing 되면서 덕키팀 슬랙에 APK 가 [Firebase App Distribution](https://firebase.google.com/docs/app-distribution) 을 통해 전달되고, AAB 가 Google Playstore 에 업데이트 요청됩니다.
@@ -78,4 +78,4 @@
 
 ## 경고
 
-모든 자동화는 최대 1개까지만 배포를 진행할 수 있습니다. **동시에 여러 배포는 불가능합니다.** 따라서 `BumpType` 과 `ReleaseTarget` label 은 각각 하나씩만 설정돼야 합니다. 여러개의 동시 배포가 필요한 경우는 수동 배포를 권장합니다.
+모든 자동화는 최대 1개까지만 배포를 진행할 수 있습니다. **동시에 여러 배포는 불가능**합니다. 따라서 `BumpType` 과 `ReleaseTarget` label 은 각각 하나씩만 설정돼야 합니다. 여러개의 동시 배포가 필요한 경우는 수동 배포를 권장합니다.
