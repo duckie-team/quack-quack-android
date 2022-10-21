@@ -42,7 +42,7 @@ QuackQuack is available in the Maven repository. [BOM](https://maven.apache.org/
 
 ![quack-ui-components](https://img.shields.io/maven-central/v/team.duckie.quack/quack-ui-components?label=quack-ui-components&style=flat-square) ![quack-lint-core](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-core?label=quack-lint-core&style=flat-square) ![quack-lint-quack](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-quack?label=quack-lint-quack&style=flat-square) ![quack-lint-compose](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-compose?label=quack-lint-compose&style=flat-square) ![quack-lint-writing](https://img.shields.io/maven-central/v/team.duckie.quack/quack-lint-writing?label=quack-lint-writing&style=flat-square)
 
-```kotlin
+```groovy
 dependencies {
     implementation("team.duckie.quack:quack-ui-components:{version}")
     implementation("team.duckie.quack:quack-lint-core:{version}")
@@ -50,6 +50,19 @@ dependencies {
     implementation("team.duckie.quack:quack-lint-quack:{version}")
     // implementation("team.duckie.quack:quack-lint-writing:{version}")
 }
+```
+
+### Snapshot
+
+Snapshots of the development version are available in [Sonatype's `snapshots` repository](https://oss.sonatype.org/content/repositories/snapshots/team/duckie/quackquack/).
+
+```groovy
+ repositories {
+   // ...
+   maven {
+     url 'https://oss.sonatype.org/content/repositories/snapshots/'
+   }
+ }
 ```
 
 ## Usage
