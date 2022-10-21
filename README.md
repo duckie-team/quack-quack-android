@@ -60,7 +60,7 @@ Snapshots of the development version are available in [Sonatype's `snapshots` re
  repositories {
    // ...
    maven {
-     url 'https://oss.sonatype.org/content/repositories/snapshots/'
+     url 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
    }
  }
 ```
