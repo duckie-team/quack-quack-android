@@ -61,11 +61,7 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
 
                 version = getArtifactVersion(
                     type = extension.type,
-                ).also { version ->
-                    println(
-                        "${extension.type.artifactId} version: $version",
-                    )
-                }
+                )
 
                 extensions.configure<PublishingExtension> {
                     publications.withType<MavenPublication> {
