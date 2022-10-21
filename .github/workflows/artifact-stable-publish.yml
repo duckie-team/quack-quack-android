@@ -94,7 +94,7 @@ jobs:
           ui-components/src/main/baseline-prof.txt
 
       - name: Bump version
-        run: ./gradlew bump -PbumpType=${{ steps.label.outputs.bump_type }} -PreleaseTarget=${{ steps.label.outputs.release_target }}
+        run: ./gradlew bump -Ptype=${{ steps.label.outputs.bump_type }} -Ptarget=${{ steps.label.outputs.release_target }}
 
       - name: Publish to MavenCentral
         run: ./gradlew ${{ steps.label.outputs.publish_module_id }}:publish

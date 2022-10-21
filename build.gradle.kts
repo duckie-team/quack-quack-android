@@ -266,22 +266,10 @@ fun Project.setSnapshotVersion(
 tasks.create(
     name = "bump",
 ) {
-    // labels: [
-    //   test_boo!,
-    //   test_woo!,
-    //   test_bar!,
-    // ]
-    val labels = (properties["labels"] ?: return@create) as String
-    val bumpType = BumpType.values().first { type ->
-        labels.contains(
-            other = type.name,
-        )
-    }
-    val releaseTarget = ReleaseTarget.values().first { target ->
-        labels.contains(
-            other = target.name,
-        )
-    }
+    val type = (properties["type"] ?: return@create) as String
+    val target = (properties["target"] ?: return@create) as String
+    val bumpType = BumpType.valueOf(type)
+    val releaseTarget = ReleaseTarget.valueOf(target)
     val version = bumpVersion(
         type = bumpType,
         target = releaseTarget,
@@ -301,12 +289,8 @@ tasks.create(
 tasks.create(
     name = "setSnapshotVersion",
 ) {
-    val labels = (properties["labels"] ?: return@create) as String
-    val releaseTarget = ReleaseTarget.values().first { target ->
-        labels.contains(
-            other = target.name,
-        )
-    }
+    val target = (properties["target"] ?: return@create) as String
+    val releaseTarget = ReleaseTarget.valueOf(target)
     val snapshotVersion = setSnapshotVersion(
         target = releaseTarget,
     )

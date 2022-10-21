@@ -24,7 +24,7 @@ jobs:
 
       - name: Label filtering
         id: label
-        uses: duckie-team/quack-label-filter-actions@1.0.2
+        uses: duckie-team/quack-label-filter-actions@1.0.4
         with:
           labels: "${{ toJson(github.event.pull_request.labels.*.name) }}"
 
@@ -43,7 +43,7 @@ jobs:
           gradle-home-cache-cleanup: true
 
       - name: Set SNAPSHOT version
-        run: ./gradlew setSnapshotVersion
+        run: ./gradlew setSnapshotVersion -Ptarget=${{ steps.label.outputs.release_target }}
 
       - name: Publish to MavenCentral
         run: ./gradlew ${{ steps.label.outputs.publish_module_id }}:publish
