@@ -366,9 +366,26 @@ TODO: [#304](https://github.com/duckie-team/duckie-quack-quack-mvp/issues/304)
 
 ### Lints
 
-> TODO
+다수 구성된 덕키 안드로이드 팀에서는 각자의 코드 스타일이 다를 수밖에 없습니다. 따라서 코드의 통일성을 높이고,  코드의 구조적 품질을 높이기 위해 여러가지 규칙들을 정의하였습니다.
 
-더 자세한 내용은 린트 개발을 담당해주신 세현님께서 작성하신 [덕키팀에서 Custom Lint를 만드는 여정](https://blog.duckie.team/team-duckie%EC%97%90%EC%84%9C-custom-lint%EB%A5%BC-%EB%A7%8C%EB%93%9C%EB%8A%94-%EC%97%AC%EC%A0%95-a7ecca72a32f) 아티클로 확인하실 수 있습니다.
+위에서 정의한 다양한 규칙을 앱을 실행하거나 테스트 사례를 작성할 필요 없이 Android Studio IDE 환경에서 문제를 식별하기 위해 덕키만의 린트를 제작하였습니다.
+
+덕키 린트의 주요 기능은 다음과 같습니다.
+
+**Warning & Error 표시**
+
+* 덕키 린트 규칙에 관한 설명, 제한하고자 하는 사항, 이슈 우선순위, 심각도를 파악할 수 있습니다.
+
+**QuackFix**
+
+* 간편하게 덕키 린트 규칙에 맞게 코드를 자동으로 수정해주는 기능입니다.
+
+#### Test
+
+* 덕키팀의 Lint는 100% Test를 진행하였습니다. 린트의 경우에는 고려해야 하는 경우와 예외가 매우 광범위하게 나옵니다. 따라서 테스트케이스 작성은 필수적으로 진행하고 있습니다.
+* Lint 테스트를 더 쉽게 진행하기 위해서 [LintTestRule](https://github.com/duckie-team/duckie-quack-quack-mvp/blob/master/common-lint-test/src/main/kotlin/team/duckie/quackquack/common/lint/test/LintTestRule.kt)를 활용하여 더 편리하게 Test를 진행합니다.
+
+이 외에 덕키팀에서 린트에서 만드는 과정은 개발을 담당한 세현님께서 작성하신 [덕키팀에서 Custom Lint를 만드는 여정](https://blog.duckie.team/team-duckie%EC%97%90%EC%84%9C-custom-lint%EB%A5%BC-%EB%A7%8C%EB%93%9C%EB%8A%94-%EC%97%AC%EC%A0%95-a7ecca72a32f) 아티클에서 확인하실 수 있습니다.
 
 ## Pronounce (Korean)
 
