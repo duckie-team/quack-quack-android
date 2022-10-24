@@ -366,9 +366,41 @@ TODO: [#304](https://github.com/duckie-team/duckie-quack-quack-mvp/issues/304)
 
 ### Lints
 
-> TODO
+다수 구성된 덕키 안드로이드 팀에서는 각자의 코드 스타일이 다를 수밖에 없습니다. 따라서 코드의 통일성을 높이고,  코드의 구조적 품질을 높이기 위해 여러가지 규칙들을 정의하였습니다. 하지만 우리는 로봇이 아니다 보니 정해진 규칙을 가끔씩 잊거나 잘못된 상황을 발견하지 못할 수 있습니다. 이러한 문제를 효율적으로 해결하기 위해 덕키팀은 Android Studio IDE 환경에서 문제를 식별하기 위해 덕키팀만의 린트를 제작하였습니다. 
 
-더 자세한 내용은 린트 개발을 담당해주신 세현님께서 작성하신 [덕키팀에서 Custom Lint를 만드는 여정](https://blog.duckie.team/team-duckie%EC%97%90%EC%84%9C-custom-lint%EB%A5%BC-%EB%A7%8C%EB%93%9C%EB%8A%94-%EC%97%AC%EC%A0%95-a7ecca72a32f) 아티클로 확인하실 수 있습니다.
+#### 덕키팀만의 린트
+
+덕키팀에서 제작한 린트는 4가지로 나뉩니다.
+
+##### Lint Core
+
+일반적인 코드베이스에 사용되는 린트입니다. 코드 가독성과 협업 편리성을 높이기 위한 규칙들로 구성돼 있습니다.
+
+##### Lint Compose
+
+Jetpack Compose 코드베이스에 사용되는 린트입니다. 컴포저블 퍼포먼스 개선과 코드 가독성을 높이기 위한 규칙들도 구성돼 있습니다.
+
+##### Lint Quack
+
+덕키팀에서는 덕키만의 디자인 시스템인 QuackQuack UI Components 를 만들고 사용합니다. 만약 실수로 QuackQuack 을 사용하지 않고 Material 을 사용했다면 이를 QuackQuack 사용으로 바로잡아주기 위한 린트입니다.
+
+##### Lint UX Writing
+
+덕키팀은 고객 만족도가 높은 서비스를 만들기 위해선 UX Writing 이 큰 비중을 차지한다고 생각합니다. 따라서 UX Writing 가이드를 도입하여 정해진 가이드대로 Writing 을 실시합니다. 정해진 가이드대로 Writing 이 제대로 이뤄졌는지를 검사하고, 잘못됐다면 가이드에 맞게 바로잡아주는 린트입니다.
+
+##### Lint UX Writing - UI Overlay
+
+UX Writing 린트는 린트뿐만 아니라 보다 섬세한 체크를 위해 UI Overlay 로도 제공됩니다.
+
+TODO
+
+#### Test
+
+덕키팀의 린트는 100% 테스트를 진행하였습니다. 린트의 경우에는 고려해야 하는 경우와 예외가 매우 광범위하게 나옵니다. 따라서 테스트 작성을 필수적으로 진행하고 있습니다.
+
+린트 테스트의 방식에는 크게 diff 테스트와 count 테스트가 있습니다. 매번 diff 를 작성하는 일은 번거로운 일이므로 덕키팀은 count 테스트만을 사용하여 테스트를 진행하였습니다. count 테스트도 그냥 진행하는 것이 아닌 테스트를 더 쉽게 진행하기 위해 자체 제작한 [`LintTestRule`](https://github.com/duckie-team/duckie-quack-quack-mvp/blob/master/common-lint-test/src/main/kotlin/team/duckie/quackquack/common/lint/test/LintTestRule.kt#L29) 를 활용합니다.
+
+이 외에 덕키팀에서 린트에서 만드는 과정은 개발을 담당한 세현님께서 작성하신 [덕키팀에서 Custom Lint를 만드는 여정](https://blog.duckie.team/team-duckie%EC%97%90%EC%84%9C-custom-lint%EB%A5%BC-%EB%A7%8C%EB%93%9C%EB%8A%94-%EC%97%AC%EC%A0%95-a7ecca72a32f) 아티클에서 확인하실 수 있습니다.
 
 ## Pronounce (Korean)
 
