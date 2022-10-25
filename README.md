@@ -44,11 +44,11 @@ QuackQuack is available in the Maven repository. [BOM](https://maven.apache.org/
 
 ```groovy
 dependencies {
-    implementation("team.duckie.quack:quack-ui-components:{version}")
-    implementation("team.duckie.quack:quack-lint-core:{version}")
-    implementation("team.duckie.quack:quack-lint-compose:{version}")
-    implementation("team.duckie.quack:quack-lint-quack:{version}")
-    // implementation("team.duckie.quack:quack-lint-writing:{version}")
+    implementation "team.duckie.quack:quack-ui-components:{version}"
+    implementation "team.duckie.quack:quack-lint-core:{version}"
+    implementation "team.duckie.quack:quack-lint-compose:{version}"
+    implementation "team.duckie.quack:quack-lint-quack:{version}"
+    // implementation "team.duckie.quack:quack-lint-writing:{version}"
 }
 ```
 
@@ -57,12 +57,12 @@ dependencies {
 Snapshots of the development version are available in [Sonatype's `snapshots` repository](https://s01.oss.sonatype.org/content/repositories/snapshots/team/duckie/quack/).
 
 ```groovy
- repositories {
-   // ...
-   maven {
-     url 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
-   }
- }
+repositories {
+    // ...
+    maven {
+        url 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+    }
+}
 ```
 
 ## Usage
@@ -413,4 +413,5 @@ TODO
 ## License
 
 QuackQuack is designed and developed by 2022 Duckie Team, and licensed under MIT. please see the [License](LICENSE) file.
+
 
