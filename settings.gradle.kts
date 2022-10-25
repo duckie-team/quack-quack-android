@@ -20,6 +20,12 @@ pluginManagement {
     }
 }
 
+buildCache {
+    local {
+        removeUnusedEntriesAfterDays = 7
+    }
+}
+
 include(
     ":playground",
     ":common-lint",
