@@ -14,7 +14,6 @@ plugins {
     id(ConventionEnum.AndroidApplication)
     id(ConventionEnum.AndroidApplicationCompose)
     id(ConventionEnum.JvmDokka)
-    id(libs.plugins.oss.license.get().pluginId)
 }
 
 android {
@@ -47,7 +46,6 @@ android {
 dependencies {
     implementations(
         libs.ktx.core,
-        libs.util.oss.license,
         libs.util.systemuicontroller,
         libs.compose.material3,
         libs.androidx.appcompat,
