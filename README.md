@@ -79,10 +79,10 @@ Anyway, *any* contribution is welcome, just make sure you follow the [contributi
 
 ## Maintainers
 
-- Project Lead: [@jisungbin](https://github.com/jisungbin)
-- Design: [Hyejin Kim](https://www.behance.net/hyejinkim32)
-- Documentations & Automations: [@jisungbin](https://github.com/jisungbin)
-- UI Components: [@jisungbin](https://github.com/jisungbin), [@EvergreenTree97](https://github.com/EvergreenTree97), [@goddoro](https://github.com/goddoro)
+- Project Lead: [Ji Sungbin](https://www.linkedin.com/in/ji-sungbin-4343b7219/)
+- Design: [Kim Hyejin](https://www.behance.net/hyejinkim32)
+- Documentations & Automations: [Ji Sungbin](https://www.linkedin.com/in/ji-sungbin-4343b7219/)
+- UI Components: [Ji Sungbin](https://www.linkedin.com/in/ji-sungbin-4343b7219/), [@EvergreenTree97](https://github.com/EvergreenTree97), [@goddoro](https://github.com/goddoro)
 - Lints: [@limsaehyun](https://github.com/limsaehyun), [@riflockle7](https://github.com/riflockle7)
 
 ## Tech Stacks (Korean)
