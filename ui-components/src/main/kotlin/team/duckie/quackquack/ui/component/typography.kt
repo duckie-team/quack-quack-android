@@ -10,7 +10,9 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -571,33 +573,42 @@ public fun QuackAnnotatedBody2(
     onClick: (() -> Unit)? = null,
 ) {
     // QuackClickableText 에서 활용할 하이라이트 텍스트 목록
-    val highlightTextInfo = mutableListOf<HighlightTextInfo>()
-
-    // 전체 문자열 내에서, 검색 시작 index offset
-    var startIndexOffset = 0
-    highlightTextPairs.forEach { (targetText, targetTextClickEvent) ->
-        val subStringStartIndex = text.substring(startIndexOffset).indexOf(
-            string = targetText,
-        )
-
-        if (subStringStartIndex != -1) {
-            val realStartIndex = startIndexOffset + subStringStartIndex
-            val realEndIndex = realStartIndex + targetText.length
-
-            // 텍스트 클릭 이벤트 처리
-            targetTextClickEvent?.let {
-                // ClickEventTextInfo 데이터 추가
-                highlightTextInfo.add(
-                    HighlightTextInfo(
-                        text = targetText,
-                        startIndex = realStartIndex,
-                        endIndex = realEndIndex,
-                        onClick = targetTextClickEvent,
+    // 계산을 먼저 완료한 상태에서 컴포저블 작업에 들어가므로
+    // SnapshotStateList 로 만들 필요가 없음
+    val highlightTextInfos = remember(
+        key1 = highlightTextPairs,
+    ) {
+        buildList {
+            // 전체 문자열 내에서, 검색 시작 index offset
+            var startIndexOffset = 0
+            highlightTextPairs.forEach { (targetText, targetTextClickEvent) ->
+                val subStringStartIndex = text
+                    .substring(
+                        startIndex = startIndexOffset,
+                    ).indexOf(
+                        string = targetText,
                     )
-                )
-            }
 
-            startIndexOffset = realEndIndex
+                if (subStringStartIndex != -1) {
+                    val realStartIndex = startIndexOffset + subStringStartIndex
+                    val realEndIndex = realStartIndex + targetText.length
+
+                    // 텍스트 클릭 이벤트 처리
+                    targetTextClickEvent?.let {
+                        // ClickEventTextInfo 데이터 추가
+                        add(
+                            element = HighlightTextInfo(
+                                text = targetText,
+                                startIndex = realStartIndex,
+                                endIndex = realEndIndex,
+                                onClick = targetTextClickEvent,
+                            ),
+                        )
+                    }
+
+                    startIndexOffset = realEndIndex
+                }
+            }
         }
     }
 
@@ -606,11 +617,13 @@ public fun QuackAnnotatedBody2(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),
-        clickEventTextInfo = highlightTextInfo.toPersistentList(),
+        clickEventTextInfo = highlightTextInfos.toPersistentList(),
         text = buildAnnotatedString {
-            append(text)
+            append(
+                text = text,
+            )
 
-            highlightTextInfo.forEach { (text, startIndex, endIndex, onClick) ->
+            highlightTextInfos.forEach { (text, startIndex, endIndex, onClick) ->
                 // 텍스트 클릭 이벤트 처리
                 onClick?.let {
                     // StringAnnotation 데이터 추가
@@ -623,7 +636,9 @@ public fun QuackAnnotatedBody2(
                 }
 
                 // 스타일링 처리
-                val textDecoration = if (underlineEnabled) TextDecoration.Underline else null
+                val textDecoration = TextDecoration.Underline.takeIf {
+                    underlineEnabled
+                }
                 addStyle(
                     style = SpanStyle(
                         color = highlightColor.composeColor,
@@ -654,6 +669,7 @@ public fun QuackAnnotatedBody2(
  * @param endIndex 전체 텍스트 내에서 onClick 이벤트가 실행되는 마지막 index
  * @param onClick 실행할 클릭 이벤트 (null 일 시 이벤트 없음)
  */
+@Immutable
 internal data class HighlightTextInfo(
     val text: String,
     val startIndex: Int,
