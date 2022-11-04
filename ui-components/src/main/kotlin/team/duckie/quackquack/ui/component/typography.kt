@@ -575,7 +575,7 @@ public fun QuackAnnotatedBody2(
     // QuackClickableText 에서 활용할 하이라이트 텍스트 목록
     // 계산을 먼저 완료한 상태에서 컴포저블 작업에 들어가므로
     // SnapshotStateList 로 만들 필요가 없음
-    val highlightTextInfos = remember(
+    val highlightTextInfo = remember(
         key1 = highlightTextPairs,
     ) {
         buildList {
@@ -617,13 +617,13 @@ public fun QuackAnnotatedBody2(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),
-        clickEventTextInfo = highlightTextInfos.toPersistentList(),
+        clickEventTextInfo = highlightTextInfo.toPersistentList(),
         text = buildAnnotatedString {
             append(
                 text = text,
             )
 
-            highlightTextInfos.forEach { (text, startIndex, endIndex, onClick) ->
+            highlightTextInfo.forEach { (text, startIndex, endIndex, onClick) ->
                 // 텍스트 클릭 이벤트 처리
                 onClick?.let {
                     // StringAnnotation 데이터 추가
