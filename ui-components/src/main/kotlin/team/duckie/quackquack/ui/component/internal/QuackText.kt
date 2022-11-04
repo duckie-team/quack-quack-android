@@ -8,12 +8,15 @@
 package team.duckie.quackquack.ui.component.internal
 
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
+import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.animation.AnimatedContentTransform
+import team.duckie.quackquack.ui.component.ClickEventTextInfo
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.textstyle.animatedQuackTextStyleAsState
 
@@ -138,4 +141,54 @@ internal fun QuackText(
             overflow = overflow,
         )
     }
+}
+
+/**
+ * 클릭 가능한 텍스트를 표시합니다.
+ *
+ * @param modifier 이 컴포저블에서 사용할 [Modifier]
+ * @param text 표시할 텍스트 내용
+ * @param clickEventTextInfo 클릭 이벤트 처리용 텍스트 목록
+ * @param defaultOnClick [clickEventTextInfo] 목록 내 모든 range 에 속하지 않을 때 실행해 줄 클릭 이벤트
+ * @param style 텍스트를 그릴 [TextStyle] 의 QuackQuack 버전
+ * @param singleLine 텍스트를 한 줄로 표시할 지 여부
+ * @param overflow 텍스트 overflow 될 시 처리 방법
+ */
+@Composable
+internal fun QuackClickableText(
+    modifier: Modifier = Modifier,
+    text: AnnotatedString,
+    clickEventTextInfo: PersistentList<ClickEventTextInfo>,
+    defaultOnClick: (() -> Unit)? = null,
+    style: QuackTextStyle,
+    singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
+) {
+    val onClickCheckNotNull: ((() -> Unit)?) -> Unit = { onClick ->
+        onClick?.run { this() }
+    }
+
+    ClickableText(
+        modifier = modifier,
+        text = text,
+        style = style.asComposeStyle(),
+        onClick = { offset ->
+            clickEventTextInfo.forEach { eventHighlightTextInfo ->
+                text.getStringAnnotations(eventHighlightTextInfo.text, offset, offset).firstOrNull()
+                    ?.let {
+                        if (offset in eventHighlightTextInfo.range) {
+                            onClickCheckNotNull(eventHighlightTextInfo.onClick)
+                            return@ClickableText
+                        }
+                    }
+            }
+
+            onClickCheckNotNull(defaultOnClick)
+        },
+        maxLines = when (singleLine) {
+            true -> 1
+            else -> Int.MAX_VALUE
+        },
+        overflow = overflow,
+    )
 }
