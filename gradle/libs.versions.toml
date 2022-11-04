@@ -7,11 +7,11 @@ ktlint-gradle = "11.0.0"
 ktlint-source = "0.45.2"
 detekt = "1.21.0"
 paparazzi = "1.1.0"
-ksp = "1.7.20-1.0.7"
+ksp = "1.7.20-1.0.8"
 gradle-maven-publish = "0.22.0"
 
 # build
-gradle-agp = "8.0.0-alpha06"
+gradle-agp = "8.0.0-alpha07"
 kotlin-core = "1.7.20"
 kotlin-metadata = "0.5.0"
 oss-license-plugin = "0.10.5"
