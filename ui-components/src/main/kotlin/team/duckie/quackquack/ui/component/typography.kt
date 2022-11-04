@@ -570,66 +570,72 @@ public fun QuackAnnotatedBody2(
     overflow: TextOverflow = TextOverflow.Clip,
     onClick: (() -> Unit)? = null,
 ) {
-    // QuackClickableText 에서 활용하는 클릭 이벤트 처리용 텍스트 목록
-    val clickEventTextInfo = mutableListOf<ClickEventTextInfo>()
+    // QuackClickableText 에서 활용할 하이라이트 텍스트 목록
+    val highlightTextInfo = mutableListOf<HighlightTextInfo>()
+
+    // 전체 문자열 내에서, 검색 시작 index offset
+    var startIndexOffset = 0
+    highlightTextPairs.forEach { (targetText, targetTextClickEvent) ->
+        val subStringStartIndex = text.substring(startIndexOffset).indexOf(
+            string = targetText,
+        )
+
+        if (subStringStartIndex != -1) {
+            val realStartIndex = startIndexOffset + subStringStartIndex
+            val realEndIndex = realStartIndex + targetText.length
+
+            // 텍스트 클릭 이벤트 처리
+            targetTextClickEvent?.let {
+                // ClickEventTextInfo 데이터 추가
+                highlightTextInfo.add(
+                    HighlightTextInfo(
+                        text = targetText,
+                        startIndex = realStartIndex,
+                        endIndex = realEndIndex,
+                        onClick = targetTextClickEvent,
+                    )
+                )
+            }
+
+            startIndexOffset = realEndIndex
+        }
+    }
 
     QuackClickableText(
         modifier = modifier.quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),
+        clickEventTextInfo = highlightTextInfo.toPersistentList(),
         text = buildAnnotatedString {
             append(text)
 
-            // 전체 문자열 내에서, 검색 시작 index offset
-            var startIndexOffset = 0
-
-            highlightTextPairs.forEach { (targetText, targetTextClickEvent) ->
-                val subStringStartIndex = text.substring(startIndexOffset).indexOf(
-                    string = targetText,
-                )
-
-                if (subStringStartIndex != -1) {
-                    val realStartIndex = startIndexOffset + subStringStartIndex
-                    val realEndIndex = realStartIndex + targetText.length
-
-                    // 텍스트 클릭 이벤트 처리
-                    targetTextClickEvent?.let {
-                        // StringAnnotation 데이터 추가
-                        addStringAnnotation(
-                            tag = targetText,
-                            annotation = "",
-                            start = realStartIndex,
-                            end = realEndIndex,
-                        )
-
-                        // ClickEventTextInfo 데이터 추가
-                        clickEventTextInfo.add(
-                            ClickEventTextInfo(
-                                text = targetText,
-                                onClick = targetTextClickEvent,
-                            )
-                        )
-                    }
-
-                    // 스타일링 처리
-                    val textDecoration = if (underlineEnabled) TextDecoration.Underline else null
-                    addStyle(
-                        style = SpanStyle(
-                            color = highlightColor.composeColor,
-                            fontWeight = highlightFontWeight,
-                            letterSpacing = 0.sp,
-                            textDecoration = textDecoration,
-                        ),
-                        start = realStartIndex,
-                        end = realEndIndex,
+            highlightTextInfo.forEach { (text, startIndex, endIndex, onClick) ->
+                // 텍스트 클릭 이벤트 처리
+                onClick?.let {
+                    // StringAnnotation 데이터 추가
+                    addStringAnnotation(
+                        tag = text,
+                        annotation = "",
+                        start = startIndex,
+                        end = endIndex,
                     )
-
-                    startIndexOffset = realEndIndex
                 }
+
+                // 스타일링 처리
+                val textDecoration = if (underlineEnabled) TextDecoration.Underline else null
+                addStyle(
+                    style = SpanStyle(
+                        color = highlightColor.composeColor,
+                        fontWeight = highlightFontWeight,
+                        letterSpacing = 0.sp,
+                        textDecoration = textDecoration,
+                    ),
+                    start = startIndex,
+                    end = endIndex,
+                )
             }
         },
-        clickEventTextInfo = clickEventTextInfo.toPersistentList(),
         style = QuackTextStyle.Body2.change(
             color = color,
             textAlign = align,
@@ -641,12 +647,16 @@ public fun QuackAnnotatedBody2(
 }
 
 /**
- * 클릭 이벤트 처리를 위해 필요한 텍스트 정보
+ * 하이라이트 텍스트 처리를 위해 필요한 텍스트 정보
  *
  * @param text 텍스트 내용
+ * @param startIndex 전체 텍스트 내에서 onClick 이벤트가 실행되는 시작 index
+ * @param endIndex 전체 텍스트 내에서 onClick 이벤트가 실행되는 마지막 index
  * @param onClick 실행할 클릭 이벤트 (null 일 시 이벤트 없음)
  */
-internal data class ClickEventTextInfo(
+internal data class HighlightTextInfo(
     val text: String,
+    val startIndex: Int,
+    val endIndex: Int,
     val onClick: (() -> Unit)? = null,
 )

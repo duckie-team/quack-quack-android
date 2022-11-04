@@ -16,7 +16,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.animation.AnimatedContentTransform
-import team.duckie.quackquack.ui.component.ClickEventTextInfo
+import team.duckie.quackquack.ui.component.HighlightTextInfo
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.textstyle.animatedQuackTextStyleAsState
 
@@ -158,7 +158,7 @@ internal fun QuackText(
 internal fun QuackClickableText(
     modifier: Modifier = Modifier,
     text: AnnotatedString,
-    clickEventTextInfo: PersistentList<ClickEventTextInfo>,
+    clickEventTextInfo: PersistentList<HighlightTextInfo>,
     defaultOnClick: (() -> Unit)? = null,
     style: QuackTextStyle,
     singleLine: Boolean = false,
@@ -169,7 +169,7 @@ internal fun QuackClickableText(
         text = text,
         style = style.asComposeStyle(),
         onClick = { offset ->
-            clickEventTextInfo.forEach { (value, onClick) ->
+            clickEventTextInfo.forEach { (value, _, _, onClick) ->
                 text.getStringAnnotations(value, offset, offset).firstOrNull()?.let {
                     onClick?.invoke()
                     return@ClickableText
