@@ -394,7 +394,7 @@ public fun QuackUnderlineHeadLine2(
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
-                if ( highlightStartIndex != -1) {
+                if (highlightStartIndex != -1) {
                     addStyle(
                         style = SpanStyle(
                             color = underlineTextColor.composeColor,
@@ -455,7 +455,7 @@ public fun QuackUnderlineBody3(
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
-                if ( highlightStartIndex != -1) {
+                if (highlightStartIndex != -1) {
                     addStyle(
                         style = SpanStyle(
                             color = undelineTextColor.composeColor,
@@ -502,7 +502,7 @@ public fun QuackHighlightBody1(
     overflow: TextOverflow = TextOverflow.Clip,
     onClick: (() -> Unit)? = null,
 
-) {
+    ) {
 
     QuackText(
         modifier = modifier.quackClickable(
@@ -515,7 +515,7 @@ public fun QuackHighlightBody1(
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
-                if ( highlightStartIndex != -1) {
+                if (highlightStartIndex != -1) {
                     addStyle(
                         style = SpanStyle(
                             fontWeight = FontWeight.SemiBold,
@@ -584,8 +584,7 @@ public fun QuackAnnotatedBody2(
             // 전체 문자열 내에서, 검색 시작 index offset
             var startIndexOffset = 0
 
-            highlightTextPairs.forEach { highlightTextPair ->
-                val (targetText, targetTextClickEvent) = highlightTextPair
+            highlightTextPairs.forEach { (targetText, targetTextClickEvent) ->
                 val subStringStartIndex = text.substring(startIndexOffset).indexOf(
                     string = targetText,
                 )
@@ -608,7 +607,6 @@ public fun QuackAnnotatedBody2(
                         clickEventTextInfo.add(
                             ClickEventTextInfo(
                                 text = targetText,
-                                range = realStartIndex..realEndIndex,
                                 onClick = targetTextClickEvent,
                             )
                         )
@@ -646,11 +644,9 @@ public fun QuackAnnotatedBody2(
  * 클릭 이벤트 처리를 위해 필요한 텍스트 정보
  *
  * @param text 텍스트 내용
- * @param range 전체 텍스트 내에서 onClick 이벤트가 실행되는 index 범위
  * @param onClick 실행할 클릭 이벤트 (null 일 시 이벤트 없음)
  */
 internal data class ClickEventTextInfo(
     val text: String,
-    val range: IntRange,
     val onClick: (() -> Unit)? = null,
 )

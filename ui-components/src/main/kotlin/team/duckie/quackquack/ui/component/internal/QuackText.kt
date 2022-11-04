@@ -164,26 +164,19 @@ internal fun QuackClickableText(
     singleLine: Boolean = false,
     overflow: TextOverflow = TextOverflow.Clip,
 ) {
-    val onClickCheckNotNull: ((() -> Unit)?) -> Unit = { onClick ->
-        onClick?.run { this() }
-    }
-
     ClickableText(
         modifier = modifier,
         text = text,
         style = style.asComposeStyle(),
         onClick = { offset ->
-            clickEventTextInfo.forEach { eventHighlightTextInfo ->
-                text.getStringAnnotations(eventHighlightTextInfo.text, offset, offset).firstOrNull()
-                    ?.let {
-                        if (offset in eventHighlightTextInfo.range) {
-                            onClickCheckNotNull(eventHighlightTextInfo.onClick)
-                            return@ClickableText
-                        }
-                    }
+            clickEventTextInfo.forEach { (value, onClick) ->
+                text.getStringAnnotations(value, offset, offset).firstOrNull()?.let {
+                    onClick?.invoke()
+                    return@ClickableText
+                }
             }
 
-            onClickCheckNotNull(defaultOnClick)
+            defaultOnClick?.invoke()
         },
         maxLines = when (singleLine) {
             true -> 1
