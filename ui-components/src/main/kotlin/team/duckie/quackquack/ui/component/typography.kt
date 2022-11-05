@@ -10,7 +10,9 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -20,7 +22,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.toPersistentList
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.component.internal.QuackClickableText
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
@@ -392,7 +396,7 @@ public fun QuackUnderlineHeadLine2(
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
-                if ( highlightStartIndex != -1) {
+                if (highlightStartIndex != -1) {
                     addStyle(
                         style = SpanStyle(
                             color = underlineTextColor.composeColor,
@@ -453,7 +457,7 @@ public fun QuackUnderlineBody3(
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
-                if ( highlightStartIndex != -1) {
+                if (highlightStartIndex != -1) {
                     addStyle(
                         style = SpanStyle(
                             color = undelineTextColor.composeColor,
@@ -500,7 +504,7 @@ public fun QuackHighlightBody1(
     overflow: TextOverflow = TextOverflow.Clip,
     onClick: (() -> Unit)? = null,
 
-) {
+    ) {
 
     QuackText(
         modifier = modifier.quackClickable(
@@ -513,7 +517,7 @@ public fun QuackHighlightBody1(
                 val highlightStartIndex = text.indexOf(
                     string = highlightText
                 )
-                if ( highlightStartIndex != -1) {
+                if (highlightStartIndex != -1) {
                     addStyle(
                         style = SpanStyle(
                             fontWeight = FontWeight.SemiBold,
@@ -533,3 +537,142 @@ public fun QuackHighlightBody1(
         overflow = overflow,
     )
 }
+
+/**
+ * [QuackBody2] 에 원하는 부분에 원하는 색깔, 밑줄, 굵기 처리, 해당 영역 이벤트 클릭
+ * 등이 들어간 텍스트를 표시합니다.
+ *
+ * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
+ * @param text 표시할 텍스트
+ * @param highlightTextPairs (강조할 텍스트 및 그에 대응하는 클릭 이벤트) Pair 리스트
+ * @param color 텍스트의 색상
+ * @param highlightColor 강조할 Text 의 색깔
+ * @param underlineEnabled 밑줄 처리 활성화할것인지 flag
+ * @param highlightFontWeight 강조 처리하는 글자의 굵기
+ * @param align 텍스트 정렬
+ * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
+ * @param singleLine 텍스트를 한 줄로 사용할지 여부
+ * @param onClick 텍스트이 클릭됐을 때 실행할 람다식
+ * @param overflow 텍스트 overflow 될 시 처리 방법
+ * @param onClick 클릭 이벤트
+ */
+@Composable
+@NonRestartableComposable
+public fun QuackAnnotatedBody2(
+    modifier: Modifier = Modifier,
+    text: String,
+    highlightTextPairs: PersistentList<Pair<String, (() -> Unit)?>>,
+    color: QuackColor = QuackColor.Black,
+    highlightColor: QuackColor = QuackColor.Black,
+    underlineEnabled: Boolean = false,
+    highlightFontWeight: FontWeight = FontWeight.SemiBold,
+    align: TextAlign = TextAlign.Start,
+    rippleEnabled: Boolean = false,
+    singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Clip,
+    onClick: (() -> Unit)? = null,
+) {
+    // QuackClickableText 에서 활용할 하이라이트 텍스트 목록
+    // 계산을 먼저 완료한 상태에서 컴포저블 작업에 들어가므로
+    // SnapshotStateList 로 만들 필요가 없음
+    val highlightTextInfo = remember(
+        key1 = highlightTextPairs,
+    ) {
+        buildList {
+            // 전체 문자열 내에서, 검색 시작 index offset
+            var startIndexOffset = 0
+            highlightTextPairs.forEach { (targetText, targetTextClickEvent) ->
+                val subStringStartIndex = text
+                    .substring(
+                        startIndex = startIndexOffset,
+                    ).indexOf(
+                        string = targetText,
+                    )
+
+                if (subStringStartIndex != -1) {
+                    val realStartIndex = startIndexOffset + subStringStartIndex
+                    val realEndIndex = realStartIndex + targetText.length
+
+                    // 텍스트 클릭 이벤트 처리
+                    targetTextClickEvent?.let {
+                        // ClickEventTextInfo 데이터 추가
+                        add(
+                            element = HighlightTextInfo(
+                                text = targetText,
+                                startIndex = realStartIndex,
+                                endIndex = realEndIndex,
+                                onClick = targetTextClickEvent,
+                            ),
+                        )
+                    }
+
+                    startIndexOffset = realEndIndex
+                }
+            }
+        }
+    }
+
+    QuackClickableText(
+        modifier = modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ),
+        clickEventTextInfo = highlightTextInfo.toPersistentList(),
+        text = buildAnnotatedString {
+            append(
+                text = text,
+            )
+
+            highlightTextInfo.forEach { (text, startIndex, endIndex, onClick) ->
+                // 텍스트 클릭 이벤트 처리
+                onClick?.let {
+                    // StringAnnotation 데이터 추가
+                    addStringAnnotation(
+                        tag = text,
+                        annotation = "",
+                        start = startIndex,
+                        end = endIndex,
+                    )
+                }
+
+                // 스타일링 처리
+                val textDecoration = TextDecoration.Underline.takeIf {
+                    underlineEnabled
+                }
+                addStyle(
+                    style = SpanStyle(
+                        color = highlightColor.composeColor,
+                        fontWeight = highlightFontWeight,
+                        letterSpacing = 0.sp,
+                        textDecoration = textDecoration,
+                    ),
+                    start = startIndex,
+                    end = endIndex,
+                )
+            }
+        },
+        style = QuackTextStyle.Body2.change(
+            color = color,
+            textAlign = align,
+        ),
+        singleLine = singleLine,
+        overflow = overflow,
+        defaultOnClick = onClick,
+    )
+}
+
+/**
+ * 하이라이트 텍스트 처리를 위해 필요한 텍스트 정보
+ *
+ * @param text 텍스트 내용
+ * @param startIndex 전체 텍스트 내에서 onClick 이벤트가 실행되는 시작 index
+ * @param endIndex 전체 텍스트 내에서 onClick 이벤트가 실행되는 마지막 index
+ * @param onClick 실행할 클릭 이벤트 (null 일 시 이벤트 없음)
+ */
+@Immutable
+internal data class HighlightTextInfo(
+    val text: String,
+    val startIndex: Int,
+    val endIndex: Int,
+    val onClick: (() -> Unit)? = null,
+)

@@ -8,10 +8,12 @@
 package team.duckie.quackquack.playground.realworld
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
@@ -19,6 +21,7 @@ import team.duckie.quackquack.playground.base.BaseActivity
 import team.duckie.quackquack.playground.base.PlaygroundSection
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.component.QuackAnnotatedBody2
 import team.duckie.quackquack.ui.component.QuackHighlightBody1
 import team.duckie.quackquack.ui.component.QuackUnderlineBody3
 import team.duckie.quackquack.ui.component.QuackUnderlineHeadLine2
@@ -73,6 +76,17 @@ fun QuackHighlightTextDemo() {
                 "개인정보 수집 및 이용",
             ),
             align = TextAlign.Center,
+        )
+        QuackAnnotatedBody2(
+            text = "노랑인간님이 내 글에 새 댓글을 달았어요, real 노랑인간",
+            highlightTextPairs = persistentListOf(
+                "노랑인간" to null,
+                "새 댓글" to { Log.i("QuackAnnotatedBody2", "새 댓글"); },
+                "노랑인간" to { Log.i("QuackAnnotatedBody2", "real 노랑인간"); },
+            ),
+            highlightFontWeight = FontWeight.Bold,
+            align = TextAlign.Center,
+            onClick = { Log.i("QuackAnnotatedBody2", "전체클릭 이벤트"); },
         )
     }
 }
