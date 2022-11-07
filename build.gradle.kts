@@ -41,7 +41,6 @@ koverMerged {
                 projects.playground,
                 projects.uiComponentsBenchmark,
                 projects.uiComponentsBenchmarkApp,
-                projects.uiComponentsSnapshots,
                 projects.uxWritingModel,
                 projects.uxWritingOverlay,
                 projects.uxWritingRule,
