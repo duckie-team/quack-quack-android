@@ -18,6 +18,7 @@ import Build_gradle.ReleaseTarget.LintQuack
 import Build_gradle.ReleaseTarget.LintWriting
 import Build_gradle.ReleaseTarget.Playground
 import Build_gradle.ReleaseTarget.UiComponents
+import org.gradle.api.internal.catalog.DelegatingProjectDependency
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -32,8 +33,34 @@ plugins {
 
 koverMerged {
     enable()
+    filters {
+        projects {
+            // only includes ui-components and lint modules
+            // TODO: apply wild-pattern
+            excludes += listOf(
+                projects.playground,
+                projects.uiComponentsBenchmark,
+                projects.uiComponentsBenchmarkApp,
+                projects.uiComponentsSnapshots,
+                projects.uxWritingModel,
+                projects.uxWritingOverlay,
+                projects.uxWritingRule,
+                projects.commonLint,
+                projects.commonLintTest,
+                projects.quackPublishBom,
+                projects.lintCorePublish,
+                projects.lintComposePublish,
+                projects.lintQuackPublish,
+                projects.lintCustomRuleAnnotation,
+                projects.lintCustomRuleProcessor,
+            ).map(DelegatingProjectDependency::getName)
+        }
+    }
     xmlReport {
         reportFile.set(file("$rootDir/report/test-coverage/report.xml"))
+    }
+    htmlReport {
+        reportDir.set(file("$rootDir/report/test-coverage/html"))
     }
 }
 
