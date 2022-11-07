@@ -77,6 +77,17 @@ Duckie's team is all Korean, so we're not good at English. So, most of the docum
 
 Anyway, *any* contribution is welcome, just make sure you follow the [contribution guide](.github/CONTRIBUTING.md).
 
+## Project Dependencies Graph
+
+![dependencies](assets/project-dependency-graph/graph.dot.png)
+
+<p align="center" >
+  <img src="https://img.shields.io/badge/Module-AndroidApplication-%23baffc9" />
+  <img src="https://img.shields.io/badge/Module-AndroidLibrary-%2381D4FA" /> 
+  <img src="https://img.shields.io/badge/Module-AndroidLint-%23c9baff" />
+  <img src="https://img.shields.io/badge/Module-JvmLibrary-%23ffebba" />
+</p>
+
 ## Maintainers
 
 - Project Lead: [Ji Sungbin](https://www.linkedin.com/in/ji-sungbin-4343b7219/)
