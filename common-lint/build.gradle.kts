@@ -7,6 +7,6 @@
 
 plugins {
     id(ConventionEnum.JvmLibrary)
-    id(ConventionEnum.AndroidCommonLintPlugin)
+    id(ConventionEnum.AndroidCommonLint)
     id(ConventionEnum.JvmDokka)
 }
