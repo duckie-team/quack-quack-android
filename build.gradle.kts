@@ -29,6 +29,7 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
     alias(libs.plugins.gradle.maven.publish.core)
+    id(ConventionEnum.JvmDependencyGraph)
 }
 
 koverMerged {
@@ -327,7 +328,3 @@ tasks.create(
         text = snapshotVersion,
     )
 }
-
-apply(
-    from = "gradle/projectDependencyGraph.gradle",
-)

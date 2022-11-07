@@ -81,5 +81,9 @@ gradlePlugin {
             id = "$prefix.jvm.dokka"
             implementationClass = "JvmDokkaPlugin"
         }
+        register("dependencyGraph") {
+            id = "$prefix.jvm.dependency.graph"
+            implementationClass = "DependencyGraphPlugin"
+        }
     }
 }
