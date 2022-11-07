@@ -1,0 +1,21 @@
+name: Auto merge
+on:
+  pull_request:
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: automerge
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.15.5"
+        env:
+          GITHUB_TOKEN: ${{ secrets.SUNGBINLAND_BOT_TOKEN }}
+          MERGE_LABELS: auto-merge
+          MERGE_METHOD: squash
+          MERGE_RETRY_SLEEP: 900000 # 15 minutes
+          MERGE_REQUIRED_APPROVALS: 1
+          MERGE_DELETE_BRANCH: true
+          LOG: "TRACE"
+
