@@ -10,6 +10,7 @@ package team.duckie.quackquack.ui.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -161,7 +162,6 @@ private object QuackButtonDefaults {
  *
  * @param text 버튼에 표시될 텍스트
  * @param active 버튼 활성화 여부. 배경 색상에 영향을 미칩니다.
- * @param imeAnimation IME 높이 애니메이션에 따라 패딩을 적용할지 여부
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
 @Composable
@@ -169,10 +169,8 @@ private object QuackButtonDefaults {
 public fun QuackLargeButton(
     text: String,
     active: Boolean = true,
-    imeAnimation: Boolean = false,
     onClick: () -> Unit,
 ): Unit = QuackBasicButton(
-    modifier = Modifier,
     width = QuackWidth.Fill,
     shape = QuackButtonDefaults.LargeButton.Shape,
     text = text,
@@ -395,6 +393,8 @@ public fun QuackToggleChip(
 /**
  * QuackButton 컴포넌트를 구성하는데 사용되는 Button 의 최하위 컴포넌트 입니다
  *
+ * IME 애니메이션이 적용됩니다.
+ *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param width 버튼의 가로 길이. [Modifier] 을 그대로 받는게 아닌
  * 필요한 사이즈 정보만 받기 위해 [QuackWidth] 를 통해 값을 받습니다.
@@ -425,7 +425,7 @@ public fun QuackToggleChip(
  * @param rippleColor 버튼이 눌렸을 때, 버튼의 배경에 표시할 리플 효과의 색상.
  * [rippleEnabled] 가 true 일 때만 작용합니다. 기본값은 색상을 지정하지 않은걸 뜻하는
  * [QuackColor.Unspecified] 입니다.
- * @param enabled 버튼을 clickable하게 만들어주는지 여부
+ * @param enabled 버튼을 clickable 하게 만들어주는지 여부
  * @param onClick 버튼을 눌렀을 때 호출될 콜백 함수
  *
  * @see Modifier.applyQuackSize
@@ -439,7 +439,7 @@ private fun QuackBasicButton(
     shape: Shape = RectangleShape,
     leadingIcon: QuackIcon? = null,
     text: String,
-    textStyle: QuackTextStyle = QuackTextStyle.Subtitle,
+    textStyle: QuackTextStyle,
     textPadding: PaddingValues = NoPadding,
     backgroundColor: QuackColor,
     border: QuackBorder? = null,
@@ -450,6 +450,7 @@ private fun QuackBasicButton(
 ) {
     QuackSurface(
         modifier = Modifier
+            .imePadding()
             .applyQuackSize(
                 width = width,
                 height = height,
