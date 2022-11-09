@@ -7,7 +7,7 @@
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-blue"/></a>
   <a href="https://developer.android.com/about/versions/marshmallow"><img alt="API 23+" src="https://img.shields.io/badge/API-23%2B-brightgreen.svg"/></a>
   <a href="https://github.com/duckie-team/duckie-app/blob/develop/documents/codestyle.md"><img alt="codestyle" src="https://raw.githubusercontent.com/duckie-team/duckie-app/main/assets/codestyle-duckie.svg"/></a>
-  <img alt="coverage" src="https://raw.githubusercontent.com/duckie-team/duckie-quack-quack-mvp/develop/assets/coverage.svg"/>
+  <img alt="coverage" src="https://test.duckie.team/badge/quackquack/coverage.svg"/>
 </p>
 
 ---
