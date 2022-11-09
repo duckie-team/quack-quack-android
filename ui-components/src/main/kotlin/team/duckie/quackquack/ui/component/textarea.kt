@@ -30,7 +30,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
@@ -40,7 +39,7 @@ import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.modifier.applyQuackBorder
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
-import team.duckie.quackquack.ui.util.ProvideTextSelectionColors
+import team.duckie.quackquack.ui.theme.LocalQuackTextFieldColors
 
 /**
  * [QuackBorderTextArea] 의 테두리 속성을 계산합니다.
@@ -225,6 +224,7 @@ private fun QuackTextAreaInternal(
     doneAction: KeyboardActionScope.() -> Unit,
     isBordered: Boolean,
 ) {
+    val quackTextFieldColors = LocalQuackTextFieldColors.current
     val isPlaceholder = text.isEmpty()
     var isFocused by remember {
         mutableStateOf(
@@ -276,61 +276,58 @@ private fun QuackTextAreaInternal(
         else -> null
     }
 
-    ProvideTextSelectionColors {
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .clip(
-                    shape = shape,
-                )
-                .applyQuackBorder(
-                    enabled = isBordered,
-                    border = animatedQuackBorderOrNull,
-                    shape = shape,
-                )
-                .padding(
-                    paddingValues = padding,
-                ),
-        ) {
-            if (isPlaceholder) {
-                QuackText(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .zIndex(
-                            zIndex = 0f,
-                        ),
-                    text = placeholderText,
-                    style = placeholderTextStyle,
-                )
-            }
-            BasicTextField(
+    Box(
+        modifier = Modifier
+            .wrapContentSize()
+            .clip(
+                shape = shape,
+            )
+            .applyQuackBorder(
+                enabled = isBordered,
+                border = animatedQuackBorderOrNull,
+                shape = shape,
+            )
+            .padding(
+                paddingValues = padding,
+            ),
+    ) {
+        if (isPlaceholder) {
+            QuackText(
                 modifier = Modifier
-                    .zIndex(
-                        zIndex = 1f,
-                    )
                     .fillMaxWidth()
-                    .requiredHeightIn(
-                        min = when (isBordered) {
-                            true -> QuackBorderTextAreaDefaultHeight
-                            else -> QuackTextAreaDefaultHeight
-                        },
-                    )
-                    .onFocusEvent { event ->
-                        isFocused = event.isFocused
-                    },
-                value = text,
-                onValueChange = onTextChanged,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done,
-                ),
-                keyboardActions = KeyboardActions(
-                    onAny = doneAction,
-                ),
-                textStyle = textStyle,
-                cursorBrush = textFieldCursorColor.toBrush(),
+                    .zIndex(
+                        zIndex = 0f,
+                    ),
+                text = placeholderText,
+                style = placeholderTextStyle,
             )
         }
+        BasicTextField(
+            modifier = Modifier
+                .zIndex(
+                    zIndex = 1f,
+                )
+                .fillMaxWidth()
+                .requiredHeightIn(
+                    min = when (isBordered) {
+                        true -> QuackBorderTextAreaDefaultHeight
+                        else -> QuackTextAreaDefaultHeight
+                    },
+                )
+                .onFocusEvent { event ->
+                    isFocused = event.isFocused
+                },
+            value = text,
+            onValueChange = onTextChanged,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done,
+            ),
+            keyboardActions = KeyboardActions(
+                onAny = doneAction,
+            ),
+            textStyle = textStyle,
+            cursorBrush = quackTextFieldColors.textFieldCursorColor.toBrush(),
+        )
     }
 }
-

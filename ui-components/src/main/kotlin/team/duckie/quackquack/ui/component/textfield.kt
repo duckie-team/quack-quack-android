@@ -54,8 +54,8 @@ import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.modifier.drawUnderBarWithAnimation
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
+import team.duckie.quackquack.ui.theme.LocalQuackTextFieldColors
 import team.duckie.quackquack.ui.util.DoNotUseDirectly
-import team.duckie.quackquack.ui.util.ProvideTextSelectionColors
 
 /**
  * QuackTextField 에서 표시할 텍스트의 [FontWeight] 에 따라 QuackTextField 의
@@ -337,6 +337,8 @@ internal fun QuackBasicTextField(
     ),
     keyboardActions: KeyboardActions = KeyboardActions(),
 ) {
+    val quackTextFieldColors = LocalQuackTextFieldColors.current
+
     // 리컴포지션이 되는 메인 조건은 Text 가 바뀌었을 때인데 그러면
     // 어차피 항상 재계산 되므로 굳이 remember 를 할 필요가 없음
     val isPlaceholder = text.isEmpty()
@@ -353,59 +355,57 @@ internal fun QuackBasicTextField(
         ).asComposeStyle()
     }
 
-    ProvideTextSelectionColors {
-        BasicTextField(
-            modifier = Modifier
-                .applyQuackSize(
-                    width = width,
-                    height = height,
-                )
-                .drawUnderBarWithAnimation(
-                    width = QuackTextFieldUnderBarHeight,
-                    color = QuackTextFieldColors.underBarColor(
-                        isError = isError,
-                    ),
-                )
-                .background(
-                    color = QuackColor.White.composeColor,
-                )
-                .padding(
-                    top = textStyle.calcQuackTextFieldTopPadding(),
-                    bottom = QuackTextFieldBottomPadding,
+    BasicTextField(
+        modifier = Modifier
+            .applyQuackSize(
+                width = width,
+                height = height,
+            )
+            .drawUnderBarWithAnimation(
+                width = QuackTextFieldUnderBarHeight,
+                color = QuackTextFieldColors.underBarColor(
+                    isError = isError,
                 ),
-            value = text,
-            onValueChange = onTextChanged,
-            textStyle = composeTextStyle,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            // TextField is always single line
-            // TextArea is always multi line
-            singleLine = true,
-            cursorBrush = textFieldCursorColor.toBrush(),
-            decorationBox = { textField ->
-                QuackTextFieldDecorationBox(
-                    textField = textField,
-                    // placeholder is displayed when text is empty
-                    placeholderContent = when (isPlaceholder && placeholderText != null) {
-                        true -> {
-                            {
-                                Text(
-                                    text = placeholderText,
-                                    style = composeTextStyle,
-                                    maxLines = 1,
-                                    softWrap = false,
-                                    overflow = TextOverflow.Ellipsis,
-                                )
-                            }
+            )
+            .background(
+                color = QuackColor.White.composeColor,
+            )
+            .padding(
+                top = textStyle.calcQuackTextFieldTopPadding(),
+                bottom = QuackTextFieldBottomPadding,
+            ),
+        value = text,
+        onValueChange = onTextChanged,
+        textStyle = composeTextStyle,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        // TextField is always single line
+        // TextArea is always multi line
+        singleLine = true,
+        cursorBrush = quackTextFieldColors.textFieldCursorColor.toBrush(),
+        decorationBox = { textField ->
+            QuackTextFieldDecorationBox(
+                textField = textField,
+                // placeholder is displayed when text is empty
+                placeholderContent = when (isPlaceholder && placeholderText != null) {
+                    true -> {
+                        {
+                            Text(
+                                text = placeholderText,
+                                style = composeTextStyle,
+                                maxLines = 1,
+                                softWrap = false,
+                                overflow = TextOverflow.Ellipsis,
+                            )
                         }
-                        else -> null
-                    },
-                    leadingContent = leadingContent,
-                    trailingContent = trailingContent,
-                )
-            },
-        )
-    }
+                    }
+                    else -> null
+                },
+                leadingContent = leadingContent,
+                trailingContent = trailingContent,
+            )
+        },
+    )
 }
 
 /**
