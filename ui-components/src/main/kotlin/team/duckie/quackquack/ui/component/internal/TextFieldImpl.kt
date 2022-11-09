@@ -21,21 +21,37 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.offset
 import team.duckie.quackquack.ui.component.QuackBasicTextField
+import team.duckie.quackquack.ui.component.QuackTextField
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldMeasurePolicy.Companion.rememberQuackTextFieldMeasurePolicy
 import team.duckie.quackquack.ui.util.ZeroConstraints
 import team.duckie.quackquack.ui.util.heightOrZero
 import team.duckie.quackquack.ui.util.layoutId
 import team.duckie.quackquack.ui.util.widthOrZero
 
+/**
+ * [QuackTextField] 자체의 레이아웃 아이디
+ */
 internal const val QuackTextFieldLayoutId = "QuackTextFieldContent"
+
+/**
+ * [QuackTextField] 에 표시되는 placeholder 의 레이아웃 아이디
+ */
 internal const val QuackTextFieldPlaceholderLayoutId = "QuackTextFieldPlaceholderContent"
+
+/**
+ * [QuackTextField] 에 표시되는 leading content 의 레이아웃 아이디
+ */
 internal const val QuackTextFieldLeadingContentLayoutId = "QuackTextFieldLeadingContent"
+
+/**
+ * [QuackTextField] 에 표시되는 trailing content 의 레이아웃 아이디
+ */
 internal const val QuackTextFieldTrailingContentLayoutId = "QuackTextFieldTrailingContent"
 
 /**
  * [QuackBasicTextField] 를 measure 하기 위한 [MeasurePolicy]
  *
- * @suppress 이 클래스는 직접 사용하면 안됩니다. 리컴포지션 퍼포먼스를 위해
+ * 이 클래스는 직접 사용하면 안됩니다. 리컴포지션 퍼포먼스를 위해
  * remember 로 감싼 인스턴스를 반환하는 [rememberQuackTextFieldMeasurePolicy] 를
  * 사용하세요.
  */
@@ -179,13 +195,13 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
     }
 
     /**
-     * QuackTextField 를 배치할 수 있는 intrinsic 한 width 를 계산합니다.
+     * [QuackTextField] 를 배치할 수 있는 intrinsic 한 width 를 계산합니다.
      *
-     * @param measurables QuackTextField 의 measurable 들
-     * @param height QuackTextField 레이아웃의 높이
-     * @param intrinsicMeasurer QuackTextField 의 intrinsic width 를 계산하는 함수
+     * @param measurables [QuackTextField] 의 measurable 들
+     * @param height [QuackTextField] 레이아웃의 높이
+     * @param intrinsicMeasurer [QuackTextField] 의 intrinsic width 를 계산하는 함수
      *
-     * @return QuackTextField 를 배치하기 위한 intrinsic width
+     * @return [QuackTextField] 를 배치하기 위한 intrinsic width
      */
     private fun intrinsicWidth(
         measurables: List<IntrinsicMeasurable>,
