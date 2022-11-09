@@ -4,7 +4,7 @@
 # [com.google.devtools.ksp.processing.SymbolProcessorProvider] created by Ji Sungbin on 22. 8. 29. 오전 3:08
 #
 # Licensed under the MIT.
-# Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
+# Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
 #
 
 team.duckie.quackquack.lint.custom.rule.processor.CustomRuleProcessorProvider
