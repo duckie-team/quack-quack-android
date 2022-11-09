@@ -188,8 +188,9 @@ public class QuackTextStyle internal constructor(
  * @receiver Sp 로 변환할 [Float]
  * @return receiver 로 받은 [Float] 를 [TextUnit] 중 Sp 로 변환한 값
  */
+@Suppress("NOTHING_TO_INLINE")
 @Stable
-private fun Float.toSp() = TextUnit(
+private inline fun Float.toSp() = TextUnit(
     value = this,
     type = TextUnitType.Sp,
 )
