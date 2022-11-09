@@ -25,8 +25,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.component.QuackButtonDefaults.LargeButton.QuackLargeButtonShape
+import team.duckie.quackquack.ui.component.QuackButtonDefaults.QuackButtonIconSize
+import team.duckie.quackquack.ui.component.QuackButtonDefaults.QuackButtonIconTint
+import team.duckie.quackquack.ui.component.QuackButtonDefaults.QuackChipShape
+import team.duckie.quackquack.ui.component.QuackButtonDefaults.QuackChipTextPadding
+import team.duckie.quackquack.ui.component.QuackButtonDefaults.QuackLargeButton40TextPadding
+import team.duckie.quackquack.ui.component.QuackButtonDefaults.QuackLargeButtonTextPadding
+import team.duckie.quackquack.ui.component.QuackButtonDefaults.QuackMediumButtonShape
+import team.duckie.quackquack.ui.component.QuackButtonDefaults.QuackMediumButtonTextPadding
+import team.duckie.quackquack.ui.component.QuackButtonDefaults.QuackSmallButtonShape
+import team.duckie.quackquack.ui.component.QuackButtonDefaults.QuackSmallButtonTextPadding
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.constant.NoPadding
 import team.duckie.quackquack.ui.constant.QuackHeight
@@ -35,67 +47,121 @@ import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 
-private val QuackLargeButtonShape = RoundedCornerShape(
-    size = 8.dp,
-)
-private val QuackMediumButtonShape = RoundedCornerShape(
-    size = 12.dp,
-)
-
-// 2개 스팩이 동일함, 하지만 도메인적 의미를 위해 분리
-private val QuackSmallButtonShape = QuackLargeButtonShape
-private val QuackChipShape = RoundedCornerShape(
-    size = 18.dp,
-)
-
-private val QuackButtonIconSize = DpSize(
-    width = 24.dp,
-    height = 24.dp,
-)
-private val QuackButtonIconTint = QuackColor.Gray1
-
-private val QuackLargeButtonTextPadding = PaddingValues(
-    top = 13.dp,
-    bottom = 13.dp,
-    start = 4.dp,
-)
-private val QuackLargeButton40TextPadding = PaddingValues(
-    vertical = 11.dp,
-)
-private val QuackMediumButtonTextPadding = PaddingValues(
-    horizontal = 62.dp,
-    vertical = 11.dp,
-)
-private val QuackSmallButtonTextPadding = PaddingValues(
-    horizontal = 12.dp,
-    vertical = 8.dp,
-)
-private val QuackChipTextPadding = PaddingValues(
-    horizontal = 8.dp,
-    vertical = 4.dp,
-)
-
 /**
- * 조건에 맞는 QuackButton 의 배경 색을 계산합니다.
- *
- * @param enabled 현재 버튼이 활성화 상태인지 여부
- * @return 만약 버튼이 활성된 상태라면 [QuackColor.DuckieOrange] 를 반환하고, 그렇지 않다면
- * [QuackColor.Gray2] 를 반환한다.
+ * QuackButton 들의 테마 리소스 모음
  */
-@Stable
-private fun quackButtonStandardBackgroundColorFor(enabled: Boolean) = when (enabled) {
-    true -> QuackColor.DuckieOrange
-    else -> QuackColor.Gray2
+private object QuackButtonDefaults {
+    object LargeButton {
+        val Typography = QuackTextStyle(
+            size = 14.sp,
+            weight = FontWeight.Medium,
+            letterSpacing = 0.sp,
+            lineHeight = 20.sp,
+            color = QuackColor.White,
+        )
+
+        val Shape = RoundedCornerShape(
+            size = 8.dp,
+        )
+    }
+
+    /**
+     * [QuackMediumBorderToggleButton] 의 모양
+     */
+    val QuackMediumButtonShape = RoundedCornerShape(
+        size = 12.dp,
+    )
+
+    /**
+     * [QuackSmallButton] 의 모양
+     *
+     * [QuackLargeButtonShape] 와 같은 스팩을 사용하지만,
+     * 도메인적 분리를 위해 별도로 정의
+     */
+    val QuackSmallButtonShape = QuackLargeButtonShape
+
+    /**
+     * [QuackToggleChip] 의 모양
+     */
+    val QuackChipShape = RoundedCornerShape(
+        size = 18.dp,
+    )
+
+    /**
+     * [QuackBasicButton] 에 쓰이는 이미지의 크기
+     */
+    val QuackButtonIconSize = DpSize(
+        width = 24.dp,
+        height = 24.dp,
+    )
+
+    /**
+     * [QuackBasicButton] 에 쓰이는 이미지의 틴트
+     */
+    val QuackButtonIconTint = QuackColor.Gray1
+
+    /**
+     * [QuackLargeButton] 에 쓰이는 텍스트의 패딩 값
+     */
+    val QuackLargeButtonTextPadding = PaddingValues(
+        top = 13.dp,
+        bottom = 13.dp,
+        start = 4.dp,
+    )
+
+    /**
+     * [QuackLarge40WhiteButton] 에 쓰이는 텍스트의 패딩 값
+     */
+    val QuackLargeButton40TextPadding = PaddingValues(
+        vertical = 11.dp,
+    )
+
+    /**
+     * [QuackMediumBorderToggleButton] 에 쓰이는 텍스트의 패딩 값
+     */
+    val QuackMediumButtonTextPadding = PaddingValues(
+        horizontal = 62.dp,
+        vertical = 11.dp,
+    )
+
+    /**
+     * [QuackSmallButton] 에 쓰이는 텍스트의 패딩 값
+     */
+    val QuackSmallButtonTextPadding = PaddingValues(
+        horizontal = 12.dp,
+        vertical = 8.dp,
+    )
+
+    /**
+     * [QuackToggleChip] 에 쓰이는 텍스트의 패딩 값
+     */
+    val QuackChipTextPadding = PaddingValues(
+        horizontal = 8.dp,
+        vertical = 4.dp,
+    )
+
+    /**
+     * 조건에 맞는 QuackButton 의 배경 색을 계산합니다.
+     *
+     * @param enabled 현재 버튼이 활성화 상태인지 여부
+     * @return 버튼 활성화 여부에 따라 사용할 배경 색상
+     */
+    @Stable
+    fun backgroundColorFor(
+        enabled: Boolean,
+    ) = when (enabled) {
+        true -> QuackColor.DuckieOrange
+        else -> QuackColor.Gray2
+    }
 }
 
 /**
  * 덕키의 메인 버튼인 QuackLargeButton 을 구현합니다.
- * QuackLargeButton 은 활성 상태에 따라 다른 배경 색상을
- * 가집니다.
+ * QuackLargeButton 은 활성 상태에 따라 다른 배경 색상을 가집니다.
  *
  * @param text 버튼에 표시될 텍스트
- * @param active 버튼 활성화 여부. 배경 색상에
- * 영향을 미칩니다.
+ * @param active 버튼 활성화 여부. 배경 색상에 영향을 미칩니다.
+ * @param imeAnimation IME 높이 애니메이션에 따라 패딩을 적용할지 여부
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
 @Composable
@@ -103,18 +169,16 @@ private fun quackButtonStandardBackgroundColorFor(enabled: Boolean) = when (enab
 public fun QuackLargeButton(
     text: String,
     active: Boolean = true,
-    // TODO: imeAnimation: Boolean = false,
+    imeAnimation: Boolean = false,
     onClick: () -> Unit,
 ): Unit = QuackBasicButton(
-    // TODO: imeAnimation; modifier = Modifier,
+    modifier = Modifier,
     width = QuackWidth.Fill,
-    shape = QuackLargeButtonShape,
+    shape = QuackButtonDefaults.LargeButton.Shape,
     text = text,
     textPadding = QuackLargeButtonTextPadding,
-    textStyle = QuackTextStyle.Subtitle.change(
-        color = QuackColor.White,
-    ),
-    backgroundColor = quackButtonStandardBackgroundColorFor(
+    textStyle = QuackButtonDefaults.LargeButton.Typography,
+    backgroundColor = QuackButtonDefaults.backgroundColorFor(
         enabled = active,
     ),
     onClick = onClick,
