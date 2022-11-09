@@ -59,13 +59,24 @@ jobs:
           label: Test Coverage
           status: ${{ steps.kover.outputs.coverage-overall }}%
           color: FFB341
-          path: assets/coverage.svg
+          path: assets/badge/quackquack/coverage.svg
 
       - name: Push test coverage badge
-        continue-on-error: true # continuation when up-to-date.
-        run: |
-          git config user.name "sungbinland-bot"
-          git config user.email "sungbinland.project@gmail.com"
-          git add assets/coverage.svg
-          git commit -m "[CI] update test coverage badge"
-          git push
+        uses: cpina/github-action-push-to-another-repository@v1.5.1
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.SUNGBINLAND_BOT_TOKEN }}
+        with:
+          source-directory: assets/badge/quackquack
+          destination-github-username: duckie-team
+          destination-repository-name: duckie-test
+          target-directory: badge/quackquack
+
+      - name: Push test coverage reports
+        uses: cpina/github-action-push-to-another-repository@v1.5.1
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.SUNGBINLAND_BOT_TOKEN }}
+        with:
+          source-directory: report/test-coverage/html
+          destination-github-username: duckie-team
+          destination-repository-name: duckie-test
+          target-directory: report/quackquack
