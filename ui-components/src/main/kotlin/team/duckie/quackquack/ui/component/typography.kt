@@ -390,7 +390,7 @@ public fun QuackUnderlineHeadLine2(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),
-        text = buildAnnotatedString {
+        annotatedText = buildAnnotatedString {
             append(text)
             underlineText.forEach { highlightText ->
                 val highlightStartIndex = text.indexOf(
@@ -451,7 +451,7 @@ public fun QuackUnderlineBody3(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),
-        text = buildAnnotatedString {
+        annotatedText = buildAnnotatedString {
             append(text)
             underlineText.forEach { highlightText ->
                 val highlightStartIndex = text.indexOf(
@@ -511,7 +511,7 @@ public fun QuackHighlightBody1(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),
-        text = buildAnnotatedString {
+        annotatedText = buildAnnotatedString {
             append(text)
             highlightText.forEach { highlightText ->
                 val highlightStartIndex = text.indexOf(
