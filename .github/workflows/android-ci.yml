@@ -69,6 +69,8 @@ jobs:
           source-directory: assets/badge/quackquack
           destination-github-username: duckie-team
           destination-repository-name: duckie-test
+          user-email: sungbinland.project@gmail.com
+          user-name: sungbinland-bot
           target-directory: badge/quackquack
 
       - name: Push test coverage reports
@@ -79,4 +81,6 @@ jobs:
           source-directory: report/test-coverage/html
           destination-github-username: duckie-team
           destination-repository-name: duckie-test
+          user-email: sungbinland.project@gmail.com
+          user-name: sungbinland-bot
           target-directory: report/quackquack
