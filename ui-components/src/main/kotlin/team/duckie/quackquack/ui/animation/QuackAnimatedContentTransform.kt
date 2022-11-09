@@ -29,7 +29,7 @@ import androidx.compose.ui.Modifier
  */
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-internal fun <T> AnimatedContentTransform(
+public fun <T> QuackAnimatedContentTransform(
     modifier: Modifier = Modifier,
     targetState: T,
     content: @Composable AnimatedVisibilityScope.(animatedTargetState: T) -> Unit,

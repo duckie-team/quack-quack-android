@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import team.duckie.quackquack.ui.animation.AnimatedContentTransform
+import team.duckie.quackquack.ui.animation.QuackAnimatedContentTransform
 import team.duckie.quackquack.ui.border.QuackSquircle
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
@@ -117,7 +117,7 @@ internal fun QuackImageInternal(
         targetValue = tint ?: QuackColor.Transparent,
     )
     if (src is QuackIcon) {
-        AnimatedContentTransform(
+        QuackAnimatedContentTransform(
             targetState = src,
             modifier = modifier,
         ) { imageModel ->
@@ -141,7 +141,7 @@ internal fun QuackImageInternal(
         }
         return
     }
-    AnimatedContentTransform(
+    QuackAnimatedContentTransform(
         targetState = src,
         modifier = modifier,
     ) { imageModel ->
