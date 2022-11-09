@@ -1,6 +1,6 @@
 ## 문서화 규칙
 
-1. 의미 없는 문서화를 진행하지 않음
+1. 의미 없는 문서화를 진행하지 않음 (필수 X)
    ```kotlin
    /**
     * [QuackMediumBorderToggleButton] 의 모양
