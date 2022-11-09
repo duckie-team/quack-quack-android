@@ -69,7 +69,6 @@ jobs:
           source-directory: assets/badge/quackquack
           destination-github-username: duckie-team
           destination-repository-name: duckie-test
-          destination-branch: main
           target-directory: badge/quackquack
 
       - name: Push test coverage reports
@@ -80,5 +79,4 @@ jobs:
           source-directory: report/test-coverage/html
           destination-github-username: duckie-team
           destination-repository-name: duckie-test
-          destination-branch: main
-          target-directory: badge/quackquack
+          target-directory: report/quackquack
