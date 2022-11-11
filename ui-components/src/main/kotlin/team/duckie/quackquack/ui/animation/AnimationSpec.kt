@@ -1,7 +1,7 @@
 /*
-* Designed and developed by 2022 SungbinLand, Team Duckie
+* Designed and developed by Duckie Team, 2022
 *
-* [spec.kt] created by Ji Sungbin on 22. 8. 14. 오후 8:13
+* [AnimationSpec.kt] created by Ji Sungbin on 22. 8. 14. 오후 8:13
 *
 * Licensed under the MIT.
 * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -24,28 +24,27 @@ import androidx.compose.runtime.setValue
  * 덕키에서 사용할 애니메이션의 기본 지속 시간
  *
  * Playground 에서 [QuackAnimationMillis] 편집 후 기본값으로 되돌리고
- * 싶을 때 기본값을 참조하기 위해 public 으로 설정함
+ * 싶을 때 기본값을 참조하기 위해 public 으로 공개합니다.
  */
 public const val QuackDefaultAnimationMillis: Int = 250
 
 /**
  * 덕키에서 사용할 애니메이션의 지속 시간
  *
- * 애니메이션 디버깅 용도로 수정 허용. Transition API 를 사용하는
- * 방법도 있지만 컴포즈에서 Preview 가 최적하게 돌아가지 않아
- * 수동 애니메이션 디버깅을 선호함.
+ * 애니메이션 디버깅 용도로 수정을 허용합니다.
+ * Transition API 를 사용해 애니메이션을 디버깅하는 방법도 있지만
+ * 컴포즈에서 Preview 가 최적하게 돌아가지 않아 수동 애니메이션 디버깅을 진행합니다.
  *
- * Playground 에서 자유로운 지속 시간 편집으로 쉬운 디버깅을 위해 public 으로 설정함
+ * Playground 에서 자유로운 지속 시간 편집으로 쉬운 디버깅을 위해 public 으로 공개합니다.
  */
 public var QuackAnimationMillis: Int by mutableStateOf(
     value = QuackDefaultAnimationMillis,
 )
 
 /**
- * 꽥꽥에서 사용할 [AnimationSpec] 에 대한 정보를 나타냅니다.
+ * 꽥꽥에서 사용할 [AnimationSpec] 에 대한 정보
  */
 public object QuackAnimationSpec {
-
     /**
      * 스냅샷 캡처 환경에서는 애니메이션이 진행중인 현황을 캡처하지 못합니다.
      * 따라서 스냅샷 캡처 환경에서는 애니메이션이 진행 시간 없이
@@ -59,9 +58,9 @@ public object QuackAnimationSpec {
     /**
      * 꽥꽥에서 사용할 [애니메이션의 기본 스팩][AnimationSpec]
      *
-     * @return 덕키에서 사용할 [AnimationSpec]
-     * [isSnapshotMode] 에 따라 반환값이 달라집니다. false 라면
-     * 덕키에서 사용하는 애니메이션 스팩인 [TweenSpec] 이 반환되고,
+     * @return 덕키에서 사용할 [AnimationSpec].
+     * [isSnapshotMode] 에 따라 반환값이 달라집니다.
+     * false 라면 덕키에서 사용하는 애니메이션 스팩인 [TweenSpec] 이 반환되고,
      * true 라면 [SnapSpec] 이 반환됩니다.
      *
      * @see isSnapshotMode

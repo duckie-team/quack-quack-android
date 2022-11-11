@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -9,7 +9,6 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
@@ -25,10 +24,10 @@ import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.border.animatedQuackBorderAsState
+import team.duckie.quackquack.ui.border.applyQuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.modifier.quackClickable
-import team.duckie.quackquack.ui.util.runIf
 
 /**
  * 모든 Quack 컴포넌트에서 최하위로 사용되는 컴포넌트입니다.
@@ -84,7 +83,7 @@ internal fun QuackSurface(
         animatedQuackBorderAsState(
             targetValue = border,
         )
-    }?.asComposeBorder()
+    }
 
     Box(
         modifier = modifier
@@ -105,14 +104,11 @@ internal fun QuackSurface(
                 rippleEnabled = rippleEnabled,
                 rippleColor = rippleColor,
             )
-            .runIf(
-                condition = borderAnimation != null,
-            ) {
-                border(
-                    border = borderAnimation!!,
-                    shape = shape,
-                )
-            }
+            .applyQuackBorder(
+                enabled = border != null,
+                border = borderAnimation,
+                shape = shape,
+            )
             .animateContentSize(
                 animationSpec = QuackAnimationSpec(),
             ),

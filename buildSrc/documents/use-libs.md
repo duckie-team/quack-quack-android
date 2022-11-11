@@ -1,4 +1,4 @@
-### 코드 절약을 위해 시도해본 방법
+## use-libs
 
 ```kotlin
 // settings.gradle.kts
@@ -25,5 +25,5 @@ fun DependencyScope.setupJuit() {
 }
 ```
 
-libs 를 정의하여 buildSrc 에서 바로 libs 를 통해 dependency 추가를 시도해 보았지만 실패함. (원인 파악 불가)
+`libs` 를 정의하여 buildSrc 에서 바로 `libs` 를 통해 dependency 추가를 시도해 보았지만 실패함. (원인 파악 불가)
 

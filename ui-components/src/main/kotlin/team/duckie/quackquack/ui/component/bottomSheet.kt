@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * [bottomSheet.kt] created by doro on 22. 9. 4. 오전 1:38
  *
@@ -295,7 +295,7 @@ private fun QuackBottomSheetSubtitleItem(
     onClick: (QuackBottomSheetItem) -> Unit,
 ) {
     val textColor = when (item.isImportant) {
-        true -> QuackColor.OrangeRed
+        true -> QuackColor.Alert
         else -> QuackColor.Black
     }
 

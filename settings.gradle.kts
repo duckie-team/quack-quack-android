@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -32,12 +32,12 @@ include(
     ":common-lint-test",
     ":ui-components",
     ":ui-components-snapshots",
+    ":ui-components-benchmark",
+    ":ui-components-benchmark-app",
     ":lint-core",
     ":lint-quack",
     ":lint-compose",
     ":lint-writing",
-    ":lint-custom-rule-annotation",
-    ":lint-custom-rule-processor",
     ":lint-core-publish",
     ":lint-quack-publish",
     ":lint-compose-publish",
@@ -45,6 +45,4 @@ include(
     ":ux-writing-rule",
     ":ux-writing-overlay",
     ":ux-writing-model",
-    ":ui-components-benchmark",
-    ":ui-components-benchmark-app",
 )

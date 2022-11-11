@@ -1,13 +1,14 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
  */
 
+@file:Suppress("unused")
+
 package team.duckie.quackquack.ui.util
 
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.layout.IntrinsicMeasurable
 import androidx.compose.ui.layout.LayoutIdParentData
 import androidx.compose.ui.layout.Placeable
@@ -37,9 +38,9 @@ internal val ZeroConstraints = Constraints.fixed(
  * @param width [Constraints] 의 고정된 width 사이즈
  * @param height [Constraints] 의 고정된 height 사이즈
  * @return 인자로 주어진 고정된 사이즈를 갖는 [Constraints]
+ *
  * @see Constraints
  */
-@Stable
 internal fun Constraints.fixedCopy(
     width: Int? = null,
     height: Int? = null,
@@ -55,6 +56,7 @@ internal fun Constraints.fixedCopy(
  * 0 을 반환합니다.
  *
  * @receiver width 값을 가져올 [Placeable]
+ *
  * @return receiver 로 주어진 [Placeable] 이 유효하다면 해당 [Placeable] 의
  * width 값을 반환하고, 유효하지 않다면 0 을 반환합니다.
  */
@@ -65,6 +67,7 @@ internal fun Placeable?.widthOrZero() = this?.width ?: 0
  * 0 을 반환합니다.
  *
  * @receiver width 값을 가져올 [Placeable]
+ *
  * @return receiver 로 주어진 [Placeable] 이 유효하다면 해당 [Placeable] 의
  * height 값을 반환하고, 유효하지 않다면 0 을 반환합니다.
  */

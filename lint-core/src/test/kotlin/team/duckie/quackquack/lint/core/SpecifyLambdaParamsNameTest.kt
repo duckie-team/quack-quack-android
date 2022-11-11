@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * [SpecifyLambdaParamsNameTest.kt] created by ricky_0_k on 22. 9, 11. 오후 3:54
  *

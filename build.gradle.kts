@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -22,10 +22,11 @@ import org.gradle.api.internal.catalog.DelegatingProjectDependency
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
-    // alias(libs.plugins.detekt)
-    // alias(libs.plugins.ktlint)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.ktlint)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
     alias(libs.plugins.gradle.maven.publish.core)
@@ -51,8 +52,6 @@ koverMerged {
                 projects.lintCorePublish,
                 projects.lintComposePublish,
                 projects.lintQuackPublish,
-                projects.lintCustomRuleAnnotation,
-                projects.lintCustomRuleProcessor,
             ).map(DelegatingProjectDependency::getName)
         }
     }
@@ -86,12 +85,12 @@ allprojects {
     }
 
     afterEvaluate {
-        // detekt {
-        //     parallel = true
-        //     buildUponDefaultConfig = true
-        //     toolVersion = libs.versions.detekt.get()
-        //     config.setFrom(files("$rootDir/detekt-config.yml"))
-        // }
+        detekt {
+            parallel = true
+            buildUponDefaultConfig = true
+            toolVersion = libs.versions.detekt.get()
+            config.setFrom(files("$rootDir/detekt-config.yml"))
+        }
 
         tasks.withType<KotlinCompile> {
             kotlinOptions {
@@ -114,12 +113,15 @@ allprojects {
     if (pluginManager.hasPlugin(rootProject.libs.plugins.dokka.get().pluginId)) {
         tasks.dokkaHtmlMultiModule.configure {
             moduleName.set("QuackQuack")
-            outputDirectory.set(file("$rootDir/documents/dokka"))
+            outputDirectory.set(file("$rootDir/documents/api"))
 
             pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-                footerMessage =
-                    """made with <span style="color: #ff8300;">❤</span> by <a href="https://duckie.team/">Duckie-QuackQuack</a>"""
-                customAssets = listOf(file("assets/logo-icon.svg"))
+                footerMessage = """
+                    |made with <span style="color: #ff8300;">❤</span> by <a href="https://duckie.team/">Duckie Team</a>
+                """.trimMargin()
+                customAssets = listOf(
+                    file("assets/logo-icon.svg"),
+                )
             }
         }
     }
@@ -128,10 +130,10 @@ allprojects {
         plugin(rootProject.libs.plugins.kover.get().pluginId)
     }
 
-    // apply {
-    //     plugin(rootProject.libs.plugins.detekt.get().pluginId)
-    //     plugin(rootProject.libs.plugins.ktlint.get().pluginId)
-    // }
+    apply {
+        plugin(rootProject.libs.plugins.detekt.get().pluginId)
+        plugin(rootProject.libs.plugins.ktlint.get().pluginId)
+    }
 }
 
 subprojects {
@@ -151,21 +153,19 @@ subprojects {
         }
     }
 
-    // configure<KtlintExtension> {
-    //     version.set(rootProject.libs.versions.ktlint.source.get())
-    //     android.set(true)
-    //     outputToConsole.set(true)
-    //     additionalEditorconfigFile.set(file("$rootDir/.editorconfig"))
-    // }
+    configure<KtlintExtension> {
+        version.set(rootProject.libs.versions.ktlint.source.get())
+        android.set(true)
+        outputToConsole.set(true)
+        additionalEditorconfigFile.set(file("$rootDir/.editorconfig"))
+    }
 }
 
 tasks.register(
     name = "cleanAll",
     type = Delete::class,
 ) {
-    allprojects.map { project ->
-        project.buildDir
-    }.forEach(::delete)
+    allprojects.map(Project::getBuildDir).forEach(::delete)
 }
 
 /**

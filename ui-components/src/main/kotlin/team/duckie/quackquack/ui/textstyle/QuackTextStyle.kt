@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -17,7 +17,6 @@ import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -53,14 +52,13 @@ import team.duckie.quackquack.ui.util.AllowMagicNumber
 // animateQuackTextStyleAsState() 있어서 internal constructor
 @Immutable
 public class QuackTextStyle internal constructor(
-    public val color: QuackColor = QuackColor.Black,
-    public val size: TextUnit,
-    public val weight: FontWeight,
-    public val letterSpacing: TextUnit,
-    public val lineHeight: TextUnit,
-    public val textAlign: TextAlign = TextAlign.Start,
+    internal val color: QuackColor = QuackColor.Black,
+    internal val size: TextUnit,
+    internal val weight: FontWeight,
+    internal val letterSpacing: TextUnit,
+    internal val lineHeight: TextUnit,
+    internal val textAlign: TextAlign = TextAlign.Start,
 ) {
-    @Stable
     private val suit = FontFamily(Font(R.font.quack_suit_variable))
 
     /**
@@ -69,7 +67,6 @@ public class QuackTextStyle internal constructor(
      *
      * @return 변환된 [TextStyle]
      */
-    @Stable
     internal fun asComposeStyle() = TextStyle(
         color = color.composeColor,
         fontSize = size,
@@ -81,9 +78,6 @@ public class QuackTextStyle internal constructor(
     )
 
     public companion object {
-        // FontWeight NOTE: normal == regular
-
-        @Stable
         public val HeadLine1: QuackTextStyle = QuackTextStyle(
             size = 20.sp,
             weight = FontWeight.Bold,
@@ -91,7 +85,6 @@ public class QuackTextStyle internal constructor(
             lineHeight = 26.sp,
         )
 
-        @Stable
         public val HeadLine2: QuackTextStyle = QuackTextStyle(
             size = 16.sp,
             weight = FontWeight.Bold,
@@ -99,15 +92,13 @@ public class QuackTextStyle internal constructor(
             lineHeight = 22.sp,
         )
 
-        @Stable
         public val Title1: QuackTextStyle = QuackTextStyle(
             size = 16.sp,
-            weight = FontWeight.Normal,
+            weight = FontWeight.Regular,
             letterSpacing = (-0.01).sp,
             lineHeight = 22.sp,
         )
 
-        @Stable
         public val Title2: QuackTextStyle = QuackTextStyle(
             size = 14.sp,
             weight = FontWeight.Bold,
@@ -115,7 +106,6 @@ public class QuackTextStyle internal constructor(
             lineHeight = 20.sp,
         )
 
-        @Stable
         public val Subtitle: QuackTextStyle = QuackTextStyle(
             size = 14.sp,
             weight = FontWeight.Medium,
@@ -123,7 +113,6 @@ public class QuackTextStyle internal constructor(
             lineHeight = 20.sp,
         )
 
-        @Stable
         public val Subtitle2: QuackTextStyle = QuackTextStyle(
             size = 12.sp,
             weight = FontWeight.Bold,
@@ -131,46 +120,40 @@ public class QuackTextStyle internal constructor(
             lineHeight = 15.sp,
         )
 
-        @Stable
         public val Body1: QuackTextStyle = QuackTextStyle(
             size = 14.sp,
-            weight = FontWeight.Normal,
+            weight = FontWeight.Regular,
             letterSpacing = 0.sp,
             lineHeight = 20.sp,
         )
 
-        @Stable
         public val Body2: QuackTextStyle = QuackTextStyle(
             size = 12.sp,
-            weight = FontWeight.Normal,
+            weight = FontWeight.Regular,
             letterSpacing = 0.sp,
             lineHeight = 15.sp,
         )
 
-        @Stable
         public val Body3: QuackTextStyle = QuackTextStyle(
             size = 10.sp,
-            weight = FontWeight.Normal,
+            weight = FontWeight.Regular,
             letterSpacing = 0.sp,
             lineHeight = 13.sp,
         )
     }
 
     /**
-     * 텍스트 스타일에서 일부 값만 변경이 필요할 때가 있습니다.
-     * 이를 대응하기 위해 현재 텍스트 스타일에서 변경을 허용하는
-     * 필드만 변경하여 새로운 텍스트 스타일을 반환합니다.
+     * 정해진 [QuackTextStyle] 에서 일부 값만 변경이 필요할 때가 있습니다.
+     * 이를 대응하기 위해 [QuackTextStyle] 에서 변경을 허용하는
+     * 필드만 변경하여 새로운 [QuackTextStyle] 을 반환하는 API 를 구현합니다.
      *
      * @param color 변경할 색상
-     * @param weight 변결할 weight
      * @param textAlign 변경할 textAlign
      *
      * @return 새로운 스타일이 적용된 [QuackTextStyle]
      */
-    @Stable
     internal fun change(
         color: QuackColor = this.color,
-        weight: FontWeight = this.weight,
         textAlign: TextAlign = this.textAlign,
     ) = QuackTextStyle(
         color = color,
@@ -183,13 +166,20 @@ public class QuackTextStyle internal constructor(
 }
 
 /**
+ * [FontWeight] 에 Regular 를 정의합니다.
+ *
+ * [FontWeight.Normal] 는 FontWeight.Regular 와 동일합니다.
+ */
+private inline val FontWeight.Companion.Regular get() = Normal
+
+/**
  * Float 를 Sp 로 변환합니다.
  *
  * @receiver Sp 로 변환할 [Float]
+ *
  * @return receiver 로 받은 [Float] 를 [TextUnit] 중 Sp 로 변환한 값
  */
-@Suppress("NOTHING_TO_INLINE")
-@Stable
+@Suppress("NOTHING_TO_INLINE") // JVM 최적화를 위해 인라인
 private inline fun Float.toSp() = TextUnit(
     value = this,
     type = TextUnitType.Sp,
@@ -200,6 +190,7 @@ private inline fun Float.toSp() = TextUnit(
  * 6번째 component 를 추가로 정의합니다.
  *
  * @receiver 구조분해 할당의 대상이 될 Array 객체
+ *
  * @return receiver 로 받은 [List] 의 6번째 요소
  */
 @AllowMagicNumber(
@@ -210,16 +201,11 @@ private operator fun <T> List<T>.component6() = get(
 )
 
 /**
- * TextAlign 의 TwoWayConverter 를 구현합니다.
+ * [TextAlign] 의 [TwoWayConverter] 를 구현합니다.
  *
- * TextAlign 의 생성자와 필드가 다 internal 로 돼있어서
- *
- * ```kotlin
- * value class TextAlign internal constructor(internal val value: Int)
- * ```
- *
- * TextAlign 의 인자 값으로 될 수 있는 1 ~ 6 까지의 Int 값을
- * 애니메이션 하여 각각 값에 맞는 TextAlign 을 찾아서 생성하는
+ * [TextAlign] 의 생성자와 필드가 다 internal 이기 때문에
+ * [TextAlign] 의 인자 값으로 될 수 있는 1 ~ 6 까지의 [Int] 값을
+ * 애니메이션하여 각각 값에 맞는 [TextAlign] 을 찾아서 생성하는
  * 식으로 구현하였습니다.
  */
 private val TextAlign.Companion.VectorConverter

@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * [selectableImage.kt] created by doro on 22. 9. 3. 오후 11:45
  *

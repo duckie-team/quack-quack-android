@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -45,7 +45,7 @@ public fun QuackTheme(
         LocalOverscrollConfiguration provides null,
         LocalTextSelectionColors provides TextSelectionColors(
             handleColor = QuackColor.DuckieOrange.composeColor,
-            backgroundColor = QuackColor.DuckieOrange.changeAlpha(
+            backgroundColor = QuackColor.DuckieOrange.change(
                 alpha = 0.2f,
             ).composeColor,
         ),

@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -84,7 +84,7 @@ inline fun QuackColorBenchmark() {
     QuackColor.Gray2
     QuackColor.Gray3
     QuackColor.Gray4
-    QuackColor.OrangeRed
+    QuackColor.Alert
     QuackColor.White
 }
 

@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -17,19 +17,28 @@ package team.duckie.quackquack.ui.util
  *
  * @return [condition] 이 참일 때 [run] 을 실행한 결과
  */
-internal inline fun <T> T.runIf(condition: Boolean, run: T.() -> T) = if (condition) {
+internal inline fun <T> T.runIf(
+    condition: Boolean,
+    run: T.() -> T,
+) = if (condition) {
     run()
-} else this
+} else {
+    this
+}
 
 /**
- * [condition] 이 true 이면 [run] 을 실행합니다.
+ * [conditionBuilder] 이 true 이면 [run] 을 실행합니다.
  *
- * @param condition 실행할 조건 [Boolean] 값을 반환하는 람다
- * @param run [condition] 이 참일 때 실행할 람다
+ * @param conditionBuilder 실행할 조건 [Boolean] 값을 반환하는 람다
+ * @param run [conditionBuilder] 이 참일 때 실행할 람다
  *
- * @return [condition] 이 참일 때 [run] 을 실행한 결과
+ * @return [conditionBuilder] 이 참일 때 [run] 을 실행한 결과
  */
-internal inline fun <T> T.runIfBuilder(condition: (T) -> Boolean, run: T.() -> T) =
-    if (condition(this)) {
-        run()
-    } else this
+internal inline fun <T> T.runIf(
+    conditionBuilder: (receiver: T) -> Boolean,
+    run: T.() -> T,
+) = if (conditionBuilder(/* receiver = */ this)) {
+    run()
+} else {
+    this
+}
