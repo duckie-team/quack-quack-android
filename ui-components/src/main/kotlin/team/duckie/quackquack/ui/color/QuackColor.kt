@@ -14,8 +14,6 @@ import androidx.compose.animation.core.AnimationVector4D
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Brush
@@ -40,7 +38,6 @@ import team.duckie.quackquack.ui.util.AllowMagicNumber
  * @param composeColor 색상 값. 이 인자로 색상을 사용하기 위해 컴포즈의 [Color] 로 받습니다.
  */
 @JvmInline
-@Immutable
 public value class QuackColor internal constructor(
     public val composeColor: Color,
 ) {
@@ -62,7 +59,6 @@ public value class QuackColor internal constructor(
      *
      * @return [alpha] 값이 변경된 [QuackColor]
      */
-    @Stable
     public fun change(
         alpha: Float,
     ): QuackColor = QuackColor(
