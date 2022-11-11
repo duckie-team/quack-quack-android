@@ -9,7 +9,6 @@
 
 package team.duckie.quackquack.ui.util
 
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 
@@ -20,7 +19,6 @@ import androidx.compose.ui.unit.DpSize
  *
  * @return [all] 로 모든 사이즈가 지정된 [DpSize]
  */
-@Stable
 public fun DpSize(
     all: Dp,
 ): DpSize = DpSize(

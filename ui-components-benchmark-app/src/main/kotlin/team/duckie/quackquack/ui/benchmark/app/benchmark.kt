@@ -41,7 +41,7 @@ import team.duckie.quackquack.ui.component.QuackLargeButton
 import team.duckie.quackquack.ui.component.QuackLargeDeletableImage
 import team.duckie.quackquack.ui.component.QuackLargeWhiteButton
 import team.duckie.quackquack.ui.component.QuackMainTab
-import team.duckie.quackquack.ui.component.QuackMediumBorderToggleButton
+import team.duckie.quackquack.ui.component.QuackMediumToggleButton
 import team.duckie.quackquack.ui.component.QuackMenuFab
 import team.duckie.quackquack.ui.component.QuackMenuFabItem
 import team.duckie.quackquack.ui.component.QuackModalDrawer
@@ -105,7 +105,7 @@ inline fun QuackButtonBenchmark() {
         onClick = {},
     )
 
-    QuackMediumBorderToggleButton(
+    QuackMediumToggleButton(
         text = "",
         selected = true,
         onClick = {},
@@ -153,7 +153,7 @@ inline fun QuackFabBenchmark() {
 inline fun QuackImageBenchmark() {
     QuackImage(
         src = null,
-        overrideSize = DpSize.Zero,
+        size = DpSize.Zero,
         tint = QuackColor.Black,
         rippleEnabled = true,
         onClick = {},

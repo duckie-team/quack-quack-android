@@ -123,7 +123,7 @@ private fun QuackBottomNavigationItem(
     ) {
         QuackImage(
             src = icon,
-            overrideSize = QuackBottomNavigationItemSize,
+            size = QuackBottomNavigationItemSize,
             rippleEnabled = false,
         )
     }

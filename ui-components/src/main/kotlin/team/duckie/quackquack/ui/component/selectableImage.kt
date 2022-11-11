@@ -130,7 +130,7 @@ private fun QuackSelectedIcon(
                 paddingValues = ImagePadding,
             ),
         src = selectableIcon,
-        overrideSize = SelectedIconSize,
+        size = SelectedIconSize,
     )
 }
 
@@ -238,7 +238,7 @@ private fun QuackDeleteImage(
     ) {
         QuackImageInternal(
             src = image,
-            overrideSize = DpSize(
+            size = DpSize(
                 width = overrideSize,
                 height = overrideSize,
             ),
@@ -274,7 +274,7 @@ private fun QuackDeleteIcon(
     ) {
         QuackImageInternal(
             src = QuackIcon.DeleteBg,
-            overrideSize = DeletableIconSize,
+            size = DeletableIconSize,
         )
     }
 }

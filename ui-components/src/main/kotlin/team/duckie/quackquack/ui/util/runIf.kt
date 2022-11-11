@@ -37,8 +37,14 @@ internal inline fun <T> T.runIf(
 internal inline fun <T> T.runIf(
     conditionBuilder: (receiver: T) -> Boolean,
     run: T.() -> T,
-) = if (conditionBuilder(/* receiver = */ this)) {
+) = if (
+    conditionBuilder(
+        /* receiver = */
+        this,
+    )
+) {
     run()
 } else {
     this
 }
+

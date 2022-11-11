@@ -139,7 +139,7 @@ private fun QuackFabImpl(
                     degrees = rotate,
                 ),
                 src = icon,
-                overrideSize = QuackFabIconSize,
+                size = QuackFabIconSize,
                 tint = QuackFabIconTint,
             )
         }
@@ -267,7 +267,7 @@ public fun QuackMenuFab(
                                 start = QuackFabMenuHorizontalPadding,
                             ),
                             src = item.icon,
-                            overrideSize = QuackFabMenuIconSize,
+                            size = QuackFabMenuIconSize,
                             tint = QuackFabMenuItemColor,
                         )
                         QuackText(

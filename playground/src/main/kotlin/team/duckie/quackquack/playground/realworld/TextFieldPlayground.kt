@@ -103,7 +103,7 @@ fun QuackTextFieldWithLeadingDecorationDemo() {
         leadingContent = {
             QuackImage(
                 src = QuackIcon.FilledHeart,
-                overrideSize = DpSize(
+                size = DpSize(
                     width = 16.dp,
                     height = 16.dp,
                 ),
@@ -127,7 +127,7 @@ fun QuackTextFieldWithTrailingDecorationDemo() {
         trailingContent = {
             QuackImage(
                 src = QuackIcon.FilledHeart,
-                overrideSize = DpSize(
+                size = DpSize(
                     width = 16.dp,
                     height = 16.dp,
                 ),
@@ -151,7 +151,7 @@ fun QuackTextFieldWithAllDecorationDemo() {
         leadingContent = {
             QuackImage(
                 src = QuackIcon.FilledHeart,
-                overrideSize = DpSize(
+                size = DpSize(
                     width = 16.dp,
                     height = 16.dp,
                 ),
@@ -160,7 +160,7 @@ fun QuackTextFieldWithAllDecorationDemo() {
         trailingContent = {
             QuackImage(
                 src = QuackIcon.FilledHeart,
-                overrideSize = DpSize(
+                size = DpSize(
                     width = 16.dp,
                     height = 16.dp,
                 ),
@@ -186,7 +186,7 @@ fun QuackTextFieldErrorStateDemo() {
         leadingContent = {
             QuackImage(
                 src = QuackIcon.Heart,
-                overrideSize = DpSize(
+                size = DpSize(
                     width = 16.dp,
                     height = 16.dp,
                 ),
@@ -195,7 +195,7 @@ fun QuackTextFieldErrorStateDemo() {
         trailingContent = {
             QuackImage(
                 src = QuackIcon.Heart,
-                overrideSize = DpSize(
+                size = DpSize(
                     width = 16.dp,
                     height = 16.dp,
                 ),
@@ -222,7 +222,7 @@ fun QuackTextFieldErrorStateLiveDemo() {
         leadingContent = {
             QuackImage(
                 src = QuackIcon.FilledHeart,
-                overrideSize = DpSize(
+                size = DpSize(
                     width = 16.dp,
                     height = 16.dp,
                 ),
@@ -231,7 +231,7 @@ fun QuackTextFieldErrorStateLiveDemo() {
         trailingContent = {
             QuackImage(
                 src = QuackIcon.FilledHeart,
-                overrideSize = DpSize(
+                size = DpSize(
                     width = 16.dp,
                     height = 16.dp,
                 ),

@@ -77,7 +77,7 @@ public fun QuackDropDown(
         )
         QuackImage(
             src = QuackIcon.ArrowDown,
-            overrideSize = DpSize(
+            size = DpSize(
                 width = 24.dp,
                 height = 24.dp,
             ),

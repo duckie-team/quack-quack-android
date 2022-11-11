@@ -25,7 +25,9 @@ import team.duckie.quackquack.ui.component.QuackTextField
  * 기본값은 [QuackColor.Black] 이며, [QuackTheme] 를 통해 덕키 테마로 제공됩니다.
  */
 internal val LocalQuackTextFieldColors: ProvidableCompositionLocal<QuackTextFieldColors> =
-    staticCompositionLocalOf { DefaultTextFieldColors }
+    staticCompositionLocalOf {
+        DefaultTextFieldColors
+    }
 
 /**
  * 꽥꽥에서 사용하는 컴포저블 테마를 제공합니다.

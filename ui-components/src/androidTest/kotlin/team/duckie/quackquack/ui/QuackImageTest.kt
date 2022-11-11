@@ -37,7 +37,7 @@ public class QuackImageTest {
         testRule.setContent {
             QuackImage(
                 src = QuackIcon.Heart,
-                overrideSize = size,
+                size = size,
             )
         }
 

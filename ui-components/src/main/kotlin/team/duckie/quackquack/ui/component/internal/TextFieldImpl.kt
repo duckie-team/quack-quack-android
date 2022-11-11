@@ -28,24 +28,9 @@ import team.duckie.quackquack.ui.util.heightOrZero
 import team.duckie.quackquack.ui.util.layoutId
 import team.duckie.quackquack.ui.util.widthOrZero
 
-/**
- * [QuackTextField] 자체의 레이아웃 아이디
- */
 internal const val QuackTextFieldLayoutId = "QuackTextFieldContent"
-
-/**
- * [QuackTextField] 에 표시되는 placeholder 의 레이아웃 아이디
- */
 internal const val QuackTextFieldPlaceholderLayoutId = "QuackTextFieldPlaceholderContent"
-
-/**
- * [QuackTextField] 에 표시되는 leading content 의 레이아웃 아이디
- */
 internal const val QuackTextFieldLeadingContentLayoutId = "QuackTextFieldLeadingContent"
-
-/**
- * [QuackTextField] 에 표시되는 trailing content 의 레이아웃 아이디
- */
 internal const val QuackTextFieldTrailingContentLayoutId = "QuackTextFieldTrailingContent"
 
 /**
@@ -222,7 +207,9 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
             measurable.layoutId == QuackTextFieldPlaceholderLayoutId
         }?.let { measurable ->
             intrinsicMeasurer(
+                /* intrinsicMeasurable = */
                 measurable,
+                /* intrinsicHeight = */
                 height,
             )
         } ?: 0
@@ -231,7 +218,9 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
             measurable.layoutId == QuackTextFieldLeadingContentLayoutId
         }?.let { measurable ->
             intrinsicMeasurer(
+                /* intrinsicMeasurable = */
                 measurable,
+                /* intrinsicHeight = */
                 height,
             )
         } ?: 0
@@ -240,7 +229,9 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
             measurable.layoutId == QuackTextFieldTrailingContentLayoutId
         }?.let { measurable ->
             intrinsicMeasurer(
+                /* intrinsicMeasurable = */
                 measurable,
+                /* intrinsicHeight = */
                 height,
             )
         } ?: 0
@@ -282,7 +273,9 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
             measurable.layoutId == QuackTextFieldPlaceholderLayoutId
         }?.let { measurable ->
             intrinsicMeasurer(
+                /* intrinsicMeasurable = */
                 measurable,
+                /* intrinsicWidth = */
                 width,
             )
         } ?: 0
@@ -291,7 +284,9 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
             measurable.layoutId == QuackTextFieldLeadingContentLayoutId
         }?.let { measurable ->
             intrinsicMeasurer(
+                /* intrinsicMeasurable = */
                 measurable,
+                /* intrinsicWidth = */
                 width,
             )
         } ?: 0
@@ -300,7 +295,9 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
             measurable.layoutId == QuackTextFieldTrailingContentLayoutId
         }?.let { measurable ->
             intrinsicMeasurer(
+                /* intrinsicMeasurable = */
                 measurable,
+                /* intrinsicWidth = */
                 width,
             )
         } ?: 0

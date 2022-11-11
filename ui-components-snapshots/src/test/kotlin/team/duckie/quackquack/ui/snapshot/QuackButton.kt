@@ -115,7 +115,7 @@ class QuackButton {
             fontScale = fontScale,
             deviceConfig = deviceConfig,
         ) {
-            team.duckie.quackquack.ui.component.QuackMediumBorderToggleButton(
+            team.duckie.quackquack.ui.component.QuackMediumToggleButton(
                 text = "QuackMediumBorderToggleButton",
                 selected = selected,
                 onClick = {},

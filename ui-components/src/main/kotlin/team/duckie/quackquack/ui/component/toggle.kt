@@ -247,7 +247,7 @@ private fun QuackBasicIconToggle(
     onToggle: (Boolean) -> Unit,
     size: Dp = IconSize,
 ) = QuackImage(
-    overrideSize = DpSize(
+    size = DpSize(
         width = size,
         height = size,
     ),

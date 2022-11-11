@@ -10,7 +10,6 @@ package team.duckie.quackquack.ui.modifier
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -32,7 +31,7 @@ import team.duckie.quackquack.ui.util.runIf
  *
  * @return clickable 속성이 적용된 [Modifier]
  */
-@Stable
+// @Stable: onClick 구현이 동적으로 달라질 수 있음
 internal fun Modifier.quackClickable(
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor? = null,

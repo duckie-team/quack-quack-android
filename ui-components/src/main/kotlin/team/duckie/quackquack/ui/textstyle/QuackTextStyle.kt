@@ -181,7 +181,6 @@ private inline val FontWeight.Companion.Regular get() = Normal
  * @return receiver 로 받은 [Float] 를 [TextUnit] 중 Sp 로 변환한 값
  */
 @Suppress("NOTHING_TO_INLINE") // JVM 최적화를 위해 인라인
-@Stable
 private inline fun Float.toSp() = TextUnit(
     value = this,
     type = TextUnitType.Sp,
@@ -198,7 +197,6 @@ private inline fun Float.toSp() = TextUnit(
 @AllowMagicNumber(
     because = "6번째 요소는 항상 5번째 인덱스를 갖기 때문에 5로 고정합니다.",
 )
-@Stable
 private operator fun <T> List<T>.component6() = get(
     index = 5,
 )

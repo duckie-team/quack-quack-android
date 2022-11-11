@@ -21,7 +21,7 @@ import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.ui.component.QuackLarge40WhiteButton
 import team.duckie.quackquack.ui.component.QuackLargeButton
 import team.duckie.quackquack.ui.component.QuackLargeWhiteButton
-import team.duckie.quackquack.ui.component.QuackMediumBorderToggleButton
+import team.duckie.quackquack.ui.component.QuackMediumToggleButton
 import team.duckie.quackquack.ui.component.QuackSmallBorderToggleButton
 import team.duckie.quackquack.ui.component.QuackSmallButton
 import team.duckie.quackquack.ui.component.QuackToggleChip
@@ -92,7 +92,7 @@ fun QuackMediumBorderToggleButtonDemo() {
         )
     }
 
-    QuackMediumBorderToggleButton(
+    QuackMediumToggleButton(
         text = "selected: $selected",
         selected = selected,
         onClick = { selected = !selected },

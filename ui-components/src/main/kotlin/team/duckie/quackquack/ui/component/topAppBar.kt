@@ -108,7 +108,7 @@ public fun QuackTopAppBar(
             QuackImage(
                 src = leadingIcon,
                 onClick = onClickLeadingIcon,
-                overrideSize = QuackTopAppBarIconSize,
+                size = QuackTopAppBarIconSize,
             )
             if (headline != null) {
                 QuackHeadLine2(
@@ -129,7 +129,7 @@ public fun QuackTopAppBar(
                 QuackImage(
                     src = secondTrailingIcon,
                     onClick = onClickSecondTrailingIcon,
-                    overrideSize = QuackTopAppBarIconSize,
+                    size = QuackTopAppBarIconSize,
                 )
             }
 
@@ -137,7 +137,7 @@ public fun QuackTopAppBar(
                 QuackImage(
                     src = trailingIcon,
                     onClick = onClickTrailingIcon,
-                    overrideSize = QuackTopAppBarIconSize,
+                    size = QuackTopAppBarIconSize,
                 )
             }
 

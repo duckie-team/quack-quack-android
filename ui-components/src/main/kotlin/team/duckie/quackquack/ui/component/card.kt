@@ -332,7 +332,7 @@ private fun QuackIconRoundCard(
     ) {
         QuackImageInternal(
             src = icon,
-            overrideSize = iconSize,
+            size = iconSize,
             tint = Gray2,
         )
     }

@@ -15,99 +15,74 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import team.duckie.quackquack.ui.animation.QuackAnimatedContent
-import team.duckie.quackquack.ui.border.QuackSquircle
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.util.runIf
 
-private val QuackRoundImageSize = DpSize(
-    width = 72.dp,
-    height = 72.dp,
-)
-
 /**
  * 이미지 혹은 [QuackIcon] 을 표시합니다.
  *
- * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
  * @param src 표시할 리소스. 만약 null 이 들어온다면 리소스를 그리지 않습니다.
- * @param overrideSize 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
- * @param tint 아이콘에 적용할 틴트 값
- * @param rippleEnabled 이미지 클릭시 ripple 발생 여부
- * @param onClick 아이콘이 클릭됐을 때 실행할 람다식
- * @param contentScale 이미지에 들어갈 ContentScale 값
+ * @param size 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
+ * @param tint 적용할 틴트 값
+ * @param rippleEnabled 클릭됐을 때 ripple 발생 여부
+ * @param onClick 클릭됐을 때 실행할 람다식
+ * @param contentScale 적용할 content scale 정책
+ * @param shape 리소스가 표시될 모양
  */
 @Composable
 public fun QuackImage(
-    modifier: Modifier = Modifier,
     src: Any?,
-    overrideSize: DpSize? = null,
+    size: DpSize? = null,
     tint: QuackColor? = null,
     rippleEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
-    contentScale: ContentScale = ContentScale.Crop,
+    contentScale: ContentScale = ContentScale.FillBounds,
+    shape: Shape = RectangleShape,
 ): Unit = QuackImageInternal(
-    modifier = modifier.quackClickable(
-        rippleEnabled = rippleEnabled,
-        onClick = onClick,
-    ),
+    modifier = Modifier
+        .clip(
+            shape = shape,
+        )
+        .quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ),
     src = src,
-    overrideSize = overrideSize,
+    size = size,
     tint = tint,
     contentScale = contentScale,
 )
 
 /**
- * [QuackRoundImage] 를 구현합니다.
- *
- * @param modifier 컴포넌트의 Modifier => align과 padding등을 위하여 열어놨습니다.
- * @param src 표시할 이비지의 값
- * @param size 이미지의 사이즈 값
- */
-// TODO: 로딩 effect
-@Composable
-public fun QuackRoundImage(
-    modifier: Modifier = Modifier,
-    src: Any?,
-    size: DpSize = QuackRoundImageSize,
-) {
-    QuackImageInternal(
-        modifier = modifier.clip(
-            shape = QuackSquircle(),
-        ),
-        src = src,
-        overrideSize = size,
-    )
-}
-
-
-/**
- * [QuackImage] 를 실제로 그립니다. 내부에서 사용되는 컴포넌트이므로
- * [Modifier] 를 추가로 받습니다.
+ * [QuackImage] 를 실제로 그립니다
+ * 내부에서 사용되는 컴포넌트이므로 [Modifier] 를 추가로 받습니다.
  *
  * @param modifier 이 컴포저블에서 사용할 [Modifier]
- * @param src 표시할 이미지의 값.
+ * @param src 표시할 이미지의 리소스.
  * 만약 null 이 들어온다면 이미지를 그리지 않습니다.
- * @param overrideSize 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
- * @param tint 아이콘에 적용할 틴트 값
- * @param contentScale 이미지에 들어갈 contentScale 값
+ * @param size 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
+ * @param tint 적용할 틴트 값
+ * @param contentScale 적용할 content scale 정책
  */
-// TODO: 로딩 effect
+// TODO: 로딩 및 로드 실패 인터렉션 (#301)
 @Composable
 internal fun QuackImageInternal(
     modifier: Modifier = Modifier,
     src: Any?,
-    overrideSize: DpSize? = null,
+    size: DpSize? = null,
     tint: QuackColor? = null,
     contentScale: ContentScale = ContentScale.Crop,
 ) {
@@ -124,10 +99,10 @@ internal fun QuackImageInternal(
             Box(
                 modifier = modifier
                     .runIf(
-                        condition = overrideSize != null,
+                        condition = size != null,
                     ) {
-                        size(
-                            size = overrideSize!! * density.fontScale,
+                        this.size(
+                            size = size!! * density.fontScale,
                         )
                     }
                     .paint(
@@ -147,13 +122,10 @@ internal fun QuackImageInternal(
     ) { imageModel ->
         AsyncImage(
             modifier = modifier.runIf(
-                condition = overrideSize != null,
+                condition = size != null,
             ) {
-                size(
-                    size = overrideSize!!,
-                )
-                size(
-                    size = overrideSize * density.fontScale,
+                this.size(
+                    size = size!! * density.fontScale,
                 )
             },
             model = ImageRequest
@@ -164,15 +136,13 @@ internal fun QuackImageInternal(
                     data = imageModel,
                 )
                 .runIf(
-                    condition = overrideSize != null,
+                    condition = size != null,
                 ) {
                     with(
                         receiver = density,
                     ) {
-                        val size = overrideSize!! * density.density
                         size(
-                            width = size.width.roundToPx(),
-                            height = size.height.roundToPx(),
+                            size = (size!! * density.density).width.roundToPx(),
                         )
                     }
                 }
@@ -188,8 +158,9 @@ internal fun QuackImageInternal(
  * [QuackColor] 를 [ColorFilter] 로 변환합니다.
  *
  * @receiver 변환할 [QuackColor]
- * @return 변환된 [ColorFilter]. 만약 [QuackColor] 가 [QuackColor.Transparent] 이라면
- * null 을 반환합니다.
+ *
+ * @return 변환된 [ColorFilter].
+ * 만약 [QuackColor] 가 [QuackColor.Transparent] 이라면 null 을 반환합니다.
  */
 private fun QuackColor.toColorFilter() =
     if (this == QuackColor.Transparent) null

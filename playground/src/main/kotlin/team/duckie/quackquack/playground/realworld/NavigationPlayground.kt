@@ -123,7 +123,7 @@ private fun DuckieLogo() {
     ) {
         QuackImage(
             src = team.duckie.quackquack.ui.R.drawable.quack_duckie_text_logo,
-            overrideSize = DpSize(
+            size = DpSize(
                 width = 66.dp,
                 height = 16.dp,
             ),
@@ -146,7 +146,7 @@ private fun DropDown() {
             )
             QuackImage(
                 src = QuackIcon.ArrowDown,
-                overrideSize = DpSize(
+                size = DpSize(
                     width = 24.dp,
                     height = 24.dp,
                 ),
