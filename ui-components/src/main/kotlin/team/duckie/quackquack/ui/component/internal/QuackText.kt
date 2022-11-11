@@ -16,7 +16,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.util.fastForEach
 import kotlinx.collections.immutable.PersistentList
-import team.duckie.quackquack.ui.animation.QuackAnimatedContentTransform
+import team.duckie.quackquack.ui.animation.QuackAnimatedContent
 import team.duckie.quackquack.ui.component.HighlightTextInfo
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.textstyle.animatedQuackTextStyleAsState
@@ -49,7 +49,7 @@ internal fun QuackText(
         targetValue = style,
     )
 
-    QuackAnimatedContentTransform(
+    QuackAnimatedContent(
         modifier = modifier,
         targetState = text,
     ) { animatedText ->
@@ -91,7 +91,7 @@ internal fun QuackText(
         targetValue = style,
     )
 
-    QuackAnimatedContentTransform(
+    QuackAnimatedContent(
         modifier = modifier,
         targetState = annotatedText,
     ) { animatedText ->

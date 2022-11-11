@@ -16,7 +16,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -50,7 +50,6 @@ import team.duckie.quackquack.ui.util.AllowMagicNumber
  * @param textAlign 텍스트 align. 기본값은 Center 입니다.
  */
 // animateQuackTextStyleAsState() 있어서 internal constructor
-@Immutable
 public class QuackTextStyle internal constructor(
     internal val color: QuackColor = QuackColor.Black,
     internal val size: TextUnit,
@@ -67,6 +66,7 @@ public class QuackTextStyle internal constructor(
      *
      * @return 변환된 [TextStyle]
      */
+    @Stable
     internal fun asComposeStyle() = TextStyle(
         color = color.composeColor,
         fontSize = size,
@@ -152,6 +152,7 @@ public class QuackTextStyle internal constructor(
      *
      * @return 새로운 스타일이 적용된 [QuackTextStyle]
      */
+    @Stable
     internal fun change(
         color: QuackColor = this.color,
         textAlign: TextAlign = this.textAlign,
@@ -180,6 +181,7 @@ private inline val FontWeight.Companion.Regular get() = Normal
  * @return receiver 로 받은 [Float] 를 [TextUnit] 중 Sp 로 변환한 값
  */
 @Suppress("NOTHING_TO_INLINE") // JVM 최적화를 위해 인라인
+@Stable
 private inline fun Float.toSp() = TextUnit(
     value = this,
     type = TextUnitType.Sp,
@@ -196,6 +198,7 @@ private inline fun Float.toSp() = TextUnit(
 @AllowMagicNumber(
     because = "6번째 요소는 항상 5번째 인덱스를 갖기 때문에 5로 고정합니다.",
 )
+@Stable
 private operator fun <T> List<T>.component6() = get(
     index = 5,
 )

@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 
@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.Dp
  *
  * @see Modifier.applyQuackSize
  */
-@Immutable
 public sealed class QuackWidth {
     /**
      * 현재 보이는 화면의 가로 사이즈로 꽉 채웁니다.
@@ -37,7 +36,6 @@ public sealed class QuackWidth {
      *
      * @see Modifier.fillMaxWidth
      */
-    @Immutable
     public object Fill : QuackWidth()
 
     /**
@@ -46,7 +44,6 @@ public sealed class QuackWidth {
      *
      * @see Modifier.wrapContentWidth
      */
-    @Immutable
     public object Wrap : QuackWidth()
 
     /**
@@ -57,7 +54,6 @@ public sealed class QuackWidth {
      *
      * @param width width 로 지정할 사이즈
      */
-    @Immutable
     public class Custom(
         public val width: Dp,
     ) : QuackWidth()
@@ -73,7 +69,6 @@ public sealed class QuackWidth {
  *
  * @see Modifier.applyQuackSize
  */
-@Immutable
 public sealed class QuackHeight {
     /**
      * 현재 보이는 화면의 세로 사이즈로 꽉 채웁니다.
@@ -81,7 +76,6 @@ public sealed class QuackHeight {
      *
      * @see Modifier.fillMaxHeight
      */
-    @Immutable
     public object Fill : QuackHeight()
 
     /**
@@ -90,7 +84,6 @@ public sealed class QuackHeight {
      *
      * @see Modifier.wrapContentHeight
      */
-    @Immutable
     public object Wrap : QuackHeight()
 
     /**
@@ -101,7 +94,6 @@ public sealed class QuackHeight {
      *
      * @param height height 로 지정할 사이즈
      */
-    @Immutable
     public class Custom(
         public val height: Dp,
     ) : QuackHeight()
@@ -123,6 +115,7 @@ public sealed class QuackHeight {
  *
  * @return 사이즈가 적용된 [Modifier]
  */
+@Stable
 internal fun Modifier.applyQuackSize(
     width: QuackWidth,
     height: QuackHeight,

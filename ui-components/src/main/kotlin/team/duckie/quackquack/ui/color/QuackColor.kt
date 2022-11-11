@@ -14,6 +14,7 @@ import androidx.compose.animation.core.AnimationVector4D
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Brush
@@ -46,6 +47,7 @@ public value class QuackColor internal constructor(
      *
      * @return 현재 [QuackColor] 를 [Brush] 로 변환한 값
      */
+    @Stable
     public fun toBrush(): SolidColor = SolidColor(
         value = composeColor,
     )
@@ -59,6 +61,7 @@ public value class QuackColor internal constructor(
      *
      * @return [alpha] 값이 변경된 [QuackColor]
      */
+    @Stable
     public fun change(
         alpha: Float,
     ): QuackColor = QuackColor(

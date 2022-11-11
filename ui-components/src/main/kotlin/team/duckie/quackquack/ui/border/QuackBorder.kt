@@ -11,6 +11,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -49,6 +50,7 @@ internal class QuackBorder(
      *
      * @return 변환된 [BorderStroke]
      */
+    @Stable
     fun asComposeBorder() = BorderStroke(
         width = width,
         brush = brush,
@@ -66,6 +68,7 @@ internal class QuackBorder(
  * @return [enabled] 여부에 따라서 [QuackBorder] 를 적용해주는 [Modifier].
  * [enabled] 이 true 이고, [border] 값이 null 이 아닐때만 border 가 적용됩니다.
  */
+@Stable
 internal fun Modifier.applyQuackBorder(
     enabled: Boolean = true,
     border: QuackBorder?,

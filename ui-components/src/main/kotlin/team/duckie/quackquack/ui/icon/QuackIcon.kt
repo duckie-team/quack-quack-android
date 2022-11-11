@@ -10,7 +10,6 @@
 package team.duckie.quackquack.ui.icon
 
 import androidx.annotation.DrawableRes
-import androidx.compose.runtime.Immutable
 import team.duckie.quackquack.ui.R
 
 /**
@@ -22,7 +21,6 @@ import team.duckie.quackquack.ui.R
  *
  * @param drawableId 아이콘 drawable 리소스 아이디
  */
-@Immutable
 @JvmInline
 public value class QuackIcon private constructor(
     @DrawableRes public val drawableId: Int,

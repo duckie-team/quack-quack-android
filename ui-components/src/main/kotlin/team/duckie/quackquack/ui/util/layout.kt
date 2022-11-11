@@ -9,6 +9,7 @@
 
 package team.duckie.quackquack.ui.util
 
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.layout.IntrinsicMeasurable
 import androidx.compose.ui.layout.LayoutIdParentData
 import androidx.compose.ui.layout.Placeable
@@ -41,6 +42,7 @@ internal val ZeroConstraints = Constraints.fixed(
  *
  * @see Constraints
  */
+@Stable
 internal fun Constraints.fixedCopy(
     width: Int? = null,
     height: Int? = null,
@@ -60,6 +62,7 @@ internal fun Constraints.fixedCopy(
  * @return receiver 로 주어진 [Placeable] 이 유효하다면 해당 [Placeable] 의
  * width 값을 반환하고, 유효하지 않다면 0 을 반환합니다.
  */
+@Stable
 internal fun Placeable?.widthOrZero() = this?.width ?: 0
 
 /**
@@ -71,4 +74,5 @@ internal fun Placeable?.widthOrZero() = this?.width ?: 0
  * @return receiver 로 주어진 [Placeable] 이 유효하다면 해당 [Placeable] 의
  * height 값을 반환하고, 유효하지 않다면 0 을 반환합니다.
  */
+@Stable
 internal fun Placeable?.heightOrZero() = this?.height ?: 0
