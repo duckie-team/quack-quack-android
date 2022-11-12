@@ -16,8 +16,8 @@ import org.gradle.kotlin.dsl.register
 import team.duckie.quackquack.convention.PluginEnum
 
 class DependencyGraphPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        target.tasks.register<DependencyGraphTask>("dependencyGraph")
+    override fun apply(project: Project) {
+        project.tasks.register<DependencyGraphTask>("dependencyGraph")
     }
 }
 

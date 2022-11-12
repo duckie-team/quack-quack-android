@@ -25,4 +25,7 @@ object ConventionEnum {
     const val JvmLibrary = "$prefix.jvm.library"
     const val JvmDokka = "$prefix.jvm.dokka"
     const val JvmDependencyGraph = "$prefix.jvm.dependency.graph"
+
+    const val JvmArtifactBump = "$prefix.jvm.artifact.bump"
+    const val JvmArtifactSnapshot = "$prefix.jvm.artifact.snapshot"
 }

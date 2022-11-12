@@ -81,9 +81,17 @@ gradlePlugin {
             id = "$prefix.jvm.dokka"
             implementationClass = "JvmDokkaPlugin"
         }
-        register("dependencyGraph") {
+        register("dependencyGraphPlugin") {
             id = "$prefix.jvm.dependency.graph"
             implementationClass = "DependencyGraphPlugin"
+        }
+        register("artifactBumpPlugin") {
+            id = "$prefix.jvm.artifact.bump"
+            implementationClass = "ArtifactBumpPlugin"
+        }
+        register("artifactSnapshotPlugin") {
+            id = "$prefix.jvm.artifact.snapshot"
+            implementationClass = "ArtifactSnapshotPlugin"
         }
     }
 }
