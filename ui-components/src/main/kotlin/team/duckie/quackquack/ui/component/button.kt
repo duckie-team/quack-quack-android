@@ -12,6 +12,7 @@ import team.duckie.quackquack.ui.component.QuackLargeButtonType.Compat as LargeC
 import team.duckie.quackquack.ui.component.QuackLargeButtonType.Fill as LargeFill
 import team.duckie.quackquack.ui.component.QuackSmallButtonType.Border as SmallBorder
 import team.duckie.quackquack.ui.component.QuackSmallButtonType.Fill as SmallFill
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -97,11 +98,11 @@ private object QuackButtonDefaults {
             size = 8.dp,
         )
 
-        val IconSize = DpSize(
+        private val LeadingIconSize = DpSize(
             all = 24.dp,
         )
 
-        val IconTint = QuackColor.Gray1
+        private val LeadingIconTint = QuackColor.Gray1
 
         /**
          * 조건에 맞는 배경 색을 계산합니다.
@@ -138,6 +139,32 @@ private object QuackButtonDefaults {
             LargeBorder, LargeCompat -> QuackBorder(
                 color = QuackColor.Gray3,
             )
+        }
+
+        /**
+         * leading content 으로 표시될 컴포저블을 구현합니다.
+         *
+         * @param leadingIcon 버튼의 leading icon
+         *
+         * @return leading content 을 나타내는 컴포저블 람다 혹은 null.
+         * [leadingIcon] 이 null 일 때 null 을 반환합니다.
+         */
+        @SuppressLint("ComposableNaming")
+        @Composable
+        fun LeadingContent(
+            leadingIcon: QuackIcon?,
+        ): (@Composable () -> Unit)? {
+            return if (leadingIcon != null) {
+                {
+                    QuackImage(
+                        src = leadingIcon,
+                        size = LeadingIconSize,
+                        tint = LeadingIconTint,
+                    )
+                }
+            } else {
+                null
+            }
         }
     }
 
@@ -356,6 +383,7 @@ private object QuackButtonDefaults {
  *
  * 자동으로 모든 영역에 애니메이션이 적용됩니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param type 이 버튼의 사용 사례에 적합한 버튼 타입
  * @param text 버튼에 표시될 텍스트
  * @param active 버튼 활성화 여부. 배경 색상에 영향을 미칩니다.
@@ -365,6 +393,7 @@ private object QuackButtonDefaults {
  */
 @Composable
 public fun QuackLargeButton(
+    modifier: Modifier = Modifier,
     type: QuackLargeButtonType,
     text: String,
     active: Boolean = true,
@@ -382,17 +411,12 @@ public fun QuackLargeButton(
     }
 
     QuackBasicButton(
+        modifier = modifier,
         width = QuackWidth.Fill,
         shape = Shape,
-        leadingContent = if (leadingIcon != null) {
-            {
-                QuackImage(
-                    src = leadingIcon,
-                    size = IconSize,
-                    tint = IconTint,
-                )
-            }
-        } else null,
+        leadingContent = LeadingContent(
+            leadingIcon = leadingIcon,
+        ),
         text = text,
         textStyle = Typography,
         padding = Padding,
@@ -415,12 +439,14 @@ public fun QuackLargeButton(
  *
  * 자동으로 모든 영역에 애니메이션이 적용됩니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text 버튼에 표시될 텍스트
  * @param selected 버튼이 선택되었는지 여부
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
 @Composable
 public fun QuackMediumToggleButton(
+    modifier: Modifier = Modifier,
     text: String,
     selected: Boolean,
     onClick: () -> Unit,
@@ -428,6 +454,7 @@ public fun QuackMediumToggleButton(
     receiver = QuackButtonDefaults.MediumButton,
 ) {
     QuackBasicButton(
+        modifier = modifier,
         shape = Shape,
         text = text,
         textStyle = typographyFor(
@@ -450,6 +477,7 @@ public fun QuackMediumToggleButton(
  *
  * 자동으로 모든 영역에 애니메이션이 적용됩니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param type 이 버튼의 사용 사례에 적합한 버튼 타입
  * @param text 버튼에 표시될 텍스트
  * @param enabled 버튼이 활성화 되었는지 여부
@@ -457,6 +485,7 @@ public fun QuackMediumToggleButton(
  */
 @Composable
 public fun QuackSmallButton(
+    modifier: Modifier = Modifier,
     type: QuackSmallButtonType,
     text: String,
     enabled: Boolean,
@@ -465,6 +494,7 @@ public fun QuackSmallButton(
     receiver = QuackButtonDefaults.SmallButton,
 ) {
     QuackBasicButton(
+        modifier = modifier,
         shape = Shape,
         text = text,
         textStyle = typographyFor(
@@ -494,12 +524,14 @@ public fun QuackSmallButton(
  *
  * 자동으로 모든 영역에 애니메이션이 적용됩니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text chip 에 표시될 텍스트
  * @param selected chip 이 선택되었는지 여부
  * @param onClick chip 클릭 시 호출될 콜백
  */
 @Composable
 public fun QuackToggleChip(
+    modifier: Modifier = Modifier,
     text: String,
     selected: Boolean,
     onClick: () -> Unit,
@@ -507,6 +539,7 @@ public fun QuackToggleChip(
     receiver = QuackButtonDefaults.ChipButton,
 ) {
     QuackBasicButton(
+        modifier = modifier,
         shape = Shape,
         text = text,
         textStyle = typographyFor(
@@ -528,6 +561,7 @@ public fun QuackToggleChip(
  *
  * IME 을 포함한 모든 요소에 애니메이션이 적용됩니다.
  *
+ * @param modifier QuackButton 의 뼈대가 될 [Modifier]
  * @param width 버튼의 가로 길이. 기본값은 [QuackWidth.Wrap] 입니다.
  * @param height 버튼의 세로 길이. 기본값은 [QuackHeight.Wrap] 입니다.
  * @param shape 버튼의 모양. 기본값은 [RectangleShape] 입니다.
@@ -556,6 +590,7 @@ public fun QuackToggleChip(
  */
 @Composable
 private fun QuackBasicButton(
+    modifier: Modifier = Modifier,
     width: QuackWidth = QuackWidth.Wrap,
     height: QuackHeight = QuackHeight.Wrap,
     shape: Shape,
@@ -571,7 +606,7 @@ private fun QuackBasicButton(
     onClick: () -> Unit,
 ) {
     QuackSurface(
-        modifier = Modifier
+        modifier = modifier
             .imePadding()
             .applyQuackSize(
                 width = width,

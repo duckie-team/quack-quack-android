@@ -23,10 +23,11 @@ internal val IntrinsicMeasurable.layoutId
 /**
  * 0 으로 고정된 [Constraints] 을 나타냅니다.
  */
-internal val ZeroConstraints = Constraints.fixed(
-    width = 0,
-    height = 0,
-)
+internal val Constraints.Companion.Zero
+    get() = fixed(
+        width = 0,
+        height = 0,
+    )
 
 /**
  * 주어진 사이즈로 고정된 [Constraints] 를 생성합니다.

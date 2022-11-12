@@ -39,7 +39,9 @@ internal fun Modifier.drawAnimatedLine(
     startOffsetProvider: Density.(size: Size) -> Offset,
     endOffsetProvider: Density.(size: Size) -> Offset,
 ) = composed {
-    if (thickness == Dp.Hairline) return@composed this
+    if (thickness == Dp.Hairline) {
+        return@composed this
+    }
     val animatedColor by animateQuackColorAsState(
         targetValue = color,
     )

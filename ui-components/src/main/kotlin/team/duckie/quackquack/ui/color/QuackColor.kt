@@ -57,6 +57,9 @@ public value class QuackColor internal constructor(
      * 이를 대응하기 위해 현재 [QuackColor] 에서 변경을 허용하는
      * 필드만 변경하여 새로운 [QuackColor] 을 반환하는 API 을 구현합니다.
      *
+     * 투명도 변경은 고정된 디자인의 목적을 해치지 않을 것으로 예상하여
+     * public 으로 노출합니다.
+     *
      * @param alpha 변경할 투명도
      *
      * @return [alpha] 값이 변경된 [QuackColor]
@@ -64,11 +67,17 @@ public value class QuackColor internal constructor(
     @Stable
     public fun change(
         alpha: Float,
-    ): QuackColor = QuackColor(
-        composeColor = composeColor.copy(
-            alpha = alpha,
-        ),
-    )
+    ): QuackColor {
+        return if (alpha == composeColor.alpha) {
+            this
+        } else {
+            QuackColor(
+                composeColor = composeColor.copy(
+                    alpha = alpha,
+                ),
+            )
+        }
+    }
 
     public companion object {
         // Unspecified 는 색상의 기본 인자 값으로만 사용되야 하며,
@@ -300,22 +309,27 @@ public value class QuackColor internal constructor(
  * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
  *
  * @param targetValue 색상 변경을 감지할 [QuackColor]
+ * @param finishedListener 애니메이션이 끝났을 때 실행될 콜백
  *
  * @return 색상이 변경됐을 때 색상이 변경되는 애니메이션의 [State] 객체
  */
 @Composable
-internal fun animateQuackColorAsState(
+public fun animateQuackColorAsState(
     targetValue: QuackColor,
+    finishedListener: ((color: QuackColor) -> Unit)? = null,
 ): State<QuackColor> {
     val converter = remember(
         key1 = targetValue.composeColor.colorSpace,
     ) {
-        (QuackColor.VectorConverter).invoke(targetValue.composeColor.colorSpace)
+        (QuackColor.VectorConverter).invoke(
+            /* colorSpace = */
+            targetValue.composeColor.colorSpace,
+        )
     }
     return animateValueAsState(
         targetValue = targetValue,
         typeConverter = converter,
         animationSpec = QuackAnimationSpec(),
-        finishedListener = null,
+        finishedListener = finishedListener,
     )
 }

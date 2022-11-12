@@ -8,9 +8,12 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
@@ -34,6 +37,7 @@ import team.duckie.quackquack.ui.util.runIf
 /**
  * 이미지 혹은 [QuackIcon] 을 표시합니다.
  *
+ * @param modifier 이 컴포저블에서 사용할 [Modifier]
  * @param src 표시할 리소스. 만약 null 이 들어온다면 리소스를 그리지 않습니다.
  * @param size 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
  * @param tint 적용할 틴트 값
@@ -41,9 +45,12 @@ import team.duckie.quackquack.ui.util.runIf
  * @param onClick 클릭됐을 때 실행할 람다식
  * @param contentScale 적용할 content scale 정책
  * @param shape 리소스가 표시될 모양
+ * @param contentDescription 이미지의 설명
  */
 @Composable
+@NonRestartableComposable
 public fun QuackImage(
+    modifier: Modifier = Modifier,
     src: Any?,
     size: DpSize? = null,
     tint: QuackColor? = null,
@@ -51,8 +58,9 @@ public fun QuackImage(
     onClick: (() -> Unit)? = null,
     contentScale: ContentScale = ContentScale.FillBounds,
     shape: Shape = RectangleShape,
-): Unit = QuackImageInternal(
-    modifier = Modifier
+    contentDescription: String? = null,
+): Unit = QuackImageImpl(
+    modifier = modifier
         .clip(
             shape = shape,
         )
@@ -64,11 +72,11 @@ public fun QuackImage(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
 )
 
 /**
  * [QuackImage] 를 실제로 그립니다
- * 내부에서 사용되는 컴포넌트이므로 [Modifier] 를 추가로 받습니다.
  *
  * @param modifier 이 컴포저블에서 사용할 [Modifier]
  * @param src 표시할 이미지의 리소스.
@@ -76,35 +84,43 @@ public fun QuackImage(
  * @param size 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
  * @param tint 적용할 틴트 값
  * @param contentScale 적용할 content scale 정책
+ * @param contentDescription 이미지의 설명
  */
 // TODO: 로딩 및 로드 실패 인터렉션 (#301)
 @Composable
-internal fun QuackImageInternal(
+private fun QuackImageImpl(
     modifier: Modifier = Modifier,
     src: Any?,
     size: DpSize? = null,
     tint: QuackColor? = null,
     contentScale: ContentScale = ContentScale.Crop,
+    contentDescription: String? = null,
 ) {
     if (src == null) return
     val density = LocalDensity.current
     val animatedTint by animateQuackColorAsState(
         targetValue = tint ?: QuackColor.Transparent,
     )
+    val sizedModifier = remember(
+        key1 = size,
+        key2 = density,
+    ) {
+        modifier.runIf(
+            condition = size != null,
+        ) {
+            this.size(
+                size = size!! * density.fontScale,
+            )
+        }
+    }
     if (src is QuackIcon) {
         QuackAnimatedContent(
             targetState = src,
-            modifier = modifier,
+            modifier = sizedModifier,
         ) { imageModel ->
             Box(
-                modifier = modifier
-                    .runIf(
-                        condition = size != null,
-                    ) {
-                        this.size(
-                            size = size!! * density.fontScale,
-                        )
-                    }
+                modifier = Modifier
+                    .fillMaxSize()
                     .paint(
                         painter = painterResource(
                             id = imageModel.drawableId,
@@ -118,16 +134,10 @@ internal fun QuackImageInternal(
     }
     QuackAnimatedContent(
         targetState = src,
-        modifier = modifier,
+        modifier = sizedModifier,
     ) { imageModel ->
         AsyncImage(
-            modifier = modifier.runIf(
-                condition = size != null,
-            ) {
-                this.size(
-                    size = size!! * density.fontScale,
-                )
-            },
+            modifier = Modifier.fillMaxSize(),
             model = ImageRequest
                 .Builder(
                     context = LocalContext.current,
@@ -141,14 +151,16 @@ internal fun QuackImageInternal(
                     with(
                         receiver = density,
                     ) {
+                        val densitiedSize = size!! * density.fontScale
                         size(
-                            size = (size!! * density.density).width.roundToPx(),
+                            width = densitiedSize.width.roundToPx(),
+                            height = densitiedSize.height.roundToPx(),
                         )
                     }
                 }
                 .build(),
             colorFilter = animatedTint.toColorFilter(),
-            contentDescription = null,
+            contentDescription = contentDescription,
             contentScale = contentScale,
         )
     }
@@ -162,8 +174,12 @@ internal fun QuackImageInternal(
  * @return 변환된 [ColorFilter].
  * 만약 [QuackColor] 가 [QuackColor.Transparent] 이라면 null 을 반환합니다.
  */
-private fun QuackColor.toColorFilter() =
-    if (this == QuackColor.Transparent) null
-    else ColorFilter.tint(
-        color = composeColor,
-    )
+private fun QuackColor.toColorFilter(): ColorFilter? {
+    return if (this == QuackColor.Transparent) {
+        null
+    } else {
+        ColorFilter.tint(
+            color = composeColor,
+        )
+    }
+}

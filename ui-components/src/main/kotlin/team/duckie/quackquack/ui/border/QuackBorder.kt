@@ -32,16 +32,16 @@ import team.duckie.quackquack.ui.util.runIf
  * @param width border 의 굵기
  * @param color border 의 색상
  */
-internal class QuackBorder(
-    val width: Dp = 1.dp,
-    val color: QuackColor,
+public class QuackBorder(
+    public val width: Dp = 1.dp,
+    public val color: QuackColor,
 ) {
     /**
      * [color] 를 [Brush] 로 변환합니다.
      *
      * @return [color] 를 [Brush] 로 변환한 값
      */
-    val brush = SolidColor(
+    public val brush: SolidColor = SolidColor(
         value = color.composeColor,
     )
 
@@ -51,10 +51,12 @@ internal class QuackBorder(
      * @return 변환된 [BorderStroke]
      */
     @Stable
-    fun asComposeBorder() = BorderStroke(
-        width = width,
-        brush = brush,
-    )
+    public fun asComposeBorder(): BorderStroke {
+        return BorderStroke(
+            width = width,
+            brush = brush,
+        )
+    }
 }
 
 /**
@@ -69,11 +71,11 @@ internal class QuackBorder(
  * [enabled] 이 true 이고, [border] 값이 null 이 아닐때만 border 가 적용됩니다.
  */
 @Stable
-internal fun Modifier.applyQuackBorder(
+public fun Modifier.applyQuackBorder(
     enabled: Boolean = true,
     border: QuackBorder?,
     shape: Shape = RectangleShape,
-) = runIf(
+): Modifier = runIf(
     condition = enabled && border != null,
 ) {
     border(
@@ -89,19 +91,25 @@ internal fun Modifier.applyQuackBorder(
  * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
  *
  * @param targetValue 애니메이션을 적용할 [QuackBorder]
+ * @param widthAnimationfinishedListener [QuackBorder.width] 에 대한 애니메이션이 끝났을때 호출될 콜백
+ * @param colorAnimationFinishedListener [QuackBorder.color] 에 대한 애니메이션이 끝났을때 호출될 콜백
  *
  * @return 애니메이션이 적용되고 있는 [QuackBorder] 객체
  */
 @Composable
-internal fun animatedQuackBorderAsState(
+public fun animatedQuackBorderAsState(
     targetValue: QuackBorder,
+    widthAnimationfinishedListener: ((dp: Dp) -> Unit)? = null,
+    colorAnimationFinishedListener: ((color: QuackColor) -> Unit)? = null,
 ): QuackBorder {
     val widthAnimationState by animateDpAsState(
         targetValue = targetValue.width,
         animationSpec = QuackAnimationSpec(),
+        finishedListener = widthAnimationfinishedListener,
     )
     val colorAnimationState by animateQuackColorAsState(
         targetValue = targetValue.color,
+        finishedListener = colorAnimationFinishedListener,
     )
     return QuackBorder(
         width = widthAnimationState,

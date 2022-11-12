@@ -20,12 +20,12 @@ import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.offset
+import androidx.compose.ui.util.fastFirstOrNull
 import team.duckie.quackquack.ui.component.QuackBasicTextField
-import team.duckie.quackquack.ui.component.QuackTextField
-import team.duckie.quackquack.ui.component.internal.QuackTextFieldMeasurePolicy.Companion.rememberQuackTextFieldMeasurePolicy
-import team.duckie.quackquack.ui.util.ZeroConstraints
+import team.duckie.quackquack.ui.util.Zero
 import team.duckie.quackquack.ui.util.heightOrZero
 import team.duckie.quackquack.ui.util.layoutId
+import team.duckie.quackquack.ui.util.npe
 import team.duckie.quackquack.ui.util.widthOrZero
 
 internal const val QuackTextFieldLayoutId = "QuackTextFieldContent"
@@ -40,20 +40,7 @@ internal const val QuackTextFieldTrailingContentLayoutId = "QuackTextFieldTraili
  * remember 로 감싼 인스턴스를 반환하는 [rememberQuackTextFieldMeasurePolicy] 를
  * 사용하세요.
  */
-internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy {
-    companion object {
-        /**
-         * [QuackTextFieldMeasurePolicy] 을 [remember] 로 저장한 값을 반환합니다.
-         * 항상 같은 인스턴스를 사용해도 되므로 [remember] 의 key 가 지정되지 않습니다.
-         *
-         * @return remember 된 [QuackTextFieldMeasurePolicy] 의 인스턴스
-         */
-        @Composable
-        fun rememberQuackTextFieldMeasurePolicy() = remember {
-            QuackTextFieldMeasurePolicy()
-        }
-    }
-
+public class QuackTextFieldMeasurePolicy internal constructor() : MeasurePolicy {
     override fun MeasureScope.measure(
         measurables: List<Measurable>,
         constraints: Constraints,
@@ -65,7 +52,7 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
         )
 
         // measure leading icon
-        val leadingPlaceable = measurables.find { measurable ->
+        val leadingPlaceable = measurables.fastFirstOrNull { measurable ->
             measurable.layoutId == QuackTextFieldLeadingContentLayoutId
         }?.measure(
             constraints = looseConstraints,
@@ -73,7 +60,7 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
         occupiedSpaceHorizontally += leadingPlaceable.widthOrZero()
 
         // measure trailing icon
-        val trailingPlaceable = measurables.find { measurable ->
+        val trailingPlaceable = measurables.fastFirstOrNull { measurable ->
             measurable.layoutId == QuackTextFieldTrailingContentLayoutId
         }?.measure(
             constraints = looseConstraints.offset(
@@ -90,12 +77,13 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
             .offset(
                 horizontal = -occupiedSpaceHorizontally,
             )
-        val textFieldPlaceable = measurables.first { measurable ->
+        val textFieldPlaceable = measurables.fastFirstOrNull { measurable ->
             measurable.layoutId == QuackTextFieldLayoutId
-        }.measure(
+        }?.measure(
             constraints = textFieldConstraints,
-        )
-        val placeholderPlaceable = measurables.find { measurable ->
+        ) ?: npe()
+
+        val placeholderPlaceable = measurables.fastFirstOrNull { measurable ->
             measurable.layoutId == QuackTextFieldPlaceholderLayoutId
         }?.measure(
             constraints = textFieldConstraints,
@@ -134,7 +122,7 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
     override fun IntrinsicMeasureScope.maxIntrinsicHeight(
         measurables: List<IntrinsicMeasurable>,
         width: Int,
-    ) = intrinsicHeight(
+    ): Int = intrinsicHeight(
         measurables = measurables,
         width = width,
     ) { intrinsicMeasurable, intrinsicWidth ->
@@ -146,7 +134,7 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
     override fun IntrinsicMeasureScope.minIntrinsicHeight(
         measurables: List<IntrinsicMeasurable>,
         width: Int,
-    ) = intrinsicHeight(
+    ): Int = intrinsicHeight(
         measurables = measurables,
         width = width,
     ) { intrinsicMeasurable, intrinsicWidth ->
@@ -158,7 +146,7 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
     override fun IntrinsicMeasureScope.maxIntrinsicWidth(
         measurables: List<IntrinsicMeasurable>,
         height: Int,
-    ) = intrinsicWidth(
+    ): Int = intrinsicWidth(
         measurables = measurables,
         height = height,
     ) { intrinsicMeasurable, intrinsicHeight ->
@@ -170,7 +158,7 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
     override fun IntrinsicMeasureScope.minIntrinsicWidth(
         measurables: List<IntrinsicMeasurable>,
         height: Int,
-    ) = intrinsicWidth(
+    ): Int = intrinsicWidth(
         measurables = measurables,
         height = height,
     ) { intrinsicMeasurable, intrinsicHeight ->
@@ -180,13 +168,13 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
     }
 
     /**
-     * [QuackTextField] 를 배치할 수 있는 intrinsic 한 width 를 계산합니다.
+     * QuackTextField 를 배치할 수 있는 intrinsic 한 width 를 계산합니다.
      *
-     * @param measurables [QuackTextField] 의 measurable 들
-     * @param height [QuackTextField] 레이아웃의 높이
-     * @param intrinsicMeasurer [QuackTextField] 의 intrinsic width 를 계산하는 함수
+     * @param measurables QuackTextField 의 measurable 들
+     * @param height QuackTextField 레이아웃의 높이
+     * @param intrinsicMeasurer QuackTextField 의 intrinsic width 를 계산하는 함수
      *
-     * @return [QuackTextField] 를 배치하기 위한 intrinsic width
+     * @return QuackTextField 를 배치하기 위한 intrinsic width
      */
     private fun intrinsicWidth(
         measurables: List<IntrinsicMeasurable>,
@@ -197,9 +185,11 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
         ) -> Int,
     ): Int {
         val textFieldWidth = intrinsicMeasurer(
+            /* intrinsicMeasurable = */
             measurables.first { measurable ->
                 measurable.layoutId == QuackTextFieldLayoutId
             },
+            /* intrinsicHeight = */
             height,
         )
 
@@ -241,7 +231,7 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
             placeholderWidth = placeholderWidth,
             leadingWidth = leadingWidth,
             trailingWidth = trailingWidth,
-            constraints = ZeroConstraints,
+            constraints = Constraints.Zero,
         )
     }
 
@@ -263,9 +253,11 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
         ) -> Int,
     ): Int {
         val textFieldHeight = intrinsicMeasurer(
+            /* intrinsicMeasurable = */
             measurables.first { measurable ->
                 measurable.layoutId == QuackTextFieldLayoutId
             },
+            /* intrinsicWidth = */
             width,
         )
 
@@ -307,8 +299,21 @@ internal class QuackTextFieldMeasurePolicy private constructor() : MeasurePolicy
             placeholderHeight = placeholderHeight,
             leadingHeight = leadingHeight,
             trailingHeight = trailingHeight,
-            constraints = ZeroConstraints,
+            constraints = Constraints.Zero,
         )
+    }
+}
+
+/**
+ * [QuackTextFieldMeasurePolicy] 을 [remember] 로 저장한 값을 반환합니다.
+ * 항상 같은 인스턴스를 사용해도 되므로 [remember] 의 key 가 지정되지 않습니다.
+ *
+ * @return remember 된 [QuackTextFieldMeasurePolicy] 의 인스턴스
+ */
+@Composable
+public fun rememberQuackTextFieldMeasurePolicy(): QuackTextFieldMeasurePolicy {
+    return remember {
+        QuackTextFieldMeasurePolicy()
     }
 }
 

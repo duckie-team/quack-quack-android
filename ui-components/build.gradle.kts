@@ -19,7 +19,7 @@ plugins {
     id(ConventionEnum.AndroidQuackPublish)
     id(ConventionEnum.JvmJUnit4)
     id(ConventionEnum.JvmDokka)
-    // alias(libs.plugins.kotlin.api.validation)
+    alias(libs.plugins.kotlin.api.validation)
 }
 
 android {

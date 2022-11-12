@@ -32,7 +32,7 @@ QuackQuack's design components can be previewed by building the Playground modul
 
 ## Caveat
 
-QuackQuack's UI components are intended to be used in Duckie. Therefore, some component designs may not be suitable for non-Duckie services.
+**QuackQuack's UI components are intended to be used in Duckie products.** Therefore, some component designs may not be suitable for non-Duckie product.
 
 ## Download
 

@@ -44,9 +44,9 @@ internal fun QuackText(
     text: String,
     style: QuackTextStyle,
     singleLine: Boolean = false,
-    overflow: TextOverflow = TextOverflow.Clip,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
-    val styleAnimationState = animatedQuackTextStyleAsState(
+    val animatedQuackTextStyle = animatedQuackTextStyleAsState(
         targetValue = style,
     )
 
@@ -56,7 +56,7 @@ internal fun QuackText(
     ) { animatedText ->
         BasicText(
             text = animatedText,
-            style = styleAnimationState.asComposeStyle(),
+            style = animatedQuackTextStyle.asComposeStyle(),
             maxLines = when (singleLine) {
                 true -> 1
                 else -> Int.MAX_VALUE
@@ -87,7 +87,7 @@ internal fun QuackText(
     annotatedText: AnnotatedString,
     style: QuackTextStyle,
     singleLine: Boolean = false,
-    overflow: TextOverflow = TextOverflow.Clip,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
     val styleAnimationState = animatedQuackTextStyleAsState(
         targetValue = style,
