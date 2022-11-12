@@ -16,8 +16,12 @@ import org.gradle.kotlin.dsl.register
 import team.duckie.quackquack.convention.PluginEnum
 
 class DependencyGraphPlugin : Plugin<Project> {
-    override fun apply(project: Project) {
-        project.tasks.register<DependencyGraphTask>("dependencyGraph")
+    override fun apply(
+        target: Project,
+    ) {
+        target.tasks.register<DependencyGraphTask>(
+            name = "dependencyGraph",
+        )
     }
 }
 
@@ -29,23 +33,31 @@ abstract class DependencyGraphTask : DefaultTask() {
         dot.parentFile.mkdirs()
 
         dot.appendText(
-            """
-            |digraph {
-            |  graph [label="${project.rootProject.name}\n ",labelloc=t,fontsize=30,ranksep=1.4];
-            |  node [style=filled, fillcolor="#bbbbbb"];
-            |  rankdir=TB;
-            |
-        """.trimMargin()
+            text = """
+                    |digraph {
+                    |  graph [label="${project.rootProject.name}\n ",labelloc=t,fontsize=30,ranksep=1.4];
+                    |  node [style=filled, fillcolor="#bbbbbb"];
+                    |  rankdir=TB;
+                    |
+                   """.trimMargin(),
         )
 
         val rootProjects = mutableListOf<Project>()
         val queue = mutableListOf(project.rootProject)
         while (queue.isNotEmpty()) {
-            val project = queue.removeAt(0)
-            rootProjects.add(project)
-            queue.addAll(project.childProjects.values)
+            val project = queue.removeAt(
+                index = 0,
+            )
+            rootProjects.add(
+                element = project,
+            )
+            queue.addAll(
+                elements = project.childProjects.values,
+            )
         }
-        queue.add(project.rootProject)
+        queue.add(
+            element = project.rootProject,
+        )
 
         val dependencyProjects = LinkedHashSet<Project>()
         val dependencies = LinkedHashMap<Pair<Project, Project>, MutableList<String>>()
@@ -55,85 +67,139 @@ abstract class DependencyGraphTask : DefaultTask() {
         val jvmLibraryProjecst = mutableListOf<Project>()
 
         while (queue.isNotEmpty()) {
-            val project = queue.removeAt(0)
-            queue.addAll(project.childProjects.values)
+            val project = queue.removeAt(
+                index = 0,
+            )
+            queue.addAll(
+                elements = project.childProjects.values,
+            )
 
-            with(project.plugins) {
+            with(
+                receiver = project.plugins,
+            ) {
                 when {
-                    hasPlugin(PluginEnum.AndroidApplication) -> androidApplication.add(project)
-                    hasPlugin(PluginEnum.AndroidLibrary) -> androidLibraryProjects.add(project)
-                    hasPlugin(PluginEnum.AndroidLint) -> androidLintProjects.add(project)
-                    hasPlugin(PluginEnum.JavaLibrary) -> jvmLibraryProjecst.add(project)
+                    hasPlugin(PluginEnum.AndroidApplication) -> androidApplication.add(
+                        element = project,
+                    )
+                    hasPlugin(PluginEnum.AndroidLibrary) -> androidLibraryProjects.add(
+                        element = project,
+                    )
+                    hasPlugin(PluginEnum.AndroidLint) -> androidLintProjects.add(
+                        element = project,
+                    )
+                    hasPlugin(PluginEnum.JavaLibrary) -> jvmLibraryProjecst.add(
+                        element = project,
+                    )
                     else -> Unit // Do nothing
                 }
             }
 
             project.configurations.all {
-                if (name.toLowerCase(Locale.getDefault()).contains("test")) return@all
+                if (name.toLowerCase(Locale.getDefault()).contains("test")) {
+                    return@all
+                }
                 getDependencies()
                     .withType(ProjectDependency::class.java)
-                    .map { project ->
-                        project.dependencyProject
-                    }
+                    .map(ProjectDependency::getDependencyProject)
                     .forEach { dependency ->
-                        dependencyProjects.add(project)
-                        dependencyProjects.add(dependency)
-                        rootProjects.remove(dependency)
+                        dependencyProjects.add(
+                            element = project,
+                        )
+                        dependencyProjects.add(
+                            element = dependency,
+                        )
+                        rootProjects.remove(
+                            element = dependency,
+                        )
 
-                        val graphKey = Pair(project, dependency)
+                        val graphKey = project to dependency
                         val traits = dependencies.computeIfAbsent(graphKey) {
                             mutableListOf()
                         }
 
                         if (name.toLowerCase(Locale.getDefault()).endsWith("implementation")) {
-                            traits.add("style=dotted")
+                            traits.add(
+                                element = "style=dotted",
+                            )
                         }
                     }
             }
         }
 
-        dependencyProjects.sortedBy { project ->
-            project.path
-        }.also { sortedDependencyProjects ->
+        dependencyProjects.sortedBy(Project::getPath).also { sortedDependencyProjects ->
             dependencyProjects.clear()
-            dependencyProjects.addAll(sortedDependencyProjects)
+            dependencyProjects.addAll(
+                elements = sortedDependencyProjects,
+            )
         }
 
-        dot.appendText("\n  # Projects\n\n")
+        dot.appendText(
+            text = "\n  # Projects\n\n",
+        )
         for (project in dependencyProjects) {
             val traits = mutableListOf<String>()
 
             when (project) {
                 in androidApplication -> {
-                    traits.add("shape=box")
-                    traits.add("fillcolor=\"#baffc9\"")
+                    traits.add(
+                        element = "shape=box",
+                    )
+                    traits.add(
+                        element = "fillcolor=\"#baffc9\"",
+                    )
                 }
-                in androidLibraryProjects -> traits.add("fillcolor=\"#81D4FA\"")
-                in androidLintProjects -> traits.add("fillcolor=\"#c9baff\"")
-                in jvmLibraryProjecst -> traits.add("fillcolor=\"#ffebba\"")
-                else -> traits.add("fillcolor=\"#eeeeee\"")
+                in androidLibraryProjects -> traits.add(
+                    element = "fillcolor=\"#81D4FA\"",
+                )
+                in androidLintProjects -> traits.add(
+                    element = "fillcolor=\"#c9baff\"",
+                )
+                in jvmLibraryProjecst -> traits.add(
+                    element = "fillcolor=\"#ffebba\"",
+                )
+                else -> traits.add(
+                    element = "fillcolor=\"#eeeeee\"",
+                )
             }
 
-            dot.appendText("  \"${project.path}\" [${traits.joinToString(", ")}];\n")
+            dot.appendText(
+                text = "  \"${project.path}\" [${traits.joinToString(", ")}];\n",
+            )
         }
 
-        dot.appendText("\n  {rank = same;")
+        dot.appendText(
+            text = "\n  {rank = same;",
+        )
         for (project in dependencyProjects) {
             if (rootProjects.contains(project)) {
-                dot.appendText(" \"${project.path}\";")
+                dot.appendText(
+                    text = " \"${project.path}\";",
+                )
             }
         }
-        dot.appendText("}\n")
+        dot.appendText(
+            text = "}\n",
+        )
 
-        dot.appendText("\n  # Dependencies\n\n")
+        dot.appendText(
+            text = "\n  # Dependencies\n\n",
+        )
         dependencies.forEach { (key, traits) ->
-            dot.appendText("  \"${key.first.path}\" -> \"${key.second.path}\"")
+            dot.appendText(
+                text = "  \"${key.first.path}\" -> \"${key.second.path}\"",
+            )
             if (traits.isNotEmpty()) {
-                dot.appendText(" [${traits.joinToString(", ")}]")
+                dot.appendText(
+                    text = " [${traits.joinToString(", ")}]",
+                )
             }
-            dot.appendText("\n")
+            dot.appendText(
+                text = "\n",
+            )
         }
-        dot.appendText("}\n")
+        dot.appendText(
+            text = "}\n",
+        )
 
         project.rootProject.exec {
             commandLine = listOf(
@@ -144,6 +210,8 @@ abstract class DependencyGraphTask : DefaultTask() {
             )
         }
         dot.delete()
-        println("Project module dependency graph created at ${dot.absolutePath}.png")
+        println(
+            message = "Project module dependency graph created at ${dot.absolutePath}.png",
+        )
     }
 }

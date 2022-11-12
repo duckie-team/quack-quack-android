@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("LocalVariableName")
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import team.duckie.quackquack.convention.BumpType
@@ -55,16 +57,20 @@ class ArtifactBumpPlugin : Plugin<Project> {
      * 주어진 label 을 파싱하여 설정된 [BumpType] 과 [ReleaseTarget] 에 맞게
      * bump 를 진행합니다.
      */
-    override fun apply(project: Project) {
-        with(project) {
+    override fun apply(
+        target: Project,
+    ) {
+        with(
+            receiver = target,
+        ) {
             tasks.create("bump") {
                 val type = (properties["type"] ?: return@create) as String
-                val target = (properties["target"] ?: return@create) as String
+                val _target = (properties["target"] ?: return@create) as String
                 val bumpType = BumpType.valueOf(
                     value = type,
                 )
                 val releaseTarget = ReleaseTarget.valueOf(
-                    value = target,
+                    value = _target,
                 )
                 val version = bumpVersion(
                     type = bumpType,

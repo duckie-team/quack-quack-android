@@ -26,8 +26,12 @@ import team.duckie.quackquack.convention.setupLint
  * 린트 개발에 필요한 필수 의존성만을 사용하여 구성합니다.
  */
 internal class AndroidCommonLintPlugin : Plugin<Project> {
-    override fun apply(project: Project) {
-        with(project) {
+    override fun apply(
+        target: Project,
+    ) {
+        with(
+            receiver = target,
+        ) {
             applyPlugins(
                 PluginEnum.JavaLibrary,
                 PluginEnum.PureKotlin,

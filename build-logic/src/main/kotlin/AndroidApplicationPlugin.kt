@@ -23,8 +23,12 @@ import team.duckie.quackquack.convention.getPlaygroundVersion
  * Android 프레임워크의 Application 환경을 구성합니다.
  */
 internal class AndroidApplicationPlugin : Plugin<Project> {
-    override fun apply(project: Project) {
-        with(project) {
+    override fun apply(
+        target: Project,
+    ) {
+        with(
+            receiver = target,
+        ) {
             val (versionName, versionCode) = getPlaygroundVersion()
 
             applyPlugins(

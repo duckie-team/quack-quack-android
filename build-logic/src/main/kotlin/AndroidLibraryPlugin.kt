@@ -22,8 +22,12 @@ import team.duckie.quackquack.convention.configureApplication
  * Android 프레임워크의 Library 환경을 구성합니다.
  */
 internal class AndroidLibraryPlugin : Plugin<Project> {
-    override fun apply(project: Project) {
-        with(project) {
+    override fun apply(
+        target: Project,
+    ) {
+        with(
+            receiver = target,
+        ) {
             applyPlugins(
                 PluginEnum.AndroidLibrary,
                 PluginEnum.AndroidKotlin,

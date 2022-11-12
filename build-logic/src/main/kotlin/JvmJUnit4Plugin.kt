@@ -15,8 +15,12 @@ import team.duckie.quackquack.convention.setupJunit
  * Android 프레임워크에 의존적이지 않은 순수한 Junit4 테스트 환경을 구성합니다.
  */
 internal class JvmJUnit4Plugin : Plugin<Project> {
-    override fun apply(project: Project) {
-        with(project) {
+    override fun apply(
+        target: Project,
+    ) {
+        with(
+            receiver = target,
+        ) {
             dependencies {
                 setupJunit(
                     core = libs.findLibrary("test-junit-core").get(),

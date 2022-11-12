@@ -1,14 +1,16 @@
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-import team.duckie.quackquack.convention.ReleaseTarget
-import team.duckie.quackquack.convention.getVersionFile
-
 /*
  * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
+
+@file:Suppress("LocalVariableName")
+
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import team.duckie.quackquack.convention.ReleaseTarget
+import team.duckie.quackquack.convention.getVersionFile
 
 class ArtifactSnapshotPlugin : Plugin<Project> {
     /**
@@ -41,12 +43,16 @@ class ArtifactSnapshotPlugin : Plugin<Project> {
      * 주어진 label 을 파싱하여 설정된 [ReleaseTarget] 의 버전을
      * 스냅샷 버전으로 설정합니다.
      */
-    override fun apply(project: Project) {
-        with(project) {
+    override fun apply(
+        target: Project,
+    ) {
+        with(
+            receiver = target,
+        ) {
             tasks.create("setSnapshotVersion") {
-                val target = (properties["target"] ?: return@create) as String
+                val _target = (properties["target"] ?: return@create) as String
                 val releaseTarget = ReleaseTarget.valueOf(
-                    value = target,
+                    value = _target,
                 )
                 val snapshotVersion = setSnapshotVersion(
                     target = releaseTarget,

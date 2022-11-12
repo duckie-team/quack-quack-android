@@ -30,8 +30,12 @@ import team.duckie.quackquack.convention.libs
 private const val QuackLintPublishExtensionName = "quackArtifactPublish"
 
 class AndroidQuackPublishPlugin : Plugin<Project> {
-    override fun apply(project: Project) {
-        with(project) {
+    override fun apply(
+        target: Project,
+    ) {
+        with(
+            receiver = target,
+        ) {
             applyPlugins(
                 libs.findPlugin("gradle-maven-publish-base").get().get().pluginId,
             )

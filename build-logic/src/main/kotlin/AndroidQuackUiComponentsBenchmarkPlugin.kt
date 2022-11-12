@@ -31,8 +31,12 @@ import team.duckie.quackquack.convention.libs
  * 사용됩니다.
  */
 internal class AndroidQuackUiComponentsBenchmarkPlugin : Plugin<Project> {
-    override fun apply(project: Project) {
-        with(project) {
+    override fun apply(
+        target: Project,
+    ) {
+        with(
+            receiver = target,
+        ) {
             applyPlugins(
                 PluginEnum.AndroidTest,
                 PluginEnum.AndroidKotlin,
