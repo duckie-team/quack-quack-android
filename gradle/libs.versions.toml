@@ -37,6 +37,7 @@ customview-poolingcontainer = "1.0.0"
 kotlin-api-validation = "0.12.1"
 kotlin-collections-immutable = "0.3.5"
 oss-license-library = "17.0.0"
+gfm-dsl = "1.0.0"
 
 # androidx
 androidx-appcompat = "1.5.1" # needs for oss license activity
@@ -95,6 +96,7 @@ lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "lint" } 
 
 ktx-core = { module = "androidx.core:core-ktx", version.ref = "ktx-core" }
 
+util-gfm-dsl = { module = "land.sungbin.gfm:gfm-dsl", version.ref = "gfm-dsl" }
 util-oss-license = { module = "com.google.android.gms:play-services-oss-licenses", version.ref = "oss-license-library" }
 util-logeukes = { module = "land.sungbin:logeukes", version.ref = "logeukes" }
 util-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileinstaller" }
