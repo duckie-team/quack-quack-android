@@ -22,6 +22,8 @@ plugins {
     id(ConventionEnum.JvmDependencyGraph)
     id(ConventionEnum.JvmArtifactBump)
     id(ConventionEnum.JvmArtifactSnapshot)
+    id(ConventionEnum.UiComponentsDucumentation)
+    id(ConventionEnum.UiComponentSnapshotsDocumentation)
 }
 
 koverMerged {
@@ -66,7 +68,6 @@ buildscript {
         classpath(libs.build.oss.license)
         classpath(libs.build.gradle.agp)
         classpath(libs.build.gradle.maven.publish.core)
-        classpath(libs.util.gfm.dsl)
     }
 }
 
@@ -109,8 +110,8 @@ allprojects {
 
             pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
                 footerMessage = """
-                    |made with <span style="color: #ff8300;">❤</span> by <a href="https://duckie.team/">Duckie Team</a>
-                """.trimMargin()
+                                |made with <span style="color: #ff8300;">❤</span> by <a href="https://duckie.team/">Duckie Team</a>
+                                """.trimMargin()
                 customAssets = listOf(file("assets/logo-icon.svg"))
             }
         }

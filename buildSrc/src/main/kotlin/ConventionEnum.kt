@@ -28,4 +28,7 @@ object ConventionEnum {
 
     const val JvmArtifactBump = "$prefix.jvm.artifact.bump"
     const val JvmArtifactSnapshot = "$prefix.jvm.artifact.snapshot"
+
+    const val UiComponentsDucumentation = "$prefix.uicomponents.documentation"
+    const val UiComponentSnapshotsDocumentation = "$prefix.uicomponent.snapshots.documentation"
 }

@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.build.dokka.plugin)
     implementation(libs.build.gradle.agp)
     implementation(libs.build.gradle.maven.publish.core)
+    implementation(libs.util.gfm.dsl)
 }
 
 gradlePlugin {
@@ -92,6 +93,14 @@ gradlePlugin {
         register("artifactSnapshotPlugin") {
             id = "$prefix.jvm.artifact.snapshot"
             implementationClass = "ArtifactSnapshotPlugin"
+        }
+        register("uiComponentsDocumentation") {
+            id = "$prefix.uicomponents.documentation"
+            implementationClass = "UiComponentsDocumentationPlugin"
+        }
+        register("uiComponentSnapshotsDocumentation") {
+            id = "$prefix.uicomponent.snapshots.documentation"
+            implementationClass = "UiComponentSnapshotsDocumentation"
         }
     }
 }
