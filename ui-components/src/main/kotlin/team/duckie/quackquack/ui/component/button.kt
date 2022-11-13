@@ -16,8 +16,9 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -34,9 +35,6 @@ import androidx.compose.ui.unit.sp
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
-import team.duckie.quackquack.ui.constant.QuackHeight
-import team.duckie.quackquack.ui.constant.QuackWidth
-import team.duckie.quackquack.ui.constant.applyQuackSize
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.DpSize
@@ -378,17 +376,17 @@ private object QuackButtonDefaults {
 
 /**
  * 덕키의 메인 버튼을 구현합니다.
- * [QuackLargeButton] 은 활성 상태에 따라 다른 배경 색상을 가지며,
- * 여러 사용 사례에 따라 디자인이 약간씩 달라집니다.
+ * [QuackLargeButton] 은 다음과 같은 특징이 있습니다.
  *
- * 자동으로 모든 영역에 애니메이션이 적용됩니다.
+ * 1. 활성 상태에 따라 다른 배경 색상을 가지며, 여러 사용 사례에 따라 디자인이 약간씩 달라집니다.
+ * 2. 자동으로 모든 영역에 애니메이션이 적용됩니다. (IME 포함)
+ * 3. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param type 이 버튼의 사용 사례에 적합한 버튼 타입
  * @param text 버튼에 표시될 텍스트
  * @param active 버튼 활성화 여부. 배경 색상에 영향을 미칩니다.
- * @param leadingIcon 버튼 왼쪽에 표시될 아이콘.
- * [type] 이 [LargeBorder] 일 경우에만 유효합니다.
+ * @param leadingIcon 버튼 왼쪽에 표시될 아이콘. [type] 이 [LargeBorder] 일 경우에만 유효합니다.
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
 @Composable
@@ -411,8 +409,9 @@ public fun QuackLargeButton(
     }
 
     QuackBasicButton(
-        modifier = modifier,
-        width = QuackWidth.Fill,
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
         shape = Shape,
         leadingContent = LeadingContent(
             leadingIcon = leadingIcon,
@@ -454,7 +453,7 @@ public fun QuackMediumToggleButton(
     receiver = QuackButtonDefaults.MediumButton,
 ) {
     QuackBasicButton(
-        modifier = modifier,
+        modifier = modifier.wrapContentSize(),
         shape = Shape,
         text = text,
         textStyle = typographyFor(
@@ -494,7 +493,7 @@ public fun QuackSmallButton(
     receiver = QuackButtonDefaults.SmallButton,
 ) {
     QuackBasicButton(
-        modifier = modifier,
+        modifier = modifier.wrapContentSize(),
         shape = Shape,
         text = text,
         textStyle = typographyFor(
@@ -539,7 +538,7 @@ public fun QuackToggleChip(
     receiver = QuackButtonDefaults.ChipButton,
 ) {
     QuackBasicButton(
-        modifier = modifier,
+        modifier = modifier.wrapContentSize(),
         shape = Shape,
         text = text,
         textStyle = typographyFor(
@@ -559,11 +558,9 @@ public fun QuackToggleChip(
 /**
  * QuackButton 컴포넌트를 구성하는데 사용되는 Button 의 최하위 컴포넌트 입니다
  *
- * IME 을 포함한 모든 요소에 애니메이션이 적용됩니다.
+ * 자동으로 모든 요소에 애니메이션이 적용됩니다.
  *
  * @param modifier QuackButton 의 뼈대가 될 [Modifier]
- * @param width 버튼의 가로 길이. 기본값은 [QuackWidth.Wrap] 입니다.
- * @param height 버튼의 세로 길이. 기본값은 [QuackHeight.Wrap] 입니다.
  * @param shape 버튼의 모양. 기본값은 [RectangleShape] 입니다.
  * @param leadingContent 버튼의 텍스트 왼쪽에 표시할 컨텐츠. 기본값은 null 입니다.
  * @param text 버튼에 표시될 텍스트
@@ -584,15 +581,10 @@ public fun QuackToggleChip(
  * [QuackColor.Unspecified] 입니다.
  * @param enabled 버튼을 clickable 하게 만들어주는지 여부
  * @param onClick 버튼을 눌렀을 때 호출될 콜백 함수
- *
- * @see Modifier.applyQuackSize
- * @see QuackSurface
  */
 @Composable
 private fun QuackBasicButton(
-    modifier: Modifier = Modifier,
-    width: QuackWidth = QuackWidth.Wrap,
-    height: QuackHeight = QuackHeight.Wrap,
+    modifier: Modifier,
     shape: Shape,
     leadingContent: (@Composable () -> Unit)? = null,
     text: String,
@@ -606,12 +598,7 @@ private fun QuackBasicButton(
     onClick: () -> Unit,
 ) {
     QuackSurface(
-        modifier = modifier
-            .imePadding()
-            .applyQuackSize(
-                width = width,
-                height = height,
-            ),
+        modifier = modifier,
         backgroundColor = backgroundColor,
         border = border,
         shape = shape,

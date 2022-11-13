@@ -260,6 +260,7 @@ private object QuackTextFieldDefaults {
         }
     }
 
+    // 제플린상 Comment/Reply, Chat, Add tag 영역에 속함
     object Basic2 {
         /**
          * TextField 의 패딩을 계산합니다.
@@ -434,7 +435,7 @@ private object QuackTextFieldDefaults {
         }
     }
 
-    object Profile { // counting text field
+    object Profile {
         val InputTextPadding = PaddingValues(
             top = 16.dp,
             bottom = 8.dp,
@@ -824,6 +825,7 @@ private object QuackTextFieldDefaults {
  * 1. underline 이 컴포넌트 하단에 표시됩니다.
  * 2. leading icon 을 가질 수 있습니다.
  * 3. trailing text 를 가질 수 있습니다.
+ * 4. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text 표시할 텍스트
@@ -930,6 +932,7 @@ public fun QuackBasicTextField(
  * 1. underline 이 컴포넌트 하단에 표시됩니다.
  * 2. 항상 [QuackIcon.Won] 을 leading icon 으로 표시합니다.
  * 3. 항상 [KeyboardType.Number] 타입의 키보드를 사용합니다.
+ * 4. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param priceText 표시할 가격 텍스트
@@ -1027,6 +1030,7 @@ public fun QuackPriceTextField(
  * 1. underline 이 컴포넌트 상단에 표시됩니다.
  * 2. leading icon 과 trailing icon 을 모두 가질 수 있습니다.
  * 3. placeholder text 를 선택적으로 받습니다.
+ * 4. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text 표시할 텍스트
@@ -1139,6 +1143,7 @@ public fun QuackBasic2TextField(
  * 4. 항상 [KeyboardType.Text] 타입의 키보드를 사용합니다.
  * 5. 입력 가능한 최대 글자 수를 받습니다.
  * 만약 이 수를 넘어섰다면 에러 텍스트를 표시합니다.
+ * 6. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param maxLength 최대 입력 가능한 글자 수
