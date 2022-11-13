@@ -175,7 +175,7 @@ private fun QuackImageImpl(
  * 만약 [QuackColor] 가 [QuackColor.Transparent] 이라면 null 을 반환합니다.
  */
 private fun QuackColor.toColorFilter(): ColorFilter? {
-    return if (this == QuackColor.Transparent) {
+    return if (this == QuackColor.Transparent || this == QuackColor.Unspecified) {
         null
     } else {
         ColorFilter.tint(
