@@ -32,6 +32,9 @@ import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.theme.LocalQuackTextFieldColors
 import team.duckie.quackquack.ui.util.runIf
 
+/**
+ * QuackTextArea 의 리소스 모음
+ */
 private object QuackTextAreaDefaults {
     // 제플린상 Write 영역에 속함
     object Basic {

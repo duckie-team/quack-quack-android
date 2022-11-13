@@ -151,7 +151,7 @@ private object QuackTextFieldDefaults {
         }
 
         val UnderlineColor = QuackColor.Gray3
-        val UnderlineWidth = 1.dp
+        val UnderlineHeight = 1.dp
 
         /**
          * Placeholder 로 표시될 컴포저블을 나타냅니다.
@@ -331,7 +331,7 @@ private object QuackTextFieldDefaults {
             else -> QuackColor.Gray2
         }
 
-        val UnderlineWidth = 1.dp
+        val UnderlineHeight = 1.dp
         val UnderlineColor = QuackColor.Gray3
 
         /**
@@ -549,7 +549,7 @@ private object QuackTextFieldDefaults {
             else -> QuackColor.Gray3
         }
 
-        val UnderlineWidth = 1.dp
+        val UnderlineHeight = 1.dp
 
         /**
          * Placeholder 로 표시될 컴포저블을 나타냅니다.
@@ -873,18 +873,18 @@ public fun QuackBasicTextField(
             .fillMaxWidth()
             .wrapContentHeight()
             .drawAnimatedLine(
-                thickness = UnderlineWidth,
+                thickness = UnderlineHeight,
                 color = UnderlineColor,
                 startOffsetProvider = { size ->
                     Offset(
                         x = 0f,
-                        y = size.height - UnderlineWidth.toPx(),
+                        y = size.height - UnderlineHeight.toPx(),
                     )
                 },
                 endOffsetProvider = { size ->
                     Offset(
                         x = size.width,
-                        y = size.height - UnderlineWidth.toPx(),
+                        y = size.height - UnderlineHeight.toPx(),
                     )
                 },
             )
@@ -972,18 +972,18 @@ public fun QuackPriceTextField(
             .fillMaxWidth()
             .wrapContentHeight()
             .drawAnimatedLine(
-                thickness = UnderlineWidth,
+                thickness = UnderlineHeight,
                 color = UnderlineColor,
                 startOffsetProvider = { size ->
                     Offset(
                         x = 0f,
-                        y = size.height - UnderlineWidth.toPx(),
+                        y = size.height - UnderlineHeight.toPx(),
                     )
                 },
                 endOffsetProvider = { size ->
                     Offset(
                         x = size.width,
-                        y = size.height - UnderlineWidth.toPx(),
+                        y = size.height - UnderlineHeight.toPx(),
                     )
                 },
             )
@@ -1080,7 +1080,7 @@ public fun QuackBasic2TextField(
             .fillMaxWidth()
             .wrapContentHeight()
             .drawAnimatedLine(
-                thickness = UnderlineWidth,
+                thickness = UnderlineHeight,
                 color = UnderlineColor,
                 startOffsetProvider = {
                     Offset(
@@ -1193,20 +1193,20 @@ public fun QuackProfileTextField(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .drawAnimatedLine(
-                    thickness = UnderlineWidth,
+                    thickness = UnderlineHeight,
                     color = underlineColorFor(
                         isError = isError,
                     ),
                     startOffsetProvider = { size ->
                         Offset(
                             x = 0f,
-                            y = size.height - UnderlineWidth.roundToPx(),
+                            y = size.height - UnderlineHeight.roundToPx(),
                         )
                     },
                     endOffsetProvider = { size ->
                         Offset(
                             x = size.width,
-                            y = size.height - UnderlineWidth.roundToPx(),
+                            y = size.height - UnderlineHeight.roundToPx(),
                         )
                     },
                 )

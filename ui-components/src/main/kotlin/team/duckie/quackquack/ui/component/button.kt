@@ -78,7 +78,7 @@ public enum class QuackSmallButtonType {
 }
 
 /**
- * QuackButton 들의 테마 리소스 모음
+ * QuackButton 의 리소스 모음
  */
 private object QuackButtonDefaults {
     object LargeButton {

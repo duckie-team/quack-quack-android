@@ -22,6 +22,9 @@ import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 
+/**
+ * QuackLabel 의 리소스 모음
+ */
 private object QuackLabelDefaults {
     val Padding = PaddingValues(
         horizontal = 6.dp,

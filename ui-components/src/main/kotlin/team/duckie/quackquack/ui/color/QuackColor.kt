@@ -10,6 +10,7 @@
 package team.duckie.quackquack.ui.color
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector4D
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
@@ -318,6 +319,31 @@ public fun animateQuackColorAsState(
     targetValue: QuackColor,
     finishedListener: ((color: QuackColor) -> Unit)? = null,
 ): State<QuackColor> {
+    return animateQuackColorAsStateInternal(
+        targetValue = targetValue,
+        finishedListener = finishedListener,
+    )
+}
+
+/**
+ * [QuackColor] 에 색상에 변경이 있을 때 애니메이션을 적용합니다.
+ *
+ * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
+ *
+ * @param targetValue 색상 변경을 감지할 [QuackColor]
+ * @param animationSpec 애니메이션에 사용할 [AnimationSpec].
+ * QuackTab 에서는 애니메이션 없이 진행돼야 할 때도 있습니다.
+ * 이 상황을 대응하기 위해 이 값을 예외적으로 받습니다.
+ * @param finishedListener 애니메이션이 끝났을 때 실행될 콜백
+ *
+ * @return 색상이 변경됐을 때 색상이 변경되는 애니메이션의 [State] 객체
+ */
+@Composable
+internal fun animateQuackColorAsStateInternal(
+    targetValue: QuackColor,
+    animationSpec: AnimationSpec<QuackColor> = QuackAnimationSpec(),
+    finishedListener: ((color: QuackColor) -> Unit)? = null,
+): State<QuackColor> {
     val converter = remember(
         key1 = targetValue.composeColor.colorSpace,
     ) {
@@ -329,7 +355,7 @@ public fun animateQuackColorAsState(
     return animateValueAsState(
         targetValue = targetValue,
         typeConverter = converter,
-        animationSpec = QuackAnimationSpec(),
+        animationSpec = animationSpec,
         finishedListener = finishedListener,
     )
 }

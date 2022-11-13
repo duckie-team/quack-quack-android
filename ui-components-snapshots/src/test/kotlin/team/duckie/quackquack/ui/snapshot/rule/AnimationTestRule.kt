@@ -19,14 +19,14 @@ class AnimationTestRule : TestWatcher() {
     override fun starting(
         description: Description?,
     ) {
-        QuackAnimationSpec.isSnapshotMode = true
+        QuackAnimationSpec.snapMode = true
         super.starting(description)
     }
 
     override fun finished(
         description: Description?,
     ) {
-        QuackAnimationSpec.isSnapshotMode = false
+        QuackAnimationSpec.snapMode = false
         super.finished(description)
     }
 }
