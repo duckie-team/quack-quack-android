@@ -11,7 +11,6 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import team.duckie.quackquack.convention.androidTestImplementations
-import team.duckie.quackquack.convention.configureCompose
 import team.duckie.quackquack.convention.debugImplementations
 import team.duckie.quackquack.convention.libs
 
@@ -26,11 +25,6 @@ internal class AndroidLibraryComposeUiTestPlugin : Plugin<Project> {
             receiver = target,
         ) {
             val extension = extensions.getByType<LibraryExtension>()
-
-            configureCompose(
-                extension = extension,
-            )
-
             extension.apply {
                 defaultConfig {
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
