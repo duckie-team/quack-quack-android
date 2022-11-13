@@ -14,7 +14,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,7 +25,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.layout.LazyLayout
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -47,79 +45,9 @@ import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.runtimeCheck
 
-private val QuackTagRowTitleSpace = 12.dp
-private val QuackTagRowFlowContentSpace = 8.dp
+private object QuackTagDefaults {
 
-// icon tag 와 grayscale tag 에 사용됩니다.
-private val QuackTagContentSpace = 8.dp
-private val QuackTagBorderWidth = 1.dp
-private val QuackTagHorizontalPadding = 8.dp
-
-private val QuackTagPadding = PaddingValues(
-    horizontal = 12.dp,
-    vertical = 8.dp,
-)
-private val QuackIconTagPadding = PaddingValues(
-    start = 16.dp,
-    end = 10.dp,
-    top = 8.dp,
-    bottom = 8.dp,
-)
-
-private val QuackTagShape = RoundedCornerShape(
-    size = 18.dp,
-)
-
-// grayscale tag 와 flowrow tag 에 사용됩니다.
-private val QuackGrayscaleFlowRowTagShape = RoundedCornerShape(
-    size = 12.dp,
-)
-
-private val QuackGrayscaleTagBackgroundColor = QuackColor.Gray4
-private val QuackTagBackgroundColor: (
-    isSelected: Boolean,
-) -> QuackColor
-    get() = { isSelected ->
-        when (isSelected) {
-            true -> QuackColor.DuckieOrange
-            else -> QuackColor.White
-        }
-    }
-private val QuackTagBorderColor: (
-    isSelected: Boolean,
-) -> QuackColor
-    get() = { isSelected ->
-        when (isSelected) {
-            true -> QuackColor.DuckieOrange
-            else -> QuackColor.Gray3
-        }
-    }
-private val QuackTagTextColor: (
-    isSelected: Boolean,
-    isBorderTag: Boolean, // border 가 사용되는 태그인지 여부
-) -> QuackColor
-    get() = { isSelected, isBorderTag ->
-        if (isBorderTag) {
-            when (isSelected) {
-                true -> QuackColor.DuckieOrange
-                else -> QuackColor.Black
-            }
-        } else { // is no BorderTag
-            when (isSelected) {
-                true -> QuackColor.White
-                else -> QuackColor.Black
-            }
-        }
-    }
-private val QuackTagIconTintColor: (
-    isSelected: Boolean,
-) -> QuackColor
-    get() = { isSelected ->
-        when (isSelected) {
-            true -> QuackColor.White
-            else -> QuackColor.Gray2
-        }
-    }
+}
 
 /**
  * QuackQuack 의 기본 태그 입니다.
