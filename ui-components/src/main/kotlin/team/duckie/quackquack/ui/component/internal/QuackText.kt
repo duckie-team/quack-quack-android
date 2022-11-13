@@ -15,12 +15,13 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.util.fastForEach
-import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.ImmutableList
 import team.duckie.quackquack.ui.animation.QuackAnimatedContent
 import team.duckie.quackquack.ui.component.HighlightTextInfo
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.textstyle.animatedQuackTextStyleAsState
 
+// TODO: overlay-ux-writing
 // public val quackTexts: SnapshotStateList<QuackWrting> = mutableStateListOf()
 
 /**
@@ -124,7 +125,7 @@ internal fun QuackText(
 internal fun QuackClickableText(
     modifier: Modifier = Modifier,
     text: AnnotatedString,
-    clickEventTextInfo: PersistentList<HighlightTextInfo>,
+    clickEventTextInfo: ImmutableList<HighlightTextInfo>,
     defaultOnClick: (() -> Unit)? = null,
     style: QuackTextStyle,
     singleLine: Boolean = false,

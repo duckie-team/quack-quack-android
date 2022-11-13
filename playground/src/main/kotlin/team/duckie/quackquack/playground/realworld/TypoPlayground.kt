@@ -56,12 +56,12 @@ fun QuackHighlightTextDemo() {
     ) {
         QuackUnderlineHeadLine2(
             text = text,
-            underlineText = persistentListOf("우주사령관"),
+            underlineTexts = persistentListOf("우주사령관"),
             onClick = {},
         )
         QuackUnderlineBody3(
             text = "가입 시, 덕키의 필수 이용 약관과\n개인정보 수집 및 이용에 동의하게 됩니다.",
-            underlineText = persistentListOf(
+            underlineTexts = persistentListOf(
                 "필수 이용 약관",
                 "개인정보 수집 및 이용",
             ),
@@ -71,7 +71,7 @@ fun QuackHighlightTextDemo() {
         )
         QuackHighlightBody1(
             text = "가입 시, 덕키의 필수 이용 약관과\n개인정보 수집 및 이용에 동의하게 됩니다.",
-            highlightText = persistentListOf(
+            highlightTexts = persistentListOf(
                 "필수 이용 약관",
                 "개인정보 수집 및 이용",
             ),
