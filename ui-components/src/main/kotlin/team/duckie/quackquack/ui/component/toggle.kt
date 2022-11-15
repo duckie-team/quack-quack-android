@@ -73,6 +73,9 @@ public enum class QuackToggleIconSize(
     )
 }
 
+/**
+ * QuackToggle 을 그리는데 필요한 리소스를 구성합니다.
+ */
 private object QuackToggleDefaults {
     // Copied from AOSP
     object DrawConstaints {
@@ -192,7 +195,7 @@ private object QuackToggleDefaults {
 public fun QuackRoundCheckBox(
     modifier: Modifier = Modifier,
     checked: Boolean,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)? = null,
 ): Unit = with(
     receiver = QuackToggleDefaults.RoundCheck,
 ) {
@@ -230,7 +233,7 @@ public fun QuackRoundCheckBox(
 public fun QuackSquareCheckBox(
     modifier: Modifier = Modifier,
     checked: Boolean,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)? = null,
 ): Unit = with(
     receiver = QuackToggleDefaults.SquareCheck,
 ) {
@@ -276,7 +279,7 @@ public fun QuackToggleButton(
     iconSize: QuackToggleIconSize = Normal,
     checked: Boolean,
     trailingText: String? = null,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)? = null,
 ): Unit = with(
     receiver = QuackToggleDefaults.ToggleButton,
 ) {

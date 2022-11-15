@@ -54,6 +54,7 @@ import team.duckie.quackquack.ui.modifier.quackClickable
  * null 이 입력된다면 클릭 이벤트를 추가하지 않습니다.
  * 기본값은 null 입니다. 즉, 클릭 이벤트를 추가하지 않습니다.
  * @param contentAlignment 컴포저블의 정렬 상태. 기본값은 Center 입니다.
+ * @param propagateMinConstraints 최소 제약 조건을 전파할지 여부. 기본값은 false 입니다.
  * @param content 표시할 컴포저블. [BoxScope] 를 receive 로 받습니다.
  */
 @Composable
@@ -68,6 +69,7 @@ internal fun QuackSurface(
     rippleColor: QuackColor = QuackColor.Unspecified,
     onClick: (() -> Unit)? = null,
     contentAlignment: Alignment = Alignment.Center,
+    propagateMinConstraints: Boolean = false,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val backgroundColorAnimation by animateQuackColorAsState(
@@ -107,6 +109,7 @@ internal fun QuackSurface(
                 animationSpec = QuackAnimationSpec(),
             ),
         contentAlignment = contentAlignment,
+        propagateMinConstraints = propagateMinConstraints,
         content = content,
     )
 }

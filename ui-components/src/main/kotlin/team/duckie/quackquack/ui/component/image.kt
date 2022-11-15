@@ -10,6 +10,7 @@ package team.duckie.quackquack.ui.component
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
@@ -25,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import team.duckie.quackquack.ui.animation.QuackAnimatedContent
@@ -162,6 +164,64 @@ private fun QuackImageInternal(
             colorFilter = animatedTint.toColorFilter(),
             contentDescription = contentDescription,
             contentScale = contentScale,
+        )
+    }
+}
+
+/**
+ * 오른쪽 상단에 체크박스와 함께 이미지 혹은 [QuackIcon] 을 표시합니다.
+ *
+ * @param modifier 이 컴포저블에서 사용할 [Modifier]
+ * @param isSelected 현재 이미지가 선택됐는지 여부
+ * @param src 표시할 리소스. 만약 null 이 들어온다면 리소스를 그리지 않습니다.
+ * @param size 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
+ * @param tint 적용할 틴트 값
+ * @param rippleEnabled 클릭됐을 때 ripple 발생 여부
+ * @param onClick 클릭됐을 때 실행할 람다식
+ * @param contentScale 적용할 content scale 정책
+ * @param shape 리소스가 표시될 모양
+ * @param contentDescription 이미지의 설명
+ */
+@Composable
+public fun QuackSelectableImage(
+    modifier: Modifier = Modifier,
+    isSelected: Boolean,
+    src: Any?,
+    size: DpSize? = null,
+    tint: QuackColor? = null,
+    rippleEnabled: Boolean = true,
+    onClick: (() -> Unit)? = null,
+    contentScale: ContentScale = ContentScale.FillBounds,
+    shape: Shape = RectangleShape,
+    contentDescription: String? = null,
+) {
+
+}
+
+// TODO: 커스텀 레이아웃 해야 함...
+/**
+ * QuackSelectableImage 를 그리는데 필요한 리소스를 구성합니다.
+ */
+private object QuackSelectableImageDefaults {
+    object SelectableImage {
+
+    }
+
+    /**
+     * deletion 타입을 나타냅니다.
+     */
+    object Deletion {
+        val Icon = QuackIcon.Delete
+        val IconSize = team.duckie.quackquack.ui.util.DpSize(
+            all = 10.dp,
+        )
+
+        val IconContainerShape = CircleShape
+        val IconContainerBackgroundColor = QuackColor.Black.change(
+            alpha = 0.5f
+        )
+        val IconContainerSize = team.duckie.quackquack.ui.util.DpSize(
+            all = 16.dp,
         )
     }
 }

@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.color.QuackColor
-import team.duckie.quackquack.ui.constant.QuackHeight
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.applyQuackSize
