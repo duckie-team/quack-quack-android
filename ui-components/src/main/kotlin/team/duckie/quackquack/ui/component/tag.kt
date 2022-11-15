@@ -14,6 +14,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.layout.LazyLayout
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,15 +40,189 @@ import com.google.accompanist.flowlayout.FlowRow
 import kotlinx.collections.immutable.ImmutableCollection
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
+import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
+import team.duckie.quackquack.ui.util.DpSize
+import team.duckie.quackquack.ui.util.runIf
 import team.duckie.quackquack.ui.util.runtimeCheck
 
 private object QuackTagDefaults {
+    object GrayscaleTag {
+        val TagTextPadding = PaddingValues(
+            top = 8.dp,
+            bottom = 8.dp,
+            start = 12.dp,
+            end = 8.dp, // 텍스트 오른쪽에 trailing text 가 있음
+        )
 
+        // trailing text 는 TagTextPadding 를 기준으로 Vertical Center 에 배치돼야 함
+        val TrailingTextPadding = PaddingValues(
+            end = 15.dp,
+        )
+
+        val TagTypography = QuackTextStyle.Body1
+        val TrailingTextTypography = QuackTextStyle.Subtitle2.change(
+            color = QuackColor.DuckieOrange,
+        )
+
+        val Shape = RoundedCornerShape(
+            size = 12.dp,
+        )
+        val BackgroundColor = QuackColor.Gray4
+    }
+
+    object CircleTag {
+        /**
+         * 조건에 맞게 태그 텍스트의 패딩 값을 계산합니다.
+         *
+         * @param hasTrailingIcon trailing icon 을 가지고 있는지 여부
+         *
+         * @return [hasTrailingIcon] 여부에 따른 패딩 값
+         */
+        fun tagTextPaddingFor(
+            hasTrailingIcon: Boolean,
+        ) = PaddingValues(
+            top = 8.dp,
+            bottom = 8.dp,
+            start = 12.dp,
+            end = if (hasTrailingIcon) 8.dp else 12.dp,
+        )
+
+        // trailing icon 은 TagTextPadding 를 기준으로 Vertical Center 에 배치돼야 함
+        val TrailingIconPadding = PaddingValues(
+            end = 10.dp,
+        )
+
+        /**
+         * 조건에 맞게 태그 텍스트의 [QuackTextStyle] 을 계산합니다.
+         *
+         * @param isSelected 현재 선택된 상태로 있는지 여부
+         * @param hasTrailingIcon trailing icon 을 가지고 있는지 여부
+         *
+         * @return 현재 조건에 맞게 사용할 [QuackTextStyle]
+         */
+        fun typographyFor(
+            isSelected: Boolean,
+            hasTrailingIcon: Boolean,
+        ) = QuackTextStyle.Title2.runIf(
+            condition = isSelected,
+        ) {
+            change(
+                color = when (hasTrailingIcon) {
+                    true -> QuackColor.White
+                    else -> QuackColor.DuckieOrange
+                },
+            )
+        }
+
+        /**
+         * 조건에 맞게 태그의 테두리를 계산합니다.
+         *
+         * @param isSelected 현재 선택된 상태로 있는지 여부
+         *
+         * @return 현재 조건에 맞게 사용할 [QuackBorder]
+         */
+        fun borderFor(
+            isSelected: Boolean,
+        ) = QuackBorder(
+            color = when (isSelected) {
+                true -> QuackColor.DuckieOrange
+                else -> QuackColor.Gray3
+            },
+        )
+
+        /**
+         * 조건에 맞게 태그의 배경 색상을 계산합니다.
+         *
+         * @param isSelected 현재 선택된 상태로 있는지 여부
+         * @param hasTrailingIcon trailing icon 을 가지고 있는지 여부
+         *
+         * @return 현재 조건에 맞게 사용할 [QuackColor]
+         */
+        fun backgroundColorFor(
+            isSelected: Boolean,
+            hasTrailingIcon: Boolean,
+        ) = when (isSelected && hasTrailingIcon) {
+            true -> QuackColor.DuckieOrange
+            else -> QuackColor.White
+        }
+
+        /**
+         * 조건에 맞게 trailing icon 의 틴트를 계산합니다.
+         *
+         * @param isSelected 현재 선택된 상태로 있는지 여부
+         *
+         * @return 현재 조건에 맞게 사용할 [QuackColor]
+         */
+        fun trailingIconTintFor(
+            isSelected: Boolean,
+        ) = when (isSelected) {
+            true -> QuackColor.White
+            else -> QuackColor.Gray2
+        }
+
+        val TrailingIconSize = DpSize(
+            all = 16.dp,
+        )
+
+        val Shape = RoundedCornerShape(
+            size = 18.dp,
+        )
+    }
+
+    object RoundingTag {
+        val TextPadding = PaddingValues(
+            horizontal = 12.dp,
+            vertical = 8.dp,
+        )
+
+        /**
+         * 조건에 맞게 태그 텍스트의 [QuackTextStyle] 을 계산합니다.
+         *
+         * @param isSelected 현재 선택된 상태로 있는지 여부
+         *
+         * @return 현재 조건에 맞게 사용할 [QuackTextStyle]
+         */
+        fun typographyFor(
+            isSelected: Boolean,
+        ) = QuackTextStyle.Body1.runIf(
+            condition = isSelected,
+        ) {
+            change(
+                color = QuackColor.DuckieOrange,
+            )
+        }
+
+        /**
+         * 조건에 맞게 태그의 테두리를 계산합니다.
+         *
+         * @param isSelected 현재 선택된 상태로 있는지 여부
+         *
+         * @return 현재 조건에 맞게 사용할 [QuackBorder]
+         */
+        fun borderFor(
+            isSelected: Boolean,
+        ) = QuackBorder(
+            color = when (isSelected) {
+                true -> QuackColor.DuckieOrange
+                else -> QuackColor.Gray3
+            },
+        )
+
+        val BackgroundColor = QuackColor.White
+
+        val Shape = RoundedCornerShape(
+            size = 12.dp,
+        )
+    }
+
+    object LazyTag {
+
+    }
 }
 
 /**
@@ -508,6 +684,7 @@ public fun QuackMultiLineTagRow(
                     null -> {
                         QuackTag(text = text, isSelected = false, onClick = onClick)
                     }
+
                     else -> QuackIconTag(
                         text = text,
                         icon = icon,
