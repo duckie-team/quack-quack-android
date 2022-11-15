@@ -7,22 +7,39 @@
 
 package team.duckie.quackquack.ui.component
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.gestures.ModifierLocalScrollableContainerProvider.value
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.layout.LazyLayout
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEachIndexed
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
-import team.duckie.quackquack.ui.component.QuackTagDefaults.RoundingTag.TextPadding
 import team.duckie.quackquack.ui.component.internal.QuackText
+import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.DpSize
 import team.duckie.quackquack.ui.util.runIf
+import team.duckie.quackquack.ui.util.runtimeCheck
 
 /**
  * QuackLazyTag 에 사용할 태그들의 타입을 정의합니다.
@@ -66,6 +83,7 @@ private object QuackTagDefaults {
          *
          * @return [hasTrailingIcon] 여부에 따른 패딩 값
          */
+        @Stable
         fun tagTextPaddingFor(
             hasTrailingIcon: Boolean,
         ) = PaddingValues(
@@ -88,6 +106,7 @@ private object QuackTagDefaults {
          *
          * @return 현재 조건에 맞게 사용할 [QuackTextStyle]
          */
+        @Stable
         fun typographyFor(
             isSelected: Boolean,
             hasTrailingIcon: Boolean,
@@ -109,6 +128,7 @@ private object QuackTagDefaults {
          *
          * @return 현재 조건에 맞게 사용할 [QuackBorder]
          */
+        @Stable
         fun borderFor(
             isSelected: Boolean,
         ) = QuackBorder(
@@ -126,6 +146,7 @@ private object QuackTagDefaults {
          *
          * @return 현재 조건에 맞게 사용할 [QuackColor]
          */
+        @Stable
         fun backgroundColorFor(
             isSelected: Boolean,
             hasTrailingIcon: Boolean,
@@ -141,6 +162,7 @@ private object QuackTagDefaults {
          *
          * @return 현재 조건에 맞게 사용할 [QuackColor]
          */
+        @Stable
         fun trailingIconTintFor(
             isSelected: Boolean,
         ) = when (isSelected) {
@@ -170,6 +192,7 @@ private object QuackTagDefaults {
          *
          * @return 현재 조건에 맞게 사용할 [QuackTextStyle]
          */
+        @Stable
         fun typographyFor(
             isSelected: Boolean,
         ) = QuackTextStyle.Body1.runIf(
@@ -187,6 +210,7 @@ private object QuackTagDefaults {
          *
          * @return 현재 조건에 맞게 사용할 [QuackBorder]
          */
+        @Stable
         fun borderFor(
             isSelected: Boolean,
         ) = QuackBorder(
@@ -206,9 +230,30 @@ private object QuackTagDefaults {
     object LazyTag {
         val VerticalSpacedBy = 8.dp
         val HorizontalSpacedBy = 8.dp
+
+        /**
+         * [Title]
+         * [LazyTag]
+         *
+         * 에서 `title` 과 `LazyTag` 사이의 간격 입니다.
+         */
+        val TitleSpacedBy = 12.dp
+
+        val TitleTypogrphy = QuackTextStyle.Title2
     }
 }
 
+/**
+ * Grayscale 테마를 띄는 태그를 구현합니다.
+ * [QuackGrayscaleTag] 는 다음과 같은 특징을 갖습니다.
+ *
+ * 1. 배경 색상이 항상 Grayscale 입니다.
+ * 2. trailing text 를 갖습니다.
+ *
+ * @param text 태그의 텍스트
+ * @param trailingText 태그의 trailing content 로 들어갈 텍스트
+ * @param onClick 태그를 클릭했을 때 실행될 람다
+ */
 @Composable
 public fun QuackGrayscaleTag(
     text: String,
@@ -229,12 +274,226 @@ public fun QuackGrayscaleTag(
         ) {
             QuackText(
                 modifier = Modifier.padding(
-                    paddingValues = TextPadding,
+                    paddingValues = TagTextPadding,
                 ),
                 text = text,
                 style = TagTypography,
                 singleLine = true,
             )
+            QuackText(
+                modifier = Modifier.padding(
+                    paddingValues = TrailingTextPadding,
+                ),
+                text = trailingText,
+                style = TrailingTextTypography,
+                singleLine = true,
+            )
+        }
+    }
+}
+
+/**
+ * 덕키의 기본적인 태그를 구현합니다.
+ * [QuackCircleTag] 는 다음과 같은 특징을 갖습니다.
+ *
+ * 1. trailing icon 을 가질 수 있습니다.
+ * 2. trailing icon 여부와 현재 선택 상태에 따라 배경색과 테두리가 달라집니다.
+ *
+ * @param text 태그의 텍스트
+ * @param trailingIcon 태그의 trailing content 로 들어갈 [QuackIcon]
+ * @param isSelected 현재 선택된 상태로 있는지 여부
+ * @param onClick 태그를 클릭했을 때 실행될 람다
+ */
+@Composable
+public fun QuackCircleTag(
+    text: String,
+    trailingIcon: QuackIcon? = null,
+    isSelected: Boolean,
+    onClick: (() -> Unit)? = null,
+): Unit = with(
+    receiver = QuackTagDefaults.CircleTag,
+) {
+    val hasTrailingIcon = trailingIcon != null
+
+    QuackSurface(
+        modifier = Modifier.wrapContentSize(),
+        backgroundColor = backgroundColorFor(
+            isSelected = isSelected,
+            hasTrailingIcon = hasTrailingIcon,
+        ),
+        shape = Shape,
+        border = borderFor(
+            isSelected = isSelected,
+        ),
+        onClick = onClick,
+    ) {
+        Row(
+            modifier = Modifier.wrapContentSize(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            QuackText(
+                modifier = Modifier.padding(
+                    paddingValues = tagTextPaddingFor(
+                        hasTrailingIcon = hasTrailingIcon,
+                    ),
+                ),
+                text = text,
+                style = typographyFor(
+                    isSelected = isSelected,
+                    hasTrailingIcon = hasTrailingIcon,
+                ),
+                singleLine = true,
+            )
+            QuackImage(
+                modifier = Modifier.padding(
+                    paddingValues = TrailingIconPadding,
+                ),
+                src = trailingIcon,
+                size = TrailingIconSize,
+                tint = trailingIconTintFor(
+                    isSelected = isSelected,
+                ),
+            )
+        }
+    }
+}
+
+/**
+ * 덕키의 기본적인 태그를 구현합니다.
+ * [QuackRoundTag] 는 [QuackCircleTag] 와 달리 아래와 같은 특징이 있습니다.
+ *
+ * 1. [QuackCircleTag] 보다 적은 둥글기를 갖습니다.
+ * 2. trailing icon 을 가질 수 없습니다.
+ *
+ * @param text 태그의 텍스트
+ * @param isSelected 현재 선택된 상태로 있는지 여부
+ * @param onClick 태그를 클릭했을 때 실행될 람다
+ */
+@Composable
+public fun QuackRoundTag(
+    text: String,
+    isSelected: Boolean,
+    onClick: (() -> Unit)? = null,
+): Unit = with(
+    receiver = QuackTagDefaults.RoundingTag,
+) {
+    QuackSurface(
+        modifier = Modifier.wrapContentSize(),
+        backgroundColor = BackgroundColor,
+        shape = Shape,
+        border = borderFor(
+            isSelected = isSelected,
+        ),
+        onClick = onClick,
+    ) {
+        QuackText(
+            modifier = Modifier.padding(
+                paddingValues = TextPadding,
+            ),
+            text = text,
+            style = typographyFor(
+                isSelected = isSelected,
+            ),
+            singleLine = true,
+        )
+    }
+}
+
+/**
+ * [LazyVerticalGrid] 형식으로 주어진 태그들을 배치합니다.
+ * 이 컴포넌트는 항상 상위 컴포저블의 가로 길이만큼 width 가 지정되고,
+ * (즉, 좌우 패딩이 허용되지 않습니다) 한 줄에 최대 2개가 들어갈 수 있습니다.
+ * 또한 가로와 세로 스크롤을 모두 지원합니다.
+ *
+ * 퍼포먼스 측면에서 [LazyLayout] 를 사용하는 것이 좋지만, 덕키의 경우
+ * 표시해야 하는 태그의 개수가 많지 않기 때문에 컴포저블을 직접 그려도
+ * 성능에 중대한 영향을 미치지 않을 것으로 판단하여 [LazyColumn] 과
+ * [Row] + [Modifier.horizontalScroll] 를 사용하여 구현하였습니다.
+ *
+ * @param title 상단에 표시될 제목. 만약 null 을 제공할 시 표시되지 않습니다.
+ * @param items 표시할 태그들의 제목. **중복되는 태그 제목은 허용하지 않습니다.**
+ * 이 항목은 바뀔 수 있으므로 [ImmutableList] 가 아닌 일반 [List] 로 받습니다.
+ * @param itemSelections 태그들의 선택 여부.
+ * 이 항목은 바뀔 수 있으므로 [ImmutableList] 가 아닌 [List] 로 받습니다.
+ * @param tagType [QuackLazyVerticalGridTag] 에서 표시할 태그의 타입을 지정합니다.
+ * 여러 종류의 태그가 [QuackLazyVerticalGridTag] 으로 표시될 수 있게 태그의 타입을 따로 받습니다.
+ * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다.
+ * 람다식의 인자로는 선택된 태그의 index 가 들어옵니다.
+ */
+@SuppressLint("PreferredImmutableCollections")
+@Composable
+public fun QuackLazyVerticalGridTag(
+    title: String? = null,
+    items: List<String>,
+    itemSelections: List<Boolean>? = null,
+    tagType: QuackTagType,
+    onClick: (
+        index: Int,
+    ) -> Unit,
+): Unit = with(
+    receiver = QuackTagDefaults.LazyTag,
+) {
+    runtimeCheck(
+        value = items.toSet().size == items.size,
+    ) {
+        "Duplicate tag titles are not allowed."
+    }
+    if (itemSelections != null) {
+        runtimeCheck(
+            value = items.size == itemSelections.size,
+        ) {
+            "The size of items and the size of itemsSelection must always be the same. " +
+                    "[items.size (${items.size}) != itemsSelection.size (${itemSelections.size})]"
+        }
+    }
+    val chunkedItems = remember(
+        key1 = items,
+    ) {
+        items.chunked(
+            size = 2,
+        )
+    }
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        verticalArrangement = Arrangement.spacedBy(
+            space = VerticalSpacedBy,
+        ),
+    ) {
+        if (title != null) {
+            item {
+                QuackText(
+                    modifier = Modifier.padding(
+                        bottom = TitleSpacedBy,
+                    ),
+                    text = title,
+                    style = TitleTypogrphy,
+                    singleLine = true,
+                )
+            }
+        }
+        itemsIndexed(
+            items = chunkedItems,
+            key = { _, item ->
+                item
+            },
+        ) { rowIndex, rowItems ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(
+                        state = rememberScrollState(),
+                    ),
+                horizontalArrangement = Arrangement.spacedBy(
+                    space = HorizontalSpacedBy,
+                ),
+            ) {
+                rowItems.fastForEachIndexed { index, item ->
+                    val currentIndex = rowIndex * 2 + index
+
+                }
+            }
         }
     }
 }
