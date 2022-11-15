@@ -57,6 +57,7 @@ import team.duckie.quackquack.ui.component.internal.QuackTextFieldTrailingConten
 import team.duckie.quackquack.ui.component.internal.rememberQuackTextFieldMeasurePolicy
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.drawAnimatedLine
+import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.theme.LocalQuackTextFieldColors
 import team.duckie.quackquack.ui.util.DpSize
@@ -246,6 +247,10 @@ private object QuackTextFieldDefaults {
                     QuackText(
                         modifier = Modifier
                             .wrapContentSize()
+                            .quackClickable(
+                                rippleEnabled = false,
+                                onClick = onClick,
+                            )
                             .padding(
                                 paddingValues = TrailingContentPadding,
                             ),
