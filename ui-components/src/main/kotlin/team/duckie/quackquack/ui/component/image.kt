@@ -89,12 +89,12 @@ public fun QuackImage(
 // TODO: 로딩 및 로드 실패 인터렉션 (#301)
 @Composable
 private fun QuackImageInternal(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     src: Any?,
-    size: DpSize? = null,
-    tint: QuackColor? = null,
-    contentScale: ContentScale = ContentScale.Crop,
-    contentDescription: String? = null,
+    size: DpSize?,
+    tint: QuackColor?,
+    contentScale: ContentScale,
+    contentDescription: String?,
 ) {
     if (src == null) return
     val density = LocalDensity.current

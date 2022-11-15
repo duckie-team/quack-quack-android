@@ -61,7 +61,7 @@ fun QuackRoundCheckDemo() {
     ) {
         QuackRoundCheckBox(
             checked = checked,
-            onToggle = {
+            onClick = {
                 checked = !checked
             },
         )
@@ -69,7 +69,7 @@ fun QuackRoundCheckDemo() {
         QuackRoundCheckBox(
             title = "판매 요청 받기",
             checked = checked,
-            onToggle = {
+            onClick = {
                 checked = !checked
             },
         )

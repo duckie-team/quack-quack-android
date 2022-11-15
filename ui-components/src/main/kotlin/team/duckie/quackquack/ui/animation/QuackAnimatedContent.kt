@@ -32,7 +32,9 @@ import androidx.compose.ui.Modifier
 public fun <T> QuackAnimatedContent(
     modifier: Modifier = Modifier,
     targetState: T,
-    content: @Composable AnimatedVisibilityScope.(animatedTargetState: T) -> Unit,
+    content: @Composable AnimatedVisibilityScope.(
+        animatedTargetState: T,
+    ) -> Unit,
 ) {
     AnimatedContent(
         modifier = modifier,

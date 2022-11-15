@@ -249,7 +249,7 @@ inline fun QuackToggleBenchmark() {
 
     QuackRoundCheckBox(
         checked = true,
-        onToggle = {},
+        onClick = {},
     )
 
     QuackSquareCheckBox(

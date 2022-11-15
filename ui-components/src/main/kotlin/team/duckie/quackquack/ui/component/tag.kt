@@ -269,16 +269,19 @@ private object QuackTagDefaults {
  * 1. 배경 색상이 항상 Grayscale 입니다.
  * 2. trailing text 를 갖습니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text 태그의 텍스트
  * @param trailingText 태그의 trailing content 로 들어갈 텍스트
  * @param onClick 태그를 클릭했을 때 실행될 람다
  */
 @Composable
 public fun QuackGrayscaleTag(
+    modifier: Modifier = Modifier,
     text: String,
     trailingText: String,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackGrayscaleTagInternal(
+    modifier = modifier,
     text = text,
     trailingText = trailingText,
     onClick = onClick,
@@ -290,6 +293,7 @@ public fun QuackGrayscaleTag(
  * [onClickWithIndex] 인자를 추가로 받습니다. [onClick] 으로 null 이 제공됐다면
  * 클릭 이벤트로 [onClickWithIndex] 를 실행합니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text 태그의 텍스트
  * @param trailingText 태그의 trailing content 로 들어갈 텍스트
  * @param actualIndex 이 태그가 위치하는 실제 index 값.
@@ -300,6 +304,7 @@ public fun QuackGrayscaleTag(
  */
 @Composable
 private fun QuackGrayscaleTagInternal(
+    modifier: Modifier = Modifier,
     text: String,
     trailingText: String,
     actualIndex: Int? = null,
@@ -314,7 +319,7 @@ private fun QuackGrayscaleTagInternal(
         onClickWithIndex = onClickWithIndex,
     )
     QuackSurface(
-        modifier = Modifier.wrapContentSize(),
+        modifier = modifier.wrapContentSize(),
         backgroundColor = BackgroundColor,
         shape = Shape,
         onClick = onClick ?: onClickWithIndex?.let {
@@ -357,6 +362,7 @@ private fun QuackGrayscaleTagInternal(
  * 1. trailing icon 을 가질 수 있습니다.
  * 2. trailing icon 여부와 현재 선택 상태에 따라 배경색과 테두리가 달라집니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text 태그의 텍스트
  * @param trailingIcon 태그의 trailing content 로 들어갈 [QuackIcon].
  * null 이 들어오면 trailing content 를 그리지 않습니다.
@@ -365,11 +371,13 @@ private fun QuackGrayscaleTagInternal(
  */
 @Composable
 public fun QuackCircleTag(
+    modifier: Modifier = Modifier,
     text: String,
     trailingIcon: QuackIcon? = null,
     isSelected: Boolean,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackCircleTagInternal(
+    modifier = modifier,
     text = text,
     trailingIcon = trailingIcon,
     isSelected = isSelected,
@@ -385,6 +393,7 @@ public fun QuackCircleTag(
  * 1. trailing icon 을 가질 수 있습니다.
  * 2. trailing icon 여부와 현재 선택 상태에 따라 배경색과 테두리가 달라집니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text 태그의 텍스트
  * @param trailingIcon 태그의 trailing content 로 들어갈 [QuackIcon]
  * @param isSelected 현재 선택된 상태로 있는지 여부
@@ -396,6 +405,7 @@ public fun QuackCircleTag(
  */
 @Composable
 private fun QuackCircleTagInternal(
+    modifier: Modifier = Modifier,
     text: String,
     trailingIcon: QuackIcon? = null,
     isSelected: Boolean,
@@ -414,7 +424,7 @@ private fun QuackCircleTagInternal(
     val hasTrailingIcon = trailingIcon != null
 
     QuackSurface(
-        modifier = Modifier.wrapContentSize(),
+        modifier = modifier.wrapContentSize(),
         backgroundColor = backgroundColorFor(
             isSelected = isSelected,
             hasTrailingIcon = hasTrailingIcon,
@@ -470,16 +480,19 @@ private fun QuackCircleTagInternal(
  * 1. [QuackCircleTag] 보다 적은 둥글기를 갖습니다.
  * 2. trailing icon 을 가질 수 없습니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text 태그의 텍스트
  * @param isSelected 현재 선택된 상태로 있는지 여부
  * @param onClick 태그를 클릭했을 때 실행될 람다
  */
 @Composable
 public fun QuackRoundTag(
+    modifier: Modifier = Modifier,
     text: String,
     isSelected: Boolean,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackRoundTagInternal(
+    modifier = Modifier,
     text = text,
     isSelected = isSelected,
     onClick = onClick,
@@ -491,6 +504,7 @@ public fun QuackRoundTag(
  * [onClickWithIndex] 인자를 추가로 받습니다. [onClick] 으로 null 이 제공됐다면
  * 클릭 이벤트로 [onClickWithIndex] 를 실행합니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text 태그의 텍스트
  * @param isSelected 현재 선택된 상태로 있는지 여부
  * @param actualIndex 이 태그가 위치하는 실제 index 값.
@@ -501,6 +515,7 @@ public fun QuackRoundTag(
  */
 @Composable
 private fun QuackRoundTagInternal(
+    modifier: Modifier = Modifier,
     text: String,
     isSelected: Boolean,
     actualIndex: Int? = null,
@@ -515,7 +530,7 @@ private fun QuackRoundTagInternal(
         onClickWithIndex = onClickWithIndex,
     )
     QuackSurface(
-        modifier = Modifier.wrapContentSize(),
+        modifier = modifier.wrapContentSize(),
         backgroundColor = BackgroundColor,
         shape = Shape,
         border = borderFor(
@@ -587,6 +602,7 @@ private fun quackTagInternalAssert(
  * 성능에 중대한 영향을 미치지 않을 것으로 판단하여 [LazyColumn] 과
  * [Row] + [Modifier.horizontalScroll] 를 사용하여 구현하였습니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param title 상단에 표시될 제목. 만약 null 을 제공할 시 표시되지 않습니다.
  * @param items 표시할 태그들의 제목. **중복되는 태그 제목은 허용하지 않습니다.**
  * 이 항목은 바뀔 수 있으므로 [ImmutableList] 가 아닌 일반 [List] 로 받습니다.
@@ -599,6 +615,7 @@ private fun quackTagInternalAssert(
  */
 @Composable
 public fun QuackLazyVerticalGridTag(
+    modifier: Modifier = Modifier,
     title: String? = null,
     items: List<String>,
     itemSelections: List<Boolean>? = null,
@@ -630,7 +647,7 @@ public fun QuackLazyVerticalGridTag(
         )
     }
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight(),
         verticalArrangement = Arrangement.spacedBy(

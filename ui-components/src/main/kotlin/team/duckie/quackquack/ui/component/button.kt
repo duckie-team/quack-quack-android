@@ -8,7 +8,7 @@
 package team.duckie.quackquack.ui.component
 
 import team.duckie.quackquack.ui.component.QuackLargeButtonType.Border as LargeBorder
-import team.duckie.quackquack.ui.component.QuackLargeButtonType.Compat as LargeCompat
+import team.duckie.quackquack.ui.component.QuackLargeButtonType.Compact as LargeCompact
 import team.duckie.quackquack.ui.component.QuackLargeButtonType.Fill as LargeFill
 import team.duckie.quackquack.ui.component.QuackSmallButtonType.Border as SmallBorder
 import team.duckie.quackquack.ui.component.QuackSmallButtonType.Fill as SmallFill
@@ -49,7 +49,7 @@ import team.duckie.quackquack.ui.util.runtimeCheck
  * @property LargeFill 44.dp 의 세로 길이를 갖고, 배경색이 적용됩니다.
  * @property LargeBorder 44.dp 의 세로 길이를 갖고, 배경색 대신 테두리가 적용됩니다.
  * 추가로 왼쪽에 아이콘을 표시할 수 있습니다.
- * @property LargeCompat 40.dp 의 세로 길이를 갖고, 배경색 대신 테두리가 적용됩니다.
+ * @property LargeCompact 40.dp 의 세로 길이를 갖고, 배경색 대신 테두리가 적용됩니다.
  */
 public enum class QuackLargeButtonType(
     private val height: Dp,
@@ -60,7 +60,7 @@ public enum class QuackLargeButtonType(
     Border(
         height = 44.dp,
     ),
-    Compat(
+    Compact(
         height = 40.dp,
     )
 }
@@ -119,7 +119,7 @@ private object QuackButtonDefaults {
                 true -> QuackColor.DuckieOrange
                 else -> QuackColor.Gray2
             }
-            LargeBorder, LargeCompat -> QuackColor.White
+            LargeBorder, LargeCompact -> QuackColor.White
         }
 
         /**
@@ -134,7 +134,7 @@ private object QuackButtonDefaults {
             type: QuackLargeButtonType,
         ) = when (type) {
             LargeFill -> null
-            LargeBorder, LargeCompat -> QuackBorder(
+            LargeBorder, LargeCompact -> QuackBorder(
                 color = QuackColor.Gray3,
             )
         }

@@ -313,6 +313,7 @@ private object QuackTabDefaults {
  *
  * 첫 번째와 마지막 탭은 화면에서 일정 사이즈 만큼 패딩이 적용됩니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param titles 탭 제목 리스트
  * @param selectedTabIndex 현재 선택된 탭의 index
  * @param onTabSelected 새로운 탭이 선택됐을 때 호출되는 콜백 람다.
@@ -320,6 +321,7 @@ private object QuackTabDefaults {
  */
 @Composable
 public fun QuackMainTab(
+    modifier: Modifier = Modifier,
     titles: ImmutableList<String>,
     selectedTabIndex: Int,
     onTabSelected: (index: Int) -> Unit,
@@ -388,7 +390,7 @@ public fun QuackMainTab(
     )
 
     TabTextLazyRow(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .background(
@@ -455,6 +457,7 @@ public fun QuackMainTab(
  *
  * 첫 번째와 마지막 탭은 화면에서 일정 사이즈 만큼 패딩이 적용됩니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param titles 탭 제목 리스트
  * @param selectedTabIndex 현재 선택된 탭의 index
  * @param onTabSelected 새로운 탭이 선택됐을 때 호출되는 람다.
@@ -462,6 +465,7 @@ public fun QuackMainTab(
  */
 @Composable
 public fun QuackSubTab(
+    modifier: Modifier = Modifier,
     titles: ImmutableList<String>,
     selectedTabIndex: Int,
     onTabSelected: (index: Int) -> Unit,
@@ -534,7 +538,7 @@ public fun QuackSubTab(
     )
 
     TabTextLazyRow(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .background(

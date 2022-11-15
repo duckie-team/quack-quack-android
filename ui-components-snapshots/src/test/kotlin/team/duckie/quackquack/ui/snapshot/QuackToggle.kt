@@ -55,7 +55,7 @@ class QuackToggle {
         ) {
             team.duckie.quackquack.ui.component.QuackRoundCheckBox(
                 checked = checked,
-                onToggle = {},
+                onClick = {},
             )
         }
     }

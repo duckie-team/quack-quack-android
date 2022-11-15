@@ -81,12 +81,14 @@ private object QuackLabelDefaults {
 /**
  * 간단히 레이블을 보여주는 컴포넌트를 구현합니다.
  *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text 레이블에 표시할 텍스트
  * @param active 레이블이 활성화 됐는지 여부
  * @param onClick 레이블이 클릭됐을 때 실행될 람다
  */
 @Composable
 public fun QuackLabel(
+    modifier: Modifier = Modifier,
     text: String,
     active: Boolean,
     onClick: (() -> Unit)? = null,
@@ -94,7 +96,7 @@ public fun QuackLabel(
     receiver = QuackLabelDefaults,
 ) {
     QuackSurface(
-        modifier = Modifier.wrapContentSize(),
+        modifier = modifier.wrapContentSize(),
         shape = Shape,
         backgroundColor = backgroundColorFor(
             isActive = active,
