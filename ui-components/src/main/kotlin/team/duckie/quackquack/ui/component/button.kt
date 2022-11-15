@@ -82,7 +82,7 @@ public enum class QuackSmallButtonType {
  */
 private object QuackButtonDefaults {
     object LargeButton {
-        val Padding = PaddingValues(
+        val TextPadding = PaddingValues(
             horizontal = 16.dp,
             vertical = 13.dp,
         )
@@ -167,7 +167,7 @@ private object QuackButtonDefaults {
     }
 
     object MediumButton {
-        val Padding = PaddingValues(
+        val TextPadding = PaddingValues(
             horizontal = 58.dp,
             vertical = 10.dp,
         )
@@ -218,7 +218,7 @@ private object QuackButtonDefaults {
     }
 
     object SmallButton {
-        val Padding = PaddingValues(
+        val TextPadding = PaddingValues(
             horizontal = 12.dp,
             vertical = 8.dp,
         )
@@ -303,7 +303,7 @@ private object QuackButtonDefaults {
     }
 
     object ChipButton {
-        val Padding = PaddingValues(
+        val TextPadding = PaddingValues(
             horizontal = 8.dp,
             vertical = 4.dp,
         )
@@ -418,7 +418,7 @@ public fun QuackLargeButton(
         ),
         text = text,
         textStyle = Typography,
-        padding = Padding,
+        padding = TextPadding,
         backgroundColor = backgroundColorFor(
             enabled = active,
             type = type,
@@ -459,7 +459,7 @@ public fun QuackMediumToggleButton(
         textStyle = typographyFor(
             enabled = selected,
         ),
-        padding = Padding,
+        padding = TextPadding,
         backgroundColor = BackgroundColor,
         border = borderFor(
             enabled = selected,
@@ -500,7 +500,7 @@ public fun QuackSmallButton(
             enabled = enabled,
             type = type,
         ),
-        padding = Padding,
+        padding = TextPadding,
         backgroundColor = backgroundColorFor(
             enabled = enabled,
             type = type,
@@ -544,7 +544,7 @@ public fun QuackToggleChip(
         textStyle = typographyFor(
             enabled = selected,
         ),
-        padding = Padding,
+        padding = TextPadding,
         backgroundColor = backgroundColorFor(
             enabled = selected,
         ),
