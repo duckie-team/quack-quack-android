@@ -59,7 +59,7 @@ public fun QuackImage(
     contentScale: ContentScale = ContentScale.FillBounds,
     shape: Shape = RectangleShape,
     contentDescription: String? = null,
-): Unit = QuackImageImpl(
+): Unit = QuackImageInternal(
     modifier = modifier
         .clip(
             shape = shape,
@@ -88,7 +88,7 @@ public fun QuackImage(
  */
 // TODO: 로딩 및 로드 실패 인터렉션 (#301)
 @Composable
-private fun QuackImageImpl(
+private fun QuackImageInternal(
     modifier: Modifier = Modifier,
     src: Any?,
     size: DpSize? = null,

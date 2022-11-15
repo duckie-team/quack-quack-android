@@ -29,6 +29,11 @@ android {
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + "-Xexplicit-api=strict"
     }
+
+    lint {
+        // FIXME: https://github.com/duckie-team/quack-quack-android/issues/144
+        disable.add("PreferredImmutableCollections")
+    }
 }
 
 dependencies {

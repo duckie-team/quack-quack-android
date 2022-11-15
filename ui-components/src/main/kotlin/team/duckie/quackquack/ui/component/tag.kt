@@ -7,8 +7,6 @@
 
 package team.duckie.quackquack.ui.component
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.gestures.ModifierLocalScrollableContainerProvider.value
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
@@ -42,12 +39,32 @@ import team.duckie.quackquack.ui.util.runIf
 import team.duckie.quackquack.ui.util.runtimeCheck
 
 /**
- * QuackLazyTag 에 사용할 태그들의 타입을 정의합니다.
+ * QuackLazyTag 에 사용할 태그들의 타입과 추가 정보들을 정의합니다.
  */
-public enum class QuackTagType {
-    Grayscale,
-    Circle,
-    Rounding,
+public sealed class QuackTagType {
+    /**
+     * [QuackGrayscaleTag] 에 해당합니다.
+     *
+     * @param trailingText 태그의 trailing content 로 들어갈 텍스트
+     */
+    public data class Grayscale(
+        val trailingText: String,
+    ) : QuackTagType()
+
+    /**
+     * [QuackCircleTag] 에 해당합니다.
+     *
+     * @param trailingIcon 태그의 trailing content 로 들어갈 [QuackIcon].
+     * null 이 들어오면 trailing content 를 그리지 않습니다.
+     */
+    public data class Circle(
+        val trailingIcon: QuackIcon? = null,
+    ) : QuackTagType()
+
+    /**
+     * [QuackRoundTag] 에 해당합니다.
+     */
+    public object Round : QuackTagType()
 }
 
 private object QuackTagDefaults {
@@ -232,8 +249,10 @@ private object QuackTagDefaults {
         val HorizontalSpacedBy = 8.dp
 
         /**
+         * ```
          * [Title]
          * [LazyTag]
+         * ```
          *
          * 에서 `title` 과 `LazyTag` 사이의 간격 입니다.
          */
@@ -259,14 +278,53 @@ public fun QuackGrayscaleTag(
     text: String,
     trailingText: String,
     onClick: (() -> Unit)? = null,
+): Unit = QuackGrayscaleTagInternal(
+    text = text,
+    trailingText = trailingText,
+    onClick = onClick,
+)
+
+/**
+ * [QuackGrayscaleTag] 을 실제로 구현합니다.
+ * [QuackGrayscaleTagInternal] 는 [QuackLazyVerticalGridTag] 에서 onClick 사용을 위해
+ * [onClickWithIndex] 인자를 추가로 받습니다. [onClick] 으로 null 이 제공됐다면
+ * 클릭 이벤트로 [onClickWithIndex] 를 실행합니다.
+ *
+ * @param text 태그의 텍스트
+ * @param trailingText 태그의 trailing content 로 들어갈 텍스트
+ * @param actualIndex 이 태그가 위치하는 실제 index 값.
+ * [onClickWithIndex] 가 null 이 아닐 때만 유효합니다.
+ * @param onClick 태그를 클릭했을 때 실행될 람다. index 값을 제공받지 않습니다.
+ * @param onClickWithIndex 클릭 이벤트에 클릭된 index 를 함께 제공하는 람다.
+ * index 값으론 [actualIndex] 를 참조합니다. [onClick] 이 null 이 아닐 때만 유효합니다.
+ */
+@Composable
+private fun QuackGrayscaleTagInternal(
+    text: String,
+    trailingText: String,
+    actualIndex: Int? = null,
+    onClick: (() -> Unit)? = null,
+    onClickWithIndex: ((index: Int) -> Unit)? = null,
 ): Unit = with(
     receiver = QuackTagDefaults.GrayscaleTag,
 ) {
+    quackTagInternalAssert(
+        actualIndex = actualIndex,
+        onClick = onClick,
+        onClickWithIndex = onClickWithIndex,
+    )
     QuackSurface(
         modifier = Modifier.wrapContentSize(),
         backgroundColor = BackgroundColor,
         shape = Shape,
-        onClick = onClick,
+        onClick = onClick ?: onClickWithIndex?.let {
+            {
+                onClickWithIndex(
+                    /* index = */
+                    actualIndex!!, // assertion works above
+                )
+            }
+        },
     ) {
         Row(
             modifier = Modifier.wrapContentSize(),
@@ -300,7 +358,8 @@ public fun QuackGrayscaleTag(
  * 2. trailing icon 여부와 현재 선택 상태에 따라 배경색과 테두리가 달라집니다.
  *
  * @param text 태그의 텍스트
- * @param trailingIcon 태그의 trailing content 로 들어갈 [QuackIcon]
+ * @param trailingIcon 태그의 trailing content 로 들어갈 [QuackIcon].
+ * null 이 들어오면 trailing content 를 그리지 않습니다.
  * @param isSelected 현재 선택된 상태로 있는지 여부
  * @param onClick 태그를 클릭했을 때 실행될 람다
  */
@@ -310,9 +369,48 @@ public fun QuackCircleTag(
     trailingIcon: QuackIcon? = null,
     isSelected: Boolean,
     onClick: (() -> Unit)? = null,
+): Unit = QuackCircleTagInternal(
+    text = text,
+    trailingIcon = trailingIcon,
+    isSelected = isSelected,
+    onClick = onClick,
+)
+
+/**
+ * [QuackCircleTag] 을 실제로 구현합니다.
+ * [QuackCircleTagInternal] 는 [QuackLazyVerticalGridTag] 에서 onClick 사용을 위해
+ * [onClickWithIndex] 인자를 추가로 받습니다. [onClick] 으로 null 이 제공됐다면
+ * 클릭 이벤트로 [onClickWithIndex] 를 실행합니다.
+ *
+ * 1. trailing icon 을 가질 수 있습니다.
+ * 2. trailing icon 여부와 현재 선택 상태에 따라 배경색과 테두리가 달라집니다.
+ *
+ * @param text 태그의 텍스트
+ * @param trailingIcon 태그의 trailing content 로 들어갈 [QuackIcon]
+ * @param isSelected 현재 선택된 상태로 있는지 여부
+ * @param actualIndex 이 태그가 위치하는 실제 index 값.
+ * [onClickWithIndex] 가 null 이 아닐 때만 유효합니다.
+ * @param onClick 태그를 클릭했을 때 실행될 람다. index 값을 제공받지 않습니다.
+ * @param onClickWithIndex 클릭 이벤트에 클릭된 index 를 함께 제공하는 람다.
+ * index 값으론 [actualIndex] 를 참조합니다. [onClick] 이 null 이 아닐 때만 유효합니다.
+ */
+@Composable
+private fun QuackCircleTagInternal(
+    text: String,
+    trailingIcon: QuackIcon? = null,
+    isSelected: Boolean,
+    actualIndex: Int? = null,
+    onClick: (() -> Unit)? = null,
+    onClickWithIndex: ((index: Int) -> Unit)? = null,
 ): Unit = with(
     receiver = QuackTagDefaults.CircleTag,
 ) {
+    quackTagInternalAssert(
+        actualIndex = actualIndex,
+        onClick = onClick,
+        onClickWithIndex = onClickWithIndex,
+    )
+
     val hasTrailingIcon = trailingIcon != null
 
     QuackSurface(
@@ -325,7 +423,14 @@ public fun QuackCircleTag(
         border = borderFor(
             isSelected = isSelected,
         ),
-        onClick = onClick,
+        onClick = onClick ?: onClickWithIndex?.let {
+            {
+                onClickWithIndex(
+                    /* index = */
+                    actualIndex!!, // assertion works above
+                )
+            }
+        },
     ) {
         Row(
             modifier = Modifier.wrapContentSize(),
@@ -374,9 +479,41 @@ public fun QuackRoundTag(
     text: String,
     isSelected: Boolean,
     onClick: (() -> Unit)? = null,
+): Unit = QuackRoundTagInternal(
+    text = text,
+    isSelected = isSelected,
+    onClick = onClick,
+)
+
+/**
+ * [QuackRoundTag] 을 실제로 구현합니다.
+ * [QuackRoundTagInternal] 는 [QuackLazyVerticalGridTag] 에서 onClick 사용을 위해
+ * [onClickWithIndex] 인자를 추가로 받습니다. [onClick] 으로 null 이 제공됐다면
+ * 클릭 이벤트로 [onClickWithIndex] 를 실행합니다.
+ *
+ * @param text 태그의 텍스트
+ * @param isSelected 현재 선택된 상태로 있는지 여부
+ * @param actualIndex 이 태그가 위치하는 실제 index 값.
+ * [onClickWithIndex] 가 null 이 아닐 때만 유효합니다.
+ * @param onClick 태그를 클릭했을 때 실행될 람다. index 값을 제공받지 않습니다.
+ * @param onClickWithIndex 클릭 이벤트에 클릭된 index 를 함께 제공하는 람다.
+ * index 값으론 [actualIndex] 를 참조합니다. [onClick] 이 null 이 아닐 때만 유효합니다.
+ */
+@Composable
+private fun QuackRoundTagInternal(
+    text: String,
+    isSelected: Boolean,
+    actualIndex: Int? = null,
+    onClick: (() -> Unit)? = null,
+    onClickWithIndex: ((index: Int) -> Unit)? = null,
 ): Unit = with(
     receiver = QuackTagDefaults.RoundingTag,
 ) {
+    quackTagInternalAssert(
+        actualIndex = actualIndex,
+        onClick = onClick,
+        onClickWithIndex = onClickWithIndex,
+    )
     QuackSurface(
         modifier = Modifier.wrapContentSize(),
         backgroundColor = BackgroundColor,
@@ -384,7 +521,14 @@ public fun QuackRoundTag(
         border = borderFor(
             isSelected = isSelected,
         ),
-        onClick = onClick,
+        onClick = onClick ?: onClickWithIndex?.let {
+            {
+                onClickWithIndex(
+                    /* index = */
+                    actualIndex!!, // assertion works above
+                )
+            }
+        },
     ) {
         QuackText(
             modifier = Modifier.padding(
@@ -396,6 +540,39 @@ public fun QuackRoundTag(
             ),
             singleLine = true,
         )
+    }
+}
+
+/**
+ * QuackTagInternal 이 정상적으로 작동하기 위한 assertion 을 구현합니다.
+ *
+ * @param actualIndex 이 태그가 위치하는 실제 index 값.
+ * [onClickWithIndex] 가 null 이 아닐 때만 유효합니다.
+ * @param onClick 태그를 클릭했을 때 실행될 람다. index 값을 제공받지 않습니다.
+ * @param onClickWithIndex 클릭 이벤트에 클릭된 index 를 함께 제공하는 람다.
+ * index 값으론 [actualIndex] 를 참조합니다. [onClick] 이 null 이 아닐 때만 유효합니다.
+ */
+@Stable
+private fun quackTagInternalAssert(
+    actualIndex: Int? = null,
+    onClick: (() -> Unit)? = null,
+    onClickWithIndex: ((index: Int) -> Unit)? = null,
+) {
+    when {
+        onClick != null -> {
+            runtimeCheck(
+                value = actualIndex == null && onClickWithIndex == null,
+            ) {
+                "onClick 에 유효한 값이 제공됐을 때는, actualIndex 와 onClickWithIndex 는 null 이어야 합니다."
+            }
+        }
+        onClickWithIndex != null -> {
+            runtimeCheck(
+                value = actualIndex != null,
+            ) {
+                "onClickWithIndex 에 유효한 값이 제공됐을 때는, actualIndex 는 null 이 아니어야 합니다."
+            }
+        }
     }
 }
 
@@ -420,7 +597,6 @@ public fun QuackRoundTag(
  * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다.
  * 람다식의 인자로는 선택된 태그의 index 가 들어옵니다.
  */
-@SuppressLint("PreferredImmutableCollections")
 @Composable
 public fun QuackLazyVerticalGridTag(
     title: String? = null,
@@ -491,7 +667,34 @@ public fun QuackLazyVerticalGridTag(
             ) {
                 rowItems.fastForEachIndexed { index, item ->
                     val currentIndex = rowIndex * 2 + index
-
+                    val isSelected = itemSelections?.get(
+                        index = currentIndex,
+                    ) ?: false
+                    with(
+                        receiver = tagType,
+                    ) {
+                        when (this) {
+                            is QuackTagType.Grayscale -> QuackGrayscaleTagInternal(
+                                text = item,
+                                trailingText = trailingText,
+                                actualIndex = currentIndex,
+                                onClickWithIndex = onClick,
+                            )
+                            is QuackTagType.Circle -> QuackCircleTagInternal(
+                                text = item,
+                                trailingIcon = trailingIcon,
+                                isSelected = isSelected,
+                                actualIndex = currentIndex,
+                                onClickWithIndex = onClick,
+                            )
+                            QuackTagType.Round -> QuackRoundTagInternal(
+                                text = item,
+                                isSelected = isSelected,
+                                actualIndex = currentIndex,
+                                onClickWithIndex = onClick,
+                            )
+                        }
+                    }
                 }
             }
         }
