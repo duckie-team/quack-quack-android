@@ -198,7 +198,7 @@ public fun QuackSelectableImage(
 
 }
 
-// TODO: 커스텀 레이아웃 해야 함...
+// TODO: 가장 작은 DelectionImage 가 커스텀 레이아웃 해야 함...
 /**
  * QuackSelectableImage 를 그리는데 필요한 리소스를 구성합니다.
  */
