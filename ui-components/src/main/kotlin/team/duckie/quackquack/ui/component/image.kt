@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
@@ -32,6 +33,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import team.duckie.quackquack.ui.animation.QuackAnimatedContent
@@ -41,6 +43,58 @@ import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.util.runIf
+
+/**
+ * QuackSelectableImage 를 그리는데 필요한 리소스를 구성합니다.
+ */
+private object QuackImageDefaults {
+    object BadgeableImage {
+        val Margin = PaddingValues(
+            all = 8.dp,
+        )
+    }
+
+    object SelectableImage {
+        val Margin = PaddingValues(
+            all = 7.dp,
+        )
+
+        /**
+         * 주어진 조건에 맞는 테두리를 계산합니다.
+         *
+         * @param isSelected 현재 선택된 상태인지 여부
+         *
+         * @return [isSelected] 여부에 따라 사용할 [QuackBorder]
+         */
+        @Stable
+        fun borderFor(
+            isSelected: Boolean,
+        ) = QuackBorder(
+            color = QuackColor.Gray3,
+        ).takeIf {
+            isSelected
+        }
+
+        val Shape = RectangleShape
+    }
+
+    // TODO: 가장 작은 DelectionImage 가 커스텀 레이아웃을 필요로 함
+    @Suppress("unused")
+    object Deletion {
+        val Icon = QuackIcon.Delete
+        val IconSize = team.duckie.quackquack.ui.util.DpSize(
+            all = 10.dp,
+        )
+
+        val IconContainerShape = CircleShape
+        val IconContainerBackgroundColor = QuackColor.Black.change(
+            alpha = 0.5f
+        )
+        val IconContainerSize = team.duckie.quackquack.ui.util.DpSize(
+            all = 16.dp,
+        )
+    }
+}
 
 /**
  * 이미지 혹은 [QuackIcon] 을 표시합니다.
@@ -53,6 +107,8 @@ import team.duckie.quackquack.ui.util.runIf
  * @param onClick 클릭됐을 때 실행할 람다식
  * @param contentScale 적용할 content scale 정책
  * @param shape 리소스가 표시될 모양
+ * @param badge 리소스와 함께 표시할 배지
+ * @param badgeAlign 배지의 위치
  * @param contentDescription 이미지의 설명
  */
 @Composable
@@ -66,6 +122,8 @@ public fun QuackImage(
     onClick: (() -> Unit)? = null,
     contentScale: ContentScale = ContentScale.FillBounds,
     shape: Shape = RectangleShape,
+    badge: (@Composable () -> Unit)? = null,
+    badgeAlign: Alignment = Alignment.TopEnd,
     contentDescription: String? = null,
 ): Unit = QuackImageInternal(
     modifier = modifier
@@ -80,6 +138,8 @@ public fun QuackImage(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    badge = badge,
+    badgeAlign = badgeAlign,
     contentDescription = contentDescription,
 )
 
@@ -92,6 +152,8 @@ public fun QuackImage(
  * @param size 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
  * @param tint 적용할 틴트 값
  * @param contentScale 적용할 content scale 정책
+ * @param badge 리소스와 함께 표시할 배지
+ * @param badgeAlign 배지의 위치
  * @param contentDescription 이미지의 설명
  */
 // TODO: 로딩 및 로드 실패 인터렉션 (#301)
@@ -102,7 +164,11 @@ private fun QuackImageInternal(
     size: DpSize?,
     tint: QuackColor?,
     contentScale: ContentScale,
+    badge: (@Composable () -> Unit)? = null,
+    badgeAlign: Alignment = Alignment.TopEnd,
     contentDescription: String?,
+) = with(
+    receiver = QuackImageDefaults.BadgeableImage,
 ) {
     if (src == null) return
     val density = LocalDensity.current
@@ -135,8 +201,22 @@ private fun QuackImageInternal(
                         ),
                         colorFilter = animatedTint.toColorFilter(),
                         contentScale = contentScale,
-                    )
-            )
+                    ),
+                contentAlignment = badgeAlign,
+            ) {
+                badge?.let {
+                    QuackAnimatedContent(
+                        modifier = Modifier
+                            .padding(
+                                paddingValues = Margin,
+                            )
+                            .wrapContentSize(),
+                        targetState = badge,
+                    ) { animatedBadge ->
+                        animatedBadge()
+                    }
+                }
+            }
         }
         return
     }
@@ -144,33 +224,58 @@ private fun QuackImageInternal(
         targetState = src,
         modifier = sizedModifier,
     ) { imageModel ->
-        AsyncImage(
+        Box(
             modifier = Modifier.fillMaxSize(),
-            model = ImageRequest
-                .Builder(
-                    context = LocalContext.current,
-                )
-                .data(
-                    data = imageModel,
-                )
-                .runIf(
-                    condition = size != null,
-                ) {
-                    with(
-                        receiver = density,
+            contentAlignment = badgeAlign,
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .zIndex(
+                        zIndex = 1f,
+                    ),
+                model = ImageRequest
+                    .Builder(
+                        context = LocalContext.current,
+                    )
+                    .data(
+                        data = imageModel,
+                    )
+                    .runIf(
+                        condition = size != null,
                     ) {
-                        val densitiedSize = size!! * density.fontScale
-                        size(
-                            width = densitiedSize.width.roundToPx(),
-                            height = densitiedSize.height.roundToPx(),
-                        )
+                        with(
+                            receiver = density,
+                        ) {
+                            val densitiedSize = size!! * density.fontScale
+                            size(
+                                width = densitiedSize.width.roundToPx(),
+                                height = densitiedSize.height.roundToPx(),
+                            )
+                        }
                     }
+                    .build(),
+                colorFilter = animatedTint.toColorFilter(),
+                contentDescription = contentDescription,
+                contentScale = contentScale,
+                filterQuality = FilterQuality.High,
+            )
+            badge?.let {
+                QuackAnimatedContent(
+                    modifier = Modifier
+                        .padding(
+                            paddingValues = Margin,
+                        )
+                        .wrapContentSize()
+                        .zIndex(
+                            zIndex = 2f,
+                        ),
+                    targetState = badge,
+                ) { animatedBadge ->
+                    animatedBadge()
                 }
-                .build(),
-            colorFilter = animatedTint.toColorFilter(),
-            contentDescription = contentDescription,
-            contentScale = contentScale,
-        )
+            }
+        }
     }
 }
 
@@ -188,53 +293,6 @@ private fun QuackColor.toColorFilter(): ColorFilter? {
     } else {
         ColorFilter.tint(
             color = composeColor,
-        )
-    }
-}
-
-// TODO: 가장 작은 DelectionImage 가 커스텀 레이아웃 해야 함...
-/**
- * QuackSelectableImage 를 그리는데 필요한 리소스를 구성합니다.
- */
-private object QuackSelectableImageDefaults {
-    object SelectableImage {
-        val Margin = PaddingValues(
-            all = 7.dp,
-        )
-
-        /**
-         * 주어진 조건에 맞는 테두리를 계산합니다.
-         *
-         * @param isSelected 현재 선택된 상태인지 여부
-         *
-         * @return [isSelected] 여부에 따라 사용할 [QuackBorder]
-         */
-        @Stable
-        fun borderFor(
-            isSelected: Boolean,
-        ) = QuackBorder(
-            color = QuackColor.Gray3,
-        ).takeIf {
-            isSelected
-        }
-
-        val Shape = RectangleShape
-    }
-
-    object Deletion {
-        // TODO: margin
-
-        val Icon = QuackIcon.Delete
-        val IconSize = team.duckie.quackquack.ui.util.DpSize(
-            all = 10.dp,
-        )
-
-        val IconContainerShape = CircleShape
-        val IconContainerBackgroundColor = QuackColor.Black.change(
-            alpha = 0.5f
-        )
-        val IconContainerSize = team.duckie.quackquack.ui.util.DpSize(
-            all = 16.dp,
         )
     }
 }
@@ -264,7 +322,7 @@ public fun QuackSelectableImage(
     contentScale: ContentScale = ContentScale.FillBounds,
     contentDescription: String? = null,
 ): Unit = with(
-    receiver = QuackSelectableImageDefaults.SelectableImage,
+    receiver = QuackImageDefaults.SelectableImage,
 ) {
     QuackSurface(
         modifier = modifier.wrapContentSize(),
