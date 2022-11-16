@@ -26,6 +26,10 @@ public value class QuackIcon private constructor(
     @DrawableRes public val drawableId: Int,
 ) {
     public companion object {
+        public val TextLogo: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_duckie_text_logo,
+        )
+
         public val Share: QuackIcon = QuackIcon(
             drawableId = R.drawable.quack_ic_share_24,
         )
