@@ -8,13 +8,18 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
@@ -30,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import team.duckie.quackquack.ui.animation.QuackAnimatedContent
+import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.icon.QuackIcon
@@ -169,33 +175,21 @@ private fun QuackImageInternal(
 }
 
 /**
- * 오른쪽 상단에 체크박스와 함께 이미지 혹은 [QuackIcon] 을 표시합니다.
+ * [QuackColor] 를 [ColorFilter] 로 변환합니다.
  *
- * @param modifier 이 컴포저블에서 사용할 [Modifier]
- * @param isSelected 현재 이미지가 선택됐는지 여부
- * @param src 표시할 리소스. 만약 null 이 들어온다면 리소스를 그리지 않습니다.
- * @param size 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
- * @param tint 적용할 틴트 값
- * @param rippleEnabled 클릭됐을 때 ripple 발생 여부
- * @param onClick 클릭됐을 때 실행할 람다식
- * @param contentScale 적용할 content scale 정책
- * @param shape 리소스가 표시될 모양
- * @param contentDescription 이미지의 설명
+ * @receiver 변환할 [QuackColor]
+ *
+ * @return 변환된 [ColorFilter].
+ * 만약 [QuackColor] 가 [QuackColor.Transparent] 이라면 null 을 반환합니다.
  */
-@Composable
-public fun QuackSelectableImage(
-    modifier: Modifier = Modifier,
-    isSelected: Boolean,
-    src: Any?,
-    size: DpSize? = null,
-    tint: QuackColor? = null,
-    rippleEnabled: Boolean = true,
-    onClick: (() -> Unit)? = null,
-    contentScale: ContentScale = ContentScale.FillBounds,
-    shape: Shape = RectangleShape,
-    contentDescription: String? = null,
-) {
-
+private fun QuackColor.toColorFilter(): ColorFilter? {
+    return if (this == QuackColor.Transparent || this == QuackColor.Unspecified) {
+        null
+    } else {
+        ColorFilter.tint(
+            color = composeColor,
+        )
+    }
 }
 
 // TODO: 가장 작은 DelectionImage 가 커스텀 레이아웃 해야 함...
@@ -204,13 +198,25 @@ public fun QuackSelectableImage(
  */
 private object QuackSelectableImageDefaults {
     object SelectableImage {
+        val Margin = PaddingValues(
+            all = 7.dp,
+        )
 
+        @Stable
+        fun borderFor(
+            isSelected: Boolean,
+        ) = QuackBorder(
+            color = QuackColor.Gray3,
+        ).takeIf {
+            isSelected
+        }
+
+        val Shape = RectangleShape
     }
 
-    /**
-     * deletion 타입을 나타냅니다.
-     */
     object Deletion {
+        // TODO: margin
+
         val Icon = QuackIcon.Delete
         val IconSize = team.duckie.quackquack.ui.util.DpSize(
             all = 10.dp,
@@ -227,19 +233,54 @@ private object QuackSelectableImageDefaults {
 }
 
 /**
- * [QuackColor] 를 [ColorFilter] 로 변환합니다.
+ * 오른쪽 상단에 체크박스와 함께 이미지 혹은 [QuackIcon] 을 표시합니다.
  *
- * @receiver 변환할 [QuackColor]
- *
- * @return 변환된 [ColorFilter].
- * 만약 [QuackColor] 가 [QuackColor.Transparent] 이라면 null 을 반환합니다.
+ * @param modifier 이 컴포저블에서 사용할 [Modifier]
+ * @param isSelected 현재 이미지가 선택됐는지 여부
+ * @param src 표시할 리소스. 만약 null 이 들어온다면 리소스를 그리지 않습니다.
+ * @param size 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
+ * @param tint 적용할 틴트 값
+ * @param rippleEnabled 클릭됐을 때 ripple 발생 여부
+ * @param onClick 클릭됐을 때 실행할 람다식
+ * @param contentScale 적용할 content scale 정책
+ * @param contentDescription 이미지의 설명
  */
-private fun QuackColor.toColorFilter(): ColorFilter? {
-    return if (this == QuackColor.Transparent || this == QuackColor.Unspecified) {
-        null
-    } else {
-        ColorFilter.tint(
-            color = composeColor,
+@Composable
+public fun QuackSelectableImage(
+    modifier: Modifier = Modifier,
+    isSelected: Boolean,
+    src: Any?,
+    size: DpSize? = null,
+    tint: QuackColor? = null,
+    rippleEnabled: Boolean = true,
+    onClick: (() -> Unit)? = null,
+    contentScale: ContentScale = ContentScale.FillBounds,
+    contentDescription: String? = null,
+): Unit = with(
+    receiver = QuackSelectableImageDefaults.SelectableImage,
+) {
+    QuackSurface(
+        modifier = modifier.wrapContentSize(),
+        shape = Shape,
+        border = borderFor(
+            isSelected = isSelected,
+        ),
+        contentAlignment = Alignment.TopEnd,
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    ) {
+        QuackRoundCheckBox(
+            modifier = Modifier.padding(
+                paddingValues = Margin,
+            ),
+            checked = isSelected,
+        )
+        QuackImage(
+            src = src,
+            size = size,
+            tint = tint,
+            contentScale = contentScale,
+            contentDescription = contentDescription,
         )
     }
 }
