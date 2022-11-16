@@ -19,25 +19,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import okhttp3.internal.immutableListOf
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.component.QuackBottomNavigationDefaults.QuackBottomNavigationHeight
+import team.duckie.quackquack.ui.component.QuackBottomNavigationDefaults.QuackBottomNavigationItemSize
 import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.modifier.quackClickable
+import team.duckie.quackquack.ui.util.DpSize
 
-private val QuackBottomNavigationHeight = 52.dp
-private val QuackBottomNavigationItemSize = DpSize(
-    width = 24.dp,
-    height = 24.dp,
-)
+/**
+ * QuackBottomNavigationBar 를 그리는데 필요한 리소스들을 정의합니다.
+ */
+private object QuackBottomNavigationDefaults {
+    val nHeight = 52.dp
+    val IconSize = DpSize(
+        all = 24.dp,
+    )
+}
 
 /**
  * QuackBottomNavigation 을 구현합니다.
  *
- * 현재 LazyRow 의 width 를 계산해서 icons 의 갯수만큼 나눈 후에
- * 하나의 탭 크기를 결정합니다.
+ * 각각 아이템들은 화면에 1:N 비율로 가로 길이가 결정됩니다.
  *
  * icon 은 defaultIcon 과 selectedIcon 을 data class 를 통해 둘 다 전달받고
  * selectedIndex 의 상태값과 비교하여 보여줘야하는 Icon 을 결정합니다.
@@ -46,7 +52,6 @@ private val QuackBottomNavigationItemSize = DpSize(
  * @param backgroundColor BottomNavigation 배경색
  * @param selectedIndex 현재 선택되어있는 index 상태값
  * @param onClick BottomNavigation 의 클릭 이벤트
- *
  */
 @Composable
 public fun QuackBottomNavigation(
@@ -133,7 +138,7 @@ private fun QuackBottomNavigationItem(
  *
  * @return [QuackBottomNavigation] 에서 사용되는 아이콘들의 data class list를 반환해줍니다.
  */
-private fun getBottomNavigationItems() = listOf(
+private fun getBottomNavigationItems() = immutableListOf(
     BottomNavigationItem(
         defaultIcon = QuackIcon.BottomNavHome,
         selectedIcon = QuackIcon.BottomNavHomeSelected,
@@ -152,6 +157,9 @@ private fun getBottomNavigationItems() = listOf(
     ),
 )
 
+/**
+ * []
+ */
 private data class BottomNavigationItem(
     val defaultIcon: QuackIcon,
     val selectedIcon: QuackIcon,
