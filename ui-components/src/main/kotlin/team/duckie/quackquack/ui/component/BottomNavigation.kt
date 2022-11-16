@@ -9,24 +9,20 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEachIndexed
 import okhttp3.internal.immutableListOf
 import team.duckie.quackquack.ui.color.QuackColor
-import team.duckie.quackquack.ui.component.QuackBottomNavigationDefaults.QuackBottomNavigationHeight
-import team.duckie.quackquack.ui.component.QuackBottomNavigationDefaults.QuackBottomNavigationItemSize
-import team.duckie.quackquack.ui.constant.QuackWidth
 import team.duckie.quackquack.ui.icon.QuackIcon
-import team.duckie.quackquack.ui.modifier.applyQuackSize
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.util.DpSize
 
@@ -34,7 +30,9 @@ import team.duckie.quackquack.ui.util.DpSize
  * QuackBottomNavigationBar 를 그리는데 필요한 리소스들을 정의합니다.
  */
 private object QuackBottomNavigationDefaults {
-    val nHeight = 52.dp
+    val Height = 52.dp
+    val BackgroundColor = QuackColor.White
+
     val IconSize = DpSize(
         all = 24.dp,
     )
@@ -49,118 +47,103 @@ private object QuackBottomNavigationDefaults {
  * selectedIndex 의 상태값과 비교하여 보여줘야하는 Icon 을 결정합니다.
  *
  * @param modifier 다양한 Align 에서 사용하기 위해 Modifier 를 열어둡니다.
- * @param backgroundColor BottomNavigation 배경색
  * @param selectedIndex 현재 선택되어있는 index 상태값
  * @param onClick BottomNavigation 의 클릭 이벤트
  */
 @Composable
 public fun QuackBottomNavigation(
     modifier: Modifier = Modifier,
-    backgroundColor: QuackColor = QuackColor.White,
     selectedIndex: Int,
-    onClick: (Int) -> Unit,
+    onClick: (index: Int) -> Unit,
+): Unit = with(
+    receiver = QuackBottomNavigationDefaults,
 ) {
-    val icons = getBottomNavigationItems()
-    val density = LocalDensity.current
-    val barWidth = remember { mutableStateOf(0.dp) }
-    val screenWidth = barWidth.value / icons.size
-
-    LazyRow(
+    Row(
         modifier = modifier
-            .applyQuackSize(
-                width = QuackWidth.Fill,
-                height = QuackHeight.Custom(
-                    height = QuackBottomNavigationHeight,
-                ),
+            .fillMaxWidth()
+            .height(
+                height = Height,
             )
             .background(
-                color = backgroundColor.composeColor,
-            )
-            .onSizeChanged { size ->
-                with(density) {
-                    barWidth.value = size.width.toDp()
-                }
-            },
+                color = BackgroundColor.composeColor,
+            ),
     ) {
-        itemsIndexed(icons) { index, _ ->
-            QuackBottomNavigationItem(
-                index = index,
-                width = screenWidth,
-                icon = when (selectedIndex) {
-                    index -> icons[index].selectedIcon
-                    else -> icons[index].defaultIcon
-                },
-                onClick = onClick,
-            )
+        rememberBottomNavigationIcons().fastForEachIndexed { index, icons ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .aspectRatio(
+                        ratio = 1f,
+                    )
+                    .quackClickable(
+                        rippleEnabled = false,
+                    ) {
+                        onClick(
+                            /* index = */
+                            index,
+                        )
+                    },
+                contentAlignment = Alignment.Center,
+            ) {
+                QuackImage(
+                    src = icons.pick(
+                        isSelected = index == selectedIndex,
+                    ),
+                    size = IconSize,
+                )
+            }
         }
     }
 }
 
 /**
- * QuackBottomNavigationItem 을 구현합니다.
+ * [QuackBottomNavigation] 에서 사용되는 아이콘들을 반환해줍니다.
  *
- * @param index 현재 탭이 몇 번째 index 인지에 대한 상태값, onClick 에 인자로 전달해주기 위해 넘겨받습니다.
- * @param width 현재 탭의 크기 -> 부모의 크기에 따라 달라집니다.
- * @param icon 현재 탭의 아이콘
- * @param onClick 탭의 클릭 이벤트
+ * @return [BottomNavigationIcon] 의 모음
  */
-
 @Composable
-private fun QuackBottomNavigationItem(
-    index: Int,
-    width: Dp,
-    icon: QuackIcon,
-    onClick: (Int) -> Unit,
-) {
-    Box(
-        modifier = Modifier
-            .applyQuackSize(
-                width = QuackWidth.Custom(
-                    width = width,
-                ),
-                height = QuackHeight.Fill,
-            )
-            .quackClickable {
-                onClick(index)
-            },
-        contentAlignment = Alignment.Center,
-    ) {
-        QuackImage(
-            src = icon,
-            size = QuackBottomNavigationItemSize,
-            rippleEnabled = false,
-        )
-    }
+private fun rememberBottomNavigationIcons() = remember {
+    immutableListOf(
+        BottomNavigationIcon(
+            defaultIcon = QuackIcon.BottomNavHome,
+            selectedIcon = QuackIcon.BottomNavHomeSelected,
+        ),
+        BottomNavigationIcon(
+            defaultIcon = QuackIcon.BottomNavSearch,
+            selectedIcon = QuackIcon.BottomNavSearchSelected,
+        ),
+        BottomNavigationIcon(
+            defaultIcon = QuackIcon.BottomNavNotice,
+            selectedIcon = QuackIcon.BottomNavNoticeSelected,
+        ),
+        BottomNavigationIcon(
+            defaultIcon = QuackIcon.BottomNavMessage,
+            selectedIcon = QuackIcon.BottomNavMessageSelected,
+        ),
+    )
 }
 
 /**
- * [getBottomNavigationItems] 을 구현합니다
+ * [QuackBottomNavigation] 에서 표시할 아이콘들을 정의합니다.
  *
- * @return [QuackBottomNavigation] 에서 사용되는 아이콘들의 data class list를 반환해줍니다.
+ * @property defaultIcon 기본 아이콘 (선택 X)
+ * @property selectedIcon 선택 상태의 아이콘
  */
-private fun getBottomNavigationItems() = immutableListOf(
-    BottomNavigationItem(
-        defaultIcon = QuackIcon.BottomNavHome,
-        selectedIcon = QuackIcon.BottomNavHomeSelected,
-    ),
-    BottomNavigationItem(
-        defaultIcon = QuackIcon.BottomNavSearch,
-        selectedIcon = QuackIcon.BottomNavSearchSelected,
-    ),
-    BottomNavigationItem(
-        defaultIcon = QuackIcon.BottomNavNotice,
-        selectedIcon = QuackIcon.BottomNavNoticeSelected,
-    ),
-    BottomNavigationItem(
-        defaultIcon = QuackIcon.BottomNavMessage,
-        selectedIcon = QuackIcon.BottomNavMessageSelected,
-    ),
-)
-
-/**
- * []
- */
-private data class BottomNavigationItem(
+private data class BottomNavigationIcon(
     val defaultIcon: QuackIcon,
     val selectedIcon: QuackIcon,
-)
+) {
+    /**
+     * 주어진 상태에 맞는 아이콘 리소스를 가져옵니다.
+     *
+     * @param isSelected 현재 선택된 상태인지 여부
+     *
+     * @return [isSelected] 여부에 따라 사용할 [QuackIcon]
+     */
+    fun pick(
+        isSelected: Boolean,
+    ) = when (isSelected) {
+        true -> selectedIcon
+        else -> defaultIcon
+    }
+}
