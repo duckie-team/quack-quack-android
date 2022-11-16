@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -140,6 +141,7 @@ private data class BottomNavigationIcon(
      *
      * @return [isSelected] 여부에 따라 사용할 [QuackIcon]
      */
+    @Stable
     fun pick(
         isSelected: Boolean,
     ) = when (isSelected) {
