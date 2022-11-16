@@ -36,7 +36,7 @@ internal inline fun runtimeCheck(
 /**
  * 주어진 메시지로 NPE 을 발생시킵니다.
  *
- * 주어진 값이 null 이라면 해당 구문을 NPE 과 함께 break 하는데 사용됩니다.
+ * 주어진 값이 null 이라면 해당 구문을 NPE 과 함께 return 하는데 사용됩니다.
  * 꽥꽥에 맞는 기본 에러 메시지를 사용하기 위해 구현됐습니다.
  *
  * ```kotlin
@@ -44,13 +44,14 @@ internal inline fun runtimeCheck(
  * print(value ?: npe())
  * ```
  *
- * @param lazyMessage NPE 에 사용될 메시지를 반환하는 람다
+ * @param lazyMessage NPE 에 사용될 메시지를 반환하는 람다.
  * 기본값은 [DefaultMessage] 를 사용합니다.
  *
- * @return [Nothing] (TODO: [#268](https://github.com/duckie-team/quack-quack-android/issues/268))
+ * @return [Nothing]
  *
  * @throw [lazyMessage] 값을 메시지로 사용하는 [NullPointerException]
  */
+// FIXME: [#268](https://github.com/duckie-team/quack-quack-android/issues/268)
 internal inline fun npe(
     lazyMessage: () -> String = { DefaultMessage },
 ): Nothing = throw NullPointerException(lazyMessage())

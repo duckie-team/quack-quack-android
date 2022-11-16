@@ -31,10 +31,15 @@ import team.duckie.quackquack.ui.util.layoutId
 import team.duckie.quackquack.ui.util.npe
 import team.duckie.quackquack.ui.util.widthOrZero
 
-internal const val QuackTextFieldLayoutId = "QuackTextFieldContent"
-internal const val QuackTextFieldPlaceholderLayoutId = "QuackTextFieldPlaceholderContent"
-internal const val QuackTextFieldLeadingContentLayoutId = "QuackTextFieldLeadingContent"
-internal const val QuackTextFieldTrailingContentLayoutId = "QuackTextFieldTrailingContent"
+/**
+ * [QuackTextFieldDecorationBox] 에서 사용하는 컴포저블의 레이아웃 아이디들 모음
+ */
+private object QuackTextFieldLayoutId {
+    const val Input = "QuackTextFieldContent"
+    const val Placeholder = "QuackTextFieldPlaceholderContent"
+    const val LeadingContent = "QuackTextFieldLeadingContent"
+    const val TrailingContent = "QuackTextFieldTrailingContent"
+}
 
 /**
  * [QuackBasicTextField] 를 measure 하기 위한 [MeasurePolicy]
@@ -56,7 +61,7 @@ private class QuackTextFieldMeasurePolicy : MeasurePolicy {
 
         // measure leading icon
         val leadingPlaceable = measurables.fastFirstOrNull { measurable ->
-            measurable.layoutId == QuackTextFieldLeadingContentLayoutId
+            measurable.layoutId == QuackTextFieldLayoutId.LeadingContent
         }?.measure(
             constraints = looseConstraints,
         )
@@ -64,7 +69,7 @@ private class QuackTextFieldMeasurePolicy : MeasurePolicy {
 
         // measure trailing icon
         val trailingPlaceable = measurables.fastFirstOrNull { measurable ->
-            measurable.layoutId == QuackTextFieldTrailingContentLayoutId
+            measurable.layoutId == QuackTextFieldLayoutId.TrailingContent
         }?.measure(
             constraints = looseConstraints.offset(
                 horizontal = -occupiedSpaceHorizontally,
@@ -81,13 +86,13 @@ private class QuackTextFieldMeasurePolicy : MeasurePolicy {
                 horizontal = -occupiedSpaceHorizontally,
             )
         val textFieldPlaceable = measurables.fastFirstOrNull { measurable ->
-            measurable.layoutId == QuackTextFieldLayoutId
+            measurable.layoutId == QuackTextFieldLayoutId.Input
         }?.measure(
             constraints = textFieldConstraints,
         ) ?: npe()
 
         val placeholderPlaceable = measurables.fastFirstOrNull { measurable ->
-            measurable.layoutId == QuackTextFieldPlaceholderLayoutId
+            measurable.layoutId == QuackTextFieldLayoutId.Placeholder
         }?.measure(
             constraints = textFieldConstraints,
         )
@@ -189,15 +194,15 @@ private class QuackTextFieldMeasurePolicy : MeasurePolicy {
     ): Int {
         val textFieldWidth = intrinsicMeasurer(
             /* intrinsicMeasurable = */
-            measurables.first { measurable ->
-                measurable.layoutId == QuackTextFieldLayoutId
-            },
+            measurables.fastFirstOrNull { measurable ->
+                measurable.layoutId == QuackTextFieldLayoutId.Input
+             } ?: npe(),
             /* intrinsicHeight = */
             height,
         )
 
-        val placeholderWidth = measurables.find { measurable ->
-            measurable.layoutId == QuackTextFieldPlaceholderLayoutId
+        val placeholderWidth = measurables.fastFirstOrNull { measurable ->
+            measurable.layoutId == QuackTextFieldLayoutId.Placeholder
         }?.let { measurable ->
             intrinsicMeasurer(
                 /* intrinsicMeasurable = */
@@ -207,8 +212,8 @@ private class QuackTextFieldMeasurePolicy : MeasurePolicy {
             )
         } ?: 0
 
-        val leadingWidth = measurables.find { measurable ->
-            measurable.layoutId == QuackTextFieldLeadingContentLayoutId
+        val leadingWidth = measurables.fastFirstOrNull { measurable ->
+            measurable.layoutId == QuackTextFieldLayoutId.LeadingContent
         }?.let { measurable ->
             intrinsicMeasurer(
                 /* intrinsicMeasurable = */
@@ -218,8 +223,8 @@ private class QuackTextFieldMeasurePolicy : MeasurePolicy {
             )
         } ?: 0
 
-        val trailingWidth = measurables.find { measurable ->
-            measurable.layoutId == QuackTextFieldTrailingContentLayoutId
+        val trailingWidth = measurables.fastFirstOrNull { measurable ->
+            measurable.layoutId == QuackTextFieldLayoutId.TrailingContent
         }?.let { measurable ->
             intrinsicMeasurer(
                 /* intrinsicMeasurable = */
@@ -257,15 +262,15 @@ private class QuackTextFieldMeasurePolicy : MeasurePolicy {
     ): Int {
         val textFieldHeight = intrinsicMeasurer(
             /* intrinsicMeasurable = */
-            measurables.first { measurable ->
-                measurable.layoutId == QuackTextFieldLayoutId
-            },
+            measurables.fastFirstOrNull { measurable ->
+                measurable.layoutId == QuackTextFieldLayoutId.Input
+            } ?: npe(),
             /* intrinsicWidth = */
             width,
         )
 
-        val placeholderHeight = measurables.find { measurable ->
-            measurable.layoutId == QuackTextFieldPlaceholderLayoutId
+        val placeholderHeight = measurables.fastFirstOrNull { measurable ->
+            measurable.layoutId == QuackTextFieldLayoutId.Placeholder
         }?.let { measurable ->
             intrinsicMeasurer(
                 /* intrinsicMeasurable = */
@@ -275,8 +280,8 @@ private class QuackTextFieldMeasurePolicy : MeasurePolicy {
             )
         } ?: 0
 
-        val leadingHeight = measurables.find { measurable ->
-            measurable.layoutId == QuackTextFieldLeadingContentLayoutId
+        val leadingHeight = measurables.fastFirstOrNull { measurable ->
+            measurable.layoutId == QuackTextFieldLayoutId.LeadingContent
         }?.let { measurable ->
             intrinsicMeasurer(
                 /* intrinsicMeasurable = */
@@ -286,8 +291,8 @@ private class QuackTextFieldMeasurePolicy : MeasurePolicy {
             )
         } ?: 0
 
-        val trailingHeight = measurables.find { measurable ->
-            measurable.layoutId == QuackTextFieldTrailingContentLayoutId
+        val trailingHeight = measurables.fastFirstOrNull { measurable ->
+            measurable.layoutId == QuackTextFieldLayoutId.TrailingContent
         }?.let { measurable ->
             intrinsicMeasurer(
                 /* intrinsicMeasurable = */
@@ -442,7 +447,7 @@ internal fun QuackTextFieldDecorationBox(
             if (leadingContent != null) {
                 Box(
                     modifier = Modifier.layoutId(
-                        layoutId = QuackTextFieldLeadingContentLayoutId,
+                        layoutId = QuackTextFieldLayoutId.LeadingContent,
                     ),
                     contentAlignment = Alignment.Center,
                 ) {
@@ -452,7 +457,7 @@ internal fun QuackTextFieldDecorationBox(
             if (trailingContent != null) {
                 Box(
                     modifier = Modifier.layoutId(
-                        layoutId = QuackTextFieldTrailingContentLayoutId,
+                        layoutId = QuackTextFieldLayoutId.TrailingContent,
                     ),
                     contentAlignment = Alignment.Center,
                 ) {
@@ -461,7 +466,7 @@ internal fun QuackTextFieldDecorationBox(
             }
             Box(
                 modifier = Modifier.layoutId(
-                    layoutId = QuackTextFieldLayoutId,
+                    layoutId = QuackTextFieldLayoutId.Input,
                 ),
                 propagateMinConstraints = true,
             ) {
@@ -470,7 +475,7 @@ internal fun QuackTextFieldDecorationBox(
             if (placeholderContent != null) {
                 Box(
                     modifier = Modifier.layoutId(
-                        layoutId = QuackTextFieldPlaceholderLayoutId,
+                        layoutId = QuackTextFieldLayoutId.Placeholder,
                     ),
                     propagateMinConstraints = true,
                 ) {

@@ -16,11 +16,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.zIndex
 
 /**
- * [QuackBackgroundDimmed] 의 기본 색상
+ * QuackDimmed 를 그리는데 필요한 리소스들을 정의합니다.
  */
-private val QuackDefaultBackgroundDimmedColor = Color.Black.copy(
-    alpha = 0.6f,
-)
+private object QuackDimmedDefauts {
+    val BackgroundColor = Color.Black.copy(
+        alpha = 0.6f,
+    )
+}
 
 /**
  * Quack 에서 사용될 배경 dimmed 를 구현합니다.
@@ -36,13 +38,15 @@ private val QuackDefaultBackgroundDimmedColor = Color.Black.copy(
 internal fun QuackBackgroundDimmed(
     zIndex: Float = 0f,
     enabled: Boolean,
+) = with(
+    receiver = QuackDimmedDefauts,
 ) {
     if (enabled) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    color = QuackDefaultBackgroundDimmedColor,
+                    color = BackgroundColor,
                 )
                 .zIndex(
                     zIndex = zIndex,

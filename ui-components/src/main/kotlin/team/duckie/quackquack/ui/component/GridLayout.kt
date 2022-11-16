@@ -22,11 +22,12 @@ import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.modifier.quackClickable
 
-private val QuackGridLayoutContentPadding = PaddingValues(
-    all = 0.dp,
-)
-private val QuackVerticalSpacePadding = 24.dp
-private val QuackHorizontalSpacePadding = 10.dp
+/**
+ * QuackGridLayout 를 그리는데 필요한 리소스들을 정의합니다.
+ */
+private object QuackGridDefaults {
+
+}
 
 /**
  * [QuackSimpleGridLayout] 을 구현합니다.
