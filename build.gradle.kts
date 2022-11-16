@@ -7,7 +7,6 @@
 
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
-import org.gradle.api.internal.catalog.DelegatingProjectDependency
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -32,20 +31,20 @@ koverMerged {
         projects {
             // only includes ui-components and lint modules
             // TODO: apply wild-pattern
-            excludes += listOf(
-                projects.playground,
-                projects.uiComponentsBenchmark,
-                projects.uiComponentsBenchmarkApp,
-                projects.uxWritingModel,
-                projects.uxWritingOverlay,
-                projects.uxWritingRule,
-                projects.commonLint,
-                projects.commonLintTest,
-                projects.quackPublishBom,
-                projects.lintCorePublish,
-                projects.lintComposePublish,
-                projects.lintQuackPublish,
-            ).map(DelegatingProjectDependency::getName)
+            // excludes += listOf(
+            //     projects.playground,
+            //     projects.uiComponentsBenchmark,
+            //     projects.uiComponentsBenchmarkApp,
+            //     projects.uxWritingModel,
+            //     projects.uxWritingOverlay,
+            //     projects.uxWritingRule,
+            //     projects.commonLint,
+            //     projects.commonLintTest,
+            //     projects.quackPublishBom,
+            //     projects.lintCorePublish,
+            //     projects.lintComposePublish,
+            //     projects.lintQuackPublish,
+            // ).map(DelegatingProjectDependency::getName)
         }
     }
     xmlReport {

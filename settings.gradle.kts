@@ -27,13 +27,13 @@ buildCache {
 }
 
 include(
-    ":playground",
+    // ":playground",
     ":common-lint",
     ":common-lint-test",
     ":ui-components",
-    ":ui-components-snapshots",
-    ":ui-components-benchmark",
-    ":ui-components-benchmark-app",
+    // ":ui-components-snapshots",
+    // ":ui-components-benchmark",
+    // ":ui-components-benchmark-app",
     ":lint-core",
     ":lint-quack",
     ":lint-compose",

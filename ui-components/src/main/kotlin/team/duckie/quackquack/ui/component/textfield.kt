@@ -34,7 +34,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NoLiveLiterals
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
@@ -50,11 +49,7 @@ import team.duckie.quackquack.ui.animation.QuackAnimatedContent
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
-import team.duckie.quackquack.ui.component.internal.QuackTextFieldLayoutId
-import team.duckie.quackquack.ui.component.internal.QuackTextFieldLeadingContentLayoutId
-import team.duckie.quackquack.ui.component.internal.QuackTextFieldPlaceholderLayoutId
-import team.duckie.quackquack.ui.component.internal.QuackTextFieldTrailingContentLayoutId
-import team.duckie.quackquack.ui.component.internal.rememberQuackTextFieldMeasurePolicy
+import team.duckie.quackquack.ui.component.internal.QuackTextFieldDecorationBox
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.drawAnimatedLine
 import team.duckie.quackquack.ui.modifier.quackClickable
@@ -358,7 +353,7 @@ private object QuackTextFieldDefaults {
                     // QuackText XX / 애니메이션이 적용되면 안됨
                     Text(
                         text = placeholderText,
-                        style = Basic.inputTypographyFor(
+                        style = typographyFor(
                             isPlaceholder = true,
                         ).asComposeStyle(),
                         maxLines = 1,
@@ -1278,64 +1273,4 @@ public fun QuackProfileTextField(
             }
         }
     }
-}
-
-/**
- * A decoration box used to draw decoration items for [QuackBasicTextField].
- *
- * @param textField BasicTextField to be treated as QuackTextField
- * @param placeholderContent A placeholder content to display when the entered text is empty
- * @param leadingContent The leading content of QuackTextField
- * @param trailingContent The trailing content of QuackTextField
- */
-@Composable
-private fun QuackTextFieldDecorationBox(
-    textField: @Composable () -> Unit,
-    placeholderContent: (@Composable () -> Unit)?,
-    leadingContent: (@Composable () -> Unit)? = null,
-    trailingContent: (@Composable () -> Unit)? = null,
-) {
-    Layout(
-        content = {
-            if (leadingContent != null) {
-                Box(
-                    modifier = Modifier.layoutId(
-                        layoutId = QuackTextFieldLeadingContentLayoutId,
-                    ),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    leadingContent()
-                }
-            }
-            if (trailingContent != null) {
-                Box(
-                    modifier = Modifier.layoutId(
-                        layoutId = QuackTextFieldTrailingContentLayoutId,
-                    ),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    trailingContent()
-                }
-            }
-            Box(
-                modifier = Modifier.layoutId(
-                    layoutId = QuackTextFieldLayoutId,
-                ),
-                propagateMinConstraints = true,
-            ) {
-                textField()
-            }
-            if (placeholderContent != null) {
-                Box(
-                    modifier = Modifier.layoutId(
-                        layoutId = QuackTextFieldPlaceholderLayoutId,
-                    ),
-                    propagateMinConstraints = true,
-                ) {
-                    placeholderContent()
-                }
-            }
-        },
-        measurePolicy = rememberQuackTextFieldMeasurePolicy(),
-    )
 }

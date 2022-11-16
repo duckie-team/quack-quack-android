@@ -17,17 +17,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.border.applyQuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
+import team.duckie.quackquack.ui.component.internal.QuackTextFieldDecorationBox
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.theme.LocalQuackTextFieldColors
 import team.duckie.quackquack.ui.util.runIf
@@ -174,19 +176,6 @@ public fun QuackBasicTextArea(
 ) {
     val quackTextFieldColors = LocalQuackTextFieldColors.current
 
-    // 리컴포지션이 되는 메인 조건은 Text 가 바뀌었을 때인데 그러면
-    // 어차피 항상 재계산 되므로 굳이 remember 를 할 필요가 없음
-    val isPlaceholder = text.isEmpty()
-
-    // 애니메이션 적용 X
-    val inputTypography = remember(
-        key1 = isPlaceholder,
-    ) {
-        typographyFor(
-            isPlaceholder = isPlaceholder,
-        ).asComposeStyle()
-    }
-
     BasicTextField(
         modifier = modifier
             .fillMaxWidth()
@@ -199,7 +188,9 @@ public fun QuackBasicTextArea(
             ),
         value = text,
         onValueChange = onTextChanged,
-        textStyle = inputTypography,
+        textStyle = typographyFor(
+            isPlaceholder = false,
+        ).asComposeStyle(),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
             imeAction = imeAction,
@@ -209,6 +200,22 @@ public fun QuackBasicTextArea(
         // TextArea is always multi line
         singleLine = false,
         cursorBrush = quackTextFieldColors.textFieldCursorColor.toBrush(),
+        decorationBox = { textField ->
+            QuackTextFieldDecorationBox(
+                textField = textField,
+                placeholderContent = {
+                    Text(
+                        text = placeholderText,
+                        style = typographyFor(
+                            isPlaceholder = true,
+                        ).asComposeStyle(),
+                        maxLines = 1,
+                        softWrap = false,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
+            )
+        },
     )
 }
 
@@ -246,15 +253,6 @@ public fun QuackReviewTextArea(
     // 어차피 항상 재계산 되므로 굳이 remember 를 할 필요가 없음
     val isPlaceholder = text.isEmpty()
 
-    // 애니메이션 적용 X
-    val inputTypography = remember(
-        key1 = isPlaceholder,
-    ) {
-        typographyFor(
-            isPlaceholder = isPlaceholder,
-        ).asComposeStyle()
-    }
-
     BasicTextField(
         modifier = modifier
             .fillMaxWidth()
@@ -279,7 +277,9 @@ public fun QuackReviewTextArea(
             ),
         value = text,
         onValueChange = onTextChanged,
-        textStyle = inputTypography,
+        textStyle = typographyFor(
+            isPlaceholder = false,
+        ).asComposeStyle(),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
             imeAction = imeAction,
@@ -289,6 +289,22 @@ public fun QuackReviewTextArea(
         // TextArea is always multi line
         singleLine = false,
         cursorBrush = quackTextFieldColors.textFieldCursorColor.toBrush(),
+        decorationBox = { textField ->
+            QuackTextFieldDecorationBox(
+                textField = textField,
+                placeholderContent = {
+                    Text(
+                        text = placeholderText,
+                        style = typographyFor(
+                            isPlaceholder = true,
+                        ).asComposeStyle(),
+                        maxLines = 1,
+                        softWrap = false,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
+            )
+        },
     )
 }
 
@@ -320,19 +336,6 @@ public fun QuackGoodsDetailTextArea(
 ) {
     val quackTextFieldColors = LocalQuackTextFieldColors.current
 
-    // 리컴포지션이 되는 메인 조건은 Text 가 바뀌었을 때인데 그러면
-    // 어차피 항상 재계산 되므로 굳이 remember 를 할 필요가 없음
-    val isPlaceholder = text.isEmpty()
-
-    // 애니메이션 적용 X
-    val inputTypography = remember(
-        key1 = isPlaceholder,
-    ) {
-        typographyFor(
-            isPlaceholder = isPlaceholder,
-        ).asComposeStyle()
-    }
-
     BasicTextField(
         modifier = modifier
             .fillMaxWidth()
@@ -347,7 +350,9 @@ public fun QuackGoodsDetailTextArea(
             ),
         value = text,
         onValueChange = onTextChanged,
-        textStyle = inputTypography,
+        textStyle = typographyFor(
+            isPlaceholder = false,
+        ).asComposeStyle(),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
             imeAction = imeAction,
@@ -357,5 +362,21 @@ public fun QuackGoodsDetailTextArea(
         // TextArea is always multi line
         singleLine = false,
         cursorBrush = quackTextFieldColors.textFieldCursorColor.toBrush(),
+        decorationBox = { textField ->
+            QuackTextFieldDecorationBox(
+                textField = textField,
+                placeholderContent = {
+                    Text(
+                        text = placeholderText,
+                        style = typographyFor(
+                            isPlaceholder = true,
+                        ).asComposeStyle(),
+                        maxLines = 1,
+                        softWrap = false,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
+            )
+        },
     )
 }

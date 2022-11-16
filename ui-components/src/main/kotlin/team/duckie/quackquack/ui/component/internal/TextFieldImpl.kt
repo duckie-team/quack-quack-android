@@ -7,11 +7,14 @@
 
 package team.duckie.quackquack.ui.component.internal
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.IntrinsicMeasurable
 import androidx.compose.ui.layout.IntrinsicMeasureScope
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.layout.MeasureResult
@@ -40,7 +43,7 @@ internal const val QuackTextFieldTrailingContentLayoutId = "QuackTextFieldTraili
  * remember 로 감싼 인스턴스를 반환하는 [rememberQuackTextFieldMeasurePolicy] 를
  * 사용하세요.
  */
-public class QuackTextFieldMeasurePolicy internal constructor() : MeasurePolicy {
+private class QuackTextFieldMeasurePolicy : MeasurePolicy {
     override fun MeasureScope.measure(
         measurables: List<Measurable>,
         constraints: Constraints,
@@ -311,7 +314,7 @@ public class QuackTextFieldMeasurePolicy internal constructor() : MeasurePolicy 
  * @return remember 된 [QuackTextFieldMeasurePolicy] 의 인스턴스
  */
 @Composable
-public fun rememberQuackTextFieldMeasurePolicy(): QuackTextFieldMeasurePolicy {
+private fun rememberQuackTextFieldMeasurePolicy(): QuackTextFieldMeasurePolicy {
     return remember {
         QuackTextFieldMeasurePolicy()
     }
@@ -403,7 +406,6 @@ private fun Placeable.PlacementScope.placeTextField(
             space = height,
         ),
     )
-
     textFieldPlaceable.placeRelative(
         x = leadingPlaceable.widthOrZero(),
         y = Alignment.CenterVertically.align(
@@ -411,12 +413,71 @@ private fun Placeable.PlacementScope.placeTextField(
             space = height,
         ),
     )
-
     placeholderPlaceable?.placeRelative(
         x = leadingPlaceable.widthOrZero(),
         y = Alignment.CenterVertically.align(
             size = placeholderPlaceable.height,
             space = height,
         ),
+    )
+}
+
+/**
+ * A decoration box used to draw decoration items for [QuackBasicTextField].
+ *
+ * @param textField BasicTextField to be treated as QuackTextField
+ * @param placeholderContent A placeholder content to display when the entered text is empty
+ * @param leadingContent The leading content of QuackTextField
+ * @param trailingContent The trailing content of QuackTextField
+ */
+@Composable
+internal fun QuackTextFieldDecorationBox(
+    textField: @Composable () -> Unit,
+    placeholderContent: (@Composable () -> Unit)?,
+    leadingContent: (@Composable () -> Unit)? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
+) {
+    Layout(
+        content = {
+            if (leadingContent != null) {
+                Box(
+                    modifier = Modifier.layoutId(
+                        layoutId = QuackTextFieldLeadingContentLayoutId,
+                    ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    leadingContent()
+                }
+            }
+            if (trailingContent != null) {
+                Box(
+                    modifier = Modifier.layoutId(
+                        layoutId = QuackTextFieldTrailingContentLayoutId,
+                    ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    trailingContent()
+                }
+            }
+            Box(
+                modifier = Modifier.layoutId(
+                    layoutId = QuackTextFieldLayoutId,
+                ),
+                propagateMinConstraints = true,
+            ) {
+                textField()
+            }
+            if (placeholderContent != null) {
+                Box(
+                    modifier = Modifier.layoutId(
+                        layoutId = QuackTextFieldPlaceholderLayoutId,
+                    ),
+                    propagateMinConstraints = true,
+                ) {
+                    placeholderContent()
+                }
+            }
+        },
+        measurePolicy = rememberQuackTextFieldMeasurePolicy(),
     )
 }

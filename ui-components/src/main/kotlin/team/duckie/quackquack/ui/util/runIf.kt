@@ -47,4 +47,3 @@ internal inline fun <T> T.runIf(
 } else {
     this
 }
-
