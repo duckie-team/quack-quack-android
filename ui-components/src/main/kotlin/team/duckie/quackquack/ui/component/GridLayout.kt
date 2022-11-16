@@ -114,7 +114,7 @@ public fun <T> QuackHeaderGridLayout(
                     verticalSpace = verticalSpace,
                     horizontalSpace = horizontalSpace,
                     itemContent = {
-                        if ( item != null) {
+                        if (item != null) {
                             itemContent(
                                 index,
                                 item,

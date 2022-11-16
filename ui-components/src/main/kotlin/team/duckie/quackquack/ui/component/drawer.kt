@@ -49,18 +49,17 @@ public fun QuackModalDrawer(
 )
 
 /**
- * [QuackDrawerState] 을 생성 하고, remember 합니다.
+ * [QuackDrawerState] 을 생성하고, remember 합니다.
  *
  * @param initialValue state 의 초기값 입니다.
  * @param confirmStateChange 상태 변경을 확인 하기 위한 콜백 입니다.
+ *
  * @return [QuackDrawerState]
  */
 @Composable
 public fun rememberQuackDrawerState(
     initialValue: QuackDrawerValue = QuackDrawerValue.Closed,
-    confirmStateChange: (
-        QuackDrawerValue: QuackDrawerValue,
-    ) -> Boolean = { true },
+    confirmStateChange: (drawerValue: QuackDrawerValue) -> Boolean = { true },
 ): QuackDrawerState {
     return rememberSaveable(
         saver = QuackDrawerState.saver(
@@ -77,7 +76,7 @@ public fun rememberQuackDrawerState(
 @Stable
 public class QuackDrawerState(
     initialValue: QuackDrawerValue,
-    internal val confirmStateChange: (QuackDrawerValue) -> Boolean = { true },
+    internal val confirmStateChange: (drawerValue: QuackDrawerValue) -> Boolean = { true },
 ) {
     internal val swipeableState: SwipeableState<QuackDrawerValue> = SwipeableState(
         initialValue = initialValue,
@@ -104,7 +103,6 @@ public class QuackDrawerState(
      * currently in. If a swipe or an animation is in progress, this corresponds the state drawer
      * was in before the swipe or animation started.
      */
-
     public val currentValue: QuackDrawerValue
         get() {
             return swipeableState.currentValue
@@ -162,7 +160,7 @@ public class QuackDrawerState(
      *
      * Swipe 가 진행 중인 경우 Drawer 에서 Animation 으로 표시 하는 값 입니다.
      * Swipe 마감 Animation 이 실행 중인 경우 이 값이 해당 Animation 의 대상 값 입니다.
-     * Swipe 또는 Animation 이 진행 되지 않으면 [currentValue] 와 동일합 니다.
+     * Swipe 또는 Animation 이 진행 되지 않으면 [currentValue] 와 동일합니다.
      */
     public val targetValue: QuackDrawerValue
         get() = swipeableState.targetValue
@@ -205,5 +203,5 @@ public enum class QuackDrawerValue {
     /**
      * The state of the drawer when it is open.
      */
-    Open
+    Open,
 }

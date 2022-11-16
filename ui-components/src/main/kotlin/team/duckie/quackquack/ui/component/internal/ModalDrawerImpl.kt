@@ -121,7 +121,7 @@ internal fun QuackModalDrawerImpl(
                         pos = drawerState.offset.value
                     )
                 },
-                color = QuackColor.BlackOpacity60.composeColor,
+                color = QuackColor.Black.composeColor,
             )
             QuackSurface(
                 modifier = with(

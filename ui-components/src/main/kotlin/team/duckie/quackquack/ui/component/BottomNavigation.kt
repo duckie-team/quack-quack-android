@@ -46,7 +46,7 @@ private object QuackBottomNavigationDefaults {
  * icon 은 defaultIcon 과 selectedIcon 을 data class 를 통해 둘 다 전달받고
  * selectedIndex 의 상태값과 비교하여 보여줘야하는 Icon 을 결정합니다.
  *
- * @param modifier 다양한 Align 에서 사용하기 위해 Modifier 를 열어둡니다.
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param selectedIndex 현재 선택되어있는 index 상태값
  * @param onClick BottomNavigation 의 클릭 이벤트
  */
