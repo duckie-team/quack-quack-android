@@ -202,6 +202,13 @@ private object QuackSelectableImageDefaults {
             all = 7.dp,
         )
 
+        /**
+         * 주어진 조건에 맞는 테두리를 계산합니다.
+         *
+         * @param isSelected 현재 선택된 상태인지 여부
+         *
+         * @return [isSelected] 여부에 따라 사용할 [QuackBorder]
+         */
         @Stable
         fun borderFor(
             isSelected: Boolean,
