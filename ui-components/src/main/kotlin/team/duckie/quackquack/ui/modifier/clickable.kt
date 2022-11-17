@@ -32,11 +32,13 @@ import team.duckie.quackquack.ui.util.runIf
  * @return clickable 속성이 적용된 [Modifier]
  */
 // @Stable: onClick 구현이 동적으로 달라질 수 있음
-internal fun Modifier.quackClickable(
+public fun Modifier.quackClickable(
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor? = null,
     onClick: (() -> Unit)?,
-) = runIf(onClick != null) {
+): Modifier = runIf(
+    onClick != null,
+) {
     composed {
         clickable(
             onClick = onClick!!,
