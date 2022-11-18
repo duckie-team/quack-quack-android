@@ -98,7 +98,7 @@ public final class team/duckie/quackquack/ui/component/GridLayoutKt {
 }
 
 public final class team/duckie/quackquack/ui/component/ImageKt {
-	public static final fun QuackImage-V5NpRRM (Landroidx/compose/ui/Modifier;Ljava/lang/Object;Landroidx/compose/ui/unit/DpSize;Lteam/duckie/quackquack/ui/color/QuackColor;ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/layout/ContentScale;Landroidx/compose/ui/graphics/Shape;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/unit/DpSize;Landroidx/compose/ui/Alignment;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
+	public static final fun QuackImage-LIkTEBE (Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/layout/PaddingValues;Ljava/lang/Object;Landroidx/compose/ui/unit/DpSize;Lteam/duckie/quackquack/ui/color/QuackColor;ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/layout/ContentScale;Landroidx/compose/ui/graphics/Shape;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/unit/DpSize;Landroidx/compose/ui/Alignment;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 	public static final fun QuackSelectableImage-O3gMbGQ (Landroidx/compose/ui/Modifier;ZLjava/lang/Object;Landroidx/compose/ui/unit/DpSize;Lteam/duckie/quackquack/ui/color/QuackColor;ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/layout/ContentScale;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
@@ -271,8 +271,11 @@ public final class team/duckie/quackquack/ui/icon/QuackIcon$Companion {
 }
 
 public final class team/duckie/quackquack/ui/modifier/ClickableKt {
+	public static final field QuackDefaultAlwaysShowRipple Z
+	public static final fun getQuackAlwaysShowRipple ()Z
 	public static final fun quackClickable-phFAS_g (Landroidx/compose/ui/Modifier;ZLteam/duckie/quackquack/ui/color/QuackColor;Lkotlin/jvm/functions/Function0;)Landroidx/compose/ui/Modifier;
 	public static synthetic fun quackClickable-phFAS_g$default (Landroidx/compose/ui/Modifier;ZLteam/duckie/quackquack/ui/color/QuackColor;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+	public static final fun setQuackAlwaysShowRipple (Z)V
 }
 
 public final class team/duckie/quackquack/ui/textstyle/QuackTextStyle {
