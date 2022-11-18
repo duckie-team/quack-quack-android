@@ -692,11 +692,9 @@ private object QuackTextFieldDefaults {
                             }
                             // clear button
                             QuackImage(
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .layoutId(
-                                        layoutId = TrailingClearButtonLayoutId,
-                                    ),
+                                modifier = Modifier.layoutId(
+                                    layoutId = TrailingClearButtonLayoutId,
+                                ),
                                 src = QuackIcon.Close,
                                 size = TrailingIconSize,
                                 tint = TrailingIconTint,

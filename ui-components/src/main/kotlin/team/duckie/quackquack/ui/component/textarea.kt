@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.ui.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -63,6 +64,37 @@ private object QuackTextAreaDefaults {
         }
 
         val BackgroundColor = QuackColor.White
+
+        /**
+         * Placeholder 로 표시될 컴포저블을 나타냅니다.
+         *
+         * @param isPlaceholder 현재 placeholder 상태에 있는지 여부
+         * @param placeholderText placeholder 로 표시될 텍스트
+         *
+         * @return placeholder 로 표시될 컴포저블
+         */
+        @SuppressLint("ComposableNaming")
+        @Composable
+        fun Placeholder(
+            isPlaceholder: Boolean,
+            placeholderText: String,
+        ): (@Composable () -> Unit)? {
+            return if (isPlaceholder) {
+                {
+                    Text(
+                        text = placeholderText,
+                        style = typographyFor(
+                            isPlaceholder = true,
+                        ).asComposeStyle(),
+                        maxLines = 1,
+                        softWrap = false,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            } else {
+                null
+            }
+        }
     }
 
     object Review {
@@ -115,6 +147,37 @@ private object QuackTextAreaDefaults {
          * Review 타입의 TextArea 는 최소 높이 값을 갖습니다.
          */
         val MinHeight = 108.dp
+
+        /**
+         * Placeholder 로 표시될 컴포저블을 나타냅니다.
+         *
+         * @param isPlaceholder 현재 placeholder 상태에 있는지 여부
+         * @param placeholderText placeholder 로 표시될 텍스트
+         *
+         * @return placeholder 로 표시될 컴포저블
+         */
+        @SuppressLint("ComposableNaming")
+        @Composable
+        fun Placeholder(
+            isPlaceholder: Boolean,
+            placeholderText: String,
+        ): (@Composable () -> Unit)? {
+            return if (isPlaceholder) {
+                {
+                    Text(
+                        text = placeholderText,
+                        style = typographyFor(
+                            isPlaceholder = true,
+                        ).asComposeStyle(),
+                        maxLines = 1,
+                        softWrap = false,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            } else {
+                null
+            }
+        }
     }
 
     object GoodsDetail {
@@ -146,6 +209,37 @@ private object QuackTextAreaDefaults {
          * Goods Detail 타입의 TextArea 는 최소 높이 값을 갖습니다.
          */
         val MinHeight = 224.dp
+
+        /**
+         * Placeholder 로 표시될 컴포저블을 나타냅니다.
+         *
+         * @param isPlaceholder 현재 placeholder 상태에 있는지 여부
+         * @param placeholderText placeholder 로 표시될 텍스트
+         *
+         * @return placeholder 로 표시될 컴포저블
+         */
+        @SuppressLint("ComposableNaming")
+        @Composable
+        fun Placeholder(
+            isPlaceholder: Boolean,
+            placeholderText: String,
+        ): (@Composable () -> Unit)? {
+            return if (isPlaceholder) {
+                {
+                    Text(
+                        text = placeholderText,
+                        style = typographyFor(
+                            isPlaceholder = true,
+                        ).asComposeStyle(),
+                        maxLines = 1,
+                        softWrap = false,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            } else {
+                null
+            }
+        }
     }
 }
 
@@ -175,6 +269,7 @@ public fun QuackBasicTextArea(
     receiver = QuackTextAreaDefaults.Basic,
 ) {
     val quackTextFieldColors = LocalQuackTextFieldColors.current
+    val isPlaceholder = text.isEmpty()
 
     BasicTextField(
         modifier = modifier
@@ -203,17 +298,10 @@ public fun QuackBasicTextArea(
         decorationBox = { textField ->
             QuackTextFieldDecorationBox(
                 textField = textField,
-                placeholderContent = {
-                    Text(
-                        text = placeholderText,
-                        style = typographyFor(
-                            isPlaceholder = true,
-                        ).asComposeStyle(),
-                        maxLines = 1,
-                        softWrap = false,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                },
+                placeholderContent = Placeholder(
+                    isPlaceholder = isPlaceholder,
+                    placeholderText = placeholderText,
+                ),
             )
         },
     )
@@ -292,17 +380,10 @@ public fun QuackReviewTextArea(
         decorationBox = { textField ->
             QuackTextFieldDecorationBox(
                 textField = textField,
-                placeholderContent = {
-                    Text(
-                        text = placeholderText,
-                        style = typographyFor(
-                            isPlaceholder = true,
-                        ).asComposeStyle(),
-                        maxLines = 1,
-                        softWrap = false,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                },
+                placeholderContent = Placeholder(
+                    isPlaceholder = isPlaceholder,
+                    placeholderText = placeholderText,
+                ),
             )
         },
     )
@@ -335,6 +416,7 @@ public fun QuackGoodsDetailTextArea(
     receiver = QuackTextAreaDefaults.GoodsDetail,
 ) {
     val quackTextFieldColors = LocalQuackTextFieldColors.current
+    val isPlaceholder = text.isEmpty()
 
     BasicTextField(
         modifier = modifier
@@ -365,17 +447,10 @@ public fun QuackGoodsDetailTextArea(
         decorationBox = { textField ->
             QuackTextFieldDecorationBox(
                 textField = textField,
-                placeholderContent = {
-                    Text(
-                        text = placeholderText,
-                        style = typographyFor(
-                            isPlaceholder = true,
-                        ).asComposeStyle(),
-                        maxLines = 1,
-                        softWrap = false,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                },
+                placeholderContent = Placeholder(
+                    isPlaceholder = isPlaceholder,
+                    placeholderText = placeholderText,
+                ),
             )
         },
     )

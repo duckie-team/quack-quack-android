@@ -179,7 +179,7 @@ private fun QuackImageInternal(
     val animatedTint by animateQuackColorAsState(
         targetValue = tint ?: QuackColor.Transparent,
     )
-    val imageModifier = remember(
+    val sizedModifier = remember(
         key1 = size,
         key2 = density,
     ) {
@@ -190,6 +190,14 @@ private fun QuackImageInternal(
             )
         }.zIndex(
             zIndex = 1f,
+        )
+    }
+    val containerModifier = remember(
+        key1 = modifier,
+        key2 = sizedModifier,
+    ) {
+        modifier.then(
+            other = sizedModifier,
         )
     }
     val badgeModifier = remember(
@@ -215,10 +223,10 @@ private fun QuackImageInternal(
     if (src is QuackIcon) {
         QuackAnimatedContent(
             targetState = src,
-            modifier = imageModifier,
+            modifier = containerModifier,
         ) { imageModel ->
             Box(
-                modifier = imageModifier.paint(
+                modifier = sizedModifier.paint(
                     painter = painterResource(
                         id = imageModel.drawableId,
                     ),
@@ -241,14 +249,14 @@ private fun QuackImageInternal(
     }
     QuackAnimatedContent(
         targetState = src,
-        modifier = imageModifier,
+        modifier = containerModifier,
     ) { imageModel ->
         Box(
             modifier = Modifier.wrapContentSize(),
             contentAlignment = badgeAlign,
         ) {
             AsyncImage(
-                modifier = imageModifier,
+                modifier = sizedModifier,
                 model = ImageRequest
                     .Builder(
                         context = LocalContext.current,
