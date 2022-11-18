@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -112,7 +111,6 @@ private object QuackImageDefaults {
  * @param contentDescription 이미지의 설명
  */
 @Composable
-@NonRestartableComposable
 public fun QuackImage(
     modifier: Modifier = Modifier,
     src: Any?,

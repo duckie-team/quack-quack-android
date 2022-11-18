@@ -7,131 +7,116 @@
 
 package team.duckie.quackquack.playground.realworld
 
-import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import team.duckie.quackquack.playground.base.BaseActivity
-import team.duckie.quackquack.playground.base.PlaygroundSection
-import team.duckie.quackquack.playground.theme.PlaygroundTheme
-import team.duckie.quackquack.ui.component.QuackLarge40WhiteButton
+import team.duckie.quackquack.playground.base.PlaygroundActivity
 import team.duckie.quackquack.ui.component.QuackLargeButton
-import team.duckie.quackquack.ui.component.QuackLargeWhiteButton
+import team.duckie.quackquack.ui.component.QuackLargeButtonType
 import team.duckie.quackquack.ui.component.QuackMediumToggleButton
-import team.duckie.quackquack.ui.component.QuackSmallBorderToggleButton
 import team.duckie.quackquack.ui.component.QuackSmallButton
+import team.duckie.quackquack.ui.component.QuackSmallButtonType
 import team.duckie.quackquack.ui.component.QuackToggleChip
 import team.duckie.quackquack.ui.icon.QuackIcon
 
-class ButtonPlayground : BaseActivity() {
-    private val items = buildPlaygroundItems(
-
+class ButtonPlayground : PlaygroundActivity(
+    name = "Button",
+) {
+    override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
+        ::QuackLargeButtonTypeBorderDemo.name to { QuackLargeButtonTypeBorderDemo() },
+        ::QuackLargeButtonTypeCompactDemo.name to { QuackLargeButtonTypeCompactDemo() },
+        ::QuackLargeButtonTypeFillDemo.name to { QuackLargeButtonTypeFillDemo() },
+        ::QuackMediumToggleButtonDemo.name to { QuackMediumToggleButtonDemo() },
+        ::QuackSmallButtonBorderDemo.name to { QuackSmallButtonBorderDemo() },
+        ::QuackSmallButtonFillDemo.name to { QuackSmallButtonFillDemo() },
+        ::QuackToggleChipDemo.name to { QuackToggleChipDemo() },
     )
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PlaygroundTheme {
-                PlaygroundSection(
-                    title = "Button",
-                    items = items,
-                )
-            }
-        }
-    }
 }
 
 @Composable
-fun QuackLargeButtonDemo() {
-    var active by remember {
-        mutableStateOf(
-            value = true,
-        )
-    }
+fun QuackLargeButtonTypeBorderDemo() {
+    var active by remember { mutableStateOf(false) }
 
     QuackLargeButton(
-        text = "active: $active",
+        type = QuackLargeButtonType.Border,
+        text = "LargeButton: Border",
         active = active,
+        leadingIcon = QuackIcon.Heart.takeIf { active },
         onClick = { active = !active },
     )
 }
 
 @Composable
-fun QuackLargeWhiteButtonDemo() {
-    QuackLargeWhiteButton(
-        text = "QuackLargeWhiteButton",
-        leadingIcon = QuackIcon.Heart,
-        onClick = {},
+fun QuackLargeButtonTypeCompactDemo() {
+    var active by remember { mutableStateOf(false) }
+
+    QuackLargeButton(
+        type = QuackLargeButtonType.Compact,
+        text = "LargeButton: Compact",
+        active = active,
+        leadingIcon = QuackIcon.Heart.takeIf { active },
+        onClick = { active = !active },
     )
 }
 
 @Composable
-fun QuackLarge40WhiteButtonDemo() {
-    QuackLarge40WhiteButton(
-        text = "QuackLarge40WhiteButton",
-        onClick = {},
+fun QuackLargeButtonTypeFillDemo() {
+    var active by remember { mutableStateOf(false) }
+
+    QuackLargeButton(
+        type = QuackLargeButtonType.Fill,
+        text = "LargeButton: Fill",
+        active = active,
+        leadingIcon = QuackIcon.Heart.takeIf { active },
+        onClick = { active = !active },
     )
 }
 
 @Composable
-fun QuackMediumBorderToggleButtonDemo() {
-    var selected by remember {
-        mutableStateOf(
-            value = true,
-        )
-    }
+fun QuackMediumToggleButtonDemo() {
+    var selected by remember { mutableStateOf(false) }
 
     QuackMediumToggleButton(
-        text = "selected: $selected",
+        text = "MediumToggleButton",
         selected = selected,
         onClick = { selected = !selected },
     )
 }
 
 @Composable
-fun QuackSmallButtonDemo() {
-    var enabled by remember {
-        mutableStateOf(
-            value = true,
-        )
-    }
+fun QuackSmallButtonBorderDemo() {
+    var enabled by remember { mutableStateOf(false) }
 
     QuackSmallButton(
-        text = "enabled: $enabled",
+        type = QuackSmallButtonType.Border,
+        text = "SmallButton: Border",
         enabled = enabled,
         onClick = { enabled = !enabled },
     )
 }
 
 @Composable
-fun QuackSmallBorderToggleButtonDemo() {
-    var selected by remember {
-        mutableStateOf(
-            value = true,
-        )
-    }
+fun QuackSmallButtonFillDemo() {
+    var enabled by remember { mutableStateOf(false) }
 
-    QuackSmallBorderToggleButton(
-        text = "selected: $selected",
-        selected = selected,
-        onClick = { selected = !selected },
+    QuackSmallButton(
+        type = QuackSmallButtonType.Fill,
+        text = "SmallButton: Fill",
+        enabled = enabled,
+        onClick = { enabled = !enabled },
     )
 }
 
 @Composable
 fun QuackToggleChipDemo() {
-    var selected by remember {
-        mutableStateOf(
-            value = true,
-        )
-    }
+    var selected by remember { mutableStateOf(false) }
 
     QuackToggleChip(
-        text = "selected: $selected",
+        text = "ToggleChip",
         selected = selected,
         onClick = { selected = !selected },
     )

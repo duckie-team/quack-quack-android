@@ -50,6 +50,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -123,7 +124,7 @@ private inline fun Activity.startActivityWithAnimation(
 @Composable
 fun PlaygroundActivities(
     title: String = "QuackQuack Playground",
-    activities: ImmutableList<KClass<out BaseActivity>>,
+    activities: ImmutableList<KClass<out PlaygroundActivity>>,
 ) {
     var playgroundSettingAlertVisible by remember {
         mutableStateOf(
@@ -132,7 +133,7 @@ fun PlaygroundActivities(
     }
     val currentActivity = LocalContext.current as Activity
 
-    PlaygroundSettingAlert(
+    PlaygroundSettingDialog(
         visible = playgroundSettingAlertVisible,
         onDismissRequest = {
             playgroundSettingAlertVisible = !playgroundSettingAlertVisible
@@ -229,7 +230,7 @@ fun PlaygroundActivities(
 }
 
 /**
- * [PreviewAlert] 로 표시할 여러 디자인 컴포넌트들을 나열합니다.
+ * [PreviewDialog] 로 표시할 여러 디자인 컴포넌트들을 나열합니다.
  *
  * @param title 표시할 디자인 컴포넌트들의 주제
  * @param items 표시할 디자인 컴포넌트들의 컴포저블 아이템
@@ -238,8 +239,9 @@ fun PlaygroundActivities(
 fun PlaygroundSection(
     title: String,
     items: ImmutableList<Pair<String, @Composable () -> Unit>>,
+    usePreviewDialog: Boolean,
 ) {
-    var playgroundSettingAlertVisible by remember {
+    var playgroundSettingDialogVisible by remember {
         mutableStateOf(
             value = false,
         )
@@ -255,21 +257,23 @@ fun PlaygroundSection(
         )
     }
 
-    PlaygroundSettingAlert(
-        visible = playgroundSettingAlertVisible,
+    PlaygroundSettingDialog(
+        visible = playgroundSettingDialogVisible,
         onDismissRequest = {
-            playgroundSettingAlertVisible = !playgroundSettingAlertVisible
+            playgroundSettingDialogVisible = !playgroundSettingDialogVisible
         },
     )
 
-    items.fastForEachIndexed { index, (_, composable) ->
-        PreviewAlert(
-            visible = previewVisibleStates[index],
-            onBackPressed = {
-                previewVisibleStates[index] = !previewVisibleStates[index]
-            },
-            content = composable,
-        )
+    if (usePreviewDialog) {
+        items.fastForEachIndexed { index, (_, composable) ->
+            PreviewDialog(
+                visible = previewVisibleStates[index],
+                onBackPressed = {
+                    previewVisibleStates[index] = !previewVisibleStates[index]
+                },
+                content = composable,
+            )
+        }
     }
 
     Scaffold(
@@ -301,7 +305,7 @@ fun PlaygroundSection(
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                        playgroundSettingAlertVisible = true
+                        playgroundSettingDialogVisible = true
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.secondary,
@@ -315,21 +319,36 @@ fun PlaygroundSection(
 
             itemsIndexed(
                 items = items,
-                key = { index, _ -> index }
+                key = { _, item -> item.first /* name */ },
             ) { index, item ->
-                val (contentTitle, _) = item
+                val (_name, composable) = item
+                val name = _name.removeSuffix(
+                    suffix = "Demo",
+                )
 
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        previewVisibleStates[index] = true
-                    },
-                ) {
-                    Text(
-                        text = contentTitle.removeSuffix(
-                            suffix = "Demo",
+                if (usePreviewDialog) {
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            previewVisibleStates[index] = true
+                        },
+                    ) {
+                        Text(
+                            text = name,
+                        )
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier.wrapContentSize(),
+                        verticalArrangement = Arrangement.spacedBy(
+                            space = 4.dp,
                         ),
-                    )
+                    ) {
+                        Text(
+                            text = name,
+                        )
+                        composable()
+                    }
                 }
             }
         }
@@ -344,7 +363,7 @@ fun PlaygroundSection(
  * @param onDismissRequest Playground 설정 다이얼로그를 닫을 때 호출되는 콜백
  */
 @Composable
-private fun PlaygroundSettingAlert(
+private fun PlaygroundSettingDialog(
     visible: Boolean,
     onDismissRequest: () -> Unit,
 ) {
@@ -353,6 +372,7 @@ private fun PlaygroundSettingAlert(
         val context = LocalContext.current.applicationContext
         val coroutineScope = rememberCoroutineScope()
 
+        @Stable
         fun Int.msToSecondString() = (toDouble() / 1000.toDouble()).toString()
 
         var animationDurationInputState by remember {
@@ -371,6 +391,7 @@ private fun PlaygroundSettingAlert(
             )
         }
 
+        @Stable
         fun dismiss(
             reset: Boolean = false,
         ) {
@@ -540,7 +561,7 @@ private fun PlaygroundSettingAlert(
  * @param content preview dialog 로 표시할 디자인 컴포넌트
  */
 @Composable
-private fun PreviewAlert(
+private fun PreviewDialog(
     visible: Boolean,
     onBackPressed: () -> Unit,
     content: @Composable () -> Unit,

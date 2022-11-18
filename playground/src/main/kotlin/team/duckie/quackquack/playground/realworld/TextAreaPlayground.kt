@@ -2,73 +2,60 @@
  * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 package team.duckie.quackquack.playground.realworld
 
-import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import team.duckie.quackquack.playground.base.BaseActivity
-import team.duckie.quackquack.playground.base.PlaygroundSection
-import team.duckie.quackquack.playground.theme.PlaygroundTheme
-import team.duckie.quackquack.ui.component.QuackBorderTextArea
-import team.duckie.quackquack.ui.component.QuackTextArea
+import team.duckie.quackquack.playground.base.PlaygroundActivity
+import team.duckie.quackquack.ui.component.QuackBasicTextArea
+import team.duckie.quackquack.ui.component.QuackGoodsDetailTextArea
+import team.duckie.quackquack.ui.component.QuackReviewTextArea
 
-class TextAreaPlayground : BaseActivity() {
-    @Suppress("RemoveExplicitTypeArguments")
-    private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
-        "QuackBorderTextAreaDemo" to { QuackBorderTextAreaDemo() },
-        "QuackTextAreaDemo" to { QuackTextAreaDemo() },
-    )
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PlaygroundTheme {
-                PlaygroundSection(
-                    title = "TextArea",
-                    items = items,
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun QuackBorderTextAreaDemo() {
-    var text by remember {
-        mutableStateOf(
-            value = "",
-        )
-    }
-    QuackBorderTextArea(
-        text = text,
-        onTextChanged = { inputText ->
-            text = inputText
-        },
-        placeholderText = "placeholder",
+class TextAreaPlayground : PlaygroundActivity(
+    name = "TextArea",
+) {
+    override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
+        ::QuackBasicTextAreaDemo.name to { QuackBasicTextAreaDemo() },
+        ::QuackReviewTextAreaDemo.name to { QuackReviewTextAreaDemo() },
+        ::QuackGoodsDetailTextAreaDemo.name to { QuackGoodsDetailTextAreaDemo() },
     )
 }
 
 @Composable
-fun QuackTextAreaDemo() {
-    var text by remember {
-        mutableStateOf(
-            value = "",
-        )
-    }
-    QuackTextArea(
+fun QuackBasicTextAreaDemo() {
+    val (text, setText) = remember { mutableStateOf("") }
+
+    QuackBasicTextArea(
         text = text,
-        onTextChanged = { inputText ->
-            text = inputText
-        },
-        placeholderText = "placeholder",
+        onTextChanged = setText,
+        placeholderText = "BasicTextAreaPlayholder",
+    )
+}
+
+@Composable
+fun QuackReviewTextAreaDemo() {
+    val (text, setText) = remember { mutableStateOf("") }
+
+    QuackReviewTextArea(
+        text = text,
+        onTextChanged = setText,
+        placeholderText = "ReviewTextAreaPlaceholder",
+    )
+}
+
+@Composable
+fun QuackGoodsDetailTextAreaDemo() {
+    val (text, setText) = remember { mutableStateOf("") }
+
+    QuackGoodsDetailTextArea(
+        text = text,
+        onTextChanged = setText,
+        placeholderText = "ReviewTextAreaPlaceholder",
     )
 }

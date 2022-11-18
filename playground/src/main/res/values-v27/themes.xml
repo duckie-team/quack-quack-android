@@ -9,7 +9,7 @@
 
     <style name="Theme.Quack.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/quack_background</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/quack_splash_icon</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_quack_splash</item>
         <item name="postSplashScreenTheme">@style/Theme.Quack</item>
 
         <item name="android:statusBarColor">@color/quack_background</item>

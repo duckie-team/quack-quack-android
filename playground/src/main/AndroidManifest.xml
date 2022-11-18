@@ -8,7 +8,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:icon="@drawable/quack_icon"
+        android:icon="@drawable/ic_quack"
         android:label="@string/app_name"
         android:theme="@style/Theme.Quack.Splash">
 
@@ -23,63 +23,11 @@
         </activity>
 
         <activity
-            android:name=".realworld.TabPlayground"
-            android:theme="@style/Theme.Quack" />
-
-        <activity
             android:name=".realworld.ButtonPlayground"
             android:theme="@style/Theme.Quack" />
 
         <activity
-            android:name=".realworld.TextFieldPlayground"
-            android:theme="@style/Theme.Quack" />
-
-        <activity
-            android:name=".realworld.FabPlayground"
-            android:theme="@style/Theme.Quack" />
-
-        <activity
-            android:name=".realworld.TogglePlayground"
-            android:theme="@style/Theme.Quack" />
-
-        <activity
-            android:name=".realworld.TagPlayground"
-            android:theme="@style/Theme.Quack" />
-
-        <activity
-            android:name=".realworld.DrawerPlayground"
-            android:theme="@style/Theme.Quack" />
-
-        <activity
-            android:name=".realworld.BottomSheetPlayground"
-            android:theme="@style/Theme.Quack" />
-
-        <activity
-            android:name=".realworld.SelectableImagePlayground"
-            android:theme="@style/Theme.Quack" />
-
-        <activity
-            android:name=".realworld.EtcPlayground"
-            android:theme="@style/Theme.Quack" />
-
-        <activity
-            android:name=".realworld.NavigationPlayground"
-            android:theme="@style/Theme.Quack" />
-
-        <activity
-            android:name=".realworld.TypoPlayground"
-            android:theme="@style/Theme.Quack" />
-
-        <activity
-            android:name=".realworld.CardPlayground"
-            android:theme="@style/Theme.Quack" />
-
-        <activity
-            android:name=".realworld.GridLayoutPlayground"
-            android:theme="@style/Theme.Quack" />
-
-        <activity
-            android:name=".realworld.TextAreaPlayground"
+            android:name=".realworld.BottomNavigationPlayground"
             android:theme="@style/Theme.Quack" />
 
         <activity
@@ -89,7 +37,6 @@
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:theme="@style/Theme.Quack.AppCompat" />
-
 
     </application>
 

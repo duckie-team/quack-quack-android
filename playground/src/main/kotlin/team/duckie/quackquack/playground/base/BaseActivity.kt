@@ -2,7 +2,7 @@
  * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 package team.duckie.quackquack.playground.base
@@ -12,10 +12,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.addCallback
-import androidx.compose.runtime.Composable
 import androidx.core.view.WindowCompat
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 import land.sungbin.systemuicontroller.setSystemBarsColor
 
 open class BaseActivity : ComponentActivity() {
@@ -42,14 +39,5 @@ open class BaseActivity : ComponentActivity() {
                 android.R.anim.fade_out,
             )
         }
-    }
-
-    protected fun buildPlaygroundItems(
-        vararg composables: @Composable () -> Unit,
-    ): ImmutableList<Pair<String, @Composable () -> Unit>> {
-        return composables.map { composable ->
-            val name = composable::class.java.simpleName
-            name to composable
-        }.toImmutableList()
     }
 }

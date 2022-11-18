@@ -39,44 +39,19 @@ import team.duckie.quackquack.playground.base.ContentBorder
 import team.duckie.quackquack.playground.base.PlaygroundActivities
 import team.duckie.quackquack.playground.base.fontScale
 import team.duckie.quackquack.playground.base.showComponentBounds
-import team.duckie.quackquack.playground.realworld.BottomSheetPlayground
+import team.duckie.quackquack.playground.realworld.BottomNavigationPlayground
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
-import team.duckie.quackquack.playground.realworld.CardPlayground
-import team.duckie.quackquack.playground.realworld.DrawerPlayground
-import team.duckie.quackquack.playground.realworld.EtcPlayground
-import team.duckie.quackquack.playground.realworld.FabPlayground
-import team.duckie.quackquack.playground.realworld.GridLayoutPlayground
-import team.duckie.quackquack.playground.realworld.NavigationPlayground
-import team.duckie.quackquack.playground.realworld.SelectableImagePlayground
-import team.duckie.quackquack.playground.realworld.TabPlayground
-import team.duckie.quackquack.playground.realworld.TagPlayground
-import team.duckie.quackquack.playground.realworld.TextAreaPlayground
-import team.duckie.quackquack.playground.realworld.TextFieldPlayground
-import team.duckie.quackquack.playground.realworld.TogglePlayground
-import team.duckie.quackquack.playground.realworld.TypoPlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
 import team.duckie.quackquack.playground.util.verticalInsetsPadding
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
+import team.duckie.quackquack.ui.theme.QuackTheme
 
 private const val DefaultSplashScreenExitAnimationDurationMillis = 200L
 private val PlaygroundActivities = persistentListOf(
-    TabPlayground::class,
     ButtonPlayground::class,
-    TextFieldPlayground::class,
-    FabPlayground::class,
-    SelectableImagePlayground::class,
-    EtcPlayground::class,
-    NavigationPlayground::class,
-    TogglePlayground::class,
-    TypoPlayground::class,
-    CardPlayground::class,
-    GridLayoutPlayground::class,
-    TagPlayground::class,
-    DrawerPlayground::class,
-    BottomSheetPlayground::class,
-    TextAreaPlayground::class,
+    BottomNavigationPlayground::class,
 ).sortedBy { playgroundActivity ->
     playgroundActivity.simpleName
 }.toImmutableList()
@@ -87,7 +62,11 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            PlaygroundDemo()
+            PlaygroundTheme {
+                QuackTheme {
+                    PlaygroundDemo()
+                }
+            }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

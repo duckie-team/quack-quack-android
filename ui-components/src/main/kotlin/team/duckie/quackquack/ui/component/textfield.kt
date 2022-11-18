@@ -1043,6 +1043,7 @@ public fun QuackPriceTextField(
  * @param keyboardOptions 키보드 옵션
  * @param keyboardActions 키보드 액션
  */
+// TODO: 네이밍 개선
 @Composable
 public fun QuackBasic2TextField(
     modifier: Modifier = Modifier,
@@ -1158,10 +1159,10 @@ public fun QuackBasic2TextField(
 @Composable
 public fun QuackProfileTextField(
     modifier: Modifier = Modifier,
-    maxLength: Int,
     text: String,
     onTextChanged: (text: String) -> Unit,
     placeholderText: String,
+    maxLength: Int,
     errorText: String,
     onCleared: () -> Unit,
     imeAction: ImeAction = ImeAction.Done,
