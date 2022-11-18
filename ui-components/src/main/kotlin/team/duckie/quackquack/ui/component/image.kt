@@ -99,6 +99,7 @@ private object QuackImageDefaults {
  * 이미지 혹은 [QuackIcon] 을 표시합니다.
  *
  * @param modifier 이 컴포저블에서 사용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param src 표시할 리소스. 만약 null 이 들어온다면 리소스를 그리지 않습니다.
  * @param size 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
  * @param tint 적용할 틴트 값
@@ -114,6 +115,7 @@ private object QuackImageDefaults {
 @Composable
 public fun QuackImage(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     src: Any?,
     size: DpSize? = null,
     tint: QuackColor? = null,
@@ -133,7 +135,14 @@ public fun QuackImage(
         .quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
-        ),
+        )
+        .runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
     src = src,
     size = size,
     tint = tint,

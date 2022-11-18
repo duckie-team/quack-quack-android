@@ -204,10 +204,8 @@ private object QuackTextFieldDefaults {
             } else {
                 {
                     QuackImage(
-                        modifier = Modifier.padding(
-                            paddingValues = leadingContentPaddingFor(
-                                isPriceTextField = isPriceTextField,
-                            ),
+                        padding = leadingContentPaddingFor(
+                            isPriceTextField = isPriceTextField,
                         ),
                         src = icon,
                         tint = leadingIconTintFor(
@@ -375,9 +373,7 @@ private object QuackTextFieldDefaults {
             } else {
                 {
                     QuackImage(
-                        modifier = Modifier.padding(
-                            paddingValues = LeadingIconPadding,
-                        ),
+                        padding = LeadingIconPadding,
                         src = icon,
                         size = LeadingIconSize,
                         tint = LeadingIconTint,
@@ -410,9 +406,7 @@ private object QuackTextFieldDefaults {
             } else {
                 {
                     QuackImage(
-                        modifier = Modifier.padding(
-                            paddingValues = TrailingIconPadding,
-                        ),
+                        padding = TrailingIconPadding,
                         src = icon,
                         size = TrailingIconSize,
                         tint = trailinIconTintFor(
@@ -687,6 +681,7 @@ private object QuackTextFieldDefaults {
                                     singleLine = true,
                                 )
                             }
+                            // TODO: 레이아웃을 안깨고 터치 영역을 늘릴 수 있는 방법을 모르겠다 ㅠㅠ
                             // clear button
                             QuackImage(
                                 modifier = Modifier.layoutId(

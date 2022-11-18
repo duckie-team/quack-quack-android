@@ -12,10 +12,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
@@ -32,7 +32,6 @@ import team.duckie.quackquack.ui.util.runtimeCheck
  * QuackTopAppBar 를 그리기 위한 리소스들을 정의합니다.
  */
 private object QuackTopAppBarDefaults {
-    val Height = 48.dp
     val BackgroundColor = QuackColor.White
 
     private val LeadingTypography = QuackTextStyle.HeadLine2
@@ -42,7 +41,8 @@ private object QuackTopAppBarDefaults {
     )
 
     private val TrailingTextPadding = PaddingValues(
-        end = 16.dp,
+        horizontal = 16.dp,
+        vertical = 15.dp,
     )
 
     private val LogoIcon = QuackIcon.TextLogo
@@ -50,6 +50,15 @@ private object QuackTopAppBarDefaults {
         width = 72.dp,
         height = 24.dp,
     )
+    private val LogoPadding = PaddingValues(
+        vertical = 12.dp,
+    )
+
+    private val CenterTextPadding = PaddingValues(
+        vertical = 15.dp,
+    )
+    private val CenterTrailingIcon = QuackIcon.ArrowDown
+    private val CenterIconTint = QuackColor.Gray1
 
     /**
      * 모든 영역에서 사용되는 공통 아이콘 사이즈
@@ -57,10 +66,38 @@ private object QuackTopAppBarDefaults {
     private val IconSize = DpSize(
         all = 24.dp,
     )
+    private val IconPadding = PaddingValues(
+        all = 8.dp,
+    )
 
-    private val CenterTrailingIcon = QuackIcon.ArrowDown
+    /**
+     * ```
+     * [Icon][Icon]
+     * ```
+     *
+     * 위와 같은 형식에서 적용되는 개별 아이콘들의 패딩
+     *
+     * 아이콘 사이 간격인 8 을, 둘로 나누어 배분하였습니다.
+     * [IconSize] 는 아이콘이 하나만 쓰일 때 적용됩니다.
+     */
+    private val ExtraIconPadding = PaddingValues(
+        all = 4.dp,
+    )
 
-    private val CenterIconTint = QuackColor.Gray1
+    /**
+     * trailing content 에 배치될 아이콘의 패딩을 조건에 맞게 계산합니다.
+     *
+     * @param hasExtraIcon extra icon 을 가지고 있는지 여부
+     *
+     * @return trailing content 에 배치될 아이콘의 패딩
+     */
+    @Stable
+    private fun trailingIconPaddingFor(
+        hasExtraIcon: Boolean,
+    ) = when (hasExtraIcon) {
+        true -> ExtraIconPadding
+        false -> IconPadding
+    }
 
     /**
      * leading content 를 배치합니다.
@@ -80,7 +117,7 @@ private object QuackTopAppBarDefaults {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             QuackImage(
-                modifier = Modifier.padding(16.dp),
+                padding = IconPadding,
                 src = icon,
                 size = IconSize,
                 rippleEnabled = false,
@@ -139,12 +176,16 @@ private object QuackTopAppBarDefaults {
         ) {
             if (showLogo == true) {
                 QuackImage(
+                    padding = LogoPadding,
                     src = LogoIcon,
                     size = LogoIconSize,
                 )
             } else {
                 text?.let {
                     QuackText(
+                        modifier = Modifier.padding(
+                            paddingValues = CenterTextPadding,
+                        ),
                         text = text,
                         style = CenterTypography,
                         singleLine = true,
@@ -222,6 +263,9 @@ private object QuackTopAppBarDefaults {
             }
             extraIcon?.let {
                 QuackImage(
+                    padding = trailingIconPaddingFor(
+                        hasExtraIcon = true,
+                    ),
                     src = extraIcon,
                     size = IconSize,
                     rippleEnabled = false,
@@ -230,6 +274,9 @@ private object QuackTopAppBarDefaults {
             }
             icon?.let {
                 QuackImage(
+                    padding = trailingIconPaddingFor(
+                        hasExtraIcon = extraIcon != null,
+                    ),
                     src = icon,
                     size = IconSize,
                     rippleEnabled = false,
@@ -288,9 +335,6 @@ public fun QuackTopAppBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(
-                height = Height,
-            )
             .background(
                 color = BackgroundColor.composeColor,
             ),

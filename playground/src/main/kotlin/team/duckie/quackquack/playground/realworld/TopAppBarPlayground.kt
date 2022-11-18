@@ -35,9 +35,9 @@ fun QuackTopAppBarTypeLogoAndIconsDemo() {
         showLogoAtCenter = true,
         onCenterClick = { toast("Logo clicked") },
         trailingIcon = QuackIcon.FilledHeart,
-        trailingExtraIcon = QuackIcon.WhiteHeart,
+        trailingExtraIcon = QuackIcon.Heart,
         onTrailingIconClick = { toast("FilledHeart clicked") },
-        onTrailingExtraIconClick = { toast("WhiteHeart clicked") },
+        onTrailingExtraIconClick = { toast("Heart2 clicked") },
     )
 }
 
