@@ -85,18 +85,22 @@ import team.duckie.quackquack.ui.modifier.QuackAlwaysShowRipple
 import team.duckie.quackquack.ui.modifier.QuackDefaultAlwaysShowRipple
 import team.duckie.quackquack.ui.modifier.quackClickable
 
+const val DefaultFontScale = 1f
+
 /**
  * 텍스트 컴포넌트의 font scale
  */
 var fontScale by mutableStateOf(
-    value = 1f,
+    value = DefaultFontScale,
 )
+
+const val DefaultShowComponentBounds = false
 
 /**
  * 컴포넌트의 경계(테두리)를 표시할지 여부
  */
 var showComponentBounds by mutableStateOf(
-    value = true,
+    value = DefaultShowComponentBounds,
 )
 
 /**
@@ -353,7 +357,7 @@ fun PlaygroundSection(
                         Text(
                             text = name,
                         )
-                        ContentBorder {
+                        DebugLayout {
                             composable()
                         }
                     }
@@ -426,7 +430,7 @@ private fun PlaygroundSettingDialog(
                         )
                     }
                     preference[PreferenceConfigs.FontScaleKey] = when (reset) {
-                        true -> 1f
+                        true -> DefaultFontScale
                         else -> fontScaleInputState.toFloat()
                     }.also { newFontScale ->
                         fontScale = newFontScale.coerceAtLeast(
@@ -434,7 +438,7 @@ private fun PlaygroundSettingDialog(
                         )
                     }
                     preference[PreferenceConfigs.ShowComponentBounds] = when (reset) {
-                        true -> true
+                        true -> DefaultShowComponentBounds
                         else -> showComponentBoundsState
                     }.also { newShowComponentBounds ->
                         showComponentBounds = newShowComponentBounds
@@ -671,37 +675,38 @@ private fun PreviewDialog(
                     ),
                 contentAlignment = Alignment.Center,
             ) {
-                ContentBorder {
-                    CompositionLocalProvider(
-                        LocalDensity provides Density(
-                            density = LocalDensity.current.density,
-                            fontScale = fontScale,
-                        ),
-                        content = content,
-                    )
-                }
+                DebugLayout(
+                    content = content,
+                )
             }
         }
     }
 }
 
 @Composable
-fun ContentBorder(
+fun DebugLayout(
     content: @Composable () -> Unit,
 ) {
-    if (showComponentBounds) {
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .border(
-                    width = 0.1.dp,
-                    color = Color.LightGray,
-                ),
-            contentAlignment = Alignment.Center,
-        ) {
+    CompositionLocalProvider(
+        LocalDensity provides Density(
+            density = LocalDensity.current.density,
+            fontScale = fontScale,
+        ),
+    ) {
+        if (showComponentBounds) {
+            Box(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .border(
+                        width = 0.1.dp,
+                        color = Color.LightGray,
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
+                content()
+            }
+        } else {
             content()
         }
-    } else {
-        content()
     }
 }

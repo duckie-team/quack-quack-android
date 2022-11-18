@@ -7,7 +7,6 @@
 
 package team.duckie.quackquack.ui.component
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,9 +16,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
@@ -47,100 +46,60 @@ private object QuackTopAppBarDefaults {
     )
 
     private val LogoIcon = QuackIcon.TextLogo
-    private val LogoIconSize = androidx.compose.ui.unit.DpSize(
-        width = 40.dp,
-        height = 18.dp,
+    private val LogoIconSize = DpSize(
+        width = 72.dp,
+        height = 24.dp,
     )
 
+    /**
+     * 모든 영역에서 사용되는 공통 아이콘 사이즈
+     */
     private val IconSize = DpSize(
-        all = 48.dp,
+        all = 24.dp,
     )
 
     private val CenterTrailingIcon = QuackIcon.ArrowDown
 
-    /**
-     * center content 의 trailing 으로 적용되는 아이콘의 사이즈
-     *
-     * [IconSize] 는 leading/trailing content 에 적용되는 아이콘의 사이즈를 나타냅니다.
-     */
-    private val CenterIconSize = DpSize(
-        all = 24.dp,
-    )
-
-    /**
-     * ```
-     * [Icon][Icon]
-     * ```
-     *
-     * 위와 같은 형식에서 적용되는 개별 아이콘들의 사이즈
-     *
-     * 아이콘 사이 간격인 8 을, 각각 사이즈에 4 씩 더하여 배분하였습니다.
-     *
-     * [IconSize] 는 아이콘이 하나만 쓰일 때 적용된다.
-     */
-    private val ExtraIconSize = DpSize(
-        all = 28.dp,
-    )
-
-    /**
-     * trailing content 에 배치될 아이콘의 크기를 조건에 맞게 계산합니다.
-     *
-     * @param hasExtraIcon extra icon 을 가지고 있는지 여부
-     *
-     * @return trailing content 에 배치될 아이콘의 크기
-     */
-    @Stable
-    private fun trailingIconSizeFor(
-        hasExtraIcon: Boolean,
-    ) = when (hasExtraIcon) {
-        true -> ExtraIconSize
-        false -> IconSize
-    }
-
     private val CenterIconTint = QuackColor.Gray1
 
     /**
-     * leading content 로 배치될 컴포저블을 계산합니다.
+     * leading content 를 배치합니다.
      *
      * @param icon 배치할 아이콘
      * @param text 배치할 텍스트. 선택적으로 값을 받습니다.
      * @param onIconClick [icon] 이 클릭됐을 때 실행될 람다
-     *
-     * @return 입력받는 인자로 계산된 leading content 의 컴포저블
      */
-    @SuppressLint("ComposableNaming")
     @Composable
     fun LeadingContent(
         icon: QuackIcon,
         text: String? = null,
         onIconClick: () -> Unit,
-    ): @Composable () -> Unit {
-        return {
-            Row(
-                modifier = Modifier.wrapContentSize(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                QuackImage(
-                    src = icon,
-                    size = IconSize,
-                    rippleEnabled = false,
-                    onClick = onIconClick,
+    ) {
+        Row(
+            modifier = Modifier.wrapContentSize(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            QuackImage(
+                modifier = Modifier.padding(16.dp),
+                src = icon,
+                size = IconSize,
+                rippleEnabled = false,
+                onClick = onIconClick,
+            )
+            text?.let {
+                // TODO: 최대 width 처리
+                // 아마 커스텀 레이아웃 필요할 듯
+                QuackText(
+                    text = text,
+                    style = LeadingTypography,
+                    singleLine = true,
                 )
-                text?.let {
-                    // TODO: 최대 width 처리
-                    // 아마 커스텀 레이아웃 필요할 듯
-                    QuackText(
-                        text = text,
-                        style = LeadingTypography,
-                        singleLine = true,
-                    )
-                }
             }
         }
     }
 
     /**
-     * center content 로 배치될 컴포저블을 계산합니다.
+     * center content 를 배치합니다.
      *
      * - [showLogo] 이 true 라면 [text] 값은 무시됩니다.
      *   로고 리소스로는 [QuackIcon.TextLogo] 를 사용합니다.
@@ -150,16 +109,13 @@ private object QuackTopAppBarDefaults {
      * @param showLogo 덕키의 로고를 배치할지 여부
      * @param text 로고 대신에 표시할 텍스트
      * @param onClick center content 가 클릭됐을 때 실행될 람다
-     *
-     * @return 입력받는 인자로 계산된 center content 의 컴포저블
      */
-    @SuppressLint("ComposableNaming")
     @Composable
     fun CenterContent(
         showLogo: Boolean? = null,
         text: String? = null,
         onClick: (() -> Unit)? = null,
-    ): @Composable () -> Unit {
+    ) {
         runtimeCheck(
             value = showLogo != null || text != null,
         ) {
@@ -172,41 +128,39 @@ private object QuackTopAppBarDefaults {
                 "로고와 텍스트를 동시에 표시할 수 없습니다"
             }
         }
-        return {
-            Row(
-                modifier = Modifier
-                    .wrapContentSize()
-                    .quackClickable(
-                        rippleEnabled = false,
-                        onClick = onClick,
-                    ),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                if (showLogo == true) {
-                    QuackImage(
-                        src = LogoIcon,
-                        size = LogoIconSize,
+        Row(
+            modifier = Modifier
+                .wrapContentSize()
+                .quackClickable(
+                    rippleEnabled = false,
+                    onClick = onClick,
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (showLogo == true) {
+                QuackImage(
+                    src = LogoIcon,
+                    size = LogoIconSize,
+                )
+            } else {
+                text?.let {
+                    QuackText(
+                        text = text,
+                        style = CenterTypography,
+                        singleLine = true,
                     )
-                } else {
-                    text?.let {
-                        QuackText(
-                            text = text,
-                            style = CenterTypography,
-                            singleLine = true,
-                        )
-                        QuackImage(
-                            src = CenterTrailingIcon,
-                            size = CenterIconSize,
-                            tint = CenterIconTint,
-                        )
-                    }
+                    QuackImage(
+                        src = CenterTrailingIcon,
+                        size = IconSize,
+                        tint = CenterIconTint,
+                    )
                 }
             }
         }
     }
 
     /**
-     * trailing content 로 그려지는 컴포저블을 계산합니다.
+     * trailing content 를 그립니다.
      *
      * - [extraIcon] 과 [icon] 이 하나라도 들어왔다면 [text] 는 무시되며,
      *   `[extraIcon] [icon]` 순서로 배치됩니다.
@@ -218,10 +172,7 @@ private object QuackTopAppBarDefaults {
      * @param onIconClick [icon] 이 클릭됐을 때 실행될 람다
      * @param onExtraIconClick [extraIcon] 이 클릭됐을 때 실행될 람다
      * @param onTextClick [text] 가 클릭됐을 때 실행될 람다
-     *
-     * @return 입력받는 인자로 계산된 trailing content 의 컴포저블
      */
-    @SuppressLint("ComposableNaming")
     @Composable
     fun TrailingContent(
         icon: QuackIcon? = null,
@@ -230,7 +181,7 @@ private object QuackTopAppBarDefaults {
         onIconClick: (() -> Unit)? = null,
         onExtraIconClick: (() -> Unit)? = null,
         onTextClick: (() -> Unit)? = null,
-    ): @Composable () -> Unit {
+    ) {
         runtimeCheck(
             value = icon != null || extraIcon != null || text != null,
         ) {
@@ -250,44 +201,40 @@ private object QuackTopAppBarDefaults {
                 "텍스트와 아이콘을 동시에 표시할 수 없습니다"
             }
         }
-        return {
-            Row(
-                modifier = Modifier.wrapContentSize(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                text?.let {
-                    QuackText(
-                        modifier = Modifier
-                            .quackClickable(
-                                rippleEnabled = false,
-                                onClick = onTextClick,
-                            )
-                            .padding(
-                                paddingValues = TrailingTextPadding
-                            ),
-                        text = text,
-                        style = TrailingTypography,
-                        singleLine = true,
-                    )
-                }
-                extraIcon?.let {
-                    QuackImage(
-                        src = extraIcon,
-                        size = trailingIconSizeFor(
-                            hasExtraIcon = true,
+        Row(
+            modifier = Modifier.wrapContentSize(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            text?.let {
+                QuackText(
+                    modifier = Modifier
+                        .quackClickable(
+                            rippleEnabled = false,
+                            onClick = onTextClick,
+                        )
+                        .padding(
+                            paddingValues = TrailingTextPadding
                         ),
-                        onClick = onExtraIconClick,
-                    )
-                }
-                icon?.let {
-                    QuackImage(
-                        src = icon,
-                        size = trailingIconSizeFor(
-                            hasExtraIcon = extraIcon != null,
-                        ),
-                        onClick = onIconClick,
-                    )
-                }
+                    text = text,
+                    style = TrailingTypography,
+                    singleLine = true,
+                )
+            }
+            extraIcon?.let {
+                QuackImage(
+                    src = extraIcon,
+                    size = IconSize,
+                    rippleEnabled = false,
+                    onClick = onExtraIconClick,
+                )
+            }
+            icon?.let {
+                QuackImage(
+                    src = icon,
+                    size = IconSize,
+                    rippleEnabled = false,
+                    onClick = onIconClick,
+                )
             }
         }
     }

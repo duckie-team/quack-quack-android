@@ -10,7 +10,10 @@ package team.duckie.quackquack.ui.modifier
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
@@ -32,7 +35,9 @@ public const val QuackDefaultAlwaysShowRipple: Boolean = false
  *
  * Playground 에서 자유로운 편집으로 쉬운 디버깅을 위해 public 으로 공개합니다.
  */
-public var QuackAlwaysShowRipple: Boolean = QuackDefaultAlwaysShowRipple
+public var QuackAlwaysShowRipple: Boolean by mutableStateOf(
+    value = QuackDefaultAlwaysShowRipple,
+)
 
 /**
  * 컴포저블에 Clickable 을 설정해 주는 [Modifier] 입니다.

@@ -34,7 +34,9 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.first
 import team.duckie.quackquack.playground.base.BaseActivity
-import team.duckie.quackquack.playground.base.ContentBorder
+import team.duckie.quackquack.playground.base.DebugLayout
+import team.duckie.quackquack.playground.base.DefaultFontScale
+import team.duckie.quackquack.playground.base.DefaultShowComponentBounds
 import team.duckie.quackquack.playground.base.PlaygroundActivities
 import team.duckie.quackquack.playground.base.fontScale
 import team.duckie.quackquack.playground.base.showComponentBounds
@@ -132,7 +134,7 @@ private fun SingleDemo(
             ),
         contentAlignment = Alignment.Center,
     ) {
-        ContentBorder {
+        DebugLayout {
             content()
         }
     }
@@ -176,18 +178,16 @@ private fun PlaygroundDemo() {
     ) {
         context.dataStore.data.first().let { preference ->
             QuackAnimationMillis = (
-                    preference[PreferenceConfigs.AnimationDurationKey]
-                        ?: QuackAnimationMillis
+                    preference[PreferenceConfigs.AnimationDurationKey] ?: QuackAnimationMillis
                     ).coerceAtLeast(
                     minimumValue = 0,
                 )
             fontScale = (
-                    preference[PreferenceConfigs.FontScaleKey]
-                        ?: 1f
+                    preference[PreferenceConfigs.FontScaleKey] ?: DefaultFontScale
                     ).coerceAtLeast(
                     minimumValue = 1f,
                 )
-            showComponentBounds = preference[PreferenceConfigs.ShowComponentBounds] ?: showComponentBounds
+            showComponentBounds = preference[PreferenceConfigs.ShowComponentBounds] ?: DefaultShowComponentBounds
             QuackAlwaysShowRipple = preference[PreferenceConfigs.AlwaysShowRipple] ?: QuackDefaultAlwaysShowRipple
         }
     }

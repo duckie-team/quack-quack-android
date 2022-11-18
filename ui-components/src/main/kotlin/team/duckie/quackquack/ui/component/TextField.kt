@@ -581,45 +581,40 @@ private object QuackTextFieldDefaults {
         }
 
         /**
-         * 에러 상태로 표시될 컴포저블을 나타냅니다.
+         * 에러 상태로 표시될 텍스트를 배치합니다.
          *
          * @param text 에러 텍스트
-         * @param visible invisible 여부.
-         * true 일 경우 에러 메시지가 표시될 공간을 항상 확보하기 위해
+         * @param visible visible 여부.
+         * false 일 경우 에러 메시지가 표시될 공간을 항상 확보하기 위해
          * 미리 에러 메시지의 공간만 차지합니다. 그렇지 않으면 에러 메시지가
          * 보일 때 없던 공간이 갑자기 확장되면서 순간적으로 레이아웃의 높이에 변동이 생깁니다.
-         *
-         * @return 에러 상태로 표시될 컴포저블
          */
-        @SuppressLint("ComposableNaming")
         @Composable
         fun ErrorText(
             text: String,
             visible: Boolean,
-        ): @Composable () -> Unit {
-            return {
-                // QuackText X
-                Text(
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .padding(
-                            paddingValues = ErrorTextPadding,
-                        )
-                        .zIndex(
-                            zIndex = when (visible) {
-                                true -> 2f
-                                else -> 1f
-                            },
-                        )
-                        .drawWithContent {
-                            if (visible) {
-                                drawContent()
-                            }
+        ) {
+            // QuackText X
+            Text(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(
+                        paddingValues = ErrorTextPadding,
+                    )
+                    .zIndex(
+                        zIndex = when (visible) {
+                            true -> 2f
+                            else -> 1f
                         },
-                    text = text,
-                    style = ErrorTextTypography.asComposeStyle(),
-                )
-            }
+                    )
+                    .drawWithContent {
+                        if (visible) {
+                            drawContent()
+                        }
+                    },
+                text = text,
+                style = ErrorTextTypography.asComposeStyle(),
+            )
         }
 
         private const val TrailingCounterLayoutId = "QuackProfileTextFieldTrailingCounterLayout"
@@ -1262,7 +1257,7 @@ public fun QuackProfileTextField(
             ErrorText(
                 text = errorText,
                 visible = false,
-            ).invoke()
+            )
             this@Column.AnimatedVisibility(
                 visible = isError,
                 modifier = Modifier.zIndex(
@@ -1282,7 +1277,7 @@ public fun QuackProfileTextField(
                 ErrorText(
                     text = errorText,
                     visible = true,
-                ).invoke()
+                )
             }
         }
     }
