@@ -37,7 +37,7 @@ public fun Modifier.quackClickable(
     rippleColor: QuackColor? = null,
     onClick: (() -> Unit)?,
 ): Modifier = runIf(
-    onClick != null,
+    condition = onClick != null,
 ) {
     composed {
         clickable(
