@@ -23,11 +23,58 @@
         </activity>
 
         <activity
+            android:name=".realworld.BottomNavigationPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
             android:name=".realworld.ButtonPlayground"
             android:theme="@style/Theme.Quack" />
 
         <activity
-            android:name=".realworld.BottomNavigationPlayground"
+            android:name=".realworld.DividerPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.DropDownPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.GridLayoutPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.ImagePlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.LabelPlayground"
+            android:theme="@style/Theme.Quack" />
+        <activity
+            android:name=".realworld.TabPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TagPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TextAreaPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TextFieldPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TogglePlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TopAppBarPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.TypographyPlayground"
             android:theme="@style/Theme.Quack" />
 
         <activity

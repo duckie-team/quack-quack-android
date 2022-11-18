@@ -41,6 +41,18 @@ import team.duckie.quackquack.playground.base.fontScale
 import team.duckie.quackquack.playground.base.showComponentBounds
 import team.duckie.quackquack.playground.realworld.BottomNavigationPlayground
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
+import team.duckie.quackquack.playground.realworld.DividerPlayground
+import team.duckie.quackquack.playground.realworld.DropDownPlayground
+import team.duckie.quackquack.playground.realworld.GridLayoutPlayground
+import team.duckie.quackquack.playground.realworld.ImagePlayground
+import team.duckie.quackquack.playground.realworld.LabelPlayground
+import team.duckie.quackquack.playground.realworld.TabPlayground
+import team.duckie.quackquack.playground.realworld.TagPlayground
+import team.duckie.quackquack.playground.realworld.TextAreaPlayground
+import team.duckie.quackquack.playground.realworld.TextFieldPlayground
+import team.duckie.quackquack.playground.realworld.TogglePlayground
+import team.duckie.quackquack.playground.realworld.TopAppBarPlayground
+import team.duckie.quackquack.playground.realworld.TypographyPlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
@@ -50,8 +62,20 @@ import team.duckie.quackquack.ui.theme.QuackTheme
 
 private const val DefaultSplashScreenExitAnimationDurationMillis = 200L
 private val PlaygroundActivities = persistentListOf(
-    ButtonPlayground::class,
     BottomNavigationPlayground::class,
+    ButtonPlayground::class,
+    DividerPlayground::class,
+    DropDownPlayground::class,
+    GridLayoutPlayground::class,
+    ImagePlayground::class,
+    LabelPlayground::class,
+    TabPlayground::class,
+    TagPlayground::class,
+    TextAreaPlayground::class,
+    TextFieldPlayground::class,
+    TogglePlayground::class,
+    TopAppBarPlayground::class,
+    TypographyPlayground::class,
 ).sortedBy { playgroundActivity ->
     playgroundActivity.simpleName
 }.toImmutableList()

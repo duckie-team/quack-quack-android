@@ -22,7 +22,7 @@ class TabPlayground : PlaygroundActivity(
     name = "Tab",
 ) {
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
-        ::QuackTabDemo.name to { QuackTabDemo() },
+        ::QuackMainTabDemo.name to { QuackMainTabDemo() },
         ::QuackSubTabDemo.name to { QuackSubTabDemo() },
     )
 }
