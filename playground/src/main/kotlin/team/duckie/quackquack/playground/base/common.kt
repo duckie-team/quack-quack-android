@@ -78,7 +78,6 @@ import kotlinx.coroutines.launch
 import team.duckie.quackquack.playground.R
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
-import team.duckie.quackquack.playground.util.plus
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
@@ -154,14 +153,18 @@ fun PlaygroundActivities(
         },
     ) { padding ->
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    top = padding.calculateTopPadding(),
+                ),
             verticalArrangement = Arrangement.spacedBy(
                 space = 8.dp,
             ),
-            contentPadding = padding + PaddingValues(
+            contentPadding = PaddingValues(
                 start = 16.dp,
                 end = 16.dp,
-                bottom = 16.dp,
+                bottom = 16.dp + padding.calculateBottomPadding(),
             ),
         ) {
             stickyHeader {
@@ -288,14 +291,18 @@ fun PlaygroundSection(
         },
     ) { padding ->
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    top = padding.calculateTopPadding(),
+                ),
             verticalArrangement = Arrangement.spacedBy(
                 space = 16.dp,
             ),
-            contentPadding = padding + PaddingValues(
+            contentPadding = PaddingValues(
                 start = 16.dp,
                 end = 16.dp,
-                bottom = 16.dp,
+                bottom = 16.dp + padding.calculateBottomPadding(),
             ),
         ) {
             stickyHeader {
