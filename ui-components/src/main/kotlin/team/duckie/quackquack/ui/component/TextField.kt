@@ -584,7 +584,7 @@ private object QuackTextFieldDefaults {
          * 에러 상태로 표시될 컴포저블을 나타냅니다.
          *
          * @param text 에러 텍스트
-         * @param invisible invisible 여부.
+         * @param visible invisible 여부.
          * true 일 경우 에러 메시지가 표시될 공간을 항상 확보하기 위해
          * 미리 에러 메시지의 공간만 차지합니다. 그렇지 않으면 에러 메시지가
          * 보일 때 없던 공간이 갑자기 확장되면서 순간적으로 레이아웃의 높이에 변동이 생깁니다.
@@ -595,7 +595,7 @@ private object QuackTextFieldDefaults {
         @Composable
         fun ErrorText(
             text: String,
-            invisible: Boolean,
+            visible: Boolean,
         ): @Composable () -> Unit {
             return {
                 // QuackText X
@@ -606,13 +606,13 @@ private object QuackTextFieldDefaults {
                             paddingValues = ErrorTextPadding,
                         )
                         .zIndex(
-                            zIndex = when (invisible) {
-                                true -> 1f
-                                else -> 2f
+                            zIndex = when (visible) {
+                                true -> 2f
+                                else -> 1f
                             },
                         )
                         .drawWithContent {
-                            if (!invisible) {
+                            if (visible) {
                                 drawContent()
                             }
                         },
@@ -740,7 +740,7 @@ private object QuackTextFieldDefaults {
                                     trailingCounterPlaceable.place(
                                         x = trailingClearButtonPlaceable.width + TrailingContentGap.roundToPx(),
                                         y = Alignment.CenterVertically.align(
-                                            size = trailingClearButtonPlaceable.height,
+                                            size = trailingCounterPlaceable.height,
                                             space = maxHeight,
                                         ),
                                     )
@@ -1260,9 +1260,9 @@ public fun QuackProfileTextField(
             modifier = Modifier.wrapContentSize(),
         ) {
             ErrorText(
-                text = "errorText",
-                invisible = false,
-            )
+                text = errorText,
+                visible = false,
+            ).invoke()
             this@Column.AnimatedVisibility(
                 visible = isError,
                 modifier = Modifier.zIndex(
@@ -1281,8 +1281,8 @@ public fun QuackProfileTextField(
             ) {
                 ErrorText(
                     text = errorText,
-                    invisible = false,
-                )
+                    visible = true,
+                ).invoke()
             }
         }
     }
