@@ -16,6 +16,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import team.duckie.quackquack.ui.theme.QuackTheme
 
 private val PlaygroundLightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -100,8 +101,11 @@ fun PlaygroundTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = PlaygroundTypography,
-        content = content,
-    )
+    ) {
+        QuackTheme(
+            content = content,
+        )
+    }
 }
 
 /*

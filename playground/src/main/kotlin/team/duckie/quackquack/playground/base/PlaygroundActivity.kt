@@ -11,6 +11,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import kotlinx.collections.immutable.ImmutableList
+import team.duckie.quackquack.playground.theme.PlaygroundTheme
 
 abstract class PlaygroundActivity(
     private val name: String,
@@ -21,11 +22,13 @@ abstract class PlaygroundActivity(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PlaygroundSection(
-                title = name,
-                items = items,
-                usePreviewDialog = usePreviewDialog,
-            )
+            PlaygroundTheme {
+                PlaygroundSection(
+                    title = name,
+                    items = items,
+                    usePreviewDialog = usePreviewDialog,
+                )
+            }
         }
     }
 }

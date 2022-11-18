@@ -56,7 +56,6 @@ import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
 import team.duckie.quackquack.playground.util.verticalInsetsPadding
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
-import team.duckie.quackquack.ui.theme.QuackTheme
 
 private const val DefaultSplashScreenExitAnimationDurationMillis = 200L
 private val PlaygroundActivities = persistentListOf(
@@ -85,9 +84,7 @@ class MainActivity : BaseActivity() {
 
         setContent {
             PlaygroundTheme {
-                QuackTheme {
-                    PlaygroundDemo()
-                }
+                PlaygroundDemo()
             }
         }
 

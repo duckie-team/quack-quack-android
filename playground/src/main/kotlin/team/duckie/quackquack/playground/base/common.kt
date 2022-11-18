@@ -79,7 +79,9 @@ import kotlinx.coroutines.launch
 import team.duckie.quackquack.playground.R
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
+import team.duckie.quackquack.playground.util.plus
 import team.duckie.quackquack.playground.util.rememberToast
+import team.duckie.quackquack.playground.util.systemBarPaddings
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
 import team.duckie.quackquack.ui.modifier.quackClickable
@@ -153,12 +155,12 @@ fun PlaygroundActivities(
             )
         },
         contentWindowInsets = WindowInsets(0),
-    ) { contentPadding ->
+    ) { padding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    paddingValues = contentPadding,
+                    paddingValues = padding + systemBarPaddings,
                 ),
             verticalArrangement = Arrangement.spacedBy(
                 space = 8.dp,
@@ -290,12 +292,12 @@ fun PlaygroundSection(
             )
         },
         contentWindowInsets = WindowInsets(0),
-    ) { contentPadding ->
+    ) { padding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    paddingValues = contentPadding,
+                    paddingValues = padding + systemBarPaddings,
                 ),
             verticalArrangement = Arrangement.spacedBy(
                 space = 8.dp,
