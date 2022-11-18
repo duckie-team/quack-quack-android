@@ -13,6 +13,7 @@
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
+import java.time.LocalDate
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -27,7 +28,8 @@ import team.duckie.quackquack.convention.applyPlugins
 import team.duckie.quackquack.convention.getArtifactVersion
 import team.duckie.quackquack.convention.libs
 
-private const val QuackLintPublishExtensionName = "quackArtifactPublish"
+private const val RepositoryName = "duckie-team/quack-quack-android"
+private const val QuackPublishExtensionName = "quackArtifactPublish"
 
 class AndroidQuackPublishPlugin : Plugin<Project> {
     override fun apply(
@@ -41,7 +43,7 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
             )
 
             val extension = project.extensions.create<QuackPublishExtension>(
-                name = QuackLintPublishExtensionName,
+                name = QuackPublishExtensionName,
             )
 
             group = "team.duckie.quack"
@@ -92,8 +94,8 @@ class AndroidQuackPublishPlugin : Plugin<Project> {
                     pom {
                         name.set(extension.type.artifactId)
                         description.set(extension.type.description)
-                        inceptionYear.set("2022")
-                        url.set("https://github.com/duckie-team/duckie-quack-quack")
+                        inceptionYear.set(LocalDate.now().year.toString())
+                        url.set("https://github.com/$RepositoryName")
                         configureQuackPom()
                     }
                 }
@@ -106,10 +108,11 @@ private fun MavenPom.configureQuackPom() {
     licenses {
         license {
             name.set("MIT License")
-            url.set("https://github.com/duckie-team/duckie-quack-quack/blob/develop/LICENSE")
+            url.set("https://github.com/$RepositoryName/blob/master/LICENSE")
         }
     }
     developers {
+        // 다른 팀원분들은 등록 정보 제공 X
         developer {
             id.set("jisungbin")
             name.set("Ji Sungbin")
@@ -118,8 +121,8 @@ private fun MavenPom.configureQuackPom() {
         }
     }
     scm {
-        url.set("https://github.com/duckie-team/duckie-quack-quack/tree/main")
-        connection.set("scm:git:github.com/duckie-team/duckie-quack-quack.git")
-        developerConnection.set("scm:git:ssh://github.com/duckie-team/duckie-quack-quack.git")
+        url.set("https://github.com/$RepositoryName/tree/main")
+        connection.set("scm:git:github.com/$RepositoryName.git")
+        developerConnection.set("scm:git:ssh://github.com/$RepositoryName.git")
     }
 }
