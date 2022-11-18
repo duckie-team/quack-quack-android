@@ -28,15 +28,8 @@ import team.duckie.quackquack.ui.component.QuackToggleChip
 import team.duckie.quackquack.ui.icon.QuackIcon
 
 class ButtonPlayground : BaseActivity() {
-    @Suppress("RemoveExplicitTypeArguments")
-    private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
-        "QuackLargeButton" to { QuackLargeButtonDemo() },
-        "QuackLargeWhiteButton" to { QuackLargeWhiteButtonDemo() },
-        "QuackLarge40WhiteButton" to { QuackLarge40WhiteButtonDemo() },
-        "QuackMediumBorderToggleButton" to { QuackMediumBorderToggleButtonDemo() },
-        "QuackSmallButton" to { QuackSmallButtonDemo() },
-        "QuackSmallBorderToggleButton" to { QuackSmallBorderToggleButtonDemo() },
-        "QuackToggleChip" to { QuackToggleChipDemo() },
+    private val items = buildPlaygroundItems(
+
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
