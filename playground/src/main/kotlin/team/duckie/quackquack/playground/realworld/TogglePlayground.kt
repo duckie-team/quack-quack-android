@@ -63,7 +63,6 @@ fun QuackToggleButtonTypeNormalDemo() {
         iconSize = QuackToggleIconSize.Normal,
         checked = checked,
         onClick = { checked = !checked },
-        trailingText = "Normal",
     )
 }
 
@@ -91,6 +90,5 @@ fun QuackToggleButtonTypeCompactDemo() {
         iconSize = QuackToggleIconSize.Compact,
         checked = checked,
         onClick = { checked = !checked },
-        trailingText = "Compact",
     )
 }

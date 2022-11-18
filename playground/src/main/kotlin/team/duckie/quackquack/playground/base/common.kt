@@ -344,7 +344,9 @@ fun PlaygroundSection(
                         Text(
                             text = name,
                         )
-                        composable()
+                        ContentBorder {
+                            composable()
+                        }
                     }
                 }
             }

@@ -297,6 +297,7 @@ public fun QuackToggleButton(
                 else -> uncheckedIcon
             },
             size = (iconSize.takeIf { trailingText == null } ?: IconSize).size,
+            rippleEnabled = false,
             onClick = onClick,
         )
         trailingText?.let {

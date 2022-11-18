@@ -7,13 +7,11 @@
 
 package team.duckie.quackquack.playground.realworld
 
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -25,7 +23,6 @@ import team.duckie.quackquack.playground.base.PlaygroundActivity
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.component.QuackImage
 import team.duckie.quackquack.ui.component.QuackSelectableImage
-import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.util.DpSize
 
 class ImagePlayground : PlaygroundActivity(
@@ -43,21 +40,22 @@ fun QuackImageDemo() {
     val toast = rememberToast()
 
     QuackImage(
-        src = ContextCompat.getDrawable(
-            context, R.drawable.banner_quack_dev,
-        ),
+        src = remember {
+            ContextCompat.getDrawable(
+                context, R.drawable.banner_quack_dev,
+            )
+        },
         size = DpSize(
             width = 400.dp,
             height = 180.dp,
         ),
         badge = {
-            QuackImage(
-                src = QuackIcon.FilledHeart,
-            )
+            QuackRoundCheckBoxDemo()
         },
         badgeSize = DpSize(
             all = 24.dp,
         ),
+        rippleEnabled = false,
         onClick = { toast("QuackImage clicked") },
     )
 }
@@ -68,13 +66,16 @@ fun QuackSelectableImageDemo() {
     var selected by remember { mutableStateOf(false) }
 
     QuackSelectableImage(
-        modifier = Modifier.aspectRatio(
-            ratio = 1f,
-        ),
-        src = ContextCompat.getDrawable(
-            context, R.drawable.ic_quack,
+        src = remember {
+            ContextCompat.getDrawable(
+                context, R.drawable.ic_quack,
+            )
+        },
+        size = DpSize(
+            all = 250.dp,
         ),
         isSelected = selected,
+        rippleEnabled = false,
         onClick = { selected = !selected },
     )
 }
