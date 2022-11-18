@@ -33,16 +33,16 @@ class GridLayoutPlayground : PlaygroundActivity(
 
 @Composable
 fun QuackGridLayoutDemo() {
-    val countedItem = remember {
+    val colors = remember {
         List(
             size = 102, // 100 으로 하면 마지막에 2칸이 남음
-            init = { count -> count },
+            init = { Color.pastelRandom },
         ).toImmutableList()
     }
 
     QuackGridLayout(
-        items = countedItem,
-    ) { _, _ ->
+        items = colors,
+    ) { _, color ->
         Box(
             modifier = Modifier
                 .aspectRatio(
@@ -50,7 +50,7 @@ fun QuackGridLayoutDemo() {
                 )
                 .fillMaxSize()
                 .background(
-                    color = Color.pastelRandom,
+                    color = color,
                 ),
         )
     }
