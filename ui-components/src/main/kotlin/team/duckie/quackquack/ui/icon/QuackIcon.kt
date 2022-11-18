@@ -158,14 +158,6 @@ public value class QuackIcon private constructor(
             drawableId = R.drawable.quack_ic_dm_24,
         )
 
-        public val Checked: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_checked_round_24,
-        )
-
-        public val UnChecked: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_un_checked_round_24
-        )
-
         public val WhiteHeart: QuackIcon = QuackIcon(
             drawableId = R.drawable.quack_ic_heart_24_white,
         )
@@ -187,35 +179,35 @@ public value class QuackIcon private constructor(
         )
 
         internal val BottomNavHome: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_home_bottom_nav_24
+            drawableId = R.drawable.quack_ic_home_bottom_nav_24,
         )
 
         internal val BottomNavHomeSelected: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_home_bottom_nav_selected_24
+            drawableId = R.drawable.quack_ic_home_bottom_nav_selected_24,
         )
 
         internal val BottomNavSearch: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_search_bottom_nav_24
+            drawableId = R.drawable.quack_ic_search_bottom_nav_24,
         )
 
         internal val BottomNavSearchSelected: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_search_bottom_nav_selected_24
+            drawableId = R.drawable.quack_ic_search_bottom_nav_selected_24,
         )
 
         internal val BottomNavNotice: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_notice_bottom_nav_24
+            drawableId = R.drawable.quack_ic_notice_bottom_nav_24,
         )
 
         internal val BottomNavNoticeSelected: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_notice_bottom_nav_selected_24
+            drawableId = R.drawable.quack_ic_notice_bottom_nav_selected_24,
         )
 
         internal val BottomNavMessage: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_message_bottom_nav_24
+            drawableId = R.drawable.quack_ic_message_bottom_nav_24,
         )
 
         internal val BottomNavMessageSelected: QuackIcon = QuackIcon(
-            drawableId = R.drawable.quack_ic_message_bottom_nav_selected_24
+            drawableId = R.drawable.quack_ic_message_bottom_nav_selected_24,
         )
     }
 }
