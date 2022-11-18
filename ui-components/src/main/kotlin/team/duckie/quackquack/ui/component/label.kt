@@ -87,6 +87,7 @@ private object QuackLabelDefaults {
  * @param active 레이블이 활성화 됐는지 여부
  * @param onClick 레이블이 클릭됐을 때 실행될 람다
  */
+// TODO: 애니메이션이 살짝 부자연스러운 느낌?
 @Composable
 public fun QuackLabel(
     modifier: Modifier = Modifier,

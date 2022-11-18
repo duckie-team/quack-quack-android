@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
@@ -31,12 +30,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEachIndexed
 import kotlinx.collections.immutable.ImmutableList
 import team.duckie.quackquack.ui.animation.QuackOptionalAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
@@ -198,6 +197,9 @@ private object QuackTabDefaults {
          */
         private val TabSpacedBy = 2.dp
 
+        // See: TabStartPadding
+        val TabStartPaddingValue = 16.dp
+
         /**
          * 탭의 시작과 끝에 적용될 패딩
          *
@@ -210,7 +212,7 @@ private object QuackTabDefaults {
          * 두 번째 `|` 의 경우 오른쪽에 패딩에 적용됩니다.
          */
         private val TabStartPadding = PaddingValues(
-            horizontal = 16.dp,
+            horizontal = TabStartPaddingValue,
         )
 
         /**
@@ -228,7 +230,9 @@ private object QuackTabDefaults {
             else -> QuackTextStyle.Subtitle.change(
                 color = QuackColor.Gray1,
             )
-        }
+        }.change(
+            textAlign = TextAlign.Center,
+        )
 
         val BackgroundColor = QuackColor.White
 
@@ -247,38 +251,53 @@ private object QuackTabDefaults {
          *
          * @param modifier 이 컴포넌트를 그리기 위해 사용할 [Modifier]
          * @param tabTitles 탭 타이틀 리스트
-         * @param eachTabWidth 각각 탭들이 그려질 가로 길이
          * @param selectedTabIndex 현재 선택된 탭의 index
          * @param onTabSelected 새로운 탭이 선택됐을 때 호출되는 콜백 람다.
          * 람다의 인자로는 선택된 탭의 index 가 넘어옵니다.
+         * @param onEachTabPositioned 선택된 탭이 배치됐을 때 호출되는 람다.
+         * 람다의 인자로는 선택된 탭의 index, 크기, 위치가 넘어옵니다.
+         * 선택된 탭에 underline 을 그리기 위한 정보를 얻기 위해 사용됩니다.
          */
         @Composable
-        fun TabTextLazyRow(
+        fun TabTextRow(
             modifier: Modifier,
             tabTitles: ImmutableList<String>,
-            eachTabWidth: Dp,
             selectedTabIndex: Int,
             onTabSelected: (
                 index: Int,
             ) -> Unit,
+            onEachTabPositioned: (
+                index: Int,
+                size: IntSize,
+                position: Offset,
+            ) -> Unit,
         ) {
-            LazyRow(
-                modifier = modifier,
-                contentPadding = TabStartPadding,
+            Row(
+                modifier = modifier.padding(
+                    paddingValues = TabStartPadding,
+                ),
                 horizontalArrangement = Arrangement.spacedBy(
                     space = TabSpacedBy,
                 ),
             ) {
-                itemsIndexed(
-                    items = tabTitles,
-                    key = { _, title -> title },
-                ) { index, title ->
+                tabTitles.fastForEachIndexed { index, title ->
                     QuackText(
                         modifier = Modifier
-                            .width(
-                                width = eachTabWidth,
+                            .weight(
+                                weight = 1f,
                             )
+                            .fillMaxWidth()
                             .wrapContentHeight()
+                            .onGloballyPositioned { layoutCoordinates ->
+                                onEachTabPositioned(
+                                    /* index = */
+                                    index,
+                                    /* size = */
+                                    layoutCoordinates.size,
+                                    /* position = */
+                                    layoutCoordinates.positionInParent(),
+                                )
+                            }
                             .quackClickable(
                                 rippleEnabled = false,
                             ) {
@@ -383,6 +402,11 @@ public fun QuackMainTab(
     val animatedSelectedTabUnderlineStartXOffset by animateFloatAsState(
         targetValue = selectedTabUnderlineStartXOffset,
         animationSpec = QuackAnimationSpec(),
+        finishedListener = {
+            if (selectedTabUnderlineStartXOffset > 0f) {
+                isPlacedDone = true
+            }
+        },
     )
     val animatedSelectedTabUnderlineWidth by animateIntAsState(
         targetValue = selectedTabUnderlineWidth,
@@ -411,11 +435,6 @@ public fun QuackMainTab(
                         x = animatedSelectedTabUnderlineStartXOffset + animatedSelectedTabUnderlineWidth,
                         y = size.height - SelectedTabUnderlineHeight.toPx(),
                     )
-                },
-                colorAnimationFinishedListener = {
-                    if (selectedTabUnderlineStartXOffset > 0f) {
-                        isPlacedDone = true
-                    }
                 },
                 useAnimation = isPlacedDone,
             )
@@ -481,7 +500,7 @@ public fun QuackSubTab(
         key1 = titles,
     ) {
         mutableStateOf(
-            value = false,
+            value = true,
         )
     }
     val titleSize = remember(
@@ -490,6 +509,7 @@ public fun QuackSubTab(
         titles.size
     }
 
+    // 수학적으로 구하는 방법도 있지만 정확도를 위해 값을 직접 받아옴
     val eachTabXOffsets = remember(
         key1 = titleSize,
     ) {
@@ -507,19 +527,16 @@ public fun QuackSubTab(
             value = 0,
         )
     }
-    val eachTabWidthDp = remember(
-        key1 = eachTabWidth,
-        key2 = density.density,
-    ) {
-        with(
-            receiver = density,
-        ) {
-            eachTabWidth.toDp()
-        }
-    }
 
     // remember 보다 매번 연산이 더 저렴함
     val selectedTabUnderlineStartXOffset = eachTabXOffsets[selectedTabIndex]
+        .plus(
+            other = with(
+                receiver = density,
+            ) {
+                TabStartPaddingValue.toPx()
+            }
+        )
 
     /**
      * [QuackOptionalAnimationSpec] 을 델리게이트 합니다.
@@ -537,16 +554,13 @@ public fun QuackSubTab(
         animationSpec = QuackAnimationSpec(),
     )
 
-    TabTextLazyRow(
+    TabTextRow(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .background(
                 color = BackgroundColor.composeColor,
             )
-            .onPlaced { layoutCoordinate ->
-                eachTabWidth = layoutCoordinate.size.width
-            }
             // draw selected tab underline
             .drawAnimatedLine(
                 thickness = SelectedTabUnderlineHeight,
@@ -562,11 +576,6 @@ public fun QuackSubTab(
                         x = animatedSelectedTabUnderlineStartXOffset + eachTabWidth,
                         y = size.height - SelectedTabUnderlineHeight.toPx(),
                     )
-                },
-                colorAnimationFinishedListener = {
-                    if (selectedTabUnderlineStartXOffset > 0f) {
-                        isPlacedDone = true
-                    }
                 },
                 useAnimation = isPlacedDone,
             )
@@ -589,8 +598,15 @@ public fun QuackSubTab(
                 useAnimation = isPlacedDone,
             ),
         tabTitles = titles,
-        eachTabWidth = eachTabWidthDp,
         selectedTabIndex = selectedTabIndex,
         onTabSelected = onTabSelected,
+        onEachTabPositioned = { index, size, offset ->
+            eachTabXOffsets[index] = offset.x
+
+            if (size.width > 0) {
+                isPlacedDone = true
+            }
+            eachTabWidth = size.width
+        },
     )
 }
