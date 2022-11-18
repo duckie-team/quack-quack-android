@@ -383,13 +383,11 @@ public fun QuackBody3(
 )
 
 /**
- * [QuackHeadLine2] 에 원하는 부분에 원하는 색깔과 밑줄로 강조하여
- * 주어진 텍스트를 표시합니다.
+ * [QuackHeadLine2] 의 원하는 부분에 밑줄로 강조하여 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
  * @param text 표시할 텍스트
  * @param underlineTexts 강조할 텍스트 리스트
- * @param underlineTextColor 강조할 Text 의 색깔
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
  * @param singleLine 텍스트를 한 줄로 사용할지 여부
@@ -402,7 +400,6 @@ public fun QuackUnderlineHeadLine2(
     modifier: Modifier = Modifier,
     text: String,
     underlineTexts: ImmutableList<String>,
-    underlineTextColor: QuackColor = QuackColor.DuckieOrange,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     singleLine: Boolean = false,
@@ -421,7 +418,7 @@ public fun QuackUnderlineHeadLine2(
             text = text,
             decorationTexts = underlineTexts,
             decorationStyle = SpanStyle(
-                color = underlineTextColor.composeColor,
+                color = QuackColor.DuckieOrange.composeColor,
                 textDecoration = TextDecoration.Underline,
             ),
         ),
@@ -435,13 +432,11 @@ public fun QuackUnderlineHeadLine2(
 }
 
 /**
- * [QuackUnderlineBody3] 에 원하는 부분에 원하는 색깔과 밑줄로 강조하여
- * 주어진 텍스트를 표시합니다.
+ * [QuackUnderlineBody3] 의 원하는 부분에 밑줄로 강조하여 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
  * @param text 표시할 텍스트
  * @param underlineTexts 강조할 텍스트 리스트들
- * @param undelineTextColor 강조할 Text 의 색깔
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
@@ -454,7 +449,6 @@ public fun QuackUnderlineBody3(
     modifier: Modifier = Modifier,
     text: String,
     underlineTexts: ImmutableList<String>,
-    undelineTextColor: QuackColor = QuackColor.DuckieOrange,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
@@ -473,7 +467,7 @@ public fun QuackUnderlineBody3(
             text = text,
             decorationTexts = underlineTexts,
             decorationStyle = SpanStyle(
-                color = undelineTextColor.composeColor,
+                color = QuackColor.DuckieOrange.composeColor,
                 textDecoration = TextDecoration.Underline,
             ),
         ),
@@ -487,8 +481,7 @@ public fun QuackUnderlineBody3(
 }
 
 /**
- * [QuackUnderlineBody3] 에 원하는 부분에 원하는 색깔과 밑줄로 강조하여
- * 주어진 텍스트를 표시합니다.
+ * [QuackHighlightBody1] 의 원하는 부분에 SemiBold 로 강조하여 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
  * @param text 표시할 텍스트
@@ -577,16 +570,14 @@ private fun rememberDecorationAnnotatedString(
 }
 
 /**
- * [QuackBody2] 에 원하는 부분에 원하는 색깔, 밑줄, 굵기 처리, 해당 영역 이벤트 클릭
- * 등이 들어간 텍스트를 표시합니다.
+ * [QuackBody2] 의 원하는 부분에 해당 영역 클릭 이벤트와
+ * SemiBold + Underline 강조를 추가하여 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
  * @param text 표시할 텍스트
  * @param highlightTextPairs 강조할 텍스트 및 그에 대응하는 클릭 이벤트를 나타내는 [Pair] 리스트
  * @param color 텍스트의 색상
- * @param highlightColor 강조할 Text 의 색깔
- * @param underlineEnabled 밑줄 처리 활성화할것인지 flag
- * @param highlightFontWeight 강조 처리하는 글자의 굵기
+ * @param underlineEnabled 밑줄 처리 활성화 여부
  * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
  * @param singleLine 텍스트를 한 줄로 사용할지 여부
@@ -599,9 +590,7 @@ public fun QuackAnnotatedBody2(
     text: String,
     highlightTextPairs: ImmutableList<Pair<String, (() -> Unit)?>>,
     color: QuackColor = QuackColor.Black,
-    highlightColor: QuackColor = QuackColor.Black,
     underlineEnabled: Boolean = false,
-    highlightFontWeight: FontWeight = FontWeight.SemiBold,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
     singleLine: Boolean = false,
@@ -678,8 +667,8 @@ public fun QuackAnnotatedBody2(
                 }
                 addStyle(
                     style = SpanStyle(
-                        color = highlightColor.composeColor,
-                        fontWeight = highlightFontWeight,
+                        color = QuackColor.DuckieOrange.composeColor,
+                        fontWeight = FontWeight.SemiBold,
                         letterSpacing = 0.sp,
                         textDecoration = textDecoration,
                     ),
