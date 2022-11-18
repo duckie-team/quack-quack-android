@@ -47,6 +47,9 @@ import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.util.runIf
 
+// Caveat: ModalDrawer 는 개인이 구현하기엔 꽤 복잡하고, edge case 가 많을 것으로 예상되어
+//         Material 를 참조합니다.
+
 /**
  * QuackModelDrawer 에 사용되는 리소스들을 정의합니다.
  */
