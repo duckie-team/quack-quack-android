@@ -9,6 +9,7 @@ package team.duckie.quackquack.playground.realworld
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -34,7 +35,7 @@ class GridLayoutPlayground : PlaygroundActivity(
 fun QuackGridLayoutDemo() {
     val countedItem = remember {
         List(
-            size = 100,
+            size = 102, // 100 으로 하면 마지막에 2칸이 남음
             init = { count -> count },
         ).toImmutableList()
     }
@@ -44,6 +45,9 @@ fun QuackGridLayoutDemo() {
     ) { _, _ ->
         Box(
             modifier = Modifier
+                .aspectRatio(
+                    ratio = 1f,
+                )
                 .fillMaxSize()
                 .background(
                     color = Color.pastelRandom,
