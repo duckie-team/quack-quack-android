@@ -260,7 +260,6 @@ private val TextAlign.Companion.VectorConverter
  * @param targetValue 변경을 감지할 [QuackTextStyle]
  * @param colorAnimationFinishedListener [QuackTextStyle.color] 에 대한 애니메이션이 끝났을 때 호출될 콜백
  * @param sizeAnimationFinishedListener [QuackTextStyle.size] 에 대한 애니메이션이 끝났을 때 호출될 콜백
- * @param weightAnimationFinishedListener [QuackTextStyle.weight] 에 대한 애니메이션이 끝났을 때 호출될 콜백
  * @param letterSpacingAnimationFinishedListener [QuackTextStyle.letterSpacing] 에 대한 애니메이션이 끝났을 때 호출될 콜백
  * @param lineHeightAnimationFinishedListener [QuackTextStyle.lineHeight] 에 대한 애니메이션이 끝났을 때 호출될 콜백
  * @param textAlignAnimationFinishedListener [QuackTextStyle.textAlign] 에 대한 애니메이션이 끝났을 때 호출될 콜백
@@ -272,7 +271,6 @@ public fun animatedQuackTextStyleAsState(
     targetValue: QuackTextStyle,
     colorAnimationFinishedListener: ((color: QuackColor) -> Unit)? = null,
     sizeAnimationFinishedListener: ((size: Float) -> Unit)? = null,
-    weightAnimationFinishedListener: ((weight: Int) -> Unit)? = null,
     letterSpacingAnimationFinishedListener: ((letterSpacing: Float) -> Unit)? = null,
     lineHeightAnimationFinishedListener: ((lineHeight: Float) -> Unit)? = null,
     textAlignAnimationFinishedListener: ((textAlign: TextAlign) -> Unit)? = null,
@@ -285,11 +283,6 @@ public fun animatedQuackTextStyleAsState(
         targetValue = targetValue.size.value,
         animationSpec = QuackAnimationSpec(),
         finishedListener = sizeAnimationFinishedListener,
-    )
-    val targetWeightAnimationState by animateIntAsState(
-        targetValue = targetValue.weight.weight,
-        animationSpec = QuackAnimationSpec(),
-        finishedListener = weightAnimationFinishedListener,
     )
     val targetLetterSpacingAnimationState by animateFloatAsState(
         targetValue = targetValue.letterSpacing.value,
@@ -311,9 +304,7 @@ public fun animatedQuackTextStyleAsState(
     return QuackTextStyle(
         color = targetColorAnimationState,
         size = targetSizeAnimationState.toSp(),
-        weight = FontWeight(
-            weight = targetWeightAnimationState,
-        ),
+        weight = targetValue.weight,
         letterSpacing = targetLetterSpacingAnimationState.toSp(),
         lineHeight = targetLineHeightAnimationState.toSp(),
         textAlign = targetTextAlignAnimationState,

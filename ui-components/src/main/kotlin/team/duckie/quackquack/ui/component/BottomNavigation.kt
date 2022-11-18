@@ -10,7 +10,6 @@ package team.duckie.quackquack.ui.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -72,10 +71,10 @@ public fun QuackBottomNavigation(
         rememberBottomNavigationIcons().fastForEachIndexed { index, icons ->
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .aspectRatio(
-                        ratio = 1f,
+                    .weight(
+                        weight = 1f,
                     )
+                    .fillMaxSize()
                     .quackClickable(
                         rippleEnabled = false,
                     ) {

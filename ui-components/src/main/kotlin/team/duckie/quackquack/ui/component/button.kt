@@ -39,6 +39,7 @@ import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.DpSize
+import team.duckie.quackquack.ui.util.runIf
 import team.duckie.quackquack.ui.util.runtimeCheck
 
 /**
@@ -83,15 +84,42 @@ public enum class QuackSmallButtonType {
  */
 private object QuackButtonDefaults {
     object LargeButton {
-        val TextPadding = PaddingValues(
-            horizontal = 16.dp,
-            vertical = 13.dp,
+        /**
+         * 조건에 맞는 패딩을 계산합니다.
+         *
+         * @param type 버튼의 타입
+         *
+         * @return [type] 에 따라 사용할 패딩
+         */
+        @Stable
+        fun textPaddingFor(
+            type: QuackLargeButtonType,
+        ) = PaddingValues(
+            vertical = when (type) {
+                LargeCompact -> 11.dp
+                LargeFill, LargeBorder -> 13.dp
+            },
         )
 
-        val Typography = QuackTextStyle.Subtitle.change(
-            color = QuackColor.White,
+        /**
+         * 조건에 맞는 [QuackTextStyle] 을 계산합니다.
+         *
+         * @param type 버튼의 타입
+         *
+         * @return [type] 에 따라 사용할 [QuackTextStyle]
+         */
+        @Stable
+        fun typographyFor(
+            type: QuackLargeButtonType,
+        ) = QuackTextStyle.Subtitle.change(
             textAlign = TextAlign.Center,
-        )
+        ).runIf(
+            condition = type == LargeFill,
+        ) {
+            change(
+                color = QuackColor.White,
+            )
+        }
 
         val Shape = RoundedCornerShape(
             size = 8.dp,
@@ -386,7 +414,7 @@ private object QuackButtonDefaults {
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param type 이 버튼의 사용 사례에 적합한 버튼 타입
  * @param text 버튼에 표시될 텍스트
- * @param active 버튼 활성화 여부. 배경 색상에 영향을 미칩니다.
+ * @param enabled 버튼 활성화 여부. 배경 색상에 영향을 미칩니다.
  * @param leadingIcon 버튼 왼쪽에 표시될 아이콘. [type] 이 [LargeBorder] 일 경우에만 유효합니다.
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
@@ -395,7 +423,7 @@ public fun QuackLargeButton(
     modifier: Modifier = Modifier,
     type: QuackLargeButtonType,
     text: String,
-    active: Boolean = true,
+    enabled: Boolean? = null,
     leadingIcon: QuackIcon? = null,
     onClick: () -> Unit,
 ): Unit = with(
@@ -405,7 +433,20 @@ public fun QuackLargeButton(
         runtimeCheck(
             value = type == LargeBorder,
         ) {
-            "QuackLargeButton 의 leadingIcon 은 Border 타입에서만 사용할 수 있습니다."
+            "leadingIcon 은 Border 타입에서만 사용할 수 있습니다."
+        }
+    }
+    if (type == LargeFill) {
+        runtimeCheck(
+            value = enabled != null,
+        ) {
+            "Fill 타입의 버튼은 enabled 를 반드시 지정해야 합니다."
+        }
+    } else {
+        runtimeCheck(
+            value = enabled == null,
+        ) {
+            "Fill 타입 의외의 버튼은 enabled 를 지정할 수 없습니다."
         }
     }
 
@@ -418,17 +459,21 @@ public fun QuackLargeButton(
             leadingIcon = leadingIcon,
         ),
         text = text,
-        textStyle = Typography,
-        padding = TextPadding,
+        textStyle = typographyFor(
+            type = type,
+        ),
+        padding = textPaddingFor(
+            type = type,
+        ),
         backgroundColor = backgroundColorFor(
-            enabled = active,
+            enabled = enabled ?: true,
             type = type,
         ),
         border = borderFor(
             type = type,
         ),
         onClick = onClick,
-        enabled = active,
+        enabled = enabled ?: true,
     )
 }
 

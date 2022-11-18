@@ -9,6 +9,7 @@
     ExperimentalMaterial3Api::class,
     ExperimentalFoundationApi::class,
 )
+@file:Suppress("UnusedMaterial3ScaffoldPaddingParameter")
 
 package team.duckie.quackquack.playground.base
 
@@ -155,17 +156,13 @@ fun PlaygroundActivities(
             )
         },
         contentWindowInsets = WindowInsets(0),
-    ) { padding ->
+    ) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    paddingValues = padding + systemBarPaddings,
-                ),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(
                 space = 8.dp,
             ),
-            contentPadding = PaddingValues(
+            contentPadding = systemBarPaddings + PaddingValues(
                 all = 16.dp,
             ),
         ) {
@@ -292,17 +289,13 @@ fun PlaygroundSection(
             )
         },
         contentWindowInsets = WindowInsets(0),
-    ) { padding ->
+    ) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    paddingValues = padding + systemBarPaddings,
-                ),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(
                 space = 8.dp,
             ),
-            contentPadding = PaddingValues(
+            contentPadding = systemBarPaddings + PaddingValues(
                 all = 16.dp,
             ),
         ) {

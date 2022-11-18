@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.PlaygroundActivity
+import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.component.QuackLargeButton
 import team.duckie.quackquack.ui.component.QuackLargeButtonType
 import team.duckie.quackquack.ui.component.QuackMediumToggleButton
@@ -39,40 +40,35 @@ class ButtonPlayground : PlaygroundActivity(
 
 @Composable
 fun QuackLargeButtonTypeBorderDemo() {
-    var active by remember { mutableStateOf(false) }
+    val toast = rememberToast()
 
     QuackLargeButton(
         type = QuackLargeButtonType.Border,
         text = "LargeButton: Border",
-        active = active,
-        leadingIcon = QuackIcon.Heart.takeIf { active },
-        onClick = { active = !active },
+        leadingIcon = QuackIcon.Heart,
+        onClick = { toast("LargeButtonTypeBorder") },
     )
 }
 
 @Composable
 fun QuackLargeButtonTypeCompactDemo() {
-    var active by remember { mutableStateOf(false) }
+    val toast = rememberToast()
 
     QuackLargeButton(
         type = QuackLargeButtonType.Compact,
         text = "LargeButton: Compact",
-        active = active,
-        leadingIcon = QuackIcon.Heart.takeIf { active },
-        onClick = { active = !active },
+        onClick = { toast("LargeButtonTypeCompact") },
     )
 }
 
 @Composable
 fun QuackLargeButtonTypeFillDemo() {
-    var active by remember { mutableStateOf(false) }
+    var selected by remember { mutableStateOf(false) }
 
     QuackLargeButton(
         type = QuackLargeButtonType.Fill,
         text = "LargeButton: Fill",
-        active = active,
-        leadingIcon = QuackIcon.Heart.takeIf { active },
-        onClick = { active = !active },
+        onClick = { selected = !selected },
     )
 }
 
