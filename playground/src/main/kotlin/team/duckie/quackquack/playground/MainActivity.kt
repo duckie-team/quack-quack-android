@@ -5,8 +5,6 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
  */
 
-@file:Suppress("UnusedPrivateMember")
-
 package team.duckie.quackquack.playground
 
 import android.animation.ObjectAnimator

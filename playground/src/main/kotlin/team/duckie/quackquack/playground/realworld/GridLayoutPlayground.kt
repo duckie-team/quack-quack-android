@@ -22,6 +22,7 @@ import team.duckie.quackquack.ui.component.QuackGridLayout
 
 class GridLayoutPlayground : PlaygroundActivity(
     name = "GridLayout",
+    usePreviewDialog = true,
 ) {
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
         ::QuackGridLayoutDemo.name to { QuackGridLayoutDemo() },

@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -151,6 +152,7 @@ fun PlaygroundActivities(
                 }
             )
         },
+        contentWindowInsets = WindowInsets(0),
     ) { contentPadding ->
         LazyColumn(
             modifier = Modifier
@@ -287,6 +289,7 @@ fun PlaygroundSection(
                 }
             )
         },
+        contentWindowInsets = WindowInsets(0),
     ) { contentPadding ->
         LazyColumn(
             modifier = Modifier
