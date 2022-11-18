@@ -18,6 +18,23 @@ import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.util.runIf
 
 /**
+ * 덕키에서 기본적으로 사용할 항상 ripple 표시 옵션
+ *
+ * Playground 에서 [QuackAlwaysShowRipple] 편집 후 기본값으로 되돌리고
+ * 싶을 때 기본값을 참조하기 위해 public 으로 공개합니다.
+ */
+public const val QuackDefaultAlwaysShowRipple: Boolean = false
+
+/**
+ * [Modifier.quackClickable] 을 통한 클릭 이벤트에는 모두 ripple 을 표시할 것인지 여부
+ *
+ * 터치 영역 디버깅 용도로 수정을 허용합니다.
+ *
+ * Playground 에서 자유로운 편집으로 쉬운 디버깅을 위해 public 으로 공개합니다.
+ */
+public var QuackAlwaysShowRipple: Boolean = QuackDefaultAlwaysShowRipple
+
+/**
  * 컴포저블에 Clickable 을 설정해 주는 [Modifier] 입니다.
  *
  * 이 [Modifier] 는 꽥꽥 컴포넌트의 중간 단계에서도 사용될 수 있으므로
@@ -45,7 +62,7 @@ public fun Modifier.quackClickable(
             indication = rememberRipple(
                 color = rippleColor?.composeColor ?: Color.Unspecified,
             ).takeIf {
-                rippleEnabled
+                QuackAlwaysShowRipple || rippleEnabled
             },
             interactionSource = remember { MutableInteractionSource() },
         )

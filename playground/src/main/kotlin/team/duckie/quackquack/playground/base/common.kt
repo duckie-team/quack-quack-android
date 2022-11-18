@@ -81,6 +81,8 @@ import team.duckie.quackquack.playground.util.dataStore
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
+import team.duckie.quackquack.ui.modifier.QuackAlwaysShowRipple
+import team.duckie.quackquack.ui.modifier.QuackDefaultAlwaysShowRipple
 import team.duckie.quackquack.ui.modifier.quackClickable
 
 /**
@@ -91,7 +93,7 @@ var fontScale by mutableStateOf(
 )
 
 /**
- * 컴포넌트의 경계(테두리)를 표시할 지 여부
+ * 컴포넌트의 경계(테두리)를 표시할지 여부
  */
 var showComponentBounds by mutableStateOf(
     value = true,
@@ -396,6 +398,11 @@ private fun PlaygroundSettingDialog(
                 value = showComponentBounds,
             )
         }
+        var alwaysShowRipple by remember {
+            mutableStateOf(
+                value = QuackAlwaysShowRipple,
+            )
+        }
 
         @Stable
         fun dismiss(
@@ -426,12 +433,17 @@ private fun PlaygroundSettingDialog(
                             minimumValue = 1f,
                         )
                     }
-
                     preference[PreferenceConfigs.ShowComponentBounds] = when (reset) {
                         true -> true
                         else -> showComponentBoundsState
                     }.also { newShowComponentBounds ->
                         showComponentBounds = newShowComponentBounds
+                    }
+                    preference[PreferenceConfigs.AlwaysShowRipple] = when (reset) {
+                        true -> QuackDefaultAlwaysShowRipple
+                        else -> alwaysShowRipple
+                    }.also { newAlwaysShowRipple ->
+                        QuackAlwaysShowRipple = newAlwaysShowRipple
                     }
                 }
             }
@@ -463,6 +475,26 @@ private fun PlaygroundSettingDialog(
                             checked = showComponentBoundsState,
                             onCheckedChange = { checked ->
                                 showComponentBoundsState = checked
+                            },
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .padding(
+                                top = 5.dp,
+                            )
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = "항상 터치 영역 표시",
+                        )
+                        Checkbox(
+                            checked = alwaysShowRipple,
+                            onCheckedChange = { checked ->
+                                alwaysShowRipple = checked
                             },
                         )
                     }

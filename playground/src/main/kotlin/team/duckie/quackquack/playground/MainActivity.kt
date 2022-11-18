@@ -57,6 +57,8 @@ import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
 import team.duckie.quackquack.playground.util.systemBarPaddings
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
+import team.duckie.quackquack.ui.modifier.QuackAlwaysShowRipple
+import team.duckie.quackquack.ui.modifier.QuackDefaultAlwaysShowRipple
 
 private const val DefaultSplashScreenExitAnimationDurationMillis = 200L
 private val PlaygroundActivities = persistentListOf(
@@ -185,8 +187,8 @@ private fun PlaygroundDemo() {
                     ).coerceAtLeast(
                     minimumValue = 1f,
                 )
-            showComponentBounds =
-                preference[PreferenceConfigs.ShowComponentBounds] ?: showComponentBounds
+            showComponentBounds = preference[PreferenceConfigs.ShowComponentBounds] ?: showComponentBounds
+            QuackAlwaysShowRipple = preference[PreferenceConfigs.AlwaysShowRipple] ?: QuackDefaultAlwaysShowRipple
         }
     }
     PlaygroundTheme {

@@ -27,6 +27,10 @@ object PreferenceConfigs {
     val ShowComponentBounds = booleanPreferencesKey(
         name = "component_bounds",
     )
+
+    val AlwaysShowRipple = booleanPreferencesKey(
+        name = "always_show_ripple",
+    )
 }
 
 val Context.dataStore by preferencesDataStore(
