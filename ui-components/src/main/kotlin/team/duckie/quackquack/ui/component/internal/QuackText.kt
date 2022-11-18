@@ -42,7 +42,7 @@ import team.duckie.quackquack.ui.textstyle.animatedQuackTextStyleAsState
 @Composable
 internal fun QuackText(
     modifier: Modifier = Modifier,
-    text: String,
+    text: Any,
     style: QuackTextStyle,
     singleLine: Boolean = false,
     overflow: TextOverflow = TextOverflow.Ellipsis,
@@ -53,7 +53,7 @@ internal fun QuackText(
 
     QuackAnimatedContent(
         modifier = modifier,
-        targetState = text,
+        targetState = text.toString(),
     ) { animatedText ->
         BasicText(
             text = animatedText,

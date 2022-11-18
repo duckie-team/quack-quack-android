@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
@@ -62,26 +63,29 @@ public class QuackBorder(
 /**
  * 선택적으로 [QuackBorder] 를 [Modifier] 에 적용합니다.
  *
- * @param enabled border 를 적용할지 여부.
- * 이 값이 true 일때만 border 가 적용됩니다.
  * @param border 적용할 [QuackBorder] 객체
  * @param shape border 를 적용할 [Shape] 값
  *
- * @return [enabled] 여부에 따라서 [QuackBorder] 를 적용해주는 [Modifier].
- * [enabled] 이 true 이고, [border] 값이 null 이 아닐때만 border 가 적용됩니다.
+ * @return [border] 가 적용된 [Modifier].
+ * [border] 값이 null 이 아닐때만 [border] 가 적용됩니다.
  */
 @Stable
-public fun Modifier.applyQuackBorder(
-    enabled: Boolean = true,
+public fun Modifier.applyAnimatedQuackBorder(
     border: QuackBorder?,
     shape: Shape = RectangleShape,
 ): Modifier = runIf(
-    condition = enabled && border != null,
+    condition = border != null,
 ) {
-    border(
-        border = border!!.asComposeBorder(),
-        shape = shape,
-    )
+    composed {
+        val borderAnimation = animatedQuackBorderAsState(
+            targetValue = border!!,
+        )
+
+        border(
+            border = borderAnimation.asComposeBorder(),
+            shape = shape,
+        )
+    }
 }
 
 /**

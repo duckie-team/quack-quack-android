@@ -47,8 +47,12 @@ private object QuackTextFieldLayoutId {
  * 이 클래스는 직접 사용하면 안됩니다. 리컴포지션 퍼포먼스를 위해
  * remember 로 감싼 인스턴스를 반환하는 [rememberQuackTextFieldMeasurePolicy] 를
  * 사용하세요.
+ *
+ * @param isTextArea 배치할 TextField 가 TextArea 인지 여부
  */
-private class QuackTextFieldMeasurePolicy : MeasurePolicy {
+private class QuackTextFieldMeasurePolicy(
+    private val isTextArea: Boolean,
+) : MeasurePolicy {
     override fun MeasureScope.measure(
         measurables: List<Measurable>,
         constraints: Constraints,
@@ -117,6 +121,7 @@ private class QuackTextFieldMeasurePolicy : MeasurePolicy {
             height = height,
         ) {
             placeTextField(
+                isTextArea = isTextArea,
                 width = width,
                 height = height,
                 textFieldPlaceable = textFieldPlaceable,
@@ -196,7 +201,7 @@ private class QuackTextFieldMeasurePolicy : MeasurePolicy {
             /* intrinsicMeasurable = */
             measurables.fastFirstOrNull { measurable ->
                 measurable.layoutId == QuackTextFieldLayoutId.Input
-             } ?: npe(),
+            } ?: npe(),
             /* intrinsicHeight = */
             height,
         )
@@ -316,12 +321,18 @@ private class QuackTextFieldMeasurePolicy : MeasurePolicy {
  * [QuackTextFieldMeasurePolicy] 을 [remember] 로 저장한 값을 반환합니다.
  * 항상 같은 인스턴스를 사용해도 되므로 [remember] 의 key 가 지정되지 않습니다.
  *
+ * @param isTextArea 배치할 TextField 가 TextArea 인지 여부
+ *
  * @return remember 된 [QuackTextFieldMeasurePolicy] 의 인스턴스
  */
 @Composable
-private fun rememberQuackTextFieldMeasurePolicy(): QuackTextFieldMeasurePolicy {
+private fun rememberQuackTextFieldMeasurePolicy(
+    isTextArea: Boolean,
+): QuackTextFieldMeasurePolicy {
     return remember {
-        QuackTextFieldMeasurePolicy()
+        QuackTextFieldMeasurePolicy(
+            isTextArea = isTextArea,
+        )
     }
 }
 
@@ -382,6 +393,7 @@ private fun calculateHeight(
 /**
  * TextField 의 [Placeable] 들을 배치하기 위한 오프셋을 계산하여 배치합니다.
  *
+ * @param isTextArea 배치할 TextField 가 TextArea 인지 여부
  * @param width TextField 레이아웃의 넓이
  * @param height TextField 레이아웃의 높이
  * @param textFieldPlaceable TextField 의 [Placeable]
@@ -390,6 +402,7 @@ private fun calculateHeight(
  * @param trailingPlaceable trailing decoration item 의 [Placeable]
  */
 private fun Placeable.PlacementScope.placeTextField(
+    isTextArea: Boolean,
     width: Int,
     height: Int,
     textFieldPlaceable: Placeable,
@@ -413,23 +426,30 @@ private fun Placeable.PlacementScope.placeTextField(
     )
     textFieldPlaceable.placeRelative(
         x = leadingPlaceable.widthOrZero(),
-        y = Alignment.CenterVertically.align(
-            size = textFieldPlaceable.height,
-            space = height,
-        ),
+        y = when (isTextArea) {
+            true -> 0
+            else -> Alignment.CenterVertically.align(
+                size = textFieldPlaceable.height,
+                space = height,
+            )
+        },
     )
     placeholderPlaceable?.placeRelative(
         x = leadingPlaceable.widthOrZero(),
-        y = Alignment.CenterVertically.align(
-            size = placeholderPlaceable.height,
-            space = height,
-        ),
+        y = when (isTextArea) {
+            true -> 0
+            else -> Alignment.CenterVertically.align(
+                size = placeholderPlaceable.height,
+                space = height,
+            )
+        },
     )
 }
 
 /**
  * A decoration box used to draw decoration items for [QuackBasicTextField].
  *
+ * @param isTextArea Whether the TextField to be placed is a TextArea
  * @param textField BasicTextField to be treated as QuackTextField
  * @param placeholderContent A placeholder content to display when the entered text is empty
  * @param leadingContent The leading content of QuackTextField
@@ -437,6 +457,7 @@ private fun Placeable.PlacementScope.placeTextField(
  */
 @Composable
 internal fun QuackTextFieldDecorationBox(
+    isTextArea: Boolean,
     textField: @Composable () -> Unit,
     placeholderContent: (@Composable () -> Unit)?,
     leadingContent: (@Composable () -> Unit)? = null,
@@ -483,6 +504,8 @@ internal fun QuackTextFieldDecorationBox(
                 }
             }
         },
-        measurePolicy = rememberQuackTextFieldMeasurePolicy(),
+        measurePolicy = rememberQuackTextFieldMeasurePolicy(
+            isTextArea = isTextArea,
+        ),
     )
 }

@@ -28,7 +28,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.border.QuackBorder
-import team.duckie.quackquack.ui.border.applyQuackBorder
+import team.duckie.quackquack.ui.border.applyAnimatedQuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackTextFieldDecorationBox
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
@@ -297,6 +297,7 @@ public fun QuackBasicTextArea(
         cursorBrush = quackTextFieldColors.textFieldCursorColor.toBrush(),
         decorationBox = { textField ->
             QuackTextFieldDecorationBox(
+                isTextArea = true,
                 textField = textField,
                 placeholderContent = Placeholder(
                     isPlaceholder = isPlaceholder,
@@ -354,7 +355,7 @@ public fun QuackReviewTextArea(
                 color = BackgroundColor.composeColor,
                 shape = Shape,
             )
-            .applyQuackBorder(
+            .applyAnimatedQuackBorder(
                 border = borderFor(
                     isPlaceholder = isPlaceholder,
                 ),
@@ -379,6 +380,7 @@ public fun QuackReviewTextArea(
         cursorBrush = quackTextFieldColors.textFieldCursorColor.toBrush(),
         decorationBox = { textField ->
             QuackTextFieldDecorationBox(
+                isTextArea = true,
                 textField = textField,
                 placeholderContent = Placeholder(
                     isPlaceholder = isPlaceholder,
@@ -446,6 +448,7 @@ public fun QuackGoodsDetailTextArea(
         cursorBrush = quackTextFieldColors.textFieldCursorColor.toBrush(),
         decorationBox = { textField ->
             QuackTextFieldDecorationBox(
+                isTextArea = true,
                 textField = textField,
                 placeholderContent = Placeholder(
                     isPlaceholder = isPlaceholder,

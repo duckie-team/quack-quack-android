@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NoLiveLiterals
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
@@ -262,28 +263,16 @@ private object QuackTextFieldDefaults {
 
     // 제플린상 Comment/Reply, Chat, Add tag 영역에 속함
     object Basic2 {
-        /**
-         * TextField 의 패딩을 계산합니다.
-         *
-         * @param hasLeadingIcon leading icon 이 있는지 여부
-         *
-         * @return [hasLeadingIcon] 여부에 따라 사용할 패딩
-         */
-        @Stable
-        fun inputTextPaddingFor(
-            hasLeadingIcon: Boolean,
-        ) = PaddingValues(
-            horizontal = when (hasLeadingIcon) {
-                true -> 8.dp
-                else -> 16.dp
-            },
+        val TextPadding = PaddingValues(
             vertical = 17.dp,
         )
 
         private val LeadingIconPadding = PaddingValues(
             start = 12.dp,
+            end = 8.dp,
         )
         private val TrailingIconPadding = PaddingValues(
+            start = 8.dp,
             end = 12.dp,
         )
 
@@ -392,6 +381,7 @@ private object QuackTextFieldDefaults {
                         src = icon,
                         size = LeadingIconSize,
                         tint = LeadingIconTint,
+                        rippleEnabled = false,
                         onClick = onClick,
                     )
                 }
@@ -428,6 +418,7 @@ private object QuackTextFieldDefaults {
                         tint = trailinIconTintFor(
                             isEnabled = isEnabled,
                         ),
+                        rippleEnabled = false,
                         onClick = onClick,
                     )
                 }
@@ -439,7 +430,6 @@ private object QuackTextFieldDefaults {
         val InputTextPadding = PaddingValues(
             top = 16.dp,
             bottom = 8.dp,
-            end = 8.dp,
         )
         private val ErrorTextPadding = PaddingValues(
             top = 4.dp,
@@ -466,6 +456,13 @@ private object QuackTextFieldDefaults {
          * 에서 `6/10`, `X` 의 사이 패딩을 나타냅니다.
          */
         private val TrailingContentGap = 8.dp
+
+        /**
+         * trailing content 에 광역으로 적용되는 패딩
+         */
+        private val TrailingContentPadding = PaddingValues(
+            start = 8.dp,
+        )
 
         /**
          * 입력되는 텍스트의 [QuackTextStyle] 을 계산합니다.
@@ -655,7 +652,11 @@ private object QuackTextFieldDefaults {
 
             return {
                 QuackAnimatedContent(
-                    modifier = Modifier.wrapContentSize(),
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(
+                            paddingValues = TrailingContentPadding,
+                        ),
                     targetState = state == 0,
                 ) { isEmpty ->
                     Layout(
@@ -668,6 +669,7 @@ private object QuackTextFieldDefaults {
                                     .layoutId(
                                         layoutId = TrailingCounterLayoutId,
                                     ),
+                                verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(
                                     space = TrailingCountingTextGap,
                                 ),
@@ -685,7 +687,7 @@ private object QuackTextFieldDefaults {
                                     singleLine = true,
                                 )
                                 QuackText(
-                                    text = baseline.toString(),
+                                    text = baseline,
                                     style = TrailingCountingtBaselineTexTypograhy,
                                     singleLine = true,
                                 )
@@ -698,6 +700,7 @@ private object QuackTextFieldDefaults {
                                 src = QuackIcon.Close,
                                 size = TrailingIconSize,
                                 tint = TrailingIconTint,
+                                rippleEnabled = false,
                                 onClick = onCleared,
                             )
                         },
@@ -736,17 +739,26 @@ private object QuackTextFieldDefaults {
                                 true -> { // counter 만 표시
                                     trailingCounterPlaceable.place(
                                         x = trailingClearButtonPlaceable.width + TrailingContentGap.roundToPx(),
-                                        y = 0,
+                                        y = Alignment.CenterVertically.align(
+                                            size = trailingClearButtonPlaceable.height,
+                                            space = maxHeight,
+                                        ),
                                     )
                                 }
                                 else -> { // counter, clear button 모두 표시
                                     trailingCounterPlaceable.place(
                                         x = 0,
-                                        y = 0,
+                                        y = Alignment.CenterVertically.align(
+                                            size = trailingCounterPlaceable.height,
+                                            space = maxHeight,
+                                        ),
                                     )
                                     trailingClearButtonPlaceable.place(
                                         x = trailingCounterPlaceable.width + TrailingContentGap.roundToPx(),
-                                        y = 0,
+                                        y = Alignment.CenterVertically.align(
+                                            size = trailingClearButtonPlaceable.height,
+                                            space = maxHeight,
+                                        ),
                                     )
                                 }
                             }
@@ -903,6 +915,7 @@ public fun QuackBasicTextField(
         cursorBrush = quackTextFieldColors.textFieldCursorColor.toBrush(),
         decorationBox = { textField ->
             QuackTextFieldDecorationBox(
+                isTextArea = false,
                 textField = textField,
                 placeholderContent = Placeholder(
                     isPlaceholder = isPlaceholder,
@@ -1006,6 +1019,7 @@ public fun QuackPriceTextField(
         cursorBrush = quackTextFieldColors.textFieldCursorColor.toBrush(),
         decorationBox = { textField ->
             QuackTextFieldDecorationBox(
+                isTextArea = false,
                 textField = textField,
                 placeholderContent = Placeholder(
                     isPlaceholder = isPlaceholder,
@@ -1098,9 +1112,7 @@ public fun QuackBasic2TextField(
                 color = BackgroundColor.composeColor,
             )
             .padding(
-                paddingValues = inputTextPaddingFor(
-                    hasLeadingIcon = leadingIcon != null,
-                ),
+                paddingValues = TextPadding,
             ),
         value = text,
         onValueChange = onTextChanged,
@@ -1113,6 +1125,7 @@ public fun QuackBasic2TextField(
         cursorBrush = quackTextFieldColors.textFieldCursorColor.toBrush(),
         decorationBox = { textField ->
             QuackTextFieldDecorationBox(
+                isTextArea = false,
                 textField = textField,
                 placeholderContent = Placeholder(
                     isPlaceholder = isPlaceholder,
@@ -1229,6 +1242,7 @@ public fun QuackProfileTextField(
             cursorBrush = quackTextFieldColors.textFieldCursorColor.toBrush(),
             decorationBox = { textField ->
                 QuackTextFieldDecorationBox(
+                    isTextArea = false,
                     textField = textField,
                     placeholderContent = Placeholder(
                         isPlaceholder = isPlaceholder,
@@ -1246,8 +1260,8 @@ public fun QuackProfileTextField(
             modifier = Modifier.wrapContentSize(),
         ) {
             ErrorText(
-                text = errorText,
-                invisible = true,
+                text = "errorText",
+                invisible = false,
             )
             this@Column.AnimatedVisibility(
                 visible = isError,

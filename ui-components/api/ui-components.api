@@ -29,8 +29,8 @@ public final class team/duckie/quackquack/ui/border/QuackBorder {
 
 public final class team/duckie/quackquack/ui/border/QuackBorderKt {
 	public static final fun animatedQuackBorderAsState (Lteam/duckie/quackquack/ui/border/QuackBorder;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lteam/duckie/quackquack/ui/border/QuackBorder;
-	public static final fun applyQuackBorder (Landroidx/compose/ui/Modifier;ZLteam/duckie/quackquack/ui/border/QuackBorder;Landroidx/compose/ui/graphics/Shape;)Landroidx/compose/ui/Modifier;
-	public static synthetic fun applyQuackBorder$default (Landroidx/compose/ui/Modifier;ZLteam/duckie/quackquack/ui/border/QuackBorder;Landroidx/compose/ui/graphics/Shape;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+	public static final fun applyAnimatedQuackBorder (Landroidx/compose/ui/Modifier;Lteam/duckie/quackquack/ui/border/QuackBorder;Landroidx/compose/ui/graphics/Shape;)Landroidx/compose/ui/Modifier;
+	public static synthetic fun applyAnimatedQuackBorder$default (Landroidx/compose/ui/Modifier;Lteam/duckie/quackquack/ui/border/QuackBorder;Landroidx/compose/ui/graphics/Shape;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
 }
 
 public final class team/duckie/quackquack/ui/color/QuackColor {
@@ -98,7 +98,7 @@ public final class team/duckie/quackquack/ui/component/GridLayoutKt {
 }
 
 public final class team/duckie/quackquack/ui/component/ImageKt {
-	public static final fun QuackImage-fTR3PRQ (Landroidx/compose/ui/Modifier;Ljava/lang/Object;Landroidx/compose/ui/unit/DpSize;Lteam/duckie/quackquack/ui/color/QuackColor;ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/layout/ContentScale;Landroidx/compose/ui/graphics/Shape;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Alignment;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
+	public static final fun QuackImage-V5NpRRM (Landroidx/compose/ui/Modifier;Ljava/lang/Object;Landroidx/compose/ui/unit/DpSize;Lteam/duckie/quackquack/ui/color/QuackColor;ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/layout/ContentScale;Landroidx/compose/ui/graphics/Shape;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/unit/DpSize;Landroidx/compose/ui/Alignment;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 	public static final fun QuackSelectableImage-O3gMbGQ (Landroidx/compose/ui/Modifier;ZLjava/lang/Object;Landroidx/compose/ui/unit/DpSize;Lteam/duckie/quackquack/ui/color/QuackColor;ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/layout/ContentScale;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
@@ -176,13 +176,13 @@ public final class team/duckie/quackquack/ui/component/TagKt {
 	public static final fun QuackRoundTag (Landroidx/compose/ui/Modifier;Ljava/lang/String;ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class team/duckie/quackquack/ui/component/TextareaKt {
+public final class team/duckie/quackquack/ui/component/TextAreaKt {
 	public static final fun QuackBasicTextArea-VdmFRJE (Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;ILandroidx/compose/foundation/text/KeyboardActions;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackGoodsDetailTextArea-VdmFRJE (Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;ILandroidx/compose/foundation/text/KeyboardActions;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackReviewTextArea-VdmFRJE (Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;ILandroidx/compose/foundation/text/KeyboardActions;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class team/duckie/quackquack/ui/component/TextfieldKt {
+public final class team/duckie/quackquack/ui/component/TextFieldKt {
 	public static final fun QuackBasic2TextField-M_XELVw (Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Lteam/duckie/quackquack/ui/icon/QuackIcon;Lkotlin/jvm/functions/Function0;Lteam/duckie/quackquack/ui/icon/QuackIcon;Lkotlin/jvm/functions/Function0;Landroidx/compose/foundation/text/KeyboardOptions;Landroidx/compose/foundation/text/KeyboardActions;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackBasicTextField-VRGdc9Y (Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Lteam/duckie/quackquack/ui/icon/QuackIcon;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/foundation/text/KeyboardOptions;Landroidx/compose/foundation/text/KeyboardActions;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackPriceTextField-VdmFRJE (Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;ILandroidx/compose/foundation/text/KeyboardActions;Landroidx/compose/runtime/Composer;II)V

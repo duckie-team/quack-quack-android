@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.border.QuackBorder
-import team.duckie.quackquack.ui.border.applyQuackBorder
+import team.duckie.quackquack.ui.border.applyAnimatedQuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.icon.QuackIcon
@@ -89,7 +89,7 @@ public fun QuackDropDownCard(
                 color = BackgroundColor.composeColor,
                 shape = Shape,
             )
-            .applyQuackBorder(
+            .applyAnimatedQuackBorder(
                 border = Border,
                 shape = Shape,
             ),

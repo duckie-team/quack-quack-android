@@ -13,7 +13,6 @@ package team.duckie.quackquack.ui.textstyle
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable

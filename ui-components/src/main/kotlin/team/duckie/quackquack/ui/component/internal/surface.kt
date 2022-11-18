@@ -23,8 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.border.QuackBorder
-import team.duckie.quackquack.ui.border.animatedQuackBorderAsState
-import team.duckie.quackquack.ui.border.applyQuackBorder
+import team.duckie.quackquack.ui.border.applyAnimatedQuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
 import team.duckie.quackquack.ui.modifier.quackClickable
@@ -75,11 +74,6 @@ internal fun QuackSurface(
     val backgroundColorAnimation by animateQuackColorAsState(
         targetValue = backgroundColor,
     )
-    val borderAnimation = border?.let {
-        animatedQuackBorderAsState(
-            targetValue = border,
-        )
-    }
 
     Box(
         modifier = modifier
@@ -100,9 +94,8 @@ internal fun QuackSurface(
                 rippleEnabled = rippleEnabled,
                 rippleColor = rippleColor,
             )
-            .applyQuackBorder(
-                enabled = border != null,
-                border = borderAnimation,
+            .applyAnimatedQuackBorder(
+                border = border,
                 shape = shape,
             )
             .animateContentSize(
