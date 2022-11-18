@@ -28,13 +28,25 @@ class ButtonPlayground : PlaygroundActivity(
     name = "Button",
 ) {
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
+        ::QuackLargeButtonTypeFillDemo.name to { QuackLargeButtonTypeFillDemo() },
         ::QuackLargeButtonTypeBorderDemo.name to { QuackLargeButtonTypeBorderDemo() },
         ::QuackLargeButtonTypeCompactDemo.name to { QuackLargeButtonTypeCompactDemo() },
-        ::QuackLargeButtonTypeFillDemo.name to { QuackLargeButtonTypeFillDemo() },
         ::QuackMediumToggleButtonDemo.name to { QuackMediumToggleButtonDemo() },
         ::QuackSmallButtonBorderDemo.name to { QuackSmallButtonBorderDemo() },
         ::QuackSmallButtonFillDemo.name to { QuackSmallButtonFillDemo() },
         ::QuackToggleChipDemo.name to { QuackToggleChipDemo() },
+    )
+}
+
+@Composable
+fun QuackLargeButtonTypeFillDemo() {
+    var enabled by remember { mutableStateOf(false) }
+
+    QuackLargeButton(
+        type = QuackLargeButtonType.Fill,
+        text = "LargeButton: Fill",
+        enabled = enabled,
+        onClick = { enabled = !enabled },
     )
 }
 
@@ -58,18 +70,6 @@ fun QuackLargeButtonTypeCompactDemo() {
         type = QuackLargeButtonType.Compact,
         text = "LargeButton: Compact",
         onClick = { toast("LargeButtonTypeCompact") },
-    )
-}
-
-@Composable
-fun QuackLargeButtonTypeFillDemo() {
-    var enabled by remember { mutableStateOf(false) }
-
-    QuackLargeButton(
-        type = QuackLargeButtonType.Fill,
-        text = "LargeButton: Fill",
-        enabled = enabled,
-        onClick = { enabled = !enabled },
     )
 }
 

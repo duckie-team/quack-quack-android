@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
@@ -92,6 +93,7 @@ public fun QuackDropDownCard(
                 border = Border,
                 shape = Shape,
             ),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         QuackText(
             modifier = Modifier.padding(

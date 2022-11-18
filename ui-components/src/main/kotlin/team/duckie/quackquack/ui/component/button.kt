@@ -96,8 +96,9 @@ private object QuackButtonDefaults {
             type: QuackLargeButtonType,
         ) = PaddingValues(
             vertical = when (type) {
+                LargeFill -> 13.dp
+                LargeBorder -> 10.dp // 아이콘을 기준으로 측정
                 LargeCompact -> 11.dp
-                LargeFill, LargeBorder -> 13.dp
             },
         )
 
@@ -656,10 +657,12 @@ private fun QuackBasicButton(
                     paddingValues = padding,
                 ),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.spacedBy(
+                space = 2.dp,
+                alignment = Alignment.CenterHorizontally,
+            ),
         ) {
             leadingContent?.invoke()
-            // 사이 패딩 없음
             QuackText(
                 text = text,
                 style = textStyle,

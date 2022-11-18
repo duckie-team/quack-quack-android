@@ -7,17 +7,18 @@
 
 package team.duckie.quackquack.playground.realworld
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import team.duckie.quackquack.playground.R
 import team.duckie.quackquack.playground.base.PlaygroundActivity
+import team.duckie.quackquack.playground.util.pastelRandom
 import team.duckie.quackquack.ui.component.QuackGridLayout
 
 class GridLayoutPlayground : PlaygroundActivity(
@@ -31,20 +32,20 @@ class GridLayoutPlayground : PlaygroundActivity(
 
 @Composable
 fun QuackGridLayoutDemo() {
-    val items = remember {
+    val countedItem = remember {
         List(
             size = 100,
-            init = { R.drawable.ic_quack_dev },
+            init = { count -> count },
         ).toImmutableList()
     }
 
     QuackGridLayout(
-        items = items,
-    ) { _, item ->
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = painterResource(id = item),
-            contentDescription = null,
+        items = countedItem,
+    ) { _, _ ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.pastelRandom),
         )
     }
 }

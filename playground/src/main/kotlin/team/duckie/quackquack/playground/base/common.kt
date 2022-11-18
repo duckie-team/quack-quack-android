@@ -9,7 +9,6 @@
     ExperimentalMaterial3Api::class,
     ExperimentalFoundationApi::class,
 )
-@file:Suppress("UnusedMaterial3ScaffoldPaddingParameter")
 
 package team.duckie.quackquack.playground.base
 
@@ -28,7 +27,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -82,7 +80,6 @@ import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
 import team.duckie.quackquack.playground.util.plus
 import team.duckie.quackquack.playground.util.rememberToast
-import team.duckie.quackquack.playground.util.systemBarPaddings
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
 import team.duckie.quackquack.ui.modifier.quackClickable
@@ -155,15 +152,16 @@ fun PlaygroundActivities(
                 }
             )
         },
-        contentWindowInsets = WindowInsets(0),
-    ) {
+    ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(
                 space = 8.dp,
             ),
-            contentPadding = systemBarPaddings + PaddingValues(
-                all = 16.dp,
+            contentPadding = padding + PaddingValues(
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 16.dp,
             ),
         ) {
             stickyHeader {
@@ -288,15 +286,16 @@ fun PlaygroundSection(
                 }
             )
         },
-        contentWindowInsets = WindowInsets(0),
-    ) {
+    ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(
-                space = 8.dp,
+                space = 16.dp,
             ),
-            contentPadding = systemBarPaddings + PaddingValues(
-                all = 16.dp,
+            contentPadding = padding + PaddingValues(
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 16.dp,
             ),
         ) {
             stickyHeader {
