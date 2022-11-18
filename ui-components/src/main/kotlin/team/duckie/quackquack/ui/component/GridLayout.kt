@@ -58,23 +58,10 @@ public fun <T> QuackGridLayout(
     modifier: Modifier = Modifier,
     items: ImmutableList<T>,
     state: LazyGridState = rememberLazyGridState(),
-    key: ((
-        index: Int,
-        item: T,
-    ) -> Any)? = null,
-    span: (LazyGridItemSpanScope.(
-        index: Int,
-        item: T,
-    ) -> GridItemSpan)? = null,
-    contentType: (
-        index: Int,
-        item: T,
-    ) -> Any? = { _, _ ->
-        null
-    },
-    itemContent: @Composable (
-        index: Int, item: T,
-    ) -> Unit,
+    key: ((index: Int, item: T) -> Any)? = null,
+    span: (LazyGridItemSpanScope.(index: Int, item: T) -> GridItemSpan)? = null,
+    contentType: (index: Int, item: T) -> Any? = { _, _ -> null },
+    itemContent: @Composable (index: Int, item: T) -> Unit,
 ): Unit = with(
     receiver = QuackGridDefaults,
 ) {

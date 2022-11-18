@@ -70,7 +70,7 @@ public final class team/duckie/quackquack/ui/component/BottomNavigationKt {
 }
 
 public final class team/duckie/quackquack/ui/component/ButtonKt {
-	public static final fun QuackLargeButton-NZUvWHs (Landroidx/compose/ui/Modifier;Lteam/duckie/quackquack/ui/component/QuackLargeButtonType;Ljava/lang/String;ZLteam/duckie/quackquack/ui/icon/QuackIcon;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun QuackLargeButton-NZUvWHs (Landroidx/compose/ui/Modifier;Lteam/duckie/quackquack/ui/component/QuackLargeButtonType;Ljava/lang/String;Ljava/lang/Boolean;Lteam/duckie/quackquack/ui/icon/QuackIcon;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackMediumToggleButton (Landroidx/compose/ui/Modifier;Ljava/lang/String;ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackSmallButton (Landroidx/compose/ui/Modifier;Lteam/duckie/quackquack/ui/component/QuackSmallButtonType;Ljava/lang/String;ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackToggleChip (Landroidx/compose/ui/Modifier;Ljava/lang/String;ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
@@ -303,7 +303,7 @@ public final class team/duckie/quackquack/ui/textstyle/QuackTextStyle$Companion 
 }
 
 public final class team/duckie/quackquack/ui/textstyle/QuackTextStyleKt {
-	public static final fun animatedQuackTextStyleAsState (Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;
+	public static final fun animatedQuackTextStyleAsState (Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lteam/duckie/quackquack/ui/textstyle/QuackTextStyle;
 }
 
 public final class team/duckie/quackquack/ui/theme/QuackThemeKt {
