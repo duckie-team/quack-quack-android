@@ -7,12 +7,16 @@
 
 package team.duckie.quackquack.playground.realworld
 
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -22,6 +26,7 @@ import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.component.QuackImage
 import team.duckie.quackquack.ui.component.QuackSelectableImage
 import team.duckie.quackquack.ui.icon.QuackIcon
+import team.duckie.quackquack.ui.util.DpSize
 
 class ImagePlayground : PlaygroundActivity(
     name = "Image",
@@ -32,21 +37,27 @@ class ImagePlayground : PlaygroundActivity(
     )
 }
 
-@Suppress("MaxLineLength")
-private const val DuckieDevBanner =
-    "https://raw.githubusercontent.com/duckie-team/.github/fbca5c5ca8d7475af662a8c5d29eacc9ba0de2ea/assets/dev_banner.svg"
-
 @Composable
 fun QuackImageDemo() {
+    val context = LocalContext.current
     val toast = rememberToast()
 
     QuackImage(
-        src = DuckieDevBanner,
+        src = ContextCompat.getDrawable(
+            context, R.drawable.banner_quack_dev,
+        ),
+        size = DpSize(
+            width = 400.dp,
+            height = 180.dp,
+        ),
         badge = {
             QuackImage(
                 src = QuackIcon.FilledHeart,
             )
         },
+        badgeSize = DpSize(
+            all = 24.dp,
+        ),
         onClick = { toast("QuackImage clicked") },
     )
 }
@@ -57,6 +68,9 @@ fun QuackSelectableImageDemo() {
     var selected by remember { mutableStateOf(false) }
 
     QuackSelectableImage(
+        modifier = Modifier.aspectRatio(
+            ratio = 1f,
+        ),
         src = ContextCompat.getDrawable(
             context, R.drawable.ic_quack,
         ),

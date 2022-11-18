@@ -9,7 +9,6 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -108,6 +107,7 @@ private object QuackImageDefaults {
  * @param contentScale 적용할 content scale 정책
  * @param shape 리소스가 표시될 모양
  * @param badge 리소스와 함께 표시할 배지
+ * @param badgeSize 배지의 크기
  * @param badgeAlign 배지의 위치
  * @param contentDescription 이미지의 설명
  */
@@ -122,6 +122,7 @@ public fun QuackImage(
     contentScale: ContentScale = ContentScale.FillBounds,
     shape: Shape = RectangleShape,
     badge: (@Composable () -> Unit)? = null,
+    badgeSize: DpSize? = null,
     badgeAlign: Alignment = Alignment.TopEnd,
     contentDescription: String? = null,
 ): Unit = QuackImageInternal(
@@ -138,6 +139,7 @@ public fun QuackImage(
     tint = tint,
     contentScale = contentScale,
     badge = badge,
+    badgeSize = badgeSize,
     badgeAlign = badgeAlign,
     contentDescription = contentDescription,
 )
@@ -152,10 +154,12 @@ public fun QuackImage(
  * @param tint 적용할 틴트 값
  * @param contentScale 적용할 content scale 정책
  * @param badge 리소스와 함께 표시할 배지
+ * @param badgeSize 배지의 크기
  * @param badgeAlign 배지의 위치
  * @param contentDescription 이미지의 설명
  */
 // TODO: 로딩 및 로드 실패 인터렉션 (#301)
+// FIXME: WrapContent 가 안됨 (#373)
 @Composable
 private fun QuackImageInternal(
     modifier: Modifier,
@@ -163,8 +167,9 @@ private fun QuackImageInternal(
     size: DpSize?,
     tint: QuackColor?,
     contentScale: ContentScale,
-    badge: (@Composable () -> Unit)? = null,
-    badgeAlign: Alignment = Alignment.TopEnd,
+    badge: (@Composable () -> Unit)?,
+    badgeSize: DpSize?,
+    badgeAlign: Alignment,
     contentDescription: String?,
 ) = with(
     receiver = QuackImageDefaults.BadgeableImage,
@@ -174,42 +179,57 @@ private fun QuackImageInternal(
     val animatedTint by animateQuackColorAsState(
         targetValue = tint ?: QuackColor.Transparent,
     )
-    val sizedModifier = remember(
+    val imageModifier = remember(
         key1 = size,
         key2 = density,
     ) {
-        modifier.runIf(
-            condition = size != null,
-        ) {
-            this.size(
-                size = size!! * density.fontScale,
+        when (size) {
+            null -> Modifier.wrapContentSize()
+            else -> Modifier.size(
+                size = size * density.fontScale,
             )
-        }
+        }.zIndex(
+            zIndex = 1f,
+        )
+    }
+    val badgeModifier = remember(
+        key1 = badgeSize,
+        key2 = density,
+    ) {
+        Modifier
+            .padding(
+                paddingValues = Margin,
+            )
+            .run {
+                when (badgeSize) {
+                    null -> wrapContentSize()
+                    else -> size(
+                        size = badgeSize * density.fontScale,
+                    )
+                }
+            }
+            .zIndex(
+                zIndex = 2f,
+            )
     }
     if (src is QuackIcon) {
         QuackAnimatedContent(
             targetState = src,
-            modifier = sizedModifier,
+            modifier = imageModifier,
         ) { imageModel ->
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .paint(
-                        painter = painterResource(
-                            id = imageModel.drawableId,
-                        ),
-                        colorFilter = animatedTint.toColorFilter(),
-                        contentScale = contentScale,
+                modifier = imageModifier.paint(
+                    painter = painterResource(
+                        id = imageModel.drawableId,
                     ),
+                    colorFilter = animatedTint.toColorFilter(),
+                    contentScale = contentScale,
+                ),
                 contentAlignment = badgeAlign,
             ) {
                 badge?.let {
                     QuackAnimatedContent(
-                        modifier = Modifier
-                            .padding(
-                                paddingValues = Margin,
-                            )
-                            .wrapContentSize(),
+                        modifier = badgeModifier,
                         targetState = badge,
                     ) { animatedBadge ->
                         animatedBadge()
@@ -221,18 +241,14 @@ private fun QuackImageInternal(
     }
     QuackAnimatedContent(
         targetState = src,
-        modifier = sizedModifier,
+        modifier = imageModifier,
     ) { imageModel ->
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.wrapContentSize(),
             contentAlignment = badgeAlign,
         ) {
             AsyncImage(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .zIndex(
-                        zIndex = 1f,
-                    ),
+                modifier = imageModifier,
                 model = ImageRequest
                     .Builder(
                         context = LocalContext.current,
@@ -261,14 +277,7 @@ private fun QuackImageInternal(
             )
             badge?.let {
                 QuackAnimatedContent(
-                    modifier = Modifier
-                        .padding(
-                            paddingValues = Margin,
-                        )
-                        .wrapContentSize()
-                        .zIndex(
-                            zIndex = 2f,
-                        ),
+                    modifier = badgeModifier,
                     targetState = badge,
                 ) { animatedBadge ->
                     animatedBadge()
