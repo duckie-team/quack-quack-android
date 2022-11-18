@@ -45,7 +45,9 @@ fun QuackGridLayoutDemo() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color.pastelRandom),
+                .background(
+                    color = Color.pastelRandom,
+                ),
         )
     }
 }
