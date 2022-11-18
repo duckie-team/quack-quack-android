@@ -27,7 +27,7 @@ buildCache {
 }
 
 include(
-    // ":playground",
+    ":playground",
     ":common-lint",
     ":common-lint-test",
     ":ui-components",

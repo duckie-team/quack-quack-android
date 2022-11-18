@@ -41,7 +41,6 @@ dependencies {
         libs.compose.coil,
         libs.compose.ui.util,
         libs.compose.material,
-        libs.compose.accompanist.flowlayout,
         // projects.uxWritingModel,
     )
     api(libs.kotlin.collections.immutable)

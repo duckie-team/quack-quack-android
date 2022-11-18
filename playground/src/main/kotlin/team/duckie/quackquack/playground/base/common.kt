@@ -66,20 +66,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEachIndexed
 import androidx.compose.ui.zIndex
 import androidx.datastore.preferences.core.edit
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
-import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import team.duckie.quackquack.playground.R
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
-import team.duckie.quackquack.playground.util.noRippleClickable
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
+import team.duckie.quackquack.ui.modifier.quackClickable
 
 /**
  * 텍스트 컴포넌트의 font scale
@@ -122,9 +123,13 @@ private inline fun Activity.startActivityWithAnimation(
 @Composable
 fun PlaygroundActivities(
     title: String = "QuackQuack Playground",
-    activities: PersistentList<KClass<*>>,
+    activities: ImmutableList<KClass<out BaseActivity>>,
 ) {
-    var playgroundSettingAlertVisible by remember { mutableStateOf(false) }
+    var playgroundSettingAlertVisible by remember {
+        mutableStateOf(
+            value = false,
+        )
+    }
     val currentActivity = LocalContext.current as Activity
 
     PlaygroundSettingAlert(
@@ -177,7 +182,9 @@ fun PlaygroundActivities(
 
             items(
                 items = activities,
-                key = { activity -> activity.simpleName ?: activity }
+                key = { activity ->
+                    activity.simpleName ?: activity
+                }
             ) { activity ->
                 Button(
                     modifier = Modifier.fillMaxWidth(),
@@ -230,13 +237,22 @@ fun PlaygroundActivities(
 @Composable
 fun PlaygroundSection(
     title: String,
-    items: PersistentList<Pair<String, @Composable () -> Unit>>,
+    items: ImmutableList<Pair<String, @Composable () -> Unit>>,
 ) {
-    var playgroundSettingAlertVisible by remember { mutableStateOf(false) }
+    var playgroundSettingAlertVisible by remember {
+        mutableStateOf(
+            value = false,
+        )
+    }
     val previewVisibleStates = remember(
         key1 = items,
     ) {
-        mutableStateListOf(*Array(items.size) { false })
+        mutableStateListOf(
+            elements = Array(
+                size = items.size,
+                init = { false },
+            )
+        )
     }
 
     PlaygroundSettingAlert(
@@ -246,7 +262,7 @@ fun PlaygroundSection(
         },
     )
 
-    items.forEachIndexed { index, (_, composable) ->
+    items.fastForEachIndexed { index, (_, composable) ->
         PreviewAlert(
             visible = previewVisibleStates[index],
             onBackPressed = {
@@ -355,7 +371,9 @@ private fun PlaygroundSettingAlert(
             )
         }
 
-        fun dismiss(reset: Boolean = false) {
+        fun dismiss(
+            reset: Boolean = false,
+        ) {
             coroutineScope.launch {
                 if (animationDurationInputState.isEmpty()) {
                     animationDurationInputState = QuackDefaultAnimationMillis.msToSecondString()
@@ -527,6 +545,12 @@ private fun PreviewAlert(
     onBackPressed: () -> Unit,
     content: @Composable () -> Unit,
 ) {
+    val shape = remember {
+        RoundedCornerShape(
+            size = 15.dp,
+        )
+    }
+
     BackHandler(
         enabled = visible,
         onBack = onBackPressed,
@@ -558,7 +582,8 @@ private fun PreviewAlert(
                         alpha = 0.8f,
                     ),
                 )
-                .noRippleClickable(
+                .quackClickable(
+                    rippleEnabled = false,
                     onClick = onBackPressed,
                 ),
             contentAlignment = Alignment.Center,
@@ -566,11 +591,7 @@ private fun PreviewAlert(
             Box(
                 modifier = Modifier
                     .clip(
-                        shape = remember {
-                            RoundedCornerShape(
-                                size = 15.dp,
-                            )
-                        },
+                        shape = shape,
                     )
                     .fillMaxWidth(
                         fraction = 0.8f,
@@ -581,7 +602,11 @@ private fun PreviewAlert(
                     .background(
                         color = Color.White,
                     )
-                    .noRippleClickable { } // prevent click event
+                    // prevent click event
+                    .quackClickable(
+                        rippleEnabled = false,
+                        onClick = {},
+                    )
                     .padding(
                         horizontal = 16.dp,
                     ),

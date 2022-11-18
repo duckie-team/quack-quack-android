@@ -27,7 +27,7 @@ open class BaseActivity : ComponentActivity() {
 
         setSystemBarsColor(
             color = Color.TRANSPARENT,
-            darkIcons = !isDarkMode
+            darkIcons = !isDarkMode,
         )
 
         onBackPressedDispatcher.addCallback(

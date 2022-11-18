@@ -94,7 +94,7 @@ fun PlaygroundTheme(
         !useDarkTheme && isDynamicColor -> dynamicLightColorScheme(
             context = context,
         )
-        else -> PlaygroundLightColors // !useDarkTheme && !supportsDynamicColor
+        else -> PlaygroundLightColors // !useDarkTheme && !isDynamicColor
     }
 
     MaterialTheme(
