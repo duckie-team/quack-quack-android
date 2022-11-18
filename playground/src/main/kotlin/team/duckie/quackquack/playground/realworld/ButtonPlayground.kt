@@ -63,12 +63,13 @@ fun QuackLargeButtonTypeCompactDemo() {
 
 @Composable
 fun QuackLargeButtonTypeFillDemo() {
-    var selected by remember { mutableStateOf(false) }
+    var enabled by remember { mutableStateOf(false) }
 
     QuackLargeButton(
         type = QuackLargeButtonType.Fill,
         text = "LargeButton: Fill",
-        onClick = { selected = !selected },
+        enabled = enabled,
+        onClick = { enabled = !enabled },
     )
 }
 
