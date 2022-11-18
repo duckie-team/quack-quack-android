@@ -11,6 +11,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -460,16 +461,25 @@ private fun QuackCircleTagInternal(
                 ),
                 singleLine = true,
             )
-            QuackImage(
-                modifier = Modifier.padding(
-                    paddingValues = TrailingIconPadding,
-                ),
-                src = trailingIcon,
-                size = TrailingIconSize,
-                tint = trailingIconTintFor(
-                    isSelected = isSelected,
-                ),
-            )
+            if (trailingIcon != null) {
+                QuackImage(
+                    // FIXME: why do not working??
+                    // 아마 마진이 패딩으로 적용되는 듯 함
+                    // modifier = Modifier.padding(
+                    //     paddingValues = TrailingIconPadding,
+                    // ),
+                    src = trailingIcon,
+                    size = TrailingIconSize,
+                    tint = trailingIconTintFor(
+                        isSelected = isSelected,
+                    ),
+                )
+                Spacer(
+                    modifier = Modifier.padding(
+                        paddingValues = TrailingIconPadding,
+                    ),
+                )
+            }
         }
     }
 }
