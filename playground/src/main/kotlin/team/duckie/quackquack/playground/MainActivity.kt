@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -54,7 +55,7 @@ import team.duckie.quackquack.playground.realworld.TypographyPlayground
 import team.duckie.quackquack.playground.theme.PlaygroundTheme
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
-import team.duckie.quackquack.playground.util.verticalInsetsPadding
+import team.duckie.quackquack.playground.util.systemBarPaddings
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 
 private const val DefaultSplashScreenExitAnimationDurationMillis = 200L
@@ -113,6 +114,7 @@ class MainActivity : BaseActivity() {
  *
  * @param content 표시할 단일 디자인 컴포넌트
  */
+@Suppress("UnusedPrivateMember")
 @Composable
 private fun SingleDemo(
     content: @Composable BoxScope.() -> Unit,
@@ -123,7 +125,9 @@ private fun SingleDemo(
             .background(
                 color = Color.White,
             )
-            .verticalInsetsPadding(),
+            .padding(
+                paddingValues = systemBarPaddings,
+            ),
         contentAlignment = Alignment.Center,
     ) {
         ContentBorder {
@@ -137,6 +141,7 @@ private fun SingleDemo(
  *
  * @param content 표시할 디자인 컴포넌트들
  */
+@Suppress("UnusedPrivateMember")
 @Composable
 private fun MultiDemo(
     content: @Composable ColumnScope.() -> Unit,
@@ -144,7 +149,9 @@ private fun MultiDemo(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalInsetsPadding(),
+            .padding(
+                paddingValues = systemBarPaddings,
+            ),
         verticalArrangement = Arrangement.spacedBy(
             space = 16.dp,
             alignment = Alignment.CenterVertically,

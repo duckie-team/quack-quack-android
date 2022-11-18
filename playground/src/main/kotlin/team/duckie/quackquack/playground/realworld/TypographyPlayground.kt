@@ -56,7 +56,6 @@ fun QuackHeadLine1Demo() {
     )
 }
 
-
 @Composable
 fun QuackHeadLine2Demo() {
     val toast = rememberToast()

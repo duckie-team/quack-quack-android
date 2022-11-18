@@ -33,6 +33,9 @@ android {
     lint {
         // FIXME: https://github.com/duckie-team/quack-quack-android/issues/144
         disable.add("PreferredImmutableCollections")
+
+        // FIXME: https://github.com/duckie-team/quack-quack-android/issues/368
+        disable.add("SpecifyAnimationSpec")
     }
 }
 

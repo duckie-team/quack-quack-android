@@ -75,11 +75,7 @@ val Project.keystoreSecrets: KeystoreSecrets
             storePassword = lines[0],
             keyAlias = lines[1],
             keyPassword = lines[0],
-        ).also { secrets ->
-            if (System.getenv("CI")?.toBoolean() != true) {
-                println("keystoreSecrets: $secrets")
-            }
-        }
+        )
     }
 
 private fun DependencyScope.delegate(

@@ -32,6 +32,7 @@ class ImagePlayground : PlaygroundActivity(
     )
 }
 
+@Suppress("MaxLineLength")
 private const val DuckieDevBanner =
     "https://raw.githubusercontent.com/duckie-team/.github/fbca5c5ca8d7475af662a8c5d29eacc9ba0de2ea/assets/dev_banner.svg"
 

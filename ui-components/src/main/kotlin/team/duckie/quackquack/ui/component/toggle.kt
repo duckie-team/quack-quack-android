@@ -41,6 +41,7 @@ import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.QuackToggleIconSize.Compact
 import team.duckie.quackquack.ui.component.QuackToggleIconSize.Normal
 import team.duckie.quackquack.ui.component.QuackToggleIconSize.Small
+import team.duckie.quackquack.ui.component.internal.QuackSurface
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
