@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -11,7 +11,6 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import team.duckie.quackquack.convention.androidTestImplementations
-import team.duckie.quackquack.convention.configureCompose
 import team.duckie.quackquack.convention.debugImplementations
 import team.duckie.quackquack.convention.libs
 
@@ -19,14 +18,13 @@ import team.duckie.quackquack.convention.libs
  * Android 프레임워크의 Library 환경에서 Jetpack Compose 의 UI 테스트를 진행할 준비를 합니다.
  */
 internal class AndroidLibraryComposeUiTestPlugin : Plugin<Project> {
-    override fun apply(project: Project) {
-        with(project) {
+    override fun apply(
+        target: Project,
+    ) {
+        with(
+            receiver = target,
+        ) {
             val extension = extensions.getByType<LibraryExtension>()
-
-            configureCompose(
-                extension = extension,
-            )
-
             extension.apply {
                 defaultConfig {
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

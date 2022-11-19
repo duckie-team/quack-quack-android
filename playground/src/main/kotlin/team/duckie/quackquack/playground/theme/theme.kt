@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -16,6 +16,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import team.duckie.quackquack.ui.theme.QuackTheme
 
 private val PlaygroundLightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -94,14 +95,17 @@ fun PlaygroundTheme(
         !useDarkTheme && isDynamicColor -> dynamicLightColorScheme(
             context = context,
         )
-        else -> PlaygroundLightColors // !useDarkTheme && !supportsDynamicColor
+        else -> PlaygroundLightColors // !useDarkTheme && !isDynamicColor
     }
 
     MaterialTheme(
         colorScheme = colorScheme,
         typography = PlaygroundTypography,
-        content = content,
-    )
+    ) {
+        QuackTheme(
+            content = content,
+        )
+    }
 }
 
 /*

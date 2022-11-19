@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -11,6 +11,7 @@ package team.duckie.quackquack.convention
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
 
 /**
  * Jetpack Compose 를 사용하기 위한 그레이들 환경을 설정합니다.
@@ -27,6 +28,13 @@ internal fun Project.configureCompose(
 
         composeOptions {
             kotlinCompilerExtensionVersion = libs.findVersion("compose-compiler").get().toString()
+        }
+
+        dependencies {
+            setupCompose(
+                core = libs.findBundle("compose-core").get(),
+                debug = libs.findBundle("compose-debug").get(),
+            )
         }
     }
 }

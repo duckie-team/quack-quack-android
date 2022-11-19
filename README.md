@@ -30,9 +30,11 @@ If you are ok in Korean, you can check why QuackQuack was born on the [Duckie te
 
 QuackQuack's design components can be previewed by building the Playground module. If you don't feel like building it yourself, you can download it from the [Google PlayStore](https://play.google.com/store/apps/details?team.duckie.quackquack.playground).
 
+<a href="https://play.google.com/store/apps/details?team.duckie.quackquack.playground"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="70"></a>
+
 ## Caveat
 
-QuackQuack's UI components are intended to be used in Duckie. Therefore, some component designs may not be suitable for non-Duckie services.
+**QuackQuack's UI components are intended to be used in Duckie products.** Therefore, some component designs may not be suitable for non-Duckie product.
 
 ## Download
 
@@ -92,9 +94,6 @@ Anyway, *any* contribution is welcome, just make sure you follow the [contributi
 
 - Project Lead: [Ji Sungbin](https://www.linkedin.com/in/ji-sungbin-4343b7219/)
 - Design: [Kim Hyejin](https://my.surfit.io/w/417265724)
-- Documentations & Automations: [Ji Sungbin](https://www.linkedin.com/in/ji-sungbin-4343b7219/)
-- UI Components: [Ji Sungbin](https://www.linkedin.com/in/ji-sungbin-4343b7219/), [@EvergreenTree97](https://github.com/EvergreenTree97), [@goddoro](https://github.com/goddoro)
-- Lints: [@limsaehyun](https://github.com/limsaehyun), [@riflockle7](https://github.com/riflockle7)
 
 ## Tech Stacks (Korean)
 

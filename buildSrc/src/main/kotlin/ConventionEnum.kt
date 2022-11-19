@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -25,4 +25,10 @@ object ConventionEnum {
     const val JvmLibrary = "$prefix.jvm.library"
     const val JvmDokka = "$prefix.jvm.dokka"
     const val JvmDependencyGraph = "$prefix.jvm.dependency.graph"
+
+    const val JvmArtifactBump = "$prefix.jvm.artifact.bump"
+    const val JvmArtifactSnapshot = "$prefix.jvm.artifact.snapshot"
+
+    const val UiComponentsDucumentation = "$prefix.uicomponents.documentation"
+    const val UiComponentSnapshotsDocumentation = "$prefix.uicomponent.snapshots.documentation"
 }

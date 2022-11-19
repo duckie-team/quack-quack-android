@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -9,6 +9,8 @@
     "UnstableApiUsage",
     "DSL_SCOPE_VIOLATION",
 )
+
+import org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME
 
 plugins {
     id(ConventionEnum.AndroidApplication)
@@ -44,11 +46,25 @@ android {
     }
 }
 
+repositories {
+    maven {
+        // We need the JB repository to get the Compose Compiler the latest version
+        // See: https://github.com/duckie-team/composable-function-reference-diagnostic-suppressor#download-
+        url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
+}
+
 dependencies {
+    add(
+        PLUGIN_CLASSPATH_CONFIGURATION_NAME,
+        libs.compose.reference.suppressor,
+    )
+
     implementations(
         libs.ktx.core,
         libs.util.oss.license,
         libs.util.systemuicontroller,
+        libs.compose.ui.util,
         libs.compose.material3,
         libs.androidx.appcompat,
         libs.androidx.splash,

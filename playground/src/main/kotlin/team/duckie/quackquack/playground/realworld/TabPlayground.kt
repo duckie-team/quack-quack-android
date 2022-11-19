@@ -1,76 +1,60 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 package team.duckie.quackquack.playground.realworld
 
-import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import team.duckie.quackquack.playground.base.BaseActivity
-import team.duckie.quackquack.playground.base.PlaygroundSection
-import team.duckie.quackquack.playground.theme.PlaygroundTheme
+import team.duckie.quackquack.playground.base.PlaygroundActivity
 import team.duckie.quackquack.ui.component.QuackMainTab
 import team.duckie.quackquack.ui.component.QuackSubTab
 
-class TabPlayground : BaseActivity() {
-    @Suppress("RemoveExplicitTypeArguments")
-    private val items = persistentListOf<Pair<String, @Composable () -> Unit>>(
-        "QuackMainTab" to { QuackMainTabDemo() },
-        "QuackSubTabDemo" to { QuackSubTabDemo() },
+class TabPlayground : PlaygroundActivity(
+    name = "Tab",
+) {
+    override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
+        ::QuackMainTabDemo.name to { QuackMainTabDemo() },
+        ::QuackSubTabDemo.name to { QuackSubTabDemo() },
     )
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PlaygroundTheme {
-                PlaygroundSection(
-                    title = "Tab",
-                    items = items,
-                )
-            }
-        }
-    }
 }
 
 @Composable
 fun QuackMainTabDemo() {
-    var selectedMainTabIndex by remember { mutableStateOf(0) }
+    var selectedTabIndex by remember { mutableStateOf(0) }
+    val titles = remember {
+        persistentListOf("세글자", "다서엇글자", "이일고오옵글자")
+    }
 
     QuackMainTab(
-        titles = persistentListOf(
-            "판매중",
-            "거래완료",
-            "숨김",
-        ),
-        selectedTabIndex = selectedMainTabIndex,
-        onTabSelected = { tabIndex ->
-            selectedMainTabIndex = tabIndex
+        titles = titles,
+        selectedTabIndex = selectedTabIndex,
+        onTabSelected = { index ->
+            selectedTabIndex = index
         },
     )
 }
 
 @Composable
 fun QuackSubTabDemo() {
-    var selectedMainTabIndex by remember { mutableStateOf(0) }
+    var selectedTabIndex by remember { mutableStateOf(0) }
+    val titles = remember {
+        persistentListOf("세글자", "다서엇글자", "이일고오옵글자")
+    }
 
     QuackSubTab(
-        titles = persistentListOf(
-            "피드",
-            "컬렉션",
-            "좋아요",
-        ),
-        selectedTabIndex = selectedMainTabIndex,
-        onTabSelected = { tabIndex ->
-            selectedMainTabIndex = tabIndex
+        titles = titles,
+        selectedTabIndex = selectedTabIndex,
+        onTabSelected = { index ->
+            selectedTabIndex = index
         },
     )
 }

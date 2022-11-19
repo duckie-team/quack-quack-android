@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -41,7 +41,7 @@ import team.duckie.quackquack.ui.component.QuackLargeButton
 import team.duckie.quackquack.ui.component.QuackLargeDeletableImage
 import team.duckie.quackquack.ui.component.QuackLargeWhiteButton
 import team.duckie.quackquack.ui.component.QuackMainTab
-import team.duckie.quackquack.ui.component.QuackMediumBorderToggleButton
+import team.duckie.quackquack.ui.component.QuackMediumToggleButton
 import team.duckie.quackquack.ui.component.QuackMenuFab
 import team.duckie.quackquack.ui.component.QuackMenuFabItem
 import team.duckie.quackquack.ui.component.QuackModalDrawer
@@ -84,7 +84,7 @@ inline fun QuackColorBenchmark() {
     QuackColor.Gray2
     QuackColor.Gray3
     QuackColor.Gray4
-    QuackColor.OrangeRed
+    QuackColor.Alert
     QuackColor.White
 }
 
@@ -105,7 +105,7 @@ inline fun QuackButtonBenchmark() {
         onClick = {},
     )
 
-    QuackMediumBorderToggleButton(
+    QuackMediumToggleButton(
         text = "",
         selected = true,
         onClick = {},
@@ -153,7 +153,7 @@ inline fun QuackFabBenchmark() {
 inline fun QuackImageBenchmark() {
     QuackImage(
         src = null,
-        overrideSize = DpSize.Zero,
+        size = DpSize.Zero,
         tint = QuackColor.Black,
         rippleEnabled = true,
         onClick = {},
@@ -249,7 +249,7 @@ inline fun QuackToggleBenchmark() {
 
     QuackRoundCheckBox(
         checked = true,
-        onToggle = {},
+        onClick = {},
     )
 
     QuackSquareCheckBox(

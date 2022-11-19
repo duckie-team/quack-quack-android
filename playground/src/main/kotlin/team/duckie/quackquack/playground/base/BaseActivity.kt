@@ -1,19 +1,21 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
 package team.duckie.quackquack.playground.base
 
 import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.addCallback
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
-import land.sungbin.systemuicontroller.setSystemBarsColor
+import land.sungbin.systemuicontroller.setNavigationBarColor
+import land.sungbin.systemuicontroller.setStatusBarColor
 
 open class BaseActivity : ComponentActivity() {
     private val isDarkMode by lazy {
@@ -25,9 +27,15 @@ open class BaseActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        setSystemBarsColor(
-            color = Color.TRANSPARENT,
+        setStatusBarColor(
+            color = Color.Transparent.toArgb(),
             darkIcons = !isDarkMode
+        )
+        setNavigationBarColor(
+            color = Color.Black.copy(
+                alpha = 0.3f,
+            ).toArgb(),
+            darkIcons = false,
         )
 
         onBackPressedDispatcher.addCallback(

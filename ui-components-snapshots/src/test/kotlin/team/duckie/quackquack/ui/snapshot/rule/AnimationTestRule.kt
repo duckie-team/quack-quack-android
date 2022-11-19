@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -19,14 +19,14 @@ class AnimationTestRule : TestWatcher() {
     override fun starting(
         description: Description?,
     ) {
-        QuackAnimationSpec.isSnapshotMode = true
+        QuackAnimationSpec.snapMode = true
         super.starting(description)
     }
 
     override fun finished(
         description: Description?,
     ) {
-        QuackAnimationSpec.isSnapshotMode = false
+        QuackAnimationSpec.snapMode = false
         super.finished(description)
     }
 }

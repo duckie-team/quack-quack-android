@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -19,7 +19,7 @@ plugins {
     id(ConventionEnum.AndroidQuackPublish)
     id(ConventionEnum.JvmJUnit4)
     id(ConventionEnum.JvmDokka)
-    // alias(libs.plugins.kotlin.api.validation)
+    alias(libs.plugins.kotlin.api.validation)
 }
 
 android {
@@ -29,6 +29,14 @@ android {
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + "-Xexplicit-api=strict"
     }
+
+    lint {
+        // FIXME: https://github.com/duckie-team/quack-quack-android/issues/144
+        disable.add("PreferredImmutableCollections")
+
+        // FIXME: https://github.com/duckie-team/quack-quack-android/issues/368
+        disable.add("SpecifyAnimationSpec")
+    }
 }
 
 dependencies {
@@ -36,12 +44,11 @@ dependencies {
         libs.compose.coil,
         libs.compose.ui.util,
         libs.compose.material,
-        libs.compose.accompanist.flowlayout,
         // projects.uxWritingModel,
     )
     api(libs.kotlin.collections.immutable)
-    // lintChecks(projects.lintCore)
-    // lintChecks(projects.lintCompose)
+    lintChecks(projects.lintCore)
+    lintChecks(projects.lintCompose)
 }
 
 quackArtifactPublish {

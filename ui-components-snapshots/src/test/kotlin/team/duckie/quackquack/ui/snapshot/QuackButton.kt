@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -115,7 +115,7 @@ class QuackButton {
             fontScale = fontScale,
             deviceConfig = deviceConfig,
         ) {
-            team.duckie.quackquack.ui.component.QuackMediumBorderToggleButton(
+            team.duckie.quackquack.ui.component.QuackMediumToggleButton(
                 text = "QuackMediumBorderToggleButton",
                 selected = selected,
                 onClick = {},

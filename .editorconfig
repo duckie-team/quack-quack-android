@@ -2,6 +2,6 @@ root = true
 
 [*]
 charset = utf-8
-disabled_rules = filename, indent, max-line-length
+disabled_rules = filename, indent, max-line-length, import-ordering
 insert_final_newline = true
 trim_trailing_whitespace = true

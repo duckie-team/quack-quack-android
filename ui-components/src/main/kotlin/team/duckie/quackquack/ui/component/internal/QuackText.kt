@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -15,17 +15,18 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.util.fastForEach
-import kotlinx.collections.immutable.PersistentList
-import team.duckie.quackquack.ui.animation.QuackAnimatedContentTransform
+import kotlinx.collections.immutable.ImmutableList
+import team.duckie.quackquack.ui.animation.QuackAnimatedContent
 import team.duckie.quackquack.ui.component.HighlightTextInfo
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.textstyle.animatedQuackTextStyleAsState
 
+// TODO: overlay-ux-writing
 // public val quackTexts: SnapshotStateList<QuackWrting> = mutableStateListOf()
 
 /**
- * 주어진 조건에 따라 텍스트를 표시합니다. 꽥꽥에서 텍스트를 표시하는데
- * 사용되는 최하위 컴포넌트 입니다.
+ * 주어진 조건에 따라 텍스트를 표시합니다.
+ * 꽥꽥에서 텍스트를 표시하는데 사용되는 최하위 컴포넌트 입니다.
  *
  * **애니메이션 가능한 모든 요소들에는 자동으로 애니메이션이 적용됩니다.**
  * 현재 애니메이션이 적용되는 요소들은 다음과 같습니다.
@@ -36,26 +37,27 @@ import team.duckie.quackquack.ui.textstyle.animatedQuackTextStyleAsState
  * @param text 표시할 텍스트
  * @param style 텍스트를 그릴 [TextStyle] 의 QuackQuack 버전
  * @param singleLine 텍스트를 한 줄로 표시할지 여부
+ * @param overflow 최대 표시 가능 범위를 넘었을 때 텍스트를 처리할 정책
  */
 @Composable
 internal fun QuackText(
     modifier: Modifier = Modifier,
-    text: String,
+    text: Any,
     style: QuackTextStyle,
     singleLine: Boolean = false,
-    overflow: TextOverflow = TextOverflow.Clip,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
-    val styleAnimationState = animatedQuackTextStyleAsState(
+    val animatedQuackTextStyle = animatedQuackTextStyleAsState(
         targetValue = style,
     )
 
-    QuackAnimatedContentTransform(
+    QuackAnimatedContent(
         modifier = modifier,
-        targetState = text,
+        targetState = text.toString(),
     ) { animatedText ->
         BasicText(
             text = animatedText,
-            style = styleAnimationState.asComposeStyle(),
+            style = animatedQuackTextStyle.asComposeStyle(),
             maxLines = when (singleLine) {
                 true -> 1
                 else -> Int.MAX_VALUE
@@ -78,6 +80,7 @@ internal fun QuackText(
  * @param annotatedText 표시할 텍스트
  * @param style 텍스트를 그릴 [TextStyle] 의 QuackQuack 버전
  * @param singleLine 텍스트를 한 줄로 표시할지 여부
+ * @param overflow 최대 표시 가능 범위를 넘었을 때 텍스트를 처리할 정책
  */
 @Composable
 internal fun QuackText(
@@ -85,13 +88,13 @@ internal fun QuackText(
     annotatedText: AnnotatedString,
     style: QuackTextStyle,
     singleLine: Boolean = false,
-    overflow: TextOverflow = TextOverflow.Clip,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
     val styleAnimationState = animatedQuackTextStyleAsState(
         targetValue = style,
     )
 
-    QuackAnimatedContentTransform(
+    QuackAnimatedContent(
         modifier = modifier,
         targetState = annotatedText,
     ) { animatedText ->
@@ -116,13 +119,13 @@ internal fun QuackText(
  * @param defaultOnClick [clickEventTextInfo] 목록 내 모든 range 에 속하지 않을 때 실행할 클릭 이벤트
  * @param style 텍스트를 그릴 [TextStyle] 의 QuackQuack 버전
  * @param singleLine 텍스트를 한 줄로 표시할 지 여부
- * @param overflow 텍스트 overflow 될 시 처리 방법
+ * @param overflow 최대 표시 가능 범위를 넘었을 때 텍스트를 처리할 정책
  */
 @Composable
 internal fun QuackClickableText(
     modifier: Modifier = Modifier,
     text: AnnotatedString,
-    clickEventTextInfo: PersistentList<HighlightTextInfo>,
+    clickEventTextInfo: ImmutableList<HighlightTextInfo>,
     defaultOnClick: (() -> Unit)? = null,
     style: QuackTextStyle,
     singleLine: Boolean = false,

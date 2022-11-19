@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -50,6 +50,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -66,33 +67,40 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEachIndexed
 import androidx.compose.ui.zIndex
 import androidx.datastore.preferences.core.edit
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
-import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import team.duckie.quackquack.playground.R
 import team.duckie.quackquack.playground.util.PreferenceConfigs
 import team.duckie.quackquack.playground.util.dataStore
-import team.duckie.quackquack.playground.util.noRippleClickable
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.animation.QuackAnimationMillis
 import team.duckie.quackquack.ui.animation.QuackDefaultAnimationMillis
+import team.duckie.quackquack.ui.modifier.QuackAlwaysShowRipple
+import team.duckie.quackquack.ui.modifier.QuackDefaultAlwaysShowRipple
+import team.duckie.quackquack.ui.modifier.quackClickable
+
+const val DefaultFontScale = 1f
 
 /**
  * 텍스트 컴포넌트의 font scale
  */
 var fontScale by mutableStateOf(
-    value = 1f,
+    value = DefaultFontScale,
 )
 
+const val DefaultShowComponentBounds = false
+
 /**
- * 컴포넌트의 경계(테두리)를 표시할 지 여부
+ * 컴포넌트의 경계(테두리)를 표시할지 여부
  */
 var showComponentBounds by mutableStateOf(
-    value = true,
+    value = DefaultShowComponentBounds,
 )
 
 /**
@@ -122,12 +130,16 @@ private inline fun Activity.startActivityWithAnimation(
 @Composable
 fun PlaygroundActivities(
     title: String = "QuackQuack Playground",
-    activities: PersistentList<KClass<*>>,
+    activities: ImmutableList<KClass<out PlaygroundActivity>>,
 ) {
-    var playgroundSettingAlertVisible by remember { mutableStateOf(false) }
+    var playgroundSettingAlertVisible by remember {
+        mutableStateOf(
+            value = false,
+        )
+    }
     val currentActivity = LocalContext.current as Activity
 
-    PlaygroundSettingAlert(
+    PlaygroundSettingDialog(
         visible = playgroundSettingAlertVisible,
         onDismissRequest = {
             playgroundSettingAlertVisible = !playgroundSettingAlertVisible
@@ -145,18 +157,20 @@ fun PlaygroundActivities(
                 }
             )
         },
-    ) { contentPadding ->
+    ) { padding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    paddingValues = contentPadding,
+                    top = padding.calculateTopPadding(),
                 ),
             verticalArrangement = Arrangement.spacedBy(
                 space = 8.dp,
             ),
             contentPadding = PaddingValues(
-                all = 16.dp,
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 16.dp + padding.calculateBottomPadding(),
             ),
         ) {
             stickyHeader {
@@ -177,7 +191,9 @@ fun PlaygroundActivities(
 
             items(
                 items = activities,
-                key = { activity -> activity.simpleName ?: activity }
+                key = { activity ->
+                    activity.simpleName ?: activity
+                }
             ) { activity ->
                 Button(
                     modifier = Modifier.fillMaxWidth(),
@@ -222,7 +238,7 @@ fun PlaygroundActivities(
 }
 
 /**
- * [PreviewAlert] 로 표시할 여러 디자인 컴포넌트들을 나열합니다.
+ * [PreviewDialog] 로 표시할 여러 디자인 컴포넌트들을 나열합니다.
  *
  * @param title 표시할 디자인 컴포넌트들의 주제
  * @param items 표시할 디자인 컴포넌트들의 컴포저블 아이템
@@ -230,30 +246,42 @@ fun PlaygroundActivities(
 @Composable
 fun PlaygroundSection(
     title: String,
-    items: PersistentList<Pair<String, @Composable () -> Unit>>,
+    items: ImmutableList<Pair<String, @Composable () -> Unit>>,
+    usePreviewDialog: Boolean,
 ) {
-    var playgroundSettingAlertVisible by remember { mutableStateOf(false) }
+    var playgroundSettingDialogVisible by remember {
+        mutableStateOf(
+            value = false,
+        )
+    }
     val previewVisibleStates = remember(
         key1 = items,
     ) {
-        mutableStateListOf(*Array(items.size) { false })
+        mutableStateListOf(
+            elements = Array(
+                size = items.size,
+                init = { false },
+            )
+        )
     }
 
-    PlaygroundSettingAlert(
-        visible = playgroundSettingAlertVisible,
+    PlaygroundSettingDialog(
+        visible = playgroundSettingDialogVisible,
         onDismissRequest = {
-            playgroundSettingAlertVisible = !playgroundSettingAlertVisible
+            playgroundSettingDialogVisible = !playgroundSettingDialogVisible
         },
     )
 
-    items.forEachIndexed { index, (_, composable) ->
-        PreviewAlert(
-            visible = previewVisibleStates[index],
-            onBackPressed = {
-                previewVisibleStates[index] = !previewVisibleStates[index]
-            },
-            content = composable,
-        )
+    if (usePreviewDialog) {
+        items.fastForEachIndexed { index, (_, composable) ->
+            PreviewDialog(
+                visible = previewVisibleStates[index],
+                onBackPressed = {
+                    previewVisibleStates[index] = !previewVisibleStates[index]
+                },
+                content = composable,
+            )
+        }
     }
 
     Scaffold(
@@ -267,25 +295,27 @@ fun PlaygroundSection(
                 }
             )
         },
-    ) { contentPadding ->
+    ) { padding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    paddingValues = contentPadding,
+                    top = padding.calculateTopPadding(),
                 ),
             verticalArrangement = Arrangement.spacedBy(
-                space = 8.dp,
+                space = 16.dp,
             ),
             contentPadding = PaddingValues(
-                all = 16.dp,
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 16.dp + padding.calculateBottomPadding(),
             ),
         ) {
             stickyHeader {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                        playgroundSettingAlertVisible = true
+                        playgroundSettingDialogVisible = true
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.secondary,
@@ -299,21 +329,38 @@ fun PlaygroundSection(
 
             itemsIndexed(
                 items = items,
-                key = { index, _ -> index }
+                key = { _, item -> item.first /* name */ },
             ) { index, item ->
-                val (contentTitle, _) = item
+                val (_name, composable) = item
+                val name = _name.removeSuffix(
+                    suffix = "Demo",
+                )
 
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        previewVisibleStates[index] = true
-                    },
-                ) {
-                    Text(
-                        text = contentTitle.removeSuffix(
-                            suffix = "Demo",
+                if (usePreviewDialog) {
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            previewVisibleStates[index] = true
+                        },
+                    ) {
+                        Text(
+                            text = name,
+                        )
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier.wrapContentSize(),
+                        verticalArrangement = Arrangement.spacedBy(
+                            space = 4.dp,
                         ),
-                    )
+                    ) {
+                        Text(
+                            text = name,
+                        )
+                        DebugLayout {
+                            composable()
+                        }
+                    }
                 }
             }
         }
@@ -328,7 +375,7 @@ fun PlaygroundSection(
  * @param onDismissRequest Playground 설정 다이얼로그를 닫을 때 호출되는 콜백
  */
 @Composable
-private fun PlaygroundSettingAlert(
+private fun PlaygroundSettingDialog(
     visible: Boolean,
     onDismissRequest: () -> Unit,
 ) {
@@ -337,6 +384,7 @@ private fun PlaygroundSettingAlert(
         val context = LocalContext.current.applicationContext
         val coroutineScope = rememberCoroutineScope()
 
+        @Stable
         fun Int.msToSecondString() = (toDouble() / 1000.toDouble()).toString()
 
         var animationDurationInputState by remember {
@@ -354,8 +402,16 @@ private fun PlaygroundSettingAlert(
                 value = showComponentBounds,
             )
         }
+        var alwaysShowRipple by remember {
+            mutableStateOf(
+                value = QuackAlwaysShowRipple,
+            )
+        }
 
-        fun dismiss(reset: Boolean = false) {
+        @Stable
+        fun dismiss(
+            reset: Boolean = false,
+        ) {
             coroutineScope.launch {
                 if (animationDurationInputState.isEmpty()) {
                     animationDurationInputState = QuackDefaultAnimationMillis.msToSecondString()
@@ -374,19 +430,24 @@ private fun PlaygroundSettingAlert(
                         )
                     }
                     preference[PreferenceConfigs.FontScaleKey] = when (reset) {
-                        true -> 1f
+                        true -> DefaultFontScale
                         else -> fontScaleInputState.toFloat()
                     }.also { newFontScale ->
                         fontScale = newFontScale.coerceAtLeast(
                             minimumValue = 1f,
                         )
                     }
-
                     preference[PreferenceConfigs.ShowComponentBounds] = when (reset) {
-                        true -> true
+                        true -> DefaultShowComponentBounds
                         else -> showComponentBoundsState
                     }.also { newShowComponentBounds ->
                         showComponentBounds = newShowComponentBounds
+                    }
+                    preference[PreferenceConfigs.AlwaysShowRipple] = when (reset) {
+                        true -> QuackDefaultAlwaysShowRipple
+                        else -> alwaysShowRipple
+                    }.also { newAlwaysShowRipple ->
+                        QuackAlwaysShowRipple = newAlwaysShowRipple
                     }
                 }
             }
@@ -418,6 +479,26 @@ private fun PlaygroundSettingAlert(
                             checked = showComponentBoundsState,
                             onCheckedChange = { checked ->
                                 showComponentBoundsState = checked
+                            },
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .padding(
+                                top = 5.dp,
+                            )
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = "항상 터치 영역 표시",
+                        )
+                        Checkbox(
+                            checked = alwaysShowRipple,
+                            onCheckedChange = { checked ->
+                                alwaysShowRipple = checked
                             },
                         )
                     }
@@ -522,11 +603,17 @@ private fun PlaygroundSettingAlert(
  * @param content preview dialog 로 표시할 디자인 컴포넌트
  */
 @Composable
-private fun PreviewAlert(
+private fun PreviewDialog(
     visible: Boolean,
     onBackPressed: () -> Unit,
     content: @Composable () -> Unit,
 ) {
+    val shape = remember {
+        RoundedCornerShape(
+            size = 15.dp,
+        )
+    }
+
     BackHandler(
         enabled = visible,
         onBack = onBackPressed,
@@ -558,7 +645,8 @@ private fun PreviewAlert(
                         alpha = 0.8f,
                     ),
                 )
-                .noRippleClickable(
+                .quackClickable(
+                    rippleEnabled = false,
                     onClick = onBackPressed,
                 ),
             contentAlignment = Alignment.Center,
@@ -566,11 +654,7 @@ private fun PreviewAlert(
             Box(
                 modifier = Modifier
                     .clip(
-                        shape = remember {
-                            RoundedCornerShape(
-                                size = 15.dp,
-                            )
-                        },
+                        shape = shape,
                     )
                     .fillMaxWidth(
                         fraction = 0.8f,
@@ -581,43 +665,48 @@ private fun PreviewAlert(
                     .background(
                         color = Color.White,
                     )
-                    .noRippleClickable { } // prevent click event
+                    // prevent click event
+                    .quackClickable(
+                        rippleEnabled = false,
+                        onClick = {},
+                    )
                     .padding(
                         horizontal = 16.dp,
                     ),
                 contentAlignment = Alignment.Center,
             ) {
-                ContentBorder {
-                    CompositionLocalProvider(
-                        LocalDensity provides Density(
-                            density = LocalDensity.current.density,
-                            fontScale = fontScale,
-                        ),
-                        content = content,
-                    )
-                }
+                DebugLayout(
+                    content = content,
+                )
             }
         }
     }
 }
 
 @Composable
-fun ContentBorder(
+fun DebugLayout(
     content: @Composable () -> Unit,
 ) {
-    if (showComponentBounds) {
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .border(
-                    width = 0.1.dp,
-                    color = Color.LightGray,
-                ),
-            contentAlignment = Alignment.Center,
-        ) {
+    CompositionLocalProvider(
+        LocalDensity provides Density(
+            density = LocalDensity.current.density,
+            fontScale = fontScale,
+        ),
+    ) {
+        if (showComponentBounds) {
+            Box(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .border(
+                        width = 0.1.dp,
+                        color = Color.LightGray,
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
+                content()
+            }
+        } else {
             content()
         }
-    } else {
-        content()
     }
 }

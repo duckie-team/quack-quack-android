@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2022 SungbinLand, Team Duckie
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.build.dokka.plugin)
     implementation(libs.build.gradle.agp)
     implementation(libs.build.gradle.maven.publish.core)
+    implementation(libs.util.gfm.dsl)
 }
 
 gradlePlugin {
@@ -81,9 +82,25 @@ gradlePlugin {
             id = "$prefix.jvm.dokka"
             implementationClass = "JvmDokkaPlugin"
         }
-        register("dependencyGraph") {
+        register("dependencyGraphPlugin") {
             id = "$prefix.jvm.dependency.graph"
             implementationClass = "DependencyGraphPlugin"
+        }
+        register("artifactBumpPlugin") {
+            id = "$prefix.jvm.artifact.bump"
+            implementationClass = "ArtifactBumpPlugin"
+        }
+        register("artifactSnapshotPlugin") {
+            id = "$prefix.jvm.artifact.snapshot"
+            implementationClass = "ArtifactSnapshotPlugin"
+        }
+        register("uiComponentsDocumentation") {
+            id = "$prefix.uicomponents.documentation"
+            implementationClass = "UiComponentsDocumentationPlugin"
+        }
+        register("uiComponentSnapshotsDocumentation") {
+            id = "$prefix.uicomponent.snapshots.documentation"
+            implementationClass = "UiComponentSnapshotsDocumentation"
         }
     }
 }
