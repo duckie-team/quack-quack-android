@@ -92,9 +92,6 @@ Anyway, *any* contribution is welcome, just make sure you follow the [contributi
 
 - Project Lead: [Ji Sungbin](https://www.linkedin.com/in/ji-sungbin-4343b7219/)
 - Design: [Kim Hyejin](https://my.surfit.io/w/417265724)
-- Documentations & Automations: [Ji Sungbin](https://www.linkedin.com/in/ji-sungbin-4343b7219/)
-- UI Components: [Ji Sungbin](https://www.linkedin.com/in/ji-sungbin-4343b7219/), [@EvergreenTree97](https://github.com/EvergreenTree97), [@goddoro](https://github.com/goddoro)
-- Lints: [@limsaehyun](https://github.com/limsaehyun), [@riflockle7](https://github.com/riflockle7)
 
 ## Tech Stacks (Korean)
 
