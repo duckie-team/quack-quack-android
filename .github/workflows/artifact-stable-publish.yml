@@ -99,9 +99,9 @@ jobs:
       - name: Move baseline profile
         if: ${{ steps.label.outputs.release_target == 'UiComponents' }}
         run: >
-          mv
-          ui-components-benchmark/build/outputs/managed_device_android_test_additional_output/pixel6Api31/BaselineProfileGenerator_startup-baseline-prof.txt
-          ui-components/src/main/baseline-prof.txt
+          cat
+          ui-components-benchmark/build/outputs/managed_device_android_test_additional_output/pixel6Api31/BaselineProfileGenerator_startup-baseline-prof.txt |
+          grep "team/duckie/quackquack/ui" > ui-components/src/main/baseline-prof.txt
 
       - name: Bump version
         run: ./gradlew bump -Ptype=${{ steps.label.outputs.bump_type }} -Ptarget=${{ steps.label.outputs.release_target }}
