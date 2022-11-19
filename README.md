@@ -30,6 +30,8 @@ If you are ok in Korean, you can check why QuackQuack was born on the [Duckie te
 
 QuackQuack's design components can be previewed by building the Playground module. If you don't feel like building it yourself, you can download it from the [Google PlayStore](https://play.google.com/store/apps/details?team.duckie.quackquack.playground).
 
+<a href="https://play.google.com/store/apps/details?team.duckie.quackquack.playground"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="70"></a>
+
 ## Caveat
 
 **QuackQuack's UI components are intended to be used in Duckie products.** Therefore, some component designs may not be suitable for non-Duckie product.
