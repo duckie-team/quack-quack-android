@@ -11,11 +11,7 @@ build
 release
 local.properties
 google-services.json
-secrets.tar
 keystore
-/buildSrc/src/main/kotlin/BuildConstants.kt
 /documents/dokka/
 /report
-snapshots
 /ui-components-snapshots/out/
-/lint-compose/quack-lint-custom-rule
