@@ -67,7 +67,6 @@ build-dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "d
 build-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 build-gradle-agp = { module = "com.android.tools.build:gradle", version.ref = "gradle-agp" }
 build-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-core" }
-build-kover = { module = "org.jetbrains.kotlinx:kover", version.ref = "kover" }
 build-oss-license = { module = "com.google.android.gms:oss-licenses-plugin", version.ref = "oss-license-plugin" }
 build-gradle-maven-publish-core = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradle-maven-publish" }
 
