@@ -30,7 +30,7 @@ internal class AndroidLibraryPlugin : Plugin<Project> {
         ) {
             applyPlugins(
                 PluginEnum.AndroidLibrary,
-                PluginEnum.AndroidKotlin,
+                PluginEnum.KotlinAndroid,
             )
 
             extensions.configure<LibraryExtension> {

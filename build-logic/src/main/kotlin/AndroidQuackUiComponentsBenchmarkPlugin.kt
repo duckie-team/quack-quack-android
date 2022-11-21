@@ -39,7 +39,7 @@ internal class AndroidQuackUiComponentsBenchmarkPlugin : Plugin<Project> {
         ) {
             applyPlugins(
                 PluginEnum.AndroidTest,
-                PluginEnum.AndroidKotlin,
+                PluginEnum.KotlinAndroid,
             )
 
             extensions.configure<TestExtension> {
