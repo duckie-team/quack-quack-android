@@ -14,10 +14,10 @@ internal object PluginEnum {
     const val AndroidLint = "com.android.lint"
     const val AndroidTest = "com.android.test"
     const val AndroidApplication = "com.android.application"
-
-    const val JavaLibrary = "java-library"
     const val AndroidLibrary = "com.android.library"
 
-    const val PureKotlin = "kotlin"
-    const val AndroidKotlin = "kotlin-android"
+    const val JavaLibrary = "java-library"
+
+    const val KotlinCore = "kotlin"
+    const val KotlinAndroid = "kotlin-android"
 }

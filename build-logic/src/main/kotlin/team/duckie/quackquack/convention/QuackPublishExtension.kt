@@ -62,6 +62,9 @@ sealed class QuackArtifactType(
     )
 }
 
-private fun buildLintArtifactDescription(
+@Suppress("NOTHING_TO_INLINE")
+private inline fun buildLintArtifactDescription(
     target: String,
-) = "Duckie's design system custom lint for $target"
+): String {
+    return "Duckie's design system custom lint for $target"
+}

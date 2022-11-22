@@ -34,7 +34,7 @@ internal class AndroidCommonLintPlugin : Plugin<Project> {
         ) {
             applyPlugins(
                 PluginEnum.JavaLibrary,
-                PluginEnum.PureKotlin,
+                PluginEnum.KotlinCore,
                 PluginEnum.AndroidLint,
             )
 

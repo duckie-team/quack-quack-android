@@ -25,7 +25,7 @@ internal class JvmLibraryPlugin : Plugin<Project> {
         ) {
             applyPlugins(
                 PluginEnum.JavaLibrary,
-                PluginEnum.PureKotlin,
+                PluginEnum.KotlinCore,
             )
 
             extensions.configure<JavaPluginExtension> {
