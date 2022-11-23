@@ -645,7 +645,7 @@ private object QuackTextFieldDefaults {
                 ) { isEmpty ->
                     Layout(
                         content = {
-                            // counter
+                            // counter, counter 는 전체 애니메이션 X
                             Row(
                                 modifier = Modifier.layoutId(
                                     layoutId = TrailingCounterLayoutId,
@@ -655,22 +655,22 @@ private object QuackTextFieldDefaults {
                                     space = TrailingCountingTextGap,
                                 ),
                             ) {
-                                QuackText(
+                                Text(
                                     text = state.toString(),
                                     style = trailingCountingStateTextTypographyFor(
                                         isEmpty = state == 0,
-                                    ),
-                                    singleLine = true,
+                                    ).asComposeStyle(),
+                                    maxLines = 1,
                                 )
-                                QuackText(
+                                Text(
                                     text = "/",
-                                    style = TrailingCountingtBaselineTexTypograhy,
-                                    singleLine = true,
+                                    style = TrailingCountingtBaselineTexTypograhy.asComposeStyle(),
+                                    maxLines = 1,
                                 )
-                                QuackText(
-                                    text = baseline,
-                                    style = TrailingCountingtBaselineTexTypograhy,
-                                    singleLine = true,
+                                Text(
+                                    text = baseline.toString(),
+                                    style = TrailingCountingtBaselineTexTypograhy.asComposeStyle(),
+                                    maxLines = 1,
                                 )
                             }
                             // TODO: 레이아웃을 안깨고 터치 영역을 늘릴 수 있는 방법을 모르겠다 ㅠㅠ
