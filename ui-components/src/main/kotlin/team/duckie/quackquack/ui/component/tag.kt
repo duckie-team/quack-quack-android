@@ -615,8 +615,15 @@ private fun quackTagInternalAssert(
  * 이 항목은 바뀔 수 있으므로 [ImmutableList] 가 아닌 일반 [List] 로 받습니다.
  * @param itemSelections 태그들의 선택 여부.
  * 이 항목은 바뀔 수 있으므로 [ImmutableList] 가 아닌 [List] 로 받습니다.
+ * @param itemChunkedSize 한 칸에 들어갈 최대 아이템의 개수
  * @param tagType [QuackLazyVerticalGridTag] 에서 표시할 태그의 타입을 지정합니다.
  * 여러 종류의 태그가 [QuackLazyVerticalGridTag] 으로 표시될 수 있게 태그의 타입을 따로 받습니다.
+ * @param key a factory of stable and unique keys representing the item. Using the same key
+ * for multiple items in the list is not allowed. Type of the key should be saveable
+ * via Bundle on Android. If null is passed the position in the list will represent the key.
+ * When you specify the key the scroll position will be maintained based on the key, which
+ * means if you add/remove items before the current visible item the item with the given key
+ * will be kept as the first visible one.
  * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다.
  * 람다식의 인자로는 선택된 태그의 index 가 들어옵니다.
  */
@@ -626,18 +633,18 @@ public fun QuackLazyVerticalGridTag(
     title: String? = null,
     items: List<String>,
     itemSelections: List<Boolean>? = null,
+    itemChunkedSize: Int,
     tagType: QuackTagType,
+    key: ((
+        index: Int,
+        items: List<String>,
+    ) -> Any)? = null,
     onClick: (
         index: Int,
     ) -> Unit,
 ): Unit = with(
     receiver = QuackTagDefaults.LazyTag,
 ) {
-    runtimeCheck(
-        value = items.toSet().size == items.size,
-    ) {
-        "Duplicate tag titles are not allowed."
-    }
     if (itemSelections != null) {
         runtimeCheck(
             value = items.size == itemSelections.size,
@@ -650,7 +657,7 @@ public fun QuackLazyVerticalGridTag(
         key1 = items,
     ) {
         items.chunked(
-            size = 2,
+            size = itemChunkedSize,
         )
     }
     LazyColumn(
@@ -673,8 +680,15 @@ public fun QuackLazyVerticalGridTag(
         }
         itemsIndexed(
             items = chunkedItems,
-            key = { _, item ->
-                item
+            key = { index: Int, items: List<String> ->
+                key!!.invoke(
+                    /* index = */
+                    index,
+                    /* items = */
+                    items,
+                )
+            }.takeIf {
+                key != null
             },
         ) { rowIndex, rowItems ->
             Row(
@@ -688,7 +702,7 @@ public fun QuackLazyVerticalGridTag(
                 ),
             ) {
                 rowItems.fastForEachIndexed { index, item ->
-                    val currentIndex = rowIndex * 2 + index
+                    val currentIndex = rowIndex * itemChunkedSize + index
                     val isSelected = itemSelections?.get(
                         index = currentIndex,
                     ) ?: false
