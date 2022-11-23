@@ -10,10 +10,7 @@
 package team.duckie.quackquack.ui.component
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +41,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastFirstOrNull
 import androidx.compose.ui.zIndex
+import team.duckie.quackquack.ui.animation.QuackAnimatedVisibility
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
@@ -637,6 +635,9 @@ private object QuackTextFieldDefaults {
             return {
                 // counter, counter 는 전체 애니메이션 X
                 Layout(
+                    modifier = Modifier.padding(
+                        paddingValues = TrailingContentPadding,
+                    ),
                     content = {
                         Row(
                             modifier = Modifier.layoutId(
@@ -1230,19 +1231,15 @@ public fun QuackProfileTextField(
                 text = errorText,
                 visible = false,
             )
-            this@Column.AnimatedVisibility(
+            QuackAnimatedVisibility(
                 visible = isError,
                 modifier = Modifier.zIndex(
                     zIndex = 2f,
                 ),
-                enter = fadeIn(
-                    animationSpec = QuackAnimationSpec(),
-                ) + expandVertically(
+                otherEnterAnimation = expandVertically(
                     animationSpec = QuackAnimationSpec(),
                 ),
-                exit = fadeOut(
-                    animationSpec = QuackAnimationSpec(),
-                ) + shrinkVertically(
+                otherExitAnimation = shrinkVertically(
                     animationSpec = QuackAnimationSpec(),
                 ),
             ) {
