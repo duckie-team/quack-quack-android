@@ -416,6 +416,7 @@ public fun QuackUnderlineHeadLine2(
  * @param modifier 컴포넌트에 적용할 [Modifier]
  * @param text 표시할 텍스트
  * @param underlineTexts 강조할 텍스트 리스트들
+ * @param underlineColor 강조할 색상
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
@@ -428,6 +429,7 @@ public fun QuackUnderlineBody3(
     modifier: Modifier = Modifier,
     text: String,
     underlineTexts: ImmutableList<String>,
+    underlineColor: QuackColor = QuackColor.DuckieOrange,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
@@ -444,7 +446,7 @@ public fun QuackUnderlineBody3(
             text = text,
             decorationTexts = underlineTexts,
             decorationStyle = SpanStyle(
-                color = QuackColor.DuckieOrange.composeColor,
+                color = underlineColor.composeColor,
                 textDecoration = TextDecoration.Underline,
             ),
         ),
