@@ -23,8 +23,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -240,7 +238,6 @@ private object QuackTextFieldDefaults {
                 {
                     QuackText(
                         modifier = Modifier
-                            .wrapContentSize()
                             .quackClickable(
                                 rippleEnabled = false,
                                 onClick = onClick,
@@ -591,7 +588,6 @@ private object QuackTextFieldDefaults {
             // QuackText X
             Text(
                 modifier = Modifier
-                    .wrapContentSize()
                     .padding(
                         paddingValues = ErrorTextPadding,
                     )
@@ -642,22 +638,18 @@ private object QuackTextFieldDefaults {
             return {
                 QuackAnimatedContent(
                     modifier = Modifier
-                        .wrapContentSize()
                         .padding(
                             paddingValues = TrailingContentPadding,
                         ),
                     targetState = state == 0,
                 ) { isEmpty ->
                     Layout(
-                        modifier = Modifier.wrapContentSize(),
                         content = {
                             // counter
                             Row(
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .layoutId(
-                                        layoutId = TrailingCounterLayoutId,
-                                    ),
+                                modifier = Modifier.layoutId(
+                                    layoutId = TrailingCounterLayoutId,
+                                ),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(
                                     space = TrailingCountingTextGap,
@@ -871,7 +863,6 @@ public fun QuackBasicTextField(
     BasicTextField(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
             .drawAnimatedLine(
                 thickness = UnderlineHeight,
                 color = UnderlineColor,
@@ -971,7 +962,6 @@ public fun QuackPriceTextField(
     BasicTextField(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
             .drawAnimatedLine(
                 thickness = UnderlineHeight,
                 color = UnderlineColor,
@@ -1081,7 +1071,6 @@ public fun QuackBasic2TextField(
     BasicTextField(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
             .drawAnimatedLine(
                 thickness = UnderlineHeight,
                 color = UnderlineColor,
@@ -1188,12 +1177,11 @@ public fun QuackProfileTextField(
     }
 
     Column(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
     ) {
         BasicTextField(
             modifier = modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
                 .drawAnimatedLine(
                     thickness = UnderlineHeight,
                     color = underlineColorFor(
@@ -1246,9 +1234,7 @@ public fun QuackProfileTextField(
                 )
             },
         )
-        Box(
-            modifier = Modifier.wrapContentSize(),
-        ) {
+        Box {
             ErrorText(
                 text = errorText,
                 visible = false,

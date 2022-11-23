@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -193,7 +192,7 @@ private fun QuackImageInternal(
         key2 = density,
     ) {
         when (size) {
-            null -> Modifier.wrapContentSize()
+            null -> Modifier
             else -> Modifier.size(
                 size = size * density.fontScale,
             )
@@ -217,13 +216,12 @@ private fun QuackImageInternal(
             .padding(
                 paddingValues = Margin,
             )
-            .run {
-                when (badgeSize) {
-                    null -> wrapContentSize()
-                    else -> size(
-                        size = badgeSize * density.fontScale,
-                    )
-                }
+            .runIf(
+                condition = badgeSize != null,
+            ) {
+                size(
+                    size = badgeSize!! * density.fontScale,
+                )
             }
             .zIndex(
                 zIndex = 2f,
@@ -261,7 +259,6 @@ private fun QuackImageInternal(
         modifier = containerModifier,
     ) { imageModel ->
         Box(
-            modifier = Modifier.wrapContentSize(),
             contentAlignment = badgeAlign,
         ) {
             AsyncImage(
@@ -350,7 +347,7 @@ public fun QuackSelectableImage(
     receiver = QuackImageDefaults.SelectableImage,
 ) {
     QuackSurface(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
         shape = Shape,
         border = borderFor(
             isSelected = isSelected,

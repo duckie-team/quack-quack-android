@@ -7,7 +7,6 @@
 
 package team.duckie.quackquack.ui.component
 
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -55,12 +54,10 @@ public fun QuackHeadLine1(
     overflow: TextOverflow = TextOverflow.Ellipsis,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = modifier
-        .wrapContentSize()
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+    modifier = modifier.quackClickable(
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    ),
     text = text,
     style = QuackTextStyle.HeadLine1.change(
         color = color,
@@ -94,12 +91,10 @@ public fun QuackHeadLine2(
     onClick: (() -> Unit)? = null,
     overflow: TextOverflow = TextOverflow.Ellipsis,
 ): Unit = QuackText(
-    modifier = modifier
-        .wrapContentSize()
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+    modifier = modifier.quackClickable(
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    ),
     text = text,
     style = QuackTextStyle.HeadLine2.change(
         color = color,
@@ -133,12 +128,10 @@ public fun QuackTitle1(
     overflow: TextOverflow = TextOverflow.Ellipsis,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = modifier
-        .wrapContentSize()
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+    modifier = modifier.quackClickable(
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    ),
     text = text,
     style = QuackTextStyle.Title1.change(
         color = color,
@@ -172,12 +165,10 @@ public fun QuackTitle2(
     overflow: TextOverflow = TextOverflow.Ellipsis,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = modifier
-        .wrapContentSize()
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+    modifier = modifier.quackClickable(
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    ),
     text = text,
     style = QuackTextStyle.Title2.change(
         color = color,
@@ -211,12 +202,10 @@ public fun QuackSubtitle(
     overflow: TextOverflow = TextOverflow.Ellipsis,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = modifier
-        .wrapContentSize()
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+    modifier = modifier.quackClickable(
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    ),
     text = text,
     style = QuackTextStyle.Subtitle.change(
         color = color,
@@ -250,12 +239,10 @@ public fun QuackSubtitle2(
     overflow: TextOverflow = TextOverflow.Ellipsis,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = modifier
-        .wrapContentSize()
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+    modifier = modifier.quackClickable(
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    ),
     text = text,
     style = QuackTextStyle.Subtitle2.change(
         color = color,
@@ -289,12 +276,10 @@ public fun QuackBody1(
     overflow: TextOverflow = TextOverflow.Ellipsis,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = modifier
-        .wrapContentSize()
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+    modifier = modifier.quackClickable(
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    ),
     text = text,
     style = QuackTextStyle.Body1.change(
         color = color,
@@ -328,12 +313,10 @@ public fun QuackBody2(
     overflow: TextOverflow = TextOverflow.Ellipsis,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = modifier
-        .wrapContentSize()
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+    modifier = modifier.quackClickable(
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    ),
     text = text,
     style = QuackTextStyle.Body2.change(
         color = color,
@@ -367,12 +350,10 @@ public fun QuackBody3(
     overflow: TextOverflow = TextOverflow.Ellipsis,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
-    modifier = modifier
-        .wrapContentSize()
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+    modifier = modifier.quackClickable(
+        rippleEnabled = rippleEnabled,
+        onClick = onClick,
+    ),
     text = text,
     style = QuackTextStyle.Body3.change(
         color = color,
@@ -408,12 +389,10 @@ public fun QuackUnderlineHeadLine2(
     onClick: (() -> Unit)? = null,
 ) {
     QuackText(
-        modifier = modifier
-            .wrapContentSize()
-            .quackClickable(
-                rippleEnabled = rippleEnabled,
-                onClick = onClick,
-            ),
+        modifier = modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ),
         annotatedText = rememberDecorationAnnotatedString(
             text = text,
             decorationTexts = underlineTexts,
@@ -457,12 +436,10 @@ public fun QuackUnderlineBody3(
     onClick: (() -> Unit)? = null,
 ) {
     QuackText(
-        modifier = modifier
-            .wrapContentSize()
-            .quackClickable(
-                rippleEnabled = rippleEnabled,
-                onClick = onClick,
-            ),
+        modifier = modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ),
         annotatedText = rememberDecorationAnnotatedString(
             text = text,
             decorationTexts = underlineTexts,
@@ -506,12 +483,10 @@ public fun QuackHighlightBody1(
     onClick: (() -> Unit)? = null,
 ) {
     QuackText(
-        modifier = modifier
-            .wrapContentSize()
-            .quackClickable(
-                rippleEnabled = rippleEnabled,
-                onClick = onClick,
-            ),
+        modifier = modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ),
         annotatedText = rememberDecorationAnnotatedString(
             text = text,
             decorationTexts = highlightTexts,
@@ -637,12 +612,10 @@ public fun QuackAnnotatedBody2(
     }
 
     QuackClickableText(
-        modifier = modifier
-            .wrapContentSize()
-            .quackClickable(
-                rippleEnabled = rippleEnabled,
-                onClick = onClick,
-            ),
+        modifier = modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ),
         clickEventTextInfo = highlightTextInfo,
         text = buildAnnotatedString {
             append(

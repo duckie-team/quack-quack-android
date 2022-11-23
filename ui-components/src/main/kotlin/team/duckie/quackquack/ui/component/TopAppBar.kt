@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
@@ -113,7 +112,6 @@ private object QuackTopAppBarDefaults {
         onIconClick: () -> Unit,
     ) {
         Row(
-            modifier = Modifier.wrapContentSize(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             QuackImage(
@@ -166,12 +164,10 @@ private object QuackTopAppBarDefaults {
             }
         }
         Row(
-            modifier = Modifier
-                .wrapContentSize()
-                .quackClickable(
-                    rippleEnabled = false,
-                    onClick = onClick,
-                ),
+            modifier = Modifier.quackClickable(
+                rippleEnabled = false,
+                onClick = onClick,
+            ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (showLogo == true) {
@@ -243,7 +239,6 @@ private object QuackTopAppBarDefaults {
             }
         }
         Row(
-            modifier = Modifier.wrapContentSize(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             text?.let {

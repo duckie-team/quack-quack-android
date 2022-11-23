@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -321,7 +319,7 @@ private fun QuackGrayscaleTagInternal(
         onClickWithIndex = onClickWithIndex,
     )
     QuackSurface(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
         backgroundColor = BackgroundColor,
         shape = Shape,
         onClick = onClick ?: onClickWithIndex?.let {
@@ -334,7 +332,6 @@ private fun QuackGrayscaleTagInternal(
         },
     ) {
         Row(
-            modifier = Modifier.wrapContentSize(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             QuackText(
@@ -426,7 +423,7 @@ private fun QuackCircleTagInternal(
     val hasTrailingIcon = trailingIcon != null
 
     QuackSurface(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
         backgroundColor = backgroundColorFor(
             isSelected = isSelected,
             hasTrailingIcon = hasTrailingIcon,
@@ -445,7 +442,6 @@ private fun QuackCircleTagInternal(
         },
     ) {
         Row(
-            modifier = Modifier.wrapContentSize(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             QuackText(
@@ -541,7 +537,7 @@ private fun QuackRoundTagInternal(
         onClickWithIndex = onClickWithIndex,
     )
     QuackSurface(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
         backgroundColor = BackgroundColor,
         shape = Shape,
         border = borderFor(
@@ -658,9 +654,7 @@ public fun QuackLazyVerticalGridTag(
         )
     }
     LazyColumn(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
+        modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(
             space = VerticalSpacedBy,
         ),
