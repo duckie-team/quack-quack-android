@@ -470,6 +470,7 @@ public fun QuackLargeButton(
             type = type,
         ),
         onClick = onClick,
+        rippleEnabled = enabled ?: true,
     )
 }
 
