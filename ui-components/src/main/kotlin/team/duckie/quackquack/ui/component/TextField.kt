@@ -52,6 +52,7 @@ import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.theme.LocalQuackTextFieldColors
 import team.duckie.quackquack.ui.util.DpSize
+import team.duckie.quackquack.ui.util.heightOrZero
 import team.duckie.quackquack.ui.util.npe
 import team.duckie.quackquack.ui.util.runIf
 
@@ -612,6 +613,7 @@ private object QuackTextFieldDefaults {
          *
          * @param state 입력된 글자 수
          * @param baseline 최대 입력 가능한 글자 수
+         * @param showClearButton 글자 초기화 버튼을 표시할지 여부
          * @param onCleared 글자 초기화 버튼을 눌렀을 때 호출될 콜백
          *
          * @return trailing content 에 배치되는 컴포저블
@@ -621,6 +623,7 @@ private object QuackTextFieldDefaults {
         fun TrailingContent(
             state: Int,
             baseline: Int,
+            showClearButton: Boolean,
             onCleared: () -> Unit,
         ): @Composable () -> Unit {
             // [요구 사항]
@@ -668,16 +671,18 @@ private object QuackTextFieldDefaults {
                         }
                         // TODO: 레이아웃을 안깨고 터치 영역을 늘릴 수 있는 방법을 모르겠다 ㅠㅠ
                         // clear button
-                        QuackImage(
-                            modifier = Modifier.layoutId(
-                                layoutId = TrailingClearButtonLayoutId,
-                            ),
-                            src = QuackIcon.Close,
-                            size = TrailingIconSize,
-                            tint = TrailingIconTint,
-                            rippleEnabled = false,
-                            onClick = onCleared,
-                        )
+                        if (showClearButton) {
+                            QuackImage(
+                                modifier = Modifier.layoutId(
+                                    layoutId = TrailingClearButtonLayoutId,
+                                ),
+                                src = QuackIcon.Close,
+                                size = TrailingIconSize,
+                                tint = TrailingIconTint,
+                                rippleEnabled = false,
+                                onClick = onCleared,
+                            )
+                        }
                     },
                 ) { measurables, constraints ->
                     val trailingCounterMeasurable = measurables.fastFirstOrNull { measurable ->
@@ -685,25 +690,30 @@ private object QuackTextFieldDefaults {
                     } ?: npe()
                     val trailingClearButtonMeasurable = measurables.fastFirstOrNull { measurable ->
                         measurable.layoutId == TrailingClearButtonLayoutId
-                    } ?: npe()
+                    }
 
                     val trailingCounterPlaceable = trailingCounterMeasurable.measure(
                         constraints = constraints,
                     )
-                    val trailingClearButtonPlaceable = trailingClearButtonMeasurable.measure(
+                    val trailingClearButtonPlaceable = trailingClearButtonMeasurable?.measure(
                         constraints = constraints,
                     )
 
                     val maxWidth = trailingCounterPlaceable.width
-                        .plus(
-                            other = trailingClearButtonPlaceable.width,
-                        )
-                        .plus(
-                            other = TrailingContentGap.roundToPx(),
-                        )
+                        .runIf(
+                            condition = trailingClearButtonPlaceable != null,
+                        ) {
+                            this
+                                .plus(
+                                    other = trailingClearButtonPlaceable!!.width,
+                                )
+                                .plus(
+                                    other = TrailingContentGap.roundToPx(),
+                                )
+                        }
                     val maxHeight = maxOf(
                         a = trailingCounterPlaceable.height,
-                        b = trailingClearButtonPlaceable.height,
+                        b = trailingClearButtonPlaceable.heightOrZero(),
                     )
 
                     layout(
@@ -713,7 +723,9 @@ private object QuackTextFieldDefaults {
                         when (state == 0) { // isEmpty
                             true -> { // counter 만 표시
                                 trailingCounterPlaceable.place(
-                                    x = trailingClearButtonPlaceable.width + TrailingContentGap.roundToPx(),
+                                    x = trailingClearButtonPlaceable?.width?.plus(
+                                        other = TrailingContentGap.roundToPx(),
+                                    ) ?: 0,
                                     y = Alignment.CenterVertically.align(
                                         size = trailingCounterPlaceable.height,
                                         space = maxHeight,
@@ -728,7 +740,7 @@ private object QuackTextFieldDefaults {
                                         space = maxHeight,
                                     ),
                                 )
-                                trailingClearButtonPlaceable.place(
+                                trailingClearButtonPlaceable?.place(
                                     x = trailingCounterPlaceable.width + TrailingContentGap.roundToPx(),
                                     y = Alignment.CenterVertically.align(
                                         size = trailingClearButtonPlaceable.height,
@@ -1121,11 +1133,10 @@ public fun QuackBasic2TextField(
  * [QuackProfileTextField] 는 크게 다음과 같은 특징을 갖습니다.
  *
  * 1. underline 이 컴포넌트 하단에 표시됩니다.
- * 2. 항상 [QuackIcon.Close] 을 trailing icon 으로 표시합니다.
+ * 2. 선택적으로 [QuackIcon.Close] 을 trailing icon 으로 표시합니다.
  * 3. 입력된 텍스트의 Counter 를 trailing text 로 항상 표시합니다.
  * 4. 항상 [KeyboardType.Text] 타입의 키보드를 사용합니다.
- * 5. 입력 가능한 최대 글자 수를 받습니다.
- * 만약 이 수를 넘어섰다면 에러 텍스트를 표시합니다.
+ * 5. 입력 가능한 최대 글자 수를 받습니다. 만약 이 수를 넘어섰다면 에러 텍스트를 표시합니다.
  * 6. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
@@ -1134,7 +1145,8 @@ public fun QuackBasic2TextField(
  * @param onTextChanged 새로운 텍스트가 입력됐을 때 호출될 람다
  * @param placeholderText 텍스트가 입력되지 않았을 때 표시할 텍스트
  * @param errorText 최대 입력 가능한 글자 수를 넘었을 때 표시할 에러 텍스트
- * @param onCleared trailing content 가 클릭됐을 때 호출될 람다
+ * @param showClearButton trailing content 에 clear icon 을 배치할지 여부
+ * @param onCleared clear icon 이 클릭됐을 때 호출될 람다
  * @param imeAction 키보드 옵션
  * @param keyboardActions 키보드 액션
  */
@@ -1146,6 +1158,7 @@ public fun QuackProfileTextField(
     placeholderText: String,
     maxLength: Int,
     errorText: String,
+    showClearButton: Boolean = false,
     onCleared: () -> Unit,
     imeAction: ImeAction = ImeAction.Done,
     keyboardActions: KeyboardActions = KeyboardActions(),
@@ -1221,6 +1234,7 @@ public fun QuackProfileTextField(
                     trailingContent = TrailingContent(
                         state = text.length,
                         baseline = maxLength,
+                        showClearButton = showClearButton,
                         onCleared = onCleared,
                     ),
                 )
