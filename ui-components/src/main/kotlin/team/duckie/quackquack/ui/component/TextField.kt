@@ -44,7 +44,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastFirstOrNull
 import androidx.compose.ui.zIndex
-import team.duckie.quackquack.ui.animation.QuackAnimatedContent
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
@@ -636,113 +635,105 @@ private object QuackTextFieldDefaults {
             // gone 하고 원래 가로 길이만큼 추가 start 패딩을 갖는 식으로 구현해야 함
 
             return {
-                QuackAnimatedContent(
-                    modifier = Modifier
-                        .padding(
-                            paddingValues = TrailingContentPadding,
-                        ),
-                    targetState = state == 0,
-                ) { isEmpty ->
-                    Layout(
-                        content = {
-                            // counter, counter 는 전체 애니메이션 X
-                            Row(
-                                modifier = Modifier.layoutId(
-                                    layoutId = TrailingCounterLayoutId,
-                                ),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(
-                                    space = TrailingCountingTextGap,
-                                ),
-                            ) {
-                                Text(
-                                    text = state.toString(),
-                                    style = trailingCountingStateTextTypographyFor(
-                                        isEmpty = state == 0,
-                                    ).asComposeStyle(),
-                                    maxLines = 1,
-                                )
-                                Text(
-                                    text = "/",
-                                    style = TrailingCountingtBaselineTexTypograhy.asComposeStyle(),
-                                    maxLines = 1,
-                                )
-                                Text(
-                                    text = baseline.toString(),
-                                    style = TrailingCountingtBaselineTexTypograhy.asComposeStyle(),
-                                    maxLines = 1,
+                // counter, counter 는 전체 애니메이션 X
+                Layout(
+                    content = {
+                        Row(
+                            modifier = Modifier.layoutId(
+                                layoutId = TrailingCounterLayoutId,
+                            ),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(
+                                space = TrailingCountingTextGap,
+                            ),
+                        ) {
+                            Text(
+                                text = state.toString(),
+                                style = trailingCountingStateTextTypographyFor(
+                                    isEmpty = state == 0,
+                                ).asComposeStyle(),
+                                maxLines = 1,
+                            )
+                            Text(
+                                text = "/",
+                                style = TrailingCountingtBaselineTexTypograhy.asComposeStyle(),
+                                maxLines = 1,
+                            )
+                            Text(
+                                text = baseline.toString(),
+                                style = TrailingCountingtBaselineTexTypograhy.asComposeStyle(),
+                                maxLines = 1,
+                            )
+                        }
+                        // TODO: 레이아웃을 안깨고 터치 영역을 늘릴 수 있는 방법을 모르겠다 ㅠㅠ
+                        // clear button
+                        QuackImage(
+                            modifier = Modifier.layoutId(
+                                layoutId = TrailingClearButtonLayoutId,
+                            ),
+                            src = QuackIcon.Close,
+                            size = TrailingIconSize,
+                            tint = TrailingIconTint,
+                            rippleEnabled = false,
+                            onClick = onCleared,
+                        )
+                    },
+                ) { measurables, constraints ->
+                    val trailingCounterMeasurable = measurables.fastFirstOrNull { measurable ->
+                        measurable.layoutId == TrailingCounterLayoutId
+                    } ?: npe()
+                    val trailingClearButtonMeasurable = measurables.fastFirstOrNull { measurable ->
+                        measurable.layoutId == TrailingClearButtonLayoutId
+                    } ?: npe()
+
+                    val trailingCounterPlaceable = trailingCounterMeasurable.measure(
+                        constraints = constraints,
+                    )
+                    val trailingClearButtonPlaceable = trailingClearButtonMeasurable.measure(
+                        constraints = constraints,
+                    )
+
+                    val maxWidth = trailingCounterPlaceable.width
+                        .plus(
+                            other = trailingClearButtonPlaceable.width,
+                        )
+                        .plus(
+                            other = TrailingContentGap.roundToPx(),
+                        )
+                    val maxHeight = maxOf(
+                        a = trailingCounterPlaceable.height,
+                        b = trailingClearButtonPlaceable.height,
+                    )
+
+                    layout(
+                        width = maxWidth,
+                        height = maxHeight,
+                    ) {
+                        when (state == 0) { // isEmpty
+                            true -> { // counter 만 표시
+                                trailingCounterPlaceable.place(
+                                    x = trailingClearButtonPlaceable.width + TrailingContentGap.roundToPx(),
+                                    y = Alignment.CenterVertically.align(
+                                        size = trailingCounterPlaceable.height,
+                                        space = maxHeight,
+                                    ),
                                 )
                             }
-                            // TODO: 레이아웃을 안깨고 터치 영역을 늘릴 수 있는 방법을 모르겠다 ㅠㅠ
-                            // clear button
-                            QuackImage(
-                                modifier = Modifier.layoutId(
-                                    layoutId = TrailingClearButtonLayoutId,
-                                ),
-                                src = QuackIcon.Close,
-                                size = TrailingIconSize,
-                                tint = TrailingIconTint,
-                                rippleEnabled = false,
-                                onClick = onCleared,
-                            )
-                        },
-                    ) { measurables, constraints ->
-                        val trailingCounterMeasurable = measurables.fastFirstOrNull { measurable ->
-                            measurable.layoutId == TrailingCounterLayoutId
-                        } ?: npe()
-                        val trailingClearButtonMeasurable = measurables.fastFirstOrNull { measurable ->
-                            measurable.layoutId == TrailingClearButtonLayoutId
-                        } ?: npe()
-
-                        val trailingCounterPlaceable = trailingCounterMeasurable.measure(
-                            constraints = constraints,
-                        )
-                        val trailingClearButtonPlaceable = trailingClearButtonMeasurable.measure(
-                            constraints = constraints,
-                        )
-
-                        val maxWidth = trailingCounterPlaceable.width
-                            .plus(
-                                other = trailingClearButtonPlaceable.width,
-                            )
-                            .plus(
-                                other = TrailingContentGap.roundToPx(),
-                            )
-                        val maxHeight = maxOf(
-                            a = trailingCounterPlaceable.height,
-                            b = trailingClearButtonPlaceable.height,
-                        )
-
-                        layout(
-                            width = maxWidth,
-                            height = maxHeight,
-                        ) {
-                            when (isEmpty) {
-                                true -> { // counter 만 표시
-                                    trailingCounterPlaceable.place(
-                                        x = trailingClearButtonPlaceable.width + TrailingContentGap.roundToPx(),
-                                        y = Alignment.CenterVertically.align(
-                                            size = trailingCounterPlaceable.height,
-                                            space = maxHeight,
-                                        ),
-                                    )
-                                }
-                                else -> { // counter, clear button 모두 표시
-                                    trailingCounterPlaceable.place(
-                                        x = 0,
-                                        y = Alignment.CenterVertically.align(
-                                            size = trailingCounterPlaceable.height,
-                                            space = maxHeight,
-                                        ),
-                                    )
-                                    trailingClearButtonPlaceable.place(
-                                        x = trailingCounterPlaceable.width + TrailingContentGap.roundToPx(),
-                                        y = Alignment.CenterVertically.align(
-                                            size = trailingClearButtonPlaceable.height,
-                                            space = maxHeight,
-                                        ),
-                                    )
-                                }
+                            else -> { // counter, clear button 모두 표시
+                                trailingCounterPlaceable.place(
+                                    x = 0,
+                                    y = Alignment.CenterVertically.align(
+                                        size = trailingCounterPlaceable.height,
+                                        space = maxHeight,
+                                    ),
+                                )
+                                trailingClearButtonPlaceable.place(
+                                    x = trailingCounterPlaceable.width + TrailingContentGap.roundToPx(),
+                                    y = Alignment.CenterVertically.align(
+                                        size = trailingClearButtonPlaceable.height,
+                                        space = maxHeight,
+                                    ),
+                                )
                             }
                         }
                     }
