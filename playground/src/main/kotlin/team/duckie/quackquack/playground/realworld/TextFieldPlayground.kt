@@ -17,7 +17,7 @@ import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.component.QuackBasic2TextField
 import team.duckie.quackquack.ui.component.QuackBasicTextField
 import team.duckie.quackquack.ui.component.QuackPriceTextField
-import team.duckie.quackquack.ui.component.QuackProfileTextField
+import team.duckie.quackquack.ui.component.QuackErrorableTextField
 import team.duckie.quackquack.ui.icon.QuackIcon
 
 class TextFieldPlayground : PlaygroundActivity(
@@ -77,7 +77,7 @@ fun QuackBasic2TextFieldDemo() {
 fun QuackProfileTextFieldDemo() {
     val (text, setText) = remember { mutableStateOf("") }
 
-    QuackProfileTextField(
+    QuackErrorableTextField(
         text = text,
         onTextChanged = setText,
         placeholderText = "MaxLength: 5",

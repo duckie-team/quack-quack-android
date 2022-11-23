@@ -415,7 +415,7 @@ private object QuackTextFieldDefaults {
         }
     }
 
-    object Profile {
+    object Errorable {
         val InputTextPadding = PaddingValues(
             top = 16.dp,
             bottom = 8.dp,
@@ -1130,7 +1130,7 @@ public fun QuackBasic2TextField(
 
 /**
  * 닉네임 입력에 사용되는 TextField 를 그립니다.
- * [QuackProfileTextField] 는 크게 다음과 같은 특징을 갖습니다.
+ * [QuackErrorableTextField] 는 크게 다음과 같은 특징을 갖습니다.
  *
  * 1. underline 이 컴포넌트 하단에 표시됩니다.
  * 2. 선택적으로 [QuackIcon.Close] 을 trailing icon 으로 표시합니다.
@@ -1144,6 +1144,7 @@ public fun QuackBasic2TextField(
  * @param text 표시할 텍스트
  * @param onTextChanged 새로운 텍스트가 입력됐을 때 호출될 람다
  * @param placeholderText 텍스트가 입력되지 않았을 때 표시할 텍스트
+ * @param isError 현재 에러 상태에 있는지 여부
  * @param errorText 최대 입력 가능한 글자 수를 넘었을 때 표시할 에러 텍스트
  * @param showClearButton trailing content 에 clear icon 을 배치할지 여부
  * @param onCleared clear icon 이 클릭됐을 때 호출될 람다
@@ -1151,26 +1152,26 @@ public fun QuackBasic2TextField(
  * @param keyboardActions 키보드 액션
  */
 @Composable
-public fun QuackProfileTextField(
+public fun QuackErrorableTextField(
     modifier: Modifier = Modifier,
     text: String,
     onTextChanged: (text: String) -> Unit,
     placeholderText: String,
     maxLength: Int,
+    isError: Boolean,
     errorText: String,
     showClearButton: Boolean = false,
     onCleared: () -> Unit,
     imeAction: ImeAction = ImeAction.Done,
     keyboardActions: KeyboardActions = KeyboardActions(),
 ): Unit = with(
-    receiver = QuackTextFieldDefaults.Profile,
+    receiver = QuackTextFieldDefaults.Errorable,
 ) {
     val quackTextFieldColors = LocalQuackTextFieldColors.current
 
     // 리컴포지션이 되는 메인 조건은 Text 가 바뀌었을 때인데 그러면
     // 어차피 항상 재계산 되므로 굳이 remember 를 할 필요가 없음
     val isPlaceholder = text.isEmpty()
-    val isError = text.length > maxLength
 
     // 애니메이션 적용 X
     val inputTypography = remember(
