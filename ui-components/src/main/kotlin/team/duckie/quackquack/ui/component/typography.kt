@@ -596,7 +596,7 @@ public fun QuackAnnotatedBody2(
                     targetTextClickEvent?.let {
                         // ClickEventTextInfo 데이터 추가
                         add(
-                            element = HighlightTextInfo(
+                            element = QuackHighlightTextInfo(
                                 text = targetText,
                                 startIndex = realStartIndex,
                                 endIndex = realEndIndex,
@@ -668,7 +668,7 @@ public fun QuackAnnotatedBody2(
  * @param endIndex 전체 텍스트 내에서 onClick 이벤트가 실행되는 마지막 index
  * @param onClick 실행할 클릭 이벤트 (null 일 시 이벤트 없음)
  */
-internal data class HighlightTextInfo(
+public data class QuackHighlightTextInfo(
     val text: String,
     val startIndex: Int,
     val endIndex: Int,
