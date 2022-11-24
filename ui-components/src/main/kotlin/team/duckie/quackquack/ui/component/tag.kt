@@ -5,8 +5,11 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
  */
 
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,6 +18,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.layout.LazyLayout
@@ -601,13 +605,16 @@ private fun quackTagInternalAssert(
 /**
  * [LazyVerticalGrid] 형식으로 주어진 태그들을 배치합니다.
  * 이 컴포넌트는 항상 상위 컴포저블의 가로 길이만큼 width 가 지정되고,
- * (즉, 좌우 패딩이 허용되지 않습니다) 한 줄에 최대 2개가 들어갈 수 있습니다.
+ * (즉, 좌우 패딩이 허용되지 않습니다) 한 줄에 최대 [itemChunkedSize]개가 들어갈 수 있습니다.
  * 또한 가로와 세로 스크롤을 모두 지원합니다.
  *
  * 퍼포먼스 측면에서 [LazyLayout] 를 사용하는 것이 좋지만, 덕키의 경우
  * 표시해야 하는 태그의 개수가 많지 않기 때문에 컴포저블을 직접 그려도
  * 성능에 중대한 영향을 미치지 않을 것으로 판단하여 [LazyColumn] 과
  * [Row] + [Modifier.horizontalScroll] 를 사용하여 구현하였습니다.
+ *
+ * 한 줄에 single line 으로 여러 태그가 배치돼야 하는 경우엔 [LazyRow] 를 이용하여
+ * 직접 구현해야 합니다.
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param title 상단에 표시될 제목. 만약 null 을 제공할 시 표시되지 않습니다.
@@ -711,12 +718,14 @@ public fun QuackLazyVerticalGridTag(
                     ) {
                         when (this) {
                             is QuackTagType.Grayscale -> QuackGrayscaleTagInternal(
+                                modifier = Modifier.animateItemPlacement(),
                                 text = item,
                                 trailingText = trailingText,
                                 actualIndex = currentIndex,
                                 onClickWithIndex = onClick,
                             )
                             is QuackTagType.Circle -> QuackCircleTagInternal(
+                                modifier = Modifier.animateItemPlacement(),
                                 text = item,
                                 trailingIcon = trailingIcon,
                                 isSelected = isSelected,
@@ -724,6 +733,7 @@ public fun QuackLazyVerticalGridTag(
                                 onClickWithIndex = onClick,
                             )
                             QuackTagType.Round -> QuackRoundTagInternal(
+                                modifier = Modifier.animateItemPlacement(),
                                 text = item,
                                 isSelected = isSelected,
                                 actualIndex = currentIndex,
