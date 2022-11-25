@@ -16,7 +16,11 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -28,6 +32,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import team.duckie.quackquack.ui.border.QuackBorder
@@ -449,8 +454,21 @@ public fun QuackLargeButton(
         }
     }
 
+    val imeInsets = WindowInsets.ime
+    val navigationBarInsets = WindowInsets.navigationBars
+
     QuackBasicButton(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .offset {
+                val imeHeight = imeInsets.getBottom(this)
+                val nagivationBarHeight = navigationBarInsets.getBottom(this)
+                // ime height 에 navigation height 가 포함되는 것으로 추측됨
+                val yOffset = imeHeight
+                    .minus(nagivationBarHeight)
+                    .coerceAtLeast(0)
+                IntOffset(x = 0, y = -yOffset)
+            },
         shape = Shape,
         leadingContent = LeadingContent(
             leadingIcon = leadingIcon,
