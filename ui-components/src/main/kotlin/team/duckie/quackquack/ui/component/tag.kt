@@ -40,6 +40,7 @@ import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.DpSize
+import team.duckie.quackquack.ui.util.NoPadding
 import team.duckie.quackquack.ui.util.runIf
 import team.duckie.quackquack.ui.util.runtimeCheck
 
@@ -638,7 +639,7 @@ private fun quackTagInternalAssert(
 @Composable
 public fun QuackLazyVerticalGridTag(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
+    contentPadding: PaddingValues = NoPadding,
     title: String? = null,
     items: List<String>,
     itemSelections: List<Boolean>? = null,
