@@ -415,6 +415,10 @@ private object QuackButtonDefaults {
  * 2. 자동으로 모든 영역에 애니메이션이 적용됩니다. (IME 포함)
  * 3. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
  *
+ * - IME 애니메이션을 적용하기 위해선 해당 액티비티의 `windowSoftInputMode` 가
+ *   `adjustResize` 로 설정되어 있어야 합니다.
+ * `
+ *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param type 이 버튼의 사용 사례에 적합한 버튼 타입
  * @param text 버튼에 표시될 텍스트
