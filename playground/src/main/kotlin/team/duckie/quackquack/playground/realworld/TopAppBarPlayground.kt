@@ -21,6 +21,7 @@ class TopAppBarPlayground : PlaygroundActivity(
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
         ::QuackTopAppBarTypeLogoAndIconsDemo.name to { QuackTopAppBarTypeLogoAndIconsDemo() },
         ::QuackTopAppBarTypeTextDemo.name to { QuackTopAppBarTypeTextDemo() },
+        ::QuackTopAppBarOnlyLeadingContentsDemo.name to { QuackTopAppBarOnlyLeadingContentsDemo() },
     )
 }
 
@@ -50,8 +51,20 @@ fun QuackTopAppBarTypeTextDemo() {
         leadingText = "Heart",
         onLeadingIconClick = { toast("Heart clicked") },
         centerText = "DUCKIE!",
+        centerTextTrailingIcon = QuackIcon.ArrowDown,
         onCenterClick = { toast("Logo clicked") },
         trailingText = "trailing",
         onTrailingTextClick = { toast("trailing clicked") },
+    )
+}
+
+@Composable
+fun QuackTopAppBarOnlyLeadingContentsDemo() {
+    val toast = rememberToast()
+
+    QuackTopAppBar(
+        leadingIcon = QuackIcon.Heart,
+        leadingText = "Heart",
+        onLeadingIconClick = { toast("Heart clicked") },
     )
 }

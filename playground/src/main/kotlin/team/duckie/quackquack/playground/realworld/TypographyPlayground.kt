@@ -7,7 +7,9 @@
 
 package team.duckie.quackquack.playground.realworld
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.PlaygroundActivity
@@ -19,6 +21,7 @@ import team.duckie.quackquack.ui.component.QuackBody3
 import team.duckie.quackquack.ui.component.QuackHeadLine1
 import team.duckie.quackquack.ui.component.QuackHeadLine2
 import team.duckie.quackquack.ui.component.QuackHighlightBody1
+import team.duckie.quackquack.ui.component.QuackSplashSlogan
 import team.duckie.quackquack.ui.component.QuackSubtitle
 import team.duckie.quackquack.ui.component.QuackSubtitle2
 import team.duckie.quackquack.ui.component.QuackTitle1
@@ -30,6 +33,7 @@ class TypographyPlayground : PlaygroundActivity(
     name = "Typography",
 ) {
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
+        ::QuackSplashSloganDemo.name to { QuackSplashSloganDemo() },
         ::QuackHeadLine1Demo.name to { QuackHeadLine1Demo() },
         ::QuackHeadLine2Demo.name to { QuackHeadLine2Demo() },
         ::QuackTitle1Demo.name to { QuackTitle1Demo() },
@@ -43,6 +47,17 @@ class TypographyPlayground : PlaygroundActivity(
         ::QuackUnderlineBody3Demo.name to { QuackUnderlineBody3Demo() },
         ::QuackHighlightBody1Demo.name to { QuackHighlightBody1Demo() },
         ::QuackAnnotatedBody2Demo.name to { QuackAnnotatedBody2Demo() },
+    )
+}
+
+@Composable
+fun QuackSplashSloganDemo() {
+    val toast = rememberToast()
+
+    QuackSplashSlogan(
+        text = "QuackSplashSlogan + 30.dp padding (for click area test)",
+        onClick = { toast("QuackSplashSlogan") },
+        padding = PaddingValues(30.dp),
     )
 }
 

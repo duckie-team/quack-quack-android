@@ -29,7 +29,8 @@ class TextFieldPlayground : PlaygroundActivity(
         ::QuackBasicTextFieldDemo.name to { QuackBasicTextFieldDemo() },
         ::QuackPriceTextFieldDemo.name to { QuackPriceTextFieldDemo() },
         ::QuackBasic2TextFieldDemo.name to { QuackBasic2TextFieldDemo() },
-        ::QuackProfileTextFieldDemo.name to { QuackProfileTextFieldDemo() },
+        ::QuackErrorableTextFieldDemo.name to { QuackErrorableTextFieldDemo() },
+        ::QuackErrorableTextFieldWithoutClearButtonDemo.name to { QuackErrorableTextFieldWithoutClearButtonDemo() },
     )
 }
 
@@ -76,7 +77,7 @@ fun QuackBasic2TextFieldDemo() {
 }
 
 @Composable
-fun QuackProfileTextFieldDemo() {
+fun QuackErrorableTextFieldDemo() {
     val (text, setText) = remember { mutableStateOf("") }
     val isError by remember {
         derivedStateOf {
@@ -91,6 +92,26 @@ fun QuackProfileTextFieldDemo() {
         maxLength = 5,
         isError = isError,
         errorText = "ErrorText",
+        showClearButton = true,
         onCleared = { setText("") },
+    )
+}
+
+@Composable
+fun QuackErrorableTextFieldWithoutClearButtonDemo() {
+    val (text, setText) = remember { mutableStateOf("") }
+    val isError by remember {
+        derivedStateOf {
+            text.length > 5
+        }
+    }
+
+    QuackErrorableTextField(
+        text = text,
+        onTextChanged = setText,
+        placeholderText = "MaxLength: 5",
+        maxLength = 5,
+        isError = isError,
+        errorText = "ErrorText",
     )
 }
