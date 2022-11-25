@@ -79,18 +79,13 @@ fun QuackBasic2TextFieldDemo() {
 @Composable
 fun QuackErrorableTextFieldDemo() {
     val (text, setText) = remember { mutableStateOf("") }
-    val isError by remember {
-        derivedStateOf {
-            text.length > 5
-        }
-    }
 
     QuackErrorableTextField(
         text = text,
         onTextChanged = setText,
         placeholderText = "MaxLength: 5",
         maxLength = 5,
-        isError = isError,
+        isError = text.length > 5,
         errorText = "ErrorText",
         showClearButton = true,
         onCleared = { setText("") },
@@ -100,18 +95,13 @@ fun QuackErrorableTextFieldDemo() {
 @Composable
 fun QuackErrorableTextFieldWithoutClearButtonDemo() {
     val (text, setText) = remember { mutableStateOf("") }
-    val isError by remember {
-        derivedStateOf {
-            text.length > 5
-        }
-    }
 
     QuackErrorableTextField(
         text = text,
         onTextChanged = setText,
         placeholderText = "MaxLength: 5",
         maxLength = 5,
-        isError = isError,
+        isError = text.length > 5,
         errorText = "ErrorText",
     )
 }
