@@ -62,8 +62,8 @@ public var QuackAlwaysShowRipple: Boolean by mutableStateOf(
 public fun Modifier.quackClickable(
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor? = null,
-    onClick: (() -> Unit)?,
     onLongClick: (() -> Unit)? = null,
+    onClick: (() -> Unit)?,
 ): Modifier = runIf(
     condition = onClick != null,
 ) {
