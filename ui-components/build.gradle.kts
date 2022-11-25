@@ -36,6 +36,9 @@ android {
 
         // FIXME: https://github.com/duckie-team/quack-quack-android/issues/368
         disable.add("SpecifyAnimationSpec")
+
+        // FIXME: https://github.com/duckie-team/quack-quack-android/issues/383
+        disable.add("TrailingComma")
     }
 }
 
