@@ -28,6 +28,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
 import kotlinx.collections.immutable.ImmutableList
@@ -614,12 +615,15 @@ private fun quackTagInternalAssert(
  * [Row] + [Modifier.horizontalScroll] 를 사용하여 구현하였습니다.
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
+ * @param contentPadding 이 컴포넌트의 광역에 적용될 [PaddingValues]
  * @param title 상단에 표시될 제목. 만약 null 을 제공할 시 표시되지 않습니다.
  * @param items 표시할 태그들의 제목. **중복되는 태그 제목은 허용하지 않습니다.**
  * 이 항목은 바뀔 수 있으므로 [ImmutableList] 가 아닌 일반 [List] 로 받습니다.
  * @param itemSelections 태그들의 선택 여부.
  * 이 항목은 바뀔 수 있으므로 [ImmutableList] 가 아닌 [List] 로 받습니다.
  * @param itemChunkedSize 한 칸에 들어갈 최대 아이템의 개수
+ * @param horizontalSpace 아이템들의 가로 간격
+ * @param verticalSpace 아이템들의 세로 간격
  * @param tagType [QuackLazyVerticalGridTag] 에서 표시할 태그의 타입을 지정합니다.
  * 여러 종류의 태그가 [QuackLazyVerticalGridTag] 으로 표시될 수 있게 태그의 타입을 따로 받습니다.
  * @param key a factory of stable and unique keys representing the item. Using the same key
@@ -634,10 +638,13 @@ private fun quackTagInternalAssert(
 @Composable
 public fun QuackLazyVerticalGridTag(
     modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
     title: String? = null,
     items: List<String>,
     itemSelections: List<Boolean>? = null,
     itemChunkedSize: Int,
+    horizontalSpace: Dp = QuackTagDefaults.LazyTag.HorizontalSpacedBy,
+    verticalSpace: Dp = QuackTagDefaults.LazyTag.VerticalSpacedBy,
     tagType: QuackTagType,
     key: ((
         index: Int,
@@ -666,8 +673,9 @@ public fun QuackLazyVerticalGridTag(
     }
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
+        contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(
-            space = VerticalSpacedBy,
+            space = horizontalSpace,
         ),
     ) {
         if (title != null) {
@@ -702,7 +710,7 @@ public fun QuackLazyVerticalGridTag(
                         state = rememberScrollState(),
                     ),
                 horizontalArrangement = Arrangement.spacedBy(
-                    space = HorizontalSpacedBy,
+                    space = verticalSpace,
                 ),
             ) {
                 rowItems.fastForEachIndexed { index, item ->
