@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.playground.realworld
 
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +24,7 @@ import team.duckie.quackquack.playground.base.PlaygroundActivity
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.component.QuackImage
 import team.duckie.quackquack.ui.component.QuackSelectableImage
+import team.duckie.quackquack.ui.component.QuackSelectableImageType
 import team.duckie.quackquack.ui.util.DpSize
 
 class ImagePlayground : PlaygroundActivity(
@@ -30,7 +32,8 @@ class ImagePlayground : PlaygroundActivity(
 ) {
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
         ::QuackImageDemo.name to { QuackImageDemo() },
-        ::QuackSelectableImageDemo.name to { QuackSelectableImageDemo() },
+        ::QuackSelectableImageTypeTopEndCheckboxDemo.name to { QuackSelectableImageTypeTopEndCheckboxDemo() },
+        ::QuackSelectableImageTypeCheckOverlayDemo.name to { QuackSelectableImageTypeCheckOverlayDemo() },
     )
 }
 
@@ -57,11 +60,12 @@ fun QuackImageDemo() {
         ),
         rippleEnabled = false,
         onClick = { toast("QuackImage clicked") },
+        onLongClick = { toast("QuackImage long clicked") },
     )
 }
 
 @Composable
-fun QuackSelectableImageDemo() {
+fun QuackSelectableImageTypeTopEndCheckboxDemo() {
     val context = LocalContext.current
     var selected by remember { mutableStateOf(false) }
 
@@ -75,6 +79,28 @@ fun QuackSelectableImageDemo() {
             all = 250.dp,
         ),
         isSelected = selected,
+        rippleEnabled = false,
+        onClick = { selected = !selected },
+    )
+}
+
+@Composable
+fun QuackSelectableImageTypeCheckOverlayDemo() {
+    val context = LocalContext.current
+    var selected by remember { mutableStateOf(false) }
+
+    QuackSelectableImage(
+        src = remember {
+            ContextCompat.getDrawable(
+                context, R.drawable.ic_quack,
+            )
+        },
+        size = DpSize(
+            all = 250.dp,
+        ),
+        shape = CircleShape,
+        isSelected = selected,
+        selectableType = QuackSelectableImageType.CheckOverlay,
         rippleEnabled = false,
         onClick = { selected = !selected },
     )

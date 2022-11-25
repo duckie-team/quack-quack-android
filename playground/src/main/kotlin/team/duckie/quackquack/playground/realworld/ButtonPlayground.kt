@@ -24,6 +24,8 @@ import team.duckie.quackquack.ui.component.QuackSmallButtonType
 import team.duckie.quackquack.ui.component.QuackToggleChip
 import team.duckie.quackquack.ui.icon.QuackIcon
 
+// TODO: IME 애니메이션 플레이그라운드 -> common 로직 변경하는 대공사 필요
+
 class ButtonPlayground : PlaygroundActivity(
     name = "Button",
 ) {

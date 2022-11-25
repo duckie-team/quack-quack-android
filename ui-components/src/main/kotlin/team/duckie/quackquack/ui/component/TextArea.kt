@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -274,7 +273,6 @@ public fun QuackBasicTextArea(
     BasicTextField(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
             .background(
                 color = BackgroundColor.composeColor,
             )

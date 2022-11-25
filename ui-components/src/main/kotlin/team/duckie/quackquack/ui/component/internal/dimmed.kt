@@ -12,17 +12,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.zIndex
-
-/**
- * QuackDimmed 를 그리는데 필요한 리소스들을 정의합니다.
- */
-private object QuackDimmedDefauts {
-    val BackgroundColor = Color.Black.copy(
-        alpha = 0.6f,
-    )
-}
+import team.duckie.quackquack.ui.color.QuackColor
 
 /**
  * Quack 에서 사용될 배경 dimmed 를 구현합니다.
@@ -38,15 +29,13 @@ private object QuackDimmedDefauts {
 internal fun QuackBackgroundDimmed(
     zIndex: Float = 0f,
     enabled: Boolean,
-) = with(
-    receiver = QuackDimmedDefauts,
 ) {
     if (enabled) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    color = BackgroundColor,
+                    color = QuackColor.Dimmed.composeColor,
                 )
                 .zIndex(
                     zIndex = zIndex,

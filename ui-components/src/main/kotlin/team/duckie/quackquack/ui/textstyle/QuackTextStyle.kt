@@ -47,7 +47,7 @@ import team.duckie.quackquack.ui.util.AllowMagicNumber
  * @param lineHeight 텍스트 줄 크기
  * @param textAlign 텍스트 align. 기본값은 Center 입니다.
  */
-// animateQuackTextStyleAsState() 있어서 internal constructor
+// animatedQuackTextStyleAsState 있어서 internal constructor
 public class QuackTextStyle internal constructor(
     public val color: QuackColor = QuackColor.Black,
     public val size: TextUnit,
@@ -112,6 +112,17 @@ public class QuackTextStyle internal constructor(
     }
 
     public companion object {
+        /**
+         * 덕키 스플래시 화면의 슬로건에 쓰이는 특이 케이스의 TextStyle
+         */
+        public val SplashSlogan: QuackTextStyle = QuackTextStyle(
+            size = 24.sp,
+            weight = FontWeight.Bold,
+            letterSpacing = 0.sp,
+            lineHeight = 32.sp,
+            textAlign = TextAlign.Left,
+        )
+
         public val HeadLine1: QuackTextStyle = QuackTextStyle(
             size = 20.sp,
             weight = FontWeight.Bold,

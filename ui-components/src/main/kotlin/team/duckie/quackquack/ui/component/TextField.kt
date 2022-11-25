@@ -10,10 +10,7 @@
 package team.duckie.quackquack.ui.component
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,8 +20,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -46,7 +41,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastFirstOrNull
 import androidx.compose.ui.zIndex
-import team.duckie.quackquack.ui.animation.QuackAnimatedContent
+import team.duckie.quackquack.ui.animation.QuackAnimatedVisibility
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackText
@@ -57,8 +52,10 @@ import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.theme.LocalQuackTextFieldColors
 import team.duckie.quackquack.ui.util.DpSize
+import team.duckie.quackquack.ui.util.heightOrZero
 import team.duckie.quackquack.ui.util.npe
 import team.duckie.quackquack.ui.util.runIf
+import team.duckie.quackquack.ui.util.runtimeCheck
 
 /**
  * QuackTextField 의 리소스 모음
@@ -240,7 +237,6 @@ private object QuackTextFieldDefaults {
                 {
                     QuackText(
                         modifier = Modifier
-                            .wrapContentSize()
                             .quackClickable(
                                 rippleEnabled = false,
                                 onClick = onClick,
@@ -420,7 +416,7 @@ private object QuackTextFieldDefaults {
         }
     }
 
-    object Profile {
+    object Errorable {
         val InputTextPadding = PaddingValues(
             top = 16.dp,
             bottom = 8.dp,
@@ -591,7 +587,6 @@ private object QuackTextFieldDefaults {
             // QuackText X
             Text(
                 modifier = Modifier
-                    .wrapContentSize()
                     .padding(
                         paddingValues = ErrorTextPadding,
                     )
@@ -619,6 +614,7 @@ private object QuackTextFieldDefaults {
          *
          * @param state 입력된 글자 수
          * @param baseline 최대 입력 가능한 글자 수
+         * @param showClearButton 글자 초기화 버튼을 표시할지 여부
          * @param onCleared 글자 초기화 버튼을 눌렀을 때 호출될 콜백
          *
          * @return trailing content 에 배치되는 컴포저블
@@ -628,7 +624,8 @@ private object QuackTextFieldDefaults {
         fun TrailingContent(
             state: Int,
             baseline: Int,
-            onCleared: () -> Unit,
+            showClearButton: Boolean,
+            onCleared: (() -> Unit)?,
         ): @Composable () -> Unit {
             // [요구 사항]
             // 기본적으로 profile text field 의 trailing content 는 2개로 나뉨
@@ -640,49 +637,42 @@ private object QuackTextFieldDefaults {
             // gone 하고 원래 가로 길이만큼 추가 start 패딩을 갖는 식으로 구현해야 함
 
             return {
-                QuackAnimatedContent(
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .padding(
-                            paddingValues = TrailingContentPadding,
-                        ),
-                    targetState = state == 0,
-                ) { isEmpty ->
-                    Layout(
-                        modifier = Modifier.wrapContentSize(),
-                        content = {
-                            // counter
-                            Row(
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .layoutId(
-                                        layoutId = TrailingCounterLayoutId,
-                                    ),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(
-                                    space = TrailingCountingTextGap,
-                                ),
-                            ) {
-                                QuackText(
-                                    text = state.toString(),
-                                    style = trailingCountingStateTextTypographyFor(
-                                        isEmpty = state == 0,
-                                    ),
-                                    singleLine = true,
-                                )
-                                QuackText(
-                                    text = "/",
-                                    style = TrailingCountingtBaselineTexTypograhy,
-                                    singleLine = true,
-                                )
-                                QuackText(
-                                    text = baseline,
-                                    style = TrailingCountingtBaselineTexTypograhy,
-                                    singleLine = true,
-                                )
-                            }
-                            // TODO: 레이아웃을 안깨고 터치 영역을 늘릴 수 있는 방법을 모르겠다 ㅠㅠ
-                            // clear button
+                // counter, counter 는 전체 애니메이션 X
+                Layout(
+                    modifier = Modifier.padding(
+                        paddingValues = TrailingContentPadding,
+                    ),
+                    content = {
+                        Row(
+                            modifier = Modifier.layoutId(
+                                layoutId = TrailingCounterLayoutId,
+                            ),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(
+                                space = TrailingCountingTextGap,
+                            ),
+                        ) {
+                            Text(
+                                text = state.toString(),
+                                style = trailingCountingStateTextTypographyFor(
+                                    isEmpty = state == 0,
+                                ).asComposeStyle(),
+                                maxLines = 1,
+                            )
+                            Text(
+                                text = "/",
+                                style = TrailingCountingtBaselineTexTypograhy.asComposeStyle(),
+                                maxLines = 1,
+                            )
+                            Text(
+                                text = baseline.toString(),
+                                style = TrailingCountingtBaselineTexTypograhy.asComposeStyle(),
+                                maxLines = 1,
+                            )
+                        }
+                        // TODO: 레이아웃을 안깨고 터치 영역을 늘릴 수 있는 방법을 모르겠다 ㅠㅠ
+                        // clear button
+                        if (showClearButton) {
                             QuackImage(
                                 modifier = Modifier.layoutId(
                                     layoutId = TrailingClearButtonLayoutId,
@@ -691,66 +681,73 @@ private object QuackTextFieldDefaults {
                                 size = TrailingIconSize,
                                 tint = TrailingIconTint,
                                 rippleEnabled = false,
-                                onClick = onCleared,
+                                onClick = onCleared!!, // must non-null
                             )
-                        },
-                    ) { measurables, constraints ->
-                        val trailingCounterMeasurable = measurables.fastFirstOrNull { measurable ->
-                            measurable.layoutId == TrailingCounterLayoutId
-                        } ?: npe()
-                        val trailingClearButtonMeasurable = measurables.fastFirstOrNull { measurable ->
-                            measurable.layoutId == TrailingClearButtonLayoutId
-                        } ?: npe()
+                        }
+                    },
+                ) { measurables, constraints ->
+                    val trailingCounterMeasurable = measurables.fastFirstOrNull { measurable ->
+                        measurable.layoutId == TrailingCounterLayoutId
+                    } ?: npe()
+                    val trailingClearButtonMeasurable = measurables.fastFirstOrNull { measurable ->
+                        measurable.layoutId == TrailingClearButtonLayoutId
+                    }
 
-                        val trailingCounterPlaceable = trailingCounterMeasurable.measure(
-                            constraints = constraints,
-                        )
-                        val trailingClearButtonPlaceable = trailingClearButtonMeasurable.measure(
-                            constraints = constraints,
-                        )
+                    val trailingCounterPlaceable = trailingCounterMeasurable.measure(
+                        constraints = constraints,
+                    )
+                    val trailingClearButtonPlaceable = trailingClearButtonMeasurable?.measure(
+                        constraints = constraints,
+                    )
 
-                        val maxWidth = trailingCounterPlaceable.width
-                            .plus(
-                                other = trailingClearButtonPlaceable.width,
-                            )
-                            .plus(
-                                other = TrailingContentGap.roundToPx(),
-                            )
-                        val maxHeight = maxOf(
-                            a = trailingCounterPlaceable.height,
-                            b = trailingClearButtonPlaceable.height,
-                        )
-
-                        layout(
-                            width = maxWidth,
-                            height = maxHeight,
+                    val maxWidth = trailingCounterPlaceable.width
+                        .runIf(
+                            condition = trailingClearButtonPlaceable != null,
                         ) {
-                            when (isEmpty) {
-                                true -> { // counter 만 표시
-                                    trailingCounterPlaceable.place(
-                                        x = trailingClearButtonPlaceable.width + TrailingContentGap.roundToPx(),
-                                        y = Alignment.CenterVertically.align(
-                                            size = trailingCounterPlaceable.height,
-                                            space = maxHeight,
-                                        ),
-                                    )
-                                }
-                                else -> { // counter, clear button 모두 표시
-                                    trailingCounterPlaceable.place(
-                                        x = 0,
-                                        y = Alignment.CenterVertically.align(
-                                            size = trailingCounterPlaceable.height,
-                                            space = maxHeight,
-                                        ),
-                                    )
-                                    trailingClearButtonPlaceable.place(
-                                        x = trailingCounterPlaceable.width + TrailingContentGap.roundToPx(),
-                                        y = Alignment.CenterVertically.align(
-                                            size = trailingClearButtonPlaceable.height,
-                                            space = maxHeight,
-                                        ),
-                                    )
-                                }
+                            this
+                                .plus(
+                                    other = trailingClearButtonPlaceable!!.width,
+                                )
+                                .plus(
+                                    other = TrailingContentGap.roundToPx(),
+                                )
+                        }
+                    val maxHeight = maxOf(
+                        a = trailingCounterPlaceable.height,
+                        b = trailingClearButtonPlaceable.heightOrZero(),
+                    )
+
+                    layout(
+                        width = maxWidth,
+                        height = maxHeight,
+                    ) {
+                        when (state == 0) { // isEmpty
+                            true -> { // counter 만 표시
+                                trailingCounterPlaceable.place(
+                                    x = trailingClearButtonPlaceable?.width?.plus(
+                                        other = TrailingContentGap.roundToPx(),
+                                    ) ?: 0,
+                                    y = Alignment.CenterVertically.align(
+                                        size = trailingCounterPlaceable.height,
+                                        space = maxHeight,
+                                    ),
+                                )
+                            }
+                            else -> { // counter, clear button 모두 표시
+                                trailingCounterPlaceable.place(
+                                    x = 0,
+                                    y = Alignment.CenterVertically.align(
+                                        size = trailingCounterPlaceable.height,
+                                        space = maxHeight,
+                                    ),
+                                )
+                                trailingClearButtonPlaceable?.place(
+                                    x = trailingCounterPlaceable.width + TrailingContentGap.roundToPx(),
+                                    y = Alignment.CenterVertically.align(
+                                        size = trailingClearButtonPlaceable.height,
+                                        space = maxHeight,
+                                    ),
+                                )
                             }
                         }
                     }
@@ -871,7 +868,6 @@ public fun QuackBasicTextField(
     BasicTextField(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
             .drawAnimatedLine(
                 thickness = UnderlineHeight,
                 color = UnderlineColor,
@@ -971,7 +967,6 @@ public fun QuackPriceTextField(
     BasicTextField(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
             .drawAnimatedLine(
                 thickness = UnderlineHeight,
                 color = UnderlineColor,
@@ -1081,7 +1076,6 @@ public fun QuackBasic2TextField(
     BasicTextField(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
             .drawAnimatedLine(
                 thickness = UnderlineHeight,
                 color = UnderlineColor,
@@ -1137,14 +1131,13 @@ public fun QuackBasic2TextField(
 
 /**
  * 닉네임 입력에 사용되는 TextField 를 그립니다.
- * [QuackProfileTextField] 는 크게 다음과 같은 특징을 갖습니다.
+ * [QuackErrorableTextField] 는 크게 다음과 같은 특징을 갖습니다.
  *
  * 1. underline 이 컴포넌트 하단에 표시됩니다.
- * 2. 항상 [QuackIcon.Close] 을 trailing icon 으로 표시합니다.
+ * 2. 선택적으로 [QuackIcon.Close] 을 trailing icon 으로 표시합니다.
  * 3. 입력된 텍스트의 Counter 를 trailing text 로 항상 표시합니다.
  * 4. 항상 [KeyboardType.Text] 타입의 키보드를 사용합니다.
- * 5. 입력 가능한 최대 글자 수를 받습니다.
- * 만약 이 수를 넘어섰다면 에러 텍스트를 표시합니다.
+ * 5. 입력 가능한 최대 글자 수를 받습니다. 만약 이 수를 넘어섰다면 에러 텍스트를 표시합니다.
  * 6. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
@@ -1152,31 +1145,40 @@ public fun QuackBasic2TextField(
  * @param text 표시할 텍스트
  * @param onTextChanged 새로운 텍스트가 입력됐을 때 호출될 람다
  * @param placeholderText 텍스트가 입력되지 않았을 때 표시할 텍스트
+ * @param isError 현재 에러 상태에 있는지 여부
  * @param errorText 최대 입력 가능한 글자 수를 넘었을 때 표시할 에러 텍스트
- * @param onCleared trailing content 가 클릭됐을 때 호출될 람다
+ * @param showClearButton trailing content 에 clear icon 을 배치할지 여부
+ * @param onCleared clear icon 이 클릭됐을 때 호출될 람다
  * @param imeAction 키보드 옵션
  * @param keyboardActions 키보드 액션
  */
 @Composable
-public fun QuackProfileTextField(
+public fun QuackErrorableTextField(
     modifier: Modifier = Modifier,
     text: String,
     onTextChanged: (text: String) -> Unit,
     placeholderText: String,
     maxLength: Int,
+    isError: Boolean,
     errorText: String,
-    onCleared: () -> Unit,
+    showClearButton: Boolean = false,
+    onCleared: (() -> Unit)? = null,
     imeAction: ImeAction = ImeAction.Done,
     keyboardActions: KeyboardActions = KeyboardActions(),
 ): Unit = with(
-    receiver = QuackTextFieldDefaults.Profile,
+    receiver = QuackTextFieldDefaults.Errorable,
 ) {
+    if (showClearButton) {
+        runtimeCheck(onCleared != null) {
+            "onCleared must not be null when showClearButton is true"
+        }
+    }
+
     val quackTextFieldColors = LocalQuackTextFieldColors.current
 
     // 리컴포지션이 되는 메인 조건은 Text 가 바뀌었을 때인데 그러면
     // 어차피 항상 재계산 되므로 굳이 remember 를 할 필요가 없음
     val isPlaceholder = text.isEmpty()
-    val isError = text.length > maxLength
 
     // 애니메이션 적용 X
     val inputTypography = remember(
@@ -1188,12 +1190,11 @@ public fun QuackProfileTextField(
     }
 
     Column(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
     ) {
         BasicTextField(
             modifier = modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
                 .drawAnimatedLine(
                     thickness = UnderlineHeight,
                     color = underlineColorFor(
@@ -1241,31 +1242,26 @@ public fun QuackProfileTextField(
                     trailingContent = TrailingContent(
                         state = text.length,
                         baseline = maxLength,
+                        showClearButton = showClearButton,
                         onCleared = onCleared,
                     ),
                 )
             },
         )
-        Box(
-            modifier = Modifier.wrapContentSize(),
-        ) {
+        Box {
             ErrorText(
                 text = errorText,
                 visible = false,
             )
-            this@Column.AnimatedVisibility(
+            QuackAnimatedVisibility(
                 visible = isError,
                 modifier = Modifier.zIndex(
                     zIndex = 2f,
                 ),
-                enter = fadeIn(
-                    animationSpec = QuackAnimationSpec(),
-                ) + expandVertically(
+                otherEnterAnimation = expandVertically(
                     animationSpec = QuackAnimationSpec(),
                 ),
-                exit = fadeOut(
-                    animationSpec = QuackAnimationSpec(),
-                ) + shrinkVertically(
+                otherExitAnimation = shrinkVertically(
                     animationSpec = QuackAnimationSpec(),
                 ),
             ) {

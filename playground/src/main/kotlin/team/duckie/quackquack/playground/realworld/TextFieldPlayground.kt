@@ -8,6 +8,8 @@
 package team.duckie.quackquack.playground.realworld
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import kotlinx.collections.immutable.ImmutableList
@@ -16,8 +18,8 @@ import team.duckie.quackquack.playground.base.PlaygroundActivity
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.component.QuackBasic2TextField
 import team.duckie.quackquack.ui.component.QuackBasicTextField
+import team.duckie.quackquack.ui.component.QuackErrorableTextField
 import team.duckie.quackquack.ui.component.QuackPriceTextField
-import team.duckie.quackquack.ui.component.QuackProfileTextField
 import team.duckie.quackquack.ui.icon.QuackIcon
 
 class TextFieldPlayground : PlaygroundActivity(
@@ -27,7 +29,8 @@ class TextFieldPlayground : PlaygroundActivity(
         ::QuackBasicTextFieldDemo.name to { QuackBasicTextFieldDemo() },
         ::QuackPriceTextFieldDemo.name to { QuackPriceTextFieldDemo() },
         ::QuackBasic2TextFieldDemo.name to { QuackBasic2TextFieldDemo() },
-        ::QuackProfileTextFieldDemo.name to { QuackProfileTextFieldDemo() },
+        ::QuackErrorableTextFieldDemo.name to { QuackErrorableTextFieldDemo() },
+        ::QuackErrorableTextFieldWithoutClearButtonDemo.name to { QuackErrorableTextFieldWithoutClearButtonDemo() },
     )
 }
 
@@ -74,15 +77,41 @@ fun QuackBasic2TextFieldDemo() {
 }
 
 @Composable
-fun QuackProfileTextFieldDemo() {
+fun QuackErrorableTextFieldDemo() {
     val (text, setText) = remember { mutableStateOf("") }
+    val isError by remember {
+        derivedStateOf {
+            text.length > 5
+        }
+    }
 
-    QuackProfileTextField(
+    QuackErrorableTextField(
         text = text,
         onTextChanged = setText,
         placeholderText = "MaxLength: 5",
         maxLength = 5,
+        isError = isError,
         errorText = "ErrorText",
+        showClearButton = true,
         onCleared = { setText("") },
+    )
+}
+
+@Composable
+fun QuackErrorableTextFieldWithoutClearButtonDemo() {
+    val (text, setText) = remember { mutableStateOf("") }
+    val isError by remember {
+        derivedStateOf {
+            text.length > 5
+        }
+    }
+
+    QuackErrorableTextField(
+        text = text,
+        onTextChanged = setText,
+        placeholderText = "MaxLength: 5",
+        maxLength = 5,
+        isError = isError,
+        errorText = "ErrorText",
     )
 }

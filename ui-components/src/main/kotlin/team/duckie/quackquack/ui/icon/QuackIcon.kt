@@ -30,6 +30,10 @@ public value class QuackIcon private constructor(
             drawableId = R.drawable.quack_duckie_text_logo,
         )
 
+        public val Check: QuackIcon = QuackIcon(
+            drawableId = R.drawable.quack_ic_check_24,
+        )
+
         public val Share: QuackIcon = QuackIcon(
             drawableId = R.drawable.quack_ic_share_24,
         )

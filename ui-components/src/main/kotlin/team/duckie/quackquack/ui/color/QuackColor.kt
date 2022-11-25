@@ -105,6 +105,12 @@ public value class QuackColor internal constructor(
             ),
         )
 
+        public val Dimmed: QuackColor = QuackColor(
+            composeColor = Color.Black.copy(
+                alpha = 0.6f,
+            ),
+        )
+
         public val Gray1: QuackColor = QuackColor(
             composeColor = Color(
                 color = 0xFF666666,

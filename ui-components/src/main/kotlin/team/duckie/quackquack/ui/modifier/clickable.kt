@@ -5,9 +5,12 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
  */
 
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package team.duckie.quackquack.ui.modifier
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.getValue
@@ -45,11 +48,13 @@ public var QuackAlwaysShowRipple: Boolean by mutableStateOf(
  * 이 [Modifier] 는 꽥꽥 컴포넌트의 중간 단계에서도 사용될 수 있으므로
  * 기본값이 정의됬습니다.
  *
- * @param onClick 컴포넌트가 클릭됐을 때 실행할 람다식.
- * null 이 들어오면 clickable 을 설정하지 않습니다.
  * @param rippleEnabled 리플을 설정할지 여부
  * @param rippleColor 표시될 리플의 색상.
  * null 이 들어오면 [Color.Unspecified] 를 사용합니다.
+ * @param onClick 컴포넌트가 클릭됐을 때 실행할 람다식.
+ * null 이 들어오면 clickable 을 설정하지 않습니다.
+ * @param onLongClick 컴포넌트가 길게 클릭됐을 떄 실행할 람다식.
+ * null 이 들어오면 long-clickable 을 설정하지 않습니다.
  *
  * @return clickable 속성이 적용된 [Modifier]
  */
@@ -57,13 +62,15 @@ public var QuackAlwaysShowRipple: Boolean by mutableStateOf(
 public fun Modifier.quackClickable(
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor? = null,
+    onLongClick: (() -> Unit)? = null,
     onClick: (() -> Unit)?,
 ): Modifier = runIf(
     condition = onClick != null,
 ) {
     composed {
-        clickable(
+        combinedClickable(
             onClick = onClick!!,
+            onLongClick = onLongClick,
             indication = rememberRipple(
                 color = rippleColor?.composeColor ?: Color.Unspecified,
             ).takeIf {

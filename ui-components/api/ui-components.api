@@ -9,6 +9,10 @@ public final class team/duckie/quackquack/ui/animation/QuackAnimatedContentKt {
 	public static final fun QuackAnimatedContent (Landroidx/compose/ui/Modifier;Ljava/lang/Object;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 }
 
+public final class team/duckie/quackquack/ui/animation/QuackAnimatedVisibilityKt {
+	public static final fun QuackAnimatedVisibility (Landroidx/compose/ui/Modifier;ZLjava/lang/String;Landroidx/compose/animation/EnterTransition;Landroidx/compose/animation/ExitTransition;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+}
+
 public final class team/duckie/quackquack/ui/animation/QuackAnimationSpec {
 	public static final field $stable I
 	public static final field INSTANCE Lteam/duckie/quackquack/ui/animation/QuackAnimationSpec;
