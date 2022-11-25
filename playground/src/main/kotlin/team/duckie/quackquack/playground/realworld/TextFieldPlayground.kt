@@ -8,8 +8,6 @@
 package team.duckie.quackquack.playground.realworld
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import kotlinx.collections.immutable.ImmutableList
@@ -76,6 +74,8 @@ fun QuackBasic2TextFieldDemo() {
     )
 }
 
+private const val MaxLength = 5
+
 @Composable
 fun QuackErrorableTextFieldDemo() {
     val (text, setText) = remember { mutableStateOf("") }
@@ -83,9 +83,9 @@ fun QuackErrorableTextFieldDemo() {
     QuackErrorableTextField(
         text = text,
         onTextChanged = setText,
-        placeholderText = "MaxLength: 5",
-        maxLength = 5,
-        isError = text.length > 5,
+        placeholderText = "MaxLength: $MaxLength",
+        maxLength = MaxLength,
+        isError = text.length > MaxLength,
         errorText = "ErrorText",
         showClearButton = true,
         onCleared = { setText("") },
@@ -99,9 +99,9 @@ fun QuackErrorableTextFieldWithoutClearButtonDemo() {
     QuackErrorableTextField(
         text = text,
         onTextChanged = setText,
-        placeholderText = "MaxLength: 5",
-        maxLength = 5,
-        isError = text.length > 5,
+        placeholderText = "MaxLength: $MaxLength",
+        maxLength = MaxLength,
+        isError = text.length > MaxLength,
         errorText = "ErrorText",
     )
 }

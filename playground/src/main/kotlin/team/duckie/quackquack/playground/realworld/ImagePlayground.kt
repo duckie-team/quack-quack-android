@@ -30,6 +30,7 @@ import team.duckie.quackquack.ui.util.DpSize
 class ImagePlayground : PlaygroundActivity(
     name = "Image",
 ) {
+    @Suppress("MaxLineLength")
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
         ::QuackImageDemo.name to { QuackImageDemo() },
         ::QuackSelectableImageTypeTopEndCheckboxDemo.name to { QuackSelectableImageTypeTopEndCheckboxDemo() },
