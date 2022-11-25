@@ -32,6 +32,53 @@ import team.duckie.quackquack.ui.util.Empty
 import team.duckie.quackquack.ui.util.runIf
 
 // [Note] @NonRestartableComposable 안한 이유: 인자로 받은 Text 는 동적으로 바뀔 수 있음
+// TODO: 중복 코드 제거
+
+/**
+ * [QuackText] 에 [QuackTextStyle.SplashSlogan] 스타일을 적용하여
+ * 주어진 텍스트를 표시합니다.
+ *
+ * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
+ * @param text 표시할 텍스트
+ * @param color 텍스트의 색상
+ * @param align 텍스트 정렬
+ * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
+ * @param singleLine 텍스트 표시에 한 줄만 사용할지 여부
+ * @param overflow 텍스트를 한 줄에 표시할 수 없을 때 표시 방식
+ * @param onClick 텍스트가 클릭됐을 때 실행할 람다식
+ */
+@Composable
+public fun QuackSplashSlogan(
+    modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
+    text: String,
+    color: QuackColor = QuackColor.Black,
+    align: TextAlign = TextAlign.Start,
+    rippleEnabled: Boolean = false,
+    singleLine: Boolean = false,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
+    onClick: (() -> Unit)? = null,
+): Unit = QuackText(
+    modifier = modifier
+        .quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
+    text = text,
+    style = QuackTextStyle.SplashSlogan.change(
+        color = color,
+        textAlign = align,
+    ),
+    singleLine = singleLine,
+    overflow = overflow,
+)
 
 /**
  * [QuackText] 에 [QuackTextStyle.HeadLine1] 스타일을 적용하여
