@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.layout.LazyLayout
@@ -607,8 +608,7 @@ private fun quackTagInternalAssert(
 /**
  * [LazyVerticalGrid] 형식으로 주어진 태그들을 배치합니다.
  * 이 컴포넌트는 항상 상위 컴포저블의 가로 길이만큼 width 가 지정되고,
- * (즉, 좌우 패딩이 허용되지 않습니다) 한 줄에 최대 [itemChunkedSize]개가 들어갈 수 있습니다.
- * 또한 가로와 세로 스크롤을 모두 지원합니다.
+ * 한 줄에 최대 [itemChunkedSize]개가 들어갈 수 있습니다. 또한 가로와 세로 스크롤을 모두 지원합니다.
  *
  * 퍼포먼스 측면에서 [LazyLayout] 를 사용하는 것이 좋지만, 덕키의 경우
  * 표시해야 하는 태그의 개수가 많지 않기 때문에 컴포저블을 직접 그려도
@@ -633,6 +633,9 @@ private fun quackTagInternalAssert(
  * When you specify the key the scroll position will be maintained based on the key, which
  * means if you add/remove items before the current visible item the item with the given key
  * will be kept as the first visible one.
+ * @param contentType a factory of the content types for the item. The item compositions of
+ * the same type could be reused more efficiently. Note that null is a valid type and items of such
+ * type will be considered compatible.
  * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다.
  * 람다식의 인자로는 선택된 태그의 index 가 들어옵니다.
  */
@@ -647,13 +650,9 @@ public fun QuackLazyVerticalGridTag(
     horizontalSpace: Dp = QuackTagDefaults.LazyTag.HorizontalSpacedBy,
     verticalSpace: Dp = QuackTagDefaults.LazyTag.VerticalSpacedBy,
     tagType: QuackTagType,
-    key: ((
-        index: Int,
-        items: List<String>,
-    ) -> Any)? = null,
-    onClick: (
-        index: Int,
-    ) -> Unit,
+    key: ((index: Int, items: List<String>) -> Any)? = null,
+    contentType: (index: Int, items: List<String>) -> Any? = { _, _ -> null },
+    onClick: (index: Int) -> Unit,
 ): Unit = with(
     receiver = QuackTagDefaults.LazyTag,
 ) {
@@ -693,16 +692,8 @@ public fun QuackLazyVerticalGridTag(
         }
         itemsIndexed(
             items = chunkedItems,
-            key = { index: Int, items: List<String> ->
-                key!!.invoke(
-                    /* index = */
-                    index,
-                    /* items = */
-                    items,
-                )
-            }.takeIf {
-                key != null
-            },
+            key = key,
+            contentType = contentType,
         ) { rowIndex, rowItems ->
             Row(
                 modifier = Modifier
@@ -753,6 +744,110 @@ public fun QuackLazyVerticalGridTag(
                             )
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * [LazyRow] 형식으로 주어진 태그들을 **한 줄로** 배치합니다.
+ * 이 컴포넌트는 항상 상위 컴포저블의 가로 길이만큼 width 가 지정됩니다.
+ *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
+ * @param contentPadding 이 컴포넌트의 광역에 적용될 [PaddingValues]
+ * @param title 상단에 표시될 제목. 만약 null 을 제공할 시 표시되지 않습니다.
+ * @param items 표시할 태그들의 제목. **중복되는 태그 제목은 허용하지 않습니다.**
+ * 이 항목은 바뀔 수 있으므로 [ImmutableList] 가 아닌 일반 [List] 로 받습니다.
+ * @param itemSelections 태그들의 선택 여부.
+ * 이 항목은 바뀔 수 있으므로 [ImmutableList] 가 아닌 [List] 로 받습니다.
+ * @param horizontalSpace 아이템들의 가로 간격
+ * @param tagType [QuackLazyVerticalGridTag] 에서 표시할 태그의 타입을 지정합니다.
+ * 여러 종류의 태그가 [QuackLazyVerticalGridTag] 으로 표시될 수 있게 태그의 타입을 따로 받습니다.
+ * @param key a factory of stable and unique keys representing the item. Using the same key
+ * for multiple items in the list is not allowed. Type of the key should be saveable
+ * via Bundle on Android. If null is passed the position in the list will represent the key.
+ * When you specify the key the scroll position will be maintained based on the key, which
+ * means if you add/remove items before the current visible item the item with the given key
+ * will be kept as the first visible one.
+ * @param contentType a factory of the content types for the item. The item compositions of
+ * the same type could be reused more efficiently. Note that null is a valid type and items of such
+ * type will be considered compatible.
+ * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다.
+ * 람다식의 인자로는 선택된 태그의 index 가 들어옵니다.
+ */
+@Composable
+public fun QuackSingeLazyRowTag(
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = NoPadding,
+    title: String? = null,
+    items: List<String>,
+    itemSelections: List<Boolean>? = null,
+    horizontalSpace: Dp = QuackTagDefaults.LazyTag.HorizontalSpacedBy,
+    tagType: QuackTagType,
+    key: ((index: Int, item: String) -> Any)? = null,
+    contentType: (index: Int, item: String) -> Any? = { _, _ -> null },
+    onClick: (index: Int) -> Unit,
+): Unit = with(QuackTagDefaults.LazyTag) {
+    if (itemSelections != null) {
+        runtimeCheck(
+            value = items.size == itemSelections.size,
+        ) {
+            "The size of items and the size of itemsSelection must always be the same. " +
+                    "[items.size (${items.size}) != itemsSelection.size (${itemSelections.size})]"
+        }
+    }
+    LazyRow(
+        modifier = modifier.fillMaxWidth(),
+        contentPadding = contentPadding,
+        horizontalArrangement = Arrangement.spacedBy(space = horizontalSpace),
+    ) {
+        if (title != null) {
+            item {
+                QuackText(
+                    modifier = Modifier.padding(bottom = TitleSpacedBy),
+                    text = title,
+                    style = TitleTypogrphy,
+                    singleLine = true,
+                )
+            }
+        }
+        itemsIndexed(
+            items = items,
+            key = key,
+            contentType = contentType,
+        ) { index, item ->
+            val isSelected = itemSelections?.get(index) ?: false
+            with(tagType) {
+                when (this) {
+                    is QuackTagType.Grayscale -> QuackGrayscaleTagInternal(
+                        modifier = Modifier.animateItemPlacement(
+                            animationSpec = QuackAnimationSpec(),
+                        ),
+                        text = item,
+                        trailingText = trailingText,
+                        actualIndex = index,
+                        onClickWithIndex = onClick,
+                    )
+                    is QuackTagType.Circle -> QuackCircleTagInternal(
+                        modifier = Modifier.animateItemPlacement(
+                            animationSpec = QuackAnimationSpec(),
+                        ),
+                        text = item,
+                        trailingIcon = trailingIcon,
+                        isSelected = isSelected,
+                        actualIndex = index,
+                        onClickWithIndex = onClick,
+                    )
+                    QuackTagType.Round -> QuackRoundTagInternal(
+                        modifier = Modifier.animateItemPlacement(
+                            animationSpec = QuackAnimationSpec(),
+                        ),
+                        text = item,
+                        isSelected = isSelected,
+                        actualIndex = index,
+                        onClickWithIndex = onClick,
+                    )
                 }
             }
         }

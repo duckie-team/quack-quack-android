@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 
@@ -39,6 +40,8 @@ private object QuackGridDefaults {
  * @param modifier the modifier to apply to this layout
  * @param items the data list
  * @param state the state object to be used to control or observe the list's state
+ * @param verticalSpacing the vertical spacing between items
+ * @param horizontalSpacing the horizontal spacing between items
  * @param key a factory of stable and unique keys representing the item. Using the same key
  * for multiple items in the grid is not allowed. Type of the key should be saveable
  * via Bundle on Android. If null is passed the position in the grid will represent the key.
@@ -58,6 +61,8 @@ public fun <T> QuackGridLayout(
     modifier: Modifier = Modifier,
     items: ImmutableList<T>,
     state: LazyGridState = rememberLazyGridState(),
+    verticalSpacing: Dp = QuackGridDefaults.VerticalGap,
+    horizontalSpacing: Dp = QuackGridDefaults.HorizontalGap,
     key: ((index: Int, item: T) -> Any)? = null,
     span: (LazyGridItemSpanScope.(index: Int, item: T) -> GridItemSpan)? = null,
     contentType: (index: Int, item: T) -> Any? = { _, _ -> null },
@@ -72,10 +77,10 @@ public fun <T> QuackGridLayout(
             count = MaxComponentCountsForLine
         ),
         verticalArrangement = Arrangement.spacedBy(
-            space = VerticalGap,
+            space = verticalSpacing,
         ),
         horizontalArrangement = Arrangement.spacedBy(
-            space = HorizontalGap,
+            space = horizontalSpacing,
         ),
     ) {
         itemsIndexed(
