@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -394,9 +395,8 @@ public fun QuackSelectableImage(
     QuackSurface(
         modifier = modifier,
         shape = shape,
-        border = borderFor(
-            isSelected = isSelected,
-        ),
+        border = borderFor(isSelected = isSelected)
+            .takeIf { selectableType == TopEndCheckBox },
         rippleEnabled = rippleEnabled,
         onClick = onClick,
         contentAlignment = Alignment.TopEnd,
@@ -428,7 +428,9 @@ public fun QuackSelectableImage(
                     visible = isSelected,
                 ) {
                     Box(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = QuackColor.Dimmed.composeColor),
                         contentAlignment = Alignment.Center,
                     ) {
                         QuackImage(

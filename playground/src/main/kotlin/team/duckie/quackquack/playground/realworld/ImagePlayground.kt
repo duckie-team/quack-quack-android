@@ -33,7 +33,7 @@ class ImagePlayground : PlaygroundActivity(
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
         ::QuackImageDemo.name to { QuackImageDemo() },
         ::QuackSelectableImageTypeTopEndCheckboxDemo.name to { QuackSelectableImageTypeTopEndCheckboxDemo() },
-        ::QuackSelectableImageTypeCheckOverlayDemo.name to { QuackSelectableImageTypeCheckOverlayDemo() },
+        ::QuackSelectableImageTypeCheckOverlayWithRoundingDemo.name to { QuackSelectableImageTypeCheckOverlayWithRoundingDemo() },
     )
 }
 
@@ -85,7 +85,7 @@ fun QuackSelectableImageTypeTopEndCheckboxDemo() {
 }
 
 @Composable
-fun QuackSelectableImageTypeCheckOverlayDemo() {
+fun QuackSelectableImageTypeCheckOverlayWithRoundingDemo() {
     val context = LocalContext.current
     var selected by remember { mutableStateOf(false) }
 
