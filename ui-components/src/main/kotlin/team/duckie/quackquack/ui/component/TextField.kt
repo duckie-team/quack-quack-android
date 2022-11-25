@@ -55,6 +55,7 @@ import team.duckie.quackquack.ui.util.DpSize
 import team.duckie.quackquack.ui.util.heightOrZero
 import team.duckie.quackquack.ui.util.npe
 import team.duckie.quackquack.ui.util.runIf
+import team.duckie.quackquack.ui.util.runtimeCheck
 
 /**
  * QuackTextField 의 리소스 모음
@@ -624,7 +625,7 @@ private object QuackTextFieldDefaults {
             state: Int,
             baseline: Int,
             showClearButton: Boolean,
-            onCleared: () -> Unit,
+            onCleared: (() -> Unit)?,
         ): @Composable () -> Unit {
             // [요구 사항]
             // 기본적으로 profile text field 의 trailing content 는 2개로 나뉨
@@ -680,7 +681,7 @@ private object QuackTextFieldDefaults {
                                 size = TrailingIconSize,
                                 tint = TrailingIconTint,
                                 rippleEnabled = false,
-                                onClick = onCleared,
+                                onClick = onCleared!!, // must non-null
                             )
                         }
                     },
@@ -1161,12 +1162,18 @@ public fun QuackErrorableTextField(
     isError: Boolean,
     errorText: String,
     showClearButton: Boolean = false,
-    onCleared: () -> Unit,
+    onCleared: (() -> Unit)? = null,
     imeAction: ImeAction = ImeAction.Done,
     keyboardActions: KeyboardActions = KeyboardActions(),
 ): Unit = with(
     receiver = QuackTextFieldDefaults.Errorable,
 ) {
+    if (showClearButton) {
+        runtimeCheck(onCleared != null) {
+            "onCleared must not be null when showClearButton is true"
+        }
+    }
+
     val quackTextFieldColors = LocalQuackTextFieldColors.current
 
     // 리컴포지션이 되는 메인 조건은 Text 가 바뀌었을 때인데 그러면
