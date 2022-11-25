@@ -9,6 +9,7 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -34,12 +35,16 @@ import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import team.duckie.quackquack.ui.animation.QuackAnimatedContent
+import team.duckie.quackquack.ui.animation.QuackAnimatedVisibility
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.color.animateQuackColorAsState
+import team.duckie.quackquack.ui.component.QuackSelectableImageType.CheckOverlay
+import team.duckie.quackquack.ui.component.QuackSelectableImageType.TopEndCheckBox
 import team.duckie.quackquack.ui.component.internal.QuackSurface
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
+import team.duckie.quackquack.ui.util.DpSize
 import team.duckie.quackquack.ui.util.runIf
 import team.duckie.quackquack.ui.util.runtimeCheck
 
@@ -81,7 +86,7 @@ private object QuackImageDefaults {
     @Suppress("unused")
     object Deletion {
         val Icon = QuackIcon.Delete
-        val IconSize = team.duckie.quackquack.ui.util.DpSize(
+        val IconSize = DpSize(
             all = 10.dp,
         )
 
@@ -89,7 +94,7 @@ private object QuackImageDefaults {
         val IconContainerBackgroundColor = QuackColor.Black.change(
             alpha = 0.5f
         )
-        val IconContainerSize = team.duckie.quackquack.ui.util.DpSize(
+        val IconContainerSize = DpSize(
             all = 16.dp,
         )
     }
@@ -335,6 +340,27 @@ private fun QuackColor.toColorFilter(): ColorFilter? {
 }
 
 /**
+ * [QuackSelectableImage] 에서 selection 이 표시될 방식을 나타냅니다.
+ *
+ * @property TopEndCheckBox 오른쪽 상단에 [QuackRoundCheckBox] 로 표시
+ * @property CheckOverlay 이미지 전체에 [QuackIcon.Check] 로 오버레이 표시 및
+ * [QuackColor.Dimmed] 로 dimmed 처리
+ *
+ * @param size 만약 [CheckOverlay] 방식일 때 [QuackIcon.Check] 의 사이즈
+ * @param tint 만약 [CheckOverlay] 방식일 때 [QuackIcon.Check] 의 틴트
+ */
+public sealed class QuackSelectableImageType(
+    internal val size: DpSize? = null,
+    internal val tint: QuackColor? = null,
+) {
+    public object TopEndCheckBox : QuackSelectableImageType()
+    public object CheckOverlay : QuackSelectableImageType(
+        size = DpSize(all = 28.dp),
+        tint = QuackColor.White,
+    )
+}
+
+/**
  * 오른쪽 상단에 체크박스와 함께 이미지 혹은 [QuackIcon] 을 표시합니다.
  *
  * @param modifier 이 컴포저블에서 사용할 [Modifier]
@@ -342,6 +368,8 @@ private fun QuackColor.toColorFilter(): ColorFilter? {
  * @param src 표시할 리소스. 만약 null 이 들어온다면 리소스를 그리지 않습니다.
  * @param size 리소스의 크기를 지정합니다. null 이 들어오면 기본 크기로 표시합니다.
  * @param tint 적용할 틴트 값
+ * @param shape 컴포넌트의 모양
+ * @param selectableType selection 이 표시될 방식
  * @param rippleEnabled 클릭됐을 때 ripple 발생 여부
  * @param onClick 클릭됐을 때 실행할 람다식
  * @param contentScale 적용할 content scale 정책
@@ -354,6 +382,8 @@ public fun QuackSelectableImage(
     src: Any?,
     size: DpSize? = null,
     tint: QuackColor? = null,
+    shape: Shape = QuackImageDefaults.SelectableImage.Shape,
+    selectableType: QuackSelectableImageType = TopEndCheckBox,
     rippleEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
     contentScale: ContentScale = ContentScale.FillBounds,
@@ -363,26 +393,52 @@ public fun QuackSelectableImage(
 ) {
     QuackSurface(
         modifier = modifier,
-        shape = Shape,
+        shape = shape,
         border = borderFor(
             isSelected = isSelected,
         ),
-        contentAlignment = Alignment.TopEnd,
         rippleEnabled = rippleEnabled,
         onClick = onClick,
+        contentAlignment = Alignment.TopEnd,
     ) {
-        QuackRoundCheckBox(
-            modifier = Modifier.padding(
-                paddingValues = Margin,
-            ),
-            checked = isSelected,
-        )
         QuackImage(
+            modifier = Modifier.zIndex(1f),
             src = src,
             size = size,
             tint = tint,
             contentScale = contentScale,
             contentDescription = contentDescription,
         )
+        when (selectableType) {
+            TopEndCheckBox -> {
+                QuackRoundCheckBox(
+                    modifier = Modifier
+                        .padding(
+                            paddingValues = Margin,
+                        )
+                        .zIndex(2f),
+                    checked = isSelected,
+                )
+            }
+            CheckOverlay -> {
+                QuackAnimatedVisibility(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .zIndex(2f),
+                    visible = isSelected,
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        QuackImage(
+                            src = QuackIcon.Check,
+                            size = selectableType.size!!,
+                            tint = selectableType.tint!!,
+                        )
+                    }
+                }
+            }
+        }
     }
 }
