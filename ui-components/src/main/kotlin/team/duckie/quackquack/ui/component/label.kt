@@ -9,7 +9,6 @@ package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -98,7 +97,7 @@ public fun QuackLabel(
     receiver = QuackLabelDefaults,
 ) {
     QuackSurface(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
         shape = Shape,
         backgroundColor = backgroundColorFor(
             isActive = active,

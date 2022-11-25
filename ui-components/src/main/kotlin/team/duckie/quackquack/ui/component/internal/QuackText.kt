@@ -17,12 +17,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.util.fastForEach
 import kotlinx.collections.immutable.ImmutableList
 import team.duckie.quackquack.ui.animation.QuackAnimatedContent
-import team.duckie.quackquack.ui.component.HighlightTextInfo
+import team.duckie.quackquack.ui.component.QuackHighlightTextInfo
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.textstyle.animatedQuackTextStyleAsState
 
 // TODO: overlay-ux-writing
 // public val quackTexts: SnapshotStateList<QuackWrting> = mutableStateListOf()
+
+// NOTE: 스타일 가이드에 없는 typography 로 텍스트 표시가 필요할 때가 있어서
+//       public 접근제한자로 변경함
 
 /**
  * 주어진 조건에 따라 텍스트를 표시합니다.
@@ -40,7 +43,7 @@ import team.duckie.quackquack.ui.textstyle.animatedQuackTextStyleAsState
  * @param overflow 최대 표시 가능 범위를 넘었을 때 텍스트를 처리할 정책
  */
 @Composable
-internal fun QuackText(
+public fun QuackText(
     modifier: Modifier = Modifier,
     text: Any,
     style: QuackTextStyle,
@@ -83,7 +86,7 @@ internal fun QuackText(
  * @param overflow 최대 표시 가능 범위를 넘었을 때 텍스트를 처리할 정책
  */
 @Composable
-internal fun QuackText(
+public fun QuackText(
     modifier: Modifier = Modifier,
     annotatedText: AnnotatedString,
     style: QuackTextStyle,
@@ -122,10 +125,10 @@ internal fun QuackText(
  * @param overflow 최대 표시 가능 범위를 넘었을 때 텍스트를 처리할 정책
  */
 @Composable
-internal fun QuackClickableText(
+public fun QuackClickableText(
     modifier: Modifier = Modifier,
     text: AnnotatedString,
-    clickEventTextInfo: ImmutableList<HighlightTextInfo>,
+    clickEventTextInfo: ImmutableList<QuackHighlightTextInfo>,
     defaultOnClick: (() -> Unit)? = null,
     style: QuackTextStyle,
     singleLine: Boolean = false,

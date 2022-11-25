@@ -285,7 +285,7 @@ public fun QuackToggleButton(
     receiver = QuackToggleDefaults.ToggleButton,
 ) {
     Row(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(
             space = ItemSpacedBy,
         ),

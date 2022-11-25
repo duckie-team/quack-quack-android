@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -42,6 +41,7 @@ import team.duckie.quackquack.ui.component.internal.QuackSurface
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.util.runIf
+import team.duckie.quackquack.ui.util.runtimeCheck
 
 /**
  * QuackSelectableImage 를 그리는데 필요한 리소스를 구성합니다.
@@ -105,6 +105,8 @@ private object QuackImageDefaults {
  * @param tint 적용할 틴트 값
  * @param rippleEnabled 클릭됐을 때 ripple 발생 여부
  * @param onClick 클릭됐을 때 실행할 람다식
+ * @param onLongClick 길게 클릭됐을 때 실행할 람다식.
+ * 이 값이 제공되면 [onClick] 값이 필수로 제공돼야 합니다.
  * @param contentScale 적용할 content scale 정책
  * @param shape 리소스가 표시될 모양
  * @param badge 리소스와 함께 표시할 배지
@@ -121,37 +123,49 @@ public fun QuackImage(
     tint: QuackColor? = null,
     rippleEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
     contentScale: ContentScale = ContentScale.FillBounds,
     shape: Shape = RectangleShape,
     badge: (@Composable () -> Unit)? = null,
     badgeSize: DpSize? = null,
     badgeAlign: Alignment = Alignment.TopEnd,
     contentDescription: String? = null,
-): Unit = QuackImageInternal(
-    modifier = modifier
-        .clip(
-            shape = shape,
-        )
-        .quackClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        )
-        .runIf(
-            condition = padding != null,
+) {
+    if (onLongClick != null) {
+        runtimeCheck(
+            value = onClick != null,
         ) {
-            padding(
-                paddingValues = padding!!,
+            "onLongClick 값이 제공되면 onClick 값이 필수로 제공돼야 합니다."
+        }
+    }
+
+    QuackImageInternal(
+        modifier = modifier
+            .clip(
+                shape = shape,
             )
-        },
-    src = src,
-    size = size,
-    tint = tint,
-    contentScale = contentScale,
-    badge = badge,
-    badgeSize = badgeSize,
-    badgeAlign = badgeAlign,
-    contentDescription = contentDescription,
-)
+            .quackClickable(
+                rippleEnabled = rippleEnabled,
+                onClick = onClick,
+                onLongClick = onLongClick,
+            )
+            .runIf(
+                condition = padding != null,
+            ) {
+                padding(
+                    paddingValues = padding!!,
+                )
+            },
+        src = src,
+        size = size,
+        tint = tint,
+        contentScale = contentScale,
+        badge = badge,
+        badgeSize = badgeSize,
+        badgeAlign = badgeAlign,
+        contentDescription = contentDescription,
+    )
+}
 
 /**
  * [QuackImage] 를 실제로 그립니다
@@ -193,7 +207,7 @@ private fun QuackImageInternal(
         key2 = density,
     ) {
         when (size) {
-            null -> Modifier.wrapContentSize()
+            null -> Modifier
             else -> Modifier.size(
                 size = size * density.fontScale,
             )
@@ -217,13 +231,12 @@ private fun QuackImageInternal(
             .padding(
                 paddingValues = Margin,
             )
-            .run {
-                when (badgeSize) {
-                    null -> wrapContentSize()
-                    else -> size(
-                        size = badgeSize * density.fontScale,
-                    )
-                }
+            .runIf(
+                condition = badgeSize != null,
+            ) {
+                size(
+                    size = badgeSize!! * density.fontScale,
+                )
             }
             .zIndex(
                 zIndex = 2f,
@@ -261,7 +274,6 @@ private fun QuackImageInternal(
         modifier = containerModifier,
     ) { imageModel ->
         Box(
-            modifier = Modifier.wrapContentSize(),
             contentAlignment = badgeAlign,
         ) {
             AsyncImage(
@@ -350,7 +362,7 @@ public fun QuackSelectableImage(
     receiver = QuackImageDefaults.SelectableImage,
 ) {
     QuackSurface(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
         shape = Shape,
         border = borderFor(
             isSelected = isSelected,

@@ -16,8 +16,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
@@ -148,7 +146,6 @@ private object QuackTabDefaults {
                 ) { index, title ->
                     QuackText(
                         modifier = Modifier
-                            .wrapContentSize()
                             .quackClickable(
                                 rippleEnabled = false,
                             ) {
@@ -287,7 +284,6 @@ private object QuackTabDefaults {
                                 weight = 1f,
                             )
                             .fillMaxWidth()
-                            .wrapContentHeight()
                             .onGloballyPositioned { layoutCoordinates ->
                                 onEachTabPositioned(
                                     /* index = */
@@ -416,7 +412,6 @@ public fun QuackMainTab(
     TabTextLazyRow(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
             .background(
                 color = BackgroundColor.composeColor,
             )
@@ -557,7 +552,6 @@ public fun QuackSubTab(
     TabTextRow(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
             .background(
                 color = BackgroundColor.composeColor,
             )

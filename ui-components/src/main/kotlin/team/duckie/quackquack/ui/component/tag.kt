@@ -5,8 +5,11 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
  */
 
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package team.duckie.quackquack.ui.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,8 +17,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -30,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
 import kotlinx.collections.immutable.ImmutableList
+import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackSurface
@@ -321,7 +323,7 @@ private fun QuackGrayscaleTagInternal(
         onClickWithIndex = onClickWithIndex,
     )
     QuackSurface(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
         backgroundColor = BackgroundColor,
         shape = Shape,
         onClick = onClick ?: onClickWithIndex?.let {
@@ -334,7 +336,6 @@ private fun QuackGrayscaleTagInternal(
         },
     ) {
         Row(
-            modifier = Modifier.wrapContentSize(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             QuackText(
@@ -426,7 +427,7 @@ private fun QuackCircleTagInternal(
     val hasTrailingIcon = trailingIcon != null
 
     QuackSurface(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
         backgroundColor = backgroundColorFor(
             isSelected = isSelected,
             hasTrailingIcon = hasTrailingIcon,
@@ -445,7 +446,6 @@ private fun QuackCircleTagInternal(
         },
     ) {
         Row(
-            modifier = Modifier.wrapContentSize(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             QuackText(
@@ -541,7 +541,7 @@ private fun QuackRoundTagInternal(
         onClickWithIndex = onClickWithIndex,
     )
     QuackSurface(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
         backgroundColor = BackgroundColor,
         shape = Shape,
         border = borderFor(
@@ -605,7 +605,7 @@ private fun quackTagInternalAssert(
 /**
  * [LazyVerticalGrid] 형식으로 주어진 태그들을 배치합니다.
  * 이 컴포넌트는 항상 상위 컴포저블의 가로 길이만큼 width 가 지정되고,
- * (즉, 좌우 패딩이 허용되지 않습니다) 한 줄에 최대 2개가 들어갈 수 있습니다.
+ * (즉, 좌우 패딩이 허용되지 않습니다) 한 줄에 최대 [itemChunkedSize]개가 들어갈 수 있습니다.
  * 또한 가로와 세로 스크롤을 모두 지원합니다.
  *
  * 퍼포먼스 측면에서 [LazyLayout] 를 사용하는 것이 좋지만, 덕키의 경우
@@ -619,8 +619,15 @@ private fun quackTagInternalAssert(
  * 이 항목은 바뀔 수 있으므로 [ImmutableList] 가 아닌 일반 [List] 로 받습니다.
  * @param itemSelections 태그들의 선택 여부.
  * 이 항목은 바뀔 수 있으므로 [ImmutableList] 가 아닌 [List] 로 받습니다.
+ * @param itemChunkedSize 한 칸에 들어갈 최대 아이템의 개수
  * @param tagType [QuackLazyVerticalGridTag] 에서 표시할 태그의 타입을 지정합니다.
  * 여러 종류의 태그가 [QuackLazyVerticalGridTag] 으로 표시될 수 있게 태그의 타입을 따로 받습니다.
+ * @param key a factory of stable and unique keys representing the item. Using the same key
+ * for multiple items in the list is not allowed. Type of the key should be saveable
+ * via Bundle on Android. If null is passed the position in the list will represent the key.
+ * When you specify the key the scroll position will be maintained based on the key, which
+ * means if you add/remove items before the current visible item the item with the given key
+ * will be kept as the first visible one.
  * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다.
  * 람다식의 인자로는 선택된 태그의 index 가 들어옵니다.
  */
@@ -630,18 +637,18 @@ public fun QuackLazyVerticalGridTag(
     title: String? = null,
     items: List<String>,
     itemSelections: List<Boolean>? = null,
+    itemChunkedSize: Int,
     tagType: QuackTagType,
+    key: ((
+        index: Int,
+        items: List<String>,
+    ) -> Any)? = null,
     onClick: (
         index: Int,
     ) -> Unit,
 ): Unit = with(
     receiver = QuackTagDefaults.LazyTag,
 ) {
-    runtimeCheck(
-        value = items.toSet().size == items.size,
-    ) {
-        "Duplicate tag titles are not allowed."
-    }
     if (itemSelections != null) {
         runtimeCheck(
             value = items.size == itemSelections.size,
@@ -654,13 +661,11 @@ public fun QuackLazyVerticalGridTag(
         key1 = items,
     ) {
         items.chunked(
-            size = 2,
+            size = itemChunkedSize,
         )
     }
     LazyColumn(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
+        modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(
             space = VerticalSpacedBy,
         ),
@@ -679,8 +684,15 @@ public fun QuackLazyVerticalGridTag(
         }
         itemsIndexed(
             items = chunkedItems,
-            key = { _, item ->
-                item
+            key = { index: Int, items: List<String> ->
+                key!!.invoke(
+                    /* index = */
+                    index,
+                    /* items = */
+                    items,
+                )
+            }.takeIf {
+                key != null
             },
         ) { rowIndex, rowItems ->
             Row(
@@ -694,7 +706,7 @@ public fun QuackLazyVerticalGridTag(
                 ),
             ) {
                 rowItems.fastForEachIndexed { index, item ->
-                    val currentIndex = rowIndex * 2 + index
+                    val currentIndex = rowIndex * itemChunkedSize + index
                     val isSelected = itemSelections?.get(
                         index = currentIndex,
                     ) ?: false
@@ -703,12 +715,18 @@ public fun QuackLazyVerticalGridTag(
                     ) {
                         when (this) {
                             is QuackTagType.Grayscale -> QuackGrayscaleTagInternal(
+                                modifier = Modifier.animateItemPlacement(
+                                    animationSpec = QuackAnimationSpec(),
+                                ),
                                 text = item,
                                 trailingText = trailingText,
                                 actualIndex = currentIndex,
                                 onClickWithIndex = onClick,
                             )
                             is QuackTagType.Circle -> QuackCircleTagInternal(
+                                modifier = Modifier.animateItemPlacement(
+                                    animationSpec = QuackAnimationSpec(),
+                                ),
                                 text = item,
                                 trailingIcon = trailingIcon,
                                 isSelected = isSelected,
@@ -716,6 +734,9 @@ public fun QuackLazyVerticalGridTag(
                                 onClickWithIndex = onClick,
                             )
                             QuackTagType.Round -> QuackRoundTagInternal(
+                                modifier = Modifier.animateItemPlacement(
+                                    animationSpec = QuackAnimationSpec(),
+                                ),
                                 text = item,
                                 isSelected = isSelected,
                                 actualIndex = currentIndex,

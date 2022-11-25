@@ -18,8 +18,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -452,9 +450,7 @@ public fun QuackLargeButton(
     }
 
     QuackBasicButton(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
+        modifier = modifier.fillMaxWidth(),
         shape = Shape,
         leadingContent = LeadingContent(
             leadingIcon = leadingIcon,
@@ -474,6 +470,7 @@ public fun QuackLargeButton(
             type = type,
         ),
         onClick = onClick,
+        rippleEnabled = enabled ?: true,
     )
 }
 
@@ -499,7 +496,7 @@ public fun QuackMediumToggleButton(
     receiver = QuackButtonDefaults.MediumButton,
 ) {
     QuackBasicButton(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
         shape = Shape,
         text = text,
         textStyle = typographyFor(
@@ -539,7 +536,7 @@ public fun QuackSmallButton(
     receiver = QuackButtonDefaults.SmallButton,
 ) {
     QuackBasicButton(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
         shape = Shape,
         text = text,
         textStyle = typographyFor(
@@ -584,7 +581,7 @@ public fun QuackToggleChip(
     receiver = QuackButtonDefaults.ChipButton,
 ) {
     QuackBasicButton(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier,
         shape = Shape,
         text = text,
         textStyle = typographyFor(
@@ -651,11 +648,9 @@ private fun QuackBasicButton(
         onClick = onClick,
     ) {
         Row(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(
-                    paddingValues = padding,
-                ),
+            modifier = Modifier.padding(
+                paddingValues = padding,
+            ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(
                 space = 2.dp,

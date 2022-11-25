@@ -7,7 +7,8 @@
 
 package team.duckie.quackquack.ui.component
 
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -28,6 +29,7 @@ import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.Empty
+import team.duckie.quackquack.ui.util.runIf
 
 // [Note] @NonRestartableComposable 안한 이유: 인자로 받은 Text 는 동적으로 바뀔 수 있음
 
@@ -36,6 +38,7 @@ import team.duckie.quackquack.ui.util.Empty
  * 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -47,6 +50,7 @@ import team.duckie.quackquack.ui.util.Empty
 @Composable
 public fun QuackHeadLine1(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -56,11 +60,16 @@ public fun QuackHeadLine1(
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier
-        .wrapContentSize()
         .quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
-        ),
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
     text = text,
     style = QuackTextStyle.HeadLine1.change(
         color = color,
@@ -75,6 +84,7 @@ public fun QuackHeadLine1(
  * 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -86,6 +96,7 @@ public fun QuackHeadLine1(
 @Composable
 public fun QuackHeadLine2(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -95,11 +106,16 @@ public fun QuackHeadLine2(
     overflow: TextOverflow = TextOverflow.Ellipsis,
 ): Unit = QuackText(
     modifier = modifier
-        .wrapContentSize()
         .quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
-        ),
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
     text = text,
     style = QuackTextStyle.HeadLine2.change(
         color = color,
@@ -114,6 +130,7 @@ public fun QuackHeadLine2(
  * 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -125,6 +142,7 @@ public fun QuackHeadLine2(
 @Composable
 public fun QuackTitle1(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -134,11 +152,16 @@ public fun QuackTitle1(
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier
-        .wrapContentSize()
         .quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
-        ),
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
     text = text,
     style = QuackTextStyle.Title1.change(
         color = color,
@@ -153,6 +176,7 @@ public fun QuackTitle1(
  * 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -164,6 +188,7 @@ public fun QuackTitle1(
 @Composable
 public fun QuackTitle2(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -173,11 +198,16 @@ public fun QuackTitle2(
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier
-        .wrapContentSize()
         .quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
-        ),
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
     text = text,
     style = QuackTextStyle.Title2.change(
         color = color,
@@ -192,6 +222,7 @@ public fun QuackTitle2(
  * 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -203,6 +234,7 @@ public fun QuackTitle2(
 @Composable
 public fun QuackSubtitle(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -212,11 +244,16 @@ public fun QuackSubtitle(
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier
-        .wrapContentSize()
         .quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
-        ),
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
     text = text,
     style = QuackTextStyle.Subtitle.change(
         color = color,
@@ -231,6 +268,7 @@ public fun QuackSubtitle(
  * 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -242,6 +280,7 @@ public fun QuackSubtitle(
 @Composable
 public fun QuackSubtitle2(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -251,11 +290,16 @@ public fun QuackSubtitle2(
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier
-        .wrapContentSize()
         .quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
-        ),
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
     text = text,
     style = QuackTextStyle.Subtitle2.change(
         color = color,
@@ -270,6 +314,7 @@ public fun QuackSubtitle2(
  * 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -281,6 +326,7 @@ public fun QuackSubtitle2(
 @Composable
 public fun QuackBody1(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -290,11 +336,16 @@ public fun QuackBody1(
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier
-        .wrapContentSize()
         .quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
-        ),
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
     text = text,
     style = QuackTextStyle.Body1.change(
         color = color,
@@ -309,6 +360,7 @@ public fun QuackBody1(
  * 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -320,6 +372,7 @@ public fun QuackBody1(
 @Composable
 public fun QuackBody2(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -329,11 +382,16 @@ public fun QuackBody2(
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier
-        .wrapContentSize()
         .quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
-        ),
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
     text = text,
     style = QuackTextStyle.Body2.change(
         color = color,
@@ -348,6 +406,7 @@ public fun QuackBody2(
  * 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param text 표시할 텍스트
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
@@ -359,6 +418,7 @@ public fun QuackBody2(
 @Composable
 public fun QuackBody3(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     text: String,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
@@ -368,11 +428,16 @@ public fun QuackBody3(
     onClick: (() -> Unit)? = null,
 ): Unit = QuackText(
     modifier = modifier
-        .wrapContentSize()
         .quackClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
-        ),
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
     text = text,
     style = QuackTextStyle.Body3.change(
         color = color,
@@ -386,6 +451,7 @@ public fun QuackBody3(
  * [QuackHeadLine2] 의 원하는 부분에 밑줄로 강조하여 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param text 표시할 텍스트
  * @param underlineTexts 강조할 텍스트 리스트
  * @param color 텍스트의 색상
@@ -398,6 +464,7 @@ public fun QuackBody3(
 @Composable
 public fun QuackUnderlineHeadLine2(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     text: String,
     underlineTexts: ImmutableList<String>,
     color: QuackColor = QuackColor.Black,
@@ -408,12 +475,16 @@ public fun QuackUnderlineHeadLine2(
     onClick: (() -> Unit)? = null,
 ) {
     QuackText(
-        modifier = modifier
-            .wrapContentSize()
-            .quackClickable(
-                rippleEnabled = rippleEnabled,
-                onClick = onClick,
-            ),
+        modifier = modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
         annotatedText = rememberDecorationAnnotatedString(
             text = text,
             decorationTexts = underlineTexts,
@@ -435,8 +506,10 @@ public fun QuackUnderlineHeadLine2(
  * [QuackUnderlineBody3] 의 원하는 부분에 밑줄로 강조하여 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param text 표시할 텍스트
  * @param underlineTexts 강조할 텍스트 리스트들
+ * @param underlineColor 강조할 색상
  * @param color 텍스트의 색상
  * @param align 텍스트 정렬
  * @param rippleEnabled 텍스트 클릭시 ripple 발생 여부
@@ -447,8 +520,10 @@ public fun QuackUnderlineHeadLine2(
 @Composable
 public fun QuackUnderlineBody3(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     text: String,
     underlineTexts: ImmutableList<String>,
+    underlineColor: QuackColor = QuackColor.DuckieOrange,
     color: QuackColor = QuackColor.Black,
     align: TextAlign = TextAlign.Start,
     rippleEnabled: Boolean = false,
@@ -457,17 +532,21 @@ public fun QuackUnderlineBody3(
     onClick: (() -> Unit)? = null,
 ) {
     QuackText(
-        modifier = modifier
-            .wrapContentSize()
-            .quackClickable(
-                rippleEnabled = rippleEnabled,
-                onClick = onClick,
-            ),
+        modifier = modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
         annotatedText = rememberDecorationAnnotatedString(
             text = text,
             decorationTexts = underlineTexts,
             decorationStyle = SpanStyle(
-                color = QuackColor.DuckieOrange.composeColor,
+                color = underlineColor.composeColor,
                 textDecoration = TextDecoration.Underline,
             ),
         ),
@@ -484,6 +563,7 @@ public fun QuackUnderlineBody3(
  * [QuackHighlightBody1] 의 원하는 부분에 SemiBold 로 강조하여 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param text 표시할 텍스트
  * @param highlightTexts 강조할 텍스트 리스트들
  * @param color 텍스트의 색상
@@ -496,6 +576,7 @@ public fun QuackUnderlineBody3(
 @Composable
 public fun QuackHighlightBody1(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     text: String,
     highlightTexts: ImmutableList<String>,
     color: QuackColor = QuackColor.Black,
@@ -506,12 +587,16 @@ public fun QuackHighlightBody1(
     onClick: (() -> Unit)? = null,
 ) {
     QuackText(
-        modifier = modifier
-            .wrapContentSize()
-            .quackClickable(
-                rippleEnabled = rippleEnabled,
-                onClick = onClick,
-            ),
+        modifier = modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
         annotatedText = rememberDecorationAnnotatedString(
             text = text,
             decorationTexts = highlightTexts,
@@ -574,6 +659,7 @@ private fun rememberDecorationAnnotatedString(
  * SemiBold + Underline 강조를 추가하여 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
+ * @param padding 적용할 패딩. 클릭 영역을 늘리기 위해 사용될 수 있습니다.
  * @param text 표시할 텍스트
  * @param highlightTextPairs 강조할 텍스트 및 그에 대응하는 클릭 이벤트를 나타내는 [Pair] 리스트
  * @param color 텍스트의 색상
@@ -587,6 +673,7 @@ private fun rememberDecorationAnnotatedString(
 @Composable
 public fun QuackAnnotatedBody2(
     modifier: Modifier = Modifier,
+    padding: PaddingValues? = null,
     text: String,
     highlightTextPairs: ImmutableList<Pair<String, (() -> Unit)?>>,
     color: QuackColor = QuackColor.Black,
@@ -621,7 +708,7 @@ public fun QuackAnnotatedBody2(
                     targetTextClickEvent?.let {
                         // ClickEventTextInfo 데이터 추가
                         add(
-                            element = HighlightTextInfo(
+                            element = QuackHighlightTextInfo(
                                 text = targetText,
                                 startIndex = realStartIndex,
                                 endIndex = realEndIndex,
@@ -637,12 +724,16 @@ public fun QuackAnnotatedBody2(
     }
 
     QuackClickableText(
-        modifier = modifier
-            .wrapContentSize()
-            .quackClickable(
-                rippleEnabled = rippleEnabled,
-                onClick = onClick,
-            ),
+        modifier = modifier.quackClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ).runIf(
+            condition = padding != null,
+        ) {
+            padding(
+                paddingValues = padding!!,
+            )
+        },
         clickEventTextInfo = highlightTextInfo,
         text = buildAnnotatedString {
             append(
@@ -695,7 +786,7 @@ public fun QuackAnnotatedBody2(
  * @param endIndex 전체 텍스트 내에서 onClick 이벤트가 실행되는 마지막 index
  * @param onClick 실행할 클릭 이벤트 (null 일 시 이벤트 없음)
  */
-internal data class HighlightTextInfo(
+public data class QuackHighlightTextInfo(
     val text: String,
     val startIndex: Int,
     val endIndex: Int,
