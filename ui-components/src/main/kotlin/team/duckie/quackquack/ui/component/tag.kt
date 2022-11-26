@@ -758,57 +758,58 @@ public fun QuackSingeLazyRowTag(
                     "[items.size (${items.size}) != itemsSelection.size (${itemSelections.size})]"
         }
     }
-    LazyRow(
-        modifier = modifier.fillMaxWidth(),
-        contentPadding = contentPadding,
-        horizontalArrangement = Arrangement.spacedBy(space = horizontalSpace),
-    ) {
+    Column(modifier = modifier.fillMaxWidth()) {
         if (title != null) {
-            item {
-                QuackText(
-                    modifier = Modifier.padding(bottom = TitleSpacedBy),
-                    text = title,
-                    style = TitleTypogrphy,
-                    singleLine = true,
-                )
-            }
+            QuackText(
+                modifier = Modifier.padding(bottom = TitleSpacedBy),
+                text = title,
+                style = TitleTypogrphy,
+                singleLine = true,
+            )
         }
-        itemsIndexed(
-            items = items,
-            key = key,
-            contentType = contentType,
-        ) { index, item ->
-            val isSelected = itemSelections?.get(index) ?: false
-            with(tagType) {
-                when (this) {
-                    is QuackTagType.Grayscale -> QuackGrayscaleTagInternal(
-                        modifier = Modifier.animateItemPlacement(
-                            animationSpec = QuackAnimationSpec(),
-                        ),
-                        text = item,
-                        trailingText = trailingText,
-                        actualIndex = index,
-                        onClickWithIndex = onClick,
-                    )
-                    is QuackTagType.Circle -> QuackCircleTagInternal(
-                        modifier = Modifier.animateItemPlacement(
-                            animationSpec = QuackAnimationSpec(),
-                        ),
-                        text = item,
-                        trailingIcon = trailingIcon,
-                        isSelected = isSelected,
-                        actualIndex = index,
-                        onClickWithIndex = onClick,
-                    )
-                    QuackTagType.Round -> QuackRoundTagInternal(
-                        modifier = Modifier.animateItemPlacement(
-                            animationSpec = QuackAnimationSpec(),
-                        ),
-                        text = item,
-                        isSelected = isSelected,
-                        actualIndex = index,
-                        onClickWithIndex = onClick,
-                    )
+
+        LazyRow(
+            modifier = modifier.fillMaxWidth(),
+            contentPadding = contentPadding,
+            horizontalArrangement = Arrangement.spacedBy(space = horizontalSpace),
+        ) {
+            itemsIndexed(
+                items = items,
+                key = key,
+                contentType = contentType,
+            ) { index, item ->
+                val isSelected = itemSelections?.get(index) ?: false
+                with(tagType) {
+                    when (this) {
+                        is QuackTagType.Grayscale -> QuackGrayscaleTagInternal(
+                            modifier = Modifier.animateItemPlacement(
+                                animationSpec = QuackAnimationSpec(),
+                            ),
+                            text = item,
+                            trailingText = trailingText,
+                            actualIndex = index,
+                            onClickWithIndex = onClick,
+                        )
+                        is QuackTagType.Circle -> QuackCircleTagInternal(
+                            modifier = Modifier.animateItemPlacement(
+                                animationSpec = QuackAnimationSpec(),
+                            ),
+                            text = item,
+                            trailingIcon = trailingIcon,
+                            isSelected = isSelected,
+                            actualIndex = index,
+                            onClickWithIndex = onClick,
+                        )
+                        QuackTagType.Round -> QuackRoundTagInternal(
+                            modifier = Modifier.animateItemPlacement(
+                                animationSpec = QuackAnimationSpec(),
+                            ),
+                            text = item,
+                            isSelected = isSelected,
+                            actualIndex = index,
+                            onClickWithIndex = onClick,
+                        )
+                    }
                 }
             }
         }
