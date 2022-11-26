@@ -18,8 +18,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -38,6 +40,7 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastFirstOrNull
 import androidx.compose.ui.zIndex
@@ -352,6 +355,7 @@ private object QuackTextFieldDefaults {
         /**
          * leading content 로 표시될 아이콘 컴포저블을 나타냅니다.
          *
+         * @param startPadding start 에 추가할 패딩
          * @param icon 표시할 아이콘
          * @param onClick leading content 가 클릭됐을 때 호출될 콜백
          *
@@ -361,6 +365,7 @@ private object QuackTextFieldDefaults {
         @SuppressLint("ComposableNaming")
         @Composable
         fun LeadingIcon(
+            startPadding: Dp,
             icon: QuackIcon?,
             onClick: (() -> Unit)?,
         ): (@Composable () -> Unit)? {
@@ -368,14 +373,17 @@ private object QuackTextFieldDefaults {
                 null
             } else {
                 {
-                    QuackImage(
-                        padding = LeadingIconPadding,
-                        src = icon,
-                        size = LeadingIconSize,
-                        tint = LeadingIconTint,
-                        rippleEnabled = false,
-                        onClick = onClick,
-                    )
+                    Row {
+                        Spacer(modifier = Modifier.width(startPadding))
+                        QuackImage(
+                            padding = LeadingIconPadding,
+                            src = icon,
+                            size = LeadingIconSize,
+                            tint = LeadingIconTint,
+                            rippleEnabled = false,
+                            onClick = onClick,
+                        )
+                    }
                 }
             }
         }
@@ -383,6 +391,7 @@ private object QuackTextFieldDefaults {
         /**
          * trailing content 로 표시될 아이콘 컴포저블을 나타냅니다.
          *
+         * @param endPadding end 에 추가할 패딩
          * @param icon 표시할 아이콘
          * @param isEnabled trailing content 가 활성화 되어 있는지 여부
          * @param onClick trailing content 가 클릭되었을 때 호출될 콜백
@@ -393,6 +402,7 @@ private object QuackTextFieldDefaults {
         @SuppressLint("ComposableNaming")
         @Composable
         fun TrailingIcon(
+            endPadding: Dp,
             icon: QuackIcon?,
             isEnabled: Boolean?,
             onClick: (() -> Unit)?,
@@ -401,16 +411,19 @@ private object QuackTextFieldDefaults {
                 null
             } else {
                 {
-                    QuackImage(
-                        padding = TrailingIconPadding,
-                        src = icon,
-                        size = TrailingIconSize,
-                        tint = trailinIconTintFor(
-                            isEnabled = isEnabled,
-                        ),
-                        rippleEnabled = false,
-                        onClick = onClick,
-                    )
+                    Row {
+                        QuackImage(
+                            padding = TrailingIconPadding,
+                            src = icon,
+                            size = TrailingIconSize,
+                            tint = trailinIconTintFor(
+                                isEnabled = isEnabled,
+                            ),
+                            rippleEnabled = false,
+                            onClick = onClick,
+                        )
+                        Spacer(modifier = Modifier.width(endPadding))
+                    }
                 }
             }
         }
@@ -1033,8 +1046,10 @@ public fun QuackPriceTextField(
  * @param text 표시할 텍스트
  * @param onTextChanged 새로운 텍스트가 입력됐을 때 호출될 람다
  * @param placeholderText 텍스트가 입력되지 않았을 때 표시할 텍스트
+ * @param leadingStartPadding leading content 의 start 에 추가할 패딩
  * @param leadingIcon leading content 로 표시할 아이콘
  * @param leadingIconOnClick leading icon 을 클릭했을 때 호출될 람다
+ * @param trailingEndPadding trailing content 의 end 에 추가할 패딩
  * @param trailingIcon trailing content 로 표시할 아이콘
  * @param trailingIconOnClick trailing content 가 클릭됐을 때 호출될 람다
  * @param keyboardOptions 키보드 옵션
@@ -1047,17 +1062,15 @@ public fun QuackBasic2TextField(
     text: String,
     onTextChanged: (text: String) -> Unit,
     placeholderText: String? = null,
+    leadingStartPadding: Dp = 0.dp,
     leadingIcon: QuackIcon? = null,
     leadingIconOnClick: (() -> Unit)? = null,
+    trailingEndPadding: Dp = 0.dp,
     trailingIcon: QuackIcon? = null,
     trailingIconOnClick: (() -> Unit)? = null,
-    keyboardOptions: KeyboardOptions = KeyboardOptions(
-        imeAction = ImeAction.Done,
-    ),
+    keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
     keyboardActions: KeyboardActions = KeyboardActions(),
-): Unit = with(
-    receiver = QuackTextFieldDefaults.Basic2,
-) {
+): Unit = with(QuackTextFieldDefaults.Basic2) {
     val quackTextFieldColors = LocalQuackTextFieldColors.current
 
     // 리컴포지션이 되는 메인 조건은 Text 가 바뀌었을 때인데 그러면
@@ -1116,10 +1129,12 @@ public fun QuackBasic2TextField(
                     placeholderText = placeholderText,
                 ),
                 leadingContent = LeadingIcon(
+                    startPadding = leadingStartPadding,
                     icon = leadingIcon,
                     onClick = leadingIconOnClick,
                 ),
                 trailingContent = TrailingIcon(
+                    endPadding = trailingEndPadding,
                     icon = trailingIcon,
                     isEnabled = !isPlaceholder,
                     onClick = trailingIconOnClick,
