@@ -69,8 +69,8 @@ fun QuackBasic2TextFieldPadding10Demo() {
     QuackBasic2TextField(
         text = text,
         onTextChanged = setText,
-        placeholderText = "decoration items horizontal padding:" +
-                " ${QuackBasic2TextFieldDecorationItemsHorizontalPadding}.dp",
+        placeholderText = "decoration items horizontal padding: " +
+                "$QuackBasic2TextFieldDecorationItemsHorizontalPadding.dp",
         leadingStartPadding = QuackBasic2TextFieldDecorationItemsHorizontalPadding,
         leadingIcon = QuackIcon.Heart,
         leadingIconOnClick = { toast("Heart clicked") },
