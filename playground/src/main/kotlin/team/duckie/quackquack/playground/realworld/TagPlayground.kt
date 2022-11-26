@@ -75,7 +75,7 @@ fun QuackRoundTagDemo() {
 
 private val LazyTagContentHorizontalPadding = 20.dp
 private const val LazyTagItemChunkedSize = 5
-private val LazyTagDemoRange = 10..100
+private val LazyTagDemoRange = 0..30
 
 @Composable
 fun QuackLazyVerticalGridTagDemo() {
@@ -104,7 +104,7 @@ fun QuackSingeLazyRowTagDemo() {
         contentPadding = PaddingValues(
             horizontal = LazyTagContentHorizontalPadding,
         ),
-        title = "Title",
+        title = "QuackSingeLazyRow",
         items = LazyTagDemoRange.map(Int::toString),
         itemSelections = LazyTagDemoRange.map { Random.nextBoolean() },
         tagType = QuackTagType.Round,
