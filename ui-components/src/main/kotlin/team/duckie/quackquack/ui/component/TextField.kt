@@ -368,22 +368,18 @@ private object QuackTextFieldDefaults {
             startPadding: Dp,
             icon: QuackIcon?,
             onClick: (() -> Unit)?,
-        ): (@Composable () -> Unit)? {
-            return if (icon == null) {
-                null
-            } else {
-                {
-                    Row {
-                        Spacer(modifier = Modifier.width(startPadding))
-                        QuackImage(
-                            padding = LeadingIconPadding,
-                            src = icon,
-                            size = LeadingIconSize,
-                            tint = LeadingIconTint,
-                            rippleEnabled = false,
-                            onClick = onClick,
-                        )
-                    }
+        ): @Composable () -> Unit {
+            return {
+                Row {
+                    Spacer(modifier = Modifier.width(startPadding))
+                    QuackImage(
+                        padding = LeadingIconPadding,
+                        src = icon,
+                        size = LeadingIconSize,
+                        tint = LeadingIconTint,
+                        rippleEnabled = false,
+                        onClick = onClick,
+                    )
                 }
             }
         }
@@ -404,26 +400,22 @@ private object QuackTextFieldDefaults {
         fun TrailingIcon(
             endPadding: Dp,
             icon: QuackIcon?,
-            isEnabled: Boolean?,
+            isEnabled: Boolean,
             onClick: (() -> Unit)?,
-        ): (@Composable () -> Unit)? {
-            return if (icon == null || isEnabled == null) {
-                null
-            } else {
-                {
-                    Row {
-                        QuackImage(
-                            padding = TrailingIconPadding,
-                            src = icon,
-                            size = TrailingIconSize,
-                            tint = trailinIconTintFor(
-                                isEnabled = isEnabled,
-                            ),
-                            rippleEnabled = false,
-                            onClick = onClick,
-                        )
-                        Spacer(modifier = Modifier.width(endPadding))
-                    }
+        ): @Composable () -> Unit {
+            return {
+                Row {
+                    QuackImage(
+                        padding = TrailingIconPadding,
+                        src = icon,
+                        size = TrailingIconSize,
+                        tint = trailinIconTintFor(
+                            isEnabled = isEnabled,
+                        ),
+                        rippleEnabled = false,
+                        onClick = onClick,
+                    )
+                    Spacer(modifier = Modifier.width(endPadding))
                 }
             }
         }

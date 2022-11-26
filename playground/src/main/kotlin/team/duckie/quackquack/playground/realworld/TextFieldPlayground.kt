@@ -27,7 +27,7 @@ class TextFieldPlayground : PlaygroundActivity(
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
         ::QuackBasicTextFieldDemo.name to { QuackBasicTextFieldDemo() },
         ::QuackPriceTextFieldDemo.name to { QuackPriceTextFieldDemo() },
-        ::QuackBasic2TextFieldDemo.name to { QuackBasic2TextFieldDemo() },
+        ::QuackBasic2TextFieldPadding10Demo.name to { QuackBasic2TextFieldPadding10Demo() },
         ::QuackErrorableTextFieldDemo.name to { QuackErrorableTextFieldDemo() },
         ::QuackErrorableTextFieldWithoutClearButtonDemo.name to { QuackErrorableTextFieldWithoutClearButtonDemo() },
     )
@@ -59,17 +59,18 @@ fun QuackPriceTextFieldDemo() {
     )
 }
 
-private val QuackBasic2TextFieldDecorationItemsHorizontalPadding = 5.dp
+private val QuackBasic2TextFieldDecorationItemsHorizontalPadding = 10.dp
 
 @Composable
-fun QuackBasic2TextFieldDemo() {
+fun QuackBasic2TextFieldPadding10Demo() {
     val toast = rememberToast()
     val (text, setText) = remember { mutableStateOf("") }
 
     QuackBasic2TextField(
         text = text,
         onTextChanged = setText,
-        placeholderText = "decoration items horizontal padding: 5.dp",
+        placeholderText = "decoration items horizontal padding: " +
+                "$QuackBasic2TextFieldDecorationItemsHorizontalPadding.dp",
         leadingStartPadding = QuackBasic2TextFieldDecorationItemsHorizontalPadding,
         leadingIcon = QuackIcon.Heart,
         leadingIconOnClick = { toast("Heart clicked") },
