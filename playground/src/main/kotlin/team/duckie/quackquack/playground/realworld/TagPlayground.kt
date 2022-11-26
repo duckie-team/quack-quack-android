@@ -7,18 +7,24 @@
 
 package team.duckie.quackquack.playground.realworld
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.dp
+import kotlin.random.Random
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.PlaygroundActivity
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.component.QuackCircleTag
 import team.duckie.quackquack.ui.component.QuackGrayscaleTag
+import team.duckie.quackquack.ui.component.QuackLazyVerticalGridTag
 import team.duckie.quackquack.ui.component.QuackRoundTag
+import team.duckie.quackquack.ui.component.QuackSingeLazyRowTag
+import team.duckie.quackquack.ui.component.QuackTagType
 import team.duckie.quackquack.ui.icon.QuackIcon
 
 class TagPlayground : PlaygroundActivity(
@@ -28,6 +34,8 @@ class TagPlayground : PlaygroundActivity(
         ::QuackGrayscaleTagDemo.name to { QuackGrayscaleTagDemo() },
         ::QuackCircleTagDemo.name to { QuackCircleTagDemo() },
         ::QuackRoundTagDemo.name to { QuackRoundTagDemo() },
+        ::QuackLazyVerticalGridTagDemo.name to { QuackLazyVerticalGridTagDemo() },
+        ::QuackSingeLazyRowTagDemo.name to { QuackSingeLazyRowTagDemo() },
     )
 }
 
@@ -65,5 +73,43 @@ fun QuackRoundTagDemo() {
     )
 }
 
-// TODO: QuackLazyVerticalGridTag 플레이그라운드
-// QuackLazyVerticalGridTag 가 정말 꽥꽥에서 제공이 필요할까?
+private val LazyTagContentHorizontalPadding = 20.dp
+private const val LazyTagItemChunkedSize = 5
+private val LazyTagDemoRange = 10..100
+
+@Composable
+fun QuackLazyVerticalGridTagDemo() {
+    val toast = rememberToast()
+
+    QuackLazyVerticalGridTag(
+        contentPadding = PaddingValues(
+            horizontal = LazyTagContentHorizontalPadding,
+        ),
+        title = "Title",
+        items = LazyTagDemoRange.map(Int::toString),
+        itemSelections = LazyTagDemoRange.map { Random.nextBoolean() },
+        itemChunkedSize = LazyTagItemChunkedSize,
+        tagType = QuackTagType.Round,
+        onClick = { index ->
+            toast("Clicked $index index.")
+        },
+    )
+}
+
+@Composable
+fun QuackSingeLazyRowTagDemo() {
+    val toast = rememberToast()
+
+    QuackSingeLazyRowTag(
+        contentPadding = PaddingValues(
+            horizontal = LazyTagContentHorizontalPadding,
+        ),
+        title = "Title",
+        items = LazyTagDemoRange.map(Int::toString),
+        itemSelections = LazyTagDemoRange.map { Random.nextBoolean() },
+        tagType = QuackTagType.Round,
+        onClick = { index ->
+            toast("Clicked $index index.")
+        },
+    )
+}
