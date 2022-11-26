@@ -616,15 +616,6 @@ private fun quackTagInternalAssert(
  * @param verticalSpace 아이템들의 세로 간격
  * @param tagType [QuackLazyVerticalGridTag] 에서 표시할 태그의 타입을 지정합니다.
  * 여러 종류의 태그가 [QuackLazyVerticalGridTag] 으로 표시될 수 있게 태그의 타입을 따로 받습니다.
- * @param key a factory of stable and unique keys representing the item. Using the same key
- * for multiple items in the list is not allowed. Type of the key should be saveable
- * via Bundle on Android. If null is passed the position in the list will represent the key.
- * When you specify the key the scroll position will be maintained based on the key, which
- * means if you add/remove items before the current visible item the item with the given key
- * will be kept as the first visible one.
- * @param contentType a factory of the content types for the item. The item compositions of
- * the same type could be reused more efficiently. Note that null is a valid type and items of such
- * type will be considered compatible.
  * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다.
  * 람다식의 인자로는 선택된 태그의 index 가 들어옵니다.
  */
@@ -639,8 +630,6 @@ public fun QuackLazyVerticalGridTag(
     horizontalSpace: Dp = QuackTagDefaults.LazyTag.HorizontalSpacedBy,
     verticalSpace: Dp = QuackTagDefaults.LazyTag.VerticalSpacedBy,
     tagType: QuackTagType,
-    key: ((index: Int, items: List<String>) -> Any)? = null,
-    contentType: (index: Int, items: List<String>) -> Any? = { _, _ -> null },
     onClick: (index: Int) -> Unit,
 ): Unit = with(QuackTagDefaults.LazyTag) {
     if (itemSelections != null) {
