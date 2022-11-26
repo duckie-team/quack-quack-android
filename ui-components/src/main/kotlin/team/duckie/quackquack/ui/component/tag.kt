@@ -756,12 +756,11 @@ public fun QuackSingeLazyRowTag(
     Column(modifier = modifier.fillMaxWidth()) {
         if (title != null) {
             QuackText(
-                modifier = Modifier
-                    .padding(
-                        start = contentPadding.calculateStartPadding(layoutDirection),
-                        end = contentPadding.calculateEndPadding(layoutDirection),
-                        bottom = TitleSpacedBy,
-                    ),
+                modifier = Modifier.padding(
+                    start = contentPadding.calculateStartPadding(layoutDirection),
+                    end = contentPadding.calculateEndPadding(layoutDirection),
+                    bottom = TitleSpacedBy,
+                ),
                 text = title,
                 style = TitleTypogrphy,
                 singleLine = true,
@@ -769,7 +768,7 @@ public fun QuackSingeLazyRowTag(
         }
 
         LazyRow(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             contentPadding = contentPadding,
             horizontalArrangement = Arrangement.spacedBy(horizontalSpace),
         ) {
