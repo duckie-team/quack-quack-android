@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,6 +31,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
@@ -645,15 +648,11 @@ public fun QuackLazyVerticalGridTag(
         modifier = modifier
             .fillMaxWidth()
             .padding(contentPadding),
-        verticalArrangement = Arrangement.spacedBy(
-            space = horizontalSpace,
-        ),
+        verticalArrangement = Arrangement.spacedBy(horizontalSpace),
     ) {
         if (title != null) {
             QuackText(
-                modifier = Modifier.padding(
-                    bottom = TitleSpacedBy,
-                ),
+                modifier = Modifier.padding(bottom = TitleSpacedBy),
                 text = title,
                 style = TitleTypogrphy,
                 singleLine = true,
@@ -747,10 +746,18 @@ public fun QuackSingeLazyRowTag(
                     "[items.size (${items.size}) != itemsSelection.size (${itemSelections.size})]"
         }
     }
+
+    val layoutDirection = LocalLayoutDirection.current
+
     Column(modifier = modifier.fillMaxWidth()) {
         if (title != null) {
             QuackText(
-                modifier = Modifier.padding(bottom = TitleSpacedBy),
+                modifier = Modifier
+                    .padding(
+                        start = contentPadding.calculateStartPadding(layoutDirection),
+                        end = contentPadding.calculateEndPadding(layoutDirection),
+                        bottom = TitleSpacedBy,
+                    ),
                 text = title,
                 style = TitleTypogrphy,
                 singleLine = true,
@@ -760,7 +767,7 @@ public fun QuackSingeLazyRowTag(
         LazyRow(
             modifier = modifier.fillMaxWidth(),
             contentPadding = contentPadding,
-            horizontalArrangement = Arrangement.spacedBy(space = horizontalSpace),
+            horizontalArrangement = Arrangement.spacedBy(horizontalSpace),
         ) {
             itemsIndexed(
                 items = items,
