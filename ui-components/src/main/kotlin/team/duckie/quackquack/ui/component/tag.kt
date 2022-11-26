@@ -12,9 +12,9 @@ package team.duckie.quackquack.ui.component
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -448,9 +448,7 @@ private fun QuackCircleTagInternal(
             }
         },
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             QuackText(
                 modifier = Modifier.padding(
                     paddingValues = tagTextPaddingFor(
@@ -466,20 +464,11 @@ private fun QuackCircleTagInternal(
             )
             if (trailingIcon != null) {
                 QuackImage(
-                    // FIXME: why do not working??
-                    // 아마 마진이 패딩으로 적용되는 듯 함
-                    // modifier = Modifier.padding(
-                    //     paddingValues = TrailingIconPadding,
-                    // ),
                     src = trailingIcon,
                     size = TrailingIconSize,
+                    padding = TrailingIconPadding,
                     tint = trailingIconTintFor(
                         isSelected = isSelected,
-                    ),
-                )
-                Spacer(
-                    modifier = Modifier.padding(
-                        paddingValues = TrailingIconPadding,
                     ),
                 )
             }
@@ -653,80 +642,55 @@ public fun QuackLazyVerticalGridTag(
     key: ((index: Int, items: List<String>) -> Any)? = null,
     contentType: (index: Int, items: List<String>) -> Any? = { _, _ -> null },
     onClick: (index: Int) -> Unit,
-): Unit = with(
-    receiver = QuackTagDefaults.LazyTag,
-) {
+): Unit = with(QuackTagDefaults.LazyTag) {
     if (itemSelections != null) {
-        runtimeCheck(
-            value = items.size == itemSelections.size,
-        ) {
+        runtimeCheck(items.size == itemSelections.size) {
             "The size of items and the size of itemsSelection must always be the same. " +
                     "[items.size (${items.size}) != itemsSelection.size (${itemSelections.size})]"
         }
     }
-    val chunkedItems = remember(
-        key1 = items,
-    ) {
-        items.chunked(
-            size = itemChunkedSize,
-        )
+    val chunkedItems = remember(items) {
+        items.chunked(itemChunkedSize)
     }
-    LazyColumn(
-        modifier = modifier.fillMaxWidth(),
-        contentPadding = contentPadding,
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(contentPadding),
         verticalArrangement = Arrangement.spacedBy(
             space = horizontalSpace,
         ),
     ) {
         if (title != null) {
-            item {
-                QuackText(
-                    modifier = Modifier.padding(
-                        bottom = TitleSpacedBy,
-                    ),
-                    text = title,
-                    style = TitleTypogrphy,
-                    singleLine = true,
-                )
-            }
+            QuackText(
+                modifier = Modifier.padding(
+                    bottom = TitleSpacedBy,
+                ),
+                text = title,
+                style = TitleTypogrphy,
+                singleLine = true,
+            )
         }
-        itemsIndexed(
-            items = chunkedItems,
-            key = key,
-            contentType = contentType,
-        ) { rowIndex, rowItems ->
+        chunkedItems.fastForEachIndexed { rowIndex, items ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .horizontalScroll(
-                        state = rememberScrollState(),
-                    ),
+                    .horizontalScroll(state = rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(
                     space = verticalSpace,
                 ),
             ) {
-                rowItems.fastForEachIndexed { index, item ->
+                items.fastForEachIndexed { index, item ->
                     val currentIndex = rowIndex * itemChunkedSize + index
-                    val isSelected = itemSelections?.get(
-                        index = currentIndex,
-                    ) ?: false
-                    with(
-                        receiver = tagType,
-                    ) {
+                    val isSelected = itemSelections?.get(currentIndex) ?: false
+                    with(tagType) {
                         when (this) {
                             is QuackTagType.Grayscale -> QuackGrayscaleTagInternal(
-                                modifier = Modifier.animateItemPlacement(
-                                    animationSpec = QuackAnimationSpec(),
-                                ),
                                 text = item,
                                 trailingText = trailingText,
                                 actualIndex = currentIndex,
                                 onClickWithIndex = onClick,
                             )
                             is QuackTagType.Circle -> QuackCircleTagInternal(
-                                modifier = Modifier.animateItemPlacement(
-                                    animationSpec = QuackAnimationSpec(),
-                                ),
                                 text = item,
                                 trailingIcon = trailingIcon,
                                 isSelected = isSelected,
@@ -734,9 +698,6 @@ public fun QuackLazyVerticalGridTag(
                                 onClickWithIndex = onClick,
                             )
                             QuackTagType.Round -> QuackRoundTagInternal(
-                                modifier = Modifier.animateItemPlacement(
-                                    animationSpec = QuackAnimationSpec(),
-                                ),
                                 text = item,
                                 isSelected = isSelected,
                                 actualIndex = currentIndex,
