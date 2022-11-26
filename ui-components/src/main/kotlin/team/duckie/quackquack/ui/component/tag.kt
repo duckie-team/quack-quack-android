@@ -641,14 +641,15 @@ public fun QuackLazyVerticalGridTag(
                     "[items.size (${items.size}) != itemsSelection.size (${itemSelections.size})]"
         }
     }
+
     val chunkedItems = remember(items) {
         items.chunked(itemChunkedSize)
     }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(contentPadding),
-        verticalArrangement = Arrangement.spacedBy(horizontalSpace),
     ) {
         if (title != null) {
             QuackText(
@@ -658,39 +659,42 @@ public fun QuackLazyVerticalGridTag(
                 singleLine = true,
             )
         }
-        chunkedItems.fastForEachIndexed { rowIndex, items ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(state = rememberScrollState()),
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = verticalSpace,
-                ),
-            ) {
-                items.fastForEachIndexed { index, item ->
-                    val currentIndex = rowIndex * itemChunkedSize + index
-                    val isSelected = itemSelections?.get(currentIndex) ?: false
-                    with(tagType) {
-                        when (this) {
-                            is QuackTagType.Grayscale -> QuackGrayscaleTagInternal(
-                                text = item,
-                                trailingText = trailingText,
-                                actualIndex = currentIndex,
-                                onClickWithIndex = onClick,
-                            )
-                            is QuackTagType.Circle -> QuackCircleTagInternal(
-                                text = item,
-                                trailingIcon = trailingIcon,
-                                isSelected = isSelected,
-                                actualIndex = currentIndex,
-                                onClickWithIndex = onClick,
-                            )
-                            QuackTagType.Round -> QuackRoundTagInternal(
-                                text = item,
-                                isSelected = isSelected,
-                                actualIndex = currentIndex,
-                                onClickWithIndex = onClick,
-                            )
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(horizontalSpace),
+        ) {
+            chunkedItems.fastForEachIndexed { rowIndex, items ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(state = rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(verticalSpace),
+                ) {
+                    items.fastForEachIndexed { index, item ->
+                        val currentIndex = rowIndex * itemChunkedSize + index
+                        val isSelected = itemSelections?.get(currentIndex) ?: false
+                        with(tagType) {
+                            when (this) {
+                                is QuackTagType.Grayscale -> QuackGrayscaleTagInternal(
+                                    text = item,
+                                    trailingText = trailingText,
+                                    actualIndex = currentIndex,
+                                    onClickWithIndex = onClick,
+                                )
+                                is QuackTagType.Circle -> QuackCircleTagInternal(
+                                    text = item,
+                                    trailingIcon = trailingIcon,
+                                    isSelected = isSelected,
+                                    actualIndex = currentIndex,
+                                    onClickWithIndex = onClick,
+                                )
+                                QuackTagType.Round -> QuackRoundTagInternal(
+                                    text = item,
+                                    isSelected = isSelected,
+                                    actualIndex = currentIndex,
+                                    onClickWithIndex = onClick,
+                                )
+                            }
                         }
                     }
                 }
