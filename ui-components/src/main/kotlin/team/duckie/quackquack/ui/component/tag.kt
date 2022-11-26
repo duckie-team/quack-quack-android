@@ -12,9 +12,9 @@ package team.duckie.quackquack.ui.component
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -448,9 +448,7 @@ private fun QuackCircleTagInternal(
             }
         },
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             QuackText(
                 modifier = Modifier.padding(
                     paddingValues = tagTextPaddingFor(
@@ -466,20 +464,11 @@ private fun QuackCircleTagInternal(
             )
             if (trailingIcon != null) {
                 QuackImage(
-                    // FIXME: why do not working??
-                    // 아마 마진이 패딩으로 적용되는 듯 함
-                    // modifier = Modifier.padding(
-                    //     paddingValues = TrailingIconPadding,
-                    // ),
                     src = trailingIcon,
                     size = TrailingIconSize,
+                    padding = TrailingIconPadding,
                     tint = trailingIconTintFor(
                         isSelected = isSelected,
-                    ),
-                )
-                Spacer(
-                    modifier = Modifier.padding(
-                        paddingValues = TrailingIconPadding,
                     ),
                 )
             }
@@ -627,15 +616,6 @@ private fun quackTagInternalAssert(
  * @param verticalSpace 아이템들의 세로 간격
  * @param tagType [QuackLazyVerticalGridTag] 에서 표시할 태그의 타입을 지정합니다.
  * 여러 종류의 태그가 [QuackLazyVerticalGridTag] 으로 표시될 수 있게 태그의 타입을 따로 받습니다.
- * @param key a factory of stable and unique keys representing the item. Using the same key
- * for multiple items in the list is not allowed. Type of the key should be saveable
- * via Bundle on Android. If null is passed the position in the list will represent the key.
- * When you specify the key the scroll position will be maintained based on the key, which
- * means if you add/remove items before the current visible item the item with the given key
- * will be kept as the first visible one.
- * @param contentType a factory of the content types for the item. The item compositions of
- * the same type could be reused more efficiently. Note that null is a valid type and items of such
- * type will be considered compatible.
  * @param onClick 사용자가 태그를 클릭했을 때 호출되는 람다.
  * 람다식의 인자로는 선택된 태그의 index 가 들어옵니다.
  */
@@ -650,83 +630,56 @@ public fun QuackLazyVerticalGridTag(
     horizontalSpace: Dp = QuackTagDefaults.LazyTag.HorizontalSpacedBy,
     verticalSpace: Dp = QuackTagDefaults.LazyTag.VerticalSpacedBy,
     tagType: QuackTagType,
-    key: ((index: Int, items: List<String>) -> Any)? = null,
-    contentType: (index: Int, items: List<String>) -> Any? = { _, _ -> null },
     onClick: (index: Int) -> Unit,
-): Unit = with(
-    receiver = QuackTagDefaults.LazyTag,
-) {
+): Unit = with(QuackTagDefaults.LazyTag) {
     if (itemSelections != null) {
-        runtimeCheck(
-            value = items.size == itemSelections.size,
-        ) {
+        runtimeCheck(items.size == itemSelections.size) {
             "The size of items and the size of itemsSelection must always be the same. " +
                     "[items.size (${items.size}) != itemsSelection.size (${itemSelections.size})]"
         }
     }
-    val chunkedItems = remember(
-        key1 = items,
-    ) {
-        items.chunked(
-            size = itemChunkedSize,
-        )
+    val chunkedItems = remember(items) {
+        items.chunked(itemChunkedSize)
     }
-    LazyColumn(
-        modifier = modifier.fillMaxWidth(),
-        contentPadding = contentPadding,
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(contentPadding),
         verticalArrangement = Arrangement.spacedBy(
             space = horizontalSpace,
         ),
     ) {
         if (title != null) {
-            item {
-                QuackText(
-                    modifier = Modifier.padding(
-                        bottom = TitleSpacedBy,
-                    ),
-                    text = title,
-                    style = TitleTypogrphy,
-                    singleLine = true,
-                )
-            }
+            QuackText(
+                modifier = Modifier.padding(
+                    bottom = TitleSpacedBy,
+                ),
+                text = title,
+                style = TitleTypogrphy,
+                singleLine = true,
+            )
         }
-        itemsIndexed(
-            items = chunkedItems,
-            key = key,
-            contentType = contentType,
-        ) { rowIndex, rowItems ->
+        chunkedItems.fastForEachIndexed { rowIndex, items ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .horizontalScroll(
-                        state = rememberScrollState(),
-                    ),
+                    .horizontalScroll(state = rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(
                     space = verticalSpace,
                 ),
             ) {
-                rowItems.fastForEachIndexed { index, item ->
+                items.fastForEachIndexed { index, item ->
                     val currentIndex = rowIndex * itemChunkedSize + index
-                    val isSelected = itemSelections?.get(
-                        index = currentIndex,
-                    ) ?: false
-                    with(
-                        receiver = tagType,
-                    ) {
+                    val isSelected = itemSelections?.get(currentIndex) ?: false
+                    with(tagType) {
                         when (this) {
                             is QuackTagType.Grayscale -> QuackGrayscaleTagInternal(
-                                modifier = Modifier.animateItemPlacement(
-                                    animationSpec = QuackAnimationSpec(),
-                                ),
                                 text = item,
                                 trailingText = trailingText,
                                 actualIndex = currentIndex,
                                 onClickWithIndex = onClick,
                             )
                             is QuackTagType.Circle -> QuackCircleTagInternal(
-                                modifier = Modifier.animateItemPlacement(
-                                    animationSpec = QuackAnimationSpec(),
-                                ),
                                 text = item,
                                 trailingIcon = trailingIcon,
                                 isSelected = isSelected,
@@ -734,9 +687,6 @@ public fun QuackLazyVerticalGridTag(
                                 onClickWithIndex = onClick,
                             )
                             QuackTagType.Round -> QuackRoundTagInternal(
-                                modifier = Modifier.animateItemPlacement(
-                                    animationSpec = QuackAnimationSpec(),
-                                ),
                                 text = item,
                                 isSelected = isSelected,
                                 actualIndex = currentIndex,
@@ -797,57 +747,58 @@ public fun QuackSingeLazyRowTag(
                     "[items.size (${items.size}) != itemsSelection.size (${itemSelections.size})]"
         }
     }
-    LazyRow(
-        modifier = modifier.fillMaxWidth(),
-        contentPadding = contentPadding,
-        horizontalArrangement = Arrangement.spacedBy(space = horizontalSpace),
-    ) {
+    Column(modifier = modifier.fillMaxWidth()) {
         if (title != null) {
-            item {
-                QuackText(
-                    modifier = Modifier.padding(bottom = TitleSpacedBy),
-                    text = title,
-                    style = TitleTypogrphy,
-                    singleLine = true,
-                )
-            }
+            QuackText(
+                modifier = Modifier.padding(bottom = TitleSpacedBy),
+                text = title,
+                style = TitleTypogrphy,
+                singleLine = true,
+            )
         }
-        itemsIndexed(
-            items = items,
-            key = key,
-            contentType = contentType,
-        ) { index, item ->
-            val isSelected = itemSelections?.get(index) ?: false
-            with(tagType) {
-                when (this) {
-                    is QuackTagType.Grayscale -> QuackGrayscaleTagInternal(
-                        modifier = Modifier.animateItemPlacement(
-                            animationSpec = QuackAnimationSpec(),
-                        ),
-                        text = item,
-                        trailingText = trailingText,
-                        actualIndex = index,
-                        onClickWithIndex = onClick,
-                    )
-                    is QuackTagType.Circle -> QuackCircleTagInternal(
-                        modifier = Modifier.animateItemPlacement(
-                            animationSpec = QuackAnimationSpec(),
-                        ),
-                        text = item,
-                        trailingIcon = trailingIcon,
-                        isSelected = isSelected,
-                        actualIndex = index,
-                        onClickWithIndex = onClick,
-                    )
-                    QuackTagType.Round -> QuackRoundTagInternal(
-                        modifier = Modifier.animateItemPlacement(
-                            animationSpec = QuackAnimationSpec(),
-                        ),
-                        text = item,
-                        isSelected = isSelected,
-                        actualIndex = index,
-                        onClickWithIndex = onClick,
-                    )
+
+        LazyRow(
+            modifier = modifier.fillMaxWidth(),
+            contentPadding = contentPadding,
+            horizontalArrangement = Arrangement.spacedBy(space = horizontalSpace),
+        ) {
+            itemsIndexed(
+                items = items,
+                key = key,
+                contentType = contentType,
+            ) { index, item ->
+                val isSelected = itemSelections?.get(index) ?: false
+                with(tagType) {
+                    when (this) {
+                        is QuackTagType.Grayscale -> QuackGrayscaleTagInternal(
+                            modifier = Modifier.animateItemPlacement(
+                                animationSpec = QuackAnimationSpec(),
+                            ),
+                            text = item,
+                            trailingText = trailingText,
+                            actualIndex = index,
+                            onClickWithIndex = onClick,
+                        )
+                        is QuackTagType.Circle -> QuackCircleTagInternal(
+                            modifier = Modifier.animateItemPlacement(
+                                animationSpec = QuackAnimationSpec(),
+                            ),
+                            text = item,
+                            trailingIcon = trailingIcon,
+                            isSelected = isSelected,
+                            actualIndex = index,
+                            onClickWithIndex = onClick,
+                        )
+                        QuackTagType.Round -> QuackRoundTagInternal(
+                            modifier = Modifier.animateItemPlacement(
+                                animationSpec = QuackAnimationSpec(),
+                            ),
+                            text = item,
+                            isSelected = isSelected,
+                            actualIndex = index,
+                            onClickWithIndex = onClick,
+                        )
+                    }
                 }
             }
         }

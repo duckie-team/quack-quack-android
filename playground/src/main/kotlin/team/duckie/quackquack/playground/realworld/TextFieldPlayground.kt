@@ -10,6 +10,7 @@ package team.duckie.quackquack.playground.realworld
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.PlaygroundActivity
@@ -58,6 +59,8 @@ fun QuackPriceTextFieldDemo() {
     )
 }
 
+private val QuackBasic2TextFieldDecorationItemsHorizontalPadding = 5.dp
+
 @Composable
 fun QuackBasic2TextFieldDemo() {
     val toast = rememberToast()
@@ -66,9 +69,11 @@ fun QuackBasic2TextFieldDemo() {
     QuackBasic2TextField(
         text = text,
         onTextChanged = setText,
-        placeholderText = "Basic2TextFieldPlaceholder",
+        placeholderText = "decoration items horizontal padding: 5.dp",
+        leadingStartPadding = QuackBasic2TextFieldDecorationItemsHorizontalPadding,
         leadingIcon = QuackIcon.Heart,
         leadingIconOnClick = { toast("Heart clicked") },
+        trailingEndPadding = QuackBasic2TextFieldDecorationItemsHorizontalPadding,
         trailingIcon = QuackIcon.FilledHeart,
         trailingIconOnClick = { toast("FilledHeart clicked") },
     )
