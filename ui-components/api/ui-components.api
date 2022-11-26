@@ -212,7 +212,7 @@ public final class team/duckie/quackquack/ui/component/TabKt {
 public final class team/duckie/quackquack/ui/component/TagKt {
 	public static final fun QuackCircleTag-vwKyDFA (Landroidx/compose/ui/Modifier;Ljava/lang/String;Lteam/duckie/quackquack/ui/icon/QuackIcon;ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackGrayscaleTag (Landroidx/compose/ui/Modifier;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
-	public static final fun QuackLazyVerticalGridTag-hW5Ac_0 (Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/layout/PaddingValues;Ljava/lang/String;Ljava/util/List;Ljava/util/List;IFFLteam/duckie/quackquack/ui/component/QuackTagType;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;III)V
+	public static final fun QuackLazyVerticalGridTag-Y92LkZI (Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/layout/PaddingValues;Ljava/lang/String;Ljava/util/List;Ljava/util/List;IFFLteam/duckie/quackquack/ui/component/QuackTagType;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackRoundTag (Landroidx/compose/ui/Modifier;Ljava/lang/String;ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 	public static final fun QuackSingeLazyRowTag-zadm560 (Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/layout/PaddingValues;Ljava/lang/String;Ljava/util/List;Ljava/util/List;FLteam/duckie/quackquack/ui/component/QuackTagType;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
 }
