@@ -65,10 +65,6 @@ repositories {
 }
 ```
 
-## Usage
-
-You can check out QuackQuack's documentation at [opensource.duckie.team/quackquack](https://opensource.duckie.team/quackquack).
-
 ## Contribute
 
 > We love your contribution! 
