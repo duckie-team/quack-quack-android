@@ -130,7 +130,7 @@ jobs:
         run: echo "version=[${{ steps.label.outputs.release_target }}] ${{ steps.version.outputs.version }}" >> $GITHUB_OUTPUT
 
       - name: Create GitHub release
-        uses: ncipollo/release-action@v1.11.2
+        uses: ncipollo/release-action@v1.12.0
         with:
           generateReleaseNotes: true
           name: ${{ steps.new_version.outputs.version }}
