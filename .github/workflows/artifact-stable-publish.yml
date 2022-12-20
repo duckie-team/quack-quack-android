@@ -8,8 +8,7 @@ env:
   ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ARTIFACT_SIGNING_PRIVATE_KEY_PASSWORD }}
 on:
   pull_request:
-    # branches: [ master ]
-    branches: [ DISABLE-THIS-WORKFLOW ]
+    branches: [ master ]
     types: [ closed ]
 
 jobs:
@@ -64,6 +63,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          # We need to use a Personal Access Token from an admin to be able to commit to main,
+          # as it is a protected branch.
+          token: ${{ secrets.SUNGBIN_PAT }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0

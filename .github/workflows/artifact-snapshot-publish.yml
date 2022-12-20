@@ -8,8 +8,7 @@ env:
   ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ARTIFACT_SIGNING_PRIVATE_KEY_PASSWORD }}
 on:
   pull_request:
-    # branches: [ master ]
-    branches: [ DISABLE-THIS-WORKFLOW ]
+    branches: [ master ]
     types: [ closed ]
 
 jobs:
