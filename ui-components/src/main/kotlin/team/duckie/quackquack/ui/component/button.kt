@@ -408,21 +408,20 @@ private object QuackButtonDefaults {
 }
 
 /**
- * 덕키의 메인 버튼을 구현합니다.
+ * 덕키의 메인 CTA 버튼을 구현합니다.
  * [QuackLargeButton] 은 다음과 같은 특징이 있습니다.
  *
  * 1. 활성 상태에 따라 다른 배경 색상을 가지며, 여러 사용 사례에 따라 디자인이 약간씩 달라집니다.
- * 2. 자동으로 모든 영역에 애니메이션이 적용됩니다. (IME 포함)
+ * 2. 자동으로 모든 영역에 애니메이션이 적용됩니다.
  * 3. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
- *
- * - IME 애니메이션을 적용하기 위해선 해당 액티비티의 `windowSoftInputMode` 가
- *   `adjustResize` 로 설정되어 있어야 합니다.
- * `
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param type 이 버튼의 사용 사례에 적합한 버튼 타입
  * @param text 버튼에 표시될 텍스트
  * @param enabled 버튼 활성화 여부. 배경 색상에 영향을 미칩니다.
+ * @param imeAnimation IME 애니메이션 사용 여부.
+ * IME 애니메이션을 적용하기 위해선 해당 액티비티의 `windowSoftInputMode` 가
+ * `adjustResize` 로 설정되어 있어야 합니다.
  * @param leadingIcon 버튼 왼쪽에 표시될 아이콘. [type] 이 [LargeBorder] 일 경우에만 유효합니다.
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
@@ -432,6 +431,7 @@ public fun QuackLargeButton(
     type: QuackLargeButtonType,
     text: String,
     enabled: Boolean? = null,
+    imeAnimation: Boolean = true,
     leadingIcon: QuackIcon? = null,
     onClick: () -> Unit,
 ): Unit = with(
@@ -464,14 +464,16 @@ public fun QuackLargeButton(
     QuackBasicButton(
         modifier = modifier
             .fillMaxWidth()
-            .offset {
-                val imeHeight = imeInsets.getBottom(this)
-                val nagivationBarHeight = navigationBarInsets.getBottom(this)
-                // ime height 에 navigation height 가 포함되는 것으로 추측됨
-                val yOffset = imeHeight
-                    .minus(nagivationBarHeight)
-                    .coerceAtLeast(0)
-                IntOffset(x = 0, y = -yOffset)
+            .runIf(imeAnimation) {
+                offset {
+                    val imeHeight = imeInsets.getBottom(this)
+                    val nagivationBarHeight = navigationBarInsets.getBottom(this)
+                    // ime height 에 navigation height 가 포함되는 것으로 추측됨
+                    val yOffset = imeHeight
+                        .minus(nagivationBarHeight)
+                        .coerceAtLeast(0)
+                    IntOffset(x = 0, y = -yOffset)
+                }
             },
         shape = Shape,
         leadingContent = LeadingContent(
