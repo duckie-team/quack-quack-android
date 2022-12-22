@@ -17,9 +17,7 @@ import team.duckie.quackquack.ui.component.QuackBasicTextArea
 import team.duckie.quackquack.ui.component.QuackGoodsDetailTextArea
 import team.duckie.quackquack.ui.component.QuackReviewTextArea
 
-class TextAreaPlayground : PlaygroundActivity(
-    name = "TextArea",
-) {
+class TextAreaPlayground : PlaygroundActivity(name = "TextArea") {
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
         ::QuackBasicTextAreaDemo.name to { QuackBasicTextAreaDemo() },
         ::QuackReviewTextAreaDemo.name to { QuackReviewTextAreaDemo() },
@@ -46,6 +44,7 @@ fun QuackReviewTextAreaDemo() {
         text = text,
         onTextChanged = setText,
         placeholderText = "ReviewTextAreaPlaceholder",
+        focused = true,
     )
 }
 
