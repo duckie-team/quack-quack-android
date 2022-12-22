@@ -106,9 +106,9 @@ private object QuackTopAppBarDefaults {
      */
     @Composable
     fun LeadingContent(
-        icon: QuackIcon,
+        icon: QuackIcon? = null,
         text: String? = null,
-        onIconClick: () -> Unit,
+        onIconClick: (() -> Unit)? = null,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -277,6 +277,7 @@ private object QuackTopAppBarDefaults {
  * 덕키의 Top Navigation Bar 를 그립니다.
  * [QuackTopAppBar] 는 몇몇 중요한 특징이 있습니다.
  *
+ * - 최소 하나의 값이 제공돼야 합니다.
  * - 항상 상위 컴포저블의 가로 길이에 꽉차게 그립니다.
  * - [showLogoAtCenter] 이 true 라면 [centerText] 값은 무시됩니다.
  *   로고 리소스로는 [QuackIcon.TextLogo] 를 사용합니다.
@@ -285,6 +286,8 @@ private object QuackTopAppBarDefaults {
  * - [trailingExtraIcon] 과 [trailingIcon] 이 하나라도 들어왔다면 [trailingText] 는 무시되며,
  *   `[trailingExtraIcon] [trailingIcon]` 순서로 배치됩니다.
  * - [trailingText] 값이 입력되면 [trailingExtraIcon] 과 [trailingIcon] 값은 무시됩니다.
+ * - [trailingContent] 이 있다면 [trailingIcon], [trailingExtraIcon], [trailingText],
+ *   [onTrailingIconClick], [onTrailingExtraIconClick], [onTrailingTextClick] 값은 무시됩니다.
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param leadingIcon trailing content 로 배치할 아이콘
@@ -294,9 +297,10 @@ private object QuackTopAppBarDefaults {
  * @param centerText center content 에 로고 대신에 표시할 텍스트
  * @param centerTextTrailingIcon [centerText] 의 trailing content 로 배치할 아이콘
  * @param onCenterClick center content 가 클릭됐을 때 실행될 람다
- * @param trailingIcon 배치할 아이콘
- * @param trailingExtraIcon 추가로 배치할 아이콘
- * @param trailingText 배치할 텍스트
+ * @param trailingContent trailing content 로 배치할 컴포넌트
+ * @param trailingIcon trailing content 로 배치할 아이콘
+ * @param trailingExtraIcon trailing content 에 추가로 배치할 아이콘
+ * @param trailingText trailing content 에 배치할 텍스트
  * @param onTrailingIconClick [trailingIcon] 이 클릭됐을 때 실행될 람다
  * @param onTrailingExtraIconClick [trailingExtraIcon] 이 클릭됐을 때 실행될 람다
  * @param onTrailingTextClick [trailingText] 가 클릭됐을 때 실행될 람다
@@ -304,28 +308,54 @@ private object QuackTopAppBarDefaults {
 @Composable
 public fun QuackTopAppBar(
     modifier: Modifier = Modifier,
-    leadingIcon: QuackIcon,
+    leadingIcon: QuackIcon? = null,
     leadingText: String? = null,
-    onLeadingIconClick: () -> Unit,
+    onLeadingIconClick: (() -> Unit)? = null,
     showLogoAtCenter: Boolean? = null,
     centerText: String? = null,
     centerTextTrailingIcon: QuackIcon? = null,
     onCenterClick: (() -> Unit)? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
     trailingIcon: QuackIcon? = null,
     trailingExtraIcon: QuackIcon? = null,
     trailingText: String? = null,
     onTrailingIconClick: (() -> Unit)? = null,
     onTrailingExtraIconClick: (() -> Unit)? = null,
     onTrailingTextClick: (() -> Unit)? = null,
-): Unit = with(
-    receiver = QuackTopAppBarDefaults,
-) {
+): Unit = with(QuackTopAppBarDefaults) {
+    runtimeCheck(
+        leadingIcon != null ||
+                leadingText != null ||
+                onLeadingIconClick != null ||
+                showLogoAtCenter != null ||
+                centerText != null ||
+                centerTextTrailingIcon != null ||
+                onCenterClick != null ||
+                trailingContent != null ||
+                trailingIcon != null ||
+                trailingExtraIcon != null ||
+                trailingText != null ||
+                onTrailingIconClick != null ||
+                onTrailingExtraIconClick != null ||
+                onTrailingTextClick != null
+    ) {
+        "At least one param setting is required."
+    }
+
+    if (trailingContent != null) {
+        runtimeCheck(
+            trailingIcon == null && trailingExtraIcon == null && trailingText == null &&
+                    onTrailingIconClick == null && onTrailingExtraIconClick == null &&
+                    onTrailingTextClick == null
+        ) {
+            "trailingContent 가 입력되었을 때는 다른 trailing content 인자들을 이용하실 수 없습니다."
+        }
+    }
+
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(
-                color = BackgroundColor.composeColor,
-            ),
+            .background(color = BackgroundColor.composeColor),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
@@ -340,6 +370,7 @@ public fun QuackTopAppBar(
             textTrailingIcon = centerTextTrailingIcon,
             onClick = onCenterClick,
         )
+        trailingContent?.invoke()
         TrailingContent(
             icon = trailingIcon,
             extraIcon = trailingExtraIcon,

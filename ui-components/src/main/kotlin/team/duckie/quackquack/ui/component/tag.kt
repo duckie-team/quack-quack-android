@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
 import kotlinx.collections.immutable.ImmutableList
-import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
 import team.duckie.quackquack.ui.component.internal.QuackSurface
@@ -281,14 +280,15 @@ private object QuackTagDefaults {
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text 태그의 텍스트
- * @param trailingText 태그의 trailing content 로 들어갈 텍스트
+ * @param trailingText 태그의 trailing content 로 들어갈 텍스트.
+ * 만약 null 이 입력될 경우 trailing content 를 표시하지 않습니다.
  * @param onClick 태그를 클릭했을 때 실행될 람다
  */
 @Composable
 public fun QuackGrayscaleTag(
     modifier: Modifier = Modifier,
     text: String,
-    trailingText: String,
+    trailingText: String?,
     onClick: (() -> Unit)? = null,
 ): Unit = QuackGrayscaleTagInternal(
     modifier = modifier,
@@ -316,7 +316,7 @@ public fun QuackGrayscaleTag(
 private fun QuackGrayscaleTagInternal(
     modifier: Modifier = Modifier,
     text: String,
-    trailingText: String,
+    trailingText: String?,
     actualIndex: Int? = null,
     onClick: (() -> Unit)? = null,
     onClickWithIndex: ((index: Int) -> Unit)? = null,
@@ -352,14 +352,16 @@ private fun QuackGrayscaleTagInternal(
                 style = TagTypography,
                 singleLine = true,
             )
-            QuackText(
-                modifier = Modifier.padding(
-                    paddingValues = TrailingTextPadding,
-                ),
-                text = trailingText,
-                style = TrailingTextTypography,
-                singleLine = true,
-            )
+            trailingText?.let {
+                QuackText(
+                    modifier = Modifier.padding(
+                        paddingValues = TrailingTextPadding,
+                    ),
+                    text = trailingText,
+                    style = TrailingTextTypography,
+                    singleLine = true,
+                )
+            }
         }
     }
 }
@@ -781,18 +783,12 @@ public fun QuackSingeLazyRowTag(
                 with(tagType) {
                     when (this) {
                         is QuackTagType.Grayscale -> QuackGrayscaleTagInternal(
-                            modifier = Modifier.animateItemPlacement(
-                                animationSpec = QuackAnimationSpec(),
-                            ),
                             text = item,
                             trailingText = trailingText,
                             actualIndex = index,
                             onClickWithIndex = onClick,
                         )
                         is QuackTagType.Circle -> QuackCircleTagInternal(
-                            modifier = Modifier.animateItemPlacement(
-                                animationSpec = QuackAnimationSpec(),
-                            ),
                             text = item,
                             trailingIcon = trailingIcon,
                             isSelected = isSelected,
@@ -800,9 +796,6 @@ public fun QuackSingeLazyRowTag(
                             onClickWithIndex = onClick,
                         )
                         QuackTagType.Round -> QuackRoundTagInternal(
-                            modifier = Modifier.animateItemPlacement(
-                                animationSpec = QuackAnimationSpec(),
-                            ),
                             text = item,
                             isSelected = isSelected,
                             actualIndex = index,

@@ -35,7 +35,7 @@ import team.duckie.quackquack.ui.util.runIf
 // TODO: 중복 코드 제거
 
 /**
- * [QuackText] 에 [QuackTextStyle.SplashSlogan] 스타일을 적용하여
+ * [QuackText] 에 [QuackTextStyle.Large1] 스타일을 적용하여
  * 주어진 텍스트를 표시합니다.
  *
  * @param modifier 컴포넌트에 적용할 [Modifier]
@@ -49,7 +49,7 @@ import team.duckie.quackquack.ui.util.runIf
  * @param onClick 텍스트가 클릭됐을 때 실행할 람다식
  */
 @Composable
-public fun QuackSplashSlogan(
+public fun QuackLarge1(
     modifier: Modifier = Modifier,
     padding: PaddingValues? = null,
     text: String,
@@ -72,7 +72,7 @@ public fun QuackSplashSlogan(
             )
         },
     text = text,
-    style = QuackTextStyle.SplashSlogan.change(
+    style = QuackTextStyle.Large1.change(
         color = color,
         textAlign = align,
     ),

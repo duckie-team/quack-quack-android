@@ -42,11 +42,13 @@ import team.duckie.quackquack.playground.base.fontScale
 import team.duckie.quackquack.playground.base.showComponentBounds
 import team.duckie.quackquack.playground.realworld.BottomNavigationPlayground
 import team.duckie.quackquack.playground.realworld.ButtonPlayground
+import team.duckie.quackquack.playground.realworld.DialogPlayground
 import team.duckie.quackquack.playground.realworld.DividerPlayground
 import team.duckie.quackquack.playground.realworld.DropDownPlayground
 import team.duckie.quackquack.playground.realworld.GridLayoutPlayground
 import team.duckie.quackquack.playground.realworld.ImagePlayground
 import team.duckie.quackquack.playground.realworld.LabelPlayground
+import team.duckie.quackquack.playground.realworld.SwitchPlayground
 import team.duckie.quackquack.playground.realworld.TabPlayground
 import team.duckie.quackquack.playground.realworld.TagPlayground
 import team.duckie.quackquack.playground.realworld.TextAreaPlayground
@@ -78,6 +80,8 @@ private val PlaygroundActivities = persistentListOf(
     TogglePlayground::class,
     TopAppBarPlayground::class,
     TypographyPlayground::class,
+    DialogPlayground::class,
+    SwitchPlayground::class,
 ).sortedBy { playgroundActivity ->
     playgroundActivity.simpleName
 }.toImmutableList()

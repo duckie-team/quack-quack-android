@@ -7,7 +7,6 @@
 
 package team.duckie.quackquack.ui.component
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,22 +26,17 @@ private object QuackDividerDefaults {
 
 /**
  * 덕키에서 사용되는 구분선(divider)을 그립니다.
+ *
+ * @param modifier 이 컴포넌트에 사용할 [Modifier]
  */
-@SuppressLint("KDocFields")
 @Composable
-public fun QuackDivider() {
-    with(
-        receiver = QuackDividerDefaults,
-    ) {
+public fun QuackDivider(modifier: Modifier = Modifier) {
+    with(QuackDividerDefaults) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
-                .height(
-                    height = Height,
-                )
-                .background(
-                    color = Color.composeColor,
-                )
+                .height(Height)
+                .background(color = Color.composeColor)
         )
     }
 }

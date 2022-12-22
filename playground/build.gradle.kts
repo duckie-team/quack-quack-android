@@ -72,10 +72,10 @@ dependencies {
         libs.androidx.datastore,
         libs.kotlin.collections.immutable,
         projects.uiComponents,
-        projects.uxWritingRule,
-        projects.uxWritingModel,
-        projects.uxWritingOverlay,
+        // projects.uxWritingRule,
+        // projects.uxWritingModel,
+        // projects.uxWritingOverlay,
     )
-    lintChecks(projects.lintCore)
-    lintChecks(projects.lintCompose)
+    // lintChecks(projects.lintCore)
+    // lintChecks(projects.lintCompose)
 }

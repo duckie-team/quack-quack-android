@@ -23,6 +23,14 @@
         </activity>
 
         <activity
+            android:name=".realworld.DialogPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
+            android:name=".realworld.SwitchPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
             android:name=".realworld.BottomNavigationPlayground"
             android:theme="@style/Theme.Quack" />
 

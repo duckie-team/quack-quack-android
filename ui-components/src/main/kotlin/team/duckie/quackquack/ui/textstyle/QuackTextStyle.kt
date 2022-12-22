@@ -112,10 +112,7 @@ public class QuackTextStyle internal constructor(
     }
 
     public companion object {
-        /**
-         * 덕키 스플래시 화면의 슬로건에 쓰이는 특이 케이스의 TextStyle
-         */
-        public val SplashSlogan: QuackTextStyle = QuackTextStyle(
+        public val Large1: QuackTextStyle = QuackTextStyle(
             size = 24.sp,
             weight = FontWeight.Bold,
             letterSpacing = 0.sp,

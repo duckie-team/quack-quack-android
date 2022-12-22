@@ -125,14 +125,16 @@ private object QuackTextAreaDefaults {
          * 적용될 [QuackBorder] 을 계산합니다.
          *
          * @param isPlaceholder 현재 placeholder 상태인지 여부
+         * @param focused 현재 focusing 상태인지 여부
          *
-         * @return [isPlaceholder] 여부에 따라 사용할 [QuackBorder]
+         * @return 상태에 따라 사용할 [QuackBorder]
          */
         @Stable
         fun borderFor(
             isPlaceholder: Boolean,
+            focused: Boolean,
         ) = QuackBorder(
-            color = when (isPlaceholder) {
+            color = when (isPlaceholder || !focused) {
                 true -> QuackColor.Gray3
                 else -> QuackColor.DuckieOrange
             }
@@ -312,13 +314,14 @@ public fun QuackBasicTextArea(
  *
  * 1. 최소 높이 값을 갖습니다.
  * 2. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
- * 3. 테두리를 갖습니다.
+ * 3. 테두리를 갖습니다. 단, focusing + unplaceholder 상태일 때만 활성화됩니다.
  * 4. Rounding 된 모양을 갖습니다.
  * 5. 항상 [KeyboardType.Number] 타입의 키보드를 사용합니다.
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text 표시할 텍스트
  * @param onTextChanged 새로운 텍스트가 입력됐을 때 호출될 람다
+ * @param focused 현재 TextArea 가 focus 상태에 있는지 여부
  * @param placeholderText 텍스트가 입력되지 않았을 때 표시할 텍스트
  * @param imeAction IME 액션
  * @param keyboardActions 키보드 액션
@@ -328,12 +331,11 @@ public fun QuackReviewTextArea(
     modifier: Modifier = Modifier,
     text: String,
     onTextChanged: (text: String) -> Unit,
+    focused: Boolean,
     placeholderText: String,
     imeAction: ImeAction = ImeAction.Done,
     keyboardActions: KeyboardActions = KeyboardActions(),
-): Unit = with(
-    receiver = QuackTextAreaDefaults.Review,
-) {
+): Unit = with(QuackTextAreaDefaults.Review) {
     val quackTextFieldColors = LocalQuackTextFieldColors.current
 
     // 리컴포지션이 되는 메인 조건은 Text 가 바뀌었을 때인데 그러면
@@ -343,12 +345,8 @@ public fun QuackReviewTextArea(
     BasicTextField(
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(
-                min = MinHeight,
-            )
-            .clip(
-                shape = Shape,
-            )
+            .heightIn(min = MinHeight)
+            .clip(shape = Shape)
             .background(
                 color = BackgroundColor.composeColor,
                 shape = Shape,
@@ -356,17 +354,14 @@ public fun QuackReviewTextArea(
             .applyAnimatedQuackBorder(
                 border = borderFor(
                     isPlaceholder = isPlaceholder,
+                    focused = focused,
                 ),
                 shape = Shape,
             )
-            .padding(
-                paddingValues = TextPadding,
-            ),
+            .padding(paddingValues = TextPadding),
         value = text,
         onValueChange = onTextChanged,
-        textStyle = typographyFor(
-            isPlaceholder = false,
-        ).asComposeStyle(),
+        textStyle = typographyFor(isPlaceholder = false).asComposeStyle(),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
             imeAction = imeAction,

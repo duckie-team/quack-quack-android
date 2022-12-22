@@ -830,6 +830,9 @@ private object QuackTextFieldDefaults {
  * 4. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
+ * @param enabled controls the enabled state of the BasicTextField.
+ * When false, the text field will be neither editable nor focusable,
+ * the input of the text field will not be selectable
  * @param text 표시할 텍스트
  * @param onTextChanged 새로운 텍스트가 입력됐을 때 호출될 람다
  * @param placeholderText 텍스트가 입력되지 않았을 때 표시할 텍스트
@@ -842,6 +845,7 @@ private object QuackTextFieldDefaults {
 @Composable
 public fun QuackBasicTextField(
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     text: String,
     onTextChanged: (text: String) -> Unit,
     placeholderText: String,
@@ -895,6 +899,7 @@ public fun QuackBasicTextField(
             .padding(
                 paddingValues = InputTextPadding,
             ),
+        enabled = enabled,
         value = text,
         onValueChange = onTextChanged,
         textStyle = inputTypography,
