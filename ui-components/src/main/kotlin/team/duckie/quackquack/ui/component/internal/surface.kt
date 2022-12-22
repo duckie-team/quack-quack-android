@@ -57,6 +57,7 @@ import team.duckie.quackquack.ui.modifier.quackClickable
  * @param content 표시할 컴포저블. [BoxScope] 를 receive 로 받습니다.
  */
 @Composable
+// TODO: Modifier.quackSurface 로 변경
 // @NonRestartableComposable; 여기서 사용하는 Box 는 inline 됨
 internal fun QuackSurface(
     modifier: Modifier = Modifier,
