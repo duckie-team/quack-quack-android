@@ -21,7 +21,7 @@ import team.duckie.quackquack.ui.component.QuackBody3
 import team.duckie.quackquack.ui.component.QuackHeadLine1
 import team.duckie.quackquack.ui.component.QuackHeadLine2
 import team.duckie.quackquack.ui.component.QuackHighlightBody1
-import team.duckie.quackquack.ui.component.QuackSplashSlogan
+import team.duckie.quackquack.ui.component.QuackLarge1
 import team.duckie.quackquack.ui.component.QuackSubtitle
 import team.duckie.quackquack.ui.component.QuackSubtitle2
 import team.duckie.quackquack.ui.component.QuackTitle1
@@ -54,7 +54,7 @@ class TypographyPlayground : PlaygroundActivity(
 fun QuackSplashSloganDemo() {
     val toast = rememberToast()
 
-    QuackSplashSlogan(
+    QuackLarge1(
         text = "QuackSplashSlogan + 30.dp padding (for click area test)",
         onClick = { toast("QuackSplashSlogan") },
         padding = PaddingValues(30.dp),
