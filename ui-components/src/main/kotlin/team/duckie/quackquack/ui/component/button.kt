@@ -197,6 +197,32 @@ private object QuackButtonDefaults {
                 null
             }
         }
+
+        /**
+         * trailing content 으로 표시될 컴포저블을 구현합니다.
+         *
+         * @param trailingIcon 버튼의 trailing icon
+         *
+         * @return trailing content 을 나타내는 컴포저블 람다 혹은 null.
+         * [trailingIcon] 이 null 일 때 null 을 반환합니다.
+         */
+        @SuppressLint("ComposableNaming")
+        @Composable
+        fun TrailingContent(
+            trailingIcon: QuackIcon?,
+        ): (@Composable () -> Unit)? {
+            return if (trailingIcon != null) {
+                {
+                    QuackImage(
+                        src = trailingIcon,
+                        size = LeadingIconSize,
+                        tint = LeadingIconTint,
+                    )
+                }
+            } else {
+                null
+            }
+        }
     }
 
     object MediumButton {
@@ -412,17 +438,14 @@ private object QuackButtonDefaults {
  * [QuackLargeButton] 은 다음과 같은 특징이 있습니다.
  *
  * 1. 활성 상태에 따라 다른 배경 색상을 가지며, 여러 사용 사례에 따라 디자인이 약간씩 달라집니다.
- * 2. 자동으로 모든 영역에 애니메이션이 적용됩니다. (IME 포함)
+ * 2. 자동으로 모든 영역에 애니메이션이 적용됩니다.
  * 3. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
- *
- * - IME 애니메이션을 적용하기 위해선 해당 액티비티의 `windowSoftInputMode` 가
- *   `adjustResize` 로 설정되어 있어야 합니다.
- * `
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param type 이 버튼의 사용 사례에 적합한 버튼 타입
  * @param text 버튼에 표시될 텍스트
  * @param enabled 버튼 활성화 여부. 배경 색상에 영향을 미칩니다.
+ * @param imeAnimation IME 애니메이션을 사용할지 여부
  * @param leadingIcon 버튼 왼쪽에 표시될 아이콘. [type] 이 [LargeBorder] 일 경우에만 유효합니다.
  * @param onClick 버튼 클릭 시 호출될 콜백
  */
@@ -432,28 +455,21 @@ public fun QuackLargeButton(
     type: QuackLargeButtonType,
     text: String,
     enabled: Boolean? = null,
+    imeAnimation: Boolean = false,
     leadingIcon: QuackIcon? = null,
     onClick: () -> Unit,
-): Unit = with(
-    receiver = QuackButtonDefaults.LargeButton,
-) {
+): Unit = with(QuackButtonDefaults.LargeButton) {
     if (leadingIcon != null) {
-        runtimeCheck(
-            value = type == LargeBorder,
-        ) {
+        runtimeCheck(type == LargeBorder) {
             "leadingIcon 은 Border 타입에서만 사용할 수 있습니다."
         }
     }
     if (type == LargeFill) {
-        runtimeCheck(
-            value = enabled != null,
-        ) {
+        runtimeCheck(enabled != null) {
             "Fill 타입의 버튼은 enabled 를 반드시 지정해야 합니다."
         }
     } else {
-        runtimeCheck(
-            value = enabled == null,
-        ) {
+        runtimeCheck(enabled == null) {
             "Fill 타입 의외의 버튼은 enabled 를 지정할 수 없습니다."
         }
     }
@@ -464,14 +480,16 @@ public fun QuackLargeButton(
     QuackBasicButton(
         modifier = modifier
             .fillMaxWidth()
-            .offset {
-                val imeHeight = imeInsets.getBottom(this)
-                val nagivationBarHeight = navigationBarInsets.getBottom(this)
-                // ime height 에 navigation height 가 포함되는 것으로 추측됨
-                val yOffset = imeHeight
-                    .minus(nagivationBarHeight)
-                    .coerceAtLeast(0)
-                IntOffset(x = 0, y = -yOffset)
+            .runIf(imeAnimation) {
+                offset {
+                    val imeHeight = imeInsets.getBottom(this)
+                    val nagivationBarHeight = navigationBarInsets.getBottom(this)
+                    // ime height 에 navigation height 가 포함되는 것으로 추측됨
+                    val yOffset = imeHeight
+                        .minus(nagivationBarHeight)
+                        .coerceAtLeast(0)
+                    IntOffset(x = 0, y = -yOffset)
+                }
             },
         shape = Shape,
         leadingContent = LeadingContent(
@@ -628,6 +646,7 @@ public fun QuackToggleChip(
  * @param modifier QuackButton 의 뼈대가 될 [Modifier]
  * @param shape 버튼의 모양. 기본값은 [RectangleShape] 입니다.
  * @param leadingContent 버튼의 텍스트 왼쪽에 표시할 컨텐츠. 기본값은 null 입니다.
+ * @param trailingContent 버튼의 텍스트 오른쪽에 표시할 컨텐츠. 기본값은 null 입니다.
  * @param text 버튼에 표시될 텍스트
  * @param textStyle 버튼의 텍스트 스타일
  * @param padding 버튼의 텍스트에 적용될 [PaddingValues].
@@ -651,6 +670,7 @@ private fun QuackBasicButton(
     modifier: Modifier,
     shape: Shape,
     leadingContent: (@Composable () -> Unit)? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
     text: String,
     textStyle: QuackTextStyle,
     padding: PaddingValues,
@@ -685,6 +705,7 @@ private fun QuackBasicButton(
                 style = textStyle,
                 singleLine = true, // 버튼은 항상 single-line 을 요구함
             )
+            trailingContent?.invoke()
         }
     }
 }
