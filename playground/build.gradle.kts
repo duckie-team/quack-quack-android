@@ -76,6 +76,6 @@ dependencies {
         projects.uxWritingModel,
         projects.uxWritingOverlay,
     )
-    lintChecks(projects.lintCore)
-    lintChecks(projects.lintCompose)
+    // lintChecks(projects.lintCore)
+    // lintChecks(projects.lintCompose)
 }

@@ -50,8 +50,8 @@ dependencies {
         // projects.uxWritingModel,
     )
     api(libs.kotlin.collections.immutable)
-    lintChecks(projects.lintCore)
-    lintChecks(projects.lintCompose)
+    // lintChecks(projects.lintCore)
+    // lintChecks(projects.lintCompose)
 }
 
 quackArtifactPublish {
