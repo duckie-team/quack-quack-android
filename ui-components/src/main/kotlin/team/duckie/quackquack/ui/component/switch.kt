@@ -76,6 +76,7 @@ private val ThumbPressedElevation = 6.dp
 
 private val SwitchWidth = TrackWidth
 private val SwitchHeight = ThumbDiameter
+private const val SwitchSwipeableThresholds = 0.5f
 
 /**
  * 덕키 디자인의 Switch 를 구현합니다.
@@ -124,7 +125,9 @@ public fun QuackSwitch(
             .swipeable(
                 state = swipeableState,
                 anchors = mapOf(minBound to false, maxBound to true),
-                thresholds = { _, _ -> FractionalThreshold(0.5f) },
+                thresholds = { _, _ ->
+                    FractionalThreshold(fraction = SwitchSwipeableThresholds)
+                },
                 orientation = Orientation.Horizontal,
                 enabled = onCheckedChange != null,
                 reverseDirection = isRtl,
