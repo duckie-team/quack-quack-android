@@ -272,6 +272,39 @@ private object QuackTagDefaults {
 }
 
 /**
+ * 덕키의 Small Gray 태그를 구현합니다.
+ * [QuackSmallGrayTag] 는 다음과 같은 특징을 갖습니다.
+ *
+ * 1. decoration content 를 갖지 않습니다.
+ *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
+ * @param text 태그 텍스트
+ * @param onClick 태그가 클릭됐을 떄 호출될 람다
+ */
+@Composable
+public fun QuackSmallGrayTag(
+    modifier: Modifier = Modifier,
+    text: String,
+    onClick: (() -> Unit)? = null,
+) {
+    QuackSurface(
+        modifier = modifier,
+        shape = RoundedCornerShape(10.dp),
+        backgroundColor = QuackColor.Gray4,
+        onClick = onClick,
+    ) {
+        QuackBody2(
+            modifier = Modifier.padding(
+                vertical = 4.dp,
+                horizontal = 8.dp,
+            ),
+            text = text,
+            color = QuackColor.Gray1,
+        )
+    }
+}
+
+/**
  * Grayscale 테마를 띄는 태그를 구현합니다.
  * [QuackGrayscaleTag] 는 다음과 같은 특징을 갖습니다.
  *

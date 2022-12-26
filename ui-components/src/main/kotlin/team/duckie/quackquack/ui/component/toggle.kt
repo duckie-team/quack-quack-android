@@ -224,6 +224,41 @@ public fun QuackRoundCheckBox(
 }
 
 /**
+ * 덕키의 원형 CheckBox 를 구현합니다.
+ * [QuackRoundCheckBox] 보다 작습니다.
+ *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
+ * @param checked 체크되었는지 여부
+ * @param onClick 체크시 호출되는 콜백
+ */
+@Composable
+public fun QuackSmallRoundCheckBox(
+    modifier: Modifier = Modifier,
+    checked: Boolean,
+    onClick: (() -> Unit)? = null,
+): Unit = with(QuackToggleDefaults.RoundCheck) {
+    QuackSurface(
+        modifier = modifier.size(DpSize(18.dp)),
+        shape = ContainerShape,
+        backgroundColor = backgroundColorFor(
+            isChecked = checked,
+        ),
+        border = borderFor(
+            isChecked = checked,
+        ),
+        onClick = onClick,
+    ) {
+        Check(
+            value = ToggleableState(
+                value = checked,
+            ),
+            checkColor = CheckColor,
+            size = DpSize(12.dp),
+        )
+    }
+}
+
+/**
  * 덕키의 사각형 CheckBox 를 구현합니다.
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
