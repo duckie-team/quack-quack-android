@@ -509,7 +509,7 @@ public fun QuackLargeButton(
         border = borderFor(
             type = type,
         ),
-        onClick = onClick,
+        onClick = onClick.takeIf { enabled ?: true },
         rippleEnabled = enabled ?: true,
     )
 }
@@ -678,7 +678,7 @@ private fun QuackBasicButton(
     border: QuackBorder? = null,
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor = QuackColor.Unspecified,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)?,
 ) {
     QuackSurface(
         modifier = modifier,
