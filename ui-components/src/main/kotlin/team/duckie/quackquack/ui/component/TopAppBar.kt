@@ -370,14 +370,19 @@ public fun QuackTopAppBar(
             textTrailingIcon = centerTextTrailingIcon,
             onClick = onCenterClick,
         )
-        trailingContent?.invoke()
-        TrailingContent(
-            icon = trailingIcon,
-            extraIcon = trailingExtraIcon,
-            text = trailingText,
-            onIconClick = onTrailingIconClick,
-            onExtraIconClick = onTrailingExtraIconClick,
-            onTextClick = onTrailingTextClick,
-        )
+        // https://github.com/duckie-team/quack-quack-android/issues/412
+        // TrailingContent content 가 없어도 width 를 차지함
+        if (trailingContent != null) {
+            trailingContent()
+        } else {
+            TrailingContent(
+                icon = trailingIcon,
+                extraIcon = trailingExtraIcon,
+                text = trailingText,
+                onIconClick = onTrailingIconClick,
+                onExtraIconClick = onTrailingExtraIconClick,
+                onTextClick = onTrailingTextClick,
+            )
+        }
     }
 }
