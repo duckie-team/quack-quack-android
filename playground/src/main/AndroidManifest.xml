@@ -27,6 +27,10 @@
             android:theme="@style/Theme.Quack" />
 
         <activity
+            android:name=".realworld.IndicatorPlayground"
+            android:theme="@style/Theme.Quack" />
+
+        <activity
             android:name=".realworld.SwitchPlayground"
             android:theme="@style/Theme.Quack" />
 
