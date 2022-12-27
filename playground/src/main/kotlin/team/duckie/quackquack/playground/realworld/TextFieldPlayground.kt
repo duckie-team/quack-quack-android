@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("MagicNumber")
+
 package team.duckie.quackquack.playground.realworld
 
 import androidx.compose.foundation.layout.fillMaxWidth
