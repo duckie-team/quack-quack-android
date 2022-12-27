@@ -40,6 +40,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -853,26 +854,67 @@ public fun QuackBasicTextField(
     leadingIcon: QuackIcon? = null,
     trailingText: String? = null,
     trailingTextOnClick: (() -> Unit)? = null,
-    keyboardOptions: KeyboardOptions = KeyboardOptions(
-        imeAction = ImeAction.Done,
-    ),
+    keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
     keyboardActions: KeyboardActions = KeyboardActions(),
-): Unit = with(
-    receiver = QuackTextFieldDefaults.Basic,
 ) {
+    QuackBasicTextField(
+        modifier = modifier,
+        enabled = enabled,
+        value = TextFieldValue(text = text),
+        onValueChanged = { onTextChanged(it.text) },
+        placeholderText = placeholderText,
+        leadingIcon = leadingIcon,
+        trailingText = trailingText,
+        trailingTextOnClick = trailingTextOnClick,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+    )
+}
+
+/**
+ * 가장 기초적인 TextField 를 그립니다.
+ * [QuackBasicTextField] 는 크게 다음과 같은 특징을 갖습니다.
+ *
+ * 1. underline 이 컴포넌트 하단에 표시됩니다.
+ * 2. leading icon 을 가질 수 있습니다.
+ * 3. trailing text 를 가질 수 있습니다.
+ * 4. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
+ *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
+ * @param enabled controls the enabled state of the BasicTextField.
+ * When false, the text field will be neither editable nor focusable,
+ * the input of the text field will not be selectable
+ * @param value 표시할 텍스트
+ * @param onValueChanged 새로운 텍스트가 입력됐을 때 호출될 람다
+ * @param placeholderText 텍스트가 입력되지 않았을 때 표시할 텍스트
+ * @param leadingIcon leading content 로 표시할 아이콘
+ * @param trailingText trailing content 로 표시할 텍스트
+ * @param trailingTextOnClick trailing content 가 클릭됐을 때 호출될 람다
+ * @param keyboardOptions 키보드 옵션
+ * @param keyboardActions 키보드 액션
+ */
+@Composable
+public fun QuackBasicTextField(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    value: TextFieldValue,
+    onValueChanged: (value: TextFieldValue) -> Unit,
+    placeholderText: String,
+    leadingIcon: QuackIcon? = null,
+    trailingText: String? = null,
+    trailingTextOnClick: (() -> Unit)? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+    keyboardActions: KeyboardActions = KeyboardActions(),
+): Unit = with(QuackTextFieldDefaults.Basic) {
     val quackTextFieldColors = LocalQuackTextFieldColors.current
 
     // 리컴포지션이 되는 메인 조건은 Text 가 바뀌었을 때인데 그러면
     // 어차피 항상 재계산 되므로 굳이 remember 를 할 필요가 없음
-    val isPlaceholder = text.isEmpty()
+    val isPlaceholder = value.text.isEmpty()
 
     // 애니메이션 적용 X
-    val inputTypography = remember(
-        key1 = isPlaceholder,
-    ) {
-        inputTypographyFor(
-            isPlaceholder = isPlaceholder,
-        ).asComposeStyle()
+    val inputTypography = remember(isPlaceholder) {
+        inputTypographyFor(isPlaceholder = isPlaceholder).asComposeStyle()
     }
 
     BasicTextField(
@@ -901,8 +943,8 @@ public fun QuackBasicTextField(
                 paddingValues = InputTextPadding,
             ),
         enabled = enabled,
-        value = text,
-        onValueChange = onTextChanged,
+        value = value,
+        onValueChange = onValueChanged,
         textStyle = inputTypography,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
