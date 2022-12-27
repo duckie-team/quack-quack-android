@@ -111,7 +111,7 @@ private object QuackTextAreaDefaults {
         @Stable
         fun typographyFor(
             isPlaceholder: Boolean,
-        ) = QuackTextStyle.Body2.runIf(
+        ) = QuackTextStyle.Body1.runIf(
             condition = isPlaceholder,
         ) {
             change(
@@ -141,7 +141,7 @@ private object QuackTextAreaDefaults {
         )
 
         val Shape = RoundedCornerShape(
-            size = 12.dp,
+            size = 8.dp,
         )
 
         /**

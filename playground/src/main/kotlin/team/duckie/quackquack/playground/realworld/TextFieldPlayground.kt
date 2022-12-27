@@ -5,11 +5,17 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("MagicNumber")
+
 package team.duckie.quackquack.playground.realworld
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -17,8 +23,11 @@ import team.duckie.quackquack.playground.base.PlaygroundActivity
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.component.QuackBasic2TextField
 import team.duckie.quackquack.ui.component.QuackBasicTextField
+import team.duckie.quackquack.ui.component.QuackBorderTextField
 import team.duckie.quackquack.ui.component.QuackErrorableTextField
+import team.duckie.quackquack.ui.component.QuackGrayscaleTextField
 import team.duckie.quackquack.ui.component.QuackPriceTextField
+import team.duckie.quackquack.ui.component.QuackThinTextField
 import team.duckie.quackquack.ui.icon.QuackIcon
 
 class TextFieldPlayground : PlaygroundActivity(
@@ -30,6 +39,10 @@ class TextFieldPlayground : PlaygroundActivity(
         ::QuackBasic2TextFieldPadding10Demo.name to { QuackBasic2TextFieldPadding10Demo() },
         ::QuackErrorableTextFieldDemo.name to { QuackErrorableTextFieldDemo() },
         ::QuackErrorableTextFieldWithoutClearButtonDemo.name to { QuackErrorableTextFieldWithoutClearButtonDemo() },
+        ::QuackGrayscaleTextFieldDemo.name to { QuackGrayscaleTextFieldDemo() },
+        ::QuackThinTextFielddDemo.name to { QuackThinTextFielddDemo() },
+        ::QuackThinTextGrayscaleFielddDemo.name to { QuackThinTextGrayscaleFielddDemo() },
+        ::QuackBorderTextFieldDemo.name to { QuackBorderTextFieldDemo() },
     )
 }
 
@@ -109,5 +122,71 @@ fun QuackErrorableTextFieldWithoutClearButtonDemo() {
         maxLength = MaxLength,
         isError = text.length > MaxLength,
         errorText = "ErrorText",
+    )
+}
+
+@Composable
+fun QuackGrayscaleTextFieldDemo() {
+    val maxLength = 10
+    var text by remember { mutableStateOf("") }
+
+    QuackGrayscaleTextField(
+        text = text,
+        placeholderText = "Placeholder",
+        onTextChanged = { newText ->
+            if (newText.length <= maxLength) {
+                text = newText
+            }
+        },
+        maxLength = maxLength,
+        showCounter = true,
+    )
+}
+
+@Composable
+fun QuackThinTextFielddDemo() {
+    val maxLength = 10
+    var text by remember { mutableStateOf("") }
+
+    QuackThinTextField(
+        text = text,
+        placeholderText = "Placeholder",
+        onTextChanged = { newText ->
+            if (newText.length <= maxLength) {
+                text = newText
+            }
+        },
+    )
+}
+
+@Composable
+fun QuackThinTextGrayscaleFielddDemo() {
+    val maxLength = 10
+    var text by remember { mutableStateOf("") }
+
+    QuackThinTextField(
+        text = text,
+        placeholderText = "Placeholder",
+        onTextChanged = { newText ->
+            if (newText.length <= maxLength) {
+                text = newText
+            }
+        },
+        grayscale = true,
+    )
+}
+
+@Composable
+fun QuackBorderTextFieldDemo() {
+    val (text, setText) = remember { mutableStateOf("") }
+
+    QuackBorderTextField(
+        modifier = Modifier.fillMaxWidth(),
+        text = text,
+        placeholderText = "Placeholder",
+        onTextChanged = setText,
+        trailingContent = {
+            QuackSmallRoundCheckBoxDemo()
+        },
     )
 }

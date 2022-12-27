@@ -410,21 +410,21 @@ private fun Placeable.PlacementScope.placeTextField(
     leadingPlaceable: Placeable?,
     trailingPlaceable: Placeable?,
 ) {
-    leadingPlaceable?.placeRelative(
+    leadingPlaceable?.place(
         x = 0,
         y = Alignment.CenterVertically.align(
             size = leadingPlaceable.height,
             space = height,
         ),
     )
-    trailingPlaceable?.placeRelative(
+    trailingPlaceable?.place(
         x = width - trailingPlaceable.width,
         y = Alignment.CenterVertically.align(
             size = trailingPlaceable.height,
             space = height,
         ),
     )
-    textFieldPlaceable.placeRelative(
+    textFieldPlaceable.place(
         x = leadingPlaceable.widthOrZero(),
         y = when (isTextArea) {
             true -> 0
@@ -434,7 +434,7 @@ private fun Placeable.PlacementScope.placeTextField(
             )
         },
     )
-    placeholderPlaceable?.placeRelative(
+    placeholderPlaceable?.place(
         x = leadingPlaceable.widthOrZero(),
         y = when (isTextArea) {
             true -> 0

@@ -47,6 +47,7 @@ import team.duckie.quackquack.playground.realworld.DividerPlayground
 import team.duckie.quackquack.playground.realworld.DropDownPlayground
 import team.duckie.quackquack.playground.realworld.GridLayoutPlayground
 import team.duckie.quackquack.playground.realworld.ImagePlayground
+import team.duckie.quackquack.playground.realworld.IndicatorPlayground
 import team.duckie.quackquack.playground.realworld.LabelPlayground
 import team.duckie.quackquack.playground.realworld.SwitchPlayground
 import team.duckie.quackquack.playground.realworld.TabPlayground
@@ -82,6 +83,7 @@ private val PlaygroundActivities = persistentListOf(
     TypographyPlayground::class,
     DialogPlayground::class,
     SwitchPlayground::class,
+    IndicatorPlayground::class,
 ).sortedBy { playgroundActivity ->
     playgroundActivity.simpleName
 }.toImmutableList()

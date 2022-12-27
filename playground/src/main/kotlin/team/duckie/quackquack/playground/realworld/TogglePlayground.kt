@@ -16,6 +16,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.PlaygroundActivity
 import team.duckie.quackquack.ui.component.QuackRoundCheckBox
+import team.duckie.quackquack.ui.component.QuackSmallRoundCheckBox
 import team.duckie.quackquack.ui.component.QuackSquareCheckBox
 import team.duckie.quackquack.ui.component.QuackToggleButton
 import team.duckie.quackquack.ui.component.QuackToggleIconSize
@@ -26,10 +27,21 @@ class TogglePlayground : PlaygroundActivity(
 ) {
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
         ::QuackRoundCheckBoxDemo.name to { QuackRoundCheckBoxDemo() },
+        ::QuackSmallRoundCheckBoxDemo.name to { QuackSmallRoundCheckBoxDemo() },
         ::QuackSquareCheckBoxDemo.name to { QuackSquareCheckBoxDemo() },
         ::QuackToggleButtonTypeNormalDemo.name to { QuackToggleButtonTypeNormalDemo() },
         ::QuackToggleButtonTypeSmallDemo.name to { QuackToggleButtonTypeSmallDemo() },
         ::QuackToggleButtonTypeCompactDemo.name to { QuackToggleButtonTypeCompactDemo() },
+    )
+}
+
+@Composable
+fun QuackSmallRoundCheckBoxDemo() {
+    var checked by remember { mutableStateOf(false) }
+
+    QuackSmallRoundCheckBox(
+        checked = checked,
+        onClick = { checked = !checked },
     )
 }
 

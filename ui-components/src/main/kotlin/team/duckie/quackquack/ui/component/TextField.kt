@@ -33,12 +33,14 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -852,26 +854,67 @@ public fun QuackBasicTextField(
     leadingIcon: QuackIcon? = null,
     trailingText: String? = null,
     trailingTextOnClick: (() -> Unit)? = null,
-    keyboardOptions: KeyboardOptions = KeyboardOptions(
-        imeAction = ImeAction.Done,
-    ),
+    keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
     keyboardActions: KeyboardActions = KeyboardActions(),
-): Unit = with(
-    receiver = QuackTextFieldDefaults.Basic,
 ) {
+    QuackBasicTextField(
+        modifier = modifier,
+        enabled = enabled,
+        value = TextFieldValue(text = text),
+        onValueChanged = { onTextChanged(it.text) },
+        placeholderText = placeholderText,
+        leadingIcon = leadingIcon,
+        trailingText = trailingText,
+        trailingTextOnClick = trailingTextOnClick,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+    )
+}
+
+/**
+ * 가장 기초적인 TextField 를 그립니다.
+ * [QuackBasicTextField] 는 크게 다음과 같은 특징을 갖습니다.
+ *
+ * 1. underline 이 컴포넌트 하단에 표시됩니다.
+ * 2. leading icon 을 가질 수 있습니다.
+ * 3. trailing text 를 가질 수 있습니다.
+ * 4. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
+ *
+ * @param modifier 이 컴포넌트에 적용할 [Modifier]
+ * @param enabled controls the enabled state of the BasicTextField.
+ * When false, the text field will be neither editable nor focusable,
+ * the input of the text field will not be selectable
+ * @param value 표시할 텍스트
+ * @param onValueChanged 새로운 텍스트가 입력됐을 때 호출될 람다
+ * @param placeholderText 텍스트가 입력되지 않았을 때 표시할 텍스트
+ * @param leadingIcon leading content 로 표시할 아이콘
+ * @param trailingText trailing content 로 표시할 텍스트
+ * @param trailingTextOnClick trailing content 가 클릭됐을 때 호출될 람다
+ * @param keyboardOptions 키보드 옵션
+ * @param keyboardActions 키보드 액션
+ */
+@Composable
+public fun QuackBasicTextField(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    value: TextFieldValue,
+    onValueChanged: (value: TextFieldValue) -> Unit,
+    placeholderText: String,
+    leadingIcon: QuackIcon? = null,
+    trailingText: String? = null,
+    trailingTextOnClick: (() -> Unit)? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+    keyboardActions: KeyboardActions = KeyboardActions(),
+): Unit = with(QuackTextFieldDefaults.Basic) {
     val quackTextFieldColors = LocalQuackTextFieldColors.current
 
     // 리컴포지션이 되는 메인 조건은 Text 가 바뀌었을 때인데 그러면
     // 어차피 항상 재계산 되므로 굳이 remember 를 할 필요가 없음
-    val isPlaceholder = text.isEmpty()
+    val isPlaceholder = value.text.isEmpty()
 
     // 애니메이션 적용 X
-    val inputTypography = remember(
-        key1 = isPlaceholder,
-    ) {
-        inputTypographyFor(
-            isPlaceholder = isPlaceholder,
-        ).asComposeStyle()
+    val inputTypography = remember(isPlaceholder) {
+        inputTypographyFor(isPlaceholder = isPlaceholder).asComposeStyle()
     }
 
     BasicTextField(
@@ -900,8 +943,8 @@ public fun QuackBasicTextField(
                 paddingValues = InputTextPadding,
             ),
         enabled = enabled,
-        value = text,
-        onValueChange = onTextChanged,
+        value = value,
+        onValueChange = onValueChanged,
         textStyle = inputTypography,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
@@ -1284,4 +1327,260 @@ public fun QuackErrorableTextField(
             }
         }
     }
+}
+
+/* ----- 덕질고사 신규 컴포넌트 ----- */
+
+/**
+ * QuackTextField 의 Placeholder 에 해당하는 컴포저블을 반환합니다.
+ * variant 가 없는 common 한 Placeholder 에 해당하며,
+ * 항상 [QuackTextStyle.Body1] 에 [QuackColor.Gray2] 로 스타일이 지정됩니다.
+ *
+ * @param placeholderText Placeholder 로 나타낼 텍스트
+ * @param isPlaceholder 현재 TextField 가 Placeholder 상태에 있는지 여부
+ */
+@SuppressLint("ComposableNaming")
+@Composable
+private fun QuackTextFieldCommonBody1Placeholder(
+    placeholderText: String?,
+    isPlaceholder: Boolean,
+): (@Composable () -> Unit)? {
+    return if (placeholderText == null || !isPlaceholder) {
+        null
+    } else {
+        {
+            QuackText(
+                text = placeholderText,
+                style = QuackTextStyle.Body1.change(color = QuackColor.Gray2),
+            )
+        }
+    }
+}
+
+/**
+ * [QuackGrayscaleTextField] 의 trailing content 에 해당하는 Text Counter 를 반환합니다.
+ *
+ * @param showCounter counter 를 표시할지 여부
+ * @param maxLength 해당 TextField 의 최대 길이
+ * @param state 해당 TextField 에 현재 입력된 길이
+ */
+@SuppressLint("ComposableNaming")
+@Composable
+private fun QuackGrayscaleTextFieldCounter(
+    showCounter: Boolean,
+    maxLength: Int?,
+    state: Int,
+): (@Composable () -> Unit)? {
+    return if (showCounter || maxLength != null) {
+        {
+            Row {
+                QuackText(
+                    text = "$state",
+                    style = QuackTextStyle.Body2,
+                )
+                QuackText(
+                    modifier = Modifier.padding(start = 1.dp),
+                    text = "/$maxLength",
+                    style = QuackTextStyle.Body1.change(color = QuackColor.Gray2)
+                )
+            }
+        }
+    } else {
+        null
+    }
+}
+
+/**
+ * 덕키의 Grayscale TextField 를 구현합니다.
+ * 덕딜고사에서 추가됐습니다.
+ *
+ * [QuackGrayscaleTextField] 는 다음과 같은 특징을 갖습니다.
+ *
+ * 1. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
+ *
+ * @param modifier 이 컴포넌트에 사용할 [Modifier]
+ * @param text 현재 입력된 텍스트
+ * @param placeholderText [text] 가 비었을 때 표시할 대체 텍스트
+ * @param onTextChanged [text] 가 변경될 때 호출될 콜백
+ * @param maxLength 최대 입력 가능한 글자 수.
+ * [showCounter] 가 true 이면 필수로 제공돼야 합니다.
+ * @param showCounter trailing content 로 text counter 를 표시할지 여부
+ * @param imeAction 키보드의 IME 옵션
+ * @param keyboardActions 키보드 액션
+ */
+@Composable
+public fun QuackGrayscaleTextField(
+    modifier: Modifier = Modifier,
+    text: String,
+    placeholderText: String? = null,
+    onTextChanged: (text: String) -> Unit,
+    maxLength: Int? = null,
+    showCounter: Boolean = false,
+    imeAction: ImeAction = ImeAction.Done,
+    keyboardActions: KeyboardActions = KeyboardActions(),
+) {
+    if (showCounter) {
+        runtimeCheck(maxLength != null) {
+            "maxLength must not be null when showCounter is true"
+        }
+    }
+
+    val localColors = LocalQuackTextFieldColors.current
+
+    BasicTextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(color = QuackColor.Gray4.composeColor)
+            .padding(
+                vertical = 17.dp,
+                horizontal = 20.dp,
+            ),
+        value = text,
+        onValueChange = onTextChanged,
+        textStyle = QuackTextStyle.Body1.asComposeStyle(),
+        keyboardOptions = KeyboardOptions(imeAction = imeAction),
+        keyboardActions = keyboardActions,
+        singleLine = true,
+        cursorBrush = localColors.textFieldCursorColor.toBrush(),
+        decorationBox = { textField ->
+            QuackTextFieldDecorationBox(
+                isTextArea = false,
+                textField = textField,
+                placeholderContent = QuackTextFieldCommonBody1Placeholder(
+                    placeholderText = placeholderText,
+                    isPlaceholder = text.isEmpty(),
+                ),
+                trailingContent = QuackGrayscaleTextFieldCounter(
+                    showCounter = showCounter,
+                    maxLength = maxLength,
+                    state = text.length,
+                ),
+            )
+        },
+    )
+}
+
+/**
+ * 덕키의 Thin TextField 를 구현합니다.
+ * 덕질고사에서 추가됐습니다.
+ *
+ * [QuackThinTextField] 는 다음과 같은 특징을 갖습니다.
+ *
+ * 1. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
+ *
+ * @param modifier 이 컴포넌트에 사용할 [Modifier]
+ * @param text 현재 입력된 텍스트
+ * @param placeholderText [text] 가 비었을 때 표시할 대체 텍스트
+ * @param onTextChanged [text] 가 변경될 때 호출될 콜백
+ * @param imeAction 키보드의 IME 옵션
+ * @param keyboardActions 키보드 액션
+ * @param grayscale grayscale 로 표시할지 여부
+ * 이 값이 true 면 배경색이 [QuackColor.Gray4] 로 설정됩니다.
+ */
+@Composable
+public fun QuackThinTextField(
+    modifier: Modifier = Modifier,
+    text: String,
+    placeholderText: String? = null,
+    onTextChanged: (text: String) -> Unit,
+    imeAction: ImeAction = ImeAction.Done,
+    keyboardActions: KeyboardActions = KeyboardActions(),
+    grayscale: Boolean = false,
+) {
+    val localColors = LocalQuackTextFieldColors.current
+
+    BasicTextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .background(
+                color = when (grayscale) {
+                    false -> QuackColor.White.composeColor
+                    true -> QuackColor.Gray4.composeColor
+                },
+                shape = RoundedCornerShape(8.dp),
+            )
+            .padding(
+                vertical = 8.dp,
+                horizontal = 13.dp,
+            ),
+        value = text,
+        onValueChange = onTextChanged,
+        textStyle = QuackTextStyle.Body1.asComposeStyle(),
+        keyboardOptions = KeyboardOptions(imeAction = imeAction),
+        keyboardActions = keyboardActions,
+        singleLine = true,
+        cursorBrush = localColors.textFieldCursorColor.toBrush(),
+        decorationBox = { textField ->
+            QuackTextFieldDecorationBox(
+                isTextArea = false,
+                textField = textField,
+                placeholderContent = QuackTextFieldCommonBody1Placeholder(
+                    placeholderText = placeholderText,
+                    isPlaceholder = text.isEmpty(),
+                ),
+            )
+        },
+    )
+}
+
+/**
+ * 덕키의 Border TextField 를 구현합니다.
+ * 덕질고사에서 추가됐습니다.
+ *
+ * [QuackBorderTextField] 는 다음과 같은 특징을 갖습니다.
+ *
+ * 1. 기본 가로 길이를 가지지 않습니다.
+ * 2. trailing content 를 받습니다.
+ *
+ * @param modifier 이 컴포넌트에 사용할 [Modifier]
+ * @param text 현재 입력된 텍스트
+ * @param placeholderText [text] 가 비었을 때 표시할 대체 텍스트
+ * @param onTextChanged [text] 가 변경될 때 호출될 콜백
+ * @param imeAction 키보드의 IME 옵션
+ * @param keyboardActions 키보드 액션
+ * @param trailingContent trailing 에 표시할 content
+ */
+@Composable
+public fun QuackBorderTextField(
+    modifier: Modifier = Modifier,
+    text: String,
+    placeholderText: String? = null,
+    onTextChanged: (text: String) -> Unit,
+    imeAction: ImeAction = ImeAction.Done,
+    keyboardActions: KeyboardActions = KeyboardActions(),
+    trailingContent: (@Composable () -> Unit)? = null,
+) {
+    val localColors = LocalQuackTextFieldColors.current
+
+    BasicTextField(
+        modifier = modifier
+            .clip(RoundedCornerShape(4.dp))
+            .background(
+                color = QuackColor.White.composeColor,
+                shape = RoundedCornerShape(4.dp),
+            )
+            .padding(
+                vertical = 16.dp,
+                horizontal = 12.dp,
+            ),
+        value = text,
+        onValueChange = onTextChanged,
+        textStyle = QuackTextStyle.Body1.asComposeStyle(),
+        keyboardOptions = KeyboardOptions(imeAction = imeAction),
+        keyboardActions = keyboardActions,
+        singleLine = true,
+        cursorBrush = localColors.textFieldCursorColor.toBrush(),
+        decorationBox = { textField ->
+            QuackTextFieldDecorationBox(
+                isTextArea = false,
+                textField = textField,
+                placeholderContent = QuackTextFieldCommonBody1Placeholder(
+                    placeholderText = placeholderText,
+                    isPlaceholder = text.isEmpty(),
+                ),
+                trailingContent = trailingContent,
+            )
+        },
+    )
 }

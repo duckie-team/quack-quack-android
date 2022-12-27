@@ -24,18 +24,28 @@ import team.duckie.quackquack.ui.component.QuackGrayscaleTag
 import team.duckie.quackquack.ui.component.QuackLazyVerticalGridTag
 import team.duckie.quackquack.ui.component.QuackRoundTag
 import team.duckie.quackquack.ui.component.QuackSingeLazyRowTag
+import team.duckie.quackquack.ui.component.QuackSmallGrayTag
 import team.duckie.quackquack.ui.component.QuackTagType
 import team.duckie.quackquack.ui.icon.QuackIcon
 
-class TagPlayground : PlaygroundActivity(
-    name = "Tag",
-) {
+class TagPlayground : PlaygroundActivity(name = "Tag") {
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
+        ::QuackSmallGrayTagDemo.name to { QuackSmallGrayTagDemo() },
         ::QuackGrayscaleTagDemo.name to { QuackGrayscaleTagDemo() },
         ::QuackCircleTagDemo.name to { QuackCircleTagDemo() },
         ::QuackRoundTagDemo.name to { QuackRoundTagDemo() },
         ::QuackLazyVerticalGridTagDemo.name to { QuackLazyVerticalGridTagDemo() },
         ::QuackSingeLazyRowTagDemo.name to { QuackSingeLazyRowTagDemo() },
+    )
+}
+
+@Composable
+fun QuackSmallGrayTagDemo() {
+    val toast = rememberToast()
+
+    QuackSmallGrayTag(
+        text = "Small",
+        onClick = { toast("QuackSmallGrayTag clicked") },
     )
 }
 
