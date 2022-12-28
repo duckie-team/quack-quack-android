@@ -844,6 +844,7 @@ private object QuackTextFieldDefaults {
  * @param keyboardOptions 키보드 옵션
  * @param keyboardActions 키보드 액션
  */
+// TOOD: TextFieldValue 를 받는 함수와 중복 코드 제거
 @Composable
 public fun QuackBasicTextField(
     modifier: Modifier = Modifier,
@@ -857,17 +858,72 @@ public fun QuackBasicTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
     keyboardActions: KeyboardActions = KeyboardActions(),
 ) {
-    QuackBasicTextField(
-        modifier = modifier,
+    val quackTextFieldColors = LocalQuackTextFieldColors.current
+
+    // 리컴포지션이 되는 메인 조건은 Text 가 바뀌었을 때인데 그러면
+    // 어차피 항상 재계산 되므로 굳이 remember 를 할 필요가 없음
+    val isPlaceholder = text.isEmpty()
+
+    // 애니메이션 적용 X
+    val inputTypography = remember(isPlaceholder) {
+        QuackTextFieldDefaults.Basic.inputTypographyFor(isPlaceholder = isPlaceholder).asComposeStyle()
+    }
+
+    BasicTextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .drawAnimatedLine(
+                thickness = QuackTextFieldDefaults.Basic.UnderlineHeight,
+                color = QuackTextFieldDefaults.Basic.UnderlineColor,
+                startOffsetProvider = { size ->
+                    Offset(
+                        x = 0f,
+                        y = size.height - QuackTextFieldDefaults.Basic.UnderlineHeight.toPx(),
+                    )
+                },
+                endOffsetProvider = { size ->
+                    Offset(
+                        x = size.width,
+                        y = size.height - QuackTextFieldDefaults.Basic.UnderlineHeight.toPx(),
+                    )
+                },
+            )
+            .background(
+                color = QuackTextFieldDefaults.Basic.BackgroundColor.composeColor,
+            )
+            .padding(
+                paddingValues = QuackTextFieldDefaults.Basic.InputTextPadding,
+            ),
         enabled = enabled,
-        value = TextFieldValue(text = text),
-        onValueChanged = { onTextChanged(it.text) },
-        placeholderText = placeholderText,
-        leadingIcon = leadingIcon,
-        trailingText = trailingText,
-        trailingTextOnClick = trailingTextOnClick,
+        value = text,
+        onValueChange = onTextChanged,
+        textStyle = inputTypography,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
+        // TextField is always single line
+        // TextArea is always multi line
+        singleLine = true,
+        cursorBrush = quackTextFieldColors.textFieldCursorColor.toBrush(),
+        decorationBox = { textField ->
+            QuackTextFieldDecorationBox(
+                isTextArea = false,
+                textField = textField,
+                placeholderContent = QuackTextFieldDefaults.Basic.Placeholder(
+                    isPlaceholder = isPlaceholder,
+                    placeholderText = placeholderText,
+                ),
+                leadingContent = QuackTextFieldDefaults.Basic.LeadingIcon(
+                    icon = leadingIcon,
+                    isEnabled = !isPlaceholder,
+                    isPriceTextField = false,
+                ),
+                trailingContent = QuackTextFieldDefaults.Basic.TrailingText(
+                    text = trailingText,
+                    isEnabled = !isPlaceholder,
+                    onClick = trailingTextOnClick,
+                ),
+            )
+        },
     )
 }
 
