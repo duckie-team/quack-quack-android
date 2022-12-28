@@ -41,6 +41,7 @@ fun QuackSmallRoundCheckBoxDemo() {
 
     QuackSmallRoundCheckBox(
         checked = checked,
+        checkedText = "Hello",
         onClick = { checked = !checked },
     )
 }
