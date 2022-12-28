@@ -41,7 +41,6 @@ class ButtonPlayground : PlaygroundActivity(name = "Button") {
         ::QuackSmallButtonBorderDemo.name to { QuackSmallButtonBorderDemo() },
         ::QuackSmallButtonFillDemo.name to { QuackSmallButtonFillDemo() },
         ::QuackToggleChipDemo.name to { QuackToggleChipDemo() },
-        ::QuackWeight1MediumButtonDemo.name to { QuackWeight1MediumButtonDemo() },
     )
 }
 
@@ -126,18 +125,3 @@ fun QuackToggleChipDemo() {
     )
 }
 
-@Composable
-fun QuackWeight1MediumButtonDemo() {
-    val toast = rememberToast()
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-    ) {
-        repeat(3) { index ->
-            QuackWeight1MediumButton(text = "Button: $index") {
-                toast("Click: $index")
-            }
-        }
-    }
-}
