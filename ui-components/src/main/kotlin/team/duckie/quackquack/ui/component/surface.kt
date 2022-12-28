@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
  */
 
-package team.duckie.quackquack.ui.component.internal
+package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -59,7 +59,7 @@ import team.duckie.quackquack.ui.modifier.quackClickable
 @Composable
 // TODO: Modifier.quackSurface 로 변경
 // @NonRestartableComposable; 여기서 사용하는 Box 는 inline 됨
-internal fun QuackSurface(
+public fun QuackSurface(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     backgroundColor: QuackColor = QuackColor.Unspecified,

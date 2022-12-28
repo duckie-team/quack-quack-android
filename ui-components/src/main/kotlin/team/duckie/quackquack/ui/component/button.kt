@@ -16,7 +16,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
@@ -38,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
-import team.duckie.quackquack.ui.component.internal.QuackSurface
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
@@ -708,34 +706,5 @@ private fun QuackBasicButton(
             )
             trailingContent?.invoke()
         }
-    }
-}
-
-/* ----- 덕질고사 추가 컴포넌트 ----- */
-
-/**
- * Weight 를 1로 표현하는 덕키의 버튼을 구현합니다.
- *
- * @param modifier 이 컴포넌트에 적용할 [Modifier]
- * @param text 버튼에 표시될 텍스트
- * @param onClick 버튼을 눌렀을 때 호출될 콜백 함수
- */
-@Composable
-public fun RowScope.QuackWeight1MediumButton(
-    modifier: Modifier = Modifier,
-    text: String,
-    onClick: () -> Unit,
-) {
-    QuackSurface(
-        modifier = modifier.weight(1f),
-        border = QuackBorder(color = QuackColor.Gray3),
-        shape = RoundedCornerShape(8.dp),
-        backgroundColor = QuackColor.White,
-        onClick = onClick,
-    ) {
-        QuackBody1(
-            modifier = Modifier.padding(vertical = 10.dp),
-            text = text,
-        )
     }
 }

@@ -47,7 +47,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.color.QuackColor
-import team.duckie.quackquack.ui.component.internal.QuackSurface
 import team.duckie.quackquack.ui.component.internal.QuackText
 import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
