@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
  */
 
-package team.duckie.quackquack.ui.component.internal
+package team.duckie.quackquack.ui.component
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
