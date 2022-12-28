@@ -12,7 +12,9 @@ import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -35,6 +37,7 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlin.math.floor
+import team.duckie.quackquack.ui.animation.QuackAnimatedContent
 import team.duckie.quackquack.ui.animation.QuackAnimationSpec
 import team.duckie.quackquack.ui.border.QuackBorder
 import team.duckie.quackquack.ui.color.QuackColor
@@ -229,32 +232,45 @@ public fun QuackRoundCheckBox(
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param checked 체크되었는지 여부
+ * @param checkedText 체크시 하단에 표시할 텍스트
  * @param onClick 체크시 호출되는 콜백
  */
 @Composable
 public fun QuackSmallRoundCheckBox(
     modifier: Modifier = Modifier,
     checked: Boolean,
+    checkedText: String,
     onClick: (() -> Unit)? = null,
 ): Unit = with(QuackToggleDefaults.RoundCheck) {
-    QuackSurface(
-        modifier = modifier.size(DpSize(18.dp)),
-        shape = ContainerShape,
-        backgroundColor = backgroundColorFor(
-            isChecked = checked,
-        ),
-        border = borderFor(
-            isChecked = checked,
-        ),
-        onClick = onClick,
-    ) {
-        Check(
-            value = ToggleableState(
-                value = checked,
-            ),
-            checkColor = CheckColor,
-            size = DpSize(12.dp),
-        )
+    QuackAnimatedContent(targetState = checked) { showUnderText ->
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            QuackSurface(
+                modifier = modifier.size(DpSize(18.dp)),
+                shape = ContainerShape,
+                backgroundColor = backgroundColorFor(
+                    isChecked = checked,
+                ),
+                border = borderFor(
+                    isChecked = checked,
+                ),
+                onClick = onClick,
+            ) {
+                Check(
+                    value = ToggleableState(
+                        value = checked,
+                    ),
+                    checkColor = CheckColor,
+                    size = DpSize(12.dp),
+                )
+            }
+            if (showUnderText) {
+                QuackBody3(
+                    modifier = Modifier.padding(top = 2.dp),
+                    text = checkedText,
+                    color = QuackColor.DuckieOrange,
+                )
+            }
+        }
     }
 }
 
