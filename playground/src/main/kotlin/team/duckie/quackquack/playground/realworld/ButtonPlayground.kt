@@ -29,6 +29,7 @@ import team.duckie.quackquack.ui.icon.QuackIcon
 class ButtonPlayground : PlaygroundActivity(name = "Button") {
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
         ::QuackLargeButtonTypeFillDemo.name to { QuackLargeButtonTypeFillDemo() },
+        ::QuackLargeButtonTypeFillLoadingDemo.name to { QuackLargeButtonTypeFillLoadingDemo() },
         ::QuackLargeButtonTypeBorderDemo.name to { QuackLargeButtonTypeBorderDemo() },
         ::QuackLargeButtonTypeCompactDemo.name to { QuackLargeButtonTypeCompactDemo() },
         ::QuackMediumToggleButtonDemo.name to { QuackMediumToggleButtonDemo() },
@@ -46,6 +47,19 @@ fun QuackLargeButtonTypeFillDemo() {
         type = QuackLargeButtonType.Fill,
         text = "LargeButton: Fill",
         enabled = enabled,
+        onClick = { enabled = !enabled },
+    )
+}
+
+@Composable
+fun QuackLargeButtonTypeFillLoadingDemo() {
+    var enabled by remember { mutableStateOf(false) }
+
+    QuackLargeButton(
+        type = QuackLargeButtonType.Fill,
+        text = "LargeButton: Fill",
+        enabled = enabled,
+        isLoading = true,
         onClick = { enabled = !enabled },
     )
 }

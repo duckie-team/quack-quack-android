@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
@@ -444,6 +445,7 @@ private object QuackButtonDefaults {
  * @param type 이 버튼의 사용 사례에 적합한 버튼 타입
  * @param text 버튼에 표시될 텍스트
  * @param enabled 버튼 활성화 여부. 배경 색상에 영향을 미칩니다.
+ * @param isLoading 로딩 인디케이터를 나타낼지 여부. true 면 [enabled] 가 항상 false 로 됩니다.
  * @param imeAnimation IME 애니메이션을 사용할지 여부
  * @param leadingIcon 버튼 왼쪽에 표시될 아이콘. [type] 이 [LargeBorder] 일 경우에만 유효합니다.
  * @param onClick 버튼 클릭 시 호출될 콜백
@@ -454,6 +456,7 @@ public fun QuackLargeButton(
     type: QuackLargeButtonType,
     text: String,
     enabled: Boolean? = null,
+    isLoading: Boolean = false,
     imeAnimation: Boolean = false,
     leadingIcon: QuackIcon? = null,
     onClick: () -> Unit,
@@ -508,8 +511,8 @@ public fun QuackLargeButton(
         border = borderFor(
             type = type,
         ),
-        onClick = onClick.takeIf { enabled ?: true },
-        rippleEnabled = enabled ?: true,
+        onClick = onClick.takeIf { !isLoading && enabled ?: true },
+        rippleEnabled = (enabled ?: true).takeIf { !isLoading } ?: false,
     )
 }
 
@@ -655,6 +658,7 @@ public fun QuackToggleChip(
  * 즉, 이 패딩 값에 따라 QuackButton 의 텍스트 컴포넌트 사이즈가 조정되므로
  * QuackButton 의 사이즈를 결정짓는 중요한 인자가 됩니다.
  * @param backgroundColor 버튼의 배경 색상
+ * @param isLoading 현재 로딩 상태를 나타는지 여부
  * @param border 버튼에 적용할 테두리 옵션.
  * null 이 들어오면 테두리를 표시하지 않으며, 기본값은 null 입니다.
  * @param rippleEnabled 버튼을 눌렀을 때, 버튼의 배경에 리플 효과를 표시할지 여부.
@@ -674,6 +678,7 @@ private fun QuackBasicButton(
     textStyle: QuackTextStyle,
     padding: PaddingValues,
     backgroundColor: QuackColor,
+    isLoading: Boolean = false,
     border: QuackBorder? = null,
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor = QuackColor.Unspecified,
@@ -698,13 +703,20 @@ private fun QuackBasicButton(
                 alignment = Alignment.CenterHorizontally,
             ),
         ) {
-            leadingContent?.invoke()
-            QuackText(
-                text = text,
-                style = textStyle,
-                singleLine = true, // 버튼은 항상 single-line 을 요구함
-            )
-            trailingContent?.invoke()
+            if (!isLoading) {
+                leadingContent?.invoke()
+                QuackText(
+                    text = text,
+                    style = textStyle,
+                    singleLine = true, // 버튼은 항상 single-line 을 요구함
+                )
+                trailingContent?.invoke()
+            } else {
+                CircularProgressIndicator(
+                    color = QuackColor.White.composeColor,
+                    strokeWidth = 1.dp,
+                )
+            }
         }
     }
 }
