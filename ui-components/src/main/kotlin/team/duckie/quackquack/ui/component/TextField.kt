@@ -1133,7 +1133,7 @@ public fun QuackPriceTextField(
  * [QuackBasicTextField] 의 변형을 그립니다.
  * [QuackBasic2TextField] 는 크게 다음과 같은 특징을 갖습니다.
  *
- * 1. underline 이 컴포넌트 상단에 표시됩니다.
+ * 1. underline 이 컴포넌트 상단에 표시됩니다. (선택)
  * 2. leading icon 과 trailing icon 을 모두 가질 수 있습니다.
  * 3. placeholder text 를 선택적으로 받습니다.
  * 4. 항상 상위 컴포저블의 가로 길이에 꽉차게 그려집니다.
@@ -1150,6 +1150,7 @@ public fun QuackPriceTextField(
  * @param trailingIconOnClick trailing content 가 클릭됐을 때 호출될 람다
  * @param keyboardOptions 키보드 옵션
  * @param keyboardActions 키보드 액션
+ * @param showIndicatorLine 상단에 line 을 표시할지 여부
  */
 // TODO: 네이밍 개선
 @Composable
@@ -1166,6 +1167,7 @@ public fun QuackBasic2TextField(
     trailingIconOnClick: (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
     keyboardActions: KeyboardActions = KeyboardActions(),
+    showIndicatorLine: Boolean = true,
 ): Unit = with(QuackTextFieldDefaults.Basic2) {
     val quackTextFieldColors = LocalQuackTextFieldColors.current
 
@@ -1185,22 +1187,24 @@ public fun QuackBasic2TextField(
     BasicTextField(
         modifier = modifier
             .fillMaxWidth()
-            .drawAnimatedLine(
-                thickness = UnderlineHeight,
-                color = UnderlineColor,
-                startOffsetProvider = {
-                    Offset(
-                        x = 0f,
-                        y = 0f,
-                    )
-                },
-                endOffsetProvider = { size ->
-                    Offset(
-                        x = size.width,
-                        y = 0f,
-                    )
-                },
-            )
+            .runIf(showIndicatorLine) {
+                drawAnimatedLine(
+                    thickness = UnderlineHeight,
+                    color = UnderlineColor,
+                    startOffsetProvider = {
+                        Offset(
+                            x = 0f,
+                            y = 0f,
+                        )
+                    },
+                    endOffsetProvider = { size ->
+                        Offset(
+                            x = size.width,
+                            y = 0f,
+                        )
+                    },
+                )
+            }
             .background(
                 color = BackgroundColor.composeColor,
             )

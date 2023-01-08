@@ -37,6 +37,7 @@ class TextFieldPlayground : PlaygroundActivity(
         ::QuackBasicTextFieldDemo.name to { QuackBasicTextFieldDemo() },
         ::QuackPriceTextFieldDemo.name to { QuackPriceTextFieldDemo() },
         ::QuackBasic2TextFieldPadding10Demo.name to { QuackBasic2TextFieldPadding10Demo() },
+        ::QuackBasic2TextFieldNoLineDemo.name to { QuackBasic2TextFieldNoLineDemo() },
         ::QuackErrorableTextFieldDemo.name to { QuackErrorableTextFieldDemo() },
         ::QuackErrorableTextFieldWithoutClearButtonDemo.name to { QuackErrorableTextFieldWithoutClearButtonDemo() },
         ::QuackGrayscaleTextFieldDemo.name to { QuackGrayscaleTextFieldDemo() },
@@ -90,6 +91,23 @@ fun QuackBasic2TextFieldPadding10Demo() {
         trailingEndPadding = QuackBasic2TextFieldDecorationItemsHorizontalPadding,
         trailingIcon = QuackIcon.FilledHeart,
         trailingIconOnClick = { toast("FilledHeart clicked") },
+    )
+}
+
+@Composable
+fun QuackBasic2TextFieldNoLineDemo() {
+    val toast = rememberToast()
+    val (text, setText) = remember { mutableStateOf("") }
+
+    QuackBasic2TextField(
+        text = text,
+        onTextChanged = setText,
+        placeholderText = "No Line!!!!",
+        leadingIcon = QuackIcon.Heart,
+        leadingIconOnClick = { toast("Heart clicked") },
+        trailingIcon = QuackIcon.FilledHeart,
+        trailingIconOnClick = { toast("FilledHeart clicked") },
+        showIndicatorLine = false,
     )
 }
 

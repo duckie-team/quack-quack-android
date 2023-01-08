@@ -14,11 +14,10 @@ import team.duckie.quackquack.playground.base.PlaygroundActivity
 import team.duckie.quackquack.playground.util.rememberToast
 import team.duckie.quackquack.ui.component.QuackDropDownCard
 
-class DropDownPlayground : PlaygroundActivity(
-    name = "DropDown",
-) {
+class DropDownPlayground : PlaygroundActivity(name = "DropDown") {
     override val items: ImmutableList<Pair<String, @Composable () -> Unit>> = persistentListOf(
         ::QuackDropDownCardDemo.name to { QuackDropDownCardDemo() },
+        ::QuackDropDownCardNoLineDemo.name to { QuackDropDownCardNoLineDemo() },
     )
 }
 
@@ -31,3 +30,15 @@ fun QuackDropDownCardDemo() {
         onClick = { toast("DropDownCard") },
     )
 }
+
+@Composable
+fun QuackDropDownCardNoLineDemo() {
+    val toast = rememberToast()
+
+    QuackDropDownCard(
+        text = "DropDownCard",
+        showBorder = false,
+        onClick = { toast("DropDownCard") },
+    )
+}
+
