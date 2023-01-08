@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -445,7 +446,7 @@ private object QuackButtonDefaults {
  * @param type 이 버튼의 사용 사례에 적합한 버튼 타입
  * @param text 버튼에 표시될 텍스트
  * @param enabled 버튼 활성화 여부. 배경 색상에 영향을 미칩니다.
- * @param isLoading 로딩 인디케이터를 나타낼지 여부. true 면 [enabled] 가 항상 false 로 됩니다.
+ * @param isLoading 로딩 인디케이터를 나타낼지 여부. true 면 [onClick] 이 무시됩니다.
  * @param imeAnimation IME 애니메이션을 사용할지 여부
  * @param leadingIcon 버튼 왼쪽에 표시될 아이콘. [type] 이 [LargeBorder] 일 경우에만 유효합니다.
  * @param onClick 버튼 클릭 시 호출될 콜백
@@ -508,6 +509,7 @@ public fun QuackLargeButton(
             enabled = enabled ?: true,
             type = type,
         ),
+        isLoading = isLoading,
         border = borderFor(
             type = type,
         ),
@@ -713,6 +715,7 @@ private fun QuackBasicButton(
                 trailingContent?.invoke()
             } else {
                 CircularProgressIndicator(
+                    modifier = Modifier.requiredSize(16.dp),
                     color = QuackColor.White.composeColor,
                     strokeWidth = 1.dp,
                 )
