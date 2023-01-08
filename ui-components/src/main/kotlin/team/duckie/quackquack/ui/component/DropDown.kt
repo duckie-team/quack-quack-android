@@ -25,6 +25,7 @@ import team.duckie.quackquack.ui.icon.QuackIcon
 import team.duckie.quackquack.ui.modifier.quackClickable
 import team.duckie.quackquack.ui.textstyle.QuackTextStyle
 import team.duckie.quackquack.ui.util.DpSize
+import team.duckie.quackquack.ui.util.runIf
 
 /**
  * QuackDropDown 을 그리는데 필요한 리소스를 정의합니다.
@@ -65,12 +66,14 @@ private object QuackDropDownDefaults {
  *
  * @param modifier 이 컴포넌트에 적용할 [Modifier]
  * @param text 표시할 텍스트
+ * @param showBorder 테두리를 표시할지 여부
  * @param onClick 클릭했을 때 호출될 람다
  */
 @Composable
 public fun QuackDropDownCard(
     modifier: Modifier = Modifier,
     text: String,
+    showBorder: Boolean = true,
     onClick: (() -> Unit)? = null,
 ): Unit = with(
     receiver = QuackDropDownDefaults,
@@ -87,10 +90,12 @@ public fun QuackDropDownCard(
                 color = BackgroundColor.composeColor,
                 shape = Shape,
             )
-            .applyAnimatedQuackBorder(
-                border = Border,
-                shape = Shape,
-            ),
+            .runIf(showBorder) {
+                applyAnimatedQuackBorder(
+                    border = Border,
+                    shape = Shape,
+                )
+            },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         QuackText(
