@@ -41,4 +41,3 @@ fun QuackDropDownCardNoLineDemo() {
         onClick = { toast("DropDownCard") },
     )
 }
-
