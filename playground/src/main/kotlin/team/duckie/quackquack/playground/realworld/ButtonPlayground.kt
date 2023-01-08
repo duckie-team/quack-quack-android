@@ -7,11 +7,16 @@
 
 package team.duckie.quackquack.playground.realworld
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.playground.base.PlaygroundActivity
@@ -53,15 +58,20 @@ fun QuackLargeButtonTypeFillDemo() {
 
 @Composable
 fun QuackLargeButtonTypeFillLoadingDemo() {
-    var enabled by remember { mutableStateOf(false) }
+    var isLoading by remember { mutableStateOf(false) }
 
-    QuackLargeButton(
-        type = QuackLargeButtonType.Fill,
-        text = "LargeButton: Fill",
-        enabled = enabled,
-        isLoading = true,
-        onClick = { enabled = !enabled },
-    )
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Button(onClick = { isLoading = !isLoading }) {
+            Text("isLoading: $isLoading")
+        }
+        QuackLargeButton(
+            type = QuackLargeButtonType.Fill,
+            text = "LargeButton: Fill",
+            enabled = true,
+            isLoading = isLoading,
+            onClick = { },
+        )
+    }
 }
 
 @Composable
