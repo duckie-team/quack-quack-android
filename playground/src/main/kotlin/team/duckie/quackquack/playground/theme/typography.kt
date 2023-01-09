@@ -16,9 +16,9 @@ import androidx.compose.ui.unit.sp
 import team.duckie.quackquack.ui.R
 
 private val suit = FontFamily(
-    Font(
-        resId = R.font.quack_suit_variable,
-    ),
+    Font(resId = R.font.quack_suit_bold, weight = FontWeight.Bold),
+    Font(resId = R.font.quack_suit_medium, weight = FontWeight.Medium),
+    Font(resId = R.font.quack_suit_regular, weight = FontWeight.Normal),
 )
 
 val PlaygroundTypography = Typography(
