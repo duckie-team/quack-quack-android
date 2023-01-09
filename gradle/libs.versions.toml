@@ -42,7 +42,7 @@ gfm-dsl = "1.0.0"
 androidx-appcompat = "1.5.1" # needs for oss license activity
 androidx-splash = "1.0.0"
 androidx-datastore = "1.0.0"
-androidx-junit = "1.1.4"
+androidx-junit = "1.1.5"
 androidx-benchmark = "1.1.1"
 
 # test
