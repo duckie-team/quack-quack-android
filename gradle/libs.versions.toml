@@ -14,7 +14,7 @@ gradle-maven-publish = "0.22.0"
 gradle-agp = "8.0.0-alpha08"
 kotlin-core = "1.7.20"
 kotlin-metadata = "0.5.0"
-oss-license-plugin = "0.10.5"
+oss-license-plugin = "0.10.6"
 
 # compose
 compose-core = "1.2.1"
