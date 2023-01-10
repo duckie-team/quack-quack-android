@@ -47,7 +47,7 @@ androidx-benchmark = "1.1.1"
 
 # test
 junit = "4.13.2"
-junit-engine = "5.9.1"
+junit-engine = "5.9.2"
 test-parameter-injector = "1.10"
 
 [plugins]
