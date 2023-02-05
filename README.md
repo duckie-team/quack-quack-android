@@ -51,7 +51,7 @@ QuackQuack 은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 어쩌�
 ## Goals
 
 - 접근성, 재사용성 확장 (`이 컴포넌트가 없어요` ❌)
-- [오버엔지니어](https://en.wikipedia.org/wiki/Overengineering)링, [조기(premature) 최적화](http://wiki.c2.com/?PrematureOptimization) ❌
+- [오버엔지니어링](https://en.wikipedia.org/wiki/Overengineering), [조기 최적화](http://wiki.c2.com/?PrematureOptimization) ❌
 
 ## Tech Stacks
 
