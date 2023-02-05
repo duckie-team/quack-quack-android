@@ -97,4 +97,4 @@ repositories {
 
 ## License
 
-QuackQuack is designed and developed by 2022 Duckie Team, and licensed under MIT. please see the [License](LICENSE) file.
+QuackQuack is designed and developed by 2022~2023 Duckie Team, and licensed under MIT. please see the [License](LICENSE) file.
