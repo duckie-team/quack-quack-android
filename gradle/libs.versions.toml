@@ -27,7 +27,7 @@ coil = "2.2.2"
 
 # tools
 kover = "0.6.1"
-lint = "30.4.0"
+lint = "30.4.1"
 logeukes = "1.0.0"
 ktx-core = "1.9.0"
 systemuicontroller = "1.0.1"
