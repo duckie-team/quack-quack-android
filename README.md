@@ -61,7 +61,7 @@ TBD
 
 꽥꽥은 MavenCentral 저장소에 배포됩니다.
 
-![quack-ui-components](https://img.shields.io/maven-central/v/team.duckie.quack/quackquack-ui?label=quackquack-ui-components&style=flat-square) ![quack-lint-core](https://img.shields.io/maven-central/v/team.duckie.quack/quackquack-lint?label=quackquack-lint-core&style=flat-square)
+![quack-ui-components](https://img.shields.io/maven-central/v/team.duckie.quack/quackquack-ui?label=quackquack-ui&style=flat-square) ![quack-lint-core](https://img.shields.io/maven-central/v/team.duckie.quack/quackquack-lint?label=quackquack-lint&style=flat-square)
 
 ```groovy
 dependencies {
