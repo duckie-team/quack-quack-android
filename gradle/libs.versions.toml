@@ -5,7 +5,7 @@ ktlint-gradle = "11.1.0"
 # https://github.com/JLLeitschuh/ktlint-gradle/issues/589
 # klint 최신 버전과 사용 불가
 ktlint-source = "0.45.2"
-detekt = "1.21.0"
+detekt = "1.22.0"
 paparazzi = "1.2.0"
 ksp = "1.7.20-1.0.8"
 gradle-maven-publish = "0.24.0"
