@@ -44,7 +44,7 @@ QuackQuack 은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 어쩌�
 
 ## Preview
 
-이 저장소의 [playground](playground) 모듈을 빌드하거나 [Google PlayStore](https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground) 에서 미리보기 앱을 설치하실 수 있습니다.
+[playground](playground) 모듈을 빌드하거나 [Google PlayStore](https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground) 에서 미리보기 앱을 설치하실 수 있습니다.
 
 <a href="https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="70"></a>
 
