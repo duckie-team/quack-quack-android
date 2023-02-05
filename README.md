@@ -38,15 +38,19 @@ QuackQuack 은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 어쩌�
   • 디자인 시스템 피쳐를 별도로 가져가면 프로덕트 피쳐 개발자가 하나의 주제에만 집중할 수 있음 (디자인에 변경이 생겼을 때 직접 UI 코드베이스를 건들 필요가 없고, 오직 비즈니스 로직에만 집중할 수 있음)
 </details>
 
-꽥꽥은 덕키 내부에서 사용할 목적으로 만들어졌기에 외부 프로젝트엔 적합하지 않을 수 있습니다. 다만, Jetpack Compose 로 디자인 시스템 개발을 처음 시도하거나 디자인 시스템 도입을 고민하시는 분들께 도움이 됐으면 해서 public 으로 진행합니다. 
+꽥꽥은 덕키 내부에서 사용할 목적으로 만들어졌기에 외부 프로젝트엔 적합하지 않을 수 있습니다. 다만, Jetpack Compose로 디자인 시스템 개발을 처음 시도하거나 디자인 시스템 도입을 고민하시는 분들께 도움이 됐으면 해서 public으로 진행합니다. 
 
 디자인 시스템 개발 회고는 3월에 올라올 예정입니다. 이 회고에서 꽥꽥의 잘못 됐던 초기 설계, 개발하면서 생겼던 큰 고민들, 2.x.x 릴리스로 코드베이스를 처음부터 다시 작성하게 된 이야기를 들으실 수 있습니다.
 
 ## Preview
 
-[playground](playground) 모듈을 빌드하거나 [Google PlayStore](https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground) 에서 미리보기 앱을 설치하실 수 있습니다.
+[playground](playground) 모듈을 빌드하거나 [Google PlayStore](https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground)에서 미리 보기 앱을 설치하실 수 있습니다.
 
 <a href="https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="70"></a>
+
+## Usage
+
+꽥꽥의 문서는 [여기](https://quack.duckie.team/android)서 확인하실 수 있습니다.
 
 ## Goals
 
@@ -89,7 +93,7 @@ repositories {
 
 ## Contributing
 
-모든 기여를 환영합니다. 기여하시기 전에 [contribution guide](.github/CONTRIBUTING.md) 를 읽어 주세요.
+모든 기여를 환영합니다. 기여하시기 전에 [contribution guide](.github/CONTRIBUTING.md)를 읽어 주세요.
 
 > 기여해 주신 모든 분들께 감사합니다. 
 > 
