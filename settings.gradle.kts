@@ -29,21 +29,5 @@ buildCache {
 
 include(
     ":playground",
-    // ":common-lint",
-    // ":common-lint-test",
     ":ui-components",
-    // ":ui-components-snapshots",
-    // ":ui-components-benchmark",
-    // ":ui-components-benchmark-app",
-    // ":lint-core",
-    // ":lint-quack",
-    // ":lint-compose",
-    // ":lint-writing",
-    // ":lint-core-publish",
-    // ":lint-quack-publish",
-    // ":lint-compose-publish",
-    // ":quack-publish-bom",
-    // ":ux-writing-rule",
-    // ":ux-writing-overlay",
-    // ":ux-writing-model",
 )
