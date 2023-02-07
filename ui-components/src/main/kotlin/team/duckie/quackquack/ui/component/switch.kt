@@ -1,7 +1,7 @@
 // ORIGINAL IMPLEMENTATION COPIED FROM AOSP Switch.kt FILE. (Material-Compose Artifact)
 
 /*
- * Designed and developed by Duckie Team, 2022
+ * Designed and developed by Duckie Team, 2022~2023
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
