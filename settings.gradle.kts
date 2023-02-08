@@ -12,10 +12,8 @@ rootProject.name = "quack-quack"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
-    includeBuild("build-logic")
     repositories {
         google()
-        mavenLocal()
         mavenCentral()
         gradlePluginPortal()
     }
