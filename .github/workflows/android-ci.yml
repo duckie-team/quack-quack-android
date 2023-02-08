@@ -3,7 +3,6 @@ env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false"
 on:
   pull_request:
-    branches: [ master ]
 
 jobs:
   ci-build:
@@ -11,11 +10,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      # - name: Unarchive keystore signing files
-      #  run: |
-      #    gpg --quiet --batch --yes --always-trust --decrypt --passphrase=${{ secrets.SECRET_GPG_PASSWORD }} --output secrets.tar secrets.tar.gpg
-      #    tar xvf secrets.tar
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.5
