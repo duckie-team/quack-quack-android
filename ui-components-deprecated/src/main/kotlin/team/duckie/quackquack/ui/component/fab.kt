@@ -78,7 +78,7 @@ private val QuackFabMenuBackgroundColor = QuackColor.White
 private val QuackFabMenuItemColor = QuackColor.Black
 
 private val QuackFabMenuItemTextStyle = QuackTextStyle.Subtitle.change(
-    color = QuackFabMenuItemColor
+    color = QuackFabMenuItemColor,
 )
 
 private val QuackFabMenuPadding = PaddingValues(
@@ -188,7 +188,7 @@ public fun QuackMenuFab(
             elements = Array(
                 size = items.size,
                 init = { 0.dp },
-            )
+            ),
         )
     }
     val textWidthModifier = remember(

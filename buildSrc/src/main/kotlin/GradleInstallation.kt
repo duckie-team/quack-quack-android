@@ -11,6 +11,7 @@ import internal.ApplicationConstants
 import internal.applyPlugins
 import internal.configureApplication
 import internal.configureCompose
+import internal.installFormatting
 import internal.libs
 import internal.setupJunit
 import org.gradle.api.Project
@@ -23,7 +24,6 @@ import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import internal.installFormatting
 
 class GradleInstallationScope internal constructor(private val project: Project) {
     fun android(block: BaseAppModuleExtension.() -> Unit) {

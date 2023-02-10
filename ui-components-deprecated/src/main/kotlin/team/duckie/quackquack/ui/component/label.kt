@@ -50,7 +50,7 @@ private object QuackLabelDefaults {
         color = when (isActive) {
             true -> QuackColor.White
             else -> QuackColor.Gray1
-        }
+        },
     )
 
     /**

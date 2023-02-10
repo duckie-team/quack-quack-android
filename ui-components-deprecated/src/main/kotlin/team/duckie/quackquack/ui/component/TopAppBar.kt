@@ -240,7 +240,7 @@ private object QuackTopAppBarDefaults {
                             onClick = onTextClick,
                         )
                         .padding(
-                            paddingValues = TrailingTextPadding
+                            paddingValues = TrailingTextPadding,
                         ),
                     text = text,
                     style = TrailingTypography,
@@ -337,7 +337,7 @@ public fun QuackTopAppBar(
                 trailingText != null ||
                 onTrailingIconClick != null ||
                 onTrailingExtraIconClick != null ||
-                onTrailingTextClick != null
+                onTrailingTextClick != null,
     ) {
         "At least one param setting is required."
     }
@@ -346,7 +346,7 @@ public fun QuackTopAppBar(
         runtimeCheck(
             trailingIcon == null && trailingExtraIcon == null && trailingText == null &&
                     onTrailingIconClick == null && onTrailingExtraIconClick == null &&
-                    onTrailingTextClick == null
+                    onTrailingTextClick == null,
         ) {
             "trailingContent 가 입력되었을 때는 다른 trailing content 인자들을 이용하실 수 없습니다."
         }

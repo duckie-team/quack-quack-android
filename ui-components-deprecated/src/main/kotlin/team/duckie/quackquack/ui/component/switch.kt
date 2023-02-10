@@ -138,7 +138,7 @@ public fun QuackSwitch(
             .requiredSize(
                 width = SwitchWidth,
                 height = SwitchHeight,
-            )
+            ),
     ) {
         SwitchImpl(
             checked = checked,
@@ -215,7 +215,7 @@ private fun BoxScope.SwitchImpl(
     Canvas(
         modifier = Modifier
             .align(Alignment.Center)
-            .fillMaxSize()
+            .fillMaxSize(),
     ) {
         drawTrack(
             trackColor = trackColor,
@@ -229,7 +229,7 @@ private fun BoxScope.SwitchImpl(
             QuackBorder(color = QuackColor.DuckieOrange)
         } else {
             QuackBorder(color = QuackColor.Gray2)
-        }
+        },
     )
     Spacer(
         modifier = Modifier
@@ -246,7 +246,7 @@ private fun BoxScope.SwitchImpl(
                 indication = rememberRipple(
                     bounded = false,
                     radius = ThumbRippleRadius,
-                )
+                ),
             )
             .requiredSize(size = ThumbDiameter)
             .applyAnimatedQuackBorder(
@@ -261,7 +261,7 @@ private fun BoxScope.SwitchImpl(
             .background(
                 color = QuackColor.White.composeColor,
                 shape = CircleShape,
-            )
+            ),
     )
 }
 

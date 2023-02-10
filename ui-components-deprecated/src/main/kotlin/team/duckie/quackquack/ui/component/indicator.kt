@@ -63,7 +63,7 @@ public fun QuackIndicator(
     Box(modifier = modifier) {
         Row(
             modifier = Modifier.zIndex(1f),
-            horizontalArrangement = Arrangement.spacedBy(IndicateDotSpacedBy)
+            horizontalArrangement = Arrangement.spacedBy(IndicateDotSpacedBy),
         ) {
             repeat(size) { position ->
                 QuackIndicatorDot(

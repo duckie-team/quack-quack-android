@@ -31,7 +31,7 @@ public object SquircleShape : Shape {
         path = createSquirclePath(
             size = size,
             smoothing = SMOOTHING,
-        )
+        ),
     )
 
     private fun createSquirclePath(
@@ -66,15 +66,15 @@ public object SquircleShape : Shape {
             transform(
                 scaleMatrix(
                     sx = 1 / OVERSAMPLING_MULTIPLIER,
-                    sy = 1 / OVERSAMPLING_MULTIPLIER
-                )
+                    sy = 1 / OVERSAMPLING_MULTIPLIER,
+                ),
             )
 
             transform(
                 translationMatrix(
                     tx = size.width / 2,
-                    ty = size.height / 2
-                )
+                    ty = size.height / 2,
+                ),
             )
         }.asComposePath()
     }
