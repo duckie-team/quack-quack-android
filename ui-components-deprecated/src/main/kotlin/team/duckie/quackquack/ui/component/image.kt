@@ -92,7 +92,7 @@ private object QuackImageDefaults {
 
         val IconContainerShape = CircleShape
         val IconContainerBackgroundColor = QuackColor.Black.change(
-            alpha = 0.5f
+            alpha = 0.5f,
         )
         val IconContainerSize = DpSize(
             all = 16.dp,

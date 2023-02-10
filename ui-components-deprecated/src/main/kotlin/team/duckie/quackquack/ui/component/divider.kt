@@ -36,7 +36,7 @@ public fun QuackDivider(modifier: Modifier = Modifier) {
             modifier = modifier
                 .fillMaxWidth()
                 .height(Height)
-                .background(color = Color.composeColor)
+                .background(color = Color.composeColor),
         )
     }
 }

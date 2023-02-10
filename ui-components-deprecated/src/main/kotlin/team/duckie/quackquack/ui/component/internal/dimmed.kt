@@ -39,7 +39,7 @@ internal fun QuackBackgroundDimmed(
                 )
                 .zIndex(
                     zIndex = zIndex,
-                )
+                ),
         )
     }
 }

@@ -173,7 +173,7 @@ private object QuackToggleDefaults {
     object ToggleButton {
         val IconSize = Small
         val Typography = QuackTextStyle.Body2.change(
-            color = QuackColor.Gray1
+            color = QuackColor.Gray1,
         )
 
         /**

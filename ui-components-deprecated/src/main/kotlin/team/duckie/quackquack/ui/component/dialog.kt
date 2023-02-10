@@ -144,7 +144,7 @@ public fun QuackDialog(
                         horizontalArrangement = Arrangement.spacedBy(
                             space = 8.dp,
                             alignment = Alignment.End,
-                        )
+                        ),
                     ) {
                         if (leftButtonText != null) {
                             QuackSubtitle(
