@@ -14,6 +14,7 @@ import internal.configureCompose
 import internal.libs
 import internal.setupJunit
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
@@ -21,6 +22,8 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import internal.installFormatting
 
 class GradleInstallationScope internal constructor(private val project: Project) {
     fun android(block: BaseAppModuleExtension.() -> Unit) {
@@ -94,6 +97,24 @@ class GradleInstallationScope internal constructor(private val project: Project)
             }
 
             configureCompose(extension)
+        }
+    }
+
+    fun kotlin(block: KotlinJvmProjectExtension.() -> Unit = {}) {
+        with(project) {
+            applyPlugins(
+                Plugins.KotlinCore,
+                Plugins.JavaLibrary,
+            )
+
+            extensions.configure<JavaPluginExtension> {
+                sourceCompatibility = ApplicationConstants.JavaVersion
+                targetCompatibility = ApplicationConstants.JavaVersion
+            }
+
+            extensions.configure<KotlinJvmProjectExtension>(block)
+
+            installFormatting()
         }
     }
 

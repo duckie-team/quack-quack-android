@@ -9,6 +9,8 @@ import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.plugin.use.PluginDependencySpec
 
 object Plugins {
+    const val JavaLibrary = "java-library"
+
     const val KotlinCore = "kotlin"
     const val KotlinAndroid = "kotlin-android"
 
