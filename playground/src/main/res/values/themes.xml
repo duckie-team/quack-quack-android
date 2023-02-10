@@ -8,16 +8,4 @@
 <resources>
 
     <style name="Theme.Quack" parent="android:Theme.Material.NoActionBar" />
-
-    <style name="Theme.Quack.AppCompat" parent="Theme.AppCompat.Light" />
-
-    <style name="Theme.Quack.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/quack_background</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_quack_splash</item>
-        <item name="postSplashScreenTheme">@style/Theme.Quack</item>
-
-        <item name="android:statusBarColor">@color/quack_background</item>
-        <item name="android:navigationBarColor">@color/quack_background</item>
-        <item name="android:windowLightStatusBar">true</item>
-    </style>
 </resources>
