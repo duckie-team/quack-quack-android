@@ -2,26 +2,44 @@ complexity:
   LongMethod:
     threshold: 100
     ignoreAnnotated: [ 'Composable' ]
-  ComplexMethod:
+  CyclomaticComplexMethod:
     ignoreAnnotated: [ 'Composable' ]
   LongParameterList:
     active: false
   TooManyFunctions:
     active: false
+  ComplexCondition:
+    threshold: 7
 
 performance:
   SpreadOperator:
     active: false
 
+formatting:
+  TrailingCommaOnCallSite:
+    active: true
+  TrailingCommaOnDeclarationSite:
+    active: true
+  ImportOrdering:
+    active: false
+  MaximumLineLength:
+    maxLineLength: 150
+  Indentation:
+    active: false
+  Filename:
+    active: false
+  PackageName:
+    active: false
+  ArgumentListWrapping:
+    maxLineLength: 150
+
 style:
   MagicNumber:
-    ignorePropertyDeclaration: true
-    ignoreCompanionObjectPropertyDeclaration: true
-    ignoreAnnotated: [ 'AllowMagicNumber' ]
+    active: false
   ForbiddenComment:
     active: false
   UnusedPrivateMember:
-    ignoreAnnotated: [ 'preview' ]
+    ignoreAnnotated: [ 'Preview' ]
   ThrowsCount:
     active: false
   ReturnCount:
@@ -31,16 +49,17 @@ style:
   DestructuringDeclarationWithTooManyEntries:
     active: false
   MaxLineLength:
+    maxLineLength: 150
     excludeCommentStatements: true
 
 naming:
   TopLevelPropertyNaming:
-    # 한글변수도 가능하도록 함
-    # See: https://github.com/sungbinland/duckie-quack-quack/pull/82#discussion_r962213545
-    constantPattern: '[A-Z가-힣][A-Za-z0-9가-힣_]*'
+    constantPattern: '[A-Z][A-Za-z0-9_]*'
   FunctionNaming:
     ignoreAnnotated: [ 'Composable' ]
   MatchingDeclarationName:
     active: false
   VariableNaming:
     active: false
+  PackageNaming:
+    packagePattern: '[a-z]+(\._?[_?A-Za-z0-9]*)*'

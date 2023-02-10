@@ -1,0 +1,53 @@
+<!--
+  ~ Designed and developed by Duckie Team, 2022~2023
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="20"
+    android:viewportHeight="20">
+    <group>
+        <clip-path android:pathData="M1.238,1.84h17.726v16.135L1.238,17.975z" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M14.983,7.607 L16.338,4.15A1.141,1.141 0,0 0,14.856 2.672L2.713,7.425a1.141,1.141 0,0 0,-0.093 2.084L6.868,11.627a1.146,1.146 0,0 1,0.512 0.512l2.121,4.251a1.141,1.141 0,0 0,2.084 -0.093"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+    <group>
+        <clip-path android:pathData="M7.209,8.475h17.726v16.135L7.209,24.61z" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M7.209,11.797 L10.531,8.475"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+    <group>
+        <clip-path android:pathData="M15.369,10.607h17.726v16.135L15.369,26.742z" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M15.369,10.607v5.285"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+    <group>
+        <clip-path android:pathData="M12.727,13.25h17.726v16.135L12.727,29.385z" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M18.012,13.25L12.727,13.25"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+</vector>
