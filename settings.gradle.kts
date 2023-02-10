@@ -28,4 +28,5 @@ buildCache {
 include(
     ":playground",
     ":ui-components-deprecated",
+    ":core",
 )
