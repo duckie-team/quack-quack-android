@@ -74,7 +74,7 @@ public fun <T> QuackGridLayout(
         modifier = modifier,
         state = state,
         columns = GridCells.Fixed(
-            count = MaxComponentCountsForLine
+            count = MaxComponentCountsForLine,
         ),
         verticalArrangement = Arrangement.spacedBy(
             space = verticalSpacing,

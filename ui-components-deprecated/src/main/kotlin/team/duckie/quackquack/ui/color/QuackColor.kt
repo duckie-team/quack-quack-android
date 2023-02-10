@@ -301,7 +301,7 @@ public value class QuackColor internal constructor(
                                 colorSpace = colorSpace,
                             ),
                         )
-                    }
+                    },
                 )
             }
     }

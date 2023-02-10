@@ -31,8 +31,6 @@ internal fun Project.configureApplication(extension: CommonExtension<*, *, *, *>
             checkTestSources = true
         }
 
-        if (project.pluginManager.hasPlugin(libs.findPlugin("kotlin-detekt").get().get().pluginId)) {
-            dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get().get())
-        }
+        installFormatting()
     }
 }

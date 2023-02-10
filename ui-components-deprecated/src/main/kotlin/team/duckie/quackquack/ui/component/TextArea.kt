@@ -137,7 +137,7 @@ private object QuackTextAreaDefaults {
             color = when (isPlaceholder || !focused) {
                 true -> QuackColor.Gray3
                 else -> QuackColor.DuckieOrange
-            }
+            },
         )
 
         val Shape = RoundedCornerShape(

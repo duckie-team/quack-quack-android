@@ -377,7 +377,7 @@ public fun QuackMainTab(
             elements = Array(
                 size = titleSize,
                 init = { 0 },
-            )
+            ),
         )
     }
 
@@ -531,7 +531,7 @@ public fun QuackSubTab(
                 receiver = density,
             ) {
                 TabStartPaddingValue.toPx()
-            }
+            },
         )
 
     /**
