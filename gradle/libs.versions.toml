@@ -2,7 +2,7 @@
 gradle-android = "8.0.0-beta02"
 gradle-publish-maven = "0.24.0"
 
-kotlin-core = "1.8.0"
+kotlin-core = "1.8.10"
 kotlin-dokka = "1.7.20"
 kotlin-detekt = "1.22.0"
 kotlin-ktlint-gradle = "11.1.0"
@@ -17,7 +17,7 @@ androidx-benchmark = "1.1.1"
 androidx-profileinstaller = "1.2.2"
 
 compose-uiutil = "1.3.3"
-compose-compiler = "1.4.0"
+compose-compiler = "1.4.2"
 compose-material = "1.3.1"
 compose-animation = "1.3.3"
 compose-material3 = "1.0.1" # for Playground
