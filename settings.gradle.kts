@@ -1,5 +1,5 @@
 /*
- * Designed and developed by Duckie Team, 2022~2023
+ * Designed and developed by Duckie Team, 2022
  *
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
@@ -12,8 +12,10 @@ rootProject.name = "quack-quack"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
+        mavenLocal()
         mavenCentral()
         gradlePluginPortal()
     }
@@ -27,5 +29,21 @@ buildCache {
 
 include(
     ":playground",
-    ":ui-components-deprecated",
+    // ":common-lint",
+    // ":common-lint-test",
+    ":ui-components",
+    // ":ui-components-snapshots",
+    // ":ui-components-benchmark",
+    // ":ui-components-benchmark-app",
+    // ":lint-core",
+    // ":lint-quack",
+    // ":lint-compose",
+    // ":lint-writing",
+    // ":lint-core-publish",
+    // ":lint-quack-publish",
+    // ":lint-compose-publish",
+    // ":quack-publish-bom",
+    // ":ux-writing-rule",
+    // ":ux-writing-overlay",
+    // ":ux-writing-model",
 )

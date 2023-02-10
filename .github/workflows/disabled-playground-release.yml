@@ -1,0 +1,90 @@
+name: Playground Release
+env:
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false"
+on:
+  pull_request:
+    # branches: [ develop ]
+    branches: [ DISABLE-THIS-WORKFLOW ]
+    types: [ closed ]
+
+jobs:
+  playground-release:
+    runs-on: ubuntu-latest
+    if: ${{
+      github.event.pull_request.merged &&
+      contains(github.event.pull_request.labels.*.name, 'release')
+      }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Label filtering
+        id: label
+        uses: duckie-team/quack-label-filter-actions@1.0.3
+        with:
+          labels: "${{ toJson(github.event.pull_request.labels.*.name) }}"
+
+      - name: Unarchive keystore signing files
+        run: |
+          gpg --quiet --batch --yes --always-trust --decrypt --passphrase=${{ secrets.SECRET_GPG_PASSWORD }} --output secrets.tar secrets.tar.gpg
+          tar xvf secrets.tar
+
+      - name: Setup JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 11
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-home-cache-cleanup: true
+
+      - name: Decrypt secrets.tar.gpg
+        run: gpg --quiet --batch --yes --always-trust --decrypt --passphrase="$SECRET_GPG_PASSWORD" --output secrets.tar secrets.tar.gpg
+        env:
+          SECRET_GPG_PASSWORD: ${{ secrets.SECRET_GPG_PASSWORD }}
+
+      - name: Unzip secrets.tar
+        run: tar xvf secrets.tar
+
+      - name: Bump version
+        run: "./gradlew bump -PbumpType=${{ steps.label.outputs.bump_type }} -PreleaseTarget=Playground"
+
+      - name: Build apk
+        id: gradle
+        run: ./gradlew assembleRelease
+
+      - name: Upload apk to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: duckie
+          file: playground/build/outputs/apk/release/playground-release.apk
+          releaseNotes: |
+            마지막 변경 사항 제목: ${{ github.event.pull_request.title }}
+
+      - name: Post to a Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          channel-id: C046H1UR2CA
+          slack-message: "꽥꽥의 새로운 플레이그라운드가 배포됐어요 🥳"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: Update new versions
+        run: |
+          git config user.name "sungbinland-bot"
+          git config user.email "sungbinland.project@gmail.com"
+          git add .
+          git commit -m "[CI] bump versions"
+          git push

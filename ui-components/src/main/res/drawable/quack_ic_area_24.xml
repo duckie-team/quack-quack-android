@@ -1,0 +1,44 @@
+<!--
+  ~ Designed and developed by Duckie Team, 2022
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <group>
+        <clip-path android:pathData="M3.757,3.857h16.477v16.285h-16.477z" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M5.72,4.82L9.62,4.82A1,1 0,0 1,10.62 5.82L10.62,9.72A1,1 0,0 1,9.62 10.72L5.72,10.72A1,1 0,0 1,4.72 9.72L4.72,5.82A1,1 0,0 1,5.72 4.82z"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M14.372,4.82L18.272,4.82A1,1 0,0 1,19.272 5.82L19.272,9.72A1,1 0,0 1,18.272 10.72L14.372,10.72A1,1 0,0 1,13.372 9.72L13.372,5.82A1,1 0,0 1,14.372 4.82z"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M5.72,13.279L9.62,13.279A1,1 0,0 1,10.62 14.279L10.62,18.179A1,1 0,0 1,9.62 19.179L5.72,19.179A1,1 0,0 1,4.72 18.179L4.72,14.279A1,1 0,0 1,5.72 13.279z"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M16.322,19.179h0a2.95,2.95 0,1 1,2.95 -2.95A2.95,2.95 0,0 1,16.322 19.179Z"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+</vector>

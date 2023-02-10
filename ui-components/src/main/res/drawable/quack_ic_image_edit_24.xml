@@ -1,0 +1,75 @@
+<!--
+  ~ Designed and developed by Duckie Team, 2022
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M10.744,16.782L10.744,14.579"
+        android:strokeWidth="1.5"
+        android:strokeColor="#222"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <group>
+        <clip-path android:pathData="M4,4.045h15.91v15.91h-15.91z" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M10.744,4.795L10.744,6.998"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M8.063,13.469L6.506,15.026"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M14.982,6.551L13.425,8.108"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M16.737,10.789L14.534,10.789"
+        android:strokeWidth="1.5"
+        android:strokeColor="#222"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <group>
+        <clip-path android:pathData="M4,4.045h15.91v15.91h-15.91z" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M6.953,10.789L4.75,10.789"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M6.506,6.551L8.063,8.108"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M13.424,13.469L19.16,19.205"
+            android:strokeWidth="1.5"
+            android:strokeColor="#222"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+</vector>
