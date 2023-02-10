@@ -125,7 +125,7 @@ private object QuackTextFieldDefaults {
             color = when (isEnabled) {
                 true -> QuackColor.DuckieOrange
                 else -> QuackColor.Gray2
-            }
+            },
         )
 
         val BackgroundColor = QuackColor.White
@@ -1441,7 +1441,7 @@ private fun QuackGrayscaleTextFieldCounter(
                 QuackText(
                     modifier = Modifier.padding(start = 1.dp),
                     text = "/$maxLength",
-                    style = QuackTextStyle.Body1.change(color = QuackColor.Gray2)
+                    style = QuackTextStyle.Body1.change(color = QuackColor.Gray2),
                 )
             }
         }
