@@ -8,37 +8,37 @@
 
 `BumpType` label 은 배포 과정에서 bump 할 대상을 정의합니다.
 
-| Label                                                                                   | Description         |
-|-----------------------------------------------------------------------------------------|---------------------|
+| Label                                                        | Description               |
+| ------------------------------------------------------------ | ------------------------- |
 | ![label-preview](https://img.shields.io/badge/BumpType__Major-E99695?style=flat-square) | Major 버전을 bump 합니다. |
-| ![label-preview](https://img.shields.io/badge/BumpType__Minor-E99695?style=flat-square) | Minor 버전을 bump 합니다. |
-| ![label-preview](https://img.shields.io/badge/BumpType__Patch-E99695?style=flat-square) | Patch 버전을 bump 합니다. |
+| ![label-preview](https://img.shields.io/badge/BumpType__Minor-E99695?style=flat-square)                                                      | Minor 버전을 bump 합니다. |
+| ![label-preview](https://img.shields.io/badge/BumpType__Patch-E99695?style=flat-square)                                                      | Patch 버전을 bump 합니다. |
 
 ### ReleaseTarget
 
 `ReleaseTarget` label 은 배포 과정에서 release 할 대상을 정의합니다.
 
-| Label                                                                                               | Description                                   |
-|-----------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| ![label-preview](https://img.shields.io/badge/ReleaseTarget__Playground-F9D0C4?style=flat-square)   | `ui-components` 의 `playground` 를 release 합니다. |
-| ![label-preview](https://img.shields.io/badge/ReleaseTarget__LintCore-F9D0C4?style=flat-square)     | `lint-core` 를 release 합니다.                    |
-| ![label-preview](https://img.shields.io/badge/ReleaseTarget__LintQuack-F9D0C4?style=flat-square)    | `lint-quack` 를 release 합니다.                   |
-| ![label-preview](https://img.shields.io/badge/ReleaseTarget__LintCompose-F9D0C4?style=flat-square)  | `lint-compose` 를 release 합니다.                 |
-| ![label-preview](https://img.shields.io/badge/ReleaseTarget__LintWriting-F9D0C4?style=flat-square)  | `lint-writing` 를 release 합니다.                 |
-| ![label-preview](https://img.shields.io/badge/ReleaseTarget__UiComponents-F9D0C4?style=flat-square) | `ui-components` 를 release 합니다.                |
+| Label                                                        | Description                                        |
+| ------------------------------------------------------------ | -------------------------------------------------- |
+| ![label-preview](https://img.shields.io/badge/ReleaseTarget__Playground-F9D0C4?style=flat-square) | `ui-components` 의 `playground` 를 release 합니다. |
+| ![label-preview](https://img.shields.io/badge/ReleaseTarget__LintCore-F9D0C4?style=flat-square) | `lint-core` 를 release 합니다.                     |
+| ![label-preview](https://img.shields.io/badge/ReleaseTarget__LintQuack-F9D0C4?style=flat-square) | `lint-quack` 를 release 합니다.                    |
+| ![label-preview](https://img.shields.io/badge/ReleaseTarget__LintCompose-F9D0C4?style=flat-square) | `lint-compose` 를 release 합니다.                  |
+| ![label-preview](https://img.shields.io/badge/ReleaseTarget__LintWriting-F9D0C4?style=flat-square) | `lint-writing` 를 release 합니다.                  |
+| ![label-preview](https://img.shields.io/badge/ReleaseTarget__UiComponents-F9D0C4?style=flat-square) | `ui-components` 를 release 합니다.                 |
 
 ## 버전 관리
 
 모든 아티팩트의 버전은 프로젝트 루트에 [versions](versions) 폴더로 관리됩니다.
 
-| File name           | Content                              | Description                                                            |
-|---------------------|--------------------------------------|------------------------------------------------------------------------|
-| `ui-components.txt` | `major=x; minor=y; patch=z;`         | `x.y.z` 버전을 `ui-components` 배포에 사용합니다.                                 |
+| File name           | Content                                        | Description                                                  |
+| ------------------- | ---------------------------------------------- | ------------------------------------------------------------ |
+| `ui-components.txt` | `major=x; minor=y; patch=z;`                   | `x.y.z` 버전을 `ui-components` 배포에 사용합니다.            |
 | `playground.txt`    | `major=x; minor=y; patch=z; code=n;` | `x.y.z` 을 `versionName`, `n` 을 `verionCode` 로 `playground` 릴리스에 사용합니다. |
-| `lint-core.txt`     | `major=x; minor=y; patch=z;`         | `x.y.z` 버전을 `lint-core` 배포에 사용합니다.                                     |
-| `lint-quack.txt`    | `major=x; minor=y; patch=z;`         | `x.y.z` 버전을 `lint-quack` 배포에 사용합니다.                                    |
-| `lint-compose.txt`  | `major=x; minor=y; patch=z;`         | `x.y.z` 버전을 `lint-compose` 배포에 사용합니다.                                  |
-| `lint-writing.txt`  | `major=x; minor=y; patch=z;`         | `x.y.z` 버전을 `lint-writing` 배포에 사용합니다.                                  |
+| `lint-core.txt`     | `major=x; minor=y; patch=z;`                   | `x.y.z` 버전을 `lint-core` 배포에 사용합니다.                |
+| `lint-quack.txt`    | `major=x; minor=y; patch=z;`                   | `x.y.z` 버전을 `lint-quack` 배포에 사용합니다.               |
+| `lint-compose.txt`  | `major=x; minor=y; patch=z;`                   | `x.y.z` 버전을 `lint-compose` 배포에 사용합니다.             |
+| `lint-writing.txt`  | `major=x; minor=y; patch=z;`                   | `x.y.z` 버전을 `lint-writing` 배포에 사용합니다.             |
 
 자동화의 bump 과정에서 `BumpType` 과 `ReleaseTarget` label 에 맞게 각각 버전 파일에서 bump 가 진행됩니다.
 
@@ -65,7 +65,7 @@
 1. ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) :o:: 미리 정의한 `bump` gradle task 를 label 된 이름들로 진행하여 `BumpType` 과 `ReleaseTarget` label 에 맞게 bump 과정을 진행합니다.
 2. ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) :x:: 미리 정의한 `setSnapshotVersion` gradle task 를 진행하여 스냅샷 버전을 설정합니다.
 3. 지정된 `ReleaseTarget` label 에 맞게 publish 과정을 시작합니다.
-4. ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) :o:: 새로운 버전으로 `git tag` 및 깃허브 Release 등록을 진행합니다.
+5. ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) :o:: 새로운 버전으로 `git tag` 및 깃허브 Release 등록을 진행합니다.
 
 > **Warning**: `BumpType` 과 `ReleaseTarget` label 이 모두 지정돼 있지 않다면 배포에 필요한 gradle task 실행에 실패하여 배포 자동화에 실패합니다.
 
