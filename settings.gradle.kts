@@ -29,4 +29,6 @@ include(
     ":playground",
     ":ui-components-deprecated",
     ":core",
+    ":core-aide",
+    ":dokka-paparazzi-integration"
 )
