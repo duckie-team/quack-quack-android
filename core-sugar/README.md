@@ -16,7 +16,7 @@
  @Sugar
  fun Button(type: QuackButton, modifier: Modifier = Modifier, text: String) {}
 
- // generation
+ // generated
  fun DefaultButton(modifier: Modifier = Modifier, text: String) {} // equals to Button(type = QuackButton.Default, ...)
  fun NormalButton(modifier: Modifier = Modifier, text: String) {} // equals to Button(type = QuackButton.Normal, ...)
  fun FlatButton(modifier: Modifier = Modifier, text: String) {} // equals to Button(type = QuackButton.Flat, ...)
