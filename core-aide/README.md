@@ -10,7 +10,7 @@
 
 ![tag](assets/tag.svg)
 
-이 컴포넌트는 스펙에 따르면 배경색이 DuckieOrange로 보여야 하지만, `Modifier.background(color = Color.Blue)`를 사용한다면 파란 색으로 변경할 수 있습니다.
+이 컴포넌트는 스펙에 따르면 배경색이 DuckieOrange로 보여야 하지만, `Modifier.background(color = Color.Blue)`를 사용한다면 파란색으로 변경할 수 있습니다.
 
 또한 모든 디자인 컴포넌트는 기본적으로 font-scale을 존중한다는 원칙 하에 설계됩니다. 따라서 모든 컴포넌트는 사이즈를 고정하지 않으며, 패딩과 font-scale을 이용하여 동적으로 계산합니다. 하지만 `Modifier.size`를 사용한다면 이 원칙을 무시할 수 있습니다.
 
@@ -20,7 +20,7 @@
 
 방법은 간단합니다. 원칙을 어길 수 있는 Modifier가 꽥꽥 컴포넌트에 사용됨이 감지됐을 때 경우에 맞게 빌드 에러 혹은 경고를 발생시킵니다.
 
-원칙을 어기는 Modifier는 다음과 같습니다.
+원칙을 어길 수 있는 Modifier는 다음과 같습니다.
 
 - `Modifier.background`
 - `Modifier.size`
