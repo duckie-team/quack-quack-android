@@ -1,0 +1,207 @@
+## Core
+
+`core` 모듈은 꽥꽥의 모든 UI 컴포넌트를 구현하는 모듈입니다. 기존의 `ui-components` 모듈과 완전히 다른 구현을 제공합니다.
+
+#### 정직했던 디자인 시스템
+
+`1.x.x` 버전까지 제공되는 `ui-components`는 *정직한* 디자인 시스템이였습니다. 정직하다 보니 발생하는 문제도 몇몇 있었습니다. 예를 들어 아래와 같은 컴포넌트가 있습니다.
+
+![secondary-button](assets/secondary-button.svg)
+
+이 컴포넌트는 덕키의 secondary 버튼입니다. secondary 버튼의 특징으론 양옆에 아이콘이 들어갈 수 있습니다. 이 특징은 secondary 버튼만의 고유한 특징입니다. 하지만 UI 개발중에 primary 버튼에도 양옆 아이콘이 있음을 발견했습니다.
+
+1. 디자이너의 실수로 디자인 가이드의 primary 버튼에 양옆 아이콘을 추가하지 못했다.
+2. 새로운 다자인 스팩이지만 디자인 가이드의 동기화가 늦었다.
+
+2가지 원인이 있겠지만 중요한 건 디자인 시스템의 대응입니다.
+
+1. 새로운 스팩을 반영하여 개발하고, 문서화하고, 배포하고, UI 개발팀에 알린다.
+2. UI 개발팀은 디자인 시스템의 변경 사항을 확인하고, 버전을 올리고, 적용한다.
+
+이 과정이 짧다면 짧다고 느낄 수 있겠지만, 배포에는 기다림이라는 숨은 비용이 존재합니다. 우리가 배포를 요청하면 저장소에 반영되기 까지 짧게면 5분, 길게는 30분가량 소요됩니다. 하지만 UI 개발팀은 지금 당장 이 디자인을 필요로 합니다. 그렇다면 UI 개발팀이 할 수 있는 건 무엇일까요?
+
+1. 배포가 반영되기까지 하염없이 기다린다.
+2. 현재 화면을 TODO로 남기고 다른 화면을 작업한다.
+3. 직접 임시로 구현해서 사용한다.
+
+제가 생각해 본 3가지 방법은 모두 큰 단점이 존재합니다.
+
+1. 배포 저장소의 문제로 배포가 30분 넘게 지연될 수도 있습니다. 배포 반영까지 시간이 얼마나 걸리든 어쨌든 시간 손해를 봅니다.
+2. TODO로 남겨진 작업의 작업 시작일을 예측할 수 없습니다. 심지어는 TODO인 상태로 잊혀져 오랫동안 미완성 화면으로 남을 수 있습니다.
+3. 임시로 구현된 컴포넌트다 보니 우선 작동은 합니다. 현재 화면에 딱맞게 작동하니 시간이 지나면 이게 임시로 구현된 컴포넌트였다는 걸 잊을 수 있습니다. 그러면 추후 공식 배포된 컴포넌트와 임시 구현된 컴포넌트와 동기화 문제가 발생할 수 있습니다.
+
+이 뿐만 아니라 variant 문제도 종종 발생합니다. 덕키에서 사용되는 타이포그래피는 다음과 같습니다.
+
+![typography](assets/typography.svg)
+
+그리고 아래 화면이 있습니다.
+
+![comment](assets/comment-ui.svg)
+
+이 화면에서 `@멘션`은 `Body1` 타이포그래피를 사용하고 클릭 가능해야 했기에 `QuackAnnotatedBody1` 이라는 네이밍의 컴포넌트로 개발되고 사용됐습니다. 하지만 다른 화면에서 동일한 역할을 하는 `Headline1` 타이포그래피의 컴포넌트가 필요해 졌습니다.
+
+그러면 우리는 `QuackAnnotatedHeadline1` 컴포넌트를 추가하고 배포합니다. 머지않아 동일한 요구 사항으로 `Title2` 타이포그래피의 컴포넌트가 필요하다고 합니다. 역시 이번에도 `QuackAnnotatedTitle2` 컴포넌트를 추가하고 배포합니다.
+
+오! 이번엔 새로운 요구 사항입니다. 특정 영역만 강조하여 `Body1` 타이포그래피로 보여주는 `QuackHighlightBody1` 컴포넌트가 있습니다. 이번의 요구 사항은 특정 영역만 강조하여 보여주는 `Headline2` 타이포그래피의 컴포넌트입니다. 이젠 익숙해 하며 `QuackHighlightHeadline2` 컴포넌트를 개발하고 배포합니다.
+
+이러한 상황이 지속되고 우리는 무언가 잘못 됐음을 느낍니다.
+
+#### 정직함의 문제
+
+기존의 `ui-components` 문제는 모두 정직함에 있습니다. 너무 정직하다 보니 딱 나에게 주어진 역할만 합니다. 예를 들어 쓰레기를 치우라고 하면 쓰레기를 버리는 게 아닌, 쓰레기의 위치만 옮기고 있습니다.
+
+우리는 디자인 시스템을 유연하게 갈 필요가 있었습니다. `secondary` 버튼에 아이콘을 추가할 수 있다면 같은 도메인인 `primary` 버튼에도 아이콘을 추가할 수 있어야 합니다. 또한 `Body1` 타이포그래피에 클릭 효과를 입힐 수 있다면 같은 도메인인 `Body2` 타이포그래피에도 클릭 효과를 입힐 수 있어야 합니다.
+
+#### 디자인 토큰의 도입
+
+디자인 시스템의 정직함을 해결하기 위해 우리는 `디자인 토큰`을 도입해 보기로 합니다.
+
+```kotlin
+Text(
+    typography = Body1,
+)
+```
+
+이렇게 하면 모든 타이포그래피 대응을 일일이 추가하지 않아도 UI 개발자가 현재 컴포넌트에 맞는 타이포그래피를 모두 사용할 수 있습니다. 여기에 이어서 `Text` 도메인에서 사용 가능한 데코레이터를 자유롭게 추가할 수 있다면 어떨까요?
+
+```kotlin
+Text(
+    typography = Body1,
+    modifier = Modifier
+        .annotated(
+            clickable = { text ->
+                AnnotatedClickable(text, "@성빈", DuckieOrange, ::mentionClicked)
+            }
+        )
+        .highlight { text ->
+            Highlight(text, "@성빈", SemiBold)
+        },
+)
+```
+
+만약 레이블과 같이 필수로 입력돼야 하는 정보라면 필수 입력을 고정할 수도 있습니다.
+
+```kotlin
+Text(
+    typography = Body1,
+    modifier = Modifier
+        .annotated(
+            clickable = { text ->
+                AnnotatedClickable(text, "@성빈", DuckieOrange, ::mentionClicked)
+            }
+        )
+        .highlight { text ->
+            Highlight(text, "@성빈", SemiBold)
+        },
+    text = "@성빈 우리에게 최고의 경험을 보장하기 위해.",
+)
+```
+
+버튼의 경우도 동일합니다. 먼저 버튼의 타입을 정해주고,
+
+```kotlin
+Button(
+    type = Secondary,
+)
+```
+
+원하는 데코레이터을 추가합니다.
+
+```kotlin
+Button(
+    type = Secondary,
+    modifier = Modifier
+        .leadingIcon(Close)
+        .trailingIcon(Heart),
+)
+```
+
+마지막으로, 필수 정보를 입력합니다.
+
+```kotlin
+Button(
+    type = Secondary,
+    modifier = Modifier
+        .leadingIcon(Close)
+        .trailingIcon(Heart),
+    text = "나 좀 짱인듯? (짱 아님.. 짱되고 싶다",
+    onClick = ::`am_I_awesome?`,
+)
+```
+
+참 쉽죠? 🎨
+
+#### 안정성
+
+만약 `Text`의 데코레이터를 `Button`에 추가하면 어쩌지? 하는 걱정이 들 수 있습니다.
+
+```kotlin
+Button(
+    type = Secondary,
+    modifier = Modifier
+        .leadingIcon(Close)
+        .trailingIcon(Heart)
+        .highlight { text ->
+            Highlight(text, "짱", SemiBold)
+        },,
+    text = "나 좀 짱인듯? (짱 아님.. 짱되고 싶다",
+    onClick = ::`am_I_awesome?`,
+)
+```
+
+`Modifier.highlight`는 `Text`의 데코레이터이지만 위 코드를 보면 `Button`에 사용되고 있습니다. 하지만 걱정하지 마세요. 위는 예시일 뿐, 실제 코드에선 불가능합니다.
+
+사실, 모든 컴포넌트에는 각각 도메인에 맞는 receiver가 붙습니다.
+
+```kotlin
+@Composable
+fun QuackButton.Button(...) {}
+```
+
+위는 `Button` 도메인의 컴포넌트이므로 `QuackButton` receiver가 붙었습니다. `Modifier.highlight`는 `Text` 도메인의 데코레이터입니다.
+
+```kotlin
+interface QuackText {
+    fun Modifier.highlight(...): Modifier
+}
+```
+
+따라서 위 `Button`에서는 `highlight` 데코레이터를 사용할 수 없습니다.
+
+```kotlin
+@Composable
+fun QuackText.Text(...) {}
+```
+
+오직 `Text`에서만 사용 가능합니다.
+
+#### 문법 설탕
+
+매번 타입을 지정해서 사용하는 건 충분히 귀찮을 수 있습니다. 우리는 개발자에게 최선의 경험을 제공하기 위해 디자인 토큰의 문법 설탕을 제공합니다.
+
+예를 들어 다음과 같은 컴포넌트는
+
+```kotlin
+Button(
+    type = Secondary,
+    modifier = Modifier
+        .leadingIcon(Close)
+        .trailingIcon(Heart),
+    text = "나 좀 짱인듯? (짱 아님.. 짱되고 싶다",
+    onClick = ::`am_I_awesome?`,
+)
+```
+
+이렇게 쓸 수 있습니다.
+
+ ```kotlin
+ SecondaryButton(
+     modifier = Modifier
+         .leadingIcon(Close)
+         .trailingIcon(Heart),
+     text = "나 좀 짱인듯? (짱 아님.. 짱되고 싶다",
+     onClick = ::`am_I_awesome?`,
+ )
+ ```
+
+개발자의 실수로 특정 컴포넌트의 문법 설탕이 누락되지 않도록 모든 문법 설탕은 KSP를 통해 자동 생성됩니다. 자세한 내용은 `core-sugar` 모듈의 README를 참고하세요.
