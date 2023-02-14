@@ -28,6 +28,6 @@ internal annotation class AllowMagicNumber(val because: String)
 @RequiresOptIn(
     level = RequiresOptIn.Level.WARNING,
     message = "이 API는 조심히 사용해야 합니다." +
-            " 문서를 충분히 읽고 올바른 사용 사례임을 확신할 수 있을 때만 사용하세요."
+            " 문서를 충분히 읽고 올바른 사용 사례임을 확신할 수 있을 때만 사용하세요.",
 )
 public annotation class DelicateApi
