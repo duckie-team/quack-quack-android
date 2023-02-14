@@ -5,7 +5,7 @@ gradle-publish-maven = "0.24.0"
 kotlin-core = "1.8.10"
 kotlin-dokka = "1.7.20"
 kotlin-detekt = "1.22.0"
-kotlin-ktlint-gradle = "11.1.0"
+kotlin-ktlint-gradle = "11.2.0"
 # https://github.com/JLLeitschuh/ktlint-gradle/issues/627
 # 최신 버전의 ktlint와 editorconfig가 호환되지 않음
 kotlin-ktlint-source = "0.45.2"
