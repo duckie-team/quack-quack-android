@@ -5,13 +5,14 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
  */
 
-package team.duckie.quackquack.core.material
+package team.duckie.quackquack.core._material
 
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.TextStyle
@@ -40,7 +41,8 @@ import team.duckie.quackquack.core.util.AllowMagicNumber
  * @param lineHeight 텍스트 줄 크기
  * @param textAlign 텍스트 align. 기본값은 Start 입니다.
  */
-public class QuackTextStyle(
+@Immutable
+public class QuackTypography(
     public val color: QuackColor = QuackColor.Black,
     public val size: TextUnit,
     public val weight: FontWeight,
@@ -55,7 +57,7 @@ public class QuackTextStyle(
     )
 
     /**
-     * [QuackTextStyle] 을 컴포즈 Text 컴포넌트에 사용하기 위해
+     * [QuackTypography] 을 컴포즈 Text 컴포넌트에 사용하기 위해
      * [TextStyle] 로 변환합니다.
      */
     @Stable
@@ -72,9 +74,9 @@ public class QuackTextStyle(
     }
 
     /**
-     * 정해진 [QuackTextStyle]에서 일부 값만 변경이 필요할 때가 있습니다.
-     * 이를 대응하기 위해 [QuackTextStyle]에서 변경을 허용하는
-     * 필드만 변경하여 새로운 [QuackTextStyle]를 반환하는 API를 구현합니다.
+     * 정해진 [QuackTypography]에서 일부 값만 변경이 필요할 때가 있습니다.
+     * 이를 대응하기 위해 [QuackTypography]에서 변경을 허용하는
+     * 필드만 변경하여 새로운 [QuackTypography]를 반환하는 API를 구현합니다.
      *
      * 색상과 정렬의 변경은 고정된 디자인의 목적을 해치지 않을 것으로 예상하여
      * public으로 노출합니다.
@@ -82,17 +84,17 @@ public class QuackTextStyle(
      * @param color 변경할 색상
      * @param textAlign 변경할 textAlign
      *
-     * @return 새로운 스타일이 적용된 [QuackTextStyle]
+     * @return 새로운 스타일이 적용된 [QuackTypography]
      */
     @Stable
     public fun change(
         color: QuackColor = this.color,
         textAlign: TextAlign = this.textAlign,
-    ): QuackTextStyle {
+    ): QuackTypography {
         return if (color == this.color && textAlign == this.textAlign) {
             this
         } else {
-            QuackTextStyle(
+            QuackTypography(
                 color = color,
                 size = size,
                 weight = weight,
@@ -103,8 +105,34 @@ public class QuackTextStyle(
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is QuackTypography) return false
+
+        if (color != other.color) return false
+        if (size != other.size) return false
+        if (weight != other.weight) return false
+        if (letterSpacing != other.letterSpacing) return false
+        if (lineHeight != other.lineHeight) return false
+        if (textAlign != other.textAlign) return false
+        if (suit != other.suit) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = color.hashCode()
+        result = 31 * result + size.hashCode()
+        result = 31 * result + weight.hashCode()
+        result = 31 * result + letterSpacing.hashCode()
+        result = 31 * result + lineHeight.hashCode()
+        result = 31 * result + textAlign.hashCode()
+        result = 31 * result + suit.hashCode()
+        return result
+    }
+
     public companion object {
-        public val Large1: QuackTextStyle = QuackTextStyle(
+        public val Large1: QuackTypography = QuackTypography(
             size = 24.sp,
             weight = FontWeight.Bold,
             letterSpacing = 0.sp,
@@ -112,63 +140,63 @@ public class QuackTextStyle(
             textAlign = TextAlign.Left,
         )
 
-        public val HeadLine1: QuackTextStyle = QuackTextStyle(
+        public val HeadLine1: QuackTypography = QuackTypography(
             size = 20.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.01).sp,
             lineHeight = 26.sp,
         )
 
-        public val HeadLine2: QuackTextStyle = QuackTextStyle(
+        public val HeadLine2: QuackTypography = QuackTypography(
             size = 16.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.01).sp,
             lineHeight = 22.sp,
         )
 
-        public val Title1: QuackTextStyle = QuackTextStyle(
+        public val Title1: QuackTypography = QuackTypography(
             size = 16.sp,
             weight = FontWeight.Regular,
             letterSpacing = (-0.01).sp,
             lineHeight = 22.sp,
         )
 
-        public val Title2: QuackTextStyle = QuackTextStyle(
+        public val Title2: QuackTypography = QuackTypography(
             size = 14.sp,
             weight = FontWeight.Bold,
             letterSpacing = 0.sp,
             lineHeight = 20.sp,
         )
 
-        public val Subtitle: QuackTextStyle = QuackTextStyle(
+        public val Subtitle: QuackTypography = QuackTypography(
             size = 14.sp,
             weight = FontWeight.Medium,
             letterSpacing = 0.sp,
             lineHeight = 20.sp,
         )
 
-        public val Subtitle2: QuackTextStyle = QuackTextStyle(
+        public val Subtitle2: QuackTypography = QuackTypography(
             size = 12.sp,
             weight = FontWeight.Bold,
             letterSpacing = 0.sp,
             lineHeight = 15.sp,
         )
 
-        public val Body1: QuackTextStyle = QuackTextStyle(
+        public val Body1: QuackTypography = QuackTypography(
             size = 14.sp,
             weight = FontWeight.Regular,
             letterSpacing = 0.sp,
             lineHeight = 20.sp,
         )
 
-        public val Body2: QuackTextStyle = QuackTextStyle(
+        public val Body2: QuackTypography = QuackTypography(
             size = 12.sp,
             weight = FontWeight.Regular,
             letterSpacing = 0.sp,
             lineHeight = 15.sp,
         )
 
-        public val Body3: QuackTextStyle = QuackTextStyle(
+        public val Body3: QuackTypography = QuackTypography(
             size = 10.sp,
             weight = FontWeight.Regular,
             letterSpacing = 0.sp,
@@ -225,10 +253,10 @@ private val TextAlign.Companion.VectorConverter
     }
 
 /**
- * [QuackTextStyle]에 변경이 있을 때 애니메이션을 적용합니다.
+ * [QuackTypography]에 변경이 있을 때 애니메이션을 적용합니다.
  *
- * [QuackTextStyle.color], [QuackTextStyle.size], [QuackTextStyle.weight],
- * [QuackTextStyle.letterSpacing], [QuackTextStyle.lineHeight], [QuackTextStyle.textAlign]
+ * [QuackTypography.color], [QuackTypography.size], [QuackTypography.weight],
+ * [QuackTypography.letterSpacing], [QuackTypography.lineHeight], [QuackTypography.textAlign]
  * 에 애니메이션을 적용합니다.
  *
  * 현재 weight 애니메이션이 적용되지 않습니다. weight는 100 단위로 증가하기
@@ -236,24 +264,24 @@ private val TextAlign.Companion.VectorConverter
  *
  * animationSpec으로 항상 [QuackAnimationSpec]을 사용합니다.
  *
- * @param targetValue 변경을 감지할 [QuackTextStyle]
- * @param colorAnimationFinishedListener [QuackTextStyle.color] 에 대한 애니메이션이 끝났을 때 호출될 콜백
- * @param sizeAnimationFinishedListener [QuackTextStyle.size] 에 대한 애니메이션이 끝났을 때 호출될 콜백
- * @param letterSpacingAnimationFinishedListener [QuackTextStyle.letterSpacing] 에 대한 애니메이션이 끝났을 때 호출될 콜백
- * @param lineHeightAnimationFinishedListener [QuackTextStyle.lineHeight] 에 대한 애니메이션이 끝났을 때 호출될 콜백
- * @param textAlignAnimationFinishedListener [QuackTextStyle.textAlign] 에 대한 애니메이션이 끝났을 때 호출될 콜백
+ * @param targetValue 변경을 감지할 [QuackTypography]
+ * @param colorAnimationFinishedListener [QuackTypography.color] 에 대한 애니메이션이 끝났을 때 호출될 콜백
+ * @param sizeAnimationFinishedListener [QuackTypography.size] 에 대한 애니메이션이 끝났을 때 호출될 콜백
+ * @param letterSpacingAnimationFinishedListener [QuackTypography.letterSpacing] 에 대한 애니메이션이 끝났을 때 호출될 콜백
+ * @param lineHeightAnimationFinishedListener [QuackTypography.lineHeight] 에 대한 애니메이션이 끝났을 때 호출될 콜백
+ * @param textAlignAnimationFinishedListener [QuackTypography.textAlign] 에 대한 애니메이션이 끝났을 때 호출될 콜백
  *
- * @return 애니메이션이 적용되고 있는 [QuackTextStyle] 객체
+ * @return 애니메이션이 적용되고 있는 [QuackTypography] 객체
  */
 @Composable
 public fun animatedQuackTextStyleAsState(
-    targetValue: QuackTextStyle,
+    targetValue: QuackTypography,
     colorAnimationFinishedListener: ((color: QuackColor) -> Unit)? = null,
     sizeAnimationFinishedListener: ((size: Float) -> Unit)? = null,
     letterSpacingAnimationFinishedListener: ((letterSpacing: Float) -> Unit)? = null,
     lineHeightAnimationFinishedListener: ((lineHeight: Float) -> Unit)? = null,
     textAlignAnimationFinishedListener: ((textAlign: TextAlign) -> Unit)? = null,
-): QuackTextStyle {
+): QuackTypography {
     val targetColorAnimationState by animateQuackColorAsState(
         targetValue = targetValue.color,
         finishedListener = colorAnimationFinishedListener,
@@ -280,7 +308,7 @@ public fun animatedQuackTextStyleAsState(
         finishedListener = textAlignAnimationFinishedListener,
     )
 
-    return QuackTextStyle(
+    return QuackTypography(
         color = targetColorAnimationState,
         size = targetSizeAnimationState.toSp(),
         weight = targetValue.weight,

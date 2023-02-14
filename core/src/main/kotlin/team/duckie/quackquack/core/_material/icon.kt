@@ -7,9 +7,10 @@
 
 @file:Suppress("unused")
 
-package team.duckie.quackquack.core.material
+package team.duckie.quackquack.core._material
 
 import androidx.annotation.DrawableRes
+import androidx.compose.runtime.Immutable
 import team.duckie.quackquack.core.R
 
 /**
@@ -17,6 +18,7 @@ import team.duckie.quackquack.core.R
  *
  * @param drawableId 아이콘 drawable 리소스 아이디
  */
+@Immutable
 @JvmInline
 public value class QuackIcon(@DrawableRes public val drawableId: Int) {
     public companion object {

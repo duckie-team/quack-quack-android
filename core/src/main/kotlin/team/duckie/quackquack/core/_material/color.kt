@@ -7,13 +7,14 @@
 
 @file:Suppress("unused", "MagicNumber")
 
-package team.duckie.quackquack.core.material
+package team.duckie.quackquack.core._material
 
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector4D
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
@@ -33,6 +34,7 @@ import kotlin.reflect.KProperty
  *
  * @param value 색상 값. 이 인자로 색상을 사용하기 위해 컴포즈의 [Color]로 받습니다.
  */
+@Immutable
 @JvmInline
 public value class QuackColor(public val value: Color) : ReadOnlyProperty<Any, Color> {
     /**
