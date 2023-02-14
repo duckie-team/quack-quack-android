@@ -36,6 +36,7 @@ formatting:
 style:
   MagicNumber:
     active: false
+    ignoreAnnotated: [ 'AllowMagicNumber' ]
   ForbiddenComment:
     active: false
   UnusedPrivateMember:
