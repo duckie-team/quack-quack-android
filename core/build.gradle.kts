@@ -30,6 +30,7 @@ dependencies {
         libs.compose.coil,
         libs.compose.animation,
         libs.compose.material,
+        projects.coreSugarAnnotation,
     )
     api(libs.kotlin.collections.immutable)
 }
