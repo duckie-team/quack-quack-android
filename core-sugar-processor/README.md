@@ -12,7 +12,6 @@ enum class QuackButton {
 }
 
 @Sugar
-@Composable
 fun Button(type: QuackButton, modifier: Modifier = Modifier, text: String) {}
 
 // generated
