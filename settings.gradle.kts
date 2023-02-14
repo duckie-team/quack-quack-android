@@ -27,11 +27,11 @@ buildCache {
 
 include(
     ":playground",
-    ":ui-components-deprecated",
+    // ":ui-components-deprecated",
     ":core",
-    ":core-aide",
-    ":core-sugar",
+    // ":core-aide",
+    // ":core-sugar",
     ":core-sugar-annotation",
-    ":core-sugar-processor",
-    ":dokka-paparazzi-integration",
+    // ":core-sugar-processor",
+    // ":dokka-paparazzi-integration",
 )
