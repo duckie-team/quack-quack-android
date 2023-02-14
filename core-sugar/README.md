@@ -2,6 +2,9 @@
 
 본 모듈은 [`core`](../core) 모듈의 문법 설탕을 제공합니다.
 
+- [`core-sugar-annotation`](../core-sugar-annotation)
+- [`core-sugar-processor`](../core-sugar-processor)
+
 ### Example
 
 ```kotlin
