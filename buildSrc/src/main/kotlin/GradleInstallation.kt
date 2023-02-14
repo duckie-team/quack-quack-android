@@ -11,7 +11,7 @@ import internal.ApplicationConstants
 import internal.applyPlugins
 import internal.configureApplication
 import internal.configureCompose
-import internal.installFormatting
+import internal.installFormattingPluginIfNeeded
 import internal.libs
 import internal.setupJunit
 import org.gradle.api.Project
@@ -114,7 +114,7 @@ class GradleInstallationScope internal constructor(private val project: Project)
 
             extensions.configure<KotlinJvmProjectExtension>(block)
 
-            installFormatting()
+            installFormattingPluginIfNeeded()
         }
     }
 
@@ -134,9 +134,7 @@ class GradleInstallationScope internal constructor(private val project: Project)
         val footerMessage =
             "made with <span style=\"color: #ff8300;\">❤</span> by <a href=\"https://duckie.team/\">Duckie</a>"
         with(project) {
-            applyPlugins(
-                libs.findPlugin("dokka").get().get().pluginId,
-            )
+            applyPlugins(libs.findPlugin("dokka").get().get().pluginId)
 
             tasks.withType<DokkaTaskPartial> {
                 suppressInheritedMembers.set(true)
