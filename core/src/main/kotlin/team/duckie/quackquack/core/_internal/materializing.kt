@@ -9,10 +9,10 @@ package team.duckie.quackquack.core._internal
 
 import androidx.compose.ui.Modifier
 
-internal fun materializerOf(modifier: Modifier): Pair<Modifier, List<QuackDataModel>> {
-    val quackDataModels = mutableListOf<QuackDataModel>()
+internal fun materializerOf(modifier: Modifier): Pair<Modifier, List<QuackDataModifierModel>> {
+    val quackDataModels = mutableListOf<QuackDataModifierModel>()
     val composeModifier = modifier.foldIn<Modifier>(Modifier) { acc, element ->
-        if (element is QuackDataModel) {
+        if (element is QuackDataModifierModel) {
             quackDataModels += element
             acc
         } else {

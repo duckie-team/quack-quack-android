@@ -7,4 +7,8 @@
 
 package team.duckie.quackquack.core._internal
 
-internal interface QuackDataModel
+import androidx.compose.runtime.Immutable
+import androidx.compose.ui.Modifier
+
+@Immutable
+internal interface QuackDataModifierModel : Modifier.Element
