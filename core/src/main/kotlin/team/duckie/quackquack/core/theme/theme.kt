@@ -18,9 +18,9 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import team.duckie.quackquack.core._material.QuackColor
 
 /**
- * TextField 및 TextArea에서 사용할 커서 색상을 제공합니다.
+ * QuackTextField 및 QuackTextArea에서 사용할 커서 색상을 제공합니다.
  *
- * 기본값은 [QuackColor.Black]이며, [QuackTheme]를 통해 덕키 테마로 제공됩니다.
+ * 기본값은 [QuackColor.Black]이며, [QuackTheme]를 통해 꽥꽥 테마로 제공됩니다.
  */
 internal val LocalQuackTextFieldColors: ProvidableCompositionLocal<QuackTextFieldColors> =
     staticCompositionLocalOf { DefaultTextFieldColors }
@@ -30,8 +30,8 @@ internal val LocalQuackTextFieldColors: ProvidableCompositionLocal<QuackTextFiel
  * 이 테마에서는 다음과 같을 작업을 진행합니다.
  *
  * 1. OverscrollEffect 제거
- * 2. TextField 및 TextArea에서 사용할 색상 테마 제공
- * 3. QuackScope 제공
+ * 2. QuackTextField 및 QuackTextArea에서 사용할 색상 테마 제공
+ * 3. [QuackScope] 제공
  *
  * @param content 꽥꽥 디자인에 맞게 표시할 컴포저블 컨텐츠
  */
@@ -51,11 +51,11 @@ public fun QuackTheme(content: @Composable QuackScope.() -> Unit) {
 }
 
 /**
- * TextField에서 사용될 색상을 제공합니다.
+ * QuackTextField에서 사용될 색상을 제공합니다.
  */
 internal interface QuackTextFieldColors {
     /**
-     * TextField 및 TextArea에서 사용할 커서 색상을 정의합니다.
+     * QuackTextField 및 QuackTextArea에서 사용할 커서 색상을 정의합니다.
      */
     val textFieldCursorColor: QuackColor
 }

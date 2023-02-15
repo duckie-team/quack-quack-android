@@ -9,6 +9,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.util.fastForEach
+import androidx.compose.ui.util.fastMap
 import androidx.core.graphics.scaleMatrix
 import androidx.core.graphics.translationMatrix
 import kotlin.math.abs
@@ -26,12 +28,14 @@ public object SquircleShape : Shape {
         size: Size,
         layoutDirection: LayoutDirection,
         density: Density,
-    ): Outline.Generic = Outline.Generic(
-        path = createSquirclePath(
-            size = size,
-            smoothing = SMOOTHING,
-        ),
-    )
+    ): Outline.Generic {
+        return Outline.Generic(
+            path = createSquirclePath(
+                size = size,
+                smoothing = SMOOTHING,
+            ),
+        )
+    }
 
     private fun createSquirclePath(
         size: Size,
@@ -49,12 +53,12 @@ public object SquircleShape : Shape {
                 x.toFloat() to evalSquircleFun(x, poweredRadius, smoothing)
             }
 
-            val yMirroredCoordinates = yCoordinates.map { (x, y) -> Pair(x, -y) }
+            val yMirroredCoordinates = yCoordinates.fastMap { (x, y) -> Pair(x, -y) }
 
             var currentX = 0F
             var currentY = 0F
 
-            (yCoordinates + yMirroredCoordinates).forEach { (x, y) ->
+            (yCoordinates + yMirroredCoordinates).fastForEach { (x, y) ->
                 quadTo(currentX, currentY, x, y)
                 currentX = x
                 currentY = y

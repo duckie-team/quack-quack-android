@@ -24,10 +24,16 @@ internal annotation class AllowMagicNumber(val because: String)
  * 문서를 충분히 읽고 올바른 사용 사례임을 확신할 수 있을 때만 사용하세요.
  */
 @MustBeDocumented
-@Retention(value = AnnotationRetention.BINARY)
+@Retention(AnnotationRetention.BINARY)
 @RequiresOptIn(
     level = RequiresOptIn.Level.WARNING,
     message = "이 API는 조심히 사용해야 합니다." +
             " 문서를 충분히 읽고 올바른 사용 사례임을 확신할 수 있을 때만 사용하세요.",
 )
 public annotation class DelicateApi
+
+/**
+ * 매우 실험적인 함수이기에 사용하기 전에 테스트가 꼭 필요함을 나타냅니다.
+ */
+@Retention(AnnotationRetention.SOURCE)
+internal annotation class MustBeTested
