@@ -15,6 +15,10 @@ GradleInstallation.with(project) {
     library {
         namespace = "team.duckie.quackquack.core"
         resourcePrefix = "quack_"
+        
+        defaultConfig {
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        }
 
         kotlinOptions {
             freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
@@ -35,5 +39,6 @@ dependencies {
         projects.coreSugarAnnotation,
     )
     api(libs.kotlin.collections.immutable)
+    androidTestImplementation(libs.test.strikt)
     androidTestImplementation(libs.test.junit.compose)
 }
