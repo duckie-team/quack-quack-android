@@ -20,7 +20,7 @@ private value class QuackMaterializableComposedModifier(
 ) : Modifier.Element
 
 /**
- * [quackMaterializerOf]에서 `ComposedModifier`를 처리하기 위한 클래스입니다.
+ * [quackMaterializeOf]에서 `ComposedModifier`를 처리하기 위한 클래스입니다.
  *
  * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며 folding하기 위해
  * `ComposedModifier`의 별도 대응이 필요합니다.
@@ -36,12 +36,12 @@ public fun Modifier.quackComposed(factory: @Composable Modifier.() -> Modifier):
  * @return 컴포즈 자체의 [Modifier]와 [QuackDataModifierModel] 리스트의 [Pair]
  */
 @MustBeTested
-public fun Composer.quackMaterializerOf(modifier: Modifier): Pair<Modifier, List<QuackDataModifierModel>> {
-    val needsOpenGroup = modifier.any { it is QuackMaterializableComposedModifier }
+public fun Composer.quackMaterializeOf(modifier: Modifier): Pair<Modifier, List<QuackDataModifierModel>> {
+    val needsNewGroup = modifier.any { it is QuackMaterializableComposedModifier }
 
     // Random number for fake group key. Chosen by fair die roll.
     // `Integer.toHexString(Random.nextInt())`
-    if (needsOpenGroup) startReplaceableGroup(0x7cf25b00)
+    if (needsNewGroup) startReplaceableGroup(0x7cf25b00)
 
     val quackDataModels = mutableListOf<QuackDataModifierModel>()
     val composeModifier = modifier.foldIn<Modifier>(Modifier) { acc, element ->
@@ -58,9 +58,9 @@ public fun Composer.quackMaterializerOf(modifier: Modifier): Pair<Modifier, List
                     quackDataModels += composed
                     acc
                 } else {
-                    // FIXME(sungbin): stdlib-materializerOf으로 들어가면 re-invoke됨 (동일 프레임에서)
+                    // FIXME(sungbin): 최초 컴포지션시에 stdlib-materializerOf으로 들어가면 re-invoke됨 (동일 프레임에서)
                     @Suppress("UnnecessaryComposedModifier")
-                    acc.then(Modifier.composed(factory = element.factory))
+                    acc.composed(factory = element.factory)
                 }
             }
             else -> {
@@ -69,7 +69,7 @@ public fun Composer.quackMaterializerOf(modifier: Modifier): Pair<Modifier, List
         }
     }
 
-    if (needsOpenGroup) endReplaceableGroup()
+    if (needsNewGroup) endReplaceableGroup()
 
     return composeModifier to quackDataModels
 }

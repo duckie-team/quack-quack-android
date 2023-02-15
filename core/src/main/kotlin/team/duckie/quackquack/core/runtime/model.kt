@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
  * ```
  *
  * 이렇게 제공된 [Modifier]와 컴포즈의 표준 [Modifier]를 구분하려면
- * [quackMaterializerOf]를 사용하세요.
+ * [quackMaterializeOf]를 사용하세요.
  */
 @Immutable
 public interface QuackDataModifierModel : Modifier.Element
