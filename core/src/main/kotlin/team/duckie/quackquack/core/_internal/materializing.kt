@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Composer
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import team.duckie.quackquack.core.util.MustBeTested
 
 @JvmInline
@@ -58,7 +59,8 @@ public fun Composer.quackMaterializerOf(modifier: Modifier): Pair<Modifier, List
                     acc
                 } else {
                     // FIXME(sungbin): stdlib-materializerOf으로 들어가면 re-invoke됨 (동일 프레임에서)
-                    acc.then(element)
+                    @Suppress("UnnecessaryComposedModifier")
+                    acc.then(Modifier.composed(factory = element.factory))
                 }
             }
             else -> {
