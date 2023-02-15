@@ -18,6 +18,7 @@ GradleInstallation.with(project) {
 
         kotlinOptions {
             freeCompilerArgs = freeCompilerArgs + "-Xexplicit-api=strict"
+            freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
         }
     }
     compose()
