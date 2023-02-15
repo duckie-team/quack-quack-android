@@ -5,9 +5,8 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.core
+package team.duckie.quackquack.core.runtime
 
-import android.annotation.SuppressLint
 import androidx.compose.runtime.currentComposer
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -19,9 +18,6 @@ import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.containsExactly
 import strikt.assertions.hasSize
-import team.duckie.quackquack.core.runtime.QuackDataModifierModel
-import team.duckie.quackquack.core.runtime.quackComposed
-import team.duckie.quackquack.core.runtime.quackMaterializeOf
 
 private typealias StdModifier = Modifier.Element
 
@@ -83,9 +79,9 @@ class MaterializingTest {
     }
 
     // - stdlib의 `ComposedModifier`와 [quackComposed]의 `ComposedModifier`가 분리돼야 함
-    @SuppressLint("UnnecessaryComposedModifier")
     @Test
     fun Split_Stdlib_ComposeModifier_And_QuackComposed_ComposedModifier() {
+        @Suppress("UnnecessaryComposedModifier")
         val modifier = Modifier
             .composed { StdlibFirstData }
             .composed { StdlibSecondData }
