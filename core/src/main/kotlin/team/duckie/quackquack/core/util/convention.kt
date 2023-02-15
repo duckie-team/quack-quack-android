@@ -9,6 +9,8 @@
 
 package team.duckie.quackquack.core.util
 
+import team.duckie.quackquack.core.theme.QuackScope
+
 /**
  * MagicNumber을 예외적으로 허용할 때 사용하는 어노테이션 입니다.
  *
@@ -37,3 +39,10 @@ public annotation class DelicateApi
  */
 @Retention(AnnotationRetention.SOURCE)
 internal annotation class MustBeTested
+
+/**
+ * [QuackScope]의 표준 함수가 아닌, 개발자의 편의를 위한 sugar-extension이므로
+ * 별도 extension으로 분리됨을 나타냅니다.
+ */
+@Retention(AnnotationRetention.SOURCE)
+internal annotation class SugarExtension

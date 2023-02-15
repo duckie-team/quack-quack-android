@@ -29,9 +29,9 @@ import team.duckie.quackquack.core.material.QuackColor
 import team.duckie.quackquack.core.material.QuackTypography
 import team.duckie.quackquack.core.material.animatedQuackTextStyleAsState
 import team.duckie.quackquack.core.runtime.QuackDataModifierModel
-import team.duckie.quackquack.core.runtime.quackComposed
 import team.duckie.quackquack.core.runtime.quackMaterializeOf
 import team.duckie.quackquack.core.sugar.annotation.Sugar
+import team.duckie.quackquack.core.util.SugarExtension
 import team.duckie.quackquack.core.util.fastFirstInstanceOrNull
 
 /**
@@ -135,6 +135,7 @@ public interface QuackText {
  */
 context(QuackText)
 @Stable
+@SugarExtension
 public fun Modifier.highlight(
     texts: List<String>,
     span: SpanStyle = SpanStyle(
@@ -143,12 +144,19 @@ public fun Modifier.highlight(
     ),
     globalOnClick: (text: String) -> Unit,
 ): Modifier {
-    return quackComposed {
-        val highlights = remember(texts, globalOnClick) {
-            texts.fastMap { text -> HighlightText(text, globalOnClick) }
-        }
-        then(HighlightData(highlights = highlights, span = span))
-    }
+    /**
+     * `texts`를 remember하면 SnapshotStateList에 변화가 일어나도
+     * `calculation`이 re-invoke되지 않음
+     *
+     * ```
+     * val list = mutableStateListOf(0)
+     * println(list == list.apply { add(1) }) // true
+     * ```
+     *
+     * 따라서 `highlights`에 remember를 하지 않음
+     */
+    val highlights = texts.fastMap { text -> HighlightText(text, globalOnClick) }
+    return then(HighlightData(highlights = highlights, span = span))
 }
 
 internal object QuackTextScope : QuackText {
