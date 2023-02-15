@@ -7,7 +7,7 @@
 
 @file:Suppress("unused")
 
-package team.duckie.quackquack.core._material
+package team.duckie.quackquack.core.material
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Immutable

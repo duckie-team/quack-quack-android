@@ -24,6 +24,9 @@ import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+private const val EXPLICIT_API = "-Xexplicit-api=strict"
 
 class GradleInstallationScope internal constructor(private val project: Project) {
     fun android(block: BaseAppModuleExtension.() -> Unit) {
@@ -148,6 +151,19 @@ class GradleInstallationScope internal constructor(private val project: Project)
                 }
             }
         }
+    }
+
+    fun explicitApi() {
+        project.tasks
+            .matching { it is KotlinCompile && !it.name.contains("test", ignoreCase = true) }
+            .configureEach {
+                if (!project.hasProperty("kotlin.optOutExplicitApi")) {
+                    val kotlinCompile = this as KotlinCompile
+                    if (EXPLICIT_API !in kotlinCompile.kotlinOptions.freeCompilerArgs) {
+                        kotlinCompile.kotlinOptions.freeCompilerArgs += EXPLICIT_API
+                    }
+                }
+            }
     }
 }
 

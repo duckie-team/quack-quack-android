@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.core._material
+package team.duckie.quackquack.core.material
 
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.DurationBasedAnimationSpec

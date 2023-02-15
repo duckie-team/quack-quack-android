@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.core._internal
+package team.duckie.quackquack.core.runtime
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Composer

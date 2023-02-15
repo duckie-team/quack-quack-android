@@ -7,7 +7,7 @@
 
 @file:Suppress("unused", "MagicNumber")
 
-package team.duckie.quackquack.core._material
+package team.duckie.quackquack.core.material
 
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector4D

@@ -16,7 +16,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import team.duckie.quackquack.core._material.QuackAnimationSpec
+import team.duckie.quackquack.core.material.QuackAnimationSpec
 
 /**
  * 컴포저블의 상태에 변화가 있을 때 자동으로 해당 상태에 맞춰
