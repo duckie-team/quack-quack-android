@@ -17,11 +17,12 @@ GradleInstallation.with(project) {
         resourcePrefix = "quack_"
 
         kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + "-Xexplicit-api=strict"
             freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
         }
     }
     compose()
+    junit()
+    explicitApi()
 }
 
 dependencies {
@@ -34,4 +35,5 @@ dependencies {
         projects.coreSugarAnnotation,
     )
     api(libs.kotlin.collections.immutable)
+    androidTestImplementation(libs.test.junit.compose)
 }
