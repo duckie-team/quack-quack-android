@@ -24,14 +24,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
-import kotlinx.collections.immutable.ImmutableList
-import team.duckie.quackquack.core.runtime.QuackDataModifierModel
-import team.duckie.quackquack.core.runtime.quackComposed
-import team.duckie.quackquack.core.runtime.quackMaterializerOf
+import team.duckie.quackquack.core.animation.QuackAnimatedContent
 import team.duckie.quackquack.core.material.QuackColor
 import team.duckie.quackquack.core.material.QuackTypography
 import team.duckie.quackquack.core.material.animatedQuackTextStyleAsState
-import team.duckie.quackquack.core.animation.QuackAnimatedContent
+import team.duckie.quackquack.core.runtime.QuackDataModifierModel
+import team.duckie.quackquack.core.runtime.quackComposed
+import team.duckie.quackquack.core.runtime.quackMaterializeOf
 import team.duckie.quackquack.core.sugar.annotation.Sugar
 import team.duckie.quackquack.core.util.fastFirstInstanceOrNull
 
@@ -44,17 +43,55 @@ import team.duckie.quackquack.core.util.fastFirstInstanceOrNull
  */
 public typealias HighlightText = Pair<String, ((text: String) -> Unit)?>
 
-@Immutable
+@Stable
 private data class SpanData(
     val texts: List<String>,
     val style: SpanStyle,
-) : QuackDataModifierModel
+) : QuackDataModifierModel {
+    private val textsHashCode = texts.toTypedArray().contentHashCode()
 
-@Immutable
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is SpanData) return false
+
+        if (texts != other.texts) return false
+        if (textsHashCode != other.texts.toTypedArray().contentHashCode()) return false
+        if (style != other.style) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = textsHashCode
+        result = 31 * result + style.hashCode()
+        return result
+    }
+}
+
+@Stable
 private data class HighlightData(
     val highlights: List<HighlightText>,
     val span: SpanStyle,
-) : QuackDataModifierModel
+) : QuackDataModifierModel {
+    private val highlightsHashCode = highlights.toTypedArray().contentHashCode()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is HighlightData) return false
+
+        if (highlights != other.highlights) return false
+        if (highlightsHashCode != other.highlights.toTypedArray().contentHashCode()) return false
+        if (span != other.span) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = highlightsHashCode
+        result = 31 * result + span.hashCode()
+        return result
+    }
+}
 
 /**
  * 꽥꽥의 텍스트 컴포넌트 도메인을 나타냅니다.
@@ -69,7 +106,7 @@ public interface QuackText {
      */
     @Stable
     public fun Modifier.span(
-        texts: ImmutableList<String>,
+        texts: List<String>,
         style: SpanStyle,
     ): Modifier
 
@@ -81,7 +118,7 @@ public interface QuackText {
      */
     @Stable
     public fun Modifier.highlight(
-        highlights: ImmutableList<HighlightText>,
+        highlights: List<HighlightText>,
         span: SpanStyle = SpanStyle(
             color = QuackColor.DuckieOrange.value,
             fontWeight = FontWeight.SemiBold,
@@ -99,7 +136,7 @@ public interface QuackText {
 context(QuackText)
 @Stable
 public fun Modifier.highlight(
-    texts: ImmutableList<String>,
+    texts: List<String>,
     span: SpanStyle = SpanStyle(
         color = QuackColor.DuckieOrange.value,
         fontWeight = FontWeight.SemiBold,
@@ -121,14 +158,14 @@ public fun Modifier.highlight(
 
 internal object QuackTextScope : QuackText {
     override fun Modifier.span(
-        texts: ImmutableList<String>,
+        texts: List<String>,
         style: SpanStyle,
     ): Modifier {
         return then(SpanData(texts = texts, style = style))
     }
 
     override fun Modifier.highlight(
-        highlights: ImmutableList<HighlightText>,
+        highlights: List<HighlightText>,
         span: SpanStyle,
     ): Modifier {
         return then(HighlightData(highlights = highlights, span = span))
@@ -157,10 +194,7 @@ public fun QuackText.QuackText(
     softWrap: Boolean = true,
     overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
-    val composer = currentComposer
-    val (composeModifier, quackDataModels) = remember(composer, modifier) {
-        composer.quackMaterializerOf(modifier)
-    }
+    val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier)
     val spanData = remember(quackDataModels) {
         quackDataModels.fastFirstInstanceOrNull<SpanData>()
     }
