@@ -131,7 +131,7 @@ public interface QuackText {
  *
  * @param texts 클릭 이벤트를 적용할 텍스트 모음
  * @param span 적용할 [SpanStyle]
- * @param onClick [texts]에 전역으로 적용할 클릭 이벤트
+ * @param globalOnClick [texts]에 전역으로 적용할 클릭 이벤트
  */
 context(QuackText)
 @Stable
@@ -141,18 +141,13 @@ public fun Modifier.highlight(
         color = QuackColor.DuckieOrange.value,
         fontWeight = FontWeight.SemiBold,
     ),
-    onClick: (text: String) -> Unit,
+    globalOnClick: (text: String) -> Unit,
 ): Modifier {
     return quackComposed {
-        val highlights = remember(texts, onClick) {
-            texts.fastMap { text -> HighlightText(text, onClick) }
+        val highlights = remember(texts, globalOnClick) {
+            texts.fastMap { text -> HighlightText(text, globalOnClick) }
         }
-        then(
-            HighlightData(
-                highlights = highlights,
-                span = span,
-            )
-        )
+        then(HighlightData(highlights = highlights, span = span))
     }
 }
 
