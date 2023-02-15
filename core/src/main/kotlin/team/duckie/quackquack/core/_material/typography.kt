@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
 import kotlin.math.roundToInt
 import team.duckie.quackquack.core.R
+import team.duckie.quackquack.core.sugar.annotation.SugarToken
 import team.duckie.quackquack.core.util.AllowMagicNumber
 
 /**
@@ -41,6 +42,7 @@ import team.duckie.quackquack.core.util.AllowMagicNumber
  * @param lineHeight 텍스트 줄 크기
  * @param textAlign 텍스트 align. 기본값은 Start 입니다.
  */
+@SugarToken
 @Immutable
 public class QuackTypography(
     public val color: QuackColor = QuackColor.Black,
