@@ -41,10 +41,10 @@ private object StdlibThirdData : StdModifier
 @RunWith(AndroidJUnit4::class)
 class MaterializingTest {
     @get:Rule
-    val composeTestRule = createComposeRule()
+    val rule = createComposeRule()
 
     @Test
-    fun Modifier_To_ListModifier() {
+    fun Modifier_to_ListModifier() {
         val elements = listOf(
             StdlibFirstData,
             QuackFirstData,
@@ -63,7 +63,7 @@ class MaterializingTest {
 
     // - [QuackDataModifierModel]과 [Modifier]가 분리돼야 함
     @Test
-    fun Split_QuackDataModifierModel_And_Modifier() {
+    fun split_QuackDataModifierModel_and_Modifier() {
         val modifier = Modifier
             .then(StdlibFirstData)
             .then(QuackFirstData)
@@ -72,7 +72,7 @@ class MaterializingTest {
             .then(QuackThirdData)
             .then(StdlibThirdData)
 
-        composeTestRule.setContent {
+        rule.setContent {
             val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier)
             val composeModifiers = composeModifier.splitToList()
 
@@ -83,7 +83,7 @@ class MaterializingTest {
 
     // - stdlib의 `ComposedModifier`와 [quackComposed]의 `ComposedModifier`가 분리돼야 함
     @Test
-    fun Split_Stdlib_ComposeModifier_And_QuackComposed_ComposedModifier() {
+    fun split_stdlib_ComposeModifier_and_QuackComposed_ComposedModifier() {
         @Suppress("UnnecessaryComposedModifier")
         val modifier = Modifier
             .composed { StdlibFirstData }
@@ -93,7 +93,7 @@ class MaterializingTest {
             .quackComposed { QuackSecondData }
             .quackComposed { QuackThirdData }
 
-        composeTestRule.setContent {
+        rule.setContent {
             val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier)
             val composeModifiers = composeModifier.splitToList()
 
@@ -105,14 +105,14 @@ class MaterializingTest {
     // - [quackComposed]의 non-quack한 composed는 first-composition시에 최초 한 번만 실행돼야 함
     @Ignore("FIXME(sungbin): 최초 컴포지션시에 stdlib-materializerOf으로 들어가면 re-invoke됨 (동일 프레임에서)")
     @Test
-    fun Must_OnceWorks_QuackComposeds_NonQuackComposed_With_Stdlib_MaterialierOf() {
+    fun must_OnceWorks_QuackComposeds_NonQuackComposed_with_stdlib_materialierOf() {
         val value = mutableListOf<Int>()
         val quackComposedModifier = Modifier
             .quackComposed { value += 0; this }
             .quackComposed { value += 1; this }
             .quackComposed { value += 2; this }
 
-        composeTestRule.setContent {
+        rule.setContent {
             val (composedModifier, _) = currentComposer.quackMaterializeOf(quackComposedModifier)
             currentComposer.materialize(composedModifier)
 
@@ -122,14 +122,14 @@ class MaterializingTest {
 
     // - [quackComposed]의 non-quack한 composed는 리컴포지션될 때 한 번만 재실행돼야 함
     @Test
-    fun Must_OnceWorks_QuackComposeds_NonQuackComposed_With_Stdlib_MaterialierOf_In_Recomposition() {
+    fun must_OnceWorks_QuackComposeds_NonQuackComposed_with_stdlib_materialierOf_in_recomposition() {
         val value = mutableListOf<Int>()
         val quackComposedModifier = Modifier
             .quackComposed { value += 0; this }
             .quackComposed { value += 1; this }
             .quackComposed { value += 2; this }
 
-        composeTestRule.setContent {
+        rule.setContent {
             val (composedModifier, _) = currentComposer.quackMaterializeOf(quackComposedModifier)
 
             currentComposer.materialize(composedModifier)
