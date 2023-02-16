@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.core.component
 
+import android.content.pm.PackageInstaller
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.ui.Modifier
@@ -30,7 +31,7 @@ class TextTest {
     val paparazzi = Paparazzi(
         deviceConfig = DeviceConfig.PIXEL_5,
         theme = "android:Theme.Material.Light.NoActionBar",
-        renderingMode = SessionParams.RenderingMode.SHRINK,
+        renderingMode = PackageInstaller.SessionParams.RenderingMode.SHRINK,
         showSystemUi = false,
     )
 
