@@ -5,17 +5,18 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("UnstableApiUsage")
+@file:Suppress("UnstableApiUsage", "DSL_SCOPE_VIOLATION")
 
 plugins {
     `android-library`
+    alias(libs.plugins.test.paparazzi)
 }
 
 GradleInstallation.with(project) {
     library {
         namespace = "team.duckie.quackquack.core"
         resourcePrefix = "quack_"
-        
+
         defaultConfig {
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
@@ -39,6 +40,8 @@ dependencies {
         projects.coreSugarAnnotation,
     )
     api(libs.kotlin.collections.immutable)
+    testImplementation(libs.test.strikt)
     androidTestImplementation(libs.test.strikt)
+    androidTestImplementation(libs.test.mockito)
     androidTestImplementation(libs.test.junit.compose)
 }
