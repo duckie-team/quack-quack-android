@@ -42,6 +42,6 @@ dependencies {
     api(libs.kotlin.collections.immutable)
     testImplementation(libs.test.strikt)
     androidTestImplementation(libs.test.strikt)
-    androidTestImplementation(libs.test.mockito)
     androidTestImplementation(libs.test.junit.compose)
+    androidTestImplementation(libs.bundles.test.mockito)
 }
