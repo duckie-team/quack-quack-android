@@ -287,9 +287,7 @@ private fun QuackClickableText(
                         end = offset,
                     )
                     .firstOrNull()
-                    ?.let {
-                        onClick?.invoke(text)
-                    }
+                    ?.let { onClick?.invoke(text) }
             }
         },
         softWrap = softWrap,
