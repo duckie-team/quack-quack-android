@@ -34,4 +34,5 @@ include(
     ":core-sugar-annotation",
     // ":core-sugar-processor",
     // ":dokka-paparazzi-integration",
+    ":screenshot-matcher",
 )

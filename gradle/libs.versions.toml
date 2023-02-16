@@ -12,6 +12,7 @@ kotlin-ktlint-source = "0.45.2"
 kotlin-collections-immutable = "0.3.5"
 
 androidx-core-ktx = "1.9.0"
+androidx-annotation = "1.5.0"
 androidx-datastore = "1.0.0" # for Playground
 androidx-benchmark = "1.1.1"
 androidx-profileinstaller = "1.2.2"
@@ -54,6 +55,7 @@ kotlin-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", vers
 kotlin-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-collections-immutable" }
 
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
 androidx-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-benchmark = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidx-benchmark" }
 androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "androidx-profileinstaller" }
