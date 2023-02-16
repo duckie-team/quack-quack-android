@@ -9,6 +9,8 @@
 
     <!-- https://stackoverflow.com/a/67354577/14299073 -->
     <application>
-        <activity android:name="androidx.activity.ComponentActivity" />
+        <activity
+            android:name="androidx.activity.ComponentActivity"
+            android:theme="@android:style/Theme.Material.NoActionBar.Fullscreen" />
     </application>
 </manifest>
