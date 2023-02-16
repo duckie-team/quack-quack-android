@@ -13,6 +13,7 @@ import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.captureToImage
 import strikt.api.Assertion
 
+@Suppress("NewApi")
 fun SemanticsNodeInteraction.captureToBitmap(): Bitmap {
     return captureToImage().asAndroidBitmap()
 }
