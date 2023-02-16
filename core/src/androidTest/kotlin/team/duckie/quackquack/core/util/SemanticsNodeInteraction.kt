@@ -11,7 +11,29 @@ import android.graphics.Bitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.captureToImage
+import strikt.api.Assertion
 
 fun SemanticsNodeInteraction.captureToBitmap(): Bitmap {
     return captureToImage().asAndroidBitmap()
+}
+
+fun Assertion.Builder<SemanticsNodeInteraction>.isScreenshotSame(
+    name: String,
+    golden: SemanticsNodeInteraction,
+): Assertion.Builder<SemanticsNodeInteraction> {
+    val givenBitmap = subject.captureToBitmap()
+    val goldenBitmap = golden.captureToBitmap()
+    val result = screenshotTest(
+        name = name,
+        given = givenBitmap,
+        golden = goldenBitmap,
+    )
+
+    return assert("the bitmap of given is the same as the bitmap of golden") {
+        if (result.matches) {
+            pass(description = result.comparisonStatistics)
+        } else {
+            fail(description = result.comparisonStatistics)
+        }
+    }
 }

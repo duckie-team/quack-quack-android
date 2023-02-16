@@ -58,7 +58,8 @@ class PixelPerfectMatcher : BitmapMatcher {
         return if (referenceColor != testColor) {
             Color.MAGENTA
         } else {
-            Color.TRANSPARENT
+            // Quack-changed: Color.TRANSPARENT -> referenceColor
+            referenceColor
         }
     }
 }

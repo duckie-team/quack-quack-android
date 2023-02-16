@@ -11,18 +11,17 @@ import android.graphics.Bitmap
 import androidx.test.platform.app.InstrumentationRegistry
 import java.io.File
 import java.io.FileOutputStream
-import strikt.api.expectThat
-import strikt.assertions.isTrue
 import team.duckie.quackquack.test.screenshot.matcher.BitmapMatcher
 import team.duckie.quackquack.test.screenshot.matcher.MSSIMMatcher
+import team.duckie.quackquack.test.screenshot.matcher.MatchResult
 
-fun screenshotTest(name: String, test: Bitmap, golden: Bitmap) {
+fun screenshotTest(name: String, given: Bitmap, golden: Bitmap): MatchResult {
     val matcher: BitmapMatcher = MSSIMMatcher()
     val result = matcher.compareBitmaps(
         expected = golden.toIntArray(),
-        given = test.toIntArray(),
-        width = test.width,
-        height = test.height,
+        given = given.toIntArray(),
+        width = given.width,
+        height = given.height,
     )
 
     val dir = File(
@@ -30,9 +29,9 @@ fun screenshotTest(name: String, test: Bitmap, golden: Bitmap) {
         name,
     ).also(File::mkdir)
 
-    val testFile = File(dir, "test.png").also(File::createNewFile)
-    FileOutputStream(testFile).use { out ->
-        test.compress(Bitmap.CompressFormat.PNG, 100, out)
+    val givenFile = File(dir, "given.png").also(File::createNewFile)
+    FileOutputStream(givenFile).use { out ->
+        given.compress(Bitmap.CompressFormat.PNG, 100, out)
     }
 
     val goldenFile = File(dir, "golden.png").also(File::createNewFile)
@@ -45,7 +44,7 @@ fun screenshotTest(name: String, test: Bitmap, golden: Bitmap) {
         result.diff?.compress(Bitmap.CompressFormat.PNG, 100, out)
     }
 
-    expectThat(result.matches).isTrue()
+    return result
 }
 
 private fun Bitmap.toIntArray(): IntArray {
