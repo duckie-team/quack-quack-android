@@ -135,9 +135,9 @@ public interface QuackText {
  * @param globalOnClick [texts]에 전역으로 적용할 클릭 이벤트
  */
 context(QuackText)
-@Stable
-@SugarExtension
-public fun Modifier.highlight(
+        @Stable
+        @SugarExtension
+        public fun Modifier.highlight(
     texts: List<String>,
     span: SpanStyle = SpanStyle(
         color = QuackColor.DuckieOrange.value,
@@ -326,4 +326,3 @@ private fun rememberSpanAnnotatedString(
         }
     }
 }
-
