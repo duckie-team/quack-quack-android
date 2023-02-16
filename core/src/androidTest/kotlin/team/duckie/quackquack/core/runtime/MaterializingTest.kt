@@ -12,24 +12,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.materialize
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import strikt.api.expectThat
 import strikt.assertions.containsExactly
 import strikt.assertions.hasSize
-
-private typealias StdModifier = Modifier.Element
 
 private object QuackFirstData : QuackDataModifierModel
 private object QuackSecondData : QuackDataModifierModel
 private object QuackThirdData : QuackDataModifierModel
 
-private object StdlibFirstData : StdModifier
-private object StdlibSecondData : StdModifier
-private object StdlibThirdData : StdModifier
+private object StdlibFirstData : Modifier.Element
+private object StdlibSecondData : Modifier.Element
+private object StdlibThirdData : Modifier.Element
 
 /**
  * [quackMaterializeOf]와 [quackComposed]를 테스트합니다.
@@ -38,7 +34,6 @@ private object StdlibThirdData : StdModifier
  * - stdlib의 `ComposedModifier`와 [quackComposed]의 `ComposedModifier`가 분리돼야 함
  * - [quackComposed]의 non-quack한 composed는 리컴포지션될 때 한 번만 재실행돼야 함
  */
-@RunWith(AndroidJUnit4::class)
 class MaterializingTest {
     @get:Rule
     val rule = createComposeRule()
@@ -132,8 +127,8 @@ class MaterializingTest {
         rule.setContent {
             val (composedModifier, _) = currentComposer.quackMaterializeOf(quackComposedModifier)
 
-            currentComposer.materialize(composedModifier)
-            currentComposer.materialize(composedModifier)
+            currentComposer.materialize(composedModifier) // first-composition
+            currentComposer.materialize(composedModifier) // re-composition
 
             expectThat(value).containsExactly(0, 1, 2, 0, 1, 2, 0, 1, 2)
         }
