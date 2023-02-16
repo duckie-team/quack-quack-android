@@ -8,6 +8,7 @@
 package team.duckie.quackquack.playground
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.Modifier
@@ -22,13 +23,10 @@ class MainActivity : ComponentActivity() {
             QuackTheme {
                 QuackText(
                     modifier = Modifier.highlight(
-                        highlights = listOf(
-                            "one" to { },
-                            "two" to { },
-                            "three" to { },
-                        ),
+                        texts = listOf("test", "hi"),
+                        globalOnClick = { Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show() },
                     ),
-                    text = "one two three four five",
+                    text = "test hi bye",
                     typography = QuackTypography.Body1,
                 )
             }

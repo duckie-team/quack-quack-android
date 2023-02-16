@@ -20,10 +20,6 @@ GradleInstallation.with(project) {
         defaultConfig {
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
-
-        kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
-        }
     }
     compose()
     junit()

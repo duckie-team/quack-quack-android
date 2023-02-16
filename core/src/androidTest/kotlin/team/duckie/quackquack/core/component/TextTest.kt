@@ -17,10 +17,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
@@ -45,8 +43,8 @@ import team.duckie.quackquack.core.util.setQuackContent
  * - `Modifier.span`과 `Modifier.highlight`는 같이 사용할 수 없음
  * - `Modifier#span`과 `buildAnnotatedString`은 같은 텍스트 비쥬얼을 그림
  * - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 onClick 이벤트를 설정할 수 있음
+ * - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 글로벌 onClick 이벤트를 설정할 수 있음
  */
-@RunWith(AndroidJUnit4::class)
 class TextTest {
     @get:Rule
     val rule = createComposeRule()
@@ -80,6 +78,11 @@ class TextTest {
     // `Modifier#span`과 `buildAnnotatedString`은 같은 텍스트 비쥬얼을 그림
     @Test
     fun ModifierSpan_and_buildAnnotatedString_rendered_same_ui() {
+        val style = SpanStyle(
+            color = QuackColor.DuckieOrange.value,
+            fontWeight = FontWeight.SemiBold,
+        )
+
         rule.setQuackContent {
             Column {
                 QuackText(
@@ -87,10 +90,7 @@ class TextTest {
                         .markTest()
                         .span(
                             texts = listOf("@성빈", "코루틴"),
-                            style = SpanStyle(
-                                color = QuackColor.DuckieOrange.value,
-                                fontWeight = FontWeight.SemiBold,
-                            ),
+                            style = style,
                         ),
                     text = "@성빈 코루틴 잘 쓰고 싶다.",
                     typography = QuackTypography.Body1,
@@ -98,10 +98,6 @@ class TextTest {
                 BasicText(
                     modifier = Modifier.markGolden(),
                     text = buildAnnotatedString {
-                        val style = SpanStyle(
-                            color = QuackColor.DuckieOrange.value,
-                            fontWeight = FontWeight.SemiBold,
-                        )
                         withStyle(style) { append("@성빈") }
                         append(" ")
                         withStyle(style) { append("코루틴") }
@@ -120,21 +116,91 @@ class TextTest {
     }
 
     // - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 onClick 이벤트를 설정할 수 있음
+    // Compose Testing API의 한계로 ClickableText의 클릭된 Offset까지는 테스트가 불가능함
+    // https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/foundation/foundation/src/androidAndroidTest/kotlin/androidx/compose/foundation/text/ClickableTextTest.kt
     @Test
     fun set_SpanStyle_and_OnClickEvent_with_ModifierHighlight() {
         val onClick: (String) -> Unit = mock()
         val text = "text"
 
+        val span = SpanStyle(
+            color = QuackColor.DuckieOrange.value,
+            fontWeight = FontWeight.SemiBold,
+        )
+        val typography = QuackTypography.Body1
+
         rule.setQuackContent {
-            QuackText(
-                modifier = Modifier
-                    .markTest()
-                    .highlight(listOf(text to onClick)),
-                text = text,
-                typography = QuackTypography.Body1.change(color = QuackColor.DuckieOrange),
-            )
+            Column {
+                QuackText(
+                    modifier = Modifier
+                        .markTest()
+                        .highlight(
+                            highlights = listOf(text to onClick),
+                            span = span,
+                        ),
+                    text = text,
+                    typography = typography,
+                )
+                BasicText(
+                    modifier = Modifier.markGolden(),
+                    text = buildAnnotatedString {
+                        withStyle(span) { append(text) }
+                    },
+                    style = typography.asComposeStyle(),
+                )
+            }
         }
 
+        expectThat(rule.onTest()).isScreenshotSame(
+            name = "Modifier#highlight-normal",
+            golden = rule.onGolden(),
+        )
+        rule.onTest().performClick()
+
+        rule.runOnIdle {
+            verify(onClick, times(1)).invoke(anyString())
+        }
+    }
+
+    // - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 글로벌 onClick 이벤트를 설정할 수 있음
+    @Test
+    fun set_SpanStyle_and_global_OnClickEvent_with_ModifierHighlight() {
+        val onClick: (String) -> Unit = mock()
+        val text = "text"
+
+        val span = SpanStyle(
+            color = QuackColor.DuckieOrange.value,
+            fontWeight = FontWeight.SemiBold,
+        )
+        val typography = QuackTypography.Body1
+
+        rule.setQuackContent {
+            Column {
+                QuackText(
+                    modifier = Modifier
+                        .markTest()
+                        .highlight(
+                            texts = listOf(text),
+                            globalOnClick = onClick,
+                            span = span,
+                        ),
+                    text = text,
+                    typography = typography,
+                )
+                BasicText(
+                    modifier = Modifier.markGolden(),
+                    text = buildAnnotatedString {
+                        withStyle(span) { append(text) }
+                    },
+                    style = typography.asComposeStyle(),
+                )
+            }
+        }
+
+        expectThat(rule.onTest()).isScreenshotSame(
+            name = "Modifier#highlight-global",
+            golden = rule.onGolden(),
+        )
         rule.onTest().performClick()
 
         rule.runOnIdle {

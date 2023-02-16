@@ -30,9 +30,9 @@ import team.duckie.quackquack.core.material.QuackColor
 import team.duckie.quackquack.core.material.QuackTypography
 import team.duckie.quackquack.core.material.animatedQuackTextStyleAsState
 import team.duckie.quackquack.core.runtime.QuackDataModifierModel
+import team.duckie.quackquack.core.runtime.quackComposed
 import team.duckie.quackquack.core.runtime.quackMaterializeOf
 import team.duckie.quackquack.core.sugar.annotation.Sugar
-import team.duckie.quackquack.core.util.SugarExtension
 import team.duckie.quackquack.core.util.fastFirstInstanceOrNull
 
 /**
@@ -125,39 +125,23 @@ public interface QuackText {
             fontWeight = FontWeight.SemiBold,
         ),
     ): Modifier
-}
 
-/**
- * 주어진 텍스트에 클릭 가능한 [SpanStyle]을 입힙니다.
- *
- * @param texts 클릭 이벤트를 적용할 텍스트 모음
- * @param span 적용할 [SpanStyle]
- * @param globalOnClick [texts]에 전역으로 적용할 클릭 이벤트
- */
-context(QuackText)
-        @Stable
-        @SugarExtension
-        public fun Modifier.highlight(
-    texts: List<String>,
-    span: SpanStyle = SpanStyle(
-        color = QuackColor.DuckieOrange.value,
-        fontWeight = FontWeight.SemiBold,
-    ),
-    globalOnClick: (text: String) -> Unit,
-): Modifier {
     /**
-     * `texts`를 remember하면 SnapshotStateList에 변화가 일어나도
-     * `calculation`이 re-invoke되지 않음
+     * 주어진 텍스트에 클릭 가능한 [SpanStyle]을 입힙니다.
      *
-     * ```
-     * val list = mutableStateListOf(0)
-     * println(list == list.apply { add(1) }) // true
-     * ```
-     *
-     * 따라서 `highlights`에 remember를 하지 않음
+     * @param texts 클릭 이벤트를 적용할 텍스트 모음
+     * @param span 적용할 [SpanStyle]
+     * @param globalOnClick [texts]에 전역으로 적용할 클릭 이벤트
      */
-    val highlights = texts.fastMap { text -> HighlightText(text, globalOnClick) }
-    return then(HighlightData(highlights = highlights, span = span))
+    @Stable
+    public fun Modifier.highlight(
+        texts: List<String>,
+        span: SpanStyle = SpanStyle(
+            color = QuackColor.DuckieOrange.value,
+            fontWeight = FontWeight.SemiBold,
+        ),
+        globalOnClick: (text: String) -> Unit,
+    ): Modifier
 }
 
 internal object QuackTextScope : QuackText {
@@ -173,6 +157,31 @@ internal object QuackTextScope : QuackText {
         span: SpanStyle,
     ): Modifier {
         return then(HighlightData(highlights = highlights, span = span))
+    }
+
+    override fun Modifier.highlight(
+        texts: List<String>,
+        span: SpanStyle,
+        globalOnClick: (text: String) -> Unit,
+    ): Modifier {
+        return quackComposed {
+            // 맞나??
+            // /**
+            //  * `texts`를 remember하면 SnapshotStateList에 변화가 일어나도
+            //  * `calculation`이 re-invoke되지 않음
+            //  *
+            //  * ```
+            //  * val list = mutableStateListOf(0)
+            //  * println(list == list.apply { add(1) }) // true
+            //  * ```
+            //  *
+            //  * 따라서 `highlights`에 remember를 하지 않음
+            //  */
+            val highlights = remember(texts, globalOnClick) {
+                texts.fastMap { text -> HighlightText(text, globalOnClick) }
+            }
+            then(HighlightData(highlights = highlights, span = span))
+        }
     }
 }
 
@@ -229,6 +238,7 @@ public fun QuackText.QuackText(
                     text = animatedText,
                     spanTexts = spanData.texts,
                     spanStyle = spanData.style,
+                    annotationTexts = emptyList(),
                 ),
                 style = style,
                 overflow = overflow,
@@ -268,10 +278,12 @@ private fun QuackClickableText(
     overflow: TextOverflow,
     maxLines: Int,
 ) {
+    val highlightTexts = highlightData.highlights.fastMap(Pair<String, *>::first)
     val annotatedText = rememberSpanAnnotatedString(
         text = text,
-        spanTexts = highlightData.highlights.fastMap(Pair<String, *>::first),
+        spanTexts = highlightTexts,
         spanStyle = highlightData.span,
+        annotationTexts = highlightTexts,
     )
 
     ClickableText(
@@ -279,15 +291,16 @@ private fun QuackClickableText(
         text = annotatedText,
         style = style,
         onClick = { offset ->
+            println("offset: $offset")
             highlightData.highlights.fastForEach { (text, onClick) ->
-                annotatedText
-                    .getStringAnnotations(
-                        tag = text,
-                        start = offset,
-                        end = offset,
-                    )
-                    .firstOrNull()
-                    ?.let { onClick?.invoke(text) }
+                val annotations = annotatedText.getStringAnnotations(
+                    tag = text,
+                    start = offset,
+                    end = offset,
+                )
+                if (annotations.isNotEmpty() && onClick != null) {
+                    onClick(text)
+                }
             }
         },
         softWrap = softWrap,
@@ -309,17 +322,29 @@ private fun rememberSpanAnnotatedString(
     text: String,
     spanTexts: List<String>,
     spanStyle: SpanStyle,
+    annotationTexts: List<String>,
 ): AnnotatedString {
     return remember(text, spanTexts, spanStyle) {
         buildAnnotatedString {
             append(text)
-            spanTexts.fastForEach { annotatedText ->
-                val annotatedStartIndex = text.indexOf(annotatedText)
-                if (annotatedStartIndex != -1) {
+            spanTexts.fastForEach { spanText ->
+                val spanStartIndex = text.indexOf(spanText)
+                if (spanStartIndex != -1) {
                     addStyle(
                         style = spanStyle,
-                        start = annotatedStartIndex,
-                        end = annotatedStartIndex + annotatedText.length,
+                        start = spanStartIndex,
+                        end = spanStartIndex + spanText.length,
+                    )
+                }
+            }
+            annotationTexts.fastForEach { annotationText ->
+                val annotationStartIndex = text.indexOf(annotationText)
+                if (annotationStartIndex != -1) {
+                    addStringAnnotation(
+                        tag = annotationText,
+                        start = annotationStartIndex,
+                        end = annotationStartIndex + annotationText.length,
+                        annotation = annotationText,
                     )
                 }
             }
