@@ -10,24 +10,29 @@ package team.duckie.quackquack.core.component
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.kotlin.any
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import strikt.api.expectThrows
 import strikt.assertions.isEqualTo
 import strikt.assertions.withNotNull
 import team.duckie.quackquack.core.material.QuackColor
 import team.duckie.quackquack.core.material.QuackTypography
 import team.duckie.quackquack.core.util.Empty
+import team.duckie.quackquack.core.util.immediateXMoveTo
+import team.duckie.quackquack.core.util.onQuackNodeWithTag
 import team.duckie.quackquack.core.util.setQuackContent
 
 /**
- * [QuackTextScope]를 테스트합니다.
+ * [QuackTextScope]의 로직을 테스트합니다.
  *
  * - `Modifier.span`과 `Modifier.highlight`는 같이 사용할 수 없음
- * - `Modifier.span`으로 특정 텍스트에 [SpanStyle]을 적용할 수 있음
  * - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 onClick 이벤트를 설정할 수 있음
  * - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 광역 onClick 이벤트를 설정할 수 있음
  */
@@ -61,32 +66,41 @@ class TextTest {
             }
     }
 
-    // - `Modifier.span`으로 특정 텍스트에 [SpanStyle]을 적용할 수 있음
+    // - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 onClick 이벤트를 설정할 수 있음
+    // onClick 이벤트 작동을 테스트함
     @Test
-    fun Set_SpanStyle_At_Some_Texts_With_ModifierSpan() {
+    fun Set_SpanStyle_And_OnClickEvent_With_ModifierHighlight() {
+        val oneOnClick: (String) -> Unit = mock()
+        val twoOnClick: (String) -> Unit = mock()
+        val threeOnClick: (String) -> Unit = mock()
+
         composeTestRule.setQuackContent {
             QuackText(
                 modifier = Modifier
                     .testTag("text")
-                    .span(
-                        texts = listOf("@성빈", "코루틴"),
-                        style = SpanStyle(
-                            color = QuackColor.DuckieOrange.value,
-                            fontWeight = FontWeight.SemiBold,
+                    .highlight(
+                        highlights = listOf(
+                            "one" to oneOnClick, // 1~3
+                            "two" to twoOnClick, // 5~7
+                            "three" to threeOnClick, // 9~13
                         ),
                     ),
-                text = "@성빈 코루틴 잘 쓰고 싶다.",
+                text = "one two three four five",
                 typography = QuackTypography.Body1,
             )
         }
 
-        composeTestRule.onNodeWithTag("text").fetchSemanticsNode()
-    }
+        composeTestRule.onQuackNodeWithTag("text").performTouchInput {
+            immediateXMoveTo(2f) // one
+            immediateXMoveTo(6f) // two
+            immediateXMoveTo(11f) // three
+        }
 
-    // - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 onClick 이벤트를 설정할 수 있음
-    @Test
-    fun Set_SpanStyle_And_OnClickEvent_With_ModifierHighlight() {
-
+        composeTestRule.runOnIdle {
+            verify(oneOnClick, times(1)).invoke(any())
+            verify(twoOnClick, times(1)).invoke(any())
+            verify(threeOnClick, times(1)).invoke(any())
+        }
     }
 
     // - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 광역 onClick 이벤트를 설정할 수 있음

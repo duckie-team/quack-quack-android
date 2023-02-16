@@ -5,12 +5,11 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.core
+package team.duckie.quackquack.core.util
 
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
-import team.duckie.quackquack.core.util.runIf
 
 private const val Empty = ""
 private const val ByeWorld = "bye world"
