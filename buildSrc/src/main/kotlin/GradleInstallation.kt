@@ -128,7 +128,6 @@ class GradleInstallationScope internal constructor(private val project: Project)
                     core = libs.findLibrary("test-junit-core").get(),
                     engine = libs.findLibrary("test-junit-engine").get(),
                 )
-                add("testImplementation", libs.findLibrary("test-strikt").get())
             }
         }
     }
