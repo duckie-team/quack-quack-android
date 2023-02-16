@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.core.component
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
@@ -175,6 +176,11 @@ internal object QuackTextScope : QuackText {
     }
 }
 
+@VisibleForTesting
+internal object QuackTextErrors {
+    const val CannotUseSpanAndHighlightAtSameTime = "Modifier.span과 Modifier.highlight는 같이 사용될 수 없습니다."
+}
+
 /**
  * 텍스트를 그리는 기본적인 컴포저블입니다.
  *
@@ -206,7 +212,7 @@ public fun QuackText.QuackText(
     }
 
     if (highlightData != null && spanData != null) {
-        error("Modifier.span과 Modifier.highlight는 같이 사용될 수 없습니다.")
+        error(QuackTextErrors.CannotUseSpanAndHighlightAtSameTime)
     }
 
     val style = animatedQuackTextStyleAsState(typography).asComposeStyle()
