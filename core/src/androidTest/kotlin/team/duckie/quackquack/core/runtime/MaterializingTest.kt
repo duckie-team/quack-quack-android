@@ -12,9 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.materialize
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import strikt.api.expectThat
 import strikt.assertions.containsExactly
 import strikt.assertions.hasSize
@@ -36,6 +38,7 @@ private object StdlibThirdData : StdModifier
  * - stdlib의 `ComposedModifier`와 [quackComposed]의 `ComposedModifier`가 분리돼야 함
  * - [quackComposed]의 non-quack한 composed는 리컴포지션될 때 한 번만 재실행돼야 함
  */
+@RunWith(AndroidJUnit4::class)
 class MaterializingTest {
     @get:Rule
     val composeTestRule = createComposeRule()
