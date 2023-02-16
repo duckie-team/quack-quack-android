@@ -44,4 +44,5 @@ dependencies {
     androidTestImplementation(libs.test.strikt)
     androidTestImplementation(libs.test.junit.compose)
     androidTestImplementation(libs.bundles.test.mockito)
+    androidTestImplementation(projects.screenshotMatcher)
 }
