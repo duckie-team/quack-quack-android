@@ -85,7 +85,7 @@ private data class HighlightData(
         if (span != other.span) return false
 
         return true
-    }ㄴ
+    }
 
     override fun hashCode(): Int {
         var result = highlightsHashCode
