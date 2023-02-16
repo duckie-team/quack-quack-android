@@ -10,11 +10,14 @@ package team.duckie.quackquack.core.component
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
@@ -36,6 +39,7 @@ import team.duckie.quackquack.core.util.setQuackContent
  * - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 onClick 이벤트를 설정할 수 있음
  * - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 광역 onClick 이벤트를 설정할 수 있음
  */
+@RunWith(AndroidJUnit4::class)
 class TextTest {
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -106,6 +110,25 @@ class TextTest {
     // - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 광역 onClick 이벤트를 설정할 수 있음
     @Test
     fun Set_SpanStyle_And_GlobalOnClickEvent_With_ModifierHighlight() {
+        val globalOnClick: (String) -> Unit = mock()
 
+        composeTestRule.setQuackContent {
+            QuackText(
+                modifier = Modifier
+                    .testTag("text")
+                    .highlight(
+                        texts = listOf("one", "two", "three"),
+                        globalOnClick = globalOnClick,
+                    ),
+                text = "one two three four five",
+                typography = QuackTypography.Body1,
+            )
+        }
+
+        composeTestRule.onQuackNodeWithTag("text").performClick()
+
+        composeTestRule.runOnIdle {
+            verify(globalOnClick, times(1)).invoke(any())
+        }
     }
 }
