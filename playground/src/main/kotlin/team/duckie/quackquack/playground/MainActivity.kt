@@ -23,8 +23,7 @@ class MainActivity : ComponentActivity() {
             QuackTheme {
                 QuackText(
                     modifier = Modifier.highlight(
-                        texts = listOf("test", "hi"),
-                        globalOnClick = { Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show() },
+                        highlights = listOf("test" to ::toast, "hi" to ::toast),
                     ),
                     text = "test hi bye",
                     typography = QuackTypography.Body1,
@@ -32,4 +31,9 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    private fun toast(text: String) {
+        Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()
+    }
 }
+
