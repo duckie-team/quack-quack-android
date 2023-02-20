@@ -12,7 +12,9 @@
 
 ---
 
-# ‼️ WIP ‼️
+# ‼️ DEPRECATED ‼️
+
+Please see `2.x.x` branch.
 
 ## Introduction
 
