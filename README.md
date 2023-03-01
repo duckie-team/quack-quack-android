@@ -40,8 +40,6 @@ QuackQuack 은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 어쩌�
 
 꽥꽥은 덕키 내부에서 사용할 목적으로 만들어졌기에 외부 프로젝트엔 적합하지 않을 수 있습니다. 다만, Jetpack Compose로 디자인 시스템 개발을 처음 시도하거나 디자인 시스템 도입을 고민하시는 분들께 도움이 됐으면 해서 public으로 진행합니다. 
 
-디자인 시스템 개발 회고는 3월에 올라올 예정입니다. 이 회고에서 꽥꽥의 잘못 됐던 초기 설계, 개발하면서 생겼던 큰 고민들, 2.x.x 릴리스로 코드베이스를 처음부터 다시 작성하게 된 이야기를 들으실 수 있습니다.
-
 ## Preview
 
 [playground](playground) 모듈을 빌드하거나 [Google PlayStore](https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground)에서 미리 보기 앱을 설치하실 수 있습니다.
@@ -73,7 +71,7 @@ dependencies {
 
 #### Snapshot
 
-개발 중 버전은 [Sonatype 의 snapshot 저장소](https://s01.oss.sonatype.org/content/repositories/snapshots/team/duckie/quack/)에 배포됩니다.
+개발 중 버전은 [Sonatype의 snapshot 저장소](https://s01.oss.sonatype.org/content/repositories/snapshots/team/duckie/quack/)에 배포됩니다.
 
 ```groovy
 repositories {
