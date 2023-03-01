@@ -35,4 +35,3 @@ class MainActivity : ComponentActivity() {
         Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()
     }
 }
-
