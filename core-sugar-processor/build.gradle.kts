@@ -5,6 +5,14 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
+plugins {
+    `java-library`
+}
+
 GradleInstallation.with(project) {
     kotlin()
+}
+
+dependencies {
+    implementation(libs.kotlin.ksp.api)
 }
