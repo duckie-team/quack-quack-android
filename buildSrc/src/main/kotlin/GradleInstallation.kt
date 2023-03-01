@@ -11,7 +11,6 @@ import internal.ApplicationConstants
 import internal.applyPlugins
 import internal.configureApplication
 import internal.configureCompose
-import internal.installFormattingPluginIfNeeded
 import internal.libs
 import internal.setupJunit
 import org.gradle.api.Project
@@ -89,6 +88,18 @@ class GradleInstallationScope internal constructor(private val project: Project)
         }
     }
 
+    fun lint() {
+        with(project) {
+            applyPlugins(Plugins.AndroidLint)
+
+            dependencies {
+                add("compileOnly", libs.findLibrary("kotlin-stdlib").get())
+                add("compileOnly", libs.findBundle("android-lint").get())
+                add("testImplementation", libs.findBundle("test-android-lint").get())
+            }
+        }
+    }
+
     fun compose() {
         with(project) {
             val extension = if (pluginManager.hasPlugin(Plugins.AndroidApplication)) {
@@ -117,7 +128,7 @@ class GradleInstallationScope internal constructor(private val project: Project)
 
             extensions.configure<KotlinJvmProjectExtension>(block)
 
-            installFormattingPluginIfNeeded()
+            dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get())
         }
     }
 
