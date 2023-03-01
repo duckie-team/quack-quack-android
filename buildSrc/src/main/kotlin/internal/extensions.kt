@@ -21,9 +21,7 @@ internal val Project.libs
     get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 internal fun Project.applyPlugins(vararg plugins: String) {
-    plugins.forEach { plugin ->
-        pluginManager.apply(plugin)
-    }
+    plugins.forEach(pluginManager::apply)
 }
 
 @Suppress("nothing_to_inline")

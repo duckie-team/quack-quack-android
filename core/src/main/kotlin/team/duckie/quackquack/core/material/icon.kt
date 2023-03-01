@@ -10,6 +10,7 @@
 package team.duckie.quackquack.core.material
 
 import androidx.annotation.DrawableRes
+import androidx.compose.runtime.Immutable
 import team.duckie.quackquack.core.R
 
 /**
@@ -17,7 +18,9 @@ import team.duckie.quackquack.core.R
  *
  * @param drawableId 아이콘 drawable 리소스 아이디
  */
+@Immutable
 @JvmInline
+// FIXME: 리소스 정리 필요 (불필요한 아이콘까지 포함됨으로 예상됨)
 public value class QuackIcon(@DrawableRes public val drawableId: Int) {
     public companion object {
         public val TextLogo: QuackIcon = QuackIcon(R.drawable.quack_duckie_text_logo)

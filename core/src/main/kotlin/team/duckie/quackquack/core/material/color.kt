@@ -14,6 +14,7 @@ import androidx.compose.animation.core.AnimationVector4D
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
@@ -33,6 +34,7 @@ import kotlin.reflect.KProperty
  *
  * @param value 색상 값. 이 인자로 색상을 사용하기 위해 컴포즈의 [Color]로 받습니다.
  */
+@Immutable
 @JvmInline
 public value class QuackColor(public val value: Color) : ReadOnlyProperty<Any, Color> {
     /**
@@ -226,6 +228,7 @@ public value class QuackColor(public val value: Color) : ReadOnlyProperty<Any, C
  * animationSpec 으로 항상 [QuackAnimationSpec] 을 사용합니다.
  *
  * @param targetValue 색상 변경을 감지할 [QuackColor]
+ * @param label Android Studio Animation Inspecter에서 해당 애니메이션을 나타낼 레이블
  * @param finishedListener 애니메이션이 끝났을 때 실행될 콜백
  *
  * @return 색상이 변경됐을 때 색상이 변경되는 애니메이션의 [State] 객체
@@ -233,10 +236,12 @@ public value class QuackColor(public val value: Color) : ReadOnlyProperty<Any, C
 @Composable
 public fun animateQuackColorAsState(
     targetValue: QuackColor,
+    label: String = "animateQuackColorAsState",
     finishedListener: ((color: QuackColor) -> Unit)? = null,
 ): State<QuackColor> {
     return animateQuackColorAsStateInternal(
         targetValue = targetValue,
+        label = label,
         finishedListener = finishedListener,
     )
 }
@@ -245,10 +250,9 @@ public fun animateQuackColorAsState(
  * [QuackColor]에 색상에 변경이 있을 때 애니메이션을 적용합니다.
  *
  * @param targetValue 색상 변경을 감지할 [QuackColor]
- * @param animationSpec 애니메이션에 사용할 [AnimationSpec].
- * 일부 컴포넌트는 애니메이션 없이 진행돼야 할 때도 있습니다.
- * 이 상황을 대응하기 위해 이 값을 예외적으로 받습니다.
- * 기본값은 [QuackAnimationSpec]을 사용합니다.
+ * @param animationSpec 애니메이션에 사용할 [AnimationSpec]. 일부 컴포넌트는 애니메이션 없이 진행돼야 할 때도 있습니다.
+ * 이 상황을 대응하기 위해 이 값을 예외적으로 받습니다.기본값은 [QuackAnimationSpec]을 사용합니다.
+ * @param label Android Studio Animation Inspecter에서 해당 애니메이션을 나타낼 레이블
  * @param finishedListener 애니메이션이 끝났을 때 실행될 콜백
  *
  * @return 색상이 변경됐을 때 색상이 변경되는 애니메이션의 [State] 객체
@@ -257,6 +261,7 @@ public fun animateQuackColorAsState(
 internal fun animateQuackColorAsStateInternal(
     targetValue: QuackColor,
     animationSpec: AnimationSpec<QuackColor> = QuackAnimationSpec(),
+    label: String = "animateQuackColorAsState",
     finishedListener: ((color: QuackColor) -> Unit)? = null,
 ): State<QuackColor> {
     val converter = remember(targetValue.value.colorSpace) {
@@ -267,5 +272,6 @@ internal fun animateQuackColorAsStateInternal(
         typeConverter = converter,
         animationSpec = animationSpec,
         finishedListener = finishedListener,
+        label = label,
     )
 }

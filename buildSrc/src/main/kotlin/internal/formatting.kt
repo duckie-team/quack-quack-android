@@ -9,7 +9,7 @@ package internal
 
 import org.gradle.api.Project
 
-internal fun Project.installFormatting() {
+internal fun Project.installFormattingPluginIfNeeded() {
     if (pluginManager.hasPlugin(libs.findPlugin("kotlin-detekt").get().get().pluginId)) {
         dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get().get())
     }

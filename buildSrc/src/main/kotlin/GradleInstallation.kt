@@ -11,7 +11,7 @@ import internal.ApplicationConstants
 import internal.applyPlugins
 import internal.configureApplication
 import internal.configureCompose
-import internal.installFormatting
+import internal.installFormattingPluginIfNeeded
 import internal.libs
 import internal.setupJunit
 import org.gradle.api.Project
@@ -24,6 +24,9 @@ import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+private const val EXPLICIT_API = "-Xexplicit-api=strict"
 
 class GradleInstallationScope internal constructor(private val project: Project) {
     fun android(block: BaseAppModuleExtension.() -> Unit) {
@@ -114,7 +117,7 @@ class GradleInstallationScope internal constructor(private val project: Project)
 
             extensions.configure<KotlinJvmProjectExtension>(block)
 
-            installFormatting()
+            installFormattingPluginIfNeeded()
         }
     }
 
@@ -125,7 +128,6 @@ class GradleInstallationScope internal constructor(private val project: Project)
                     core = libs.findLibrary("test-junit-core").get(),
                     engine = libs.findLibrary("test-junit-engine").get(),
                 )
-                add("testImplementation", libs.findLibrary("test-strikt").get())
             }
         }
     }
@@ -134,9 +136,7 @@ class GradleInstallationScope internal constructor(private val project: Project)
         val footerMessage =
             "made with <span style=\"color: #ff8300;\">❤</span> by <a href=\"https://duckie.team/\">Duckie</a>"
         with(project) {
-            applyPlugins(
-                libs.findPlugin("dokka").get().get().pluginId,
-            )
+            applyPlugins(libs.findPlugin("dokka").get().get().pluginId)
 
             tasks.withType<DokkaTaskPartial> {
                 suppressInheritedMembers.set(true)
@@ -150,6 +150,19 @@ class GradleInstallationScope internal constructor(private val project: Project)
                 }
             }
         }
+    }
+
+    fun explicitApi() {
+        project.tasks
+            .matching { it is KotlinCompile && !it.name.contains("test", ignoreCase = true) }
+            .configureEach {
+                if (!project.hasProperty("kotlin.optOutExplicitApi")) {
+                    val kotlinCompile = this as KotlinCompile
+                    if (EXPLICIT_API !in kotlinCompile.kotlinOptions.freeCompilerArgs) {
+                        kotlinCompile.kotlinOptions.freeCompilerArgs += EXPLICIT_API
+                    }
+                }
+            }
     }
 }
 

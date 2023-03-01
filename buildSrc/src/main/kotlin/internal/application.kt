@@ -31,6 +31,6 @@ internal fun Project.configureApplication(extension: CommonExtension<*, *, *, *>
             checkTestSources = true
         }
 
-        installFormatting()
+        installFormattingPluginIfNeeded()
     }
 }
