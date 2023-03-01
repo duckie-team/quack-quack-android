@@ -2,8 +2,11 @@
 gradle-android = "8.1.0-alpha07"
 gradle-publish-maven = "0.24.0"
 
+google-autoservice-standard = "1.0"
+google-autoservice-ksp = "1.0.0"
+
 kotlin-core = "1.8.10"
-kotlin-ksp = "1.8.20-Beta-1.0.9"
+kotlin-ksp = "1.8.10-1.0.9"
 kotlin-dokka = "1.7.20"
 kotlin-kotlinpoet = "1.12.0"
 kotlin-detekt = "1.22.0"
@@ -52,6 +55,10 @@ test-paparazzi = { id = "app.cash.paparazzi", version.ref = "test-paparazzi" }
 [libraries]
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
 gradle-publish-maven = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradle-publish-maven" }
+
+google-autoservice-annotation = { module = "com.google.auto.service:auto-service-annotations", version.ref = "google-autoservice-standard" }
+google-autoservice-standard-processor = { module = "com.google.auto.service:auto-service", version.ref = "google-autoservice-standard" }
+google-autoservice-ksp-processor = { module = "dev.zacsweers.autoservice:auto-service-ksp", version.ref = "google-autoservice-ksp" }
 
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-core" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin-core" }
