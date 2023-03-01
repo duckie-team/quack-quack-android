@@ -88,14 +88,19 @@ class GradleInstallationScope internal constructor(private val project: Project)
         }
     }
 
-    fun lint() {
+    fun lint(plugin: Boolean = true, tests: Boolean = true) {
         with(project) {
-            applyPlugins(Plugins.AndroidLint)
+            if (plugin) {
+                applyPlugins(Plugins.AndroidLint)
+            }
 
             dependencies {
                 add("compileOnly", libs.findLibrary("kotlin-stdlib").get())
                 add("compileOnly", libs.findBundle("android-lint").get())
-                add("testImplementation", libs.findBundle("test-android-lint").get())
+
+                if (tests) {
+                    add("testImplementation", libs.findBundle("test-android-lint").get())
+                }
             }
         }
     }

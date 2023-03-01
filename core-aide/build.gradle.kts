@@ -12,7 +12,7 @@ plugins {
 GradleInstallation.with(project) {
     kotlin()
     junit()
-    lint()
+    lint(plugin = false)
 }
 
 dependencies {
