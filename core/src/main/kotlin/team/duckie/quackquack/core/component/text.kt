@@ -11,7 +11,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.currentComposer
 import androidx.compose.runtime.remember
@@ -95,93 +94,70 @@ private data class HighlightData(
 }
 
 /**
- * 꽥꽥의 텍스트 컴포넌트 도메인을 나타냅니다.
+ * 주어진 텍스트에 [SpanStyle]을 적용합니다.
+ *
+ * @param texts [SpanStyle]을 적용할 텍스트 모음
+ * @param style 적용할 [SpanStyle]
  */
-@Immutable
-public interface QuackText {
-    /**
-     * 주어진 텍스트에 [SpanStyle]을 적용합니다.
-     *
-     * @param texts [SpanStyle]을 적용할 텍스트 모음
-     * @param style 적용할 [SpanStyle]
-     */
-    @Stable
-    public fun Modifier.span(
-        texts: List<String>,
-        style: SpanStyle,
-    ): Modifier
-
-    /**
-     * 주어진 텍스트에 클릭 가능한 [SpanStyle]을 입힙니다.
-     *
-     * @param highlights 클릭 이벤트를 적용할 텍스트 모음
-     * @param span 적용할 [SpanStyle]
-     */
-    @Stable
-    public fun Modifier.highlight(
-        highlights: List<HighlightText>,
-        span: SpanStyle = SpanStyle(
-            color = QuackColor.DuckieOrange.value,
-            fontWeight = FontWeight.SemiBold,
-        ),
-    ): Modifier
-
-    /**
-     * 주어진 텍스트에 클릭 가능한 [SpanStyle]을 입힙니다.
-     *
-     * @param texts 클릭 이벤트를 적용할 텍스트 모음
-     * @param span 적용할 [SpanStyle]
-     * @param globalOnClick [texts]에 전역으로 적용할 클릭 이벤트
-     */
-    @Stable
-    public fun Modifier.highlight(
-        texts: List<String>,
-        span: SpanStyle = SpanStyle(
-            color = QuackColor.DuckieOrange.value,
-            fontWeight = FontWeight.SemiBold,
-        ),
-        globalOnClick: (text: String) -> Unit,
-    ): Modifier
+@Stable
+public fun Modifier.span(
+    texts: List<String>,
+    style: SpanStyle,
+): Modifier {
+    return then(SpanData(texts = texts, style = style))
 }
 
-internal object QuackTextScope : QuackText {
-    override fun Modifier.span(
-        texts: List<String>,
-        style: SpanStyle,
-    ): Modifier {
-        return then(SpanData(texts = texts, style = style))
-    }
+/**
+ * 주어진 텍스트에 클릭 가능한 [SpanStyle]을 입힙니다.
+ *
+ * @param highlights 클릭 이벤트를 적용할 텍스트 모음
+ * @param span 적용할 [SpanStyle]
+ */
+@Stable
+public fun Modifier.highlight(
+    highlights: List<HighlightText>,
+    span: SpanStyle = SpanStyle(
+        color = QuackColor.DuckieOrange.value,
+        fontWeight = FontWeight.SemiBold,
+    ),
+): Modifier {
+    return then(HighlightData(highlights = highlights, span = span))
+}
 
-    override fun Modifier.highlight(
-        highlights: List<HighlightText>,
-        span: SpanStyle,
-    ): Modifier {
-        return then(HighlightData(highlights = highlights, span = span))
-    }
-
-    override fun Modifier.highlight(
-        texts: List<String>,
-        span: SpanStyle,
-        globalOnClick: (text: String) -> Unit,
-    ): Modifier {
-        return quackComposed {
-            // 맞나??
-            // /**
-            //  * `texts`를 remember하면 SnapshotStateList에 변화가 일어나도
-            //  * `calculation`이 re-invoke되지 않음
-            //  *
-            //  * ```
-            //  * val list = mutableStateListOf(0)
-            //  * println(list == list.apply { add(1) }) // true
-            //  * ```
-            //  *
-            //  * 따라서 `highlights`에 remember를 하지 않음
-            //  */
-            val highlights = remember(texts, globalOnClick) {
-                texts.fastMap { text -> HighlightText(text, globalOnClick) }
-            }
-            then(HighlightData(highlights = highlights, span = span))
+/**
+ * 주어진 텍스트에 클릭 가능한 [SpanStyle]을 입힙니다.
+ *
+ * @param texts 클릭 이벤트를 적용할 텍스트 모음
+ * @param span 적용할 [SpanStyle]
+ * @param globalOnClick [texts]에 전역으로 적용할 클릭 이벤트
+ */
+@Stable
+public fun Modifier.highlight(
+    texts: List<String>,
+    span: SpanStyle = SpanStyle(
+        color = QuackColor.DuckieOrange.value,
+        fontWeight = FontWeight.SemiBold,
+    ),
+    globalOnClick: (text: String) -> Unit,
+): Modifier {
+    return quackComposed {
+        // TODO: Modifier 안에서 remember 사용 사례 연구
+        // 맞나??
+        // /**
+        //  * `texts`를 remember하면 SnapshotStateList에 변화가 일어나도
+        //  * `calculation`이 re-invoke되지 않음
+        //  *
+        //  * ```
+        //  * val list = mutableStateListOf(0)
+        //  * println(list == list.apply { add(1) }) // true
+        //  * ```
+        //  *
+        //  * 따라서 `highlights`에 remember를 하지 않음
+        //  */
+        val highlights = remember(texts, globalOnClick) {
+            texts.fastMap { text -> HighlightText(text, globalOnClick) }
         }
+        then(HighlightData(highlights = highlights, span = span))
     }
 }
 
@@ -204,7 +180,7 @@ internal object QuackTextErrors {
  */
 @Sugar
 @Composable
-public fun QuackText.QuackText(
+public fun QuackText(
     modifier: Modifier = Modifier,
     text: String,
     typography: QuackTypography,

@@ -38,7 +38,7 @@ import team.duckie.quackquack.core.util.onTest
 import team.duckie.quackquack.core.util.setQuackContent
 
 /**
- * [QuackTextScope]의 로직을 테스트합니다.
+ * Text 컴포넌트의 로직을 테스트합니다.
  *
  * - `Modifier.span`과 `Modifier.highlight`는 같이 사용할 수 없음
  * - `Modifier#span`과 `buildAnnotatedString`은 같은 텍스트 비쥬얼을 그림
@@ -116,7 +116,7 @@ class TextTest {
     }
 
     // - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 onClick 이벤트를 설정할 수 있음
-    // Compose Testing API의 한계로 ClickableText의 클릭된 Offset까지는 테스트가 불가능함
+    // Compose Testing API의 한계로 ClickableText의 클릭된 Offset까지는 테스트가 불가능함 (아마)
     // https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/foundation/foundation/src/androidAndroidTest/kotlin/androidx/compose/foundation/text/ClickableTextTest.kt
     @Test
     fun set_SpanStyle_and_OnClickEvent_with_ModifierHighlight() {

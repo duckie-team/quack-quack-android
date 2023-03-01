@@ -31,13 +31,12 @@ internal val LocalQuackTextFieldColors: ProvidableCompositionLocal<QuackTextFiel
  *
  * 1. OverscrollEffect 제거
  * 2. QuackTextField 및 QuackTextArea에서 사용할 색상 테마 제공
- * 3. [QuackScope] 제공
  *
  * @param content 꽥꽥 디자인에 맞게 표시할 컴포저블 컨텐츠
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-public fun QuackTheme(content: @Composable QuackScope.() -> Unit) {
+public fun QuackTheme(content: @Composable () -> Unit) {
     CompositionLocalProvider(
         LocalOverscrollConfiguration provides null,
         LocalTextSelectionColors provides TextSelectionColors(
@@ -45,9 +44,8 @@ public fun QuackTheme(content: @Composable QuackScope.() -> Unit) {
             backgroundColor = QuackColor.DuckieOrange.change(alpha = 0.2f).value,
         ),
         LocalQuackTextFieldColors provides DuckieTextFieldColors,
-    ) {
-        QuackScope.content()
-    }
+        content = content,
+    )
 }
 
 /**
