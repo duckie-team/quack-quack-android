@@ -8,19 +8,19 @@
 ### Example
 
 ```kotlin
- @SugarToken
- enum class QuackButton {
-     Default,
-     Normal,
-     Flat,
-     ;
- }
+@SugarToken
+enum class QuackButton {
+    Default,
+    Normal,
+    Flat,
+    ;
+}
 
- @Sugar
- fun Button(type: QuackButton, modifier: Modifier = Modifier, text: String) {}
+@Sugar
+fun Button(type: QuackButton, modifier: Modifier = Modifier, text: String) {}
 
- // generated
- fun DefaultButton(modifier: Modifier = Modifier, text: String) {} // equals to Button(type = QuackButton.Default, ...)
- fun NormalButton(modifier: Modifier = Modifier, text: String) {} // equals to Button(type = QuackButton.Normal, ...)
- fun FlatButton(modifier: Modifier = Modifier, text: String) {} // equals to Button(type = QuackButton.Flat, ...)
- ```
+// generated
+fun DefaultButton(modifier: Modifier = Modifier, text: String) {} // equals to Button(type = QuackButton.Default, ...)
+fun NormalButton(modifier: Modifier = Modifier, text: String) {} // equals to Button(type = QuackButton.Normal, ...)
+fun FlatButton(modifier: Modifier = Modifier, text: String) {} // equals to Button(type = QuackButton.Flat, ...)
+```

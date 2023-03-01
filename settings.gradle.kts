@@ -27,9 +27,10 @@ buildCache {
 
 include(
     ":playground",
-    // ":ui-components-deprecated",
     ":core",
     // ":core-aide",
+    // ":core-aide-processor",
+    ":core-aide-annotation",
     // ":core-sugar",
     ":core-sugar-annotation",
     // ":core-sugar-processor",

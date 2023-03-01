@@ -1,6 +1,6 @@
 # core-sugar-annotation
 
-본 모듈은 [`core-sugar`](../core-sugar)의 핵심 어노테이션을 제공합니다.
+본 모듈은 [`core-sugar`](../core-sugar)의 어노테이션을 제공합니다.
 
 ### `@Sugar(val name: String = DEFAULT_NAME)`
 

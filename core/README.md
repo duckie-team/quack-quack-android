@@ -129,10 +129,9 @@ Button(
 )
 ```
 
-참 쉽죠? 🎨
+### ~~안정성~~
 
-### 안정성
-
+~~
 만약 `Text`의 데코레이터를 `Button`에 추가하면 어쩌지? 하는 걱정이 들 수 있습니다.
 
 ```kotlin
@@ -143,7 +142,7 @@ Button(
         .trailingIcon(Heart)
         .highlight { text ->
             Highlight(text, "짱", SemiBold)
-        },,
+        },
     text = "나 좀 짱인듯? (짱 아님.. 짱되고 싶다",
     onClick = ::`am_I_awesome?`,
 )
@@ -174,6 +173,9 @@ fun QuackText.Text(...) {}
 ```
 
 오직 `Text`에서만 사용 가능합니다.
+~~
+
+See [#471](https://github.com/duckie-team/quack-quack-android/issues/471).
 
 ### 문법 설탕
 
