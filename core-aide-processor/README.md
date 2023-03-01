@@ -12,7 +12,7 @@ fun Modifier.span(text: String, span: SpanStyle) = this
 fun Modifier.spans(texts: List<String>, span: SpanStyle) = this
 
 // generated
-internal val textModifiers = listOf("span", "spans")
+val textModifiers = listOf("span", "spans")
 ```
 
 ### 작동 방식
