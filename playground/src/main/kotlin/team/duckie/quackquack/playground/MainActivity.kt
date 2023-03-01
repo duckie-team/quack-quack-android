@@ -23,7 +23,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             QuackTheme {
                 QuackText(
-                    modifier = Modifier.highlight(highlights = listOf("test" to ::toast, "hi" to ::toast)),
+                    modifier = Modifier.highlight(
+                        highlights = listOf(
+                            "test" to ::toast,
+                            "hi" to ::toast,
+                        ),
+                    ),
                     text = "test hi bye",
                     typography = QuackTypography.Body1,
                 )

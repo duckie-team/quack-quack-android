@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
  */
 
+/* ktlint-disable argument-list-wrapping */
+
 @file:Suppress("unused")
 
 package team.duckie.quackquack.core.material
