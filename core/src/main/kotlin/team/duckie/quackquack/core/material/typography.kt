@@ -267,6 +267,7 @@ private val TextAlign.Companion.VectorConverter
  * animationSpec으로 항상 [QuackAnimationSpec]을 사용합니다.
  *
  * @param targetValue 변경을 감지할 [QuackTypography]
+ * @param label Android Studio Animation Inspecter에서 해당 애니메이션을 나타낼 레이블
  * @param colorAnimationFinishedListener [QuackTypography.color] 에 대한 애니메이션이 끝났을 때 호출될 콜백
  * @param sizeAnimationFinishedListener [QuackTypography.size] 에 대한 애니메이션이 끝났을 때 호출될 콜백
  * @param letterSpacingAnimationFinishedListener [QuackTypography.letterSpacing] 에 대한 애니메이션이 끝났을 때 호출될 콜백
@@ -278,6 +279,7 @@ private val TextAlign.Companion.VectorConverter
 @Composable
 public fun animatedQuackTextStyleAsState(
     targetValue: QuackTypography,
+    label: String = "animatedQuackTextStyleAsState",
     colorAnimationFinishedListener: ((color: QuackColor) -> Unit)? = null,
     sizeAnimationFinishedListener: ((size: Float) -> Unit)? = null,
     letterSpacingAnimationFinishedListener: ((letterSpacing: Float) -> Unit)? = null,
@@ -286,27 +288,32 @@ public fun animatedQuackTextStyleAsState(
 ): QuackTypography {
     val targetColorAnimationState by animateQuackColorAsState(
         targetValue = targetValue.color,
+        label = label,
         finishedListener = colorAnimationFinishedListener,
     )
     val targetSizeAnimationState by animateFloatAsState(
         targetValue = targetValue.size.value,
         animationSpec = QuackAnimationSpec(),
+        label = label,
         finishedListener = sizeAnimationFinishedListener,
     )
     val targetLetterSpacingAnimationState by animateFloatAsState(
         targetValue = targetValue.letterSpacing.value,
         animationSpec = QuackAnimationSpec(),
+        label = label,
         finishedListener = letterSpacingAnimationFinishedListener,
     )
     val targetLineHeightAnimationState by animateFloatAsState(
         targetValue = targetValue.lineHeight.value,
         animationSpec = QuackAnimationSpec(),
+        label = label,
         finishedListener = lineHeightAnimationFinishedListener,
     )
     val targetTextAlignAnimationState by animateValueAsState(
         targetValue = targetValue.textAlign,
         typeConverter = TextAlign.VectorConverter,
         animationSpec = QuackAnimationSpec(),
+        label = label,
         finishedListener = textAlignAnimationFinishedListener,
     )
 

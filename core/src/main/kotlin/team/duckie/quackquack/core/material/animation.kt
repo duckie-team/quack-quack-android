@@ -15,7 +15,7 @@ import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Stable
-import team.duckie.quackquack.core.util.DelicateApi
+import team.duckie.quackquack.core.util.DelicateQuackApi
 
 /**
  * 덕키에서 기본적으로 사용할 애니메이션의 기본 지속 시간
@@ -46,7 +46,7 @@ public object QuackAnimationSpec {
      *
      * **이 값의 변경은 모든 애니메이션에 영향을 미치므로 신중하게 사용해야 합니다.**
      */
-    @DelicateApi
+    @DelicateQuackApi
     public var snapMode: Boolean = false
 
     /**
@@ -58,7 +58,7 @@ public object QuackAnimationSpec {
      *
      * @see snapMode
      */
-    @OptIn(DelicateApi::class)
+    @OptIn(DelicateQuackApi::class)
     public operator fun <T> invoke(): DurationBasedAnimationSpec<T> = when (snapMode) {
         true -> snap()
         else -> tween(
