@@ -10,7 +10,6 @@ package team.duckie.quackquack.aide.annotation
 // TODO: 문서 제공
 public enum class Type {
     Text,
-    ;
 }
 
 // TODO: 문서 제공
