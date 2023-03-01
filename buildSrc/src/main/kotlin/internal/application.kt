@@ -31,6 +31,6 @@ internal fun Project.configureApplication(extension: CommonExtension<*, *, *, *>
             checkTestSources = true
         }
 
-        installFormattingPluginIfNeeded()
+        dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get())
     }
 }

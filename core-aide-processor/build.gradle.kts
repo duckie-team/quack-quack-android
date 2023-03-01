@@ -14,5 +14,9 @@ GradleInstallation.with(project) {
 }
 
 dependencies {
-    implementation(libs.kotlin.ksp.api)
+    implementations(
+        libs.kotlin.ksp.api,
+        libs.kotlin.kotlinpoet,
+    )
+    testImplementation(libs.test.kotlin.compile)
 }

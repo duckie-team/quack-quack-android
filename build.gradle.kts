@@ -34,11 +34,9 @@ allprojects {
         mavenCentral()
     }
 
-    if (!name.contains("deprecated")) {
-        apply {
-            plugin(rootProject.libs.plugins.kotlin.detekt.get().pluginId)
-            plugin(rootProject.libs.plugins.kotlin.ktlint.get().pluginId)
-        }
+    apply {
+        plugin(rootProject.libs.plugins.kotlin.detekt.get().pluginId)
+        plugin(rootProject.libs.plugins.kotlin.ktlint.get().pluginId)
     }
 
     afterEvaluate {
