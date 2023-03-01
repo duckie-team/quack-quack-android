@@ -35,7 +35,7 @@ public fun Modifier.quackComposed(factory: @Composable Modifier.() -> Modifier):
  *
  * @return 컴포즈 자체의 [Modifier]와 [QuackDataModifierModel] 리스트의 [Pair]
  */
-@MustBeTested
+@MustBeTested(checked = true)
 public fun Composer.quackMaterializeOf(modifier: Modifier): Pair<Modifier, List<QuackDataModifierModel>> {
     val needsNewGroup = modifier.any { it is QuackMaterializableComposedModifier }
 
