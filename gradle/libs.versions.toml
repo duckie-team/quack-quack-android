@@ -12,7 +12,7 @@ kotlin-ktlint-source = "0.45.2"
 kotlin-collections-immutable = "0.3.5"
 
 androidx-core-ktx = "1.9.0"
-androidx-annotation = "1.5.0"
+androidx-annotation = "1.6.0"
 androidx-datastore = "1.0.0" # for Playground
 androidx-benchmark = "1.1.1"
 androidx-profileinstaller = "1.2.2"
