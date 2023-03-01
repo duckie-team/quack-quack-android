@@ -7,6 +7,7 @@
 
 plugins {
     `java-library`
+    `kotlin-kapt`
 }
 
 GradleInstallation.with(project) {
@@ -16,5 +17,7 @@ GradleInstallation.with(project) {
 }
 
 dependencies {
+    compileOnly(libs.google.autoservice.annotation)
+    kapt(libs.google.autoservice.standard.processor)
     testImplementation(libs.test.strikt)
 }

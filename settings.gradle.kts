@@ -31,9 +31,9 @@ include(
     ":core-aide",
     ":core-aide-annotation",
     ":core-aide-processor",
-    // ":core-sugar",
+    ":core-sugar",
     ":core-sugar-annotation",
-    // ":core-sugar-processor",
+    ":core-sugar-processor",
     // ":dokka-paparazzi-integration",
     ":screenshot-matcher",
 )

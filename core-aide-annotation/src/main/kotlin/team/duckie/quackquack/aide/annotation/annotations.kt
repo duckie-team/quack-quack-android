@@ -13,7 +13,7 @@ public enum class Type {
 }
 
 // TODO: 문서 제공
-public annotation class Component(val type: Type)
+public annotation class TypedComponent(val type: Type)
 
 // TODO: 문서 제공
-public annotation class Modifier(val type: Type)
+public annotation class TypedModifier(val type: Type)
