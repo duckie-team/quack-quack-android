@@ -13,6 +13,6 @@ import androidx.compose.ui.util.fastFirstOrNull
  * 주어진 리스트에서 [T]로 casting 가능한 첫 번째 원소를 반환합니다.
  * 모든 원소가 [T]로 casting이 불가하면 null을 반환합니다.
  */
-internal inline fun <reified T> List<Any>.fastFirstInstanceOrNull(): T? {
+internal inline fun <reified T> List<*>.fastFirstInstanceOrNull(): T? {
     return fastFirstOrNull { it is T } as? T
 }
