@@ -33,12 +33,15 @@ dependencies {
         libs.compose.coil,
         libs.compose.animation,
         libs.compose.material,
+        projects.coreAideAnnotation,
         projects.coreSugarAnnotation,
     )
     api(libs.kotlin.collections.immutable)
     testImplementation(libs.test.strikt)
-    androidTestImplementation(libs.test.strikt)
-    androidTestImplementation(libs.test.junit.compose)
-    androidTestImplementation(libs.bundles.test.mockito)
-    androidTestImplementation(projects.screenshotMatcher)
+    androidTestImplementations(
+        libs.test.strikt,
+        libs.test.junit.compose,
+        libs.bundles.test.mockito,
+        projects.screenshotMatcher,
+    )
 }
