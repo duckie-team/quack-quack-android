@@ -30,8 +30,8 @@ private const val EXPLICIT_API = "-Xexplicit-api=strict"
 private const val DOKKA_FOOTER_MESSAGE =
     "made with <span style=\"color: #ff8300;\">❤</span> by <a href=\"https://duckie.team/\">Duckie</a>"
 
-internal open class BuildLogicPlugin(val block: Project.() -> Unit) : Plugin<Project> {
-    override fun apply(target: Project) {
+internal abstract class BuildLogicPlugin(private val block: Project.() -> Unit) : Plugin<Project> {
+    final override fun apply(target: Project) {
         with(target, block = block)
     }
 }
