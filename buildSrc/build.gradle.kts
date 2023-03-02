@@ -7,9 +7,31 @@
 
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
+private val buildLogicPrefix = "quackquack"
+
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.kotlin.dokka)
+}
+
+gradlePlugin {
+    val pluginClasses = listOf(
+        "AndroidApplicationPlugin",
+        "AndroidLibraryPlugin",
+        "AndroidLintPlugin",
+        "AndroidComposePlugin",
+        "AndroidComposeMetricsPlugin",
+        "JvmKotlinPlugin",
+        "JvmJUnitPlugin",
+        "JvmDokkaPlugin",
+        "KotlinExplicitApiPlugin",
+    )
+
+    plugins {
+        pluginClasses.forEach { pluginClass ->
+            autoRegister(pluginClass)
+        }
+    }
 }
 
 dependencies {
@@ -19,3 +41,11 @@ dependencies {
     implementation(libs.kotlin.dokka.base)
     implementation(libs.kotlin.dokka.plugin)
 }
+
+fun NamedDomainObjectContainer<PluginDeclaration>.autoRegister(className: String) {
+    register(className.removeSuffix("Plugin")) {
+        id = "$buildLogicPrefix.buildlogic.$className"
+        implementationClass = className
+    }
+}
+

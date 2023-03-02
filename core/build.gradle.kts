@@ -7,23 +7,29 @@
 
 @file:Suppress("UnstableApiUsage", "DSL_SCOPE_VIOLATION")
 
+import org.jetbrains.dokka.gradle.DokkaTask
+
 plugins {
-    `android-library`
+    `buildlogic-android-library`
+    `buildlogic-android-compose`
+    `buildlogic-android-compose-metrics`
+    `buildlogic-jvm-junit`
+    `buildlogic-jvm-dokka`
+    `buildlogic-kotlin-explicitapi`
     alias(libs.plugins.test.paparazzi)
 }
 
-GradleInstallation.with(project) {
-    library {
-        namespace = "team.duckie.quackquack.core"
-        resourcePrefix = "quack_"
+tasks.withType<DokkaTask> {
+    moduleName.set("QuackQuack-Core")
+}
 
-        defaultConfig {
-            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        }
+android {
+    namespace = "team.duckie.quackquack.core"
+    resourcePrefix = "quack_"
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    compose()
-    junit()
-    explicitApi()
 }
 
 dependencies {

@@ -6,14 +6,10 @@
  */
 
 plugins {
-    `java-library`
+    `buildlogic-jvm-kotlin`
     `kotlin-kapt`
-}
-
-GradleInstallation.with(project) {
-    kotlin()
-    junit()
-    lint(plugin = false)
+    `buildlogic-android-lint`
+    `buildlogic-jvm-junit`
 }
 
 dependencies {

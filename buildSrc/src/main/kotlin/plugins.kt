@@ -5,8 +5,13 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
+@file:Suppress("NOTHING_TO_INLINE")
+
 import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.plugin.use.PluginDependencySpec
+
+@PublishedApi
+internal const val BuildLogicPrefix = "quackquack"
 
 object Plugins {
     const val JavaLibrary = "java-library"
@@ -19,8 +24,40 @@ object Plugins {
     const val AndroidLint = "com.android.lint"
 }
 
-val PluginDependenciesSpec.`android-application`: PluginDependencySpec
+@PublishedApi
+internal inline fun generatePluginRegisterId(id: String): String {
+    return "$BuildLogicPrefix.buildlogic.$id"
+}
+
+inline val PluginDependenciesSpec.`android-application`: PluginDependencySpec
     get() = id(Plugins.AndroidApplication)
 
-val PluginDependenciesSpec.`android-library`: PluginDependencySpec
+inline val PluginDependenciesSpec.`android-library`: PluginDependencySpec
     get() = id(Plugins.AndroidLibrary)
+
+inline val PluginDependenciesSpec.`buildlogic-android-application`: PluginDependencySpec
+    get() = id(generatePluginRegisterId(AndroidApplicationPlugin::class.simpleName!!))
+
+inline val PluginDependenciesSpec.`buildlogic-android-library`: PluginDependencySpec
+    get() = id(generatePluginRegisterId(AndroidLibraryPlugin::class.simpleName!!))
+
+inline val PluginDependenciesSpec.`buildlogic-android-lint`: PluginDependencySpec
+    get() = id(generatePluginRegisterId(AndroidLintPlugin::class.simpleName!!))
+
+inline val PluginDependenciesSpec.`buildlogic-android-compose`: PluginDependencySpec
+    get() = id(generatePluginRegisterId(AndroidComposePlugin::class.simpleName!!))
+
+inline val PluginDependenciesSpec.`buildlogic-android-compose-metrics`: PluginDependencySpec
+    get() = id(generatePluginRegisterId(AndroidComposeMetricsPlugin::class.simpleName!!))
+
+inline val PluginDependenciesSpec.`buildlogic-jvm-kotlin`: PluginDependencySpec
+    get() = id(generatePluginRegisterId(JvmKotlinPlugin::class.simpleName!!))
+
+inline val PluginDependenciesSpec.`buildlogic-jvm-junit`: PluginDependencySpec
+    get() = id(generatePluginRegisterId(JvmJUnitPlugin::class.simpleName!!))
+
+inline val PluginDependenciesSpec.`buildlogic-jvm-dokka`: PluginDependencySpec
+    get() = id(generatePluginRegisterId(JvmDokkaPlugin::class.simpleName!!))
+
+inline val PluginDependenciesSpec.`buildlogic-kotlin-explicitapi`: PluginDependencySpec
+    get() = id(generatePluginRegisterId(KotlinExplicitApiPlugin::class.simpleName!!))

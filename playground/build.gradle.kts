@@ -6,12 +6,12 @@
  */
 
 plugins {
-    `android-application`
+    `buildlogic-android-application`
+    `buildlogic-android-compose`
 }
 
-GradleInstallation.with(project) {
-    android(namespace = "team.duckie.quackquack.playground")
-    compose()
+android {
+    namespace = "team.duckie.quackquack.playground"
 }
 
 dependencies {
