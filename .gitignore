@@ -12,7 +12,7 @@ release
 local.properties
 google-services.json
 keystore
-/documents/dokka/
-/report
-/ui-components-snapshots/out/
+core/out
+core/report
+core/document
 snapshots

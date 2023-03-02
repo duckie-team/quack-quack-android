@@ -6,11 +6,11 @@
  */
 
 plugins {
-    `android-library`
+    `buildlogic-android-library`
 }
 
-GradleInstallation.with(project) {
-    library(namespace = "team.duckie.quackquack.test.screenshot.matcher")
+android {
+    namespace = "team.duckie.quackquack.test.screenshot.matcher"
 }
 
 dependencies {

@@ -40,22 +40,18 @@ allprojects {
     }
 
     afterEvaluate {
-        if (pluginManager.hasPlugin(rootProject.libs.plugins.kotlin.detekt.get().pluginId)) {
-            configure<DetektExtension> {
-                parallel = true
-                buildUponDefaultConfig = true
-                toolVersion = libs.versions.kotlin.detekt.get()
-                config.setFrom(files("$rootDir/detekt-config.yml"))
-            }
+        extensions.configure<DetektExtension> {
+            parallel = true
+            buildUponDefaultConfig = true
+            toolVersion = libs.versions.kotlin.detekt.get()
+            config.setFrom(files("$rootDir/detekt-config.yml"))
         }
 
-        if (pluginManager.hasPlugin(rootProject.libs.plugins.kotlin.ktlint.get().pluginId)) {
-            configure<KtlintExtension> {
-                version.set(rootProject.libs.versions.kotlin.ktlint.source.get())
-                android.set(true)
-                outputToConsole.set(true)
-                additionalEditorconfigFile.set(file("$rootDir/.editorconfig"))
-            }
+        extensions.configure<KtlintExtension> {
+            version.set(rootProject.libs.versions.kotlin.ktlint.source.get())
+            android.set(true)
+            outputToConsole.set(true)
+            additionalEditorconfigFile.set(file("$rootDir/.editorconfig"))
         }
 
         tasks.withType<KotlinCompile> {

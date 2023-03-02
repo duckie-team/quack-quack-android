@@ -5,8 +5,7 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-GradleInstallation.with(project) {
-    kotlin {
-        explicitApi()
-    }
+plugins {
+    `buildlogic-jvm-kotlin`
+    `buildlogic-kotlin-explicitapi`
 }

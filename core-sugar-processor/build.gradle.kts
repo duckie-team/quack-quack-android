@@ -8,12 +8,8 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
 plugins {
-    `java-library`
+    `buildlogic-jvm-kotlin`
     alias(libs.plugins.kotlin.ksp)
-}
-
-GradleInstallation.with(project) {
-    kotlin()
 }
 
 dependencies {
