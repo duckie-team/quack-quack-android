@@ -12,10 +12,10 @@ import org.jetbrains.dokka.gradle.DokkaTask
 plugins {
     `buildlogic-android-library`
     `buildlogic-android-compose`
+    `buildlogic-android-compose-metrics`
     `buildlogic-jvm-junit`
     `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
-    `buildlogic-android-compose-metrics`
     alias(libs.plugins.test.paparazzi)
 }
 
