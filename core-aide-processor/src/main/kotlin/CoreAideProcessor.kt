@@ -38,6 +38,11 @@ class QuackCoreAideProcessor(
         val modifiers = resolver
             .getSymbolsWithAnnotation(TypedModifierFqn)
             .filterIsInstance<KSFunctionDeclaration>()
+            .filter { functionDeclaration ->
+                functionDeclaration.returnType != null &&
+                        functionDeclaration.extensionReceiver != null &&
+                        functionDeclaration.modifiers.contains(Modifier.PUBLIC)
+            }
 
         generateAideKt(
             codeGenerator = codeGenerator,
