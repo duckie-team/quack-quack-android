@@ -16,6 +16,7 @@ plugins {
     `buildlogic-jvm-junit`
     `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
+    alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.test.paparazzi)
 }
 
@@ -43,6 +44,7 @@ dependencies {
         projects.coreSugarAnnotation,
     )
     api(libs.kotlin.collections.immutable)
+    ksp(projects.coreAideProcessor)
     testImplementation(libs.test.strikt)
     androidTestImplementations(
         libs.test.strikt,
