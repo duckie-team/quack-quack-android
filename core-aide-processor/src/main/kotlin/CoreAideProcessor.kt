@@ -76,17 +76,12 @@ private fun generateAideKt(
             val valueType = functionDeclaration.requiredContainingFile.fileName
             valueType.removeSuffix(".kt")
         }
-        .onEach { (type, values) ->
+        .forEach { (type, values) ->
             val valueNames = values.map { functionDeclaration ->
                 functionDeclaration.simpleName.asString()
             }
-            logger.warn("$type to ${valueNames.toLiteralListString()}")
-        }
-        .forEach { (type, values) ->
-            val valueNames = values.map { value ->
-                value.simpleName.asString()
-            }
             typedValues.add(type to valueNames.toSet())
+            logger.warn("$type to ${valueNames.toLiteralListString()}")
         }
 
     if (typedValues.isNotEmpty()) {
