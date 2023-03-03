@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
+// @formatter:off
+
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import internal.ApplicationConstants
@@ -17,7 +19,9 @@ import internal.setupJunit
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.testing.Test
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
@@ -110,9 +114,17 @@ internal class JvmKotlinPlugin : BuildLogicPlugin({
         Plugins.JavaLibrary,
     )
 
-    extensions.configure<JavaPluginExtension> {
-        sourceCompatibility = ApplicationConstants.JavaVersion
-        targetCompatibility = ApplicationConstants.JavaVersion
+    tasks.withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = ApplicationConstants.JavaVersionAsInt.toString()
+    }
+
+    tasks.withType<JavaCompile> {
+        sourceCompatibility = ApplicationConstants.JavaVersion.toString()
+        targetCompatibility = ApplicationConstants.JavaVersion.toString()
+    }
+
+    extensions.configure<JavaPluginExtension>() {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(ApplicationConstants.JavaVersionAsInt))
     }
 
     dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get())

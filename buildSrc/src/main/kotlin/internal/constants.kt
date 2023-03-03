@@ -13,6 +13,6 @@ internal object ApplicationConstants {
     const val CompileSdk = 33
     const val VersionCode = 2000
     const val VersionName = "2.0.0"
-    val JavaVersion = org.gradle.api.JavaVersion.VERSION_17
-    const val JavaVersionAsInt = 17
+    val JavaVersion = org.gradle.api.JavaVersion.VERSION_11
+    const val JavaVersionAsInt = 11
 }
