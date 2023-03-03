@@ -39,7 +39,7 @@ test-injector-parameter = "1.10"
 test-mockito-core = "5.1.1"
 test-mockito-android = "5.1.1"
 test-mockito-kotlin = "4.1.0"
-test-kotlin-compile = "1.4.9"
+test-kotlin-compilation-ksp = "1.4.9"
 
 [plugins]
 gradle-publish-maven-core = { id = "com.vanniktech.maven.publish", version.ref = "gradle-publish-maven" }
@@ -95,7 +95,7 @@ test-injector-parameter = { module = "com.google.testparameterinjector:test-para
 test-mockito-core = { module = "org.mockito:mockito-core", version.ref = "test-mockito-core" }
 test-mockito-android = { module = "org.mockito:mockito-android", version.ref = "test-mockito-android" }
 test-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "test-mockito-kotlin" }
-test-kotlin-compile = { module = "com.github.tschuchortdev:kotlin-compile-testing", version.ref = "test-kotlin-compile" }
+test-kotlin-compilation-ksp = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version.ref = "test-kotlin-compilation-ksp" }
 
 detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "kotlin-detekt" }
 

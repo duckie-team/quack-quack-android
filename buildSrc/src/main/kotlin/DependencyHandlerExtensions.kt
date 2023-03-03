@@ -15,12 +15,20 @@ fun DependencyHandler.implementations(vararg dependencyNotation: Any) {
     dependencyNotation.forEach(::implementation)
 }
 
+fun DependencyHandler.testImplementations(vararg dependencyNotation: Any) {
+    dependencyNotation.forEach(::testImplementation)
+}
+
 fun DependencyHandler.androidTestImplementations(vararg dependencyNotation: Any) {
     dependencyNotation.forEach(::androidTestImplementation)
 }
 
 private fun DependencyHandler.implementation(dependencyNotation: Any) {
     add("implementation", dependencyNotation)
+}
+
+private fun DependencyHandler.testImplementation(dependencyNotation: Any) {
+    add("testImplementation", dependencyNotation)
 }
 
 private fun DependencyHandler.androidTestImplementation(dependencyNotation: Any) {
