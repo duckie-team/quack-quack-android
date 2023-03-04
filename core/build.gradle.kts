@@ -33,6 +33,10 @@ android {
     }
 }
 
+ksp {
+    arg("AidePath", "$rootDir/core-aide/src/main/kotlin/rule")
+}
+
 dependencies {
     implementations(
         libs.androidx.core.ktx,

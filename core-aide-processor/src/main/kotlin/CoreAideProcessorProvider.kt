@@ -16,12 +16,15 @@ import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
 import com.google.devtools.ksp.symbol.KSAnnotated
 
+private const val AidePathArg = "AidePath"
+
 @AutoService(value = [SymbolProcessorProvider::class])
 class QuackCoreAideSymbolProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
         return QuackCoreAideSymbolProcessor(
             codeGenerator = environment.codeGenerator,
             logger = environment.logger,
+            options = environment.options,
         )
     }
 }
@@ -29,10 +32,12 @@ class QuackCoreAideSymbolProcessorProvider : SymbolProcessorProvider {
 private class QuackCoreAideSymbolProcessor(
     codeGenerator: CodeGenerator,
     logger: KSPLogger,
+    options: Map<String, Any>,
 ) : SymbolProcessor {
     private val processor = QuackCoreAideProcessor(
         codeGenerator = codeGenerator,
         logger = logger,
+        aidePath = options[AidePathArg]?.toString(),
     )
 
     override fun process(resolver: Resolver): List<KSAnnotated> {

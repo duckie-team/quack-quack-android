@@ -13,6 +13,7 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.Modifier
 import com.google.devtools.ksp.validate
+import java.io.File
 
 private const val QuackComponentPrefix = "Quack"
 private const val ModifierSn = "Modifier"
@@ -27,6 +28,7 @@ internal typealias TypedValues = List<Pair<Type, Set<String>>>
 class QuackCoreAideProcessor(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger,
+    private val aidePath: String?,
 ) {
     fun resolve(resolver: Resolver): List<KSAnnotated> {
         @Suppress("UNCHECKED_CAST")
@@ -62,12 +64,14 @@ class QuackCoreAideProcessor(
             logger = logger,
             symbols = components,
             property = "aideComponents",
+            aidePath = aidePath,
         )
         generateAideKt(
             codeGenerator = codeGenerator,
             logger = logger,
             symbols = modifiers,
             property = "aideModifiers",
+            aidePath = aidePath,
         )
 
         return components.filterNot(KSAnnotated::validate)
@@ -81,6 +85,7 @@ private fun generateAideKt(
     logger: KSPLogger,
     symbols: Sequence<KSFunctionDeclaration>,
     property: String,
+    aidePath: String?,
 ) {
     val typedValues = mutableListOf<Pair<Type, Set<String>>>()
 
@@ -97,16 +102,26 @@ private fun generateAideKt(
             logger.warn("$type to ${valueNames.toLiteralListString()}")
         }
 
+    val aideMapKtSpec = createAideMapKtSpec(
+        propertyName = property,
+        typedValues = typedValues,
+    )
+
     if (typedValues.isNotEmpty()) {
-        val aideMapKtSpec = createAideMapKtSpec(
-            propertyName = property,
-            typedValues = typedValues,
-        )
-        val aideMapKt = codeGenerator.createNewFile(
-            dependencies = Dependencies.Empty,
-            packageName = aideMapKtSpec.packageName,
-            fileName = aideMapKtSpec.name,
-        )
-        aideMapKt.writer().use(aideMapKtSpec::writeTo)
+        if (aidePath == null) {
+            val aideMapKt = codeGenerator.createNewFile(
+                dependencies = Dependencies.Empty,
+                packageName = aideMapKtSpec.packageName,
+                fileName = aideMapKtSpec.name,
+            )
+            aideMapKt.writer().use(aideMapKtSpec::writeTo)
+        } else {
+            val aideMapKt = File(aidePath, "${aideMapKtSpec.name}.kt").also { file ->
+                file.parentFile.mkdirs()
+                file.createNewFile()
+            }
+            aideMapKt.writeText(aideMapKtSpec.toString())
+            logger.warn("generated at ${aideMapKt.path}")
+        }
     }
 }
