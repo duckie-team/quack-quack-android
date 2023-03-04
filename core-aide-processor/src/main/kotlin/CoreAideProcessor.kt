@@ -73,7 +73,7 @@ private fun generateAideKt(
 
     symbols
         .groupBy { functionDeclaration ->
-            val valueType = functionDeclaration.requiredContainingFile.fileName
+            val valueType = functionDeclaration.requireContainingFile.fileName
             valueType.removeSuffix(".kt")
         }
         .forEach { (type, values) ->

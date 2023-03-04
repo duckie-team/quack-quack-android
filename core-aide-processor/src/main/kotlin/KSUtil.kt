@@ -17,7 +17,7 @@ internal fun Collection<*>.toLiteralListString(): String {
     )
 }
 
-internal val KSDeclaration.requiredContainingFile: KSFile
+internal val KSDeclaration.requireContainingFile: KSFile
     get() = requireNotNull(containingFile) {
         "This($simpleName) symbol didn't come from the source file. " +
                 "Is that symbol in the class file?"
