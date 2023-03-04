@@ -23,7 +23,6 @@ dependencies {
     implementations(
         libs.kotlin.ksp.api,
         libs.kotlin.kotlinpoet,
-        libs.google.autoservice.annotation,
     )
     testImplementations(
         libs.test.strikt,
