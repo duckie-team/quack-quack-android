@@ -15,7 +15,7 @@ import com.android.tools.lint.detector.api.describeApi
 import com.google.auto.service.AutoService
 
 @AutoService(value = [IssueRegistry::class])
-class QuackCoreAideIssueRegistry : IssueRegistry() {
+class CoreAideIssueRegistry : IssueRegistry() {
     override val issues = emptyList<Issue>()
 
     override val api = CURRENT_API
