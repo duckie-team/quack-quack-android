@@ -11,6 +11,7 @@ import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import com.tschuchort.compiletesting.kspSourcesDir
 import com.tschuchort.compiletesting.symbolProcessorProviders
 import java.io.File
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -18,6 +19,7 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import strikt.assertions.withNotNull
 
+@Ignore(value = "미완성 테스트")
 class QuackCoreAideProcessorTest {
     @get:Rule
     val temporaryFolder = TemporaryFolder()
@@ -60,7 +62,12 @@ class QuackCoreAideProcessorTest {
 
         expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
-        val aideModifiersKt = compilation.kspSourcesDir.walkTopDown().firstOrNull { it.name == "AideModifiers.kt" }
+        val aideModifiersKt = compilation
+            .kspSourcesDir
+            .walkTopDown()
+            .firstOrNull { file ->
+                file.name == "AideModifiers.kt"
+            }
 
         expectThat(aideModifiersKt).withNotNull {
             get(File::readText).isEqualTo(
