@@ -15,6 +15,8 @@ import com.google.devtools.ksp.symbol.Modifier
 import com.google.devtools.ksp.validate
 
 private const val QuackComponentPrefix = "Quack"
+private const val ModifierSn = "Modifier"
+private const val UnitSn = "Unit"
 
 private const val TypedModifierFqn = "team.duckie.quackquack.aide.annotation.TypedModifier"
 private const val ComposableFqn = "androidx.compose.runtime.Composable"
@@ -27,22 +29,33 @@ class QuackCoreAideProcessor(
     private val logger: KSPLogger,
 ) {
     fun resolve(resolver: Resolver): List<KSAnnotated> {
+        @Suppress("UNCHECKED_CAST")
         val components = resolver
             .getSymbolsWithAnnotation(ComposableFqn)
-            .filterIsInstance<KSFunctionDeclaration>()
             .filter { functionDeclaration ->
-                functionDeclaration.simpleName.asString().startsWith(QuackComponentPrefix) &&
-                        functionDeclaration.modifiers.contains(Modifier.PUBLIC)
-            }
+                functionDeclaration is KSFunctionDeclaration &&
+                        // 1. 공개 함수이고,
+                        functionDeclaration.modifiers.contains(Modifier.PUBLIC) &&
+                        // 2. 함수명이 Quack으로 시작하며,
+                        functionDeclaration.simpleName.asString().startsWith(QuackComponentPrefix) &&
+                        // 3. 확장 함수가 아니고,
+                        functionDeclaration.extensionReceiver == null &&
+                        // 4. 반환 타입이 없어야 함
+                        functionDeclaration.returnType.toString() == UnitSn
+            } as Sequence<KSFunctionDeclaration>
 
+        @Suppress("UNCHECKED_CAST")
         val modifiers = resolver
             .getSymbolsWithAnnotation(TypedModifierFqn)
-            .filterIsInstance<KSFunctionDeclaration>()
             .filter { functionDeclaration ->
-                functionDeclaration.returnType != null &&
-                        functionDeclaration.extensionReceiver != null &&
-                        functionDeclaration.modifiers.contains(Modifier.PUBLIC)
-            }
+                functionDeclaration is KSFunctionDeclaration &&
+                        // 1. 공개 함수이고,
+                        functionDeclaration.modifiers.contains(Modifier.PUBLIC) &&
+                        // 2. Modifier의 확장 함수이며,
+                        functionDeclaration.extensionReceiver.toString() == ModifierSn &&
+                        // 3. Modifier를 반환해야 함
+                        functionDeclaration.returnType.toString() == ModifierSn
+            } as Sequence<KSFunctionDeclaration>
 
         generateAideKt(
             codeGenerator = codeGenerator,
