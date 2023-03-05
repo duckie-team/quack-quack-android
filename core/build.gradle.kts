@@ -47,8 +47,6 @@ dependencies {
         projects.coreAideAnnotation,
         projects.coreSugarAnnotation,
     )
-    api(libs.kotlin.collections.immutable)
-    ksp(projects.coreAideProcessor)
     testImplementation(libs.test.strikt)
     androidTestImplementations(
         libs.test.strikt,
@@ -56,4 +54,8 @@ dependencies {
         libs.bundles.test.mockito,
         projects.screenshotMatcher,
     )
+
+    api(libs.kotlin.collections.immutable)
+    ksp(projects.coreAideProcessor)
+    lintPublish(projects.coreAide)
 }
