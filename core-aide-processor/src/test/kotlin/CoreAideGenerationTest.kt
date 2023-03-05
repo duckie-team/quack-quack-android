@@ -10,6 +10,7 @@
     "RedundantVisibilityModifier",
     "RedundantUnitExpression",
     "RedundantSuppression",
+    "LongMethod",
 )
 
 import com.tschuchort.compiletesting.KotlinCompilation
