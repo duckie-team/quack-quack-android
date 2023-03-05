@@ -89,10 +89,10 @@ class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
                 .build()
             val incident = Incident(this, ISSUE).message(IssueMessage)
 
+            val baseLocation = incident.parseLocation(modifier)
             if (startPsi != null && endPsi != null) {
-                val baseLocation = incident.getLocation(modifier)
-                val startPsiLocation = incident.getLocation(startPsi)
-                val endPsiLocation = incident.getLocation(endPsi)
+                val startPsiLocation = incident.parseLocation(startPsi)
+                val endPsiLocation = incident.parseLocation(endPsi)
                 val resolvedLocation = if (startPsiLocation.start != null && endPsiLocation.end != null) {
                     incident.fix(removalFix)
                     Location.create(
@@ -105,7 +105,7 @@ class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
                 }
                 incident.location = resolvedLocation
             } else {
-                incident.at(modifier)
+                incident.location = baseLocation
             }
 
             report(incident)
@@ -149,7 +149,7 @@ class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
     }
 }
 
-private fun Incident.getLocation(source: Any): Location {
+private fun Incident.parseLocation(source: Any): Location {
     at(source)
     return location
 }
