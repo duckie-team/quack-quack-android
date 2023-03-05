@@ -14,12 +14,11 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.asCall
 import com.intellij.psi.PsiMethod
 import java.util.EnumSet
 import org.jetbrains.kotlin.daemon.common.findWithTransform
 import org.jetbrains.uast.UCallExpression
-import org.jetbrains.uast.UIdentifier
-import org.jetbrains.uast.getContainingUFile
 import org.jetbrains.uast.getQualifiedChain
 
 /**
@@ -46,26 +45,28 @@ class CoreAideModifierDetector : Detector(), SourceCodeScanner {
     override fun visitMethodCall(context: JavaContext, node: UCallExpression, method: PsiMethod) {
         val domain = context.file.nameWithoutExtension
         val acceptableModifiers = aideModifiers[domain] ?: return
-        val allModifiers = node.valueArguments.findWithTransform { argument ->
+
+        val modifiers = node.valueArguments.findWithTransform { argument ->
             val chains = argument.getQualifiedChain()
-            val isModifier = chains.any { chain ->
-                val type = chain.getExpressionType()
-                type?.canonicalText == "androidx.compose.ui.Modifier"
-            }
-            isModifier to chains
+            val isModifier = chains.indexOfFirst { chain ->
+                val type = chain.getExpressionType()?.canonicalText
+                type?.startsWith("androidx.compose.ui.Modifier") == true // .Companion
+            } == 0
+            isModifier to chains.drop(1) // without `modifier` or `Modifier` chain
         } ?: return
-        val quackModifiers = allModifiers.filter { modifier ->
-            val packageName = modifier.getContainingUFile()?.packageName
-            packageName?.startsWith("team.duckie.quackquack.core.component") == true
+
+        val quackModifiers = modifiers.mapNotNull { modifierExpression ->
+            val modifierIdentifier = modifierExpression.asCall()?.methodIdentifier
+            modifierIdentifier?.takeIf { modifier ->
+                aideModifiers[modifier.name] != null
+            }
         }
-        val quackModifierNames = quackModifiers.map { modifier ->
-            (modifier as UIdentifier).name
-        }
-        quackModifierNames.forEach { modifier ->
-            if (!acceptableModifiers.contains(modifier)) {
+
+        quackModifiers.forEach { modifier ->
+            if (!acceptableModifiers.contains(modifier.name)) {
                 val incident = Incident(context, ISSUE)
                     .message("Wrong QuackModifier usage")
-                    .at(node.methodIdentifier!!)
+                    .at(modifier)
                 context.report(incident)
             }
         }

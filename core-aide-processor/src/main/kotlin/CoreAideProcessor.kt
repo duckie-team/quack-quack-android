@@ -72,6 +72,7 @@ class QuackCoreAideProcessor(
             symbols = modifiers,
             property = "aideModifiers",
             aidePath = aidePath,
+            modifiers = true,
         )
 
         return components.filterNot(KSAnnotated::validate)
@@ -86,6 +87,7 @@ private fun generateAideKt(
     symbols: Sequence<KSFunctionDeclaration>,
     property: String,
     aidePath: String?,
+    modifiers: Boolean = false,
 ) {
     val typedValues = mutableListOf<Pair<Type, Set<String>>>()
 
@@ -105,6 +107,7 @@ private fun generateAideKt(
     val aideMapKtSpec = createAideMapKtSpec(
         propertyName = property,
         typedValues = typedValues,
+        modifiers = modifiers,
     )
 
     if (typedValues.isNotEmpty()) {

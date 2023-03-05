@@ -17,6 +17,7 @@ import com.squareup.kotlinpoet.asTypeName
 internal fun createAideMapKtSpec(
     propertyName: String,
     typedValues: TypedValues,
+    modifiers: Boolean = false,
 ): FileSpec {
     val suppression = AnnotationSpec
         .builder(Suppress::class)
@@ -37,10 +38,17 @@ internal fun createAideMapKtSpec(
             CodeBlock.Builder()
                 .addStatement("run {")
                 .indent()
-                .addStatement("val aide = mutableMapOf<String, List<String>>()")
+                .addStatement("val aide = mutableMapOf<%T, List<%T>>()", String::class, String::class)
                 .apply {
                     typedValues.forEach { (type, values) ->
                         addStatement("aide[%S] = %L", type, values.toLiteralListString())
+                        if (modifiers) {
+                            addStatement("// --- START: %L Modifiers ---", type)
+                            values.forEach { modifier ->
+                                addStatement("aide[%S] = %L", modifier, "emptyList()")
+                            }
+                            addStatement("// --- END: %L Modifiers ---", type)
+                        }
                     }
                 }
                 .addStatement("aide")
