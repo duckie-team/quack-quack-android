@@ -144,7 +144,7 @@ class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
                 CoreAideTypedModifierDetector::class.java,
                 EnumSet.of(Scope.JAVA_FILE),
                 Scope.JAVA_FILE_SCOPE,
-            )
+            ),
         )
     }
 }

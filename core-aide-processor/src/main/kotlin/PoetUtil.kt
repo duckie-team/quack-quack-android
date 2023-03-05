@@ -38,7 +38,11 @@ internal fun createAideMapKtSpec(
             CodeBlock.Builder()
                 .addStatement("run {")
                 .indent()
-                .addStatement("val aide = mutableMapOf<%T, List<%T>>()", String::class, String::class)
+                .addStatement(
+                    "val aide = mutableMapOf<%T, List<%T>>()",
+                    String::class,
+                    String::class,
+                )
                 .apply {
                     typedValues.forEach { (type, values) ->
                         addStatement("aide[%S] = %L", type, values.toLiteralListString())
