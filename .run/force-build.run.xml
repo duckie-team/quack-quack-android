@@ -1,24 +1,31 @@
+<!--
+  ~ Designed and developed by Duckie Team, 2022~2023
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
+  -->
+
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="force-build" type="GradleRunConfiguration" factoryName="Gradle">
-    <ExternalSystemSettings>
-      <option name="executionName" />
-      <option name="externalProjectPath" value="$PROJECT_DIR$" />
-      <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="--no-build-cache --stacktrace" />
-      <option name="taskDescriptions">
-        <list />
-      </option>
-      <option name="taskNames">
-        <list>
-          <option value="cleanAll" />
-          <option value="buildDebug" />
-        </list>
-      </option>
-      <option name="vmOptions" />
-    </ExternalSystemSettings>
-    <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-    <ExternalSystemReattachDebugProcess>false</ExternalSystemReattachDebugProcess>
-    <DebugAllEnabled>false</DebugAllEnabled>
-    <method v="2" />
-  </configuration>
+    <configuration name="force-build" default="false" factoryName="Gradle" type="GradleRunConfiguration">
+        <ExternalSystemSettings>
+            <option name="executionName" />
+            <option name="externalProjectPath" value="$PROJECT_DIR$" />
+            <option name="externalSystemIdString" value="GRADLE" />
+            <option name="scriptParameters" value="--no-build-cache --stacktrace" />
+            <option name="taskDescriptions">
+                <list />
+            </option>
+            <option name="taskNames">
+                <list>
+                    <option value="cleanAll" />
+                    <option value="buildDebug" />
+                </list>
+            </option>
+            <option name="vmOptions" />
+        </ExternalSystemSettings>
+        <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+        <ExternalSystemReattachDebugProcess>false</ExternalSystemReattachDebugProcess>
+        <DebugAllEnabled>false</DebugAllEnabled>
+        <method v="2" />
+    </configuration>
 </component>
