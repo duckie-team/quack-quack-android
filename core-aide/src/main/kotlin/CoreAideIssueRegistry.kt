@@ -10,13 +10,12 @@
 import com.android.tools.lint.client.api.IssueRegistry
 import com.android.tools.lint.client.api.Vendor
 import com.android.tools.lint.detector.api.CURRENT_API
-import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.describeApi
 import com.google.auto.service.AutoService
 
 @AutoService(value = [IssueRegistry::class])
 class CoreAideIssueRegistry : IssueRegistry() {
-    override val issues = emptyList<Issue>()
+    override val issues = listOf(CoreAideTypedModifierDetector.ISSUE)
 
     override val api = CURRENT_API
 
