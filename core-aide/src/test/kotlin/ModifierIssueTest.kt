@@ -32,7 +32,7 @@ class ModifierIssueTest {
                     fun Modifier.span() = this
                     fun Modifier.highlight() = this
                     fun Modifier.chain() = this    
-                    fun Modifier.chain2() = this    
+                    fun Modifier.chain2(one: Int, two: Int, three: Int) = this    
                     """,
                 ).indented().within("src"),
                 kotlin(
@@ -44,16 +44,33 @@ class ModifierIssueTest {
                     import team.duckie.quackquack.core.component.chain
                     import team.duckie.quackquack.core.component.chain2
 
-                    fun main() {
-                        QuackText(modifier = Modifier.highlight().chain().span().chain2())
+                    fun main(newNameModifier: Modifier) {
+                        QuackText(modifier = newNameModifier.highlight().chain().span().chain2(1,1,1))
+                        QuackText(modifier = Modifier.highlight().chain().span().chain2(1,1,1))
+                        QuackText(
+                            modifier = Modifier
+                                .chain2(
+                                    one = 1,
+                                    two = 1,
+                                    three = 1,
+                                )
+                                .highlight()
+                                .chain()
+                                .chain2(
+                                    one = 1, two = 1,
+                                    three = 1,
+                                )
+                                .span(),
+                        )
                     }
 
                     fun QuackText(modifier: Modifier) { }
                     """,
                 ).indented().within("src"),
             )
-            .issues(CoreAideModifierDetector.ISSUE)
+            .issues(CoreAideTypedModifierDetector.ISSUE)
             .run()
             .expectClean()
+            .expectFixDiffs("")
     }
 }
