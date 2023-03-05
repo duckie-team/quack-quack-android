@@ -120,8 +120,10 @@ private fun generateAideKt(
             aideMapKt.writer().use(aideMapKtSpec::writeTo)
         } else {
             val aideMapKt = File(aidePath, "${aideMapKtSpec.name}.kt").also { file ->
-                file.parentFile.mkdirs()
-                file.createNewFile()
+                if (!file.exists()) {
+                    file.parentFile.mkdirs()
+                    file.createNewFile()
+                }
             }
             aideMapKt.writeText(aideMapKtSpec.toString())
             logger.warn("generated at ${aideMapKt.path}")
