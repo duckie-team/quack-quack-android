@@ -9,6 +9,8 @@ package internal
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 
 internal fun Project.configureApplication(extension: CommonExtension<*, *, *, *>) {
     extension.apply {
@@ -29,6 +31,10 @@ internal fun Project.configureApplication(extension: CommonExtension<*, *, *, *>
 
         lint {
             checkTestSources = true
+        }
+
+        extensions.configure<KotlinProjectExtension>() {
+            jvmToolchain(ApplicationConstants.JavaVersionAsInt)
         }
 
         dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get())

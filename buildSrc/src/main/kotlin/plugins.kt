@@ -16,8 +16,8 @@ internal const val BuildLogicPrefix = "quackquack"
 object Plugins {
     const val JavaLibrary = "java-library"
 
-    const val KotlinCore = "kotlin"
-    const val KotlinAndroid = "kotlin-android"
+    const val KotlinJvm = "org.jetbrains.kotlin.jvm"
+    const val KotlinAndroid = "org.jetbrains.kotlin.android"
 
     const val AndroidApplication = "com.android.application"
     const val AndroidLibrary = "com.android.library"

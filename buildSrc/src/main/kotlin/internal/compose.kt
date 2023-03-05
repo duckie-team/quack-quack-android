@@ -12,6 +12,7 @@ import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import kotlinOptions
+import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
@@ -46,6 +47,6 @@ internal val Project.composeSupportExtension: CommonExtension<*, *, *, *>
         } else if (pluginManager.hasPlugin(Plugins.AndroidLibrary)) {
             extensions.getByType<LibraryExtension>()
         } else {
-            error("현재는 ${Plugins.AndroidApplication} 혹은 ${Plugins.AndroidLibrary} 모듈만 지원합니다.")
+            throw GradleException("현재는 ${Plugins.AndroidApplication} 혹은 ${Plugins.AndroidLibrary} 모듈만 지원합니다.")
         }
     }

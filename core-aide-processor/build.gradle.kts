@@ -9,7 +9,13 @@
 
 plugins {
     `buildlogic-jvm-kotlin`
+    `buildlogic-jvm-junit`
     alias(libs.plugins.kotlin.ksp)
+}
+
+ksp {
+    arg("autoserviceKsp.verify", "true")
+    arg("autoserviceKsp.verbose", "true")
 }
 
 dependencies {
@@ -19,5 +25,8 @@ dependencies {
         libs.kotlin.kotlinpoet,
         libs.google.autoservice.annotation,
     )
-    testImplementation(libs.test.kotlin.compile)
+    testImplementations(
+        libs.test.strikt,
+        libs.test.kotlin.compilation.ksp,
+    )
 }

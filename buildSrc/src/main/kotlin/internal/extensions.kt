@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("SameParameterValue")
+@file:Suppress("NOTHING_TO_INLINE")
 
 package internal
 
@@ -24,12 +24,11 @@ internal fun Project.applyPlugins(vararg plugins: String) {
     plugins.forEach(pluginManager::apply)
 }
 
-@Suppress("nothing_to_inline")
 internal inline operator fun <T : Any, C : NamedDomainObjectContainer<T>> C.invoke(
     configuration: Action<NamedDomainObjectContainerScope<T>>,
 ) = apply { configuration.execute(NamedDomainObjectContainerScope.of(this)) }
 
-internal fun DependencyHandler.setupJunit(core: Any, engine: Any) {
+internal inline fun DependencyHandler.setupJunit(core: Any, engine: Any) {
     add("testImplementation", core)
     add("testRuntimeOnly", engine)
 }

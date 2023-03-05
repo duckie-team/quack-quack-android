@@ -24,8 +24,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
-import team.duckie.quackquack.aide.annotation.Type
-import team.duckie.quackquack.aide.annotation.TypedComponent
 import team.duckie.quackquack.aide.annotation.TypedModifier
 import team.duckie.quackquack.core.animation.QuackAnimatedContent
 import team.duckie.quackquack.core.material.QuackColor
@@ -34,7 +32,6 @@ import team.duckie.quackquack.core.material.animatedQuackTextStyleAsState
 import team.duckie.quackquack.core.runtime.QuackDataModifierModel
 import team.duckie.quackquack.core.runtime.quackComposed
 import team.duckie.quackquack.core.runtime.quackMaterializeOf
-import team.duckie.quackquack.core.sugar.annotation.Sugar
 import team.duckie.quackquack.core.util.fastFirstInstanceOrNull
 
 /**
@@ -102,7 +99,7 @@ private data class HighlightData(
  * @param texts [SpanStyle]을 적용할 텍스트 모음
  * @param style 적용할 [SpanStyle]
  */
-@TypedModifier(Type.Text)
+@TypedModifier
 @Stable
 public fun Modifier.span(
     texts: List<String>,
@@ -117,7 +114,7 @@ public fun Modifier.span(
  * @param highlights 클릭 이벤트를 적용할 텍스트 모음
  * @param span 적용할 [SpanStyle]
  */
-@TypedModifier(Type.Text)
+@TypedModifier
 @Stable
 public fun Modifier.highlight(
     highlights: List<HighlightText>,
@@ -136,7 +133,7 @@ public fun Modifier.highlight(
  * @param span 적용할 [SpanStyle]
  * @param globalOnClick [texts]에 전역으로 적용할 클릭 이벤트
  */
-@TypedModifier(Type.Text)
+@TypedModifier
 @Stable
 public fun Modifier.highlight(
     texts: List<String>,
@@ -184,8 +181,6 @@ internal object QuackTextErrors {
  * 또한 [overflow] 및 [TextAlign]에 예기치 않은 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
  */
-@Sugar
-@TypedComponent(Type.Text)
 @Composable
 public fun QuackText(
     modifier: Modifier = Modifier,

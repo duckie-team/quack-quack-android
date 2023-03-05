@@ -8,12 +8,6 @@
 package team.duckie.quackquack.aide.annotation
 
 // TODO: 문서 제공
-public enum class Type {
-    Text,
-}
-
-// TODO: 문서 제공
-public annotation class TypedComponent(val type: Type)
-
-// TODO: 문서 제공
-public annotation class TypedModifier(val type: Type)
+@Target(AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.SOURCE)
+public annotation class TypedModifier

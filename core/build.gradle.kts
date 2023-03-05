@@ -16,6 +16,7 @@ plugins {
     `buildlogic-jvm-junit`
     `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
+    alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.test.paparazzi)
 }
 
@@ -32,6 +33,10 @@ android {
     }
 }
 
+ksp {
+    arg("AidePath", "$rootDir/core-aide/src/main/kotlin/rule")
+}
+
 dependencies {
     implementations(
         libs.androidx.core.ktx,
@@ -42,7 +47,6 @@ dependencies {
         projects.coreAideAnnotation,
         projects.coreSugarAnnotation,
     )
-    api(libs.kotlin.collections.immutable)
     testImplementation(libs.test.strikt)
     androidTestImplementations(
         libs.test.strikt,
@@ -50,4 +54,8 @@ dependencies {
         libs.bundles.test.mockito,
         projects.screenshotMatcher,
     )
+
+    api(libs.kotlin.collections.immutable)
+    ksp(projects.coreAideProcessor)
+    lintPublish(projects.coreAide)
 }
