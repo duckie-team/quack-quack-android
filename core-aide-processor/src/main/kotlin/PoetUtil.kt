@@ -45,15 +45,15 @@ internal fun createAideMapKtSpec(
                 )
                 .apply {
                     typedValues.forEach { (type, values) ->
+                        if (modifiers) addStatement("")
                         addStatement("aide[%S] = %L", type, values.toLiteralListString())
                         if (modifiers) {
-                            addStatement("// --- START: %L Modifiers ---", type)
                             values.forEach { modifier ->
                                 addStatement("aide[%S] = %L", modifier, "emptyList()")
                             }
-                            addStatement("// --- END: %L Modifiers ---", type)
                         }
                     }
+                    if (modifiers) addStatement("")
                 }
                 .addStatement("aide")
                 .unindent()

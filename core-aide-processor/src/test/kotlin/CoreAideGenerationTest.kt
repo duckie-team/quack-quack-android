@@ -119,12 +119,20 @@ class CoreAideGenerationTest {
 
                 internal val aideModifiers: Map<String, List<String>> = run {
                   val aide = mutableMapOf<String, List<String>>()
+
                   aide["button"] = listOf("click", "longClick", "doubleClick")
+                  aide["click"] = emptyList()
+                  aide["longClick"] = emptyList()
+                  aide["doubleClick"] = emptyList()
+
                   aide["text"] = listOf("span", "spans")
+                  aide["span"] = emptyList()
+                  aide["spans"] = emptyList()
+
                   aide
                 }
 
-                
+
                 """.trimIndent(),
             )
         }
