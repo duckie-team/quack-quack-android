@@ -102,7 +102,7 @@ class CoreAideGenerationTest {
         val aideModifiersKt = compilation
             .kspSourcesDir
             .walkTopDown()
-            .firstOrNull { file ->
+            .find { file ->
                 file.name == "AideModifiers.kt"
             }
 
@@ -203,7 +203,7 @@ class CoreAideGenerationTest {
         val aideComponentsKt = compilation
             .kspSourcesDir
             .walkTopDown()
-            .firstOrNull { file ->
+            .find { file ->
                 file.name == "AideComponents.kt"
             }
 
@@ -237,7 +237,7 @@ class CoreAideGenerationTest {
             workingDir = temporaryFolder.root
             sources = sourceFiles.asList().plus(stubs)
             allWarningsAsErrors = true
-            symbolProcessorProviders = listOf(QuackCoreAideSymbolProcessorProvider())
+            symbolProcessorProviders = listOf(CoreAideSymbolProcessorProvider())
         }
     }
 }

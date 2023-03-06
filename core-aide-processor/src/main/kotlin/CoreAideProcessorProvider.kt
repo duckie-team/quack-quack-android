@@ -5,8 +5,6 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-@file:Suppress("unused")
-
 import com.google.auto.service.AutoService
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
@@ -19,9 +17,9 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 private const val AidePathArg = "AidePath"
 
 @AutoService(value = [SymbolProcessorProvider::class])
-class QuackCoreAideSymbolProcessorProvider : SymbolProcessorProvider {
+class CoreAideSymbolProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        return QuackCoreAideSymbolProcessor(
+        return CoreAideSymbolProcessor(
             codeGenerator = environment.codeGenerator,
             logger = environment.logger,
             options = environment.options,
@@ -29,12 +27,12 @@ class QuackCoreAideSymbolProcessorProvider : SymbolProcessorProvider {
     }
 }
 
-private class QuackCoreAideSymbolProcessor(
+private class CoreAideSymbolProcessor(
     codeGenerator: CodeGenerator,
     logger: KSPLogger,
     options: Map<String, Any>,
 ) : SymbolProcessor {
-    private val processor = QuackCoreAideProcessor(
+    private val processor = CoreAideProcessor(
         codeGenerator = codeGenerator,
         logger = logger,
         aidePath = options[AidePathArg]?.toString(),

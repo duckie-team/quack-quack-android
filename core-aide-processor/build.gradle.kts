@@ -22,8 +22,9 @@ dependencies {
     ksp(libs.google.autoservice.ksp.processor)
     implementations(
         libs.kotlin.ksp.api,
-        libs.kotlin.kotlinpoet,
+        libs.kotlin.kotlinpoet.core,
         libs.google.autoservice.annotation,
+         projects.commonPoet,
     )
     testImplementations(
         libs.test.strikt,
