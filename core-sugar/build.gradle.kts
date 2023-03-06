@@ -13,3 +13,7 @@ plugins {
 android {
     namespace = "team.duckie.quackquack.sugar"
 }
+
+dependencies {
+    api(projects.core)
+}
