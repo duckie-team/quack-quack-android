@@ -36,6 +36,7 @@ android {
 
 ksp {
     arg("AidePath", "$rootDir/core-aide/src/main/kotlin/rule")
+    arg("CorePath", "$rootDir/core-sugar/src/main/kotlin/team/duckie/quackquack/sugar")
 }
 
 dependencies {
