@@ -22,6 +22,7 @@ plugins {
 
 tasks.withType<DokkaTask> {
     moduleName.set("QuackQuack-Core")
+    notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/1217")
 }
 
 android {
@@ -57,5 +58,6 @@ dependencies {
 
     api(libs.kotlin.collections.immutable)
     ksp(projects.coreAideProcessor)
-    lintPublish(projects.coreAide)
+
+    // lintPublish(projects.coreAide)
 }
