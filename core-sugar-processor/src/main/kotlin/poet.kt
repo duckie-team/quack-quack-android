@@ -80,14 +80,14 @@ private fun List<ComponentAndCoreSugarParameters>.createSugarComponentFunctions(
 
 private fun generateCoreKt(
     @Suppress("SameParameterValue") packageName: String,
-    filename: String,
+    fileName: String,
     components: List<ComponentAndCoreSugarParameters>,
 ): FileSpec {
     val (sugarSpecs, sugarImports) = components.createSugarComponentFunctions()
     return FileSpec
         .builder(
             packageName = packageName,
-            fileName = filename,
+            fileName = fileName,
         )
         .addGeneratedComment()
         .addSuppressAnnotation()
@@ -100,7 +100,7 @@ internal fun generateCoreKts(components: Map<String, List<ComponentAndCoreSugarP
     val sugarFileSpecs = components.map { (filename, componentsPerFile) ->
         generateCoreKt(
             packageName = CoreNamespace,
-            filename = filename,
+            fileName = filename,
             components = componentsPerFile,
         )
     }
