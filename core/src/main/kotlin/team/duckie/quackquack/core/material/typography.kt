@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
 import kotlin.math.roundToInt
 import team.duckie.quackquack.core.R
-import team.duckie.quackquack.core.sugar.annotation.SugarToken
+import team.duckie.quackquack.sugar.annotation.SugarToken
 import team.duckie.quackquack.core.util.AllowMagicNumber
 
 /**
