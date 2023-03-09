@@ -39,6 +39,13 @@ internal class CoreSugarProcessor(
             component.requireContainingFile.fileName
         }
 
+        generateSugarKts(
+            components = fileGroupedSugarComponents,
+            codeGenerator = codeGenerator,
+            logger = logger,
+            sugarPath = sugarPath,
+        )
+
         return sugarComponents.mapNotNull { (component, _) ->
             component.takeUnless(KSFunctionDeclaration::validate)
         }.toList()

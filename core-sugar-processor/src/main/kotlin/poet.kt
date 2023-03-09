@@ -7,13 +7,20 @@
 
 import Names.ComposableFqn
 import Names.QuackComponentPrefix
+import com.google.devtools.ksp.processing.CodeGenerator
+import com.google.devtools.ksp.processing.Dependencies
+import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSName
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.buildCodeBlock
+import com.squareup.kotlinpoet.withIndent
+import java.io.File
 import kotlin.reflect.KClass
+import org.jetbrains.kotlin.utils.addToStdlib.applyIf
 
 private const val CoreNamespace = "team.duckie.quackquack.sugar"
 
@@ -40,7 +47,7 @@ private fun ComponentAndCoreSugarParameters.createSugarComponentFunction(): Pair
     val imports = mutableListOf<Import>()
     var sugarToken: String? = null
     val parameters = coreSugarParameters.map { parameter ->
-        parameter.import?.let(imports::add)
+        parameter.import?.let(imports::addAll)
         parameter.sugarToken?.let { token ->
             check(sugarToken == null) { "sugarToken is already set" }
             sugarToken = token
@@ -49,21 +56,30 @@ private fun ComponentAndCoreSugarParameters.createSugarComponentFunction(): Pair
     }
 
     val sugarName = component.simpleName.toCoreComponentName(sugarToken)
-    val funSpec = FunSpec
+    val sugarBody = buildCodeBlock {
+        addStatement("%L(", component.simpleName.asString())
+        withIndent {
+            component.parameters.forEach { parameter ->
+                val parameterName = parameter.name!!.asString()
+                if (parameterName != sugarToken) {
+                    addStatement("%L = %L", parameterName, parameterName)
+                }
+            }
+        }
+        addStatement(")")
+    }
+    val sugarFunSpec = FunSpec
         .builder(sugarName)
         .addAnnotation(ClassName.bestGuess(ComposableFqn))
         .addModifiers(KModifier.PUBLIC)
         .addParameters(parameters)
-        .apply {
-            component.docString?.let { kdoc ->
-                addKdoc(kdoc)
-            }
+        .addCode(sugarBody)
+        .applyIf(component.docString != null) {
+            addKdoc(component.docString!!)
         }
         .build()
 
-    TODO("함수 본문 추가")
-
-     return funSpec to imports
+    return sugarFunSpec to imports
 }
 
 private fun List<ComponentAndCoreSugarParameters>.createSugarComponentFunctions(): Pair<List<FunSpec>, Imports> {
@@ -78,7 +94,7 @@ private fun List<ComponentAndCoreSugarParameters>.createSugarComponentFunctions(
     return sugarSpecs to sugarImports
 }
 
-private fun generateCoreKt(
+private fun generateSugarKt(
     @Suppress("SameParameterValue") packageName: String,
     fileName: String,
     components: List<ComponentAndCoreSugarParameters>,
@@ -96,13 +112,40 @@ private fun generateCoreKt(
         .build()
 }
 
-internal fun generateCoreKts(components: Map<String, List<ComponentAndCoreSugarParameters>>): List<FileSpec> {
+internal fun generateSugarKts(
+    components: Map<String, List<ComponentAndCoreSugarParameters>>,
+    codeGenerator: CodeGenerator,
+    logger: KSPLogger,
+    sugarPath: String?,
+) {
     val sugarFileSpecs = components.map { (filename, componentsPerFile) ->
-        generateCoreKt(
+        generateSugarKt(
             packageName = CoreNamespace,
             fileName = filename,
             components = componentsPerFile,
         )
     }
-    TODO("CodeGenerator 연결")
+
+    sugarFileSpecs.forEach { sugarFileSpec ->
+        val generatedPath: String
+        if (sugarPath == null) {
+            val aideMapKt = codeGenerator.createNewFile(
+                dependencies = Dependencies.Empty,
+                packageName = sugarFileSpec.packageName,
+                fileName = sugarFileSpec.name,
+            )
+            aideMapKt.writer().use(sugarFileSpec::writeTo)
+            generatedPath = sugarFileSpec.packageName + "/" + sugarFileSpec.name + ".kt"
+        } else {
+            val aideMapKt = File(sugarPath, "${sugarFileSpec.name}.kt").also { file ->
+                if (!file.exists()) {
+                    file.parentFile.mkdirs()
+                    file.createNewFile()
+                }
+            }
+            aideMapKt.writeText(sugarFileSpec.toString())
+            generatedPath = aideMapKt.path
+        }
+        logger.warn("generated at $generatedPath")
+    }
 }
