@@ -100,6 +100,7 @@ internal fun generateAideKt(
         modifiers = modifiers,
     )
 
+    val generatedPath: String
     if (typedValues.isNotEmpty()) {
         if (aidePath == null) {
             val aideMapKt = codeGenerator.createNewFile(
@@ -108,6 +109,7 @@ internal fun generateAideKt(
                 fileName = aideMapKtSpec.name,
             )
             aideMapKt.writer().use(aideMapKtSpec::writeTo)
+            generatedPath = aideMapKtSpec.packageName + "/" + aideMapKtSpec.name + ".kt"
         } else {
             val aideMapKt = File(aidePath, "${aideMapKtSpec.name}.kt").also { file ->
                 if (!file.exists()) {
@@ -116,7 +118,8 @@ internal fun generateAideKt(
                 }
             }
             aideMapKt.writeText(aideMapKtSpec.toString())
-            logger.warn("generated at ${aideMapKt.path}")
+            generatedPath = aideMapKt.path
         }
+        logger.warn("generated at $generatedPath")
     }
 }
