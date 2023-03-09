@@ -27,8 +27,9 @@ import strikt.assertions.isEqualTo
 import strikt.assertions.withNotNull
 
 class CoreAideGenerationTest {
+    @Suppress("HasPlatformType")
     @get:Rule
-    val temporaryFolder = TemporaryFolder()
+    val temporaryFolder = TemporaryFolder.builder().assureDeletion().build()
 
     @Test
     fun modifier() {
