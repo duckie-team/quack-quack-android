@@ -20,4 +20,4 @@ public annotation class Sugar(val name: String = DEFAULT_NAME) {
 public annotation class SugarToken
 
 // TODO: 문서 제공
-public annotation class Import(val clazz: KClass<*>)
+public annotation class Import(vararg val clazz: KClass<*>)

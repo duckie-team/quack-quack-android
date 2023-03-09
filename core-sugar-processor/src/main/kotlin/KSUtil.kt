@@ -23,7 +23,10 @@ private fun Sequence<KSAnnotation>.singleTypedOrNull(fqn: String): KSAnnotation?
 
 internal fun KSValueParameter.asCoreSugarParameter(typeParamResolver: TypeParameterResolver): CoreSugarParameter {
     val importArgument = annotations.singleTypedOrNull(SugarImportFqn)?.arguments?.first()
-    val importValue = importArgument?.value?.let { import -> import as KClass<*> }
+    val importValue = importArgument?.value?.let { imports ->
+        @Suppress("UNCHECKED_CAST")
+        imports as Array<KClass<*>>
+    }
 
     val sugarTokenArgument = annotations.singleTypedOrNull(SugarTokenFqn)?.arguments?.first()
     val sugarTokenValue = sugarTokenArgument?.value?.let { sugarToken ->
