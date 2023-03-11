@@ -25,6 +25,7 @@ gradlePlugin {
         "JvmJUnitPlugin",
         "JvmDokkaPlugin",
         "KotlinExplicitApiPlugin",
+        "QuackMavenPublishingPlugin",
     )
 
     plugins {

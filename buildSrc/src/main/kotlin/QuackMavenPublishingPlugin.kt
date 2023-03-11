@@ -1,0 +1,15 @@
+/*
+ * Designed and developed by Duckie Team, 2022~2023
+ *
+ * Licensed under the MIT.
+ * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
+ */
+
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+
+class QuackMavenPublishingPlugin : Plugin<Project> {
+    override fun apply(target: Project) {
+        TODO("Not yet implemented")
+    }
+}
