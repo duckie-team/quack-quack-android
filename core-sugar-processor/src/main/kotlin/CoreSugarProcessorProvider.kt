@@ -14,12 +14,12 @@ import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
 import com.google.devtools.ksp.symbol.KSAnnotated
 
-private const val AidePathArg = "AidePath"
+private const val SugarPathArg = "SugarPath"
 
 @AutoService(value = [SymbolProcessorProvider::class])
-class CoreAideSymbolProcessorProvider : SymbolProcessorProvider {
+class CoreSugarProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        return CoreAideSymbolProcessor(
+        return CoreSugarSymbolProcessor(
             codeGenerator = environment.codeGenerator,
             logger = environment.logger,
             options = environment.options,
@@ -27,15 +27,15 @@ class CoreAideSymbolProcessorProvider : SymbolProcessorProvider {
     }
 }
 
-private class CoreAideSymbolProcessor(
+private class CoreSugarSymbolProcessor(
     codeGenerator: CodeGenerator,
     logger: KSPLogger,
     options: Map<String, Any>,
 ) : SymbolProcessor {
-    private val processor = CoreAideProcessor(
+    private val processor = CoreSugarProcessor(
         codeGenerator = codeGenerator,
         logger = logger,
-        aidePath = options[AidePathArg]?.toString(),
+        sugarPath = options[SugarPathArg]?.toString(),
     )
 
     override fun process(resolver: Resolver): List<KSAnnotated> {

@@ -17,8 +17,11 @@ dependencies {
     ksp(libs.google.autoservice.ksp.processor)
     implementations(
         libs.kotlin.ksp.api,
-        libs.kotlin.kotlinpoet,
+        libs.kotlin.ksp.internal, // needs for `this as KSValueParameterImpl`
+        libs.kotlin.embeddable.compiler, // needs for `(this as KSValueParameterImpl).ktParameter.defaultValue`
+        libs.kotlin.kotlinpoet.ksp,
         libs.google.autoservice.annotation,
+        projects.commonPoet,
     )
     testImplementations(
         libs.test.strikt,

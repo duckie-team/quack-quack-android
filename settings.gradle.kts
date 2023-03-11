@@ -10,6 +10,7 @@
 rootProject.name = "quack-quack"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 pluginManagement {
     repositories {
@@ -27,6 +28,7 @@ buildCache {
 
 include(
     ":playground",
+    ":common-poet",
     ":core",
     ":core-aide",
     ":core-aide-annotation",

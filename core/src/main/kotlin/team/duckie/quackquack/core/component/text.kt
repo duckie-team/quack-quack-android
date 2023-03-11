@@ -48,21 +48,21 @@ private data class SpanData(
     val texts: List<String>,
     val style: SpanStyle,
 ) : QuackDataModifierModel {
-    private val textsHashCode = texts.toTypedArray().contentHashCode()
+    private val textArray = texts.toTypedArray()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is SpanData) return false
 
         if (texts != other.texts) return false
-        if (textsHashCode != other.texts.toTypedArray().contentHashCode()) return false
+        if (!textArray.contentEquals(other.texts.toTypedArray())) return false
         if (style != other.style) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = textsHashCode
+        var result = textArray.contentHashCode()
         result = 31 * result + style.hashCode()
         return result
     }
@@ -73,21 +73,21 @@ private data class HighlightData(
     val highlights: List<HighlightText>,
     val span: SpanStyle,
 ) : QuackDataModifierModel {
-    private val highlightsHashCode = highlights.toTypedArray().contentHashCode()
+    private val highlightArray = highlights.toTypedArray()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is HighlightData) return false
 
         if (highlights != other.highlights) return false
-        if (highlightsHashCode != other.highlights.toTypedArray().contentHashCode()) return false
+        if (!highlightArray.contentEquals(other.highlights.toTypedArray())) return false
         if (span != other.span) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = highlightsHashCode
+        var result = highlightArray.contentHashCode()
         result = 31 * result + span.hashCode()
         return result
     }

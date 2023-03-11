@@ -9,11 +9,11 @@ import kotlin.collections.Map
 
 internal val aideModifiers: Map<String, List<String>> = run {
   val aide = mutableMapOf<String, List<String>>()
+
   aide["text"] = listOf("span", "highlight")
-  // --- START: text Modifiers ---
   aide["span"] = emptyList()
   aide["highlight"] = emptyList()
-  // --- END: text Modifiers ---
+
   aide
 }
 

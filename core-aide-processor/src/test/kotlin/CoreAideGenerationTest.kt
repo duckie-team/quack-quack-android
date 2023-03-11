@@ -10,6 +10,7 @@
     "RedundantVisibilityModifier",
     "RedundantUnitExpression",
     "RedundantSuppression",
+    "LongMethod",
 )
 
 import com.tschuchort.compiletesting.KotlinCompilation
@@ -26,8 +27,9 @@ import strikt.assertions.isEqualTo
 import strikt.assertions.withNotNull
 
 class CoreAideGenerationTest {
+    @Suppress("HasPlatformType")
     @get:Rule
-    val temporaryFolder = TemporaryFolder()
+    val temporaryFolder = TemporaryFolder.builder().assureDeletion().build()
 
     @Test
     fun modifier() {
@@ -101,7 +103,7 @@ class CoreAideGenerationTest {
         val aideModifiersKt = compilation
             .kspSourcesDir
             .walkTopDown()
-            .firstOrNull { file ->
+            .find { file ->
                 file.name == "AideModifiers.kt"
             }
 
@@ -119,12 +121,20 @@ class CoreAideGenerationTest {
 
                 internal val aideModifiers: Map<String, List<String>> = run {
                   val aide = mutableMapOf<String, List<String>>()
+
                   aide["button"] = listOf("click", "longClick", "doubleClick")
+                  aide["click"] = emptyList()
+                  aide["longClick"] = emptyList()
+                  aide["doubleClick"] = emptyList()
+
                   aide["text"] = listOf("span", "spans")
+                  aide["span"] = emptyList()
+                  aide["spans"] = emptyList()
+
                   aide
                 }
 
-                
+
                 """.trimIndent(),
             )
         }
@@ -194,7 +204,7 @@ class CoreAideGenerationTest {
         val aideComponentsKt = compilation
             .kspSourcesDir
             .walkTopDown()
-            .firstOrNull { file ->
+            .find { file ->
                 file.name == "AideComponents.kt"
             }
 
@@ -228,7 +238,7 @@ class CoreAideGenerationTest {
             workingDir = temporaryFolder.root
             sources = sourceFiles.asList().plus(stubs)
             allWarningsAsErrors = true
-            symbolProcessorProviders = listOf(QuackCoreAideSymbolProcessorProvider())
+            symbolProcessorProviders = listOf(CoreAideSymbolProcessorProvider())
         }
     }
 }

@@ -51,10 +51,10 @@ class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
 
         val modifiers = node.valueArguments.findWithTransform { argument ->
             val chains = argument.getQualifiedChain()
-            val isModifier = chains.indexOfFirst { chain ->
+            val isModifier = chains.firstOrNull()?.let { chain ->
                 val type = chain.getExpressionType()?.canonicalText
                 type?.startsWith("androidx.compose.ui.Modifier") == true // Modifier.Companion
-            } == 0
+            } == true
             isModifier to chains.drop(1) // without `modifier` or `Modifier` chain
         } ?: return
 

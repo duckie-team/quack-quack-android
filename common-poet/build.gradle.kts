@@ -6,14 +6,13 @@
  */
 
 plugins {
-    `buildlogic-android-library`
-    `buildlogic-android-compose`
-}
-
-android {
-    namespace = "team.duckie.quackquack.sugar"
+    `buildlogic-jvm-kotlin`
+    `buildlogic-kotlin-explicitapi`
 }
 
 dependencies {
-    api(projects.core)
+    implementations(
+        libs.kotlin.ksp.api,
+        libs.kotlin.kotlinpoet.core,
+    )
 }

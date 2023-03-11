@@ -22,6 +22,7 @@ plugins {
 
 tasks.withType<DokkaTask> {
     moduleName.set("QuackQuack-Core")
+    notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/1217")
 }
 
 android {
@@ -35,6 +36,7 @@ android {
 
 ksp {
     arg("AidePath", "$rootDir/core-aide/src/main/kotlin/rule")
+    arg("CorePath", "$rootDir/core-sugar/src/main/kotlin/team/duckie/quackquack/sugar")
 }
 
 dependencies {
@@ -57,5 +59,6 @@ dependencies {
 
     api(libs.kotlin.collections.immutable)
     ksp(projects.coreAideProcessor)
-    lintPublish(projects.coreAide)
+
+    // lintPublish(projects.coreAide)
 }
