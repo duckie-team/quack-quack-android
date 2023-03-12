@@ -5,12 +5,99 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import com.vanniktech.maven.publish.SonatypeHost
+import internal.applyPlugins
+import internal.libs
+import java.time.LocalDate
+import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPom
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.withType
+import internal.parseArtifactVersion
+
+private const val RepositoryName = "duckie-team/quack-quack-android"
+private const val QuackBaseArtifactId = "team.duckie.quack"
+private const val QuackPublishExtensionName = "quack"
 
 class QuackMavenPublishingPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        TODO("Not yet implemented")
+        with(target) {
+            applyPlugins(libs.findPlugin("gradle-publish-maven-base").get().get().pluginId)
+
+            val extension = project.extensions.create<QuackMavenExtension>(
+                name = QuackPublishExtensionName,
+            )
+
+            group = QuackBaseArtifactId
+            extensions.configure<MavenPublishBaseExtension> {
+                configure(AndroidSingleVariantLibrary(publishJavadocJar = false))
+            }
+
+            afterEvaluate {
+                if (!extension.isInitialized) {
+                    throw GradleException(
+                        """
+                        QuackMavenExtension 초기화가 누락되었습니다.
+                        quack 초기화가 필요합니다.
+                        """.trimIndent()
+                    )
+                }
+
+                version = parseArtifactVersion()
+
+                extensions.configure<PublishingExtension> {
+                    publications.withType<MavenPublication> {
+                        artifactId = extension.type.artifactId
+                    }
+                }
+
+                extensions.configure<MavenPublishBaseExtension> {
+                    publishToMavenCentral(
+                        host = SonatypeHost.S01,
+                        automaticRelease = true,
+                    )
+
+                    signAllPublications()
+
+                    pom {
+                        configureMavenPom(extension)
+                    }
+                }
+            }
+        }
+    }
+}
+
+private fun MavenPom.configureMavenPom(extension: QuackMavenExtension) {
+    name.set(extension.type.artifactId)
+    description.set(extension.type.description)
+    inceptionYear.set(LocalDate.now().year.toString())
+    url.set("https://github.com/$RepositoryName")
+    licenses {
+        license {
+            name.set("MIT License")
+            url.set("https://github.com/$RepositoryName/blob/2.x.x/LICENSE")
+        }
+    }
+    developers {
+        developer {
+            id.set("jisungbin")
+            name.set("Ji Sungbin")
+            url.set("https://sungb.in")
+            email.set("ji@sungb.in")
+        }
+    }
+    scm {
+        url.set("https://github.com/$RepositoryName/tree/main")
+        connection.set("scm:git:github.com/$RepositoryName.git")
+        developerConnection.set("scm:git:ssh://github.com/$RepositoryName.git")
     }
 }
 
@@ -20,13 +107,9 @@ open class QuackMavenExtension {
     internal val isInitialized get() = ::type.isInitialized
 
     override fun toString() = """
-        ## Debug
         artifactId: ${type.artifactId}
         description: ${type.description}
         level: ${type.level}
-        
-        ## toString
-        artifactId: $type
     """.trimIndent()
 }
 
@@ -78,13 +161,10 @@ enum class QuackArtifactType(
         artifactId = "dokka-paparazzi-integrate",
         description = "DokkaPlugin to integrate Dokka and Paparazzi",
         level = ArtifactLevel.Internal,
-    );
-
-    override fun toString(): String {
-        TODO()
-    }
+    ),
 }
 
-enum class ArtifactLevel {
+internal enum class ArtifactLevel {
     Public, Internal,
 }
+
