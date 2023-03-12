@@ -38,8 +38,10 @@ internal fun KSValueParameter.asCoreSugarParameter(typeParamResolver: TypeParame
     return CoreSugarParameter(
         name = name!!,
         type = type.toTypeName(typeParamResolver),
-        import = importValue,
-        defaultValue = defaultValue,
+        imports = importValue,
+        defaultValue = defaultValue?.children?.mapNotNull { child ->
+            child.text
+        }?.joinToString(""),
         sugarToken = sugarTokenValue,
     )
 }
