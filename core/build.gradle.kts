@@ -40,6 +40,7 @@ ksp {
 }
 
 dependencies {
+    api(libs.kotlin.collections.immutable)
     implementations(
         libs.androidx.core.ktx,
         libs.compose.uiutil,
@@ -49,6 +50,7 @@ dependencies {
         projects.coreAideAnnotation,
         projects.coreSugarAnnotation,
     )
+
     testImplementation(libs.test.strikt)
     androidTestImplementations(
         libs.test.strikt,
@@ -57,8 +59,8 @@ dependencies {
         projects.screenshotMatcher,
     )
 
-    api(libs.kotlin.collections.immutable)
     ksp(projects.coreAideProcessor)
+    ksp(projects.coreSugarProcessor)
 
     // lintPublish(projects.coreAide)
 }
