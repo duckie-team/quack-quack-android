@@ -14,6 +14,7 @@ import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.ksp.toTypeParameterResolver
 import common.Names.ComposableFqn
 import common.isPublicQuackComponent
+import common.requireContainingFile
 
 internal class CoreSugarProcessor(
     private val codeGenerator: CodeGenerator,
@@ -45,16 +46,16 @@ internal class CoreSugarProcessor(
                 }
             }
 
-        // val fileGroupedSugarComponents = sugarComponents.groupBy { (component, _) ->
-        //     component.requireContainingFile.fileName
-        // }
+        val fileGroupedSugarComponents = sugarComponents.groupBy { (component, _) ->
+            component.requireContainingFile.fileName
+        }
 
-        // generateSugarKts(
-        //     components = fileGroupedSugarComponents,
-        //     codeGenerator = codeGenerator,
-        //     logger = logger,
-        //     sugarPath = sugarPath,
-        // )
+        generateSugarKts(
+            components = fileGroupedSugarComponents,
+            codeGenerator = codeGenerator,
+            logger = logger,
+            sugarPath = sugarPath,
+        )
 
         return sugarComponents.mapNotNull { (component, _) ->
             component.takeUnless(KSFunctionDeclaration::validate)
