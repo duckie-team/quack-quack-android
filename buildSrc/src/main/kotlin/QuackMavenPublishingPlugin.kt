@@ -5,22 +5,21 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
 import internal.applyPlugins
 import internal.libs
+import internal.parseArtifactVersion
 import java.time.LocalDate
-import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.logging.LogLevel
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.withType
-import internal.parseArtifactVersion
 
 private const val RepositoryName = "duckie-team/quack-quack-android"
 private const val QuackBaseArtifactId = "team.duckie.quack"
@@ -29,25 +28,23 @@ private const val QuackPublishExtensionName = "quack"
 class QuackMavenPublishingPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            applyPlugins(libs.findPlugin("gradle-publish-maven-base").get().get().pluginId)
+            applyPlugins(
+                libs.findPlugin("gradle-publish-maven-core").get().get().pluginId,
+                libs.findPlugin("gradle-publish-maven-base").get().get().pluginId,
+            )
 
+            group = QuackBaseArtifactId
             val extension = project.extensions.create<QuackMavenExtension>(
                 name = QuackPublishExtensionName,
             )
 
-            group = QuackBaseArtifactId
-            extensions.configure<MavenPublishBaseExtension> {
-                configure(AndroidSingleVariantLibrary(publishJavadocJar = false))
-            }
-
             afterEvaluate {
                 if (!extension.isInitialized) {
-                    throw GradleException(
-                        """
-                        QuackMavenExtension 초기화가 누락되었습니다.
-                        quack 초기화가 필요합니다.
-                        """.trimIndent()
+                    logger.log(
+                        LogLevel.WARN,
+                        "QuackMavenExtension 초기화가 누락되었습니다. quack 초기화가 필요합니다.",
                     )
+                    return@afterEvaluate
                 }
 
                 version = parseArtifactVersion()
@@ -175,4 +172,3 @@ enum class QuackArtifactType(
 internal enum class ArtifactLevel {
     Public, Internal,
 }
-

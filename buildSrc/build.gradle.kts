@@ -49,4 +49,3 @@ fun NamedDomainObjectContainer<PluginDeclaration>.autoRegister(className: String
         implementationClass = className
     }
 }
-
