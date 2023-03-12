@@ -8,6 +8,7 @@
 plugins {
     `buildlogic-jvm-kotlin`
     `buildlogic-kotlin-explicitapi`
+    `buildlogic-quack-mavenpublishing`
 }
 
 dependencies {
@@ -15,4 +16,8 @@ dependencies {
         libs.kotlin.ksp.api,
         libs.kotlin.kotlinpoet.core,
     )
+}
+
+quack {
+    type = QuackArtifactType.CommonKotlinPoet
 }
