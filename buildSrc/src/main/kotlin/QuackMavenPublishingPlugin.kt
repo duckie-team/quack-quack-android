@@ -54,7 +54,7 @@ class QuackMavenPublishingPlugin : Plugin<Project> {
 
                 extensions.configure<PublishingExtension> {
                     publications.withType<MavenPublication> {
-                        artifactId = extension.type.artifactId
+                        artifactId = extension.type.asArtifactId()
                     }
                 }
 
@@ -161,7 +161,15 @@ enum class QuackArtifactType(
         artifactId = "dokka-paparazzi-integrate",
         description = "DokkaPlugin to integrate Dokka and Paparazzi",
         level = ArtifactLevel.Internal,
-    ),
+    );
+
+    fun asArtifactId(): String {
+        var id = artifactId
+        if (level == ArtifactLevel.Internal) {
+            id += "-internal"
+        }
+        return id
+    }
 }
 
 internal enum class ArtifactLevel {
