@@ -60,7 +60,7 @@ dependencies {
     )
 
     ksp(projects.coreAideProcessor)
-    ksp(projects.coreSugarProcessor)
+    // ksp(projects.coreSugarProcessor)
 
     // lintPublish(projects.coreAide)
 }
