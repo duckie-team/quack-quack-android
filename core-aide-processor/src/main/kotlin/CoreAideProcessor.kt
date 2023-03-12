@@ -5,14 +5,16 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-import Names.ComposableFqn
-import Names.TypedModifierFqn
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.validate
+import common.Names.ComposableFqn
+import common.Names.TypedModifierFqn
+import common.isPublicModifier
+import common.isPublicQuackComponent
 
 internal class CoreAideProcessor(
     private val codeGenerator: CodeGenerator,

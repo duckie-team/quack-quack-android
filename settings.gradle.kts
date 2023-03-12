@@ -10,13 +10,22 @@
 rootProject.name = "quack-quack"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+
+// https://github.com/vanniktech/gradle-maven-publish-plugin/issues/259
+// enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 pluginManagement {
     repositories {
         google()
         mavenCentral()
         gradlePluginPortal()
+    }
+
+    // 외부에서 의존성이 제공되고 있는데 출처를 모르겠음
+    resolutionStrategy.eachPlugin {
+        if (requested.id.id == "com.vanniktech.maven.publish") {
+            useVersion("0.24.0")
+        }
     }
 }
 
@@ -28,7 +37,7 @@ buildCache {
 
 include(
     ":playground",
-    ":common-poet",
+    // ":common-poet",
     ":core",
     ":core-aide",
     ":core-aide-annotation",

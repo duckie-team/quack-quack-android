@@ -25,6 +25,7 @@ gradlePlugin {
         "JvmJUnitPlugin",
         "JvmDokkaPlugin",
         "KotlinExplicitApiPlugin",
+        "QuackMavenPublishingPlugin",
     )
 
     plugins {
@@ -48,4 +49,3 @@ fun NamedDomainObjectContainer<PluginDeclaration>.autoRegister(className: String
         implementationClass = className
     }
 }
-

@@ -13,7 +13,8 @@ import org.gradle.plugin.use.PluginDependencySpec
 @PublishedApi
 internal const val BuildLogicPrefix = "quackquack"
 
-object Plugins {
+@PublishedApi
+internal object Plugins {
     const val JavaLibrary = "java-library"
 
     const val KotlinJvm = "org.jetbrains.kotlin.jvm"
@@ -61,3 +62,6 @@ inline val PluginDependenciesSpec.`buildlogic-jvm-dokka`: PluginDependencySpec
 
 inline val PluginDependenciesSpec.`buildlogic-kotlin-explicitapi`: PluginDependencySpec
     get() = id(generatePluginRegisterId(KotlinExplicitApiPlugin::class.simpleName!!))
+
+inline val PluginDependenciesSpec.`buildlogic-quack-mavenpublishing`: PluginDependencySpec
+    get() = id(generatePluginRegisterId((QuackMavenPublishingPlugin::class.simpleName!!)))
