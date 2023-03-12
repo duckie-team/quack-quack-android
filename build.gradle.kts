@@ -95,7 +95,9 @@ allprojects {
                 versionFile.writeText(quackInitializeVersion)
             }
             VersioningType.Bump -> {
-                checkNotNull(bump) { "The `VersioningType = Bump` was entered, but no bump target was given." }
+                checkNotNull(bump) {
+                    "The `VersioningType = Bump` was entered, but no bump target was given."
+                }
                 checkVersionFileIsValid(versionFile)
                 val newVersion = versionFile.bump(bump)
                 versionFile.writeText(newVersion)

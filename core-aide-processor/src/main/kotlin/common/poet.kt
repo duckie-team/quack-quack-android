@@ -7,7 +7,6 @@
 
 package common
 
-
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec
 
