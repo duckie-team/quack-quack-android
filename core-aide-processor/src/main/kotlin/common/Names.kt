@@ -7,7 +7,7 @@
 
 package common
 
-object Names {
+internal object Names {
     const val QuackComponentPrefix = "Quack"
 
     const val ModifierSn = "Modifier"

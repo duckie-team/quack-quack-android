@@ -95,7 +95,7 @@ internal fun generateAideKt(
                 functionDeclaration.simpleName.asString()
             }
             typedValues.add(type to valueNames.toSet())
-            logger.warn("$type to ${valueNames.toLiteralListString()}")
+            logger.warn("[AIDE] $type to ${valueNames.toLiteralListString()}")
         }
 
     val aideMapKtSpec = createAideFileSpec(
@@ -124,6 +124,6 @@ internal fun generateAideKt(
             aideMapKt.writeText(aideMapKtSpec.toString())
             generatedPath = aideMapKt.path
         }
-        logger.warn("generated at $generatedPath")
+        logger.warn("[AIDE] generated at $generatedPath")
     }
 }

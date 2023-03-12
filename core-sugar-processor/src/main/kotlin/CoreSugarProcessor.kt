@@ -35,8 +35,17 @@ internal class CoreSugarProcessor(
                 val coreSugarParameters = declaration.parameters.map { parameter ->
                     parameter.asCoreSugarParameter(typeParameterResolver)
                 }
-                declaration to coreSugarParameters
+                (declaration to coreSugarParameters).also { (component, parameters) ->
+                    logger.warn(
+                        """
+                        [SUGAR]
+                        component: ${component.simpleName.asString()}
+                        parameters: ${parameters.joinToString(",\n\n")} 
+                        """.trimIndent(),
+                    )
+                }
             }
+
         val fileGroupedSugarComponents = sugarComponents.groupBy { (component, _) ->
             component.requireContainingFile.fileName
         }

@@ -25,7 +25,7 @@ import java.io.File
 import kotlin.reflect.KClass
 import org.jetbrains.kotlin.utils.addToStdlib.applyIf
 
-private const val CoreNamespace = "team.duckie.quackquack.sugar"
+private const val SugarNamespace = "team.duckie.quackquack.sugar"
 
 private typealias Import = KClass<*>
 internal typealias Imports = List<Import>
@@ -44,13 +44,15 @@ private fun KSName.toCoreComponentName(token: String?): String {
     return name
 }
 
-private fun ComponentAndCoreSugarParameters.createSugarComponentFunction(): Pair<FunSpec, Imports> {
+private fun ComponentAndCoreSugarParameters.createSugarComponentFunction(
+    @Suppress("UNUSED_PARAMETER") logger: KSPLogger,
+): Pair<FunSpec, Imports> {
     val (component, coreSugarParameters) = this
 
     val imports = mutableListOf<Import>()
     var sugarToken: String? = null
     val parameters = coreSugarParameters.map { parameter ->
-        parameter.import?.let(imports::addAll)
+        parameter.imports?.let(imports::addAll)
         parameter.sugarToken?.let { token ->
             check(sugarToken == null) { "sugarToken is already set" }
             sugarToken = token
@@ -85,12 +87,14 @@ private fun ComponentAndCoreSugarParameters.createSugarComponentFunction(): Pair
     return sugarFunSpec to imports
 }
 
-private fun List<ComponentAndCoreSugarParameters>.createSugarComponentFunctions(): Pair<List<FunSpec>, Imports> {
+private fun List<ComponentAndCoreSugarParameters>.createSugarComponentFunctions(
+    logger: KSPLogger,
+): Pair<List<FunSpec>, Imports> {
     val components = this
     val sugarSpecs = mutableListOf<FunSpec>()
     val sugarImports = mutableListOf<Import>()
     components.forEach { component ->
-        val (funSpec, imports) = component.createSugarComponentFunction()
+        val (funSpec, imports) = component.createSugarComponentFunction(logger)
         sugarSpecs += funSpec
         sugarImports += imports
     }
@@ -101,8 +105,9 @@ private fun generateSugarKt(
     @Suppress("SameParameterValue") packageName: String,
     fileName: String,
     components: List<ComponentAndCoreSugarParameters>,
+    logger: KSPLogger,
 ): FileSpec {
-    val (sugarSpecs, sugarImports) = components.createSugarComponentFunctions()
+    val (sugarSpecs, sugarImports) = components.createSugarComponentFunctions(logger)
     return FileSpec
         .builder(
             packageName = packageName,
@@ -121,11 +126,12 @@ internal fun generateSugarKts(
     logger: KSPLogger,
     sugarPath: String?,
 ) {
-    val sugarFileSpecs = components.map { (filename, componentsPerFile) ->
+    val sugarFileSpecs = components.map { (fileName, componentsPerFile) ->
         generateSugarKt(
-            packageName = CoreNamespace,
-            fileName = filename,
+            packageName = SugarNamespace,
+            fileName = fileName,
             components = componentsPerFile,
+            logger = logger,
         )
     }
 
@@ -149,6 +155,6 @@ internal fun generateSugarKts(
             aideMapKt.writeText(sugarFileSpec.toString())
             generatedPath = aideMapKt.path
         }
-        logger.warn("generated at $generatedPath")
+        logger.warn("[SUGAR] generated at $generatedPath")
     }
 }
