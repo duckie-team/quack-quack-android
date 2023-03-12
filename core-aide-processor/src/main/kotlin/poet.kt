@@ -15,6 +15,10 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.asTypeName
+import common.Empty
+import common.addGeneratedComment
+import common.addSuppressAnnotation
+import common.requireContainingFile
 import java.io.File
 
 private typealias Type = String

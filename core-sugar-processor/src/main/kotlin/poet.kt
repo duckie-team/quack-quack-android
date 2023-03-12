@@ -5,8 +5,6 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-import Names.ComposableFqn
-import Names.QuackComponentPrefix
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
@@ -18,6 +16,11 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
+import common.Empty
+import common.Names.ComposableFqn
+import common.Names.QuackComponentPrefix
+import common.addGeneratedComment
+import common.addSuppressAnnotation
 import java.io.File
 import kotlin.reflect.KClass
 import org.jetbrains.kotlin.utils.addToStdlib.applyIf

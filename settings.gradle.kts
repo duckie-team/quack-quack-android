@@ -37,7 +37,7 @@ buildCache {
 
 include(
     ":playground",
-    ":common-poet",
+    // ":common-poet",
     ":core",
     ":core-aide",
     ":core-aide-annotation",

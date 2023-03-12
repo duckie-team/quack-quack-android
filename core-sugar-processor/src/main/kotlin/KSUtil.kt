@@ -5,13 +5,13 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-import Names.SugarImportFqn
-import Names.SugarTokenFqn
 import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSValueParameter
 import com.google.devtools.ksp.symbol.impl.kotlin.KSValueParameterImpl
 import com.squareup.kotlinpoet.ksp.TypeParameterResolver
 import com.squareup.kotlinpoet.ksp.toTypeName
+import common.Names.SugarImportFqn
+import common.Names.SugarTokenFqn
 import kotlin.reflect.KClass
 
 private fun Sequence<KSAnnotation>.singleTypedOrNull(fqn: String): KSAnnotation? {

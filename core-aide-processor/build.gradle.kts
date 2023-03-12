@@ -24,7 +24,8 @@ dependencies {
         libs.kotlin.ksp.api,
         libs.kotlin.kotlinpoet.core,
         libs.google.autoservice.annotation,
-         projects.commonPoet,
+        // https://github.com/duckie-team/quack-quack-android/issues/489
+        // "team.duckie.quack:quackquack-common-kotlinpoet-internal:0.1.0",
     )
     testImplementations(
         libs.test.strikt,

@@ -5,7 +5,6 @@
  * Please see full license: https://github.com/duckie-team/duckie-quack-quack/blob/main/LICENSE
  */
 
-import Names.ComposableFqn
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
@@ -13,6 +12,9 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.ksp.toTypeParameterResolver
+import common.Names.ComposableFqn
+import common.isPublicQuackComponent
+import common.requireContainingFile
 
 internal class CoreSugarProcessor(
     private val codeGenerator: CodeGenerator,
