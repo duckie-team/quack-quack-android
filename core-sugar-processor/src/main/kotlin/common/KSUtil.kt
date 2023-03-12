@@ -15,16 +15,16 @@ import com.google.devtools.ksp.symbol.Modifier
 import common.Names.QuackComponentPrefix
 import common.Names.UnitSn
 
-val KSDeclaration.requireContainingFile: KSFile
+internal val KSDeclaration.requireContainingFile: KSFile
     get() = requireNotNull(containingFile) {
         "This($simpleName) symbol didn't come from the source file. " +
                 "Is that symbol in the class file?"
     }
 
-val Dependencies.Companion.Empty: Dependencies
+internal val Dependencies.Companion.Empty: Dependencies
     get() = Dependencies(aggregating = false)
 
-val KSFunctionDeclaration.isPublicQuackComponent: Boolean
+internal val KSFunctionDeclaration.isPublicQuackComponent: Boolean
     get() {
         // 1. 공개 함수이고,
         // 2. 함수명이 Quack으로 시작하며,
