@@ -65,6 +65,43 @@ allprojects {
             }
         }
     }
+
+    tasks.create("versioning") {
+        val type = getPropertyOrNull<String, VersioningType>(quackVersioningTaskTypeArgument) { type ->
+            VersioningType.values().find { enum ->
+                enum.name.equals(type, ignoreCase = true)
+            } ?: error(
+                """
+                The value of the type property is invalid. (input: $type)
+                Possible types: ${VersioningType.values().joinToString()}
+                """.trimIndent(),
+            )
+        } ?: return@create
+        val bump = getPropertyOrNull<String, BumpType>(quackVersioningTaskBumpArgument) { bump ->
+            BumpType.values().find { enum ->
+                enum.name.equals(bump, ignoreCase = true)
+            } ?: error(
+                """
+                The value of the bump property is invalid. (input: $bump)
+                Possible bumps: ${BumpType.values().joinToString()}
+                """.trimIndent(),
+            )
+        }
+
+        val versionFile = File(projectDir, "version.txt")
+        when (type) {
+            VersioningType.Init -> {
+                versionFile.createNewFile()
+                versionFile.writeText(quackInitializeVersion)
+            }
+            VersioningType.Bump -> {
+                checkNotNull(bump) { "The `VersioningType = Bump` was entered, but no bump target was given." }
+                checkVersionFileIsValid(versionFile)
+                val newVersion = versionFile.bump(bump)
+                versionFile.writeText(newVersion)
+            }
+        }
+    }
 }
 
 tasks.register(name = "cleanAll", type = Delete::class) {
@@ -77,41 +114,6 @@ enum class VersioningType {
 
 enum class BumpType {
     Major, Minor, Patch,
-}
-
-tasks.create("versioning") {
-    val type = getPropertyOrNull<String, VersioningType>(quackVersioningTaskTypeArgument) { type ->
-        VersioningType.values().find { enum ->
-            enum.name.equals(type, ignoreCase = true)
-        } ?: error(
-            """
-            The value of the type property is invalid. (input: $type)
-            Possible types: ${VersioningType.values().joinToString()}
-            """.trimIndent(),
-        )
-    } ?: return@create
-    val bump = getPropertyOrNull<String, BumpType>(quackVersioningTaskBumpArgument) { bump ->
-        BumpType.values().find { enum ->
-            enum.name.equals(bump, ignoreCase = true)
-        } ?: error(
-            """
-            The value of the bump property is invalid. (input: $bump)
-            Possible bumps: ${BumpType.values().joinToString()}
-            """.trimIndent(),
-        )
-    }
-
-    val versionFile = File(projectDir, "version.txt").also(::checkVersionFileIsValid)
-    when (type) {
-        VersioningType.Init -> {
-            versionFile.writeText(quackInitializeVersion)
-        }
-        VersioningType.Bump -> {
-            checkNotNull(bump) { "The `VersioningType = Bump` was entered, but no bump target was given." }
-            val newVersion = versionFile.bump(bump)
-            versionFile.writeText(newVersion)
-        }
-    }
 }
 
 inline fun <reified P, T> Project.getPropertyOrNull(key: String, parse: (value: P) -> T): T? {
@@ -133,7 +135,7 @@ fun checkVersionFileIsValid(file: File) {
         error(
             """
             There is no version.txt file in the project path. 
-            Use `./gradlew :project:versioning -Ptype=init` for version configuration.
+            Try `./gradlew :project:versioning -Ptype=init` for version configuration.
             """.trimIndent(),
         )
     }

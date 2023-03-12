@@ -16,7 +16,7 @@ internal fun Project.parseArtifactVersion(): String {
         error(
             """
             There is no version.txt file in the project path. 
-            Use `./gradlew :$name:versioning -Ptype=init` for version configuration.
+            Try `./gradlew :project:versioning -Ptype=init` for version configuration.
             """.trimIndent(),
         )
     }
