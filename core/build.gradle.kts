@@ -60,6 +60,12 @@ dependencies {
     )
 
     ksp(projects.coreAideProcessor)
+
+    add(
+        org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME,
+        projects.coreSugarProcessorKotlinc,
+    )
+
     // ksp(projects.coreSugarProcessor)
 
     // lintPublish(projects.coreAide)

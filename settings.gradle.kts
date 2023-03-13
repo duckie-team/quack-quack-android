@@ -45,6 +45,7 @@ include(
     ":core-sugar",
     ":core-sugar-annotation",
     // ":core-sugar-processor",
+    ":core-sugar-processor-kotlinc",
     // ":dokka-paparazzi-integration",
     ":screenshot-matcher",
 )
