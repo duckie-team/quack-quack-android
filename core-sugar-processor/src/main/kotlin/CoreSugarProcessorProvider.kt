@@ -16,7 +16,7 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 
 private const val SugarPathArg = "SugarPath"
 
-@AutoService(value = [SymbolProcessorProvider::class])
+@AutoService(SymbolProcessorProvider::class)
 class CoreSugarProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
         return CoreSugarSymbolProcessor(
