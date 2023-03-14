@@ -113,7 +113,7 @@ open class QuackMavenExtension {
 enum class QuackArtifactType(
     internal val artifactId: String,
     internal val description: String,
-    internal val level: ArtifactLevel = ArtifactLevel.Public,
+    internal var level: ArtifactLevel = ArtifactLevel.Public,
 ) {
     BOM(
         artifactId = "quackquack-bom",
@@ -153,6 +153,10 @@ enum class QuackArtifactType(
 
     fun asArtifactId() =
         artifactId + if (level == ArtifactLevel.Internal) "-internal" else ""
+
+    fun forceInternal(): QuackArtifactType {
+        return apply { level = ArtifactLevel.Internal }
+    }
 }
 
 internal enum class ArtifactLevel {

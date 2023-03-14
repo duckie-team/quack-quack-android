@@ -18,6 +18,7 @@ plugins {
     `buildlogic-jvm-junit`
     `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
+    `buildlogic-quack-mavenpublishing`
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.test.paparazzi)
 }
@@ -32,6 +33,7 @@ tasks.withType<KotlinCompile> {
     val sugarPath = "$projectDir/src/main/kotlin/team/duckie/quackquack/core/component/sugar"
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
+            "-P",
             "plugin:$sugarProcessorKotlinCompilerPluginId:sugarPath=$sugarPath",
         )
     }
@@ -48,7 +50,6 @@ android {
 
 ksp {
     arg("AidePath", "$rootDir/core-aide/src/main/kotlin/rule")
-    arg("CorePath", "$rootDir/core-sugar/src/main/kotlin/team/duckie/quackquack/sugar")
 }
 
 dependencies {
@@ -76,4 +77,8 @@ dependencies {
     ksp(projects.coreAideProcessor)
 
     // lintPublish(projects.coreAide)
+}
+
+quack {
+    type = QuackArtifactType.Core.forceInternal()
 }
