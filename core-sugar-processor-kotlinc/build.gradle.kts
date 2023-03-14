@@ -9,6 +9,7 @@
 
 plugins {
     `buildlogic-jvm-kotlin`
+    `buildlogic-jvm-junit`
     alias(libs.plugins.kotlin.ksp)
 }
 
@@ -19,4 +20,8 @@ dependencies {
         libs.kotlin.kotlinpoet.core,
     )
     ksp(libs.google.autoservice.ksp.processor)
+    testImplementations(
+        libs.test.strikt,
+        libs.test.kotlin.compilation.core,
+    )
 }

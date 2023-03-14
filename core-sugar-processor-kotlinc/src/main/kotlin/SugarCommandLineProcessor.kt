@@ -15,12 +15,14 @@ import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.CompilerConfigurationKey
 
-internal val KEY_SUGAR_PATH = CompilerConfigurationKey<String>("Where the sugar components will be created")
+internal const val PluginId = "team.duckie.quackquack.sugar.processor.kotlinc"
+
+internal val KEY_SUGAR_PATH = CompilerConfigurationKey<String>("Where the sugar components will be created - Required")
 internal val OPTION_SUGAR_PATH = CliOption(
     optionName = "sugarPath",
     valueDescription = "String",
     description = KEY_SUGAR_PATH.toString(),
-    required = /*true*/ false,
+    required = true,
     allowMultipleOccurrences = false,
 )
 
