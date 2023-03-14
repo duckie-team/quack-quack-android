@@ -8,6 +8,7 @@
 package team.duckie.quackquack.aide.annotation
 
 // TODO: 문서 제공
+@MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.SOURCE)
 public annotation class TypedModifier
