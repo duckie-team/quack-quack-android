@@ -10,20 +10,29 @@ package team.duckie.quackquack.sugar.annotation
 import kotlin.reflect.KClass
 
 // TODO: 문서 제공
-@Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.SOURCE)
+@MustBeDocumented
+@Target(AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.BINARY)
 public annotation class Sugar(val name: String = DEFAULT_NAME) {
     public companion object {
-        public const val DEFAULT_NAME: String = "DefaultName"
+        public const val DEFAULT_NAME: String = "DEFAULT_NAME"
     }
 }
 
 // TODO: 문서 제공
+@SugarCompilerApi
+@Target(AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.BINARY)
+public annotation class SugarRefer(val fqn: String)
+
+// TODO: 문서 제공
+@MustBeDocumented
 @Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.SOURCE)
+@Retention(AnnotationRetention.BINARY)
 public annotation class SugarToken
 
 // TODO: 문서 제공
+@MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)
-@Retention(AnnotationRetention.SOURCE)
-public annotation class Import(vararg val clazz: KClass<*>)
+@Retention(AnnotationRetention.BINARY)
+public annotation class Imports(vararg val clazz: KClass<*>)
