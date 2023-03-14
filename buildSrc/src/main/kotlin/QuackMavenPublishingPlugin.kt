@@ -119,11 +119,6 @@ enum class QuackArtifactType(
         artifactId = "quackquack-bom",
         description = "Duckie's design system artifacts BOM",
     ),
-    CommonKotlinPoet(
-        artifactId = "quackquack-common-kotlinpoet",
-        description = "Utils used by QuackQuack for KotlinPoet",
-        level = ArtifactLevel.Internal,
-    ),
     Core(
         artifactId = "quackquack-core",
         description = "The UI components of the Duckie design system",
@@ -141,17 +136,13 @@ enum class QuackArtifactType(
         description = "Kotlin Symbol Processing for CoreAideAnnotation",
         level = ArtifactLevel.Internal,
     ),
-    CoreSugar(
-        artifactId = "quackquack-core-sugar",
-        description = "A sugar syntax for the Duckie design system",
-    ),
     CoreSugarAnnotation(
         artifactId = "quackquack-core-sugar-annotation",
         description = "Marker annotations for CoreSugar",
     ),
-    CoreSugarProcessor(
-        artifactId = "quackquack-core-sugar-processor",
-        description = "Kotlin Symbol Processing for CoreSugarAnnotation",
+    CoreSugarProcessorKotlinc(
+        artifactId = "quackquack-core-sugar-processor-kotlinc",
+        description = "Kotlin Compiler Plugin for CoreSugarAnnotation",
         level = ArtifactLevel.Internal,
     ),
     DokkaPaparazziIntegrate(
@@ -160,15 +151,11 @@ enum class QuackArtifactType(
         level = ArtifactLevel.Internal,
     );
 
-    fun asArtifactId(): String {
-        var id = artifactId
-        if (level == ArtifactLevel.Internal) {
-            id += "-internal"
-        }
-        return id
-    }
+    fun asArtifactId() =
+        artifactId + if (level == ArtifactLevel.Internal) "-internal" else ""
 }
 
 internal enum class ArtifactLevel {
-    Public, Internal,
+    Public,
+    Internal,
 }
