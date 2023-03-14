@@ -30,6 +30,6 @@ internal class SugarIrVisitor(
     }
 
     override fun visitSimpleFunction(declaration: IrSimpleFunction) {
-        TODO()
+        // TODO()
     }
 }

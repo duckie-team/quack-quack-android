@@ -12,13 +12,9 @@ import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
 internal data class SugarIrData(
     val refer: String,
 ) {
-    init {
-        TODO()
-    }
-
     companion object {
         fun from(declaration: IrSimpleFunction): SugarIrData {
-            return TODO()
+            TODO()
         }
     }
 }
