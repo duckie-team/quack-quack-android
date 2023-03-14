@@ -5,11 +5,14 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
+@file:OptIn(SugarCompilerApi::class)
+
 package playground
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import team.duckie.quackquack.sugar.annotation.Imports
+import team.duckie.quackquack.sugar.annotation.SugarCompilerApi
 import team.duckie.quackquack.sugar.annotation.SugarToken
 import team.duckie.quackquack.sugar.annotation.sugar
 

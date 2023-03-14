@@ -8,10 +8,11 @@
 package team.duckie.quackquack.sugar.annotation
 
 // TODO: 문서 제공
+@MustBeDocumented
 @RequiresOptIn(
     message = "This indicates that the feature should only be used in the Sugar Compiler. " +
             "Using it arbitrarily can lead to unexpected bugs.",
 )
 @Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
-internal annotation class SugarCompilerApi
+public annotation class SugarCompilerApi
