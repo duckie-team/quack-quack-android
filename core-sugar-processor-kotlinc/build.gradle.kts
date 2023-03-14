@@ -14,7 +14,7 @@ plugins {
 }
 
 dependencies {
-    compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:${libs.versions.kotlin.core.get()}")
+    compileOnly(libs.kotlin.embeddable.compiler)
     implementations(
         libs.google.autoservice.annotation,
         libs.kotlin.kotlinpoet.core,
