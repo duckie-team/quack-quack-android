@@ -17,6 +17,7 @@ android {
 dependencies {
     implementations(
         libs.compose.activity,
-        projects.core,
+        // projects.core,
+        "team.duckie.quack:${QuackArtifactType.Core.forceInternal().asArtifactId()}:0.1.0"
     )
 }
