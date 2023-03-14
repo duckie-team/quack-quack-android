@@ -7,7 +7,9 @@
 
 @file:Suppress("UnstableApiUsage", "DSL_SCOPE_VIOLATION")
 
+import org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME as kotlinCompilerPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `buildlogic-android-library`
@@ -22,7 +24,17 @@ plugins {
 
 tasks.withType<DokkaTask> {
     moduleName.set("QuackQuack-Core")
-    notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/1217")
+    // notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/1217")
+}
+
+tasks.withType<KotlinCompile> {
+    val sugarProcessorKotlinCompilerPluginId = "team.duckie.quackquack.sugar.processor.kotlinc"
+    val sugarPath = "$projectDir/src/main/kotlin/team/duckie/quackquack/core/component/sugar"
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "plugin:$sugarProcessorKotlinCompilerPluginId:sugarPath=$sugarPath",
+        )
+    }
 }
 
 android {
@@ -48,7 +60,7 @@ dependencies {
         libs.compose.animation,
         libs.compose.material,
         projects.coreAideAnnotation,
-        projects.coreSugarAnnotation,
+        projects.coreSugarMaterial,
     )
 
     testImplementation(libs.test.strikt)
@@ -59,14 +71,9 @@ dependencies {
         projects.screenshotMatcher,
     )
 
+    kotlinCompilerPlugin(projects.coreSugarProcessorKotlinc)
+
     ksp(projects.coreAideProcessor)
-
-    add(
-        org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME,
-        projects.coreSugarProcessorKotlinc,
-    )
-
-    // ksp(projects.coreSugarProcessor)
 
     // lintPublish(projects.coreAide)
 }
