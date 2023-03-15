@@ -12,7 +12,6 @@ import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.IrStatement
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
 import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
-import org.jetbrains.kotlin.name.Name
 
 internal class SugarIrTransformer(
     private val context: IrPluginContext,
@@ -23,8 +22,10 @@ internal class SugarIrTransformer(
         data: List<SugarIrData>,
     ): IrStatement {
         if (declaration.name.asString() == "Test") {
-            declaration.name = Name.identifier("Success")
-            logger.warn("IrSimpleFunction IR-Changed: Test -> Success")
+            logger.warn("Test function was changed.")
+            val prevValueParameters = declaration.valueParameters
+            prevValueParameters[0].defaultValue = data.first().defaultValue
+            declaration.valueParameters = prevValueParameters
         }
         return super.visitSimpleFunction(declaration, data)
     }

@@ -15,11 +15,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-public fun Test() {
+public fun Test(text: String = "Kotlin Compiler Plugin API is not Stable.") {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center,
     ) {
-        Text(text = "Kotlin Compiler Plugin API is not Stable.")
+        Text(text = text)
+    }
+}
+
+@Composable
+public fun Success(text: String = "SUCCESS") {
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(text = text)
     }
 }

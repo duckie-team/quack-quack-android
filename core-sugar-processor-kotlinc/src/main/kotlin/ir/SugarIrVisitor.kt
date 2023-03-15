@@ -30,6 +30,10 @@ internal class SugarIrVisitor(
     }
 
     override fun visitSimpleFunction(declaration: IrSimpleFunction) {
-        // TODO()
+        if (declaration.name.asString() == "Success") {
+            val defaultValue = declaration.valueParameters.first().defaultValue!!
+            logger.warn("Success function was copied")
+            addSugarIrData(SugarIrData(defaultValue = defaultValue))
+        }
     }
 }

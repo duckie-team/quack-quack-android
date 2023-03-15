@@ -7,14 +7,9 @@
 
 package ir
 
-import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
+import org.jetbrains.kotlin.ir.expressions.IrExpressionBody
 
 internal data class SugarIrData(
-    val refer: String,
-) {
-    companion object {
-        fun from(declaration: IrSimpleFunction): SugarIrData {
-            TODO()
-        }
-    }
-}
+    // val refer: String,
+    val defaultValue: IrExpressionBody,
+)
