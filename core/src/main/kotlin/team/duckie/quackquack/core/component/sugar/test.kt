@@ -25,11 +25,6 @@ public fun Test(text: String = "Kotlin Compiler Plugin API is not Stable.") {
 }
 
 @Composable
-public fun Success(text: String = "SUCCESS") {
-    Box(
-        modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(text = text)
-    }
+public fun Success(text: String = "SUCCESS", yourAreAwesome: Boolean = true) {
+    println(text + yourAreAwesome)
 }

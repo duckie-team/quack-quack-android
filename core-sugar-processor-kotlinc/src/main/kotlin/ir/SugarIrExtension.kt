@@ -30,6 +30,6 @@ internal class SugarIrExtension(
             logger = logger,
         )
         moduleFragment.accept(visitor, null)
-        moduleFragment.transform(transformer, sugarIrDatas)
+        // moduleFragment.transform(transformer, sugarIrDatas)
     }
 }

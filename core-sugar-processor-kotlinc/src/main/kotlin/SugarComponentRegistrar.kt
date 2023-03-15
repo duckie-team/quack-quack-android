@@ -10,22 +10,32 @@
 import com.google.auto.service.AutoService
 import ir.SugarIrExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
-import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
+import org.jetbrains.kotlin.com.intellij.mock.MockProject
+import org.jetbrains.kotlin.com.intellij.openapi.extensions.LoadingOrder
+import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
 
-@AutoService(CompilerPluginRegistrar::class)
-class SugarComponentRegistrar : CompilerPluginRegistrar() {
+@Suppress("DEPRECATION")
+@AutoService(ComponentRegistrar::class)
+class SugarComponentRegistrar : ComponentRegistrar {
     override val supportsK2 = true
 
-    override fun ExtensionStorage.registerExtensions(configuration: CompilerConfiguration) {
+    override fun registerProjectComponents(
+        project: MockProject,
+        configuration: CompilerConfiguration,
+    ) {
         val sugarPath = checkNotNull(configuration[KEY_SUGAR_PATH]) { "sugarPath was missing." }
 
-        IrGenerationExtension.registerExtension(
-            SugarIrExtension(
-                logger = configuration.getLogger(),
-                sugarPath = sugarPath,
-            ),
-        )
+        project.extensionArea
+            .getExtensionPoint(IrGenerationExtension.extensionPointName)
+            .registerExtension(
+                SugarIrExtension(
+                    logger = configuration.getLogger(),
+                    sugarPath = sugarPath,
+                ),
+                LoadingOrder.FIRST,
+                project,
+            )
     }
 }
