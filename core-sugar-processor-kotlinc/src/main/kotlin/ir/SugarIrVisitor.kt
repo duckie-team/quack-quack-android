@@ -31,10 +31,8 @@ internal class SugarIrVisitor(
 
     override fun visitSimpleFunction(declaration: IrSimpleFunction) {
         if (declaration.name.asString() == "Success") {
-            declaration.valueParameters.forEach { param ->
-                logger.warn("name: ${param.name.asString()}, defaultValue: ${param.defaultValue}")
-            }
-            // addSugarIrData(SugarIrData(defaultValue = defaultValue))
+            logger.warn("Visited Success function")
+            addSugarIrData(SugarIrData(defaultValue = declaration.valueParameters.first().defaultValue!!))
         }
     }
 }

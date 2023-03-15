@@ -8,7 +8,6 @@
 package team.duckie.quackquack.playground
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import team.duckie.quackquack.core.component.sugar.Test
@@ -19,9 +18,5 @@ class MainActivity : ComponentActivity() {
         setContent {
             Test()
         }
-    }
-
-    private fun toast(text: String) {
-        Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()
     }
 }

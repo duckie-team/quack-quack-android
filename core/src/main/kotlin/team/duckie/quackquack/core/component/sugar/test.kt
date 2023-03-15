@@ -8,16 +8,16 @@
 package team.duckie.quackquack.core.component.sugar
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-public fun Test(text: String = "Kotlin Compiler Plugin API is not Stable.") {
+public fun Test(text: String = "FAIL") {
     Box(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         Text(text = text)
@@ -25,6 +25,5 @@ public fun Test(text: String = "Kotlin Compiler Plugin API is not Stable.") {
 }
 
 @Composable
-public fun Success(text: String = "SUCCESS", yourAreAwesome: Boolean = true) {
-    println(text + yourAreAwesome)
+public fun Success(text: String = "SUCCESS") {
 }
