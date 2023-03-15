@@ -8,4 +8,9 @@
 plugins {
     `buildlogic-jvm-kotlin`
     `buildlogic-kotlin-explicitapi`
+    `buildlogic-quack-mavenpublishing`
+}
+
+quack {
+    type = QuackArtifactType.CoreSugarMaterial.forceInternal()
 }

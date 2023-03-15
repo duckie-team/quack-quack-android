@@ -136,9 +136,9 @@ enum class QuackArtifactType(
         description = "Kotlin Symbol Processing for CoreAideAnnotation",
         level = ArtifactLevel.Internal,
     ),
-    CoreSugarAnnotation(
-        artifactId = "quackquack-core-sugar-annotation",
-        description = "Marker annotations for CoreSugar",
+    CoreSugarMaterial(
+        artifactId = "quackquack-core-sugar-material",
+        description = "Materials for CoreSugar",
     ),
     CoreSugarProcessorKotlinc(
         artifactId = "quackquack-core-sugar-processor-kotlinc",
@@ -151,8 +151,9 @@ enum class QuackArtifactType(
         level = ArtifactLevel.Internal,
     );
 
-    fun asArtifactId() =
-        artifactId + if (level == ArtifactLevel.Internal) "-internal" else ""
+    fun asArtifactId(): String {
+        return artifactId + if (level == ArtifactLevel.Internal) "-internal" else ""
+    }
 
     fun forceInternal(): QuackArtifactType {
         return apply { level = ArtifactLevel.Internal }
