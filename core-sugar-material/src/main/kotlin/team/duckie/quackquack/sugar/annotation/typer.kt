@@ -10,5 +10,5 @@ package team.duckie.quackquack.sugar.annotation
 // TODO: 문서 제공
 @SugarCompilerApi
 public fun <T> sugar(): T {
-    throw NotImplementedError("Implemented as an intrinsic")
+    throw NotImplementedError("TODO: provide message")
 }
