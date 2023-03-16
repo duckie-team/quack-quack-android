@@ -10,6 +10,5 @@ package team.duckie.quackquack.sugar.annotation
 // TODO: 문서 제공
 @SugarCompilerApi
 public fun <T> sugar(): T {
-    @Suppress("UNCHECKED_CAST")
-    return Any() as T
+    throw NotImplementedError("Implemented as an intrinsic")
 }
