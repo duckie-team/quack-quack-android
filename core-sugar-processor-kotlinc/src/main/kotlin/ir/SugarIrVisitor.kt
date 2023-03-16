@@ -30,6 +30,8 @@ internal class SugarIrVisitor(
     }
 
     override fun visitSimpleFunction(declaration: IrSimpleFunction) {
+        // Find KDoc from IrSimpleFunction
+        // declaration.toIrBasedDescriptor().findKDocString()
         if (declaration.name.asString() == "Success") {
             logger.warn("Visited Success function")
             addSugarIrData(SugarIrData(defaultValue = declaration.valueParameters.first().defaultValue!!))
