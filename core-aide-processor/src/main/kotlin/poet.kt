@@ -133,11 +133,3 @@ internal fun generateAideKt(
         logger.warn("[AIDE] generated at $generatedPath")
     }
 }
-
-private fun Collection<*>.toLiteralListString(): String {
-    return joinToString(
-        prefix = "listOf(",
-        postfix = ")",
-        transform = { "\"$it\"" },
-    )
-}
