@@ -7,7 +7,12 @@
 
 @file:Suppress("UnstableApiUsage", "DSL_SCOPE_VIOLATION")
 
+import org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME as kotlinCompilerPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+// -- FIX LOCATION
+private val poet = true
 
 plugins {
     `buildlogic-android-library`
@@ -16,13 +21,29 @@ plugins {
     `buildlogic-jvm-junit`
     `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
+    `buildlogic-quack-mavenpublishing`
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.test.paparazzi)
 }
 
 tasks.withType<DokkaTask> {
     moduleName.set("QuackQuack-Core")
-    notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/1217")
+    // notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/1217")
+}
+
+tasks.withType<KotlinCompile> {
+    val sugarProcessorKotlinCompilerPluginId = "team.duckie.quackquack.sugar.processor.kotlinc"
+    val sugarPath = "$projectDir/src/main/kotlin/team/duckie/quackquack/core/component/sugar"
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-P",
+            "plugin:$sugarProcessorKotlinCompilerPluginId:sugarPath=$sugarPath",
+        )
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-P",
+            "plugin:$sugarProcessorKotlinCompilerPluginId:poet=$poet",
+        )
+    }
 }
 
 android {
@@ -36,7 +57,6 @@ android {
 
 ksp {
     arg("AidePath", "$rootDir/core-aide/src/main/kotlin/rule")
-    arg("CorePath", "$rootDir/core-sugar/src/main/kotlin/team/duckie/quackquack/sugar")
 }
 
 dependencies {
@@ -48,7 +68,7 @@ dependencies {
         libs.compose.animation,
         libs.compose.material,
         projects.coreAideAnnotation,
-        projects.coreSugarAnnotation,
+        projects.coreSugarMaterial,
     )
 
     testImplementation(libs.test.strikt)
@@ -59,8 +79,12 @@ dependencies {
         projects.screenshotMatcher,
     )
 
+    kotlinCompilerPlugin(projects.coreSugarProcessorKotlinc)
     ksp(projects.coreAideProcessor)
-    // ksp(projects.coreSugarProcessor)
 
     // lintPublish(projects.coreAide)
+}
+
+quack {
+    type = QuackArtifactType.Core.forceInternal()
 }

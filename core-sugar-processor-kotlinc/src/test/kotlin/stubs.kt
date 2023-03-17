@@ -16,16 +16,6 @@ val stubs = arrayOf(
         """,
     ),
     kotlin(
-        "TypedModifier.kt",
-        """
-        package team.duckie.quackquack.aide.annotation
-        @MustBeDocumented
-        @Target(AnnotationTarget.FUNCTION)
-        @Retention(AnnotationRetention.SOURCE)
-        annotation class TypedModifier
-        """,
-    ),
-    kotlin(
         "Composable.kt",
         """
         package androidx.compose.runtime

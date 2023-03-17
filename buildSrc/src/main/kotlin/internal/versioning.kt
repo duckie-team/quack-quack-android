@@ -20,5 +20,5 @@ internal fun Project.parseArtifactVersion(): String {
             """.trimIndent(),
         )
     }
-    return versionFile.readText()
+    return versionFile.readLines().first()
 }

@@ -16,6 +16,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.staticCompositionLocalOf
 import team.duckie.quackquack.core.material.QuackColor
+import team.duckie.quackquack.sugar.material.NoSugar
 
 /**
  * QuackTextField 및 QuackTextArea에서 사용할 커서 색상을 제공합니다.
@@ -35,6 +36,7 @@ internal val LocalQuackTextFieldColors: ProvidableCompositionLocal<QuackTextFiel
  * @param content 꽥꽥 디자인에 맞게 표시할 컴포저블 컨텐츠
  */
 @OptIn(ExperimentalFoundationApi::class)
+@NoSugar
 @Composable
 public fun QuackTheme(content: @Composable () -> Unit) {
     CompositionLocalProvider(

@@ -1,5 +1,5 @@
 [versions]
-gradle-android = "8.1.0-alpha08"
+gradle-android = "8.1.0-alpha09"
 gradle-publish-maven = "0.24.0"
 
 google-autoservice-standard = "1.0.1"
@@ -98,6 +98,7 @@ test-injector-parameter = { module = "com.google.testparameterinjector:test-para
 test-mockito-core = { module = "org.mockito:mockito-core", version.ref = "test-mockito-core" }
 test-mockito-android = { module = "org.mockito:mockito-android", version.ref = "test-mockito-android" }
 test-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "test-mockito-kotlin" }
+test-kotlin-compilation-core = { module = "com.github.tschuchortdev:kotlin-compile-testing", version.ref = "test-kotlin-compilation-ksp" }
 test-kotlin-compilation-ksp = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version.ref = "test-kotlin-compilation-ksp" }
 
 detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "kotlin-detekt" }

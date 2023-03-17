@@ -17,6 +17,7 @@ import androidx.compose.animation.with
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import team.duckie.quackquack.core.material.QuackAnimationSpec
+import team.duckie.quackquack.sugar.material.NoSugar
 
 /**
  * 컴포저블의 상태에 변화가 있을 때 자동으로 해당 상태에 맞춰
@@ -28,6 +29,7 @@ import team.duckie.quackquack.core.material.QuackAnimationSpec
  * **애니메이션이 적용되기 위해선 필수로 이 값을 상태로 적용해야 합니다.**
  */
 @OptIn(ExperimentalAnimationApi::class)
+@NoSugar
 @Composable
 public fun <T> QuackAnimatedContent(
     modifier: Modifier = Modifier,

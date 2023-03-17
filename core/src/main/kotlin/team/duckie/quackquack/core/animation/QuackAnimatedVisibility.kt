@@ -16,6 +16,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import team.duckie.quackquack.core.material.QuackAnimationSpec
+import team.duckie.quackquack.sugar.material.NoSugar
 
 /**
  * 컴포저블의 visiblilty 변화에 애니메이션을 적용하는 컨테이너 입니다.
@@ -26,6 +27,7 @@ import team.duckie.quackquack.core.material.QuackAnimationSpec
  * @param otherExitAnimation 추가로 더할 exit 애니메이션
  * @param content visiblilty 애니메이션이 적용될 컴포저블 컨텐츠
  */
+@NoSugar
 @Composable
 public fun QuackAnimatedVisibility(
     modifier: Modifier = Modifier,

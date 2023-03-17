@@ -113,16 +113,11 @@ open class QuackMavenExtension {
 enum class QuackArtifactType(
     internal val artifactId: String,
     internal val description: String,
-    internal val level: ArtifactLevel = ArtifactLevel.Public,
+    internal var level: ArtifactLevel = ArtifactLevel.Public,
 ) {
     BOM(
         artifactId = "quackquack-bom",
         description = "Duckie's design system artifacts BOM",
-    ),
-    CommonKotlinPoet(
-        artifactId = "quackquack-common-kotlinpoet",
-        description = "Utils used by QuackQuack for KotlinPoet",
-        level = ArtifactLevel.Internal,
     ),
     Core(
         artifactId = "quackquack-core",
@@ -141,17 +136,13 @@ enum class QuackArtifactType(
         description = "Kotlin Symbol Processing for CoreAideAnnotation",
         level = ArtifactLevel.Internal,
     ),
-    CoreSugar(
-        artifactId = "quackquack-core-sugar",
-        description = "A sugar syntax for the Duckie design system",
+    CoreSugarMaterial(
+        artifactId = "quackquack-core-sugar-material",
+        description = "Materials for CoreSugar",
     ),
-    CoreSugarAnnotation(
-        artifactId = "quackquack-core-sugar-annotation",
-        description = "Marker annotations for CoreSugar",
-    ),
-    CoreSugarProcessor(
-        artifactId = "quackquack-core-sugar-processor",
-        description = "Kotlin Symbol Processing for CoreSugarAnnotation",
+    CoreSugarProcessorKotlinc(
+        artifactId = "quackquack-core-sugar-processor-kotlinc",
+        description = "Kotlin Compiler Plugin for CoreSugarAnnotation",
         level = ArtifactLevel.Internal,
     ),
     DokkaPaparazziIntegrate(
@@ -161,14 +152,15 @@ enum class QuackArtifactType(
     );
 
     fun asArtifactId(): String {
-        var id = artifactId
-        if (level == ArtifactLevel.Internal) {
-            id += "-internal"
-        }
-        return id
+        return artifactId + if (level == ArtifactLevel.Internal) "-internal" else ""
+    }
+
+    fun forceInternal(): QuackArtifactType {
+        return apply { level = ArtifactLevel.Internal }
     }
 }
 
 internal enum class ArtifactLevel {
-    Public, Internal,
+    Public,
+    Internal,
 }

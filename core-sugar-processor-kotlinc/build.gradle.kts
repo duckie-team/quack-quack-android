@@ -13,20 +13,16 @@ plugins {
     alias(libs.plugins.kotlin.ksp)
 }
 
-ksp {
-    arg("autoserviceKsp.verify", "true")
-    arg("autoserviceKsp.verbose", "true")
-}
-
 dependencies {
-    ksp(libs.google.autoservice.ksp.processor)
+    compileOnly(libs.kotlin.embeddable.compiler)
     implementations(
-        libs.kotlin.ksp.api,
-        libs.kotlin.kotlinpoet.core,
         libs.google.autoservice.annotation,
+        libs.kotlin.kotlinpoet.core,
+        projects.coreSugarMaterial,
     )
+    ksp(libs.google.autoservice.ksp.processor)
     testImplementations(
         libs.test.strikt,
-        libs.test.kotlin.compilation.ksp,
+        libs.test.kotlin.compilation.core,
     )
 }

@@ -21,7 +21,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 
-    // 외부에서 의존성이 제공되고 있는데 출처를 모르겠음
+    // FIXME: 외부에서 의존성이 제공되고 있는데 출처를 모르겠음
     resolutionStrategy.eachPlugin {
         if (requested.id.id == "com.vanniktech.maven.publish") {
             useVersion("0.24.0")
@@ -37,14 +37,12 @@ buildCache {
 
 include(
     ":playground",
-    // ":common-poet",
     ":core",
     ":core-aide",
     ":core-aide-annotation",
     ":core-aide-processor",
-    ":core-sugar",
-    ":core-sugar-annotation",
-    // ":core-sugar-processor",
+    ":core-sugar-material",
+    ":core-sugar-processor-kotlinc",
     // ":dokka-paparazzi-integration",
     ":screenshot-matcher",
 )

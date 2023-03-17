@@ -70,7 +70,7 @@ allprojects {
         val type = getPropertyOrNull<String, VersioningType>(quackVersioningTaskTypeArgument) { type ->
             VersioningType.values().find { enum ->
                 enum.name.equals(type, ignoreCase = true)
-            } ?: error(
+            } ?: gradleError(
                 """
                 The value of the type property is invalid. (input: $type)
                 Possible types: ${VersioningType.values().joinToString()}
@@ -80,7 +80,7 @@ allprojects {
         val bump = getPropertyOrNull<String, BumpType>(quackVersioningTaskBumpArgument) { bump ->
             BumpType.values().find { enum ->
                 enum.name.equals(bump, ignoreCase = true)
-            } ?: error(
+            } ?: gradleError(
                 """
                 The value of the bump property is invalid. (input: $bump)
                 Possible bumps: ${BumpType.values().joinToString()}
@@ -141,4 +141,9 @@ fun checkVersionFileIsValid(file: File) {
             """.trimIndent(),
         )
     }
+}
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun gradleError(message: String): Nothing {
+    throw GradleException(message)
 }
