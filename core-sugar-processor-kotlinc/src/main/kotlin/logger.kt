@@ -22,6 +22,10 @@ internal const val LogPrefix = "[SUGAR (IR)]"
 internal interface Logger {
     fun warn(value: Any?, location: CompilerMessageSourceLocation? = null)
     fun error(value: Any?, location: CompilerMessageSourceLocation? = null)
+
+    operator fun invoke(value: Any?, location: CompilerMessageSourceLocation? = null) {
+        warn(value = value, location = location)
+    }
 }
 
 internal fun CompilerConfiguration.getLogger(): Logger {
@@ -41,9 +45,12 @@ internal fun CompilerConfiguration.getLogger(): Logger {
     }
 }
 
+internal fun Any?.prependLogPrefix(withNewline: Boolean = false) =
+    "$LogPrefix ${if (withNewline) "\n$this" else " $this"}"
+
 /**
- *  Finds the line and column of [irElement] within this file.
- *  */
+ * Finds the line and column of [irElement] within this file.
+ */
 internal fun IrFile.locationOf(irElement: IrElement?): CompilerMessageSourceLocation {
     val sourceRangeInfo = fileEntry.getSourceRangeInfo(
         beginOffset = irElement?.startOffset ?: SYNTHETIC_OFFSET,

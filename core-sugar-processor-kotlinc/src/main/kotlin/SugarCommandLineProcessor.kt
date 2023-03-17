@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.config.CompilerConfigurationKey
 internal const val PluginId = "team.duckie.quackquack.sugar.processor.kotlinc"
 
 internal val KEY_SUGAR_PATH = CompilerConfigurationKey<String>(
-    "Where the sugar components will be created - Required",
+    "Where the sugar components will be created - required",
 )
 internal val OPTION_SUGAR_PATH = CliOption(
     optionName = "sugarPath",
@@ -28,21 +28,35 @@ internal val OPTION_SUGAR_PATH = CliOption(
     allowMultipleOccurrences = false,
 )
 
+internal val KEY_POET = CompilerConfigurationKey<String>(
+    "Whether to enable sugar components generation - default is true",
+)
+internal val OPTION_POET = CliOption(
+    optionName = "poet",
+    valueDescription = "<true | false>",
+    description = KEY_POET.toString(),
+    required = false,
+    allowMultipleOccurrences = false,
+)
+
 @AutoService(CommandLineProcessor::class)
 class SugarCommandLineProcessor : CommandLineProcessor {
     override val pluginId = PluginId
 
-    override val pluginOptions = listOf(OPTION_SUGAR_PATH)
+    override val pluginOptions = listOf(
+        OPTION_SUGAR_PATH,
+        OPTION_POET,
+    )
 
     override fun processOption(
         option: AbstractCliOption,
         value: String,
         configuration: CompilerConfiguration,
     ) {
-        if (option.optionName == OPTION_SUGAR_PATH.optionName) {
-            configuration.put(KEY_SUGAR_PATH, value)
-        } else {
-            error("Unknown plugin option: ${option.optionName}")
+        when (val optionName = option.optionName) {
+            OPTION_SUGAR_PATH.optionName -> configuration.put(KEY_SUGAR_PATH, value)
+            OPTION_POET.optionName -> configuration.put(KEY_POET, value)
+            else -> error("Unknown plugin option: $optionName")
         }
     }
 }

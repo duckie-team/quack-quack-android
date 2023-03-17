@@ -15,6 +15,7 @@ import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
 internal class SugarIrExtension(
     private val logger: Logger,
     private val sugarPath: String,
+    private val poet: Boolean,
 ) : IrGenerationExtension {
     override fun generate(
         moduleFragment: IrModuleFragment,
@@ -22,6 +23,7 @@ internal class SugarIrExtension(
     ) {
         val sugarIrDatas = mutableListOf<SugarIrData>()
         val visitor = SugarIrVisitor(
+            context = pluginContext,
             logger = logger,
             addSugarIrData = sugarIrDatas::add,
         )
@@ -30,6 +32,7 @@ internal class SugarIrExtension(
             logger = logger,
         )
         moduleFragment.accept(visitor, null)
-        moduleFragment.transform(transformer, sugarIrDatas)
+        // generateSugarComponents(sugarIrDatas)
+        // moduleFragment.transform(transformer, sugarIrDatas)
     }
 }

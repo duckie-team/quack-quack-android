@@ -21,12 +21,6 @@ internal class SugarIrTransformer(
         declaration: IrSimpleFunction,
         data: List<SugarIrData>,
     ): IrStatement {
-        if (declaration.name.asString() == "Test") {
-            logger.warn("Test function was changed.")
-            val prevValueParameters = declaration.valueParameters
-            prevValueParameters[0].defaultValue = data.first().defaultValue
-            declaration.valueParameters = prevValueParameters
-        }
         return super.visitSimpleFunction(declaration, data)
     }
 }

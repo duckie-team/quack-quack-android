@@ -5,6 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
+@file:Suppress("DEPRECATION")
 @file:OptIn(ExperimentalCompilerApi::class)
 
 import com.google.auto.service.AutoService
@@ -16,7 +17,6 @@ import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
 
-@Suppress("DEPRECATION")
 @AutoService(ComponentRegistrar::class)
 class SugarComponentRegistrar : ComponentRegistrar {
     override val supportsK2 = true
@@ -26,6 +26,7 @@ class SugarComponentRegistrar : ComponentRegistrar {
         configuration: CompilerConfiguration,
     ) {
         val sugarPath = checkNotNull(configuration[KEY_SUGAR_PATH]) { "sugarPath was missing." }
+        val poetMode = configuration[KEY_POET]?.toBooleanStrict() ?: true
 
         project.extensionArea
             .getExtensionPoint(IrGenerationExtension.extensionPointName)
@@ -33,6 +34,7 @@ class SugarComponentRegistrar : ComponentRegistrar {
                 SugarIrExtension(
                     logger = configuration.getLogger(),
                     sugarPath = sugarPath,
+                    poet = poetMode,
                 ),
                 LoadingOrder.FIRST,
                 project,

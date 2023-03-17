@@ -11,6 +11,9 @@ import org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME as
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+// -- FIX LOCATION
+private val poet = true
+
 plugins {
     `buildlogic-android-library`
     `buildlogic-android-compose`
@@ -36,6 +39,10 @@ tasks.withType<KotlinCompile> {
             "-P",
             "plugin:$sugarProcessorKotlinCompilerPluginId:sugarPath=$sugarPath",
         )
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-P",
+            "plugin:$sugarProcessorKotlinCompilerPluginId:poet=$poet",
+        )
     }
 }
 
@@ -60,8 +67,8 @@ dependencies {
         libs.compose.coil,
         libs.compose.animation,
         libs.compose.material,
-        "team.duckie.quack:${QuackArtifactType.CoreAideAnnotation.forceInternal().asArtifactId()}:0.1.0",
-        "team.duckie.quack:${QuackArtifactType.CoreSugarMaterial.forceInternal().asArtifactId()}:0.1.0",
+        projects.coreAideAnnotation,
+        projects.coreSugarMaterial,
     )
 
     testImplementation(libs.test.strikt)
