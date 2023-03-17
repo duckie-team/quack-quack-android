@@ -32,7 +32,8 @@ import team.duckie.quackquack.core.material.animatedQuackTextStyleAsState
 import team.duckie.quackquack.core.runtime.QuackDataModifierModel
 import team.duckie.quackquack.core.runtime.quackComposed
 import team.duckie.quackquack.core.runtime.quackMaterializeOf
-import team.duckie.quackquack.core.util.fastFirstInstanceOrNull
+import team.duckie.quackquack.core.util.fastFirstIsInstanceOrNull
+import team.duckie.quackquack.sugar.annotation.SugarToken
 
 /**
  * `Modifier.highlight`에 들어가는 하이라이트 아이템을 [Pair]로 나타냅니다.
@@ -185,17 +186,17 @@ internal object QuackTextErrors {
 public fun QuackText(
     modifier: Modifier = Modifier,
     text: String,
-    typography: QuackTypography,
+    @SugarToken typography: QuackTypography,
     singleLine: Boolean = false,
     softWrap: Boolean = true,
     overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
     val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier)
     val spanData = remember(quackDataModels) {
-        quackDataModels.fastFirstInstanceOrNull<SpanData>()
+        quackDataModels.fastFirstIsInstanceOrNull<SpanData>()
     }
     val highlightData = remember(quackDataModels) {
-        quackDataModels.fastFirstInstanceOrNull<HighlightData>()
+        quackDataModels.fastFirstIsInstanceOrNull<HighlightData>()
     }
 
     if (highlightData != null && spanData != null) {

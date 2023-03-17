@@ -13,9 +13,10 @@ import kotlin.reflect.KClass
 @MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
-public annotation class Sugar(val name: String = DEFAULT_NAME) {
+public annotation class SugarName(val name: String = DEFAULT_NAME) {
     public companion object {
-        public const val DEFAULT_NAME: String = "DEFAULT_NAME"
+        public const val DEFAULT_NAME: String = "<<DEFAULT_NAME>>"
+        public const val TOKEN_NAME: String = "<<SUGAR_TOKEN>>"
     }
 }
 
@@ -27,7 +28,7 @@ public annotation class SugarRefer(val fqn: String)
 
 // TODO: 문서 제공
 @MustBeDocumented
-@Target(AnnotationTarget.CLASS)
+@Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.BINARY)
 public annotation class SugarToken
 
