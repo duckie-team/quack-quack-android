@@ -14,16 +14,18 @@ import com.squareup.kotlinpoet.FunSpec
 import ir.SugarIrData
 import org.jetbrains.kotlin.name.FqName
 
-internal typealias FilePath = String
-
-internal fun FilePath.bestGuessToKotlinPackageName(): String {
-    return substringAfter("src/main/kotlin/")
+internal fun String.bestGuessToKotlinPackageName(): String {
+    return substringAfter("src/main/kotlin/").replace("/", ".")
 }
 
 internal fun SugarIrData.toSugarComponentName(tokenFqExpression: String): String {
-    val tokenExpression = tokenFqExpression.substringAfterLast(".").replaceFirstChar(Char::titlecase)
+    val tokenExpression = tokenFqExpression
+        .substringAfterLast(".")
+        .replaceFirstChar(Char::titlecase)
     return sugarName?.replace(SugarTokenName, tokenExpression)
-        ?: refer
+        ?: referFqn
+            .shortName()
+            .asString()
             .toMutableList()
             .apply { addAll(QuackComponentPrefix.length, tokenExpression.toList()) }
             .joinToString("")

@@ -11,6 +11,7 @@ import Logger
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
+import poet.generateSugarComponentFiles
 
 internal class SugarIrExtension(
     private val logger: Logger,
@@ -32,7 +33,20 @@ internal class SugarIrExtension(
             logger = logger,
         )
         moduleFragment.accept(visitor, null)
-        // generateSugarComponents(sugarIrDatas)
-        // moduleFragment.transform(transformer, sugarIrDatas)
+        if (poet) {
+            generateSugarComponentFiles(
+                irDatas = sugarIrDatas,
+                sugarPath = sugarPath,
+            )
+        }
+        moduleFragment.transform(transformer, sugarIrDatas.toMap())
+    }
+}
+
+private fun List<SugarIrData>.toMap(): Map<String, SugarIrData> {
+    return buildMap(capacity = size) {
+        this@toMap.forEach { sugarIrData ->
+            set(sugarIrData.referFqn.asString(), sugarIrData)
+        }
     }
 }
