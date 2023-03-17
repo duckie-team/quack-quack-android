@@ -9,6 +9,7 @@ import kotlin.collections.Map
 
 internal val aideComponents: Map<String, List<String>> = run {
   val aide = mutableMapOf<String, List<String>>()
+  aide["sugar"] = listOf("QuackGreet")
   aide["QuackAnimatedContent"] = listOf("QuackAnimatedContent")
   aide["QuackAnimatedVisibility"] = listOf("QuackAnimatedVisibility")
   aide["text"] = listOf("QuackText")
