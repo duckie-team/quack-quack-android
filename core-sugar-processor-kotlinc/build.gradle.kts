@@ -18,6 +18,7 @@ dependencies {
     implementations(
         libs.google.autoservice.annotation,
         libs.kotlin.kotlinpoet.core,
+        projects.coreSugarMaterial,
     )
     ksp(libs.google.autoservice.ksp.processor)
     testImplementations(

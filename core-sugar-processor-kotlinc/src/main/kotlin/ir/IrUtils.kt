@@ -21,7 +21,6 @@ import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.types.isUnit
 import org.jetbrains.kotlin.ir.util.SYNTHETIC_OFFSET
 import org.jetbrains.kotlin.ir.util.hasAnnotation
-import toFqnClass
 
 /**
  * 주어진 [함수][IrSimpleFunction]가 꽥꽥 컴포넌트인지 여부를 나타냅니다.
@@ -33,7 +32,7 @@ import toFqnClass
  * 4. 함수의 이름이 [Quack][QuackComponentPrefix]으로 시작합니다.
  */
 internal val IrSimpleFunction.isQuackComponent: Boolean
-    get() = hasAnnotation(ComposableFqn.toFqnClass()) &&
+    get() = hasAnnotation(ComposableFqn) &&
             visibility.isPublicAPI &&
             returnType.isUnit() &&
             name.asString().startsWith(QuackComponentPrefix)

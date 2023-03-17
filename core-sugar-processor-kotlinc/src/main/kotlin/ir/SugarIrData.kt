@@ -11,7 +11,9 @@ import ComposableFqn
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.ParameterSpec
 import org.jetbrains.kotlin.ir.backend.js.utils.asString
+import org.jetbrains.kotlin.ir.declarations.IrFile
 import org.jetbrains.kotlin.ir.declarations.IrValueParameter
+import org.jetbrains.kotlin.ir.declarations.name
 import org.jetbrains.kotlin.ir.expressions.IrExpressionBody
 import org.jetbrains.kotlin.ir.types.IrType
 import org.jetbrains.kotlin.ir.util.dumpKotlinLike
@@ -21,16 +23,22 @@ import org.jetbrains.kotlin.utils.addToStdlib.applyIf
 
 // TODO: 문서 제공
 internal data class SugarIrData(
-    val refer: String,
+    val file: IrFile,
+    val referFqn: FqName,
     val kdoc: String,
     val sugarName: String?,
     val sugarToken: IrValueParameter,
     val tokenFqExpressions: List<String>,
     val parameters: List<SugarParameter>,
 ) {
+    val parametersWithoutToken: List<SugarParameter> = parameters.toMutableList().apply {
+        removeIf(SugarParameter::isToken)
+    }
+
     override fun toString(): String {
         return """
-            |refer: $refer
+            |file: ${file.name}
+            |referFqn: ${referFqn.asString()}
             |kdoc: $kdoc
             |sugarName: $sugarName
             |sugarToken: ${sugarToken.name.asString()}
@@ -55,7 +63,10 @@ internal data class SugarParameter(
                 type = ClassName.bestGuess(type.unsafeFqn),
             )
             .applyIf(isComposable) {
-                addAnnotation(ClassName.bestGuess(ComposableFqn))
+                addAnnotation(ClassName.bestGuess(ComposableFqn.asString()))
+            }
+            .applyIf(defaultValue != null) {
+                defaultValue("%L()", "sugar")
             }
             .build()
     }
