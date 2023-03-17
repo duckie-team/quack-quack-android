@@ -58,7 +58,7 @@ public fun Composer.quackMaterializeOf(modifier: Modifier): Pair<Modifier, List<
                     quackDataModels += composed
                     acc
                 } else {
-                    // FIXME(sungbin): 최초 컴포지션시에 stdlib-materializerOf으로 들어가면 re-invoke됨 (동일 프레임에서)
+                    // FIXME: 최초 컴포지션시에 stdlib-materializerOf으로 들어가면 re-invoke됨 (동일 프레임에서)
                     @Suppress("UnnecessaryComposedModifier")
                     acc.composed(factory = element.factory)
                 }
