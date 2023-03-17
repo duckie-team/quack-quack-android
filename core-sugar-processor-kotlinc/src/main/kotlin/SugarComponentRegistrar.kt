@@ -17,6 +17,7 @@ import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
 
+// TODO: 왜 deprecated된 메서드를 사용하는지 문서화
 @AutoService(ComponentRegistrar::class)
 class SugarComponentRegistrar : ComponentRegistrar {
     override val supportsK2 = true

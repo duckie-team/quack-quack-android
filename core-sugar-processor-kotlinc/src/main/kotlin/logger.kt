@@ -8,14 +8,10 @@
 @file:Suppress("unused")
 
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocationWithRange
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSourceLocation
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.config.CompilerConfiguration
-import org.jetbrains.kotlin.ir.IrElement
-import org.jetbrains.kotlin.ir.declarations.IrFile
-import org.jetbrains.kotlin.ir.util.SYNTHETIC_OFFSET
 
 internal const val LogPrefix = "[SUGAR (IR)]"
 
@@ -47,21 +43,3 @@ internal fun CompilerConfiguration.getLogger(): Logger {
 
 internal fun Any?.prependLogPrefix(withNewline: Boolean = false) =
     "$LogPrefix ${if (withNewline) "\n$this" else " $this"}"
-
-/**
- * Finds the line and column of [irElement] within this file.
- */
-internal fun IrFile.locationOf(irElement: IrElement?): CompilerMessageSourceLocation {
-    val sourceRangeInfo = fileEntry.getSourceRangeInfo(
-        beginOffset = irElement?.startOffset ?: SYNTHETIC_OFFSET,
-        endOffset = irElement?.endOffset ?: SYNTHETIC_OFFSET,
-    )
-    return CompilerMessageLocationWithRange.create(
-        path = sourceRangeInfo.filePath,
-        lineStart = sourceRangeInfo.startLineNumber + 1,
-        columnStart = sourceRangeInfo.startColumnNumber + 1,
-        lineEnd = sourceRangeInfo.endLineNumber + 1,
-        columnEnd = sourceRangeInfo.endColumnNumber + 1,
-        lineContent = null,
-    )!!
-}

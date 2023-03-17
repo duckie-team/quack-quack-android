@@ -5,14 +5,21 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
+@file:Suppress("unused")
+
 package ir
 
 import ComposableFqn
 import QuackComponentPrefix
+import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocationWithRange
+import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSourceLocation
+import org.jetbrains.kotlin.ir.IrElement
+import org.jetbrains.kotlin.ir.declarations.IrFile
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
 import org.jetbrains.kotlin.ir.types.IrType
 import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.types.isUnit
+import org.jetbrains.kotlin.ir.util.SYNTHETIC_OFFSET
 import org.jetbrains.kotlin.ir.util.hasAnnotation
 import toFqnClass
 
@@ -33,3 +40,21 @@ internal val IrSimpleFunction.isQuackComponent: Boolean
 
 internal val IrType.unsafeFqn: String
     get() = classFqName!!.asString()
+
+/**
+ * Finds the line and column of [irElement] within this file.
+ */
+internal fun IrFile.locationOf(irElement: IrElement?): CompilerMessageSourceLocation {
+    val sourceRangeInfo = fileEntry.getSourceRangeInfo(
+        beginOffset = irElement?.startOffset ?: SYNTHETIC_OFFSET,
+        endOffset = irElement?.endOffset ?: SYNTHETIC_OFFSET,
+    )
+    return CompilerMessageLocationWithRange.create(
+        path = sourceRangeInfo.filePath,
+        lineStart = sourceRangeInfo.startLineNumber + 1,
+        columnStart = sourceRangeInfo.startColumnNumber + 1,
+        lineEnd = sourceRangeInfo.endLineNumber + 1,
+        columnEnd = sourceRangeInfo.endColumnNumber + 1,
+        lineContent = null,
+    )!!
+}

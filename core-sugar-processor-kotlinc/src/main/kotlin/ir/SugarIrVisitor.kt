@@ -69,7 +69,7 @@ internal class SugarIrVisitor(
                 }
                 parameter.toSugarParameter(isToken = sugarToken != null)
             }
-            sugarToken ?: return // not a sugar component -> ignore
+            sugarToken ?: return // Not a sugar component -> ignore
 
             val sugarIrData = SugarIrData(
                 refer = declaration.name.asString(),
@@ -87,7 +87,7 @@ internal class SugarIrVisitor(
 }
 
 private fun IrConstructorCall.getSugarNameOrNull(): String? {
-    // assuming the first argument is always "name"
+    // Assuming the first argument is always "name"
     val sugarNameExpression = getValueArgument(0)
     return sugarNameExpression.cast<IrConst<String>>().value.takeIf { name ->
         (name != SugarDefaultName).also { isCustomSugarName ->
@@ -112,7 +112,7 @@ private fun checkCustomSugarNameIsValid(name: String) {
 private fun IrValueParameter.toSugarParameter(isToken: Boolean): SugarParameter {
     val sugarImportsAnnotation = getAnnotation(SugarImportsFqn.toFqnClass())
     val sugarImports = sugarImportsAnnotation?.let {
-        // assuming the first argument is always "clazz"
+        // Assuming the first argument is always "clazz"
         val sugarImportsExpression = sugarImportsAnnotation.getValueArgument(0)
         sugarImportsExpression.cast<IrVararg>().elements.map { element ->
             element.cast<IrClassReference>().classType.classFqName!!
