@@ -24,11 +24,9 @@ internal val KSFunctionDeclaration.isPublicQuackComponent: Boolean
     get() {
         // 1. 공개 함수이고,
         // 2. 함수명이 Quack으로 시작하며,
-        // 3. 확장 함수가 아니고,
-        // 4. 반환 타입이 없어야 함
+        // 3. 반환 타입이 없어야 함
         return modifiers.contains(Modifier.PUBLIC) &&
                 simpleName.asString().startsWith(QuackComponentPrefix) &&
-                extensionReceiver == null &&
                 returnType.toString() == UnitSn
     }
 
