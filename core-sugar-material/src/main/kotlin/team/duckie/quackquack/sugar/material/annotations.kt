@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-package team.duckie.quackquack.sugar.annotation
+package team.duckie.quackquack.sugar.material
 
 import kotlin.reflect.KClass
 
@@ -15,22 +15,37 @@ import kotlin.reflect.KClass
 @Retention(AnnotationRetention.BINARY)
 public annotation class SugarName(val name: String = DEFAULT_NAME) {
     public companion object {
+        public const val PREFIX_NAME: String = "Quack"
         public const val DEFAULT_NAME: String = "<<DEFAULT_NAME>>"
         public const val TOKEN_NAME: String = "<<SUGAR_TOKEN>>"
     }
 }
 
 // TODO: 문서 제공
+@MustBeDocumented
+@Target(AnnotationTarget.VALUE_PARAMETER)
+@Retention(AnnotationRetention.BINARY)
+public annotation class SugarToken
+
+// TODO: 문서 제공
 @SugarCompilerApi
+@MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
 public annotation class SugarRefer(val fqn: String)
 
 // TODO: 문서 제공
 @MustBeDocumented
-@Target(AnnotationTarget.VALUE_PARAMETER)
+@Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
-public annotation class SugarToken
+public annotation class NoSugar
+
+// TODO: 문서 제공
+@SugarCompilerApi
+@MustBeDocumented
+@Target(AnnotationTarget.FILE)
+@Retention(AnnotationRetention.BINARY)
+public annotation class GeneratedFile
 
 // TODO: 문서 제공
 @MustBeDocumented

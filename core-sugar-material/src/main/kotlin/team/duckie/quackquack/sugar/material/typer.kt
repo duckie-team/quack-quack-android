@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-package team.duckie.quackquack.sugar.annotation
+package team.duckie.quackquack.sugar.material
 
 // TODO: 문서 제공
 @SugarCompilerApi

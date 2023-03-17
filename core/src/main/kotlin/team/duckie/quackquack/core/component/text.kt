@@ -33,7 +33,8 @@ import team.duckie.quackquack.core.runtime.QuackDataModifierModel
 import team.duckie.quackquack.core.runtime.quackComposed
 import team.duckie.quackquack.core.runtime.quackMaterializeOf
 import team.duckie.quackquack.core.util.fastFirstIsInstanceOrNull
-import team.duckie.quackquack.sugar.annotation.SugarToken
+import team.duckie.quackquack.sugar.material.SugarName
+import team.duckie.quackquack.sugar.material.SugarToken
 
 /**
  * `Modifier.highlight`에 들어가는 하이라이트 아이템을 [Pair]로 나타냅니다.
@@ -182,6 +183,7 @@ internal object QuackTextErrors {
  * 또한 [overflow] 및 [TextAlign]에 예기치 않은 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
  */
+@SugarName(SugarName.PREFIX_NAME + SugarName.TOKEN_NAME)
 @Composable
 public fun QuackText(
     modifier: Modifier = Modifier,
