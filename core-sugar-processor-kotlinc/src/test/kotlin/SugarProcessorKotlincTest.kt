@@ -21,7 +21,6 @@ import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.JvmTarget
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -30,7 +29,7 @@ import org.junit.runners.Parameterized
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-@Ignore("미완성")
+// @Ignore("미완성")
 @RunWith(Parameterized::class)
 class SugarProcessorKotlincTest(private val useK2: Boolean) {
     @get:Rule
@@ -66,7 +65,7 @@ class SugarProcessorKotlincTest(private val useK2: Boolean) {
                     hi: Hi? = HiImpl(),
                     list: List<Int> = setOf(1, 2, 3).toList(),
                 ) {
-                    test = number
+                    // test = number
                 }
                 """,
             ),
@@ -76,6 +75,7 @@ class SugarProcessorKotlincTest(private val useK2: Boolean) {
         expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
     }
 
+    @Suppress("DEPRECATION_ERROR")
     private fun prepareCompilation(vararg sourceFiles: SourceFile): KotlinCompilation {
         return KotlinCompilation().apply {
             workingDir = temporaryFolder.root
@@ -90,7 +90,7 @@ class SugarProcessorKotlincTest(private val useK2: Boolean) {
                 ),
             )
             inheritClassPath = true
-            compilerPluginRegistrars = listOf(SugarComponentRegistrar())
+            compilerPlugins = listOf(SugarComponentRegistrar())
             commandLineProcessors = listOf(SugarCommandLineProcessor())
             useK2 = this@SugarProcessorKotlincTest.useK2
         }
