@@ -7,7 +7,7 @@
 
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 
-val stubs = arrayOf(
+val stubs = listOf(
     kotlin(
         "Modifier.kt",
         """
