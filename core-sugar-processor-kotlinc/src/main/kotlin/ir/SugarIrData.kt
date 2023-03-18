@@ -7,7 +7,7 @@
 
 package ir
 
-import ComposableFqn
+import ComposableCn
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.ParameterSpec
 import org.jetbrains.kotlin.ir.backend.js.utils.asString
@@ -63,7 +63,7 @@ internal data class SugarParameter(
                 type = ClassName.bestGuess(type.unsafeFqn),
             )
             .applyIf(isComposable) {
-                addAnnotation(ClassName.bestGuess(ComposableFqn.asString()))
+                addAnnotation(ComposableCn)
             }
             .applyIf(defaultValue != null) {
                 defaultValue("%L()", "sugar")

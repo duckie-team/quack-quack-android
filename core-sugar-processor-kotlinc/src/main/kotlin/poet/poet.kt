@@ -7,10 +7,9 @@
 
 package poet
 
-import ComposableFqn
+import ComposableCn
 import SugarFqn
 import com.squareup.kotlinpoet.AnnotationSpec
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -135,7 +134,7 @@ private fun SugarIrData.toFunSpecWithImports(tokenFqExpression: String): Pair<Li
 
     val funSpec = FunSpec
         .builder(sugarName)
-        .addAnnotation(ClassName.bestGuess(ComposableFqn.asString()))
+        .addAnnotation(ComposableCn)
         .addAnnotation(sugarReferAnnotation)
         .addModifiers(KModifier.PUBLIC)
         .addParameters(parametersWithoutToken.map(SugarParameter::toParameterSpec))
