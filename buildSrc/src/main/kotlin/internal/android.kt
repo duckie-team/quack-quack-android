@@ -12,7 +12,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 
-internal fun Project.configureApplication(extension: CommonExtension<*, *, *, *>) {
+internal fun Project.configureAndroid(extension: CommonExtension<*, *, *, *>) {
     extension.apply {
         compileSdk = ApplicationConstants.CompileSdk
 
@@ -22,6 +22,7 @@ internal fun Project.configureApplication(extension: CommonExtension<*, *, *, *>
 
         sourceSets {
             getByName("main").java.srcDirs("src/main/kotlin/")
+            getByName("test").java.srcDirs("src/test/kotlin/")
         }
 
         compileOptions {
