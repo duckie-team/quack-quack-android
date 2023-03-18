@@ -146,7 +146,7 @@ class CoreAideGenerationTest(private val useKspIncremental: Boolean) {
                 }
 
 
-                """.trimIndent(),
+                """,
             )
         }
     }
@@ -240,7 +240,7 @@ class CoreAideGenerationTest(private val useKspIncremental: Boolean) {
                 }
 
 
-                """.trimIndent(),
+                """,
             )
         }
     }

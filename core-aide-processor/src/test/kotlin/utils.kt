@@ -10,5 +10,5 @@ import strikt.api.Assertion
 import strikt.assertions.isEqualTo
 
 fun Assertion.Builder<String>.isKtEqualTo(@Language("kotlin") code: String): Assertion.Builder<String> {
-    return isEqualTo(code)
+    return isEqualTo(code.trimIndent())
 }
