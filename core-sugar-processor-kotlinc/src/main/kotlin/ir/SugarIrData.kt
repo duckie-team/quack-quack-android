@@ -7,7 +7,6 @@
 
 package ir
 
-import ComposableCn
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.ParameterSpec
 import org.jetbrains.kotlin.ir.backend.js.utils.asString
@@ -48,6 +47,7 @@ internal data class SugarIrData(
     }
 }
 
+// TODO: 함수형 타입 지원 (@Function 어노테이션 도입 필요)
 internal data class SugarParameter(
     val name: Name,
     val type: IrType,

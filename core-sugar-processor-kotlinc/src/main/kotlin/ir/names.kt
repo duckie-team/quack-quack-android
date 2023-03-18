@@ -7,6 +7,8 @@
 
 @file:OptIn(SugarCompilerApi::class)
 
+package ir
+
 import com.squareup.kotlinpoet.ClassName
 import org.jetbrains.kotlin.name.FqName
 import team.duckie.quackquack.sugar.material.GeneratedFile
