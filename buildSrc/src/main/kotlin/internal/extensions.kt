@@ -32,8 +32,3 @@ internal inline fun DependencyHandler.setupJunit(core: Any, engine: Any) {
     add("testImplementation", core)
     add("testRuntimeOnly", engine)
 }
-
-// Back-end (JVM) Internal error: wrong bytecode generated
-// context(DependencyHandler) internal operator fun String.invoke(dependencyNotation: Any) {
-//     add(this, dependencyNotation)
-// }
