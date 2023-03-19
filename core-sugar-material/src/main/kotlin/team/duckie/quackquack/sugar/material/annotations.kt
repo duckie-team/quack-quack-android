@@ -9,7 +9,48 @@ package team.duckie.quackquack.sugar.material
 
 import kotlin.reflect.KClass
 
-// TODO: 문서 제공
+/**
+ * sugar component의 이름을 직접 명시합니다. 만약 직접 명시하지 않으면
+ * 기본 정책에 맞게 네이밍이 진행됩니다. sugar component의 기본 네이밍 정책은
+ * `core-sugar-processor-kotlinc` 모듈을 참고하세요.
+ *
+ * sugar component의 이름을 직접 명시할 때는 다음과 같은 규칙이 보장돼야 합니다.
+ *
+ * 1. "Quack" *접두사*를 가져야 합니다. "Quack"은 [SugarName.PREFIX_NAME] 상수로 이용할 수 있습니다.
+ * 2. sugar token의 적용된 필드명을 나타내는 "<<SUGAR_TOKEN>>"이 무조건 포함돼야 합니다.
+ * "<<SUGAR_TOKEN>>"는 [SugarName.TOKEN_NAME] 상수로 이용할 수 있습니다.
+ * 3. "<<DEFAULT_NAME>>"이 제공되면 기본 네이밍 정책을 그대로 사용합니다.
+ * "<<DEFAULT_NAME>>"는 [SugarName.DEFAULT_NAME] 상수로 이용할 수 있습니다.
+ *
+ * 예를 들어, 다음과 같은 컴포넌트가 있습니다.
+ *
+ * ```
+ * @JvmInline
+ * value class Theme(val index: Int) {
+ *     companion object {
+ *         val Default = Theme(1)
+ *     }
+ * }
+ *
+ * @SugarToken(SugarName.PREFIX_NAME + SugarName.TOKEN_NAME + "Component")
+ * @Composable
+ * fun QuackAwesome(@SugarToken theme: Theme) {
+ *     // ...
+ * }
+ * ```
+ *
+ * 이 컴포넌트는 다음과 같은 sugar가 생성됩니다.
+ *
+ * ```
+ * @SugarRefer("QuackAwesome")
+ * @Composable
+ * fun QuackDefaultComponent() {
+ *     // ...
+ * }
+ * ```
+ *
+ * @param name 생성할 sugar component의 이름
+ */
 @MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
@@ -21,20 +62,148 @@ public annotation class SugarName(val name: String = DEFAULT_NAME) {
     }
 }
 
-// TODO: 문서 제공
+/**
+ * sugar component에 사용할 sugar token을 나타냅니다.
+ * sugar token은 다음과 같은 규칙이 보장해야 합니다.
+ *
+ * 1. companion object가 있어야 합니다.
+ * 2. sugar token의 값들은 companion object 안에 public variable로 정의돼야 합니다.
+ *
+ * 예를 들어, 다음과 같은 sugar token은 유효합니다.
+ *
+ * ```
+ * @JvmInline
+ * value class Theme(val index: Int) {
+ *     companion object {
+ *         val Default = Theme(1)
+ *         val Dark = Theme(2)
+ *         val Light = Theme(3)
+ *         val System = Theme(4)
+ *     }
+ * }
+ * ```
+ *
+ * 다음과 같은 sugar token은 무효합니다.
+ *
+ * ```
+ * @JvmInline
+ * value class Theme(val index: Int) {
+ *     companion object {
+ *         fun getDefault() = Theme(1) // function 입니다.
+ *         fun Dark() = Theme(2) // function 입니다.
+ *         private val Light = Theme(3) // private 입니다.
+ *         private val System = Theme(4) // private 입니다.
+ *     }
+ * }
+ * ```
+ *
+ * 이어지는 예시로, 다음과 같은 컴포넌트가 있습니다.
+ *
+ * ```
+ * @Composable
+ * fun QuackAwesome(@SugarToken theme: Theme) {
+ *     QuackTheme(theme = theme)
+ * }
+ * ```
+ *
+ * 위 컴포넌트의 sugar는 이렇게 생성됩니다.
+ *
+ * ```
+ * @Composable
+ * @SugarRefer("QuackAwesome")
+ * fun QuackDefaultAwesome() {
+ *     QuackTheme(theme = Theme.Default)
+ * }
+ *
+ * @Composable
+ * @SugarRefer("QuackAwesome")
+ * fun QuackDarkAwesome() {
+ *     QuackTheme(theme = Theme.Dark)
+ * }
+ *
+ * @Composable
+ * @SugarRefer("QuackAwesome")
+ * fun QuackLightAwesome() {
+ *     QuackTheme(theme = Theme.Light)
+ * }
+ *
+ * @Composable
+ * @SugarRefer("QuackAwesome")
+ * fun QuackSystemAwesome() {
+ *     QuackTheme(theme = Theme.System)
+ * }
+ * ```
+ *
+ * 현재 sugar token은 value class, data class, class 사용에만 테스트됐습니다.
+ */
 @MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.BINARY)
 public annotation class SugarToken
 
-// TODO: 문서 제공
+/**
+ * 생성된 sugar component의 원래 대상에 해당하는 fully-qualified name를 나타냅니다.
+ * 예를 들어, 다음과 같은 컴포넌트가 있습니다.
+ *
+ * ```
+ * package team.duckie.awesome
+ *
+ * @JvmInline
+ * value class Theme(val index: Int) {
+ *     companion object {
+ *         val Default = Theme(1)
+ *     }
+ * }
+ *
+ * @Composable
+ * fun QuackTest(@SugarToken theme: Theme) {
+ *     // ...
+ * }
+ * ```
+ *
+ * 이 컴포넌트의 sugar는 이렇게 생성됩니다.
+ *
+ * ```
+ * @SugarRefer("team.duckie.awesome.QuackTest") // fully-qualified name usage
+ * @Composable
+ * fun QuackDefaultTest() {
+ *     // ...
+ * }
+ * ```
+ *
+ * 이 정보는 `core-sugar-processor-kotlinc`에서 원래 함수의 IR 정보를 조회하기 위해
+ * 추가됩니다. 자세한 정보는 해당 모듈을 참고하세요. 또한 이 어노테이션은 꽥꽥 내부에서 사용될
+ * 목적으로 설계됐습니다. 임의로 사용할 경우 예상치 못한 버그가 발생할 수 있습니다.
+ */
 @SugarCompilerApi
 @MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
 public annotation class SugarRefer(val fqn: String)
 
-// TODO: 문서 제공
+/**
+ * 이 컴포넌트의 sugar를 만들지 않도록 예방합니다.
+ * 예를 들어, 다음과 같은 코드가 있습니다.
+ *
+ * ```
+ * @JvmInline
+ * value class Theme(val index: Int) {
+ *     companion object {
+ *         val Default = Theme(1)
+ *         val Dark = Theme(2)
+ *         val Light = Theme(3)
+ *     }
+ * }
+ *
+ * @NoSugar
+ * @Composable
+ * fun QuackAwesome(@SugarToken theme: Theme) {
+ *     QuackTheme(theme = theme)
+ * }
+ * ```
+ *
+ * 이 컴포넌트는 [`@NoSugar`][NoSugar]의 영향으로 sugar component가 생성되지 않습니다.
+ */
 @MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
