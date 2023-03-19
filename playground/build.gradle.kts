@@ -19,6 +19,6 @@ dependencies {
         libs.compose.activity,
         libs.compose.material3,
         projects.core,
-        // "team.duckie.quack:${QuackArtifactType.Core.forceInternal().asArtifactId()}:0.1.4"
+        // QuackArtifactType.Core.setInternal().asArtifactFqPath(project),
     )
 }

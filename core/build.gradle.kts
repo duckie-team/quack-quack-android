@@ -67,10 +67,10 @@ dependencies {
         libs.compose.coil,
         libs.compose.animation,
         libs.compose.material,
-        // projects.coreAideAnnotation,
-        // projects.coreSugarMaterial,
-        QuackArtifactType.CoreAideAnnotation.setInternal().asArtifactFqPath(project),
-        QuackArtifactType.CoreSugarMaterial.setInternal().asArtifactFqPath(project),
+        projects.coreAideAnnotation,
+        projects.coreSugarMaterial,
+        // QuackArtifactType.CoreAideAnnotation.setInternal().asArtifactFqPath(project),
+        // QuackArtifactType.CoreSugarMaterial.setInternal().asArtifactFqPath(project),
     )
 
     testImplementation(libs.test.strikt)
@@ -82,8 +82,8 @@ dependencies {
     )
 
     kotlinCompilerPlugin(
-        // projects.coreSugarProcessorKotlinc
-        QuackArtifactType.CoreSugarProcessorKotlinc.setInternal().asArtifactFqPath(project),
+         projects.coreSugarProcessorKotlinc
+        // QuackArtifactType.CoreSugarProcessorKotlinc.setInternal().asArtifactFqPath(project),
     )
     ksp(projects.coreAideProcessor)
 

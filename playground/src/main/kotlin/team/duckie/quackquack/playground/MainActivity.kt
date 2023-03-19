@@ -13,7 +13,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import team.duckie.quackquack.core.component.sugar.QuackTitle1
 import team.duckie.quackquack.core.material.QuackColor
 
 class MainActivity : ComponentActivity() {
@@ -24,7 +26,10 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(color = QuackColor.DuckieOrange.value),
-            )
+                contentAlignment = Alignment.Center,
+            ) {
+                QuackTitle1(text = "HI~")
+            }
         }
     }
 }
