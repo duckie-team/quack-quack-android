@@ -67,8 +67,10 @@ dependencies {
         libs.compose.coil,
         libs.compose.animation,
         libs.compose.material,
-        projects.coreAideAnnotation,
+        // projects.coreAideAnnotation,
         projects.coreSugarMaterial,
+        "team.duckie.quack:${QuackArtifactType.CoreAideAnnotation.forceInternal().asArtifactId()}:0.1.0",
+        // "team.duckie.quack:${QuackArtifactType.CoreSugarMaterial.forceInternal().asArtifactId()}:0.1.1",
     )
 
     testImplementation(libs.test.strikt)
