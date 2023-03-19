@@ -68,9 +68,9 @@ dependencies {
         libs.compose.animation,
         libs.compose.material,
         // projects.coreAideAnnotation,
-        projects.coreSugarMaterial,
-        "team.duckie.quack:${QuackArtifactType.CoreAideAnnotation.forceInternal().asArtifactId()}:0.1.0",
-        // "team.duckie.quack:${QuackArtifactType.CoreSugarMaterial.forceInternal().asArtifactId()}:0.1.1",
+        // projects.coreSugarMaterial,
+        QuackArtifactType.CoreAideAnnotation.setInternal().asArtifactFqPath(project),
+        QuackArtifactType.CoreSugarMaterial.setInternal().asArtifactFqPath(project),
     )
 
     testImplementation(libs.test.strikt)
@@ -81,12 +81,15 @@ dependencies {
         projects.screenshotMatcher,
     )
 
-    kotlinCompilerPlugin(projects.coreSugarProcessorKotlinc)
+    kotlinCompilerPlugin(
+        // projects.coreSugarProcessorKotlinc
+        QuackArtifactType.CoreSugarProcessorKotlinc.setInternal().asArtifactFqPath(project),
+    )
     ksp(projects.coreAideProcessor)
 
     // lintPublish(projects.coreAide)
 }
 
 quack {
-    type = QuackArtifactType.Core.forceInternal()
+    type = QuackArtifactType.Core.setInternal()
 }

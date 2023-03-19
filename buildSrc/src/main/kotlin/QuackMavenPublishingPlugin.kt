@@ -150,7 +150,11 @@ enum class QuackArtifactType(
         return artifactId + if (level == ArtifactLevel.Internal) "-internal" else ""
     }
 
-    fun forceInternal(): QuackArtifactType {
+    fun asArtifactFqPath(project: Project): String {
+        return "$QuackBaseArtifactId:${asArtifactId()}:${project.parseArtifactVersion()}"
+    }
+
+    fun setInternal(): QuackArtifactType {
         return apply { level = ArtifactLevel.Internal }
     }
 }

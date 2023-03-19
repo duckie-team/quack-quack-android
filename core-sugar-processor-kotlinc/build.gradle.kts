@@ -19,8 +19,8 @@ dependencies {
     implementations(
         libs.google.autoservice.annotation,
         libs.kotlin.kotlinpoet.core,
-        projects.coreSugarMaterial,
-        // "team.duckie.quack:${QuackArtifactType.CoreSugarMaterial.forceInternal().asArtifactId()}:0.1.1"
+        // projects.coreSugarMaterial,
+        QuackArtifactType.CoreSugarProcessorKotlinc.setInternal().asArtifactFqPath(project),
     )
     ksp(libs.google.autoservice.ksp.processor)
     testImplementations(
@@ -30,5 +30,5 @@ dependencies {
 }
 
 quack {
-    type = QuackArtifactType.CoreSugarProcessorKotlinc.forceInternal()
+    type = QuackArtifactType.CoreSugarProcessorKotlinc.setInternal()
 }
