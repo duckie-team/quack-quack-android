@@ -12,5 +12,5 @@ plugins {
 }
 
 quack {
-    type = QuackArtifactType.CoreAideAnnotation.forceInternal()
+    type = QuackArtifactType.CoreAideAnnotation.setInternal()
 }
