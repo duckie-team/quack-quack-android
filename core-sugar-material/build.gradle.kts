@@ -12,5 +12,5 @@ plugins {
 }
 
 quack {
-    type = QuackArtifactType.CoreSugarMaterial.forceInternal()
+    type = QuackArtifactType.CoreSugarMaterial.setInternal()
 }

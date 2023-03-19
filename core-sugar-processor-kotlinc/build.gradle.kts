@@ -10,6 +10,7 @@
 plugins {
     `buildlogic-jvm-kotlin`
     `buildlogic-jvm-junit`
+    `buildlogic-quack-mavenpublishing`
     alias(libs.plugins.kotlin.ksp)
 }
 
@@ -19,10 +20,15 @@ dependencies {
         libs.google.autoservice.annotation,
         libs.kotlin.kotlinpoet.core,
         projects.coreSugarMaterial,
+        // QuackArtifactType.CoreSugarProcessorKotlinc.setInternal().asArtifactFqPath(project),
     )
     ksp(libs.google.autoservice.ksp.processor)
     testImplementations(
         libs.test.strikt,
         libs.test.kotlin.compilation.core,
     )
+}
+
+quack {
+    type = QuackArtifactType.CoreSugarProcessorKotlinc.setInternal()
 }

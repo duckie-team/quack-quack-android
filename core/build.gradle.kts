@@ -69,6 +69,8 @@ dependencies {
         libs.compose.material,
         projects.coreAideAnnotation,
         projects.coreSugarMaterial,
+        // QuackArtifactType.CoreAideAnnotation.setInternal().asArtifactFqPath(project),
+        // QuackArtifactType.CoreSugarMaterial.setInternal().asArtifactFqPath(project),
     )
 
     testImplementation(libs.test.strikt)
@@ -79,12 +81,15 @@ dependencies {
         projects.screenshotMatcher,
     )
 
-    kotlinCompilerPlugin(projects.coreSugarProcessorKotlinc)
+    kotlinCompilerPlugin(
+         projects.coreSugarProcessorKotlinc
+        // QuackArtifactType.CoreSugarProcessorKotlinc.setInternal().asArtifactFqPath(project),
+    )
     ksp(projects.coreAideProcessor)
 
     // lintPublish(projects.coreAide)
 }
 
 quack {
-    type = QuackArtifactType.Core.forceInternal()
+    type = QuackArtifactType.Core.setInternal()
 }
