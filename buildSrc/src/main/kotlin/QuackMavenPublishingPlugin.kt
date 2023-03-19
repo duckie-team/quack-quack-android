@@ -34,9 +34,7 @@ class QuackMavenPublishingPlugin : Plugin<Project> {
             )
 
             group = QuackBaseArtifactId
-            val extension = project.extensions.create<QuackMavenExtension>(
-                name = QuackPublishExtensionName,
-            )
+            val extension = extensions.create<QuackMavenExtension>(QuackPublishExtensionName)
 
             afterEvaluate {
                 if (!extension.isInitialized) {
@@ -134,7 +132,6 @@ enum class QuackArtifactType(
     CoreAideProcessor(
         artifactId = "quackquack-core-aide-processor",
         description = "Kotlin Symbol Processing for CoreAideAnnotation",
-        level = ArtifactLevel.Internal,
     ),
     CoreSugarMaterial(
         artifactId = "quackquack-core-sugar-material",
@@ -143,12 +140,10 @@ enum class QuackArtifactType(
     CoreSugarProcessorKotlinc(
         artifactId = "quackquack-core-sugar-processor-kotlinc",
         description = "Kotlin Compiler Plugin for CoreSugarAnnotation",
-        level = ArtifactLevel.Internal,
     ),
     DokkaPaparazziIntegrate(
         artifactId = "dokka-paparazzi-integrate",
         description = "DokkaPlugin to integrate Dokka and Paparazzi",
-        level = ArtifactLevel.Internal,
     );
 
     fun asArtifactId(): String {
