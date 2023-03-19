@@ -1,0 +1,33 @@
+<!--
+  ~ Designed and developed by Duckie Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
+  -->
+
+<component name="ProjectRunConfigurationManager">
+    <configuration name="ci" default="false" factoryName="Gradle" type="GradleRunConfiguration">
+        <ExternalSystemSettings>
+            <option name="executionName" />
+            <option name="externalProjectPath" value="$PROJECT_DIR$" />
+            <option name="externalSystemIdString" value="GRADLE" />
+            <option name="scriptParameters" value="" />
+            <option name="taskDescriptions">
+                <list />
+            </option>
+            <option name="taskNames">
+                <list>
+                    <option value="ktlintCheck" />
+                    <option value="detekt" />
+                    <option value="test" />
+                    <option value="buildDebug" />
+                </list>
+            </option>
+            <option name="vmOptions" />
+        </ExternalSystemSettings>
+        <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+        <ExternalSystemReattachDebugProcess>false</ExternalSystemReattachDebugProcess>
+        <DebugAllEnabled>false</DebugAllEnabled>
+        <method v="2" />
+    </configuration>
+</component>

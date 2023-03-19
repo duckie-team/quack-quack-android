@@ -12,7 +12,7 @@ import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import internal.ApplicationConstants
 import internal.applyPlugins
 import internal.composeSupportExtension
-import internal.configureApplication
+import internal.configureAndroid
 import internal.configureCompose
 import internal.libs
 import internal.setupJunit
@@ -20,6 +20,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
@@ -43,7 +44,7 @@ internal class AndroidApplicationPlugin : BuildLogicPlugin({
     applyPlugins(Plugins.AndroidApplication, Plugins.KotlinAndroid)
 
     extensions.configure<BaseAppModuleExtension> {
-        configureApplication(this)
+        configureAndroid(this)
 
         defaultConfig {
             targetSdk = ApplicationConstants.TargetSdk
@@ -57,7 +58,7 @@ internal class AndroidLibraryPlugin : BuildLogicPlugin({
     applyPlugins(Plugins.AndroidLibrary, Plugins.KotlinAndroid)
 
     extensions.configure<LibraryExtension> {
-        configureApplication(this)
+        configureAndroid(this)
 
         defaultConfig.apply {
             targetSdk = ApplicationConstants.TargetSdk
@@ -103,6 +104,11 @@ internal class JvmKotlinPlugin : BuildLogicPlugin({
 
     extensions.configure<KotlinProjectExtension>() {
         jvmToolchain(ApplicationConstants.JavaVersionAsInt)
+    }
+
+    extensions.configure<SourceSetContainer>() {
+        getByName("main").java.srcDirs("src/main/kotlin/")
+        getByName("test").java.srcDirs("src/test/kotlin/")
     }
 
     dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get())

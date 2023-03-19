@@ -7,16 +7,7 @@
 
 package ir
 
-import ComposableFqn
-import GeneratedFileFqn
-import ImportsFqn
 import Logger
-import NoSugarFqn
-import QuackComponentPrefix
-import SugarDefaultName
-import SugarNameFqn
-import SugarTokenFqn
-import SugarTokenName
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.backend.jvm.ir.psiElement
 import org.jetbrains.kotlin.ir.declarations.IrFile
@@ -63,8 +54,7 @@ internal class SugarIrVisitor(
         if (declaration.isQuackComponent) {
             val componentLocation = declaration.file.locationOf(declaration)
             val componentFqn = declaration.fqNameWhenAvailable ?: return logger.error(
-                value = "A Quack component was detected, but unable to look up a fully qualified name. " +
-                        "Is it an anonymous object? (${declaration.name.asString()})",
+                value = quackComponentFqnUnavailable(declaration),
                 location = componentLocation,
             )
 
@@ -78,15 +68,14 @@ internal class SugarIrVisitor(
                 val isSugarToken = parameter.hasAnnotation(SugarTokenFqn)
                 if (isSugarToken) {
                     check(sugarToken == null) {
-                        "A Sugar component can only contain one SugarToken. (${declaration.name.asString()})"
+                        multipleSugarTokenIsNotAllowed(declaration)
                     }
                     sugarToken = parameter
                 }
                 parameter.toSugarParameter(isToken = isSugarToken)
             }
             sugarToken ?: return logger.error(
-                value = "A Quack component was detected, but no SugarToken was applied. " +
-                        "(${componentFqn.asString()})",
+                value = quackComponentWithoutSugarToken(componentFqn),
                 location = componentLocation,
             )
 
@@ -117,16 +106,11 @@ private fun IrConstructorCall.getSugarNameIfNotDefault(): String? {
 }
 
 private fun checkCustomSugarNameIsValid(name: String) {
-    val prefixIsNotQuackError =
-        "Quack component names must start with `SugarName.PREFIX_NAME (= $QuackComponentPrefix)`."
-    val tokenNameIsNotUsedError =
-        "When specifying the sugar component name directly, `SugarName.TOKEN_NAME (= $SugarTokenName)` must be used."
-
     if (!name.startsWith(QuackComponentPrefix)) {
-        throw IllegalArgumentException(prefixIsNotQuackError)
+        throw IllegalArgumentException(sugarNamePrefixIsNotQuack(name))
     }
     if (!name.contains(SugarTokenName)) {
-        throw IllegalArgumentException(tokenNameIsNotUsedError)
+        throw IllegalArgumentException(sugarNameWithoutTokenName(name))
     }
 }
 
@@ -159,6 +143,7 @@ private fun IrSimpleFunction.getSugarKDoc(referFqn: FqName): String {
     return kdoc
 }
 
+// TODO: 방식 변경 (enum class 지원 추가)
 private fun IrValueParameter.getAllTokenFqExpressions(): List<String> {
     val tokenClass = type.getClass()!!
     val tokenClassName = tokenClass.name.asString()

@@ -9,8 +9,6 @@
 
 package ir
 
-import ComposableFqn
-import QuackComponentPrefix
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocationWithRange
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSourceLocation
 import org.jetbrains.kotlin.ir.IrElement

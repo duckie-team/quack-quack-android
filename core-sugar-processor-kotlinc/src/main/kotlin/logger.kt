@@ -33,10 +33,12 @@ internal fun CompilerConfiguration.getLogger(): Logger {
     return object : Logger {
         override fun warn(value: Any?, location: CompilerMessageSourceLocation?) {
             messageCollector.report(CompilerMessageSeverity.WARNING, value.toString(), location)
+            println(value) // for test logging
         }
 
         override fun error(value: Any?, location: CompilerMessageSourceLocation?) {
             messageCollector.report(CompilerMessageSeverity.ERROR, value.toString(), location)
+            println(value) // for test logging
         }
     }
 }

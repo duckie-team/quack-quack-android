@@ -7,11 +7,11 @@
 
 package poet
 
-import QuackComponentPrefix
-import SugarTokenName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
+import ir.QuackComponentPrefix
 import ir.SugarIrData
+import ir.SugarTokenName
 import org.jetbrains.kotlin.name.FqName
 
 internal fun String.bestGuessToKotlinPackageName(): String {

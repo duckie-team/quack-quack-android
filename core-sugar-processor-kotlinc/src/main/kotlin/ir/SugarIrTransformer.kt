@@ -7,10 +7,7 @@
 
 package ir
 
-import GeneratedFileFqn
 import Logger
-import NoSugarFqn
-import SugarReferFqn
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.IrStatement
 import org.jetbrains.kotlin.ir.declarations.IrFile
@@ -62,7 +59,7 @@ internal class SugarIrTransformer(
             }
 
             val referAnnotation = declaration.getAnnotation(SugarReferFqn) ?: run {
-                val error = "The SugarRefer for the Sugar component is missing. (${declaration.name.asString()})"
+                val error = sugarComponentButNoSugarRefer(declaration)
                 logger.error(
                     value = error,
                     location = declaration.file.locationOf(declaration),
@@ -82,8 +79,7 @@ internal class SugarIrTransformer(
                     }
                 }
             } ?: run {
-                val error = "No SugarIrData was found for the given SugarRefer. (${declaration.name.asString()}) " +
-                        "Please report it in a GitHub Issue. (https://link.duckie.team/quackquack-bug)"
+                val error = noMatchedSugarIrData(declaration)
                 logger.error(
                     value = error,
                     location = declaration.file.locationOf(declaration),
@@ -110,10 +106,7 @@ private fun SugarIrData.findMatchedDefaultValue(
         referParameter.name.asString() == parameter.name.asString()
     }
     if (matched == null) {
-        errorReporter(
-            "The Sugar component has a parameter that doesn't exist in the SugarRefer. " +
-                    "(${referFqn.asString()}#${parameter.name.asString()})",
-        )
+        errorReporter(sugarComponentAndSugarReferHasDifferentParameters(this, parameter))
     }
     return matched?.defaultValue
 }
