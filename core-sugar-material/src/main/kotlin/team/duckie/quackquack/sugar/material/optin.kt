@@ -7,7 +7,9 @@
 
 package team.duckie.quackquack.sugar.material
 
-// TODO: 문서 제공
+/**
+ * `core-sugar-processor-kotlinc` 모듈에서만 사용돼야 함을 나타내는 OptIn 어노테이션입니다.
+ */
 @MustBeDocumented
 @RequiresOptIn(
     message = "This indicates that the feature should only be used in the Sugar Compiler. " +
