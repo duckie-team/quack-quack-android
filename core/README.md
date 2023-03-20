@@ -48,13 +48,13 @@
 
 ### 정직함의 문제
 
-기존의 `ui-components` 문제는 모두 정직함에 있습니다. 너무 정직하다 보니 딱 나에게 주어진 역할만 합니다. 예를 들어 쓰레기를 치우라고 하면 쓰레기를 버리는 게 아닌, 쓰레기의 위치만 옮기고 있습니다.
+기존의 `ui-components` 문제는 모두 정직함에 있습니다. 너무 정직하다 보니 딱 나에게 주어진 역할만 합니다.
 
 우리는 디자인 시스템을 유연하게 갈 필요가 있었습니다. secondary 버튼에 아이콘을 추가할 수 있다면 같은 도메인인 primary 버튼에도 아이콘을 추가할 수 있어야 합니다. 또한 `Body1` 타이포그래피에 클릭 효과를 입힐 수 있다면 같은 도메인인 `Body2` 타이포그래피에도 클릭 효과를 입힐 수 있어야 합니다.
 
 ### 디자인 토큰의 도입
 
-디자인 시스템의 정직함을 해결하기 위해 우리는 `디자인 토큰`을 도입해 보기로 합니다.
+디자인 시스템의 정직함을 해결하기 위해 `디자인 토큰`을 도입해 보기로 합니다.
 
 ```kotlin
 Text(
@@ -116,7 +116,7 @@ Button(
 )
 ```
 
-마지막으로, 필수 정보를 입력합니다.
+마지막으로, 필수 정보를 입력합니다. 
 
 ```kotlin
 Button(
@@ -129,9 +129,8 @@ Button(
 )
 ```
 
-### ~~안정성~~
+### 안정성
 
-~~
 만약 `Text`의 데코레이터를 `Button`에 추가하면 어쩌지? 하는 걱정이 들 수 있습니다.
 
 ```kotlin
@@ -148,34 +147,9 @@ Button(
 )
 ```
 
-`Modifier.highlight`는 `Text`의 데코레이터이지만 위 코드를 보면 `Button`에 사용되고 있습니다. 하지만 걱정하지 마세요. 위는 예시일 뿐, 실제 코드에선 불가능합니다.
+`Modifier.highlight`는 `Text`의 데코레이터이지만 위 코드를 보면 `Button`에 사용되고 있습니다. 이러한 경우를 예방하기 위해 해당 컴포넌트에서 사용 가능한 데코레이터 외에 다른 데코레이터의 사용이 감지되면 린트 에러를 표시합니다. 즉, 데코레이터가 잘못 사용됐음을 알릴 수 있습니다.
 
-사실, 모든 컴포넌트에는 각각 도메인에 맞는 receiver가 붙습니다.
-
-```kotlin
-@Composable
-fun QuackButton.Button(...) {}
-```
-
-위는 `Button` 도메인의 컴포넌트이므로 `QuackButton` receiver가 붙었습니다. `Modifier.highlight`는 `Text` 도메인의 데코레이터입니다.
-
-```kotlin
-interface QuackText {
-    fun Modifier.highlight(...): Modifier
-}
-```
-
-따라서 위 `Button`에서는 `highlight` 데코레이터를 사용할 수 없습니다.
-
-```kotlin
-@Composable
-fun QuackText.Text(...) {}
-```
-
-오직 `Text`에서만 사용 가능합니다.
-~~
-
-See [#471](https://github.com/duckie-team/quack-quack-android/issues/471).
+이러한 시스템은 `core-aide` 모듈에서 제공합니다. 자세한 내용은 [해당](../core-aide) 모듈의 README를 참고하세요.
 
 ### 문법 설탕
 
@@ -206,4 +180,4 @@ Button(
  )
  ```
 
-개발자의 실수로 특정 컴포넌트의 문법 설탕이 누락되지 않도록 모든 문법 설탕은 [`KSP`](https://kotlinlang.org/docs/ksp-overview.html)를 통해 자동 생성됩니다. 자세한 내용은 [`core-sugar`](../core-sugar) 모듈의 README를 참고하세요.
+개발자의 실수로 특정 컴포넌트의 문법 설탕이 누락되지 않도록 모든 문법 설탕은 자동 생성됩니다. 자세한 내용은 [`core-sugar-processor-kotlinc`](../core-sugar-processor-kotlinc) 모듈의 README를 참고하세요.

@@ -17,4 +17,4 @@
 ### 디자인 토큰
 
 - UI 스냅샷 이미지는 각각 디자인 토큰에 맞게 여러 장 생성됩니다.
-- 디자인 토큰은 `@SugarToken` 어노테이션 여부로 판단합니다. 자세한 내용은 [`core-sugar-annotation`](../core-sugar-annotation) 모듈의 README를 참고하세요.
+- 디자인 토큰은 `@SugarToken` 어노테이션 여부로 판단합니다.

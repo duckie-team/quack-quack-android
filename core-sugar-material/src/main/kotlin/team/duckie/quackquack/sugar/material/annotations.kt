@@ -22,7 +22,7 @@ import kotlin.reflect.KClass
  * 3. "<<DEFAULT_NAME>>"이 제공되면 기본 네이밍 정책을 그대로 사용합니다.
  * "<<DEFAULT_NAME>>"는 [SugarName.DEFAULT_NAME] 상수로 사용할 수 있습니다.
  *
- * 예를 들어, 다음과 같은 컴포넌트가 있습니다.
+ * 예를 들어 다음과 같은 컴포넌트가 있습니다.
  *
  * ```
  * @JvmInline
@@ -69,7 +69,7 @@ public annotation class SugarName(val name: String = DEFAULT_NAME) {
  * 1. companion object가 있어야 합니다.
  * 2. sugar token의 값들은 companion object 안에 public variable로 정의돼야 합니다.
  *
- * 예를 들어, 다음과 같은 sugar token은 유효합니다.
+ * 예를 들어 다음과 같은 sugar token은 유효합니다.
  *
  * ```
  * @JvmInline
@@ -158,7 +158,7 @@ public annotation class SugarToken
 
 /**
  * 생성된 sugar component의 원래 대상에 해당하는 fully-qualified name을 나타냅니다.
- * 예를 들어, 다음과 같은 컴포넌트가 있습니다.
+ * 예를 들어 다음과 같은 컴포넌트가 있습니다.
  *
  * ```
  * package team.duckie.awesome
@@ -200,7 +200,7 @@ public annotation class SugarRefer(val fqn: String)
 
 /**
  * 이 컴포넌트의 sugar 생성을 무시합니다.
- * 예를 들어, 다음과 같은 코드가 있습니다.
+ * 예를 들어 다음과 같은 코드가 있습니다.
  *
  * ```
  * @JvmInline
