@@ -15,9 +15,10 @@ import team.duckie.quackquack.test.screenshot.matcher.BitmapMatcher
 import team.duckie.quackquack.test.screenshot.matcher.MSSIMMatcher
 import team.duckie.quackquack.test.screenshot.matcher.MatchResult
 
+private val bitmapMatcher: BitmapMatcher = MSSIMMatcher()
+
 fun screenshotTest(name: String, given: Bitmap, golden: Bitmap): MatchResult {
-    val matcher: BitmapMatcher = MSSIMMatcher()
-    val result = matcher.compareBitmaps(
+    val result = bitmapMatcher.compareBitmaps(
         expected = golden.toIntArray(),
         given = given.toIntArray(),
         width = given.width,
