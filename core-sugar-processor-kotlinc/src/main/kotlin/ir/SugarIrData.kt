@@ -16,11 +16,42 @@ import org.jetbrains.kotlin.ir.declarations.name
 import org.jetbrains.kotlin.ir.expressions.IrExpressionBody
 import org.jetbrains.kotlin.ir.types.IrType
 import org.jetbrains.kotlin.ir.util.dumpKotlinLike
+import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.utils.addToStdlib.applyIf
+import team.duckie.quackquack.sugar.material.Imports
+import team.duckie.quackquack.sugar.material.SugarName
+import team.duckie.quackquack.sugar.material.SugarToken
 
-// TODO: 문서 제공
+/**
+ * [SugarIrVisitor]에서 IR을 방문하면서 수집할 정보들을 관리합니다.
+ *
+ * @param file IR이 제공된 파일
+ * @param referFqn IR이 제공된 함수의 [fully-qualified name][FqName]
+ * @param kdoc IR이 제공된 함수의 KDoc. [default section][KDoc.getDefaultSection] 값을 가져옵니다.
+ * @param sugarName 생성할 sugar component의 네이밍 규칙. [`@SugarToken`][SugarName] 값을 가져옵니다.
+ * @param sugarToken 생성할 sugar component의 Sugar Token에 해당하는 [인자 값][IrValueParameter].
+ * [`@SugarToken`][SugarToken]이 달린 인자를 가져옵니다.
+ * @param tokenFqExpressions Sugar Token의 expression 모음. 예를 들면 다음과 같습니다.
+ * ```
+ * package team.duckie.theme
+ *
+ * @JvmInline
+ * value class Theme(val index: Int) {
+ *     companion object {
+ *         val Default = Theme(1)
+ *         val Dark = Theme(2)
+ *         val Light = Theme(3)
+ *         val System = Theme(4)
+ *     }
+ * }
+ *
+ * // ["team.duckie.theme.Theme.Default", "team.duckie.theme.Theme.Dark", "team.duckie.theme.Theme.Light", "team.duckie.theme.Theme.System"]
+ * ```
+ * @param parameters IR이 제공된 함수의 인자 모음. sugar component 생성에 필요한 정보만
+ * 수집합니다. 자세한 수집 정보는 [SugarParameter]를 확인하세요.
+ */
 internal data class SugarIrData(
     val file: IrFile,
     val referFqn: FqName,
@@ -30,6 +61,9 @@ internal data class SugarIrData(
     val tokenFqExpressions: List<String>,
     val parameters: List<SugarParameter>,
 ) {
+    /**
+     * [parameters]에서 Sugar Token을 제외한 [요소][SugarParameter]만 불러옵니다.
+     */
     val parametersWithoutToken: List<SugarParameter> = parameters.toMutableList().apply {
         removeIf(SugarParameter::isToken)
     }
@@ -47,6 +81,21 @@ internal data class SugarIrData(
     }
 }
 
+/**
+ * [IrValueParameter]에서 sugar component 생성에 필요한 정보만 관리합니다.
+ *
+ * *주의*: 현재 함수형 타입은 지원되지 않습니다. 함수형 타입엔 generic type erasure가 적용되어
+ * 컴파일단에서는 `Function` 까지만 조회됩니다. 즉, `Function`의 `T` 값을 유추할 수 없기에
+ * 별도 대응이 필요합니다. 대응 일정은 정해지지 않았습니다.
+ *
+ * @param name 인자명
+ * @param type 인자의 타입
+ * @param isToken 인자가 [Sugar Token][SugarToken]인지 여부
+ * @param isComposable 인자 타입에 `androidx.compose.runtime.Composable` 어노테이션이 있는지 여부
+ * @param imports [type] 외에 추가로 import가 필요한 클래스의 [fully-qualified name][FqName]으로 구성된 목록.
+ * 자세한 정보는 [Imports]를 확인하세요.
+ * @param defaultValue 인자의 기본 값
+ */
 // TODO: 함수형 타입 지원 (@Function 어노테이션 도입 필요)
 internal data class SugarParameter(
     val name: Name,
@@ -56,6 +105,9 @@ internal data class SugarParameter(
     val imports: List<FqName>,
     val defaultValue: IrExpressionBody?,
 ) {
+    /**
+     * 현재 정보들을 kotlinpoet의 [ParameterSpec]으로 제공합니다.
+     */
     fun toParameterSpec(): ParameterSpec {
         return ParameterSpec
             .builder(
