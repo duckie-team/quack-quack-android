@@ -18,6 +18,7 @@ internal const val LogPrefix = "[SUGAR (IR)]"
 internal interface Logger {
     fun warn(value: Any?, location: CompilerMessageSourceLocation? = null)
     fun error(value: Any?, location: CompilerMessageSourceLocation? = null)
+    fun throwError(value: Any?, location: CompilerMessageSourceLocation? = null): Nothing
 
     operator fun invoke(value: Any?, location: CompilerMessageSourceLocation? = null) {
         warn(value = value, location = location)
@@ -39,6 +40,11 @@ internal fun CompilerConfiguration.getLogger(): Logger {
         override fun error(value: Any?, location: CompilerMessageSourceLocation?) {
             messageCollector.report(CompilerMessageSeverity.ERROR, value.toString(), location)
             println(value) // for test logging
+        }
+
+        override fun throwError(value: Any?, location: CompilerMessageSourceLocation?): Nothing {
+            error(value, location)
+            kotlin.error(value.toString())
         }
     }
 }

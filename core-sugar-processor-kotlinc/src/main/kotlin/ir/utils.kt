@@ -39,7 +39,7 @@ internal val IrType.unsafeFqn: String
     get() = classFqName!!.asString()
 
 /**
- * Finds the line and column of [irElement] within this file.
+ * 주어진 파일 내에서 [irElement]의 위치를 조최합니다.
  */
 internal fun IrFile.locationOf(irElement: IrElement?): CompilerMessageSourceLocation {
     val sourceRangeInfo = fileEntry.getSourceRangeInfo(

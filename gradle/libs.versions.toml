@@ -57,7 +57,6 @@ gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gra
 gradle-publish-maven = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradle-publish-maven" }
 
 google-autoservice-annotation = { module = "com.google.auto.service:auto-service-annotations", version.ref = "google-autoservice-standard" }
-google-autoservice-standard-processor = { module = "com.google.auto.service:auto-service", version.ref = "google-autoservice-standard" }
 google-autoservice-ksp-processor = { module = "dev.zacsweers.autoservice:auto-service-ksp", version.ref = "google-autoservice-ksp" }
 
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-core" }

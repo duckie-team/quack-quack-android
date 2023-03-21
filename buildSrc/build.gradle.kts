@@ -30,9 +30,13 @@ gradlePlugin {
 
     plugins {
         pluginClasses.forEach { pluginClass ->
-            autoRegister(pluginClass)
+            pluginAutoRegister(pluginClass)
         }
     }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 dependencies {
@@ -41,9 +45,13 @@ dependencies {
     implementation(libs.kotlin.gradle)
     implementation(libs.kotlin.dokka.base)
     implementation(libs.kotlin.dokka.plugin)
+
+    testImplementation(libs.test.strikt)
+    testImplementation(libs.test.junit.core)
+    testRuntimeOnly(libs.test.junit.engine)
 }
 
-fun NamedDomainObjectContainer<PluginDeclaration>.autoRegister(className: String) {
+fun NamedDomainObjectContainer<PluginDeclaration>.pluginAutoRegister(className: String) {
     register(className.removeSuffix("Plugin")) {
         id = "$buildLogicPrefix.buildlogic.$className"
         implementationClass = className

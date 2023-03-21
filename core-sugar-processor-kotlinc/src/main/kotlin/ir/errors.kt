@@ -27,6 +27,11 @@ internal fun quackComponentWithoutSugarToken(fqn: FqName?): String {
             "(${fqn?.asString()})".getIfGivenIsNotNull(fqn)
 }
 
+internal fun functionalTypeIsNotSupported(name: String?): String {
+    return "Functional types are not currently supported due to generic type erasure. " +
+            "($name)".getIfGivenIsNotNull(name)
+}
+
 internal fun sugarNamePrefixIsNotQuack(name: String?): String {
     return "Quack component names must start with `SugarName.PREFIX_NAME " +
             "(= $QuackComponentPrefix)`. " +
@@ -36,6 +41,12 @@ internal fun sugarNamePrefixIsNotQuack(name: String?): String {
 internal fun sugarNameWithoutTokenName(name: String?): String {
     return "When specifying the sugar component name directly, " +
             "`SugarName.TOKEN_NAME (= $SugarTokenName)` must be used. " +
+            "($name)".getIfGivenIsNotNull(name)
+}
+
+internal fun sugarTokenButNoCompanionObject(name: String?): String {
+    return "The SugarToken class must include a companion object. " +
+            "See the sugar component creation policy for more information. " +
             "($name)".getIfGivenIsNotNull(name)
 }
 

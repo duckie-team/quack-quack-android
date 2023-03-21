@@ -48,7 +48,6 @@ class SugarComponentRegistrar : ComponentRegistrar {
          * 이를 해결하기 위해 [SugarComponentRegistrar]의 [CompilerPluginRegistrar] 버전을 제공합니다.
          * 이 함수는 오직 테스트 코드에서만 사용돼야 합니다. (테스트 환경에서는 Compose Compiler가 적용되지 않으니 유효합니다.)
          */
-        @OptIn(ExperimentalCompilerApi::class)
         fun asPluginRegistrar() = object : CompilerPluginRegistrar() {
             override val supportsK2 = false
 
@@ -61,11 +60,7 @@ class SugarComponentRegistrar : ComponentRegistrar {
             val sugarPath = checkNotNull(this[KEY_SUGAR_PATH]) { "sugarPath was missing." }
             val poet = this[KEY_POET]?.toBooleanStrict() ?: true
 
-            return SugarIrExtension(
-                logger = getLogger(),
-                sugarPath = sugarPath,
-                poet = poet,
-            )
+            return SugarIrExtension(logger = getLogger(), sugarPath = sugarPath, poet = poet)
         }
     }
 }

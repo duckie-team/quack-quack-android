@@ -58,34 +58,31 @@ internal class SugarIrTransformer(
                 return super.visitSimpleFunction(declaration, data)
             }
 
+            // run으로 throwError 하는 게 더 가독성이 좋음
             val referAnnotation = declaration.getAnnotation(SugarReferFqn) ?: run {
-                val error = sugarComponentButNoSugarRefer(declaration)
-                logger.error(
-                    value = error,
+                logger.throwError(
+                    value = sugarComponentButNoSugarRefer(declaration),
                     location = declaration.file.locationOf(declaration),
                 )
-                error(error)
             }
 
             val referFqn = referAnnotation.getReferFqName()
             data[referFqn]?.let { referIrData ->
                 declaration.valueParameters.forEach { parameter ->
-                    parameter.defaultValue = referIrData.findMatchedDefaultValue(parameter) { error ->
-                        logger.error(
-                            value = error,
-                            location = declaration.file.locationOf(parameter),
-                        )
-                        error(error)
-                    }
+                    parameter.defaultValue = referIrData.findMatchedDefaultValue(
+                        parameter = parameter,
+                        errorReporter = { error ->
+                            logger.throwError(
+                                value = error,
+                                location = declaration.file.locationOf(parameter),
+                            )
+                        },
+                    )
                 }
-            } ?: run {
-                val error = noMatchedSugarIrData(declaration)
-                logger.error(
-                    value = error,
-                    location = declaration.file.locationOf(declaration),
-                )
-                error(error)
-            }
+            } ?: logger.throwError(
+                value = noMatchedSugarIrData(declaration),
+                location = declaration.file.locationOf(declaration),
+            )
         }
 
         return super.visitSimpleFunction(declaration, data)
