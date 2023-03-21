@@ -12,7 +12,7 @@
 
 ## Overview
 
-이 모듈은 core 컴포넌트의 sugar syntax를 위한 컴포넌트를 자동 구현합니다. 이 모듈이 해결하고자 하는 문제와 기본 작동 예시는 [`core`](../core)의 README를 참고하세요.
+이 모듈은 core 컴포넌트의 sugar syntax를 위한 컴포넌트를 자동 구현합니다. 이 모듈이 해결하고자 하는 문제와 기본 작동 예시는 [`core`](../core#%EB%AC%B8%EB%B2%95-%EC%84%A4%ED%83%95)의 README를 참고하세요.
 
 `core-sugar-processor-kotlinc`는 다음과 같은 단계로 진행됩니다.
 
@@ -40,7 +40,7 @@ KSP는 [psi](https://plugins.jetbrains.com/docs/intellij/psi-elements.html) 기�
 true
 ```
 
-![simple-psi-defaultvalue](assets/simple-psi-defaultvalue.jpeg)
+<img src="assets/simple-psi-defaultvalue.jpeg" width="60%" alt="simple-psi-defaultvalue"/>
 
 아래와 같이 sibling이 포함된 복잡한 psi tree를 갖는 expression이라면 파싱의 난이도가 급격히 상승합니다.
 
@@ -48,7 +48,7 @@ true
 listOf(1, 2, 3)
 ```
 
-![complex-psi-defaultvalue](assets/complex-psi-defaultvalue.jpeg)
+<img src="assets/complex-psi-defaultvalue.jpeg" width="60%" alt="complex-psi-defaultvalue"/>
 
 따라서 default value까지 copy하여 sugar component 코드를 생성하는 건 무리라고 판단하고 default value 지원을 TODO로 남기려 했지만, 컴포즈 환경에서 default value가 없다는 건 개발자에게 너무 치명적인 경험 저하라고 생각하였습니다.
 
@@ -76,9 +76,7 @@ listOf(1, 2, 3)
 - `tokenFqExpressions`: Sugar Token의 expression 모음
 - `parameters`: IR이 제공된 함수의 인자 모음. sugar component 생성에 필요한 정보만 수집합니다.
 
-#### `tokenFqExpressions`
-
-예를 들면 다음과 같습니다.
+##### `tokenFqExpressions` 예시
 
 ```kotlin
 package team.duckie.theme
@@ -96,7 +94,7 @@ value class Theme(val index: Int) {
 // ["team.duckie.theme.Theme.Default", "team.duckie.theme.Theme.Dark", "team.duckie.theme.Theme.Light", "team.duckie.theme.Theme.System"]
 ```
 
-#### `parameters`에서 수집하는 정보
+##### `parameters`에서 수집하는 정보:
 
 - `name`: 인자명
 - `type`: 인자의 타입
