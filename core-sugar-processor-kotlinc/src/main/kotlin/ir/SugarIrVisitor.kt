@@ -155,9 +155,5 @@ private fun IrValueParameter.getAllTokenFqExpressions(): List<String> {
             "$tokenClassName.${property.name.asString()}"
         }
         propertyFqExpressions.toList()
-    } ?: error(
-        "" +
-                "The SugarToken class must include a companion object. " +
-                "See the sugar component creation policy for more information. ($tokenClassName)",
-    )
+    } ?: error(sugarTokenButNoCompanionObject(tokenClassName))
 }

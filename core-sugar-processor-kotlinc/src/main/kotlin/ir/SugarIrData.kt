@@ -16,6 +16,7 @@ import org.jetbrains.kotlin.ir.declarations.name
 import org.jetbrains.kotlin.ir.expressions.IrExpressionBody
 import org.jetbrains.kotlin.ir.types.IrType
 import org.jetbrains.kotlin.ir.util.dumpKotlinLike
+import org.jetbrains.kotlin.ir.util.isFunction
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
@@ -96,7 +97,6 @@ internal data class SugarIrData(
  * 자세한 정보는 [Imports]를 확인하세요.
  * @param defaultValue 인자의 기본 값
  */
-// TODO: 함수형 타입 지원 (@Function 어노테이션 도입 필요)
 internal data class SugarParameter(
     val name: Name,
     val type: IrType,
@@ -105,6 +105,12 @@ internal data class SugarParameter(
     val imports: List<FqName>,
     val defaultValue: IrExpressionBody?,
 ) {
+    init {
+        if (type.isFunction()) {
+            error(functionalTypeIsNotSupported(name.asString()))
+        }
+    }
+
     /**
      * 현재 정보들을 kotlinpoet의 [ParameterSpec]으로 제공합니다.
      */

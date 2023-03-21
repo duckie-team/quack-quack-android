@@ -61,6 +61,6 @@ package team.duckie.quackquack.sugar.material
 public fun <T> sugar(): T {
     throw NotImplementedError(
         "SugarIrTransform이 진행되지 않았습니다. " +
-                "`core-sugar-processor-kotlinc` 모듈이 적용돼 있나요?"
+                "`core-sugar-processor-kotlinc` 모듈이 적용돼 있나요?",
     )
 }

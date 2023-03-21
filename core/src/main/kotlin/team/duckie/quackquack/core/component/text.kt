@@ -272,7 +272,6 @@ private fun QuackClickableText(
         text = annotatedText,
         style = style,
         onClick = { offset ->
-            println("offset: $offset")
             highlightData.highlights.fastForEach { (text, onClick) ->
                 val annotations = annotatedText.getStringAnnotations(
                     tag = text,
