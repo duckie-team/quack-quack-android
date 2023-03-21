@@ -12,9 +12,7 @@
 
 ## Overview
 
-이 모듈은 core 컴포넌트의 sugar syntax를 위한 컴포넌트를 자동 구현합니다. 이 모듈이 해결하고자 하는 문제와 기본 작동 예시는 [`core`](../core#%EB%AC%B8%EB%B2%95-%EC%84%A4%ED%83%95)의 README를 참고하세요.
-
-`core-sugar-processor-kotlinc`는 다음과 같은 단계로 진행됩니다.
+이 모듈은 core 컴포넌트의 sugar syntax를 위한 컴포넌트를 자동 구현합니다. `core-sugar-processor-kotlinc`는 다음과 같은 단계로 진행됩니다.
 
 1. `Ir Visit`
 2. `Code Generation`
@@ -94,13 +92,13 @@ value class Theme(val index: Int) {
 // ["team.duckie.theme.Theme.Default", "team.duckie.theme.Theme.Dark", "team.duckie.theme.Theme.Light", "team.duckie.theme.Theme.System"]
 ```
 
-##### `parameters`에서 수집하는 정보:
+##### `parameters`에서 수집하는 정보
 
 - `name`: 인자명
 - `type`: 인자의 타입
 - `isToken`: 인자가 Sugar Token인지 여부
 - `isComposable`: 인자 타입에 `androidx.compose.runtime.Composable` 어노테이션이 있는지 여부
-- `imports`: 인자 타입 외에 추가로 import가 필요한 클래스의 fully-qualified name으로 구성된 목록. 자세한 정보는 `@Imports` 문서를 확인하세요.
+- `imports`: 인자 타입 외에 추가로 import가 필요한 클래스의 fully-qualified name으로 구성된 목록
 - `defaultValue`: 인자의 기본 값
 
 ## Code Generation
