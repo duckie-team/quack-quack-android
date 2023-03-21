@@ -145,8 +145,8 @@ SugarRefer의 IR 정보는 Ir Visit 단계에서 조회한 정보로 불러옵�
 
 `core-sugar-processor-kotlinc`는 poet를 조정할 수 있는 2가지 컴파일 옵션을 제공합니다.
 
-- `sugarPath`: Sugar Component가 생성될 위치 [String] <Required>
-- `poet`: Code Generate 단계를 활성화할지 여부 [true | false] <true>
+- `sugarPath`: Sugar Component가 생성될 위치 [String] \<required>
+- `poet`: Code Generate 단계를 활성화할지 여부 [Boolean] \<true>
 
 ## Caveat
 
