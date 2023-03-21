@@ -36,7 +36,7 @@ KSP는 [psi](https://plugins.jetbrains.com/docs/intellij/psi-elements.html) 기�
 
 아래와 같이 sibling이 없고 간단한 psi tree를 갖는 expression이라면 쉽게 나타낼 수 있지만,
 
-```kotlin
+```
 true
 ```
 
@@ -44,7 +44,7 @@ true
 
 아래와 같이 sibling이 포함된 복잡한 psi tree를 갖는 expression이라면 파싱의 난이도가 급격히 상승합니다.
 
-```kotlin
+```
 listOf(1, 2, 3)
 ```
 
