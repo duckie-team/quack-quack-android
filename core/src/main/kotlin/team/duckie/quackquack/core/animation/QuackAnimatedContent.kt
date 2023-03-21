@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import team.duckie.quackquack.core.material.QuackAnimationSpec
 import team.duckie.quackquack.sugar.material.NoSugar
 
+// TODO: `animatedTargetState` 사용 린트 제공
 /**
  * 컴포저블의 상태에 변화가 있을 때 자동으로 해당 상태에 맞춰
  * 애니메이션을 적용하는 컨테이너 입니다.
