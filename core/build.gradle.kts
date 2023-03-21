@@ -82,7 +82,7 @@ dependencies {
     )
 
     kotlinCompilerPlugin(
-         projects.coreSugarProcessorKotlinc
+         projects.coreSugarProcessorKotlinc,
         // QuackArtifactType.CoreSugarProcessorKotlinc.setInternal().asArtifactFqPath(project),
     )
     ksp(projects.coreAideProcessor)
