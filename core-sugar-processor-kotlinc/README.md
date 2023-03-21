@@ -101,6 +101,17 @@ value class Theme(val index: Int) {
 - `imports`: 인자 타입 외에 추가로 import가 필요한 클래스의 fully-qualified name으로 구성된 목록
 - `defaultValue`: 인자의 기본 값
 
+### Ir 수집 기준
+
+1. `@androidx.compose.runtime.Composable` 어노테이션이 적용돼 있다.
+2. 함수의 접근제한자가 `public`이다.
+3. 함수의 반환 타입이 `Unit`이다.
+4. 함수의 이름이 "Quack"으로 시작한다.
+
+### `tokenFqExpressions` 조회 기준
+
+
+
 ## Code Generation
 
 ## Ir Transformer
