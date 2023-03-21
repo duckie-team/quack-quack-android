@@ -149,7 +149,7 @@ public annotation class SugarName(val name: String = DEFAULT_NAME) {
  * }
  * ```
  *
- * *현재 sugar token은 value class, data class, class 사용에만 테스트됐습니다.*
+ * *현재 sugar token은 `value class`, `data class`, `class` 사용에만 테스트됐습니다.*
  */
 @MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)
