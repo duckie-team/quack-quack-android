@@ -146,19 +146,6 @@ public fun Modifier.highlight(
     globalOnClick: (text: String) -> Unit,
 ): Modifier {
     return quackComposed {
-        // TODO: Modifier 안에서 remember 사용 사례 연구
-        // 맞나??
-        // /**
-        //  * `texts`를 remember하면 SnapshotStateList에 변화가 일어나도
-        //  * `calculation`이 re-invoke되지 않음
-        //  *
-        //  * ```
-        //  * val list = mutableStateListOf(0)
-        //  * println(list == list.apply { add(1) }) // true
-        //  * ```
-        //  *
-        //  * 따라서 `highlights`에 remember를 하지 않음
-        //  */
         val highlights = remember(texts, globalOnClick) {
             texts.fastMap { text -> HighlightText(text, globalOnClick) }
         }
