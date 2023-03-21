@@ -68,7 +68,42 @@ listOf(1, 2, 3)
 
 `core-sugar-processor-kotlinc`의 첫 번째 동작은 Ir Visit 입니다. 이 단계에서는 다음과 같은 정보를 수집합니다.
 
-1. 
+- `file`: IR이 제공된 파일
+- `referFqn`: IR이 제공된 함수의 fully-qualified name
+- `kdoc`: IR이 제공된 함수의 KDoc
+- `sugarName`: 생성할 sugar component의 네이밍 규칙. `@SugarToken` 값을 가져옵니다.
+- `sugarToken`: 생성할 sugar component의 Sugar Token에 해당하는 인자. `@SugarToken`이 달린 인자를 가져옵니다.
+- `tokenFqExpressions`: Sugar Token의 expression 모음
+- `parameters`: IR이 제공된 함수의 인자 모음. sugar component 생성에 필요한 정보만 수집합니다.
+
+#### `tokenFqExpressions`
+
+예를 들면 다음과 같습니다.
+
+```kotlin
+package team.duckie.theme
+
+@JvmInline
+value class Theme(val index: Int) {
+    companion object {
+        val Default = Theme(1)
+        val Dark = Theme(2)
+        val Light = Theme(3)
+        val System = Theme(4)
+    }
+}
+
+// ["team.duckie.theme.Theme.Default", "team.duckie.theme.Theme.Dark", "team.duckie.theme.Theme.Light", "team.duckie.theme.Theme.System"]
+```
+
+#### `parameters`에서 수집하는 정보
+
+- `name`: 인자명
+- `type`: 인자의 타입
+- `isToken`: 인자가 Sugar Token인지 여부
+- `isComposable`: 인자 타입에 `androidx.compose.runtime.Composable` 어노테이션이 있는지 여부
+- `imports`: 인자 타입 외에 추가로 import가 필요한 클래스의 fully-qualified name으로 구성된 목록. 자세한 정보는 `@Imports` 문서를 확인하세요.
+- `defaultValue`: 인자의 기본 값
 
 ## Code Generation
 

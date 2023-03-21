@@ -31,7 +31,7 @@ import team.duckie.quackquack.sugar.material.SugarToken
  * @param referFqn IR이 제공된 함수의 [fully-qualified name][FqName]
  * @param kdoc IR이 제공된 함수의 KDoc. [default section][KDoc.getDefaultSection] 값을 가져옵니다.
  * @param sugarName 생성할 sugar component의 네이밍 규칙. [`@SugarToken`][SugarName] 값을 가져옵니다.
- * @param sugarToken 생성할 sugar component의 Sugar Token에 해당하는 [인자 값][IrValueParameter].
+ * @param sugarToken 생성할 sugar component의 Sugar Token에 해당하는 [인자][IrValueParameter].
  * [`@SugarToken`][SugarToken]이 달린 인자를 가져옵니다.
  * @param tokenFqExpressions Sugar Token의 expression 모음. 예를 들면 다음과 같습니다.
  * ```
