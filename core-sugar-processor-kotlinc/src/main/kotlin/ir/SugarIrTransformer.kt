@@ -65,15 +65,15 @@ internal class SugarIrTransformer(
                     location = declaration.file.locationOf(declaration),
                 )
             }
-
             val referFqn = referAnnotation.getReferFqName()
+
             data[referFqn]?.let { referIrData ->
                 declaration.valueParameters.forEach { parameter ->
                     parameter.defaultValue = referIrData.findMatchedDefaultValue(
                         parameter = parameter,
-                        errorReporter = { error ->
+                        error = { message ->
                             logger.throwError(
-                                value = error,
+                                value = message,
                                 location = declaration.file.locationOf(parameter),
                             )
                         },
@@ -97,13 +97,13 @@ private fun IrConstructorCall.getReferFqName(): String {
 
 private fun SugarIrData.findMatchedDefaultValue(
     parameter: IrValueParameter,
-    errorReporter: (error: String) -> Unit,
+    error: (message: String) -> Unit,
 ): IrExpressionBody? {
     val matched = parameters.find { referParameter ->
         referParameter.name.asString() == parameter.name.asString()
     }
     if (matched == null) {
-        errorReporter(sugarComponentAndSugarReferHasDifferentParameters(this, parameter))
+        error(sugarComponentAndSugarReferHasDifferentParameters(this, parameter))
     }
     return matched?.defaultValue
 }
