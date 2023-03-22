@@ -1,7 +1,7 @@
 # core-sugar-processor-kotlinc
 
 1. [Overview](#overview)
-2. [Why not KSP?](#wht-not-ksp)
+2. [Why not KSP?](#why-not-ksp)
 3. [Ir Visit](#ir-visit)
 4. [Code Generate](#code-generate)
 5. [Ir Transform](#ir-transform)
@@ -15,24 +15,24 @@
 이 모듈은 core 컴포넌트의 sugar syntax를 위한 컴포넌트를 자동 구현합니다. `core-sugar-processor-kotlinc`는 다음과 같은 단계로 진행됩니다.
 
 1. `Ir Visit`
-2. `Code Generation`
+2. `Code Generate`
 3. `Ir Transform`
 
 ![flow](assets/flow.png)
 
-이 중 `2. Code Generation`은 컴파일 옵션에 따라 생략할 수 있습니다.
+이 중 `Code Generate` 단계는 컴파일 옵션에 따라 생략할 수 있습니다.
 
 이 문서는 `core-sugar-processor-kotlinc`가 작동되는 세부 정책과 이러한 정책이 정해진 이유인 개발 초기의 고민들을 기록합니다.
 
-## Wht not KSP?
+## Why not KSP?
 
-초기에는 [KSP](https://github.com/google/ksp)로 접근하였지만([#487](https://github.com/duckie-team/quack-quack-android/pull/487)), 함수 인자의 default value 파싱이 상당히 어려운 문제가 있었습니다.
+초기에는 [KSP](https://kotlinlang.org/docs/ksp-overview.html)로 접근하였지만([#487](https://github.com/duckie-team/quack-quack-android/pull/487)), 함수 인자의 default value 파싱이 상당히 어려운 문제가 있었습니다.
 
-KSP는 [psi](https://plugins.jetbrains.com/docs/intellij/psi-elements.html) 기반으로 작동되고, value parameter의 symbol을 나타내는 `KSValueParameter`의 `defaultValue` 프로퍼티를 사용하면 인자의 기본 값을 `KtExpression`으로 조회할 수 있습니다.
+KSP는 [PSI](https://plugins.jetbrains.com/docs/intellij/psi-elements.html) 기반으로 작동되고, value parameter의 symbol을 나타내는 `KSValueParameter`의 `defaultValue` 프로퍼티를 사용하면 인자의 기본 값을 `KtExpression`으로 조회할 수 있습니다.
 
 문제는 `KtExpression`을 문자열로 나타낼 때 발생합니다.
 
-아래와 같이 sibling이 없고 간단한 psi tree를 갖는 expression이라면 쉽게 나타낼 수 있지만,
+아래와 같이 sibling이 없고 간단한 PSI tree를 갖는 expression이라면 쉽게 나타낼 수 있지만,
 
 ```
 true
@@ -40,7 +40,7 @@ true
 
 <img src="assets/simple-psi-defaultvalue.jpeg" width="60%" alt="simple-psi-defaultvalue"/>
 
-아래와 같이 sibling이 포함된 복잡한 psi tree를 갖는 expression이라면 파싱의 난이도가 급격히 상승합니다.
+아래와 같이 sibling이 포함된 복잡한 PSI tree를 갖는 expression이라면 파싱의 난이도가 급격히 상승합니다.
 
 ```
 listOf(1, 2, 3)
