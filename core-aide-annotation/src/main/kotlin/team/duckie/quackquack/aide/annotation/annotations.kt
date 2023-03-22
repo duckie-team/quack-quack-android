@@ -32,4 +32,4 @@ package team.duckie.quackquack.aide.annotation
 @MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.SOURCE)
-public annotation class TypedModifier
+public annotation class DecorateModifier

@@ -12,4 +12,4 @@ internal const val UnitSn = "Unit"
 
 internal const val ComposableFqn = "androidx.compose.runtime.Composable"
 
-internal const val TypedModifierFqn = "team.duckie.quackquack.aide.annotation.TypedModifier"
+internal const val DecorateModifierFqn = "team.duckie.quackquack.aide.annotation.DecorateModifier"

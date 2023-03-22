@@ -27,7 +27,7 @@ internal class CoreAideProcessor(
 
         @Suppress("UNCHECKED_CAST")
         val modifiers = resolver
-            .getSymbolsWithAnnotation(TypedModifierFqn)
+            .getSymbolsWithAnnotation(DecorateModifierFqn)
             .filter { declaration ->
                 declaration is KSFunctionDeclaration && declaration.isPublicModifier
             } as Sequence<KSFunctionDeclaration>
