@@ -28,7 +28,7 @@
 
 초기에는 [KSP](https://kotlinlang.org/docs/ksp-overview.html)로 접근하였지만([#487](https://github.com/duckie-team/quack-quack-android/pull/487)), 함수 인자의 default value 파싱이 상당히 어려운 문제가 있었습니다.
 
-KSP는 [PSI](https://plugins.jetbrains.com/docs/intellij/psi.html) 기반으로 작동되고, value parameter의 symbol을 나타내는 `KSValueParameter`의 `defaultValue` 프로퍼티를 사용하면 인자의 기본 값을 `KtExpression`으로 조회할 수 있습니다.
+KSP는 [PSI](https://plugins.jetbrains.com/docs/intellij/psi.html) 기반으로 작동되고, value parameter의 symbol을 나타내는 `KSValueParameter`의 `defaultValue` 프로퍼티를 사용하면 인자의 기본값을 `KtExpression`으로 조회할 수 있습니다.
 
 문제는 `KtExpression`을 문자열로 나타낼 때 발생합니다.
 
@@ -97,7 +97,7 @@ value class Theme(val index: Int) {
 - `isToken`: 인자가 Sugar Token인지 여부
 - `isComposable`: 인자 타입에 `@Composable` 어노테이션이 있는지 여부
 - `imports`: 인자 타입 외에 추가로 import가 필요한 클래스의 fully-qualified name으로 구성된 목록
-- `defaultValue`: 인자의 기본 값
+- `defaultValue`: 인자의 기본값
 
 ### Ir 수집 기준
 
@@ -119,7 +119,7 @@ value class Theme(val index: Int) {
 
 poet이 실행되면 다음과 같은 코드를 생성합니다.
 
-1. generated comment & suppress annotations 추가
+1. generated comment & suppress, optin annotation 추가
 2. `sugar()` import 추가
 3. sugar component에 사용된 import 추가
 4. sugar component 함수들 추가
