@@ -148,8 +148,10 @@ SugarRefer의 IR 정보는 Ir Visit 단계에서 조회한 정보로 불러옵�
 
 ## Caveat
 
-`core-sugar-processor-kotlinc`에는 3가지 단점이 존재합니다.
+`core-sugar-processor-kotlinc`에는 몇 가지 단점이 존재합니다.
 
 - Kotlin Compiler Plugin은 아직 experimental 상태입니다. 모든 API가 불안정하므로 예상치 못한 버그가 발생할 수 있습니다.
-- sugar component의 인자로 함수형 타입은 지원되지 않습니다. 함수형 타입엔 generic type erasure가 적용되어 컴파일단에서는 `Function` 까지만 조회됩니다. 즉, `Function`의 `T` 값을 유추할 수 없기에 별도 대응이 필요합니다.
+- Kotlin Compiler Plugin의 문서가 *거의* 존재하지 않아 모두 정상적인 방법으로 구현한 건지 알 방법이 없습니다. 단순히 개발자에게 최고의 경험을 제공하고 싶다는 목표 하나만 가지고 3일간 공부한 내용을 바탕으로 개발되었으므로 안심할 수 없습니다.
+- sugar component의 인자로 함수형 타입은 지원되지 않습니다. 함수형 타입엔 [generic type erasure](https://docs.oracle.com/javase/tutorial/java/generics/erasure.html)가 적용되어 컴파일단에서는 `Function`까지만 조회됩니다. 즉, `Function`의 `T` 타입을 유추할 수 없기에 별도 대응이 필요합니다.
+- Compiler Plugin 등록 서비스로 deprecated된 방식을 사용합니다. (See [SugarComponentRegistrar.kt](https://github.com/duckie-team/quack-quack-android/blob/2.x.x/core-sugar-processor-kotlinc/src/main/kotlin/SugarComponentRegistrar.kt#L23))
 - sugar token의 타입으로 `value class`, `data class`, `class`만 테스트가 진행됐습니다.
