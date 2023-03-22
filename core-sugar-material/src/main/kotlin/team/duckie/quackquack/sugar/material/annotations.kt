@@ -35,7 +35,7 @@ import kotlin.reflect.KClass
  * @SugarToken(SugarName.PREFIX_NAME + SugarName.TOKEN_NAME + "Component")
  * @Composable
  * fun QuackAwesome(@SugarToken theme: Theme) {
- *     // ...
+ *     QuackTheme(theme = theme)
  * }
  * ```
  *
@@ -45,7 +45,7 @@ import kotlin.reflect.KClass
  * @SugarRefer("QuackAwesome")
  * @Composable
  * fun QuackDefaultComponent() {
- *     // ...
+ *     QuackTheme(theme = Theme.Default)
  * }
  * ```
  *
@@ -239,7 +239,7 @@ public annotation class NoSugar
 public annotation class GeneratedFile
 
 /**
- * `core-sugar-processor-kotlinc`가 생성하는 sugar component 코드에 추가로 import돼야 하는
+ * `core-sugar-processor-kotlinc`가 생성하는 sugar component 코드에 추가로 import 돼야 하는
  * 클래스를 나타냅니다. 함수의 인자에 적용될 수 있으며, 인자의 타입과 인자의 기본 값 타입이
  * 다를 경우 사용할 수 있습니다.
  *

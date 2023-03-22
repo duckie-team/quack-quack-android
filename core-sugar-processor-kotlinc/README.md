@@ -48,7 +48,7 @@ listOf(1, 2, 3)
 
 <img src="assets/complex-psi-defaultvalue.jpeg" width="60%" alt="complex-psi-defaultvalue"/>
 
-따라서 default value까지 copy하여 sugar component 코드를 생성하는 건 무리라고 판단하고 default value 지원을 TODO로 남기려 했지만, 컴포즈 환경에서 default value가 없다는 건 개발자에게 너무 치명적인 경험 저하라고 생각하였습니다.
+따라서 default value까지 복사하여 sugar component 코드를 생성하는 건 무리라고 판단하고 default value 지원을 TODO로 남기려 했지만, 컴포즈 환경에서 default value가 없다는 건 개발자에게 너무 치명적인 경험 저하라고 생각하였습니다.
 
 이 문제를 해결하기 위해 KSP보다 코드에 더 low level로 접근할 수 있는 방안을 고민해 보았고, [IR](https://en.wikipedia.org/wiki/Intermediate_representation)이 떠올랐습니다.
 
@@ -69,7 +69,7 @@ listOf(1, 2, 3)
 - `file`: IR이 제공된 파일
 - `referFqn`: IR이 제공된 함수의 fully-qualified name
 - `kdoc`: IR이 제공된 함수의 KDoc
-- `sugarName`: 생성할 sugar component의 네이밍 규칙. `@SugarToken` 값을 가져옵니다.
+- `sugarName`: 생성할 sugar component의 네이밍 규칙. `@SugarName` 값을 가져옵니다.
 - `sugarToken`: 생성할 sugar component의 Sugar Token에 해당하는 인자. `@SugarToken`이 달린 인자를 가져옵니다.
 - `tokenFqExpressions`: Sugar Token의 expression 모음
 - `parameters`: IR이 제공된 함수의 인자 모음. sugar component 생성에 필요한 정보만 수집합니다.
@@ -77,8 +77,6 @@ listOf(1, 2, 3)
 ##### `tokenFqExpressions` 예시
 
 ```kotlin
-package team.duckie.theme
-
 @JvmInline
 value class Theme(val index: Int) {
     companion object {
@@ -89,7 +87,7 @@ value class Theme(val index: Int) {
     }
 }
 
-// ["team.duckie.theme.Theme.Default", "team.duckie.theme.Theme.Dark", "team.duckie.theme.Theme.Light", "team.duckie.theme.Theme.System"]
+// ["Theme.Default", "Theme.Dark", "Theme.Light", "Theme.System"]
 ```
 
 ##### `parameters`에서 수집하는 정보
