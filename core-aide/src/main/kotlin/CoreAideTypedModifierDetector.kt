@@ -37,7 +37,7 @@ import org.jetbrains.uast.getQualifiedChain
  * ```
  *
  * 도메인별 꽥꽥 컴포넌트와 도메인별 사용 가능한 Modifier는 core-aide-processor에 의해
- * 자동 생성됩니다. 해당 파일들은 rule 패키지에 저장되며, `aideModifiers`와 `aideComponents`로
+ * 자동 생성됩니다. 해당 파일들은 rule 패키지에 저장되며, [`aideModifiers`][aideModifiers]와 [`aideComponents`][aideComponents]로
  * 조회할 수 있습니다.
  */
 class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
