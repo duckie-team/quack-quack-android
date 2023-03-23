@@ -35,7 +35,7 @@ import strikt.api.expectThat
 import strikt.assertions.contains
 import strikt.assertions.isEqualTo
 
-class SugarIrVisitErrorTest {
+class SugarIrErrorTest {
     @get:Rule
     val temporaryFolder = TemporaryFolder.builder().assureDeletion().build()
     private val sugarPath by lazy { temporaryFolder.root.path }
