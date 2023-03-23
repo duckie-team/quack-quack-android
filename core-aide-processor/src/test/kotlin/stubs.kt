@@ -22,7 +22,7 @@ val stubs = listOf(
         @MustBeDocumented
         @Target(AnnotationTarget.FUNCTION)
         @Retention(AnnotationRetention.SOURCE)
-        annotation class TypedModifier
+        annotation class DecorateModifier
         """,
     ),
     kotlin(

@@ -47,29 +47,29 @@ class CoreAideGenerationTest(private val useKspIncremental: Boolean) {
             kotlin(
                 "text.kt",
                 """
-                import team.duckie.quackquack.aide.annotation.TypedModifier
+                import team.duckie.quackquack.aide.annotation.DecorateModifier
                 import androidx.compose.ui.Modifier
     
-                @TypedModifier
+                @DecorateModifier
                 public fun Modifier.span(): Modifier = Modifier
     
-                @TypedModifier
+                @DecorateModifier
                 public fun Modifier.spans() = this
     
-                @TypedModifier
+                @DecorateModifier
                 public fun Modifier.spans(duplicate: Any): Modifier {
                     return Modifier
                 }
     
-                @TypedModifier
+                @DecorateModifier
                 public fun emptyModifier() {}
     
-                @TypedModifier
+                @DecorateModifier
                 public fun Modifier.noReturnModifier(): Unit {
                     return Unit
                 }
     
-                @TypedModifier
+                @DecorateModifier
                 private fun Modifier.privateModifier(): Modifier {
                     return Modifier
                 }
@@ -78,28 +78,28 @@ class CoreAideGenerationTest(private val useKspIncremental: Boolean) {
             kotlin(
                 "button.kt",
                 """
-                import team.duckie.quackquack.aide.annotation.TypedModifier
+                import team.duckie.quackquack.aide.annotation.DecorateModifier
                 import androidx.compose.ui.Modifier
     
-                @TypedModifier
+                @DecorateModifier
                 public fun Modifier.click(): Modifier {
                     return Modifier
                 }
 
-                @TypedModifier
+                @DecorateModifier
                 public fun Modifier.longClick(): Modifier = Modifier
     
-                @TypedModifier
+                @DecorateModifier
                 public fun Modifier.doubleClick(): Modifier = this
     
                 // return type 생략시 type mismatch: Modifier & Modifier.Companion
-                @TypedModifier
+                @DecorateModifier
                 public fun Modifier.typeMismatchModifier() = Modifier
     
-                @TypedModifier
+                @DecorateModifier
                 public fun Modifier.noReturnModifier2(): Unit {}
 
-                @TypedModifier
+                @DecorateModifier
                 internal fun Modifier.internalModifier(): Modifier {
                     return Modifier
                 }

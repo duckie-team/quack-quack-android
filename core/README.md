@@ -180,4 +180,15 @@ Button(
  )
  ```
 
-개발자의 실수로 특정 컴포넌트의 문법 설탕이 누락되지 않도록 모든 문법 설탕은 자동 생성됩니다. 자세한 내용은 [`core-sugar-processor-kotlinc`](../core-sugar-processor-kotlinc) 모듈의 README를 참고하세요.
+개발자의 실수로 특정 컴포넌트의 문법 설탕이 누락되지 않도록 모든 문법 설탕은 자동 생성됩니다.
+
+```kotlin
+fun Button(@SugarToken type: QuackButton, modifier: Modifier = Modifier, text: String) {}
+
+// generated
+fun DefaultButton(modifier: Modifier = Modifier, text: String) {} // same as Button(type = QuackButton.Default, ...)
+fun NormalButton(modifier: Modifier = Modifier, text: String) {} // same as Button(type = QuackButton.Normal, ...)
+fun FlatButton(modifier: Modifier = Modifier, text: String) {} // same as Button(type = QuackButton.Flat, ...)
+```
+
+ 자세한 내용은 [`core-sugar-processor-kotlinc`](../core-sugar-processor-kotlinc) 모듈의 README를 참고하세요.

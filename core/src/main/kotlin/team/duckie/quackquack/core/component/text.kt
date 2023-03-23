@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
-import team.duckie.quackquack.aide.annotation.TypedModifier
+import team.duckie.quackquack.aide.annotation.DecorateModifier
 import team.duckie.quackquack.core.animation.QuackAnimatedContent
 import team.duckie.quackquack.core.material.QuackColor
 import team.duckie.quackquack.core.material.QuackTypography
@@ -101,7 +101,7 @@ private data class HighlightData(
  * @param texts [SpanStyle]을 적용할 텍스트 모음
  * @param style 적용할 [SpanStyle]
  */
-@TypedModifier
+@DecorateModifier
 @Stable
 public fun Modifier.span(
     texts: List<String>,
@@ -116,7 +116,7 @@ public fun Modifier.span(
  * @param highlights 클릭 이벤트를 적용할 텍스트 모음
  * @param span 적용할 [SpanStyle]
  */
-@TypedModifier
+@DecorateModifier
 @Stable
 public fun Modifier.highlight(
     highlights: List<HighlightText>,
@@ -135,7 +135,7 @@ public fun Modifier.highlight(
  * @param span 적용할 [SpanStyle]
  * @param globalOnClick [texts]에 전역으로 적용할 클릭 이벤트
  */
-@TypedModifier
+@DecorateModifier
 @Stable
 public fun Modifier.highlight(
     texts: List<String>,
@@ -146,19 +146,6 @@ public fun Modifier.highlight(
     globalOnClick: (text: String) -> Unit,
 ): Modifier {
     return quackComposed {
-        // TODO: Modifier 안에서 remember 사용 사례 연구
-        // 맞나??
-        // /**
-        //  * `texts`를 remember하면 SnapshotStateList에 변화가 일어나도
-        //  * `calculation`이 re-invoke되지 않음
-        //  *
-        //  * ```
-        //  * val list = mutableStateListOf(0)
-        //  * println(list == list.apply { add(1) }) // true
-        //  * ```
-        //  *
-        //  * 따라서 `highlights`에 remember를 하지 않음
-        //  */
         val highlights = remember(texts, globalOnClick) {
             texts.fastMap { text -> HighlightText(text, globalOnClick) }
         }

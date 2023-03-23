@@ -60,8 +60,8 @@ internal class SugarIrVisitor(
 
             if (declaration.hasAnnotation(NoSugarFqn)) return
 
-            val sugarAnnotation = declaration.getAnnotation(SugarNameFqn)
-            val sugarName = sugarAnnotation?.getSugarNameIfNotDefault()
+            val sugarNameAnnotation = declaration.getAnnotation(SugarNameFqn)
+            val sugarName = sugarNameAnnotation?.getSugarNameIfNotDefault()
 
             var sugarToken: IrValueParameter? = null
             val sugarParameters = declaration.valueParameters.map { parameter ->
@@ -115,11 +115,11 @@ private fun checkCustomSugarNameIsValid(name: String) {
 }
 
 private fun IrValueParameter.toSugarParameter(isToken: Boolean): SugarParameter {
-    val sugarImportsAnnotation = getAnnotation(ImportsFqn)
-    val sugarImports = sugarImportsAnnotation?.let {
+    val sugarImports = getAnnotation(ImportsFqn)?.let { sugarImportsAnnotation ->
         // Assuming the first argument is always "clazz"
         val sugarImportsExpression = sugarImportsAnnotation.getValueArgument(0)
         sugarImportsExpression.cast<IrVararg>().elements.map { element ->
+            // clazz로 제공된 클래스의 fqn을 조회할 수 없으면 버그로 진행해야 함
             element.cast<IrClassReference>().classType.classFqName!!
         }
     }
@@ -143,7 +143,6 @@ private fun IrSimpleFunction.getSugarKDoc(referFqn: FqName): String {
     return kdoc
 }
 
-// TODO: 방식 변경 (enum class 지원 추가)
 private fun IrValueParameter.getAllTokenFqExpressions(): List<String> {
     val tokenClass = type.getClass()!!
     val tokenClassName = tokenClass.name.asString()

@@ -1,7 +1,7 @@
 # core-sugar-processor-kotlinc
 
 1. [Overview](#overview)
-2. [Why not KSP?](#wht-not-ksp)
+2. [Why not KSP?](#why-not-ksp)
 3. [Ir Visit](#ir-visit)
 4. [Code Generate](#code-generate)
 5. [Ir Transform](#ir-transform)
@@ -15,24 +15,24 @@
 이 모듈은 core 컴포넌트의 sugar syntax를 위한 컴포넌트를 자동 구현합니다. `core-sugar-processor-kotlinc`는 다음과 같은 단계로 진행됩니다.
 
 1. `Ir Visit`
-2. `Code Generation`
+2. `Code Generate`
 3. `Ir Transform`
 
 ![flow](assets/flow.png)
 
-이 중 `2. Code Generation`은 컴파일 옵션에 따라 생략할 수 있습니다.
+이 중 `Code Generate` 단계는 컴파일 옵션에 따라 생략할 수 있습니다.
 
 이 문서는 `core-sugar-processor-kotlinc`가 작동되는 세부 정책과 이러한 정책이 정해진 이유인 개발 초기의 고민들을 기록합니다.
 
-## Wht not KSP?
+## Why not KSP?
 
-초기에는 [KSP](https://github.com/google/ksp)로 접근하였지만([#487](https://github.com/duckie-team/quack-quack-android/pull/487)), 함수 인자의 default value 파싱이 상당히 어려운 문제가 있었습니다.
+초기에는 [KSP](https://kotlinlang.org/docs/ksp-overview.html)로 접근하였지만([#487](https://github.com/duckie-team/quack-quack-android/pull/487)), 함수 인자의 default value 파싱이 상당히 어려운 문제가 있었습니다.
 
-KSP는 [psi](https://plugins.jetbrains.com/docs/intellij/psi-elements.html) 기반으로 작동되고, value parameter의 symbol을 나타내는 `KSValueParameter`의 `defaultValue` 프로퍼티를 사용하면 인자의 기본 값을 `KtExpression`으로 조회할 수 있습니다.
+KSP는 [PSI](https://plugins.jetbrains.com/docs/intellij/psi.html) 기반으로 작동되고, value parameter의 symbol을 나타내는 `KSValueParameter`의 `defaultValue` 프로퍼티를 사용하면 인자의 기본값을 `KtExpression`으로 조회할 수 있습니다.
 
 문제는 `KtExpression`을 문자열로 나타낼 때 발생합니다.
 
-아래와 같이 sibling이 없고 간단한 psi tree를 갖는 expression이라면 쉽게 나타낼 수 있지만,
+아래와 같이 sibling이 없고 간단한 PSI tree를 갖는 expression이라면 쉽게 나타낼 수 있지만,
 
 ```
 true
@@ -40,7 +40,7 @@ true
 
 <img src="assets/simple-psi-defaultvalue.jpeg" width="60%" alt="simple-psi-defaultvalue"/>
 
-아래와 같이 sibling이 포함된 복잡한 psi tree를 갖는 expression이라면 파싱의 난이도가 급격히 상승합니다.
+아래와 같이 sibling이 포함된 복잡한 PSI tree를 갖는 expression이라면 파싱의 난이도가 급격히 상승합니다.
 
 ```
 listOf(1, 2, 3)
@@ -48,7 +48,7 @@ listOf(1, 2, 3)
 
 <img src="assets/complex-psi-defaultvalue.jpeg" width="60%" alt="complex-psi-defaultvalue"/>
 
-따라서 default value까지 copy하여 sugar component 코드를 생성하는 건 무리라고 판단하고 default value 지원을 TODO로 남기려 했지만, 컴포즈 환경에서 default value가 없다는 건 개발자에게 너무 치명적인 경험 저하라고 생각하였습니다.
+따라서 default value까지 복사하여 sugar component 코드를 생성하는 건 무리라고 판단하고 default value 지원을 TODO로 남기려 했지만, 컴포즈 환경에서 default value가 없다는 건 개발자에게 너무 치명적인 경험 저하라고 생각하였습니다.
 
 이 문제를 해결하기 위해 KSP보다 코드에 더 low level로 접근할 수 있는 방안을 고민해 보았고, [IR](https://en.wikipedia.org/wiki/Intermediate_representation)이 떠올랐습니다.
 
@@ -69,7 +69,7 @@ listOf(1, 2, 3)
 - `file`: IR이 제공된 파일
 - `referFqn`: IR이 제공된 함수의 fully-qualified name
 - `kdoc`: IR이 제공된 함수의 KDoc
-- `sugarName`: 생성할 sugar component의 네이밍 규칙. `@SugarToken` 값을 가져옵니다.
+- `sugarName`: 생성할 sugar component의 네이밍 규칙. `@SugarName` 값을 가져옵니다.
 - `sugarToken`: 생성할 sugar component의 Sugar Token에 해당하는 인자. `@SugarToken`이 달린 인자를 가져옵니다.
 - `tokenFqExpressions`: Sugar Token의 expression 모음
 - `parameters`: IR이 제공된 함수의 인자 모음. sugar component 생성에 필요한 정보만 수집합니다.
@@ -77,8 +77,6 @@ listOf(1, 2, 3)
 ##### `tokenFqExpressions` 예시
 
 ```kotlin
-package team.duckie.theme
-
 @JvmInline
 value class Theme(val index: Int) {
     companion object {
@@ -89,7 +87,7 @@ value class Theme(val index: Int) {
     }
 }
 
-// ["team.duckie.theme.Theme.Default", "team.duckie.theme.Theme.Dark", "team.duckie.theme.Theme.Light", "team.duckie.theme.Theme.System"]
+// ["Theme.Default", "Theme.Dark", "Theme.Light", "Theme.System"]
 ```
 
 ##### `parameters`에서 수집하는 정보
@@ -99,7 +97,7 @@ value class Theme(val index: Int) {
 - `isToken`: 인자가 Sugar Token인지 여부
 - `isComposable`: 인자 타입에 `@Composable` 어노테이션이 있는지 여부
 - `imports`: 인자 타입 외에 추가로 import가 필요한 클래스의 fully-qualified name으로 구성된 목록
-- `defaultValue`: 인자의 기본 값
+- `defaultValue`: 인자의 기본값
 
 ### Ir 수집 기준
 
@@ -121,7 +119,7 @@ value class Theme(val index: Int) {
 
 poet이 실행되면 다음과 같은 코드를 생성합니다.
 
-1. generated comment & suppress annotations 추가
+1. generated comment & suppress, optin annotation 추가
 2. `sugar()` import 추가
 3. sugar component에 사용된 import 추가
 4. sugar component 함수들 추가
@@ -150,8 +148,10 @@ SugarRefer의 IR 정보는 Ir Visit 단계에서 조회한 정보로 불러옵�
 
 ## Caveat
 
-`core-sugar-processor-kotlinc`에는 3가지 단점이 존재합니다.
+`core-sugar-processor-kotlinc`에는 몇 가지 단점이 존재합니다.
 
 - Kotlin Compiler Plugin은 아직 experimental 상태입니다. 모든 API가 불안정하므로 예상치 못한 버그가 발생할 수 있습니다.
-- sugar component의 인자로 함수형 타입은 지원되지 않습니다. 함수형 타입엔 generic type erasure가 적용되어 컴파일단에서는 `Function` 까지만 조회됩니다. 즉, `Function`의 `T` 값을 유추할 수 없기에 별도 대응이 필요합니다.
+- Kotlin Compiler Plugin의 문서가 *거의* 존재하지 않아 모두 정상적인 방법으로 구현한 건지 알 방법이 없습니다. 단순히 개발자에게 최고의 경험을 제공하고 싶다는 목표 하나만 가지고 3일간 공부한 내용을 바탕으로 개발되었으므로 안심할 수 없습니다.
+- sugar component의 인자로 함수형 타입은 지원되지 않습니다. 함수형 타입엔 [generic type erasure](https://docs.oracle.com/javase/tutorial/java/generics/erasure.html)가 적용되어 컴파일단에서는 `Function`까지만 조회됩니다. 즉, `Function`의 `T` 타입을 유추할 수 없기에 별도 대응이 필요합니다.
+- Compiler Plugin 등록 서비스로 deprecated된 방식을 사용합니다. (See [SugarComponentRegistrar.kt](https://github.com/duckie-team/quack-quack-android/blob/2.x.x/core-sugar-processor-kotlinc/src/main/kotlin/SugarComponentRegistrar.kt#L23))
 - sugar token의 타입으로 `value class`, `data class`, `class`만 테스트가 진행됐습니다.
