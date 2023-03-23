@@ -15,7 +15,7 @@ import com.google.auto.service.AutoService
 
 @AutoService(value = [IssueRegistry::class])
 class CoreAideIssueRegistry : IssueRegistry() {
-    override val issues = listOf(CoreAideTypedModifierDetector.ISSUE)
+    override val issues = listOf(CoreAideDecorateModifierDetector.ISSUE)
 
     override val api = CURRENT_API
 

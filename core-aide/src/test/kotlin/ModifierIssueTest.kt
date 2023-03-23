@@ -12,6 +12,7 @@ import org.junit.Test
 
 @Ignore(value = "현재는 구현된 도메인이 하나뿐임")
 class ModifierIssueTest {
+    // `Modifier.~~~`와 `Modifier.Companion.~~~` 경우가 모두 테스트돼야 함
     @Test
     fun test() {
         lint()
@@ -68,7 +69,7 @@ class ModifierIssueTest {
                     """,
                 ).indented().within("src"),
             )
-            .issues(CoreAideTypedModifierDetector.ISSUE)
+            .issues(CoreAideDecorateModifierDetector.ISSUE)
             .run()
             .expectClean()
             .expectFixDiffs("")
