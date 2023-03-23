@@ -30,17 +30,8 @@ internal val aideModifiers: Map<String, List<String>> = run {
 
 ### `aide["text"] = listOf("span", "highlight")`
 
-key는 컴포넌트의 도메인을 나타내고, value는 해당 도메인 컴포넌트에서 사용 가능한 데코레이션 Modifier의 이름들을 나타냅니다.
+key는 컴포넌트의 도메인을 나타내고, value는 해당 도메인에서 사용 가능한 데코레이션 Modifier의 이름들을 나타냅니다.
 
 ### `aide["_span"] = emptyList()`, `aide["_highlight"] = emptyList()`
 
-이 부분은 감지한 Modifier가 꽥꽥의 데코레이션 Modifier인지 확인할 때 `O(1)`만에 진행하기 위해 생성됩니다.
-
-```kotlin
-val decorateModifiers = modifiers.filter { modifier ->
-    val identifier = modifier.asCall()?.methodIdentifier ?: return@filter false
-    aideModifiers["_${identifier.name}"] != null
-}
-```
-
-만약 `aideModifiers["_${identifier.name}"]` 값이 null이 아니라면 유효한 데코레이션 Modifier인 것으로 간주할 수 있습니다.
+이 부분은 감지된 Modifier가 데코레이션 Modifier인지 확인할 때 `O(1)`만에 진행하기 위해 생성됩니다. 만약 `aideModifiers["_$modifierName"]` 값이 null이 아니라면 유효한 데코레이션 Modifier로 간주할 수 있습니다.
