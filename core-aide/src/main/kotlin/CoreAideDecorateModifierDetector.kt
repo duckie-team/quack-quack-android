@@ -42,8 +42,6 @@ import org.jetbrains.uast.getQualifiedChain
  * 조회할 수 있습니다.
  */
 class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
-    private val quackComponents = aideComponents.values.flatten()
-
     override fun getApplicableMethodNames() = quackComponents
 
     override fun visitMethodCall(context: JavaContext, node: UCallExpression, method: PsiMethod) {

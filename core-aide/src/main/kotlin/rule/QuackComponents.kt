@@ -6,15 +6,8 @@
 import kotlin.String
 import kotlin.Suppress
 import kotlin.collections.List
-import kotlin.collections.Map
 
-internal val aideModifiers: Map<String, List<String>> = run {
-  val aide = mutableMapOf<String, List<String>>()
-
-  aide["text"] = listOf("span", "highlight")
-  aide["_span"] = emptyList()
-  aide["_highlight"] = emptyList()
-
-  aide
-}
-
+internal val quackComponents: List<String> = listOf("QuackAnimatedContent",
+    "QuackAnimatedVisibility", "QuackLarge1", "QuackHeadLine1", "QuackHeadLine2", "QuackTitle1",
+    "QuackTitle2", "QuackSubtitle", "QuackSubtitle2", "QuackBody1", "QuackBody2", "QuackBody3",
+    "QuackText", "QuackTheme")

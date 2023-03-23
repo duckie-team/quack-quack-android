@@ -32,20 +32,17 @@ internal class CoreAideProcessor(
                 declaration is KSFunctionDeclaration && declaration.isPublicModifier
             } as Sequence<KSFunctionDeclaration>
 
-        generateAideKt(
+        generateQuackComponents(
             codeGenerator = codeGenerator,
             logger = logger,
             symbols = components,
-            property = "aideComponents",
             aidePath = aidePath,
         )
-        generateAideKt(
+        generateAideModifiers(
             codeGenerator = codeGenerator,
             logger = logger,
             symbols = modifiers,
-            property = "aideModifiers",
             aidePath = aidePath,
-            modifiers = true,
         )
 
         return components.filterNot(KSAnnotated::validate)
