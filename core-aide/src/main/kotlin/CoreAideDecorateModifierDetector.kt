@@ -61,7 +61,7 @@ class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
 
         val decorateModifiers = modifiers.filter { modifier ->
             val identifier = modifier.asCall()?.methodIdentifier ?: return@filter false
-            aideModifiers[identifier.name] != null
+            aideModifiers["_${identifier.name}"] != null
         }
 
         decorateModifiers.forEach { modifier ->

@@ -66,7 +66,7 @@ private fun createAideFileSpec(
                         addStatement("aide[%S] = %L", type, values.toLiteralListString())
                         if (modifiers) {
                             values.forEach { modifier ->
-                                addStatement("aide[%S] = %L", modifier, "emptyList()")
+                                addStatement("aide[%S] = %L", "_$modifier", "emptyList()")
                             }
                         }
                     }
