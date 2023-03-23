@@ -129,12 +129,12 @@ class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
             위 `QuackText` 컴포넌트는 텍스트 표시가 주 목적이므로 Text 도메인으로 간주됩니다. 
             일부 Modifier는 Text 도메인에 속하는 컴포넌트에만 사용됨을 기준으로 설계됐기 때문에 
             외부 도메인에서는 올바르게 작동하지 않을 수 있습니다. 따라서 도메인에 맞지 않는 
-            Modifier 사용이 감지됐을 때는 `TypedModifier` informational을 발생시킵니다.
+            Modifier 사용이 감지됐을 때는 `DecorateModifier` informational을 발생시킵니다.
             ```
         """.trimIndent()
 
         val ISSUE = Issue.create(
-            id = "TypedModifier",
+            id = "DecorateModifier",
             briefDescription = IssueBrief,
             explanation = IssueExplanation,
             category = Category.USABILITY,
