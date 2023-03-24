@@ -71,9 +71,11 @@ class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
         acceptableModifiers: List<String>,
         modifier: UExpression,
     ) {
-        val identifier = modifier.asCall()?.methodIdentifier!!
-        val startPsi = modifier.sourcePsi?.prevSibling // PsiElement (DOT) "."
-        val endPsi = modifier.sourcePsi?.lastChild?.lastChild // PsiElement (RPAR) ")"
+        val nullSafetySourcePsi = modifier.sourcePsi ?: return
+        val identifier = modifier.asCall()?.methodIdentifier ?: return
+
+        val startPsi = nullSafetySourcePsi.prevSibling // PsiElement (DOT) "."
+        val endPsi = nullSafetySourcePsi.lastChild?.lastChild // PsiElement (RPAR) ")"
 
         if (!acceptableModifiers.contains(identifier.name)) {
             val removalFix = LintFix.create()
@@ -87,7 +89,7 @@ class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
             val incident = Incident(context = this, issue = ISSUE)
                 .message(IssueMessage)
                 .fix(removalFix)
-            val baseLocation = incident.parseLocation(modifier)
+            val baseLocation = incident.parseLocation(nullSafetySourcePsi)
 
             if (startPsi != null && endPsi != null) {
                 val startPsiLocation = incident.parseLocation(startPsi)
