@@ -30,6 +30,7 @@ compose-material3 = "1.0.1" # for Playground
 compose-activity = "1.7.0"
 compose-coil = "2.2.2"
 
+test-kotest = "5.5.5"
 test-junit-core = "4.13.2"
 test-junit-engine = "5.9.2"
 test-junit-compose = "1.4.0"
@@ -89,6 +90,7 @@ compose-activity = { module = "androidx.activity:activity-compose", version.ref 
 compose-coil = { module = "io.coil-kt:coil-compose", version.ref = "compose-coil" }
 
 test-android-lint = { module = "com.android.tools.lint:lint-tests", version.ref = "android-lint" }
+test-kotest-framework = { module = "io.kotest:kotest-runner-junit5", version.ref = "test-kotest" }
 test-junit-core = { module = "junit:junit", version.ref = "test-junit-core" }
 test-junit-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "test-junit-engine" } # testRuntimeOnly
 test-junit-compose = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "test-junit-compose" } # androidTestImplementation

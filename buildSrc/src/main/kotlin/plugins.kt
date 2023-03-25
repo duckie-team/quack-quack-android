@@ -54,8 +54,11 @@ inline val PluginDependenciesSpec.`buildlogic-android-compose-metrics`: PluginDe
 inline val PluginDependenciesSpec.`buildlogic-jvm-kotlin`: PluginDependencySpec
     get() = id(generatePluginRegisterId(JvmKotlinPlugin::class.simpleName!!))
 
-inline val PluginDependenciesSpec.`buildlogic-jvm-junit`: PluginDependencySpec
-    get() = id(generatePluginRegisterId(JvmJUnitPlugin::class.simpleName!!))
+inline val PluginDependenciesSpec.`buildlogic-test-junit`: PluginDependencySpec
+    get() = id(generatePluginRegisterId(TestJUnitPlugin::class.simpleName!!))
+
+inline val PluginDependenciesSpec.`buildlogic-test-kotest`: PluginDependencySpec
+    get() = id(generatePluginRegisterId(TestKotestPlugin::class.simpleName!!))
 
 inline val PluginDependenciesSpec.`buildlogic-jvm-dokka`: PluginDependencySpec
     get() = id(generatePluginRegisterId(JvmDokkaPlugin::class.simpleName!!))

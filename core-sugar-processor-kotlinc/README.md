@@ -117,7 +117,7 @@ value class Theme(val index: Int) {
 
 `core-sugar-processor-kotlinc`의 두 번째 동작은 Code Generate 입니다. 이 단계는 건너뛸 수 있습니다. Code Generate는 내부적으로 [kotlinpoet](https://square.github.io/kotlinpoet/)를 사용하며, `poet` 이라는 네이밍을 사용합니다.
 
-poet이 실행되면 다음과 같은 코드를 생성합니다.
+`poet`이 실행되면 다음과 같은 코드를 생성합니다.
 
 1. generated comment & suppress, optin annotation 추가
 2. `sugar()` import 추가
@@ -135,13 +135,13 @@ poet이 실행되면 다음과 같은 코드를 생성합니다.
 
 ## Ir Transform
 
-`core-sugar-processor-kotlinc`의 마지막 동작은 Ir Transform 입니다. poet에서 생성한 `sugar()`를 SugarRefer의 IR로 교체하는 작업을 진행합니다.
+`core-sugar-processor-kotlinc`의 마지막 동작은 Ir Transform 입니다. `poet`에서 생성한 `sugar()`를 SugarRefer의 IR로 교체하는 작업을 진행합니다.
 
 SugarRefer의 IR 정보는 Ir Visit 단계에서 조회한 정보로 불러옵니다.
 
 ## Compile Options
 
-`core-sugar-processor-kotlinc`는 poet를 조정할 수 있는 2가지 컴파일 옵션을 제공합니다.
+`core-sugar-processor-kotlinc`는 `poet`를 조정할 수 있는 2가지 컴파일 옵션을 제공합니다.
 
 - `sugarPath`: Sugar Component가 생성될 위치 [String] \<required>
 - `poet`: Code Generate 단계를 활성화할지 여부 [Boolean] \<true>

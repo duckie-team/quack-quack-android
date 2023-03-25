@@ -11,10 +11,11 @@ import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import internal.ApplicationConstants
 import internal.applyPlugins
-import internal.composeSupportExtension
 import internal.configureAndroid
 import internal.configureCompose
 import internal.libs
+import internal.androidExtensions
+import internal.isAndroidProject
 import internal.setupJunit
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -76,11 +77,11 @@ internal class AndroidLintPlugin : BuildLogicPlugin({
 })
 
 internal class AndroidComposePlugin : BuildLogicPlugin({
-    configureCompose(composeSupportExtension)
+    configureCompose(androidExtensions)
 })
 
 internal class AndroidComposeMetricsPlugin : BuildLogicPlugin({
-    composeSupportExtension.apply {
+    androidExtensions.apply {
         kotlinOptions {
             freeCompilerArgs = freeCompilerArgs + listOf(
                 "-P",
@@ -114,17 +115,24 @@ internal class JvmKotlinPlugin : BuildLogicPlugin({
     dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get())
 })
 
-internal class JvmJUnitPlugin : BuildLogicPlugin({
-    dependencies {
-        tasks.withType<Test> {
-            useJUnitPlatform()
-        }
+// prefix가 `Jvm`이 아니라 `Test`인 이유:
+// 적용 타켓(android or pure)에 따라 `useJUnitPlatform()` 방식이 달라짐
+internal class TestJUnitPlugin : BuildLogicPlugin({
+    useJUnitPlatformForTarget()
 
+    dependencies {
         setupJunit(
             core = libs.findLibrary("test-junit-core").get(),
             engine = libs.findLibrary("test-junit-engine").get(),
         )
     }
+})
+
+// prefix가 `Jvm`이 아니라 `Test`인 이유:
+// 적용 타켓(android or pure)에 따라 `useJUnitPlatform()` 방식이 달라짐
+internal class TestKotestPlugin : BuildLogicPlugin({
+    useJUnitPlatformForTarget()
+    dependencies.add("implementation", libs.findLibrary("test-kotest-framework").get())
 })
 
 internal class JvmDokkaPlugin : BuildLogicPlugin({
@@ -157,3 +165,18 @@ internal class KotlinExplicitApiPlugin : BuildLogicPlugin({
             }
         }
 })
+
+// ref: https://kotest.io/docs/quickstart#test-framework
+internal fun Project.useJUnitPlatformForTarget() {
+    if (isAndroidProject) {
+        androidExtensions.testOptions {
+            unitTests.all { test ->
+                test.useJUnitPlatform()
+            }
+        }
+    } else {
+        tasks.withType<Test>().configureEach {
+            useJUnitPlatform()
+        }
+    }
+}

@@ -19,6 +19,7 @@ import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.asCall
 import com.intellij.psi.PsiMethod
 import java.util.EnumSet
+import org.jetbrains.annotations.VisibleForTesting
 import org.jetbrains.kotlin.daemon.common.findWithTransform
 import org.jetbrains.uast.UCallExpression
 import org.jetbrains.uast.UExpression
@@ -37,12 +38,10 @@ import org.jetbrains.uast.getQualifiedChain
  * ```
  *
  * 도메인별 꽥꽥 컴포넌트와 도메인별 사용 가능한 Modifier는 core-aide-processor에 의해
- * 자동 생성됩니다. 해당 파일들은 rule 패키지에 저장되며, `aideModifiers`와 `aideComponents`로
+ * 자동 생성됩니다. 해당 파일들은 rule 패키지에 저장되며, [`aideModifiers`][aideModifiers]와 [`aideComponents`][aideComponents]로
  * 조회할 수 있습니다.
  */
-class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
-    private val quackComponents = aideComponents.values.flatten()
-
+class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
     override fun getApplicableMethodNames() = quackComponents
 
     override fun visitMethodCall(context: JavaContext, node: UCallExpression, method: PsiMethod) {
@@ -53,19 +52,17 @@ class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
             val chains = argument.getQualifiedChain()
             val isModifier = chains.firstOrNull()?.let { chain ->
                 val type = chain.getExpressionType()?.canonicalText
-                type?.startsWith("androidx.compose.ui.Modifier") == true // Modifier.Companion
+                type?.startsWith("androidx.compose.ui.Modifier") == true // `Modifier` or `Modifier.Companion` type
             } == true
             isModifier to chains.drop(1) // without `modifier` or `Modifier` chain
         } ?: return
 
-        val quackModifiers = modifiers.mapNotNull { expression ->
-            expression.takeIf { modifier ->
-                val identifier = modifier.asCall()?.methodIdentifier ?: return@mapNotNull null
-                aideModifiers[identifier.name] != null
-            }
+        val decorateModifiers = modifiers.filter { modifier ->
+            val identifier = modifier.asCall()?.methodIdentifier ?: return@filter false
+            aideModifiers["_${identifier.name}"] != null
         }
 
-        quackModifiers.forEach { modifier ->
+        decorateModifiers.forEach { modifier ->
             context.reportWrongModifierIfNeeded(acceptableModifiers, modifier)
         }
     }
@@ -74,9 +71,11 @@ class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
         acceptableModifiers: List<String>,
         modifier: UExpression,
     ) {
-        val identifier = modifier.asCall()?.methodIdentifier!!
-        val startPsi = modifier.sourcePsi?.prevSibling // PsiElement (DOT) "."
-        val endPsi = modifier.sourcePsi?.lastChild?.lastChild // PsiElement (RPAR) ")"
+        val nullSafetySourcePsi = modifier.sourcePsi ?: return
+        val identifier = modifier.asCall()?.methodIdentifier ?: return
+
+        val startPsi = nullSafetySourcePsi.prevSibling // PsiElement (DOT) "."
+        val endPsi = nullSafetySourcePsi.lastChild?.lastChild // PsiElement (RPAR) ")"
 
         if (!acceptableModifiers.contains(identifier.name)) {
             val removalFix = LintFix.create()
@@ -87,14 +86,15 @@ class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
                 .reformat(true)
                 .autoFix()
                 .build()
-            val incident = Incident(this, ISSUE).message(IssueMessage)
+            val incident = Incident(context = this, issue = ISSUE)
+                .message(IssueMessage)
+                .fix(removalFix)
+            val baseLocation = incident.parseLocation(nullSafetySourcePsi)
 
-            val baseLocation = incident.parseLocation(modifier)
             if (startPsi != null && endPsi != null) {
                 val startPsiLocation = incident.parseLocation(startPsi)
                 val endPsiLocation = incident.parseLocation(endPsi)
                 val resolvedLocation = if (startPsiLocation.start != null && endPsiLocation.end != null) {
-                    incident.fix(removalFix)
                     Location.create(
                         file = baseLocation.file,
                         start = startPsiLocation.start!!,
@@ -103,9 +103,9 @@ class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
                 } else {
                     baseLocation
                 }
-                incident.location = resolvedLocation
+                incident.updateLocationAndScope(resolvedLocation)
             } else {
-                incident.location = baseLocation
+                incident.updateLocationAndScope(baseLocation)
             }
 
             report(incident)
@@ -113,13 +113,14 @@ class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
     }
 
     companion object {
+        private const val IssueId = "DecorateModifier"
         private const val IssueMessage = "올바르지 않은 Modifier의 사용이 감지되었습니다."
         private const val IssueBrief = "사용하고자 하는 Modifier가 해당 스코프에 선언된 Modifier가 맞나요?"
         private val IssueExplanation = """
             꽥꽥은 컴포넌트를 도메인으로 구분하며, 도메인마다 사용 가능한 Modifier가 달라집니다.
             예를 들어 다음과 같은 컴포넌트가 있습니다.
             
-            ```kotlin
+            ```
             @Composable
             fun QuackText(modifier: Modifier = Modifier, text: String) {
                 BasicText(modifier = modifier, text = text)
@@ -129,19 +130,19 @@ class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
             위 `QuackText` 컴포넌트는 텍스트 표시가 주 목적이므로 Text 도메인으로 간주됩니다. 
             일부 Modifier는 Text 도메인에 속하는 컴포넌트에만 사용됨을 기준으로 설계됐기 때문에 
             외부 도메인에서는 올바르게 작동하지 않을 수 있습니다. 따라서 도메인에 맞지 않는 
-            Modifier 사용이 감지됐을 때는 `TypedModifier` informational을 발생시킵니다.
+            Modifier 사용이 감지됐을 때는 `$IssueId` informational을 발생시킵니다.
             ```
         """.trimIndent()
 
         val ISSUE = Issue.create(
-            id = "TypedModifier",
+            id = IssueId,
             briefDescription = IssueBrief,
             explanation = IssueExplanation,
             category = Category.USABILITY,
             priority = 5,
             severity = Severity.INFORMATIONAL,
             implementation = Implementation(
-                CoreAideTypedModifierDetector::class.java,
+                CoreAideDecorateModifierDetector::class.java,
                 EnumSet.of(Scope.JAVA_FILE),
                 Scope.JAVA_FILE_SCOPE,
             ),
@@ -149,7 +150,15 @@ class CoreAideTypedModifierDetector : Detector(), SourceCodeScanner {
     }
 }
 
-private fun Incident.parseLocation(source: Any): Location {
-    at(source)
-    return location
+@VisibleForTesting
+internal fun Incident.parseLocation(source: Any): Location {
+    val prevLocate = location
+    val newLocate = at(source).location
+    location = prevLocate
+    return newLocate
+}
+
+private fun Incident.updateLocationAndScope(source: Location) = apply {
+    location = source
+    scope = source
 }
