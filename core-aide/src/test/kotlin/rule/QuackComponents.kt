@@ -1,3 +1,10 @@
-@file:Suppress("unused", "PackageDirectoryMismatch")
+/*
+ * Designed and developed by Duckie Team 2023.
+ *
+ * Licensed under the MIT.
+ * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
+ */
 
-internal val quackComponents = listOf("QuackText")
+@file:Suppress("PackageDirectoryMismatch")
+
+val testQuackComponents = listOf("QuackText")

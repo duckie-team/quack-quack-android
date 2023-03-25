@@ -9,9 +9,6 @@ import com.android.tools.lint.checks.infrastructure.TestFiles.kotlin
 import io.kotest.core.spec.style.StringSpec
 
 class ModifierInformationalTest : StringSpec({
-    beforeTest(aideRuleTestStart)
-    // afterTest(aideRuleTestFinish)
-
     "허용되지 않은 데코레이터를 사용했을 때 informational issue가 발생함" {
         lintTest(
             kotlin(
@@ -27,6 +24,5 @@ class ModifierInformationalTest : StringSpec({
     }
 
     "informational issue가 발생했을 때 유효한 QuickFix가 제공됨".config(enabled = false) {
-
     }
 })

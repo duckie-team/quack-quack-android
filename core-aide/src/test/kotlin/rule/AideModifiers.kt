@@ -1,6 +1,13 @@
-@file:Suppress("unused", "PackageDirectoryMismatch")
+/*
+* Designed and developed by Duckie Team 2023.
+*
+* Licensed under the MIT.
+* Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
+*/
 
-internal val aideModifiers: Map<String, List<String>> = run {
+@file:Suppress("PackageDirectoryMismatch")
+
+val testAideModifiers: Map<String, List<String>> = run {
     val aide = mutableMapOf<String, List<String>>()
 
     aide["text"] = listOf("span")

@@ -8,22 +8,15 @@
 import com.android.tools.lint.detector.api.Category
 import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Implementation
-import com.android.tools.lint.detector.api.Incident
 import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
-import com.android.tools.lint.detector.api.LintFix
-import com.android.tools.lint.detector.api.Location
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
-import com.android.tools.lint.detector.api.asCall
 import com.intellij.psi.PsiMethod
 import java.util.EnumSet
 import org.jetbrains.annotations.VisibleForTesting
-import org.jetbrains.kotlin.daemon.common.findWithTransform
 import org.jetbrains.uast.UCallExpression
-import org.jetbrains.uast.UExpression
-import org.jetbrains.uast.getQualifiedChain
 
 /**
  * 꽥꽥 컴포넌트가 해당 도메인에 맞지 않는 DecorateModifier를 사용하면 경고를 표시합니다.
@@ -45,76 +38,19 @@ class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
     override fun getApplicableMethodNames() = quackComponents
 
     override fun visitMethodCall(context: JavaContext, node: UCallExpression, method: PsiMethod) {
-        val domain = context.file.nameWithoutExtension
-        val acceptableModifiers = aideModifiers[domain] ?: return
-
-        val modifiers = node.valueArguments.findWithTransform { argument ->
-            val chains = argument.getQualifiedChain()
-            val isModifier = chains.firstOrNull()?.let { chain ->
-                val type = chain.getExpressionType()?.canonicalText
-                type?.startsWith(ModifierFqn) == true // `Modifier` or `Modifier.Companion` type
-            } == true
-            isModifier to chains.drop(1) // without `modifier` or `Modifier` chain
-        } ?: return
-
-        val decorateModifiers = modifiers.filter { modifier ->
-            val identifier = modifier.asCall()?.methodIdentifier ?: return@filter false
-            aideModifiers["_${identifier.name}"] != null
-        }
-
-        decorateModifiers.forEach { modifier ->
-            context.reportWrongModifierIfNeeded(acceptableModifiers, modifier)
-        }
+        @Suppress("VisibleForTests")
+        visitMethodCallImpl(
+            context = context,
+            node = node,
+            issue = ISSUE,
+            incidentMessage = IssueMessage,
+            modifierFqn = ModifierFqn,
+            aideModifiers = aideModifiers,
+        )
     }
 
-    private fun JavaContext.reportWrongModifierIfNeeded(
-        acceptableModifiers: List<String>,
-        modifier: UExpression,
-    ) {
-        val nullSafetySourcePsi = modifier.sourcePsi ?: return
-        val identifier = modifier.asCall()?.methodIdentifier ?: return
-
-        val startPsi = nullSafetySourcePsi.prevSibling // PsiElement (DOT) "."
-        val endPsi = nullSafetySourcePsi.lastChild?.lastChild // PsiElement (RPAR) ")"
-
-        if (!acceptableModifiers.contains(identifier.name)) {
-            val removalFix = LintFix.create()
-                .name("Remove ${identifier.name} modifier")
-                .replace()
-                .all()
-                .with("")
-                .reformat(true)
-                .autoFix()
-                .build()
-            val incident = Incident(context = this, issue = ISSUE)
-                .message(IssueMessage)
-                .fix(removalFix)
-            val baseLocation = incident.parseLocation(nullSafetySourcePsi)
-
-            if (startPsi != null && endPsi != null) {
-                val startPsiLocation = incident.parseLocation(startPsi)
-                val endPsiLocation = incident.parseLocation(endPsi)
-                val resolvedLocation = if (startPsiLocation.start != null && endPsiLocation.end != null) {
-                    Location.create(
-                        file = baseLocation.file,
-                        start = startPsiLocation.start!!,
-                        end = endPsiLocation.end!!,
-                    )
-                } else {
-                    baseLocation
-                }
-                incident.updateLocationAndScope(resolvedLocation)
-            } else {
-                incident.updateLocationAndScope(baseLocation)
-            }
-
-            report(incident)
-        }
-    }
-
-    companion object {
+    internal companion object {
         private const val IssueId = "WrongDecorateModifier"
-        private const val IssueMessage = "올바르지 않은 DecorateModifier의 사용이 감지되었습니다."
         private const val IssueBrief = "사용하고자 하는 DecorateModifier가 해당 스코프에 선언된 게 맞나요?"
         private val IssueExplanation = """
             꽥꽥은 컴포넌트를 도메인으로 구분하며, 도메인마다 사용 가능한 DecorateModifier가 달라집니다.
@@ -133,7 +69,10 @@ class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
             DecorateModifier 사용이 감지됐을 때는 `$IssueId` informational을 발생시킵니다.
         """.trimIndent()
 
-        val ISSUE = Issue.create(
+        @VisibleForTesting
+        internal const val IssueMessage = "올바르지 않은 DecorateModifier의 사용이 감지되었습니다."
+
+        internal val ISSUE = Issue.create(
             id = IssueId,
             briefDescription = IssueBrief,
             explanation = IssueExplanation,
@@ -147,17 +86,4 @@ class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
             ),
         )
     }
-}
-
-@VisibleForTesting
-internal fun Incident.parseLocation(source: Any): Location {
-    val prevLocate = location
-    val newLocate = at(source).location
-    location = prevLocate
-    return newLocate
-}
-
-private fun Incident.updateLocationAndScope(source: Location) = apply {
-    location = source
-    scope = source
 }
