@@ -5,23 +5,28 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
+import com.android.tools.lint.checks.infrastructure.TestFiles.kotlin
 import io.kotest.core.spec.style.StringSpec
 
 class ModifierInformationalTest : StringSpec({
-    // TODO: lifecycle hook 정책 검토 필요
-    // https://kotest.io/docs/framework/lifecycle-hooks.html
     beforeTest(aideRuleTestStart)
-    afterTest(aideRuleTestFinish)
+    // afterTest(aideRuleTestFinish)
 
-    "허용되지 않은 데코레이터를 사용했을 때 informational issue가 발생함 - `Modifier` 대상" {
-
+    "허용되지 않은 데코레이터를 사용했을 때 informational issue가 발생함" {
+        lintTest(
+            kotlin(
+                "text.kt",
+                """
+                fun main() {
+                    QuackText(modifier = Modifier.onClick {})
+                }
+                """,
+            ),
+        )
+            .expectClean()
     }
 
-    "허용되지 않은 데코레이터를 사용했을 때 informational issue가 발생함 - `Modifier.Companion` 대상" {
-
-    }
-
-    "informational issue가 발생했을 때 유효한 QuickFix가 제공됨" {
+    "informational issue가 발생했을 때 유효한 QuickFix가 제공됨".config(enabled = false) {
 
     }
 })

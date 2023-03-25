@@ -1,3 +1,3 @@
 @file:Suppress("unused", "PackageDirectoryMismatch")
 
-internal val quackComponents = listOf("QuackText")
+internal const val ModifierFqn = "Modifier"
