@@ -9,19 +9,20 @@ import io.kotest.core.spec.AfterTest
 import io.kotest.core.spec.BeforeTest
 import java.io.File
 
-private const val AideRulePath = "src/main/kotlin/rule"
 private val projectDir = System.getProperty("user.dir")
-private val aideRuleDir = File(projectDir, AideRulePath).also { rules ->
-    println("AideRuleDir: ${rules.path}")
-}
+private val aideMainRules = File(projectDir, "src/main/kotlin/rule").listFiles()
+private val aideTestRules = File(projectDir, "src/test/kotlin/rule").listFiles()!!
 
 // Map<String, String>: filename - code
 private var previousAideRules = mutableMapOf<String, String>()
 
 val aideRuleTestStart: BeforeTest = {
     checkAideRulesAreValid()
-    aideRuleDir.listFiles()!!.forEach { rule ->
+    aideMainRules!!.forEach { rule ->
         previousAideRules[rule.name] = rule.readText()
+        aideTestRules.find { testRule -> testRule.name == rule.name }!!.let { testRule ->
+            rule.writeText(testRule.readText())
+        }
     }
 }
 
@@ -30,14 +31,14 @@ val aideRuleTestFinish: AfterTest = {
     check(previousAideRules.isNotEmpty()) {
         "The `aideRuleTestStart` hook was not called or no previous AideRules exist."
     }
-    aideRuleDir.listFiles()!!.forEach { rule ->
+    aideMainRules!!.forEach { rule ->
         rule.writeText(previousAideRules[rule.name]!!)
     }
 }
 
 private val aideRuleFileNames = listOf("AideModifiers.kt", "QuackComponents.kt")
 private fun checkAideRulesAreValid() {
-    val ruleFiles = aideRuleDir.listFiles().orEmpty().also { rules ->
+    val ruleFiles = aideMainRules.orEmpty().also { rules ->
         check(rules.isNotEmpty()) { "No AideRules were created" }
     }
     ruleFiles.forEach { rule ->
