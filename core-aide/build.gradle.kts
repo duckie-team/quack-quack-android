@@ -11,7 +11,7 @@ plugins {
     `buildlogic-jvm-kotlin`
     `kotlin-kapt`
     `buildlogic-android-lint`
-    `buildlogic-jvm-junit`
+    `buildlogic-test-junit`
     alias(libs.plugins.kotlin.ksp)
 }
 

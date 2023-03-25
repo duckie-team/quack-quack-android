@@ -22,8 +22,9 @@ gradlePlugin {
         "AndroidComposePlugin",
         "AndroidComposeMetricsPlugin",
         "JvmKotlinPlugin",
-        "JvmJUnitPlugin",
         "JvmDokkaPlugin",
+        "TestJUnitPlugin",
+        "TestKotestPlugin",
         "KotlinExplicitApiPlugin",
         "QuackMavenPublishingPlugin",
     )
