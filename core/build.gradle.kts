@@ -18,7 +18,6 @@ plugins {
     `buildlogic-android-library`
     `buildlogic-android-compose`
     `buildlogic-android-compose-metrics`
-    `buildlogic-test-junit`
     `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
     `buildlogic-quack-mavenpublishing`
@@ -73,7 +72,6 @@ dependencies {
         // QuackArtifactType.CoreSugarMaterial.setInternal().asArtifactFqPath(project),
     )
 
-    testImplementation(libs.test.strikt)
     androidTestImplementations(
         libs.test.strikt,
         libs.test.junit.compose,

@@ -7,7 +7,9 @@
 
 import io.kotest.core.spec.style.StringSpec
 
-class QuackComponentIssueTest : StringSpec({
+class ModifierInformationalTest : StringSpec({
+    // TODO: lifecycle hook 정책 검토 필요
+    // https://kotest.io/docs/framework/lifecycle-hooks.html
     beforeTest(aideRuleTestStart)
     afterTest(aideRuleTestFinish)
 
