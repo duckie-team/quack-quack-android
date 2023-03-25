@@ -7,7 +7,7 @@
 
 import io.kotest.core.spec.style.StringSpec
 
-class ModifierIssueTest : StringSpec({
+class QuackComponentIssueTest : StringSpec({
     beforeTest(aideRuleTestStart)
     afterTest(aideRuleTestFinish)
 
