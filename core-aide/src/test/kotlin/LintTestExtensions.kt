@@ -18,8 +18,9 @@ import com.intellij.psi.PsiMethod
 import java.util.EnumSet
 import org.jetbrains.uast.UCallExpression
 
-@Suppress("unused")
+@Suppress("unused") // why "unused" needed?
 private typealias RealDetector = CoreAideDecorateModifierDetector
+private typealias TestDetector = CoreAideDecorateModifierTestDetector
 
 class CoreAideDecorateModifierTestDetector : Detector(), SourceCodeScanner {
     override fun getApplicableMethodNames() = testQuackComponents
@@ -37,7 +38,7 @@ class CoreAideDecorateModifierTestDetector : Detector(), SourceCodeScanner {
 
     companion object {
         private val Implementation = Implementation(
-            CoreAideDecorateModifierTestDetector::class.java,
+            TestDetector::class.java,
             EnumSet.of(Scope.JAVA_FILE),
             Scope.JAVA_FILE_SCOPE,
         )
@@ -66,6 +67,6 @@ fun lintTest(vararg sources: TestFile): TestLintResult {
         .allowMissingSdk()
         .allowDuplicates()
         .files(*(sources.asList() + material).map { it.within("src") }.toTypedArray())
-        .issues(CoreAideDecorateModifierTestDetector.ISSUE)
+        .issues(TestDetector.ISSUE)
         .run()
 }

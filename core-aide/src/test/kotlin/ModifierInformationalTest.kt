@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
+@file:Suppress("TrailingCommaOnCallSite")
+
 import com.android.tools.lint.checks.infrastructure.TestFiles.kotlin
 import io.kotest.core.spec.style.StringSpec
 
