@@ -36,20 +36,12 @@ gradlePlugin {
     }
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
 dependencies {
     implementation(libs.gradle.android)
     implementation(libs.gradle.publish.maven)
     implementation(libs.kotlin.gradle)
     implementation(libs.kotlin.dokka.base)
     implementation(libs.kotlin.dokka.plugin)
-
-    testImplementation(libs.test.strikt)
-    testImplementation(libs.test.junit.core)
-    testRuntimeOnly(libs.test.junit.engine)
 }
 
 fun NamedDomainObjectContainer<PluginDeclaration>.pluginAutoRegister(className: String) {
