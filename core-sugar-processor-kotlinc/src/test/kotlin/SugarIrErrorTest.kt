@@ -36,7 +36,6 @@ import strikt.assertions.isEqualTo
 
 class SugarIrErrorTest : ExpectSpec() {
     private val temporaryFolder = tempdir()
-    private val sugarPath = temporaryFolder.path
 
     init {
         context("NotSupportedError") {
@@ -249,7 +248,7 @@ class SugarIrErrorTest : ExpectSpec() {
                 PluginOption(
                     pluginId = PluginId,
                     optionName = OPTION_SUGAR_PATH.optionName,
-                    optionValue = sugarPath,
+                    optionValue = temporaryFolder.path,
                 ),
                 PluginOption(
                     pluginId = PluginId,

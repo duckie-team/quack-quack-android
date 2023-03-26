@@ -31,7 +31,6 @@ import strikt.assertions.withNotNull
 
 class SugarIrVisitPoetTest : StringSpec() {
     private val temporaryFolder = tempdir()
-    private val sugarPath = temporaryFolder.path
 
     init {
         "`@SugarName`이 없을 때는 기본 정책대로 sugar component가 생성됨" {
@@ -444,7 +443,7 @@ class SugarIrVisitPoetTest : StringSpec() {
                 PluginOption(
                     pluginId = PluginId,
                     optionName = OPTION_SUGAR_PATH.optionName,
-                    optionValue = sugarPath,
+                    optionValue = temporaryFolder.path,
                 ),
                 PluginOption(
                     pluginId = PluginId,
@@ -461,7 +460,7 @@ class SugarIrVisitPoetTest : StringSpec() {
     }
 
     private fun findGeneratedSugarFileOrNull(@Suppress("SameParameterValue") fileName: String): File? {
-        return File(sugarPath)
+        return temporaryFolder
             .walkTopDown()
             .find { file ->
                 file.name == fileName
