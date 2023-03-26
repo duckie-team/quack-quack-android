@@ -107,7 +107,7 @@ internal data class SugarParameter(
 ) {
     init {
         if (type.isFunction()) {
-            error(functionalTypeIsNotSupported(name.asString()))
+            error(NotSupportedError.functionalType(name.asString()))
         }
     }
 

@@ -61,7 +61,7 @@ internal class SugarIrTransformer(
             // run으로 throwError 하는 게 더 가독성이 좋음
             val referAnnotation = declaration.getAnnotation(SugarReferFqn) ?: run {
                 logger.throwError(
-                    value = sugarComponentButNoSugarRefer(declaration),
+                    value = PoetError.sugarComponentButNoSugarRefer(declaration),
                     location = declaration.file.locationOf(declaration),
                 )
             }
@@ -80,7 +80,7 @@ internal class SugarIrTransformer(
                     )
                 }
             } ?: logger.throwError(
-                value = noMatchedSugarIrData(declaration),
+                value = SugarVisitError.noMatchedSugarIrData(declaration),
                 location = declaration.file.locationOf(declaration),
             )
         }
@@ -103,7 +103,7 @@ private fun SugarIrData.findMatchedDefaultValue(
         referParameter.name.asString() == parameter.name.asString()
     }
     if (matched == null) {
-        error(sugarComponentAndSugarReferHasDifferentParameters(this, parameter))
+        error(SugarTransformError.sugarComponentAndSugarReferHasDifferentParameters(this, parameter))
     }
     return matched?.defaultValue
 }

@@ -54,7 +54,7 @@ internal class SugarIrVisitor(
         if (declaration.isQuackComponent) {
             val componentLocation = declaration.file.locationOf(declaration)
             val componentFqn = declaration.fqNameWhenAvailable ?: return logger.error(
-                value = quackComponentFqnUnavailable(declaration),
+                value = SourceError.quackComponentFqnUnavailable(declaration),
                 location = componentLocation,
             )
 
@@ -68,14 +68,14 @@ internal class SugarIrVisitor(
                 val isSugarToken = parameter.hasAnnotation(SugarTokenFqn)
                 if (isSugarToken) {
                     check(sugarToken == null) {
-                        multipleSugarTokenIsNotAllowed(declaration)
+                        SourceError.multipleSugarTokenIsNotAllowed(declaration)
                     }
                     sugarToken = parameter
                 }
                 parameter.toSugarParameter(isToken = isSugarToken)
             }
             sugarToken ?: return logger.error(
-                value = quackComponentWithoutSugarToken(componentFqn),
+                value = SourceError.quackComponentWithoutSugarToken(componentFqn),
                 location = componentLocation,
             )
 
@@ -107,10 +107,10 @@ private fun IrConstructorCall.getSugarNameIfNotDefault(): String? {
 
 private fun checkCustomSugarNameIsValid(name: String) {
     if (!name.startsWith(QuackComponentPrefix)) {
-        throw IllegalArgumentException(sugarNamePrefixIsNotQuack(name))
+        throw IllegalArgumentException(SourceError.sugarNamePrefixIsNotQuack(name))
     }
     if (!name.contains(SugarTokenName)) {
-        throw IllegalArgumentException(sugarNameWithoutTokenName(name))
+        throw IllegalArgumentException(SourceError.sugarNameWithoutTokenName(name))
     }
 }
 
@@ -119,8 +119,9 @@ private fun IrValueParameter.toSugarParameter(isToken: Boolean): SugarParameter 
         // Assuming the first argument is always "clazz"
         val sugarImportsExpression = sugarImportsAnnotation.getValueArgument(0)
         sugarImportsExpression.cast<IrVararg>().elements.map { element ->
-            // clazz로 제공된 클래스의 fqn을 조회할 수 없으면 버그로 진행해야 함
-            element.cast<IrClassReference>().classType.classFqName!!
+            element.cast<IrClassReference>().classType.classFqName ?: error(
+                SourceError.importClazzFqnUnavailable(element)
+            )
         }
     }
 
@@ -154,5 +155,5 @@ private fun IrValueParameter.getAllTokenFqExpressions(): List<String> {
             "$tokenClassName.${property.name.asString()}"
         }
         propertyFqExpressions.toList()
-    } ?: error(sugarTokenButNoCompanionObject(tokenClassName))
+    } ?: error(SourceError.sugarTokenButNoCompanionObject(tokenClassName))
 }
