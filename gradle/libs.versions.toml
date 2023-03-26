@@ -28,7 +28,7 @@ compose-material = "1.4.0"
 compose-animation = "1.4.0"
 compose-material3 = "1.0.1" # for Playground
 compose-activity = "1.7.0"
-compose-coil = "2.2.2"
+compose-coil = "2.3.0"
 
 test-kotest = "5.5.5"
 test-junit-core = "4.13.2"
