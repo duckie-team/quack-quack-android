@@ -74,10 +74,7 @@ val stubs = listOf(
         """
         package team.duckie.quackquack.sugar.material
 
-        @RequiresOptIn(
-            message = "This indicates that the feature should only be used in the Sugar Compiler. " +
-                    "Using it arbitrarily can lead to unexpected bugs.",
-        )
+        @RequiresOptIn
         @Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.FUNCTION)
         @Retention(AnnotationRetention.BINARY)
         annotation class SugarCompilerApi
@@ -89,7 +86,7 @@ val stubs = listOf(
         package team.duckie.quackquack.sugar.material
 
         fun <T> sugar(): T {
-            throw NotImplementedError("TODO: provide message")
+            throw NotImplementedError()
         }   
         """,
     ),
