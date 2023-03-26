@@ -15,7 +15,6 @@ import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.intellij.psi.PsiMethod
 import java.util.EnumSet
-import org.jetbrains.annotations.VisibleForTesting
 import org.jetbrains.uast.UCallExpression
 
 /**
@@ -38,7 +37,6 @@ class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
     override fun getApplicableMethodNames() = quackComponents.keys.toList()
 
     override fun visitMethodCall(context: JavaContext, node: UCallExpression, method: PsiMethod) {
-        @Suppress("VisibleForTests")
         visitMethodCallImpl(
             context = context,
             method = method,
@@ -71,7 +69,7 @@ class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
             DecorateModifier 사용이 감지됐을 때는 `$IssueId` informational을 발생시킵니다.
         """.trimIndent()
 
-        @VisibleForTesting
+        // @VisibleForTesting
         internal const val IncidentMessage = "올바르지 않은 DecorateModifier의 사용이 감지되었습니다."
 
         internal val ISSUE = Issue.create(
