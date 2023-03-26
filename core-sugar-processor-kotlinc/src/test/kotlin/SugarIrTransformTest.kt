@@ -30,7 +30,7 @@ import strikt.assertions.isEqualTo
 
 class SugarIrTransformTest : StringSpec() {
     private val temporaryFolder = tempdir()
-    private val sugarPath by lazy { temporaryFolder.path }
+    private val sugarPath = temporaryFolder.path
 
     init {
         "Default Argument의 SugarIrTransformer가 정상 작동함" {
