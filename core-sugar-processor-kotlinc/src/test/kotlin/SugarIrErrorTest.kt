@@ -51,7 +51,7 @@ class SugarIrErrorTest : ExpectSpec() {
                         "quackComponentWithoutSugarToken.kt",
                         """
                         import androidx.compose.runtime.Composable
-                
+
                         @Composable
                         fun QuackText() {}
                         """,
@@ -80,7 +80,7 @@ class SugarIrErrorTest : ExpectSpec() {
                         """
                         import team.duckie.quackquack.sugar.material.SugarToken
                         import androidx.compose.runtime.Composable
-                
+
                         @Composable
                         fun QuackText(
                             @SugarToken style: AwesomeType,
@@ -113,7 +113,7 @@ class SugarIrErrorTest : ExpectSpec() {
                         import androidx.compose.runtime.Composable
                         import team.duckie.quackquack.sugar.material.SugarName
                         import team.duckie.quackquack.sugar.material.SugarToken
-                
+
                         @SugarName("Text")
                         @Composable
                         fun QuackText(
@@ -146,7 +146,7 @@ class SugarIrErrorTest : ExpectSpec() {
                         import androidx.compose.runtime.Composable
                         import team.duckie.quackquack.sugar.material.SugarName
                         import team.duckie.quackquack.sugar.material.SugarToken
-                
+
                         @SugarName("QuackText")
                         @Composable
                         fun QuackText(
@@ -172,10 +172,10 @@ class SugarIrErrorTest : ExpectSpec() {
                         "sugarComponentButNoSugarRefer.kt",
                         """
                         @file:GeneratedFile
-        
+
                         import androidx.compose.runtime.Composable
                         import team.duckie.quackquack.sugar.material.GeneratedFile
-        
+
                         @Composable
                         fun QuackOneText() {}
                         """,
@@ -206,7 +206,7 @@ class SugarIrErrorTest : ExpectSpec() {
                         """
                         import team.duckie.quackquack.sugar.material.SugarToken
                         import androidx.compose.runtime.Composable
-                
+
                         @Composable
                         fun QuackText(@SugarToken style: AwesomeType4) {}
                         """,
@@ -215,12 +215,12 @@ class SugarIrErrorTest : ExpectSpec() {
                         "sugarComponentAndSugarReferHasDifferentParameters2.kt",
                         """
                         @file:GeneratedFile
-        
+
                         import androidx.compose.runtime.Composable
                         import team.duckie.quackquack.sugar.material.GeneratedFile
                         import team.duckie.quackquack.sugar.material.SugarRefer
                         import team.duckie.quackquack.sugar.material.sugar
-        
+
                         @Composable
                         @SugarRefer("QuackText")
                         fun QuackOneText(newNumber: Int = sugar()) {}
