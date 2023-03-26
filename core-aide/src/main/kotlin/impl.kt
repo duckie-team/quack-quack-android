@@ -11,6 +11,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.LintFix
 import com.android.tools.lint.detector.api.Location
 import com.android.tools.lint.detector.api.asCall
+import com.intellij.psi.PsiMethod
 import org.jetbrains.annotations.VisibleForTesting
 import org.jetbrains.kotlin.daemon.common.findWithTransform
 import org.jetbrains.uast.UCallExpression
@@ -21,13 +22,15 @@ import org.jetbrains.uast.getQualifiedChain
 @VisibleForTesting
 internal fun visitMethodCallImpl(
     context: JavaContext,
+    method: PsiMethod,
     node: UCallExpression,
+    modifierFqn: String,
+    quackComponents: Map<String, String>,
+    aideModifiers: Map<String, List<String>>,
     issue: Issue,
     incidentMessage: String,
-    modifierFqn: String,
-    aideModifiers: Map<String, List<String>>,
 ) {
-    val domain = context.file.nameWithoutExtension
+    val domain = quackComponents[method.name]!!
     val acceptableModifiers = aideModifiers[domain] ?: return
 
     val modifiers = node.valueArguments.findWithTransform { argument ->
@@ -60,11 +63,11 @@ private fun JavaContext.reportWrongModifierIfNeeded(
     issue: Issue,
     incidentMessage: String,
 ) {
-    val nullSafetySourcePsi = modifier.sourcePsi ?: return
+    val sourcePsi = modifier.sourcePsi ?: return
     val identifier = modifier.asCall()?.methodIdentifier ?: return
 
-    val startPsi = nullSafetySourcePsi.prevSibling // PsiElement (DOT) "."
-    val endPsi = nullSafetySourcePsi.lastChild?.lastChild // PsiElement (RPAR) ")"
+    val startPsi = sourcePsi.prevSibling // PsiElement (DOT) "."
+    val endPsi = sourcePsi.lastChild?.lastChild // PsiElement (RPAR) ")"
 
     if (!acceptableModifiers.contains(identifier.name)) {
         val removalFix = LintFix.create()
@@ -78,7 +81,7 @@ private fun JavaContext.reportWrongModifierIfNeeded(
         val incident = Incident(context = this, issue = issue)
             .message(incidentMessage)
             .fix(removalFix)
-        val baseLocation = incident.parseLocation(nullSafetySourcePsi)
+        val baseLocation = incident.parseLocation(sourcePsi)
 
         if (startPsi != null && endPsi != null) {
             val startPsiLocation = incident.parseLocation(startPsi)

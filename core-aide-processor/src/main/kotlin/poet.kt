@@ -35,14 +35,35 @@ private val suppressAnnotation = AnnotationSpec
     .useSiteTarget(AnnotationSpec.UseSiteTarget.FILE)
     .build()
 
-private fun createQuackComponentsFileSpec(components: Set<String>): FileSpec {
+private fun createQuackComponentsFileSpec(groupedComponents: List<Pair<String, Set<String>>>): FileSpec {
     val quackComponents = PropertySpec
         .builder(
             name = "quackComponents",
-            type = List::class.asTypeName().parameterizedBy(String::class.asTypeName()),
+            type = Map::class.asTypeName().parameterizedBy(
+                String::class.asTypeName(),
+                String::class.asTypeName(),
+            ),
         )
         .addModifiers(KModifier.INTERNAL)
-        .initializer(components.toLiteralListString())
+        .initializer(
+            codeBlock = buildCodeBlock {
+                beginControlFlow("run")
+                addStatement(
+                    "val aide = mutableMapOf<%T, %T>()",
+                    String::class,
+                    String::class,
+                )
+                groupedComponents.forEach { (domain, components) ->
+                    addStatement("")
+                    components.forEach { component ->
+                        addStatement("aide[%S] = %S", component, domain)
+                    }
+                }
+                addStatement("")
+                addStatement("aide")
+                endControlFlow()
+            },
+        )
         .build()
 
     return FileSpec
@@ -62,13 +83,19 @@ internal fun generateQuackComponents(
     symbols: Sequence<KSFunctionDeclaration>,
     aidePath: String?,
 ) {
-    val quackComponents = symbols.map { component ->
-        component.simpleName.asString().also { name ->
-            logger.warn("[AIDE] QuackComponent: $name")
+    val quackComponents = symbols
+        .groupBy { component ->
+            val fileName = component.requireContainingFile.fileName
+            fileName.removeSuffix(".kt")
         }
-    }
+        .map { (domain, components) ->
+            val componentNames = components.map { component ->
+                component.simpleName.asString()
+            }
+            domain to componentNames.toSet()
+        }
 
-    val quackComponentsFileSpec = createQuackComponentsFileSpec(quackComponents.toSet())
+    val quackComponentsFileSpec = createQuackComponentsFileSpec(quackComponents)
     generateFile(
         codeGenerator = codeGenerator,
         fileSpec = quackComponentsFileSpec,
@@ -129,8 +156,8 @@ internal fun generateAideModifiers(
     val allGroupedModifiers = mutableListOf<Pair<String, Set<String>>>()
     symbols
         .groupBy { modifier ->
-            val domainFile = modifier.requireContainingFile.fileName
-            domainFile.removeSuffix(".kt")
+            val fileName = modifier.requireContainingFile.fileName
+            fileName.removeSuffix(".kt")
         }
         .forEach { (domain, modifiers) ->
             val modifierNames = modifiers.map { modifier ->

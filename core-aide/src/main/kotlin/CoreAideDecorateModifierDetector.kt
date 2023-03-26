@@ -35,17 +35,19 @@ import org.jetbrains.uast.UCallExpression
  * 조회할 수 있습니다.
  */
 class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
-    override fun getApplicableMethodNames() = quackComponents
+    override fun getApplicableMethodNames() = quackComponents.keys.toList()
 
     override fun visitMethodCall(context: JavaContext, node: UCallExpression, method: PsiMethod) {
         @Suppress("VisibleForTests")
         visitMethodCallImpl(
             context = context,
+            method = method,
             node = node,
-            issue = ISSUE,
-            incidentMessage = IssueMessage,
             modifierFqn = ModifierFqn,
+            quackComponents = quackComponents,
             aideModifiers = aideModifiers,
+            issue = ISSUE,
+            incidentMessage = IncidentMessage,
         )
     }
 
@@ -70,7 +72,7 @@ class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
         """.trimIndent()
 
         @VisibleForTesting
-        internal const val IssueMessage = "올바르지 않은 DecorateModifier의 사용이 감지되었습니다."
+        internal const val IncidentMessage = "올바르지 않은 DecorateModifier의 사용이 감지되었습니다."
 
         internal val ISSUE = Issue.create(
             id = IssueId,
