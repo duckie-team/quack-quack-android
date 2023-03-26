@@ -33,26 +33,12 @@ class SugarIrVisitPoetTest : StringSpec() {
     private val temporaryFolder = tempdir()
 
     init {
-        "`@SugarName`이 없을 때는 기본 정책대로 sugar component가 생성됨" {
+        "@SugarName이 없을 때는 기본 정책대로 sugar component가 생성됨" {
             val result = compile(
-                kotlin(
-                    "TextStyle.kt",
-                    """
-                    @JvmInline
-                    value class TextStyle(val index: Int) {
-                        companion object {
-                            val One = TextStyle(1)
-                            val Two = TextStyle(2)
-                            val Three = TextStyle(3)
-                        }
-                    }
-                    """,
-                ),
                 kotlin(
                     "text.kt",
                     """
                     import team.duckie.quackquack.sugar.material.SugarToken
-                    import team.duckie.quackquack.sugar.material.SugarName
                     import androidx.compose.runtime.Composable
                     import androidx.compose.ui.Modifier
     
@@ -60,7 +46,7 @@ class SugarIrVisitPoetTest : StringSpec() {
                     fun QuackText(
                         modifier: Modifier = Modifier,
                         text: String,
-                        @SugarToken style: TextStyle,
+                        @SugarToken style: AwesomeType2,
                         singleLine: Boolean = false,
                         softWrap: Boolean = true,
                     ) {}
@@ -80,8 +66,8 @@ class SugarIrVisitPoetTest : StringSpec() {
                     @file:GeneratedFile
     
     
+                    import AwesomeType2
                     import QuackText
-                    import TextStyle
                     import androidx.compose.runtime.Composable
                     import androidx.compose.ui.Modifier
                     import kotlin.Boolean
@@ -108,7 +94,7 @@ class SugarIrVisitPoetTest : StringSpec() {
                       QuackText(
                         modifier = modifier,
                         text = text,
-                        style = TextStyle.One,
+                        style = AwesomeType2.One,
                         singleLine = singleLine,
                         softWrap = softWrap,
                       )
@@ -128,7 +114,7 @@ class SugarIrVisitPoetTest : StringSpec() {
                       QuackText(
                         modifier = modifier,
                         text = text,
-                        style = TextStyle.Two,
+                        style = AwesomeType2.Two,
                         singleLine = singleLine,
                         softWrap = softWrap,
                       )
@@ -148,7 +134,7 @@ class SugarIrVisitPoetTest : StringSpec() {
                       QuackText(
                         modifier = modifier,
                         text = text,
-                        style = TextStyle.Three,
+                        style = AwesomeType2.Three,
                         singleLine = singleLine,
                         softWrap = softWrap,
                       )
@@ -160,25 +146,12 @@ class SugarIrVisitPoetTest : StringSpec() {
         }
 
         """
-            `PREFIX_NAME` + "Awesome" + `TOKEN_NAME` 조합으로 sugar component를 생성함.
+            PREFIX_NAME + Awesome + TOKEN_NAME 조합으로 sugar component를 생성함.
             또한 KDoc을 가짐. 단, KDoc은 default section만 복사됨.
         """ {
             val result = compile(
                 kotlin(
-                    "TextStyle2.kt",
-                    """
-                    @JvmInline
-                    value class TextStyle2(val index: Int) {
-                        companion object {
-                            val One = TextStyle2(1)
-                            val Two = TextStyle2(2)
-                            val Three = TextStyle2(3)
-                        }
-                    }
-                    """,
-                ),
-                kotlin(
-                    "text2.kt",
+                    "text.kt",
                     """
                     import team.duckie.quackquack.sugar.material.SugarToken
                     import team.duckie.quackquack.sugar.material.SugarName
@@ -193,10 +166,10 @@ class SugarIrVisitPoetTest : StringSpec() {
                      */
                     @SugarName(SugarName.PREFIX_NAME + "Awesome" + SugarName.TOKEN_NAME)
                     @Composable
-                    fun QuackText2(
+                    fun QuackText(
                         modifier: Modifier = Modifier,
                         text: String,
-                        @SugarToken style: TextStyle2,
+                        @SugarToken style: AwesomeType2,
                         singleLine: Boolean = false,
                         softWrap: Boolean = true,
                     ) {}
@@ -205,7 +178,7 @@ class SugarIrVisitPoetTest : StringSpec() {
             )
 
             expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-            expectThat(findGeneratedSugarFileOrNull("text2.kt")).withNotNull {
+            expectThat(findGeneratedSugarFileOrNull("text.kt")).withNotNull {
                 get(File::readText).isKtEqualToWithoutPackage(
                     """
                     // This file was automatically generated by core-sugar-processor-kotlinc.
@@ -216,8 +189,8 @@ class SugarIrVisitPoetTest : StringSpec() {
                     @file:GeneratedFile
     
     
-                    import QuackText2
-                    import TextStyle2
+                    import AwesomeType2
+                    import QuackText
                     import androidx.compose.runtime.Composable
                     import androidx.compose.ui.Modifier
                     import kotlin.Boolean
@@ -233,20 +206,20 @@ class SugarIrVisitPoetTest : StringSpec() {
                     /**
                      * AWESOME!
                      *
-                     * This document was auto-generated. Please see [QuackText2] for details.
+                     * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
-                    @SugarRefer("QuackText2")
+                    @SugarRefer("QuackText")
                     public fun QuackAwesomeOne(
                       modifier: Modifier = sugar(),
                       text: String,
                       singleLine: Boolean = sugar(),
                       softWrap: Boolean = sugar(),
                     ): Unit {
-                      QuackText2(
+                      QuackText(
                         modifier = modifier,
                         text = text,
-                        style = TextStyle2.One,
+                        style = AwesomeType2.One,
                         singleLine = singleLine,
                         softWrap = softWrap,
                       )
@@ -255,20 +228,20 @@ class SugarIrVisitPoetTest : StringSpec() {
                     /**
                      * AWESOME!
                      *
-                     * This document was auto-generated. Please see [QuackText2] for details.
+                     * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
-                    @SugarRefer("QuackText2")
+                    @SugarRefer("QuackText")
                     public fun QuackAwesomeTwo(
                       modifier: Modifier = sugar(),
                       text: String,
                       singleLine: Boolean = sugar(),
                       softWrap: Boolean = sugar(),
                     ): Unit {
-                      QuackText2(
+                      QuackText(
                         modifier = modifier,
                         text = text,
-                        style = TextStyle2.Two,
+                        style = AwesomeType2.Two,
                         singleLine = singleLine,
                         softWrap = softWrap,
                       )
@@ -277,20 +250,20 @@ class SugarIrVisitPoetTest : StringSpec() {
                     /**
                      * AWESOME!
                      *
-                     * This document was auto-generated. Please see [QuackText2] for details.
+                     * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
-                    @SugarRefer("QuackText2")
+                    @SugarRefer("QuackText")
                     public fun QuackAwesomeThree(
                       modifier: Modifier = sugar(),
                       text: String,
                       singleLine: Boolean = sugar(),
                       softWrap: Boolean = sugar(),
                     ): Unit {
-                      QuackText2(
+                      QuackText(
                         modifier = modifier,
                         text = text,
-                        style = TextStyle2.Three,
+                        style = AwesomeType2.Three,
                         singleLine = singleLine,
                         softWrap = softWrap,
                       )
@@ -304,20 +277,7 @@ class SugarIrVisitPoetTest : StringSpec() {
         "`DEFAULT_NAME`을 사용하면 기본 정책대로 sugar component가 생성됨" {
             val result = compile(
                 kotlin(
-                    "TextStyle3.kt",
-                    """
-                    @JvmInline
-                    value class TextStyle3(val index: Int) {
-                        companion object {
-                            val One = TextStyle3(1)
-                            val Two = TextStyle3(2)
-                            val Three = TextStyle3(3)
-                        }
-                    }
-                    """,
-                ),
-                kotlin(
-                    "text3.kt",
+                    "text.kt",
                     """
                     import team.duckie.quackquack.sugar.material.SugarToken
                     import team.duckie.quackquack.sugar.material.SugarName
@@ -326,10 +286,10 @@ class SugarIrVisitPoetTest : StringSpec() {
     
                     @SugarName(SugarName.DEFAULT_NAME)
                     @Composable
-                    fun QuackText3(
+                    fun QuackText(
                         modifier: Modifier = Modifier,
                         text: String,
-                        @SugarToken style: TextStyle3,
+                        @SugarToken style: AwesomeType2,
                         singleLine: Boolean = false,
                         softWrap: Boolean = true,
                     ) {}
@@ -338,7 +298,7 @@ class SugarIrVisitPoetTest : StringSpec() {
             )
 
             expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-            expectThat(findGeneratedSugarFileOrNull("text3.kt")).withNotNull {
+            expectThat(findGeneratedSugarFileOrNull("text.kt")).withNotNull {
                 get(File::readText).isKtEqualToWithoutPackage(
                     """
                     // This file was automatically generated by core-sugar-processor-kotlinc.
@@ -349,8 +309,8 @@ class SugarIrVisitPoetTest : StringSpec() {
                     @file:GeneratedFile
     
     
-                    import QuackText3
-                    import TextStyle3
+                    import AwesomeType2
+                    import QuackText
                     import androidx.compose.runtime.Composable
                     import androidx.compose.ui.Modifier
                     import kotlin.Boolean
@@ -364,60 +324,60 @@ class SugarIrVisitPoetTest : StringSpec() {
                     import team.duckie.quackquack.sugar.material.sugar
                     
                     /**
-                     * This document was auto-generated. Please see [QuackText3] for details.
+                     * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
-                    @SugarRefer("QuackText3")
-                    public fun QuackOneText3(
+                    @SugarRefer("QuackText")
+                    public fun QuackOneText(
                       modifier: Modifier = sugar(),
                       text: String,
                       singleLine: Boolean = sugar(),
                       softWrap: Boolean = sugar(),
                     ): Unit {
-                      QuackText3(
+                      QuackText(
                         modifier = modifier,
                         text = text,
-                        style = TextStyle3.One,
+                        style = AwesomeType2.One,
                         singleLine = singleLine,
                         softWrap = softWrap,
                       )
                     }
                     
                     /**
-                     * This document was auto-generated. Please see [QuackText3] for details.
+                     * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
-                    @SugarRefer("QuackText3")
-                    public fun QuackTwoText3(
+                    @SugarRefer("QuackText")
+                    public fun QuackTwoText(
                       modifier: Modifier = sugar(),
                       text: String,
                       singleLine: Boolean = sugar(),
                       softWrap: Boolean = sugar(),
                     ): Unit {
-                      QuackText3(
+                      QuackText(
                         modifier = modifier,
                         text = text,
-                        style = TextStyle3.Two,
+                        style = AwesomeType2.Two,
                         singleLine = singleLine,
                         softWrap = softWrap,
                       )
                     }
                     
                     /**
-                     * This document was auto-generated. Please see [QuackText3] for details.
+                     * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
-                    @SugarRefer("QuackText3")
-                    public fun QuackThreeText3(
+                    @SugarRefer("QuackText")
+                    public fun QuackThreeText(
                       modifier: Modifier = sugar(),
                       text: String,
                       singleLine: Boolean = sugar(),
                       softWrap: Boolean = sugar(),
                     ): Unit {
-                      QuackText3(
+                      QuackText(
                         modifier = modifier,
                         text = text,
-                        style = TextStyle3.Three,
+                        style = AwesomeType2.Three,
                         singleLine = singleLine,
                         softWrap = softWrap,
                       )

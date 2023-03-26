@@ -35,9 +35,9 @@ val stubs = listOf(
         "annotations.kt",
         """
         package team.duckie.quackquack.sugar.material
-        
+
         import kotlin.reflect.KClass
-        
+
         @Target(AnnotationTarget.FUNCTION)
         @Retention(AnnotationRetention.BINARY)
         annotation class SugarName(val name: String = DEFAULT_NAME) {
@@ -47,23 +47,23 @@ val stubs = listOf(
                 const val TOKEN_NAME: String = "<<SUGAR_TOKEN>>"
             }
         }
-        
+
         @Target(AnnotationTarget.VALUE_PARAMETER)
         @Retention(AnnotationRetention.BINARY)
         annotation class SugarToken
-        
+
         @Target(AnnotationTarget.FUNCTION)
         @Retention(AnnotationRetention.BINARY)
         annotation class SugarRefer(val fqn: String)
-        
+
         @Target(AnnotationTarget.FUNCTION)
         @Retention(AnnotationRetention.BINARY)
         annotation class NoSugar
-        
+
         @Target(AnnotationTarget.FILE)
         @Retention(AnnotationRetention.BINARY)
         annotation class GeneratedFile
-        
+
         @Target(AnnotationTarget.VALUE_PARAMETER)
         @Retention(AnnotationRetention.BINARY)
         annotation class Imports(vararg val clazz: KClass<*>)
@@ -88,6 +88,35 @@ val stubs = listOf(
         fun <T> sugar(): T {
             throw NotImplementedError()
         }   
+        """,
+    ),
+    kotlin(
+        "AwesomeType.kt",
+        """
+        @JvmInline
+        value class AwesomeType(val index: Int) {
+            companion object {
+                val One = AwesomeType(1)
+            }
+        }
+
+        @JvmInline
+        value class AwesomeType2(val index: Int) {
+            companion object {
+                val One = AwesomeType2(1)
+                val Two = AwesomeType2(2)
+                val Three = AwesomeType2(3)
+            }
+        }
+
+        @JvmInline
+        value class AwesomeType3(val index: Int) {
+            companion object {
+                val One = AwesomeType3(1)
+                val Two = AwesomeType3(2)
+                val Three = AwesomeType3(3)
+            }
+        }
         """,
     ),
 )
