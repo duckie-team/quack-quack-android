@@ -110,13 +110,7 @@ val stubs = listOf(
         }
 
         @JvmInline
-        value class AwesomeType3(val index: Int) {
-            companion object {
-                val One = AwesomeType3(1)
-                val Two = AwesomeType3(2)
-                val Three = AwesomeType3(3)
-            }
-        }
+        value class AwesomeType3(val index: Int)
         """,
     ),
 )

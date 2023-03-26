@@ -22,11 +22,13 @@ import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import io.kotest.core.spec.style.ExpectSpec
 import io.kotest.engine.spec.tempdir
+import ir.NotSupportedError.functionalType
 import ir.PoetError.sugarComponentButNoSugarRefer
 import ir.SourceError.multipleSugarTokenIsNotAllowed
 import ir.SourceError.quackComponentWithoutSugarToken
 import ir.SourceError.sugarNamePrefixIsNotQuack
 import ir.SourceError.sugarNameWithoutTokenName
+import ir.SourceError.sugarTokenButNoCompanionObject
 import ir.SugarTransformError.sugarComponentAndSugarReferHasDifferentParameters
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.JvmTarget
@@ -39,8 +41,25 @@ class SugarIrErrorTest : ExpectSpec() {
 
     init {
         context("NotSupportedError") {
-            expect("functionalType").config(enabled = false) {
-                TODO()
+            expect("functionalType") {
+                val result = compile(
+                    kotlin(
+                        "functionalType.kt",
+                        """
+                        import team.duckie.quackquack.sugar.material.SugarToken
+                        import androidx.compose.runtime.Composable
+
+                        @Composable
+                        fun QuackText(
+                            @SugarToken style: AwesomeType,
+                            function: (unit: Unit, unit2: Unit) -> Unit,
+                        ) {}
+                        """,
+                    ),
+                )
+
+                expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.INTERNAL_ERROR)
+                expectThat(result.messages).contains(functionalType(null))
             }
         }
 
@@ -48,7 +67,7 @@ class SugarIrErrorTest : ExpectSpec() {
             expect("quackComponentWithoutSugarToken") {
                 val result = compile(
                     kotlin(
-                        "quackComponentWithoutSugarToken.kt",
+                        "main.kt",
                         """
                         import androidx.compose.runtime.Composable
 
@@ -62,21 +81,28 @@ class SugarIrErrorTest : ExpectSpec() {
                 expectThat(result.messages).contains(quackComponentWithoutSugarToken(null))
             }
 
+            expect("quackComponentWithoutSugarToken - @NoSugar applied") {
+                val result = compile(
+                    kotlin(
+                        "main.kt",
+                        """
+                        import team.duckie.quackquack.sugar.material.NoSugar
+                        import androidx.compose.runtime.Composable
+
+                        @NoSugar
+                        @Composable
+                        fun QuackText() {}
+                        """,
+                    ),
+                )
+
+                expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+            }
+
             expect("multipleSugarTokenIsNotAllowed") {
                 val result = compile(
                     kotlin(
-                        "AwesomeType.kt",
-                        """
-                        @JvmInline
-                        value class AwesomeType(val index: Int) {
-                            companion object {
-                                val One = AwesomeType(1)
-                            }
-                        }
-                        """,
-                    ),
-                    kotlin(
-                        "multipleSugarTokenIsNotAllowed.kt",
+                        "main.kt",
                         """
                         import team.duckie.quackquack.sugar.material.SugarToken
                         import androidx.compose.runtime.Composable
@@ -84,7 +110,7 @@ class SugarIrErrorTest : ExpectSpec() {
                         @Composable
                         fun QuackText(
                             @SugarToken style: AwesomeType,
-                            @SugarToken style2: AwesomeType,
+                            @SugarToken style2: AwesomeType2,
                         ) {}
                         """,
                     ),
@@ -97,18 +123,7 @@ class SugarIrErrorTest : ExpectSpec() {
             expect("sugarNamePrefixIsNotQuack") {
                 val result = compile(
                     kotlin(
-                        "AwesomeType2.kt",
-                        """
-                        @JvmInline
-                        value class AwesomeType2(val index: Int) {
-                            companion object {
-                                val One = AwesomeType2(1)
-                            }
-                        }
-                        """,
-                    ),
-                    kotlin(
-                        "sugarNamePrefixIsNotQuack.kt",
+                        "main.kt",
                         """
                         import androidx.compose.runtime.Composable
                         import team.duckie.quackquack.sugar.material.SugarName
@@ -116,9 +131,7 @@ class SugarIrErrorTest : ExpectSpec() {
 
                         @SugarName("Text")
                         @Composable
-                        fun QuackText(
-                            @SugarToken type: AwesomeType2,
-                        ) {}
+                        fun QuackText(@SugarToken type: AwesomeType) {}
                         """,
                     ),
                 )
@@ -130,18 +143,7 @@ class SugarIrErrorTest : ExpectSpec() {
             expect("sugarNameWithoutTokenName") {
                 val result = compile(
                     kotlin(
-                        "AwesomeType3.kt",
-                        """
-                        @JvmInline
-                        value class AwesomeType3(val index: Int) {
-                            companion object {
-                                val One = AwesomeType3(1)
-                            }
-                        }
-                        """,
-                    ),
-                    kotlin(
-                        "sugarNameWithoutTokenName.kt",
+                        "main.kt",
                         """
                         import androidx.compose.runtime.Composable
                         import team.duckie.quackquack.sugar.material.SugarName
@@ -149,9 +151,7 @@ class SugarIrErrorTest : ExpectSpec() {
 
                         @SugarName("QuackText")
                         @Composable
-                        fun QuackText(
-                            @SugarToken type: AwesomeType3,
-                        ) {}
+                        fun QuackText(@SugarToken type: AwesomeType) {}
                         """,
                     ),
                 )
@@ -160,8 +160,22 @@ class SugarIrErrorTest : ExpectSpec() {
                 expectThat(result.messages).contains(sugarNameWithoutTokenName(null))
             }
 
-            expect("sugarTokenButNoCompanionObject").config(enabled = false) {
-                TODO()
+            expect("sugarTokenButNoCompanionObject") {
+                val result = compile(
+                    kotlin(
+                        "main.kt",
+                        """
+                        import androidx.compose.runtime.Composable
+                        import team.duckie.quackquack.sugar.material.SugarToken
+
+                        @Composable
+                        fun QuackText(@SugarToken type: AwesomeType3) {}
+                        """,
+                    ),
+                )
+
+                expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.INTERNAL_ERROR)
+                expectThat(result.messages).contains(sugarTokenButNoCompanionObject(null))
             }
         }
 
@@ -169,7 +183,7 @@ class SugarIrErrorTest : ExpectSpec() {
             expect("sugarComponentButNoSugarRefer") {
                 val result = compile(
                     kotlin(
-                        "sugarComponentButNoSugarRefer.kt",
+                        "main.kt",
                         """
                         @file:GeneratedFile
 
@@ -191,28 +205,17 @@ class SugarIrErrorTest : ExpectSpec() {
             expect("sugarComponentAndSugarReferHasDifferentParameters") {
                 val result = compile(
                     kotlin(
-                        "AwesomeType4.kt",
-                        """
-                        @JvmInline
-                        value class AwesomeType4(val index: Int) {
-                            companion object {
-                                val One = AwesomeType4(1)
-                            }
-                        }
-                        """,
-                    ),
-                    kotlin(
-                        "sugarComponentAndSugarReferHasDifferentParameters.kt",
+                        "main.kt",
                         """
                         import team.duckie.quackquack.sugar.material.SugarToken
                         import androidx.compose.runtime.Composable
 
                         @Composable
-                        fun QuackText(@SugarToken style: AwesomeType4) {}
+                        fun QuackText(@SugarToken style: AwesomeType) {}
                         """,
                     ),
                     kotlin(
-                        "sugarComponentAndSugarReferHasDifferentParameters2.kt",
+                        "main-generated.kt",
                         """
                         @file:GeneratedFile
 
