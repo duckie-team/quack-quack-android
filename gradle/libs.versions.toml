@@ -64,9 +64,7 @@ kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin-core" }
 kotlin-embeddable-compiler = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin-core" }
 kotlin-ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "kotlin-ksp" }
-kotlin-ksp-internal = { module = "com.google.devtools.ksp:symbol-processing", version.ref = "kotlin-ksp" }
 kotlin-kotlinpoet-core = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-kotlinpoet" }
-kotlin-kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-kotlinpoet" }
 kotlin-dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "kotlin-dokka" }
 kotlin-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "kotlin-dokka" }
 kotlin-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-collections-immutable" }

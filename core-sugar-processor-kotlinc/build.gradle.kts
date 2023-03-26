@@ -14,6 +14,11 @@ plugins {
     alias(libs.plugins.kotlin.ksp)
 }
 
+ksp {
+    arg("autoserviceKsp.verify", "true")
+    arg("autoserviceKsp.verbose", "true")
+}
+
 dependencies {
     compileOnly(libs.kotlin.embeddable.compiler)
     implementations(
