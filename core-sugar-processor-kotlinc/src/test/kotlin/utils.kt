@@ -10,7 +10,14 @@ import strikt.api.Assertion
 import strikt.assertions.isEqualTo
 
 fun Assertion.Builder<String>.isKtEqualToWithoutPackage(@Language("kotlin") code: String): Assertion.Builder<String> {
-    val withoutPackage = subject.split("\n").toMutableList()
-        .apply { removeIf { it.startsWith("package ") } }.joinToString("\n")
+    val withoutPackage = subject
+        .split("\n")
+        .toMutableList()
+        .apply {
+            removeIf { line ->
+                line.startsWith("package ")
+            }
+        }
+        .joinToString("\n")
     return get { withoutPackage }.isEqualTo(code.trimIndent())
 }

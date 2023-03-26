@@ -12,6 +12,7 @@ val stubs = listOf(
         "Modifier.kt",
         """
         package androidx.compose.ui
+
         interface Modifier { companion object : Modifier }
         """,
     ),
@@ -19,6 +20,7 @@ val stubs = listOf(
         "Composable.kt",
         """
         package androidx.compose.runtime
+
         @Retention(AnnotationRetention.BINARY)
         @Target(
             AnnotationTarget.FUNCTION,
@@ -33,9 +35,9 @@ val stubs = listOf(
         "annotations.kt",
         """
         package team.duckie.quackquack.sugar.material
-        
+
         import kotlin.reflect.KClass
-        
+
         @Target(AnnotationTarget.FUNCTION)
         @Retention(AnnotationRetention.BINARY)
         annotation class SugarName(val name: String = DEFAULT_NAME) {
@@ -45,23 +47,23 @@ val stubs = listOf(
                 const val TOKEN_NAME: String = "<<SUGAR_TOKEN>>"
             }
         }
-        
+
         @Target(AnnotationTarget.VALUE_PARAMETER)
         @Retention(AnnotationRetention.BINARY)
         annotation class SugarToken
-        
+
         @Target(AnnotationTarget.FUNCTION)
         @Retention(AnnotationRetention.BINARY)
         annotation class SugarRefer(val fqn: String)
-        
+
         @Target(AnnotationTarget.FUNCTION)
         @Retention(AnnotationRetention.BINARY)
         annotation class NoSugar
-        
+
         @Target(AnnotationTarget.FILE)
         @Retention(AnnotationRetention.BINARY)
         annotation class GeneratedFile
-        
+
         @Target(AnnotationTarget.VALUE_PARAMETER)
         @Retention(AnnotationRetention.BINARY)
         annotation class Imports(vararg val clazz: KClass<*>)
@@ -72,10 +74,7 @@ val stubs = listOf(
         """
         package team.duckie.quackquack.sugar.material
 
-        @RequiresOptIn(
-            message = "This indicates that the feature should only be used in the Sugar Compiler. " +
-                    "Using it arbitrarily can lead to unexpected bugs.",
-        )
+        @RequiresOptIn
         @Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.FUNCTION)
         @Retention(AnnotationRetention.BINARY)
         annotation class SugarCompilerApi
@@ -85,9 +84,33 @@ val stubs = listOf(
         "typer.kt",
         """
         package team.duckie.quackquack.sugar.material
+
         fun <T> sugar(): T {
-            throw NotImplementedError("TODO: provide message")
+            throw NotImplementedError()
         }   
+        """,
+    ),
+    kotlin(
+        "AwesomeType.kt",
+        """
+        @JvmInline
+        value class AwesomeType(val index: Int) {
+            companion object {
+                val One = AwesomeType(1)
+            }
+        }
+
+        @JvmInline
+        value class AwesomeType2(val index: Int) {
+            companion object {
+                val One = AwesomeType2(1)
+                val Two = AwesomeType2(2)
+                val Three = AwesomeType2(3)
+            }
+        }
+
+        @JvmInline
+        value class AwesomeType3(val index: Int)
         """,
     ),
 )

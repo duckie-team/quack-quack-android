@@ -12,13 +12,15 @@ val stubs = listOf(
         "Modifier.kt",
         """
         package androidx.compose.ui
+
         interface Modifier { companion object : Modifier }
         """,
     ),
     kotlin(
-        "TypedModifier.kt",
+        "DecorateModifier.kt",
         """
         package team.duckie.quackquack.aide.annotation
+
         @MustBeDocumented
         @Target(AnnotationTarget.FUNCTION)
         @Retention(AnnotationRetention.SOURCE)
@@ -29,6 +31,7 @@ val stubs = listOf(
         "Composable.kt",
         """
         package androidx.compose.runtime
+
         @Retention(AnnotationRetention.BINARY)
         @Target(
             AnnotationTarget.FUNCTION,

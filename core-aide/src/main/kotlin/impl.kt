@@ -18,8 +18,22 @@ import org.jetbrains.uast.UCallExpression
 import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.getQualifiedChain
 
-// TODO: 문서화
-@VisibleForTesting
+/**
+ * visitMethodCallImpl 구현을 분리한 이유
+ * =====================================
+ *
+ * [ModifierInformationalTest]에서 테스트를 항상 보장되는 결과로 진행하기 위해
+ * [rule]의 fixture를 제공해야 합니다. 이를 위해 setUp, tearDown으로 접근하고
+ * 각각 단계에서 [rule] 파일을 아예 교체하도록 하였지만 테스트가 실행된 후에는
+ * 이미 프로덕션 [rule]이 적용된 상태로 로드가 돼서 효과가 없었습니다.
+ *
+ * 따라서 setUp, tearDown으로 fixture를 설정하는 건 어렵겠다고 판단하였고,
+ * [rule]을 하드 코딩하는 게 아닌 직접 제공할 수 있는 [CoreAideDecorateModifierDetector]를
+ * 만드는 것으로 해결하였습니다. [CoreAideDecorateModifierDetector]를 [프로덕션][CoreAideDecorateModifierDetector]과 [테스트][CoreAideDecorateModifierTestDetector] 버전으로
+ * 나눈 다음에, 공통되는 린트 로직을 갖을 수 있도록 해당 린트의 핵심 구현인 `visitMethodCall`을
+ * 별도 함수로 분리하였습니다. 분리된 [visitMethodCallImpl] 함수에 [rule] fixture를 제공함으로써
+ * testable한 [CoreAideDecorateModifierDetector]를 만들 수 있습니다.
+ */
 internal fun visitMethodCallImpl(
     context: JavaContext,
     method: PsiMethod,
@@ -31,7 +45,7 @@ internal fun visitMethodCallImpl(
     incidentMessage: String,
 ) {
     val domain = quackComponents[method.name]!!
-    val acceptableModifiers = aideModifiers[domain] ?: return
+    val acceptableModifiers = aideModifiers[domain].orEmpty()
 
     val modifiers = node.valueArguments.findWithTransform { argument ->
         val chains = argument.getQualifiedChain()

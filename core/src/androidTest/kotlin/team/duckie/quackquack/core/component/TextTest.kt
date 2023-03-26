@@ -155,8 +155,8 @@ class TextTest {
             name = "Modifier#highlight-normal",
             golden = rule.onGolden(),
         )
-        rule.onTest().performClick()
 
+        rule.onTest().performClick()
         rule.runOnIdle {
             verify(onClick, times(1)).invoke(anyString())
         }
@@ -201,11 +201,10 @@ class TextTest {
             name = "Modifier#highlight-global",
             golden = rule.onGolden(),
         )
-        rule.onTest().performClick()
 
+        rule.onTest().performClick()
         rule.runOnIdle {
             verify(onClick, times(1)).invoke(anyString())
         }
     }
 }
-
