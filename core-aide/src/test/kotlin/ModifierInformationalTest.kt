@@ -15,61 +15,237 @@ class ModifierInformationalTest : FreeSpec({
         "Modifier.Companion" {
             lintTest(
                 kotlin(
-                    "main.kt",
                     """
                     fun main() {
-                        QuackText(Modifier.span("", 0).onClick {}.span("", 0).onClick {}.onClick {})
-                        QuackText(modifier = Modifier.span("", 0).onClick {}.span("", 0).onClick {}.onClick {})
+                        QuackText(
+                            Modifier
+                                .span("", 0)
+                                .onClick {}
+                                .longParameters(
+                                    a = 1,
+                                    b = 2,
+                                    c = 3,
+                                    d = { println("hi") },
+                                ),
+                        )
+
+                        QuackText(
+                            modifier = Modifier
+                                .span("", 0)
+                                .onClick {}
+                                .longParameters(
+                                    a = 1,
+                                    b = 2,
+                                    c = 3,
+                                    d = { println("hi") },
+                                ),
+                        )
                     }
                     """,
                 ),
             )
-                .expectClean()
-        }
-
-        "Modifier".config(enabled = false) {
-            lintTest(
-                kotlin(
-                    "text.kt",
+                .expect(
                     """
-                    fun main() {
-                        QuackText(modifier = Modifier.onClick {})
-                    }
+src/test.kt:6: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .onClick {}
+                                ~~~~~~~~~~~
+src/test.kt:7: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .longParameters(
+                                ^
+src/test.kt:18: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .onClick {}
+                                ~~~~~~~~~~~
+src/test.kt:19: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .longParameters(
+                                ^
+0 errors, 0 warnings
                     """,
-                ),
-            )
-                .expectClean()
-        }
-
-        "별도의 변수로 분리된 Modifier".config(enabled = false) {
-            lintTest(
-                kotlin(
-                    "main.kt",
-                    """
-                    fun main() {
-                        val modifier = Modifier.span("", 1).onClick {}.span("", 2)
-                        QuackText(modifier)
-                        QuackText(modifier = modifier)
-
-                        val modifier2 = Modifier
-                            .span("", 1)
-                            .longParameters(
-                                a = 1,
-                                b = 2,
-                                c = 3,
-                                lambda = {},
-                            )
-                            .onClick {}
-                            .span("", 2)
-                        QuackText(modifier)
-                        QuackText(modifier = modifier)
-                    }
-                    """.trimIndent()
                 )
+        }
+
+        "Modifier" {
+            lintTest(
+                kotlin(
+                    """
+                    fun main() {
+                        val modifier = Modifier.span("", -1)
+
+                        QuackText(
+                            modifier
+                                .span("", 0)
+                                .onClick {}
+                                .longParameters(
+                                    a = 1,
+                                    b = 2,
+                                    c = 3,
+                                    d = { println("hi") },
+                                ),
+                        )
+
+                        QuackText(
+                            modifier = modifier
+                                .span("", 0)
+                                .onClick {}
+                                .longParameters(
+                                    a = 1,
+                                    b = 2,
+                                    c = 3,
+                                    d = { println("hi") },
+                                ),
+                        )
+                    }
+                    """,
+                ),
             )
+                .expect(
+                    """
+src/test.kt:8: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .onClick {}
+                                ~~~~~~~~~~~
+src/test.kt:9: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .longParameters(
+                                ^
+src/test.kt:20: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .onClick {}
+                                ~~~~~~~~~~~
+src/test.kt:21: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .longParameters(
+                                ^
+0 errors, 0 warnings
+                    """,
+                )
+        }
+
+        "변수로 분리된 Modifier".config(enabled = false) {
+            TODO()
         }
     }
 
-    "informational issue가 발생했을 때 유효한 QuickFix가 제공됨".config(enabled = false) - {
+    "informational issue가 발생했을 때 유효한 QuickFix가 제공됨" - {
+        "Modifier.Companion" {
+            lintTest(
+                kotlin(
+                    """
+                    fun main() {
+                        QuackText(
+                            Modifier
+                                .span("", 0)
+                                .onClick {}
+                                .longParameters(
+                                    a = 1,
+                                    b = 2,
+                                    c = 3,
+                                    d = { println("hi") },
+                                ),
+                        )
+
+                        QuackText(
+                            modifier = Modifier
+                                .span("", 0)
+                                .onClick {}
+                                .longParameters(
+                                    a = 1,
+                                    b = 2,
+                                    c = 3,
+                                    d = { println("hi") },
+                                ),
+                        )
+                    }
+                    """,
+                ),
+            )
+                .expectFixDiffs(
+                    """
+Autofix for src/test.kt line 6: Remove onClick modifier:
+@@ -6 +6
+-                                 .onClick {}
+Autofix for src/test.kt line 7: Remove longParameters modifier:
+@@ -7 +7
+-                                 .longParameters(
+-                                     a = 1,
+-                                     b = 2,
+-                                     c = 3,
+-                                     d = { println("hi") },
+-                                 ),
++                                 ,
+Autofix for src/test.kt line 18: Remove onClick modifier:
+@@ -18 +18
+-                                 .onClick {}
+Autofix for src/test.kt line 19: Remove longParameters modifier:
+@@ -19 +19
+-                                 .longParameters(
+-                                     a = 1,
+-                                     b = 2,
+-                                     c = 3,
+-                                     d = { println("hi") },
+-                                 ),
++                                 ,
+                    """,
+                )
+        }
+
+        "Modifier" {
+            lintTest(
+                kotlin(
+                    """
+                    fun main() {
+                        val modifier = Modifier.span("", -1)
+
+                        QuackText(
+                            modifier
+                                .span("", 0)
+                                .onClick {}
+                                .longParameters(
+                                    a = 1,
+                                    b = 2,
+                                    c = 3,
+                                    d = { println("hi") },
+                                ),
+                        )
+
+                        QuackText(
+                            modifier = modifier
+                                .span("", 0)
+                                .onClick {}
+                                .longParameters(
+                                    a = 1,
+                                    b = 2,
+                                    c = 3,
+                                    d = { println("hi") },
+                                ),
+                        )
+                    }
+                    """,
+                ),
+            )
+                .expectFixDiffs(
+                    """
+Autofix for src/test.kt line 8: Remove onClick modifier:
+@@ -8 +8
+-                                 .onClick {}
+Autofix for src/test.kt line 9: Remove longParameters modifier:
+@@ -9 +9
+-                                 .longParameters(
+-                                     a = 1,
+-                                     b = 2,
+-                                     c = 3,
+-                                     d = { println("hi") },
+-                                 ),
++                                 ,
+Autofix for src/test.kt line 20: Remove onClick modifier:
+@@ -20 +20
+-                                 .onClick {}
+Autofix for src/test.kt line 21: Remove longParameters modifier:
+@@ -21 +21
+-                                 .longParameters(
+-                                     a = 1,
+-                                     b = 2,
+-                                     c = 3,
+-                                     d = { println("hi") },
+-                                 ),
++                                 ,
+                    """,
+                )
+        }
     }
 })

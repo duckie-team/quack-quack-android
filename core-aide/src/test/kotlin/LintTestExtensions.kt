@@ -23,16 +23,18 @@ private typealias RealDetector = CoreAideDecorateModifierDetector
 private typealias TestDetector = CoreAideDecorateModifierTestDetector
 
 class CoreAideDecorateModifierTestDetector : Detector(), SourceCodeScanner {
-    override fun getApplicableMethodNames() = testQuackComponents
+    override fun getApplicableMethodNames() = testQuackComponents.keys.toList()
 
     override fun visitMethodCall(context: JavaContext, node: UCallExpression, method: PsiMethod) {
         visitMethodCallImpl(
             context = context,
+            method = method,
             node = node,
-            issue = ISSUE,
-            incidentMessage = RealDetector.IssueMessage,
             modifierFqn = ModifierSn,
+            quackComponents = testQuackComponents,
             aideModifiers = testAideModifiers,
+            issue = ISSUE,
+            incidentMessage = RealDetector.IncidentMessage,
         )
     }
 
@@ -50,13 +52,12 @@ class CoreAideDecorateModifierTestDetector : Detector(), SourceCodeScanner {
 }
 
 private val material = kotlin(
-    "material.kt",
     """
     interface Modifier { companion object : Modifier }
 
     fun Modifier.span(text: String, color: Int) = this
     fun Modifier.onClick(lambda: () -> Unit) = this
-    fun Modifier.longParameters(a: Int, b: Int, c: Int, lambda: () -> Unit) = this
+    fun Modifier.longParameters(a: Int, b: Int, c: Int, d: () -> Unit) = this
 
     fun QuackText(modifier: Modifier) {}
     """,
@@ -66,6 +67,7 @@ fun lintTest(vararg sources: TestFile): TestLintResult {
     return TestLintTask.lint()
         .allowMissingSdk()
         .allowDuplicates()
+        .allowSystemErrors(false) // default is true
         .files(*(sources.asList() + material).map { it.within("src") }.toTypedArray())
         .issues(TestDetector.ISSUE)
         .run()

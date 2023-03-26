@@ -7,4 +7,10 @@
 
 @file:Suppress("PackageDirectoryMismatch")
 
-val testQuackComponents = listOf("QuackText")
+val testQuackComponents: Map<String, String> = run {
+    val aide = mutableMapOf<String, String>()
+
+    aide["QuackText"] = "text"
+
+    aide
+}
