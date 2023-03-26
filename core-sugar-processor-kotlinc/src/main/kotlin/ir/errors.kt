@@ -32,7 +32,8 @@ internal object SourceError {
     internal fun importClazzFqnUnavailable(element: IrVarargElement?): String {
         return "Can't look up the fully qualified name of the class given as `clazz` in `@Imports`. " +
                 "Is it an anonymous class? " +
-                "(${element?.cast<IrClassReference>()?.type?.asString()})".getIfGivenIsNotNull(element)
+                "(${element?.cast<IrClassReference>()?.type?.asString()})"
+                    .getIfGivenIsNotNull(element)
     }
 
     internal fun quackComponentWithoutSugarToken(fqn: FqName?): String {
