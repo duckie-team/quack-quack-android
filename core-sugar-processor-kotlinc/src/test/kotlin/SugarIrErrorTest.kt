@@ -229,7 +229,12 @@ class SugarIrErrorTest : ExpectSpec() {
                 )
 
                 expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.INTERNAL_ERROR)
-                expectThat(result.messages).contains(sugarComponentAndSugarReferHasDifferentParameters(null, null))
+                expectThat(result.messages).contains(
+                    sugarComponentAndSugarReferHasDifferentParameters(
+                        sugarIrData = null,
+                        parameter = null,
+                    ),
+                )
             }
         }
     }

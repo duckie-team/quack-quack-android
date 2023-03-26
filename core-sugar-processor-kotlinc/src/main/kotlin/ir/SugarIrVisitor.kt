@@ -120,7 +120,7 @@ private fun IrValueParameter.toSugarParameter(isToken: Boolean): SugarParameter 
         val sugarImportsExpression = sugarImportsAnnotation.getValueArgument(0)
         sugarImportsExpression.cast<IrVararg>().elements.map { element ->
             element.cast<IrClassReference>().classType.classFqName ?: error(
-                SourceError.importClazzFqnUnavailable(element)
+                SourceError.importClazzFqnUnavailable(element),
             )
         }
     }

@@ -103,7 +103,12 @@ private fun SugarIrData.findMatchedDefaultValue(
         referParameter.name.asString() == parameter.name.asString()
     }
     if (matched == null) {
-        error(SugarTransformError.sugarComponentAndSugarReferHasDifferentParameters(this, parameter))
+        error(
+            SugarTransformError.sugarComponentAndSugarReferHasDifferentParameters(
+                sugarIrData = this,
+                parameter = parameter,
+            ),
+        )
     }
     return matched?.defaultValue
 }
