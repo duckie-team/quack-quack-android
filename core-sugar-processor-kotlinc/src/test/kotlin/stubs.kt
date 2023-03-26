@@ -12,6 +12,7 @@ val stubs = listOf(
         "Modifier.kt",
         """
         package androidx.compose.ui
+
         interface Modifier { companion object : Modifier }
         """,
     ),
@@ -19,6 +20,7 @@ val stubs = listOf(
         "Composable.kt",
         """
         package androidx.compose.runtime
+
         @Retention(AnnotationRetention.BINARY)
         @Target(
             AnnotationTarget.FUNCTION,
@@ -85,6 +87,7 @@ val stubs = listOf(
         "typer.kt",
         """
         package team.duckie.quackquack.sugar.material
+
         fun <T> sugar(): T {
             throw NotImplementedError("TODO: provide message")
         }   

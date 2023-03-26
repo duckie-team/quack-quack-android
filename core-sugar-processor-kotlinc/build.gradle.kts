@@ -9,7 +9,7 @@
 
 plugins {
     `buildlogic-jvm-kotlin`
-    `buildlogic-test-junit`
+    `buildlogic-test-kotest`
     `buildlogic-quack-mavenpublishing`
     alias(libs.plugins.kotlin.ksp)
 }
