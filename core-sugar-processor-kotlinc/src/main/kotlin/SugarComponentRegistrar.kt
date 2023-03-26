@@ -48,7 +48,7 @@ class SugarComponentRegistrar : ComponentRegistrar {
          * 이를 해결하기 위해 [SugarComponentRegistrar]의 [CompilerPluginRegistrar] 버전을 제공합니다.
          * 이 함수는 오직 테스트 코드에서만 사용돼야 합니다. (테스트 환경에서는 Compose Compiler가 적용되지 않으니 유효합니다.)
          */
-        fun asPluginRegistrar() = object : CompilerPluginRegistrar() {
+        internal fun asPluginRegistrar() = object : CompilerPluginRegistrar() {
             override val supportsK2 = false
 
             override fun ExtensionStorage.registerExtensions(configuration: CompilerConfiguration) {
