@@ -44,7 +44,7 @@ class SugarIrErrorTest : ExpectSpec() {
             expect("functionalType") {
                 val result = compile(
                     kotlin(
-                        "functionalType.kt",
+                        "main.kt",
                         """
                         import team.duckie.quackquack.sugar.material.SugarToken
                         import androidx.compose.runtime.Composable

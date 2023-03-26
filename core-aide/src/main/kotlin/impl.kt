@@ -24,8 +24,8 @@ import org.jetbrains.uast.getQualifiedChain
  *
  * [ModifierInformationalTest]에서 테스트를 항상 보장되는 결과로 진행하기 위해
  * [rule]의 fixture를 제공해야 합니다. 이를 위해 setUp, tearDown으로 접근하고
- * 각각 단계에서 [rule] 파일을 아예 교체하도록 하였지만 테스트가 실행된 후에는
- * 이미 프로덕션 [rule]이 적용된 상태로 로드가 돼서 효과가 없었습니다.
+ * 각각 단계에서 [rule] 파일을 교체하도록 하였지만 테스트가 실행되면
+ * 이미 프로덕션 [rule]이 적용된 상태로 로드됐기에 효과가 없었습니다.
  *
  * 따라서 setUp, tearDown으로 fixture를 설정하는 건 어렵겠다고 판단하였고,
  * [rule]을 하드 코딩하는 게 아닌 직접 제공할 수 있는 [CoreAideDecorateModifierDetector]를

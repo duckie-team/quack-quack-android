@@ -32,20 +32,10 @@ class SugarIrTransformTest : StringSpec() {
     private val temporaryFolder = tempdir()
 
     init {
-        "Default Argument의 SugarIrTransformer가 정상 작동함" {
+        "Default Argument에 SugarIrTransform이 정상 작동함" {
             val result = compile(
                 kotlin(
-                    "TextStyle.kt",
-                    """
-                    class TextStyle(val index: Int) {
-                        companion object {
-                            val One = TextStyle(1)
-                        }
-                    }
-                    """,
-                ),
-                kotlin(
-                    "text.kt",
+                    "main.kt",
                     """
                     import team.duckie.quackquack.sugar.material.SugarToken
                     import androidx.compose.runtime.Composable
@@ -54,7 +44,7 @@ class SugarIrTransformTest : StringSpec() {
             
                     @Composable
                     fun QuackText(
-                        @SugarToken style: TextStyle? = null,
+                        @SugarToken style: AwesomeType? = null,
                         newNumber: Int = Int.MAX_VALUE,
                     ) {
                         number = newNumber
@@ -75,7 +65,7 @@ class SugarIrTransformTest : StringSpec() {
                     @SugarRefer("QuackText")
                     fun QuackOneText(newNumber: Int = sugar()) {
                         QuackText(
-                            style = TextStyle.One,
+                            style = AwesomeType.One,
                             newNumber = newNumber,
                         )
                     }
@@ -94,7 +84,7 @@ class SugarIrTransformTest : StringSpec() {
             )
             quackTextMethod.invoke(sugarClass, 0, 1, null)
 
-            val mainClass = result.classLoader.loadClass("TextKt")
+            val mainClass = result.classLoader.loadClass("MainKt")
             val getNumberMethod = mainClass.getMethod("getNumber")
 
             expectThat(getNumberMethod.invoke(mainClass).cast<Int>()).isEqualTo(Int.MAX_VALUE)
