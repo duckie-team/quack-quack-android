@@ -31,7 +31,7 @@ internal fun visitMethodCallImpl(
     incidentMessage: String,
 ) {
     val domain = quackComponents[method.name]!!
-    val acceptableModifiers = aideModifiers[domain] ?: return
+    val acceptableModifiers = aideModifiers[domain].orEmpty()
 
     val modifiers = node.valueArguments.findWithTransform { argument ->
         val chains = argument.getQualifiedChain()
