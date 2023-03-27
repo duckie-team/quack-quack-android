@@ -274,7 +274,7 @@ class SugarIrVisitPoetTest : StringSpec() {
             }
         }
 
-        "`DEFAULT_NAME`을 사용하면 기본 정책대로 sugar component가 생성됨" {
+        "DEFAULT_NAME을 사용하면 기본 정책대로 sugar component가 생성됨" {
             val result = compile(
                 kotlin(
                     "text.kt",
