@@ -83,19 +83,9 @@ internal fun generateQuackComponents(
     symbols: Sequence<KSFunctionDeclaration>,
     aidePath: String?,
 ) {
-    val quackComponents = symbols
-        .groupBy { component ->
-            val fileName = component.requireContainingFile.fileName
-            fileName.removeSuffix(".kt")
-        }
-        .map { (domain, components) ->
-            val componentNames = components.map { component ->
-                component.simpleName.asString()
-            }
-            domain to componentNames.toSet()
-        }
-
+    val quackComponents = symbols.toDomainWithSimpleNameGroups()
     val quackComponentsFileSpec = createQuackComponentsFileSpec(quackComponents)
+
     generateFile(
         codeGenerator = codeGenerator,
         fileSpec = quackComponentsFileSpec,
@@ -153,21 +143,9 @@ internal fun generateAideModifiers(
     symbols: Sequence<KSFunctionDeclaration>,
     aidePath: String?,
 ) {
-    val allGroupedModifiers = mutableListOf<Pair<String, Set<String>>>()
-    symbols
-        .groupBy { modifier ->
-            val fileName = modifier.requireContainingFile.fileName
-            fileName.removeSuffix(".kt")
-        }
-        .forEach { (domain, modifiers) ->
-            val modifierNames = modifiers.map { modifier ->
-                modifier.simpleName.asString()
-            }
-            allGroupedModifiers += domain to modifierNames.toSet()
-            logger.warn("[AIDE] $domain to ${modifierNames.toLiteralListString()}")
-        }
+    val aideModifiers = symbols.toDomainWithSimpleNameGroups()
+    val aideModifiersFileSpec = createAideModifiersFileSpec(aideModifiers)
 
-    val aideModifiersFileSpec = createAideModifiersFileSpec(allGroupedModifiers)
     generateFile(
         codeGenerator = codeGenerator,
         fileSpec = aideModifiersFileSpec,
@@ -202,4 +180,18 @@ private fun generateFile(
         generatedPath = file.path
     }
     logger.warn("[AIDE] generated at $generatedPath")
+}
+
+private fun Sequence<KSFunctionDeclaration>.toDomainWithSimpleNameGroups(): List<Pair<String, Set<String>>> {
+    return this
+        .groupBy { value ->
+            val fileName = value.requireContainingFile.fileName
+            fileName.removeSuffix(".kt")
+        }
+        .map { (domain, values) ->
+            val valueSimpleNames = values.map { value ->
+                value.simpleName.asString()
+            }
+            domain to valueSimpleNames.toSet()
+        }
 }
