@@ -2,9 +2,9 @@
 
 본 모듈은 디자인 시스템을 지키기 위한 일종의 보호벽을 제공합니다.
 
-### Why?
+## Why?
 
-[Jetpack Compose](https://developer.android.com/jetpack/compose)의 [Modifier](https://developer.android.com/jetpack/compose/modifiers)는 정말 강력합니다. 정말이지 너무 강력합니다. Modifier를 사용한다면 우리가 사전에 정한 디자인 스펙도 무시할 수 있습니다.
+[Jetpack Compose](https://developer.android.com/jetpack/compose)의 [`Modifier`](https://developer.android.com/jetpack/compose/modifiers)는 정말 강력합니다. 정말이지 너무 강력합니다. `Modifier`를 사용한다면 우리가 사전에 정한 디자인 스펙도 무시할 수 있습니다.
 
 예를 들어 다음과 같은 컴포넌트가 있습니다.
 
@@ -16,13 +16,13 @@
 
 꽥꽥의 디자인 원칙은 사용자에게 최고의 경험을 선사하기 위해선 꼭 지켜져야 합니다. 이를 보장하기 위해 개발자가 원칙을 어겼을 때 경고를 발생시키고자 합니다.
 
-컴포넌트에 맞지 않는 데코레이터 Modifier가 사용됐을 때도 경고를 발생시킵니다.
+컴포넌트에 맞지 않는 데코레이터 `Modifier`가 사용됐을 때도 경고를 발생시킵니다.
 
-### How?
+## How?
 
-원칙을 어길 수 있는 Modifier가 꽥꽥 컴포넌트에 사용됨이 감지됐을 때 경우에 맞게 경고를 발생시킵니다.
+원칙을 어길 수 있는 `Modifier`가 꽥꽥 컴포넌트에 사용됨이 감지됐을 때 경우에 맞게 경고를 발생시킵니다.
 
-원칙을 어길 수 있는 Modifier는 다음과 같습니다.
+원칙을 어길 수 있는 `Modifier`는 다음과 같습니다.
 
 - `Modifier.background`
 - `Modifier.size`
@@ -33,9 +33,9 @@
 - `Modifier.drawBehind`
 - ... 기타 등등
 
-컴포넌트에 맞지 않는 데코레이터 Modifier가 사용됐을 때도 경고를 발생시킵니다. 
+컴포넌트에 맞지 않는 데코레이터 `Modifier`가 사용됐을 때도 경고를 발생시킵니다. 
 
-예를 들어 Text 컴포넌트에서 Button 컴포넌트의 데코레이터 Modifier가 사용됐을 때 경고를 발생시킬 수 있습니다.
+예를 들어 Text 컴포넌트에서 Button 컴포넌트의 데코레이터 `Modifier`가 사용됐을 때 경고를 발생시킬 수 있습니다.
 
 ```kotlin
 Button(
@@ -51,11 +51,11 @@ Button(
 )
 ```
 
-컴포넌트별 사용 가능한 데코레이터 Modifier는 컴포넌트의 도메인에 따라 결정되고, 컴포넌트의 도메인은 컴포넌트가 정의된 파일명으로 결정됩니다.
+컴포넌트별 사용 가능한 데코레이터 `Modifier`는 컴포넌트의 도메인에 따라 결정되고, 컴포넌트의 도메인은 컴포넌트가 정의된 파일명으로 결정됩니다.
 
 예를 들어 `text.kt` 파일에 있는 컴포넌트는 모두 text 도메인에 해당하고, `button.kt` 컴포넌트는 모두 button 도메인에 해당합니다.
 
-컴포넌트별 사용 가능한 데코레이터 Modifier는 해당 컴포넌트의 도메인 파일 안에`@DecorateModifier` 어노테이션이 붙은 Modifier로 제한됩니다.
+컴포넌트별 사용 가능한 데코레이터 `Modifier`는 해당 컴포넌트의 도메인 파일 안에`@DecorateModifier` 어노테이션이 붙은 `Modifier`로 제한됩니다.
 
 예를 들어 `text.kt` 파일에 다음과 같은 코드가 있습니다.
 
@@ -74,4 +74,8 @@ fun Modifier.highlight(text: String, color: Color): Modifier {
 }
 ```
 
-위와 같은 경우에 `Text` 컴포넌트는 데코레이션 Modifier로 `Modifier.highlight`만 허용됩니다.
+위와 같은 경우에 `Text` 컴포넌트는 데코레이션 `Modifier`로 `Modifier.highlight`만 허용됩니다.
+
+## Caveat
+
+- 개별 statement로 분리된 `Modifier`는 감지하지 못 합니다.
