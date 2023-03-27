@@ -70,4 +70,4 @@ inline val PluginDependenciesSpec.`buildlogic-kotlin-explicitapi`: PluginDepende
     get() = id(generatePluginRegisterId(KotlinExplicitApiPlugin::class.simpleName!!))
 
 inline val PluginDependenciesSpec.`buildlogic-quack-mavenpublishing`: PluginDependencySpec
-    get() = id(generatePluginRegisterId((QuackMavenPublishingPlugin::class.simpleName!!)))
+    get() = id(generatePluginRegisterId(QuackMavenPublishingPlugin::class.simpleName!!))

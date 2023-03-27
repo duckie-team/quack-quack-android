@@ -66,6 +66,7 @@ dependencies {
         libs.compose.coil,
         libs.compose.animation,
         libs.compose.material,
+        projects.casaAnnotation,
         projects.coreAideAnnotation,
         projects.coreSugarMaterial,
         // QuackArtifactType.CoreAideAnnotation.setInternal().asArtifactFqPath(project),
