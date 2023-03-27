@@ -18,6 +18,7 @@ gradlePlugin {
     val pluginClasses = listOf(
         "AndroidApplicationPlugin",
         "AndroidLibraryPlugin",
+        "AndroidGmdPlugin",
         "AndroidLintPlugin",
         "AndroidComposePlugin",
         "AndroidComposeMetricsPlugin",
