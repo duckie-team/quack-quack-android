@@ -42,6 +42,9 @@ inline val PluginDependenciesSpec.`buildlogic-android-application`: PluginDepend
 inline val PluginDependenciesSpec.`buildlogic-android-library`: PluginDependencySpec
     get() = id(generatePluginRegisterId(AndroidLibraryPlugin::class.simpleName!!))
 
+inline val PluginDependenciesSpec.`buildlogic-android-gmd`: PluginDependencySpec
+    get() = id(generatePluginRegisterId(AndroidGmdPlugin::class.simpleName!!))
+
 inline val PluginDependenciesSpec.`buildlogic-android-lint`: PluginDependencySpec
     get() = id(generatePluginRegisterId(AndroidLintPlugin::class.simpleName!!))
 

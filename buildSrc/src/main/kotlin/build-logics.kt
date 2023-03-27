@@ -13,6 +13,7 @@ import internal.ApplicationConstants
 import internal.applyPlugins
 import internal.configureAndroid
 import internal.configureCompose
+import internal.configureGmd
 import internal.libs
 import internal.androidExtensions
 import internal.isAndroidProject
@@ -65,6 +66,10 @@ internal class AndroidLibraryPlugin : BuildLogicPlugin({
             targetSdk = ApplicationConstants.TargetSdk
         }
     }
+})
+
+internal class AndroidGmdPlugin : BuildLogicPlugin({
+    configureGmd(androidExtensions)
 })
 
 internal class AndroidLintPlugin : BuildLogicPlugin({
