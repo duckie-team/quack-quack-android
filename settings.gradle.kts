@@ -20,13 +20,6 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-
-    // FIXME: 외부에서 의존성이 제공되고 있는데 출처를 모르겠음
-    resolutionStrategy.eachPlugin {
-        if (requested.id.id == "com.vanniktech.maven.publish") {
-            useVersion("0.24.0")
-        }
-    }
 }
 
 buildCache {
@@ -43,6 +36,9 @@ include(
     ":core-aide-processor",
     ":core-sugar-material",
     ":core-sugar-processor-kotlinc",
+    ":casa-ui",
+    ":casa-annotation",
+    ":casa-processor",
     // ":dokka-paparazzi-integration",
     ":screenshot-matcher",
 )

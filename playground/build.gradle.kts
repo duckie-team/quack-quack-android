@@ -19,6 +19,7 @@ dependencies {
         libs.compose.activity,
         libs.compose.material3,
         projects.core,
+        projects.casaUi,
         // QuackArtifactType.Core.setInternal().asArtifactFqPath(project),
     )
 }
