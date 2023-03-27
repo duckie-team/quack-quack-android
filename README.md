@@ -57,7 +57,7 @@ QuackQuack 은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 어쩌�
 
 ## Tech Stacks
 
-TBD
+[ARTICLES.md](ARTICLES.md)를 참고해 주세요.
 
 ## Download ![quackquack-core](https://img.shields.io/maven-central/v/team.duckie.quack/quackquack-core?style=flat-square)
 
