@@ -12,7 +12,6 @@ import com.android.tools.lint.detector.api.LintFix
 import com.android.tools.lint.detector.api.Location
 import com.android.tools.lint.detector.api.asCall
 import com.intellij.psi.PsiMethod
-import org.jetbrains.annotations.VisibleForTesting
 import org.jetbrains.kotlin.daemon.common.findWithTransform
 import org.jetbrains.uast.UCallExpression
 import org.jetbrains.uast.UExpression
@@ -118,8 +117,7 @@ private fun JavaContext.reportWrongModifierIfNeeded(
     }
 }
 
-@VisibleForTesting
-internal fun Incident.parseLocation(source: Any): Location {
+private fun Incident.parseLocation(source: Any): Location {
     val prevLocate = location
     val newLocate = at(source).location
     location = prevLocate
