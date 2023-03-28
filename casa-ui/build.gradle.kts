@@ -8,6 +8,7 @@
 plugins {
     `buildlogic-android-library`
     `buildlogic-android-compose`
+    `buildlogic-kotlin-explicitapi`
 }
 
 android {
@@ -15,5 +16,10 @@ android {
 }
 
 dependencies {
-    implementation(libs.compose.material3)
+    implementations(
+        libs.kotlin.collections.immutable,
+        libs.compose.material3,
+        projects.casaMaterial,
+    )
+    androidTestImplementations(libs.test.junit.compose)
 }
