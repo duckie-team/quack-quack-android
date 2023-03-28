@@ -37,7 +37,7 @@ include(
     ":core-sugar-material",
     ":core-sugar-processor-kotlinc",
     ":casa-ui",
-    ":casa-annotation",
+    ":casa-material",
     ":casa-processor",
     // ":dokka-paparazzi-integration",
     ":screenshot-matcher",

@@ -6,6 +6,17 @@
  */
 
 plugins {
-    `buildlogic-jvm-kotlin`
+    `buildlogic-android-library`
     `buildlogic-kotlin-explicitapi`
+}
+
+android {
+    namespace = "team.duckie.quackquack.casa.material"
+}
+
+dependencies {
+    implementations(
+        libs.kotlin.collections.immutable,
+        libs.compose.runtime,
+    )
 }
