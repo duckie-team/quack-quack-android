@@ -6,7 +6,7 @@ google-autoservice-standard = "1.0.1"
 google-autoservice-ksp = "1.0.0"
 
 kotlin-core = "1.8.10"
-kotlin-ksp = "1.8.10-1.0.9"
+kotlin-ksp = "1.8.20-1.0.10"
 kotlin-dokka = "1.8.10"
 kotlin-kotlinpoet = "1.12.0"
 kotlin-detekt = "1.22.0"
