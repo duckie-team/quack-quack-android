@@ -16,7 +16,7 @@
 
 ## Introduction
 
-QuackQuack 은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 어쩌면 그 이상의 제품입니다. 덕키의 모든 프로덕트에 기본으로 사용되며, 최고의 사용자 경험과 개발자 경험 제공을 목표로 합니다.
+QuackQuack은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 그 이상의 제품입니다. 덕키의 모든 프로덕트에 기본으로 사용되며, 최고의 사용자 경험과 개발자 경험 제공을 목표로 합니다.
 
 꽥꽥은 아래와 같은 이유로 탄생했습니다.
 
@@ -90,7 +90,7 @@ repositories {
 
 모든 기여를 환영합니다. 기여하시기 전에 [contribution guide](.github/CONTRIBUTING.md)를 읽어 주세요.
 
-> 기여해 주신 모든 분들께 감사합니다. 
+> 기여해 주신 모든 분께 감사합니다. 
 > 
 > <a href="https://github.com/duckie-team/quack-quack-android/graphs/contributors"><img src="https://contrib.rocks/image?repo=duckie-team/quack-quack-android" /></a>
 
