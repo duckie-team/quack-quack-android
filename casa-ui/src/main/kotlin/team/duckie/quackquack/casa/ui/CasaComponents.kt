@@ -7,19 +7,15 @@
 
 package team.duckie.quackquack.casa.ui
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import kotlinx.collections.immutable.ImmutableList
 import team.duckie.quackquack.casa.material.CasaModel
 
 // TODO: 문서화
 @Composable
-internal fun CasaContent(
+internal fun CasaComponents(
     modifier: Modifier = Modifier,
-    models: ImmutableList<CasaModel>,
+    model: CasaModel,
 ) {
-    Column {
 
-    }
 }

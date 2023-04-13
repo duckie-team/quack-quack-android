@@ -31,7 +31,7 @@ internal fun CasaSearchTopAppBar(
     value: String,
     onValueChange: (term: String) -> Unit,
     onClear: () -> Unit,
-    onSearch: (term: String) -> Unit,
+    onSearchImeAction: (term: String) -> Unit,
 ) {
     TextField(
         modifier = modifier,
@@ -46,7 +46,7 @@ internal fun CasaSearchTopAppBar(
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(
             onSearch = {
-                onSearch(value)
+                onSearchImeAction(value)
             },
         ),
         trailingIcon = {

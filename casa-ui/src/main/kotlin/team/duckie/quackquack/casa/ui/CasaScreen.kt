@@ -5,10 +5,14 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@file:OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class,
+)
 
 package team.duckie.quackquack.casa.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -17,6 +21,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.with
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,7 +45,9 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastMap
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import team.duckie.quackquack.casa.material.CasaModel
 
 // TODO: 문서화
@@ -54,6 +61,16 @@ public fun CasaScreen(
 
     var searchState by rememberSaveable { mutableStateOf(false) }
     var searchTerm by rememberSaveable { mutableStateOf("") }
+
+    val displayedModels by remember(models) {
+        derivedStateOf {
+            models.filter { model ->
+                model.domain.contains(searchTerm, ignoreCase = true) ||
+                        model.name.contains(searchTerm, ignoreCase = true) ||
+                        model.kdocDefaultSection.contains(searchTerm, ignoreCase = true)
+            }.toImmutableList()
+        }
+    }
     val selectedDomains = rememberSaveable(
         saver = Saver<SnapshotStateList<String>, List<SnapshotStateList<String>>>(
             save = { stateList ->
@@ -62,19 +79,9 @@ public fun CasaScreen(
             restore = { list ->
                 list.first()
             },
-        )
+        ),
     ) {
         mutableStateListOf()
-    }
-
-    val displayedModels by remember(models) {
-        derivedStateOf {
-            models.filter { model ->
-                model.domain.contains(searchTerm, ignoreCase = true) ||
-                        model.name.contains(searchTerm, ignoreCase = true) ||
-                        model.kdocDefaultSection.contains(searchTerm, ignoreCase = true)
-            }
-        }
     }
     var selectedModel by rememberSaveable(
         stateSaver = Saver<CasaModel?, Int>(
@@ -89,6 +96,11 @@ public fun CasaScreen(
         ),
     ) {
         mutableStateOf(null)
+    }
+
+    BackHandler(enabled = searchState) {
+        searchState = false
+        searchTerm = ""
     }
 
     Scaffold(
@@ -119,12 +131,11 @@ public fun CasaScreen(
                         onValueChange = { term ->
                             searchTerm = term
                         },
-                        onSearch = {
+                        onSearchImeAction = {
                             searchState = false
                             searchTerm = ""
                         },
                         onClear = {
-                            searchState = false
                             searchTerm = ""
                         },
                     )
@@ -134,7 +145,6 @@ public fun CasaScreen(
                         casaConfig = config,
                         onSearch = {
                             searchState = true
-                            searchTerm = ""
                         },
                         onBackClick = {
                             selectedModel = null
@@ -144,25 +154,54 @@ public fun CasaScreen(
             }
         },
     ) { padding ->
-        val domains = remember(models) { models.map(CasaModel::domain) }
+        if (selectedModel == null) {
+            val domains = remember(models) {
+                models.fastMap(CasaModel::domain).toImmutableList()
+            }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-        ) {
-            FilterTabRow(
-                modifier = Modifier.fillMaxWidth(),
+            CasaContentWithDoaminFilter(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding),
                 domains = domains,
                 selectedDomains = selectedDomains,
-                onFilterSelected = { domain ->
-                    if (!selectedDomains.contains(domain)) {
-                        selectedDomains += domain
-                    } else {
-                        selectedDomains -= domain
-                    }
-                },
+                displayedModels = displayedModels,
+            )
+        } else {
+            CasaComponents(
+                modifier = Modifier.fillMaxSize(),
+                model = selectedModel!!,
             )
         }
+    }
+}
+
+@Composable
+private fun CasaContentWithDoaminFilter(
+    modifier: Modifier = Modifier,
+    domains: ImmutableList<String>,
+    selectedDomains: SnapshotStateList<String>,
+    displayedModels: ImmutableList<CasaModel>,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        FilterTabRow(
+            modifier = Modifier.fillMaxWidth(),
+            domains = domains,
+            selectedDomains = selectedDomains,
+            onFilterSelected = { domain ->
+                if (!selectedDomains.contains(domain)) {
+                    selectedDomains += domain
+                } else {
+                    selectedDomains -= domain
+                }
+            },
+        )
+        CasaContent(
+            modifier = Modifier.fillMaxSize(),
+            models = displayedModels,
+        )
     }
 }
