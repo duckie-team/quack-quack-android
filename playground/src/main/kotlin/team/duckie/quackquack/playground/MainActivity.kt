@@ -10,26 +10,83 @@ package team.duckie.quackquack.playground
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import team.duckie.quackquack.core.component.sugar.QuackTitle1
-import team.duckie.quackquack.core.material.QuackColor
+import androidx.compose.runtime.remember
+import kotlinx.collections.immutable.persistentListOf
+import team.duckie.quackquack.casa.material.CasaModel
+import team.duckie.quackquack.casa.ui.CasaScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = QuackColor.DuckieOrange.value),
-                contentAlignment = Alignment.Center,
-            ) {
-                QuackTitle1(text = "HI~")
+            val testCasaModels = remember {
+                persistentListOf(
+                    CasaModel(
+                        name = "one",
+                        path = "",
+                        domain = "one",
+                        kdocDefaultSection = "kdoc",
+                        components = persistentListOf(),
+                    ),
+                    CasaModel(
+                        name = "one",
+                        path = "",
+                        domain = "two",
+                        kdocDefaultSection = "kdoc",
+                        components = persistentListOf(),
+                    ),
+                    CasaModel(
+                        name = "one",
+                        path = "",
+                        domain = "three",
+                        kdocDefaultSection = "kdoc",
+                        components = persistentListOf(),
+                    ),
+                    CasaModel(
+                        name = "one",
+                        path = "",
+                        domain = "four",
+                        kdocDefaultSection = "kdoc",
+                        components = persistentListOf(),
+                    ),
+                    CasaModel(
+                        name = "one",
+                        path = "",
+                        domain = "five",
+                        kdocDefaultSection = "kdoc",
+                        components = persistentListOf(),
+                    ),
+                    CasaModel(
+                        name = "one",
+                        path = "",
+                        domain = "five",
+                        kdocDefaultSection = "kdoc",
+                        components = persistentListOf(),
+                    ),
+                    CasaModel(
+                        name = "one",
+                        path = "",
+                        domain = "five",
+                        kdocDefaultSection = "kdoc",
+                        components = persistentListOf(),
+                    ),
+                    CasaModel(
+                        name = "one",
+                        path = "",
+                        domain = "five",
+                        kdocDefaultSection = "kdoc",
+                        components = persistentListOf(),
+                    ),
+                    CasaModel(
+                        name = "one",
+                        path = "",
+                        domain = "five",
+                        kdocDefaultSection = "kdoc",
+                        components = persistentListOf(),
+                    ),
+                )
             }
+            CasaScreen(models = testCasaModels)
         }
     }
 }
