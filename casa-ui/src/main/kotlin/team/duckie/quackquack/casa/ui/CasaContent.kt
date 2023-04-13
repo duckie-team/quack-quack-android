@@ -11,11 +11,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import kotlinx.collections.immutable.ImmutableList
 
+// TODO: 문서화
 @Composable
 internal fun CasaContent(
     modifier: Modifier = Modifier,
     padding: PaddingValues,
+    components: ImmutableList<@Composable () -> Unit>,
 ) {
     Column() {
 

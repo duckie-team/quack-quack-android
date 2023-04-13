@@ -20,5 +20,5 @@ public data class CasaModel(
     val kdocDefaultSection: String,
     val components: ImmutableList<@Composable () -> Unit>,
 ) {
-    public fun toSourceUrl(): String = TODO()
+    public fun toSourceUrl(): String = "TODO"
 }

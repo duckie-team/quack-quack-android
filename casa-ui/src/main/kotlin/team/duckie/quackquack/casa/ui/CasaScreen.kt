@@ -20,6 +20,7 @@ import androidx.compose.animation.with
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -32,12 +33,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import team.duckie.quackquack.casa.material.CasaModel
 
+// TODO: 문서화
 @Composable
 public fun CasaScreen(
     modifier: Modifier = Modifier,
@@ -45,9 +51,22 @@ public fun CasaScreen(
     config: CasaConfig = CasaConfig(),
 ) {
     val focusRequester = remember { FocusRequester() }
+
     var searchState by rememberSaveable { mutableStateOf(false) }
-    var searchTerm by rememberSaveable(searchState) { mutableStateOf("") }
-    val selectedDomains = rememberSaveable { mutableStateListOf<String>() }
+    var searchTerm by rememberSaveable { mutableStateOf("") }
+    val selectedDomains = rememberSaveable(
+        saver = Saver<SnapshotStateList<String>, List<SnapshotStateList<String>>>(
+            save = { stateList ->
+                listOf(stateList)
+            },
+            restore = { list ->
+                list.first()
+            },
+        )
+    ) {
+        mutableStateListOf()
+    }
+
     val displayedModels by remember(models) {
         derivedStateOf {
             models.filter { model ->
@@ -89,16 +108,24 @@ public fun CasaScreen(
             ) { isSearchState ->
                 if (isSearchState) {
                     CasaSearchTopAppBar(
-                        searchTerm = searchTerm,
-                        focusRequester = focusRequester,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(64.dp)
+                            .focusRequester(focusRequester)
+                            .onGloballyPositioned {
+                                focusRequester.requestFocus()
+                            },
+                        value = searchTerm,
+                        onValueChange = { term ->
+                            searchTerm = term
+                        },
                         onSearch = {
                             searchState = false
+                            searchTerm = ""
                         },
                         onClear = {
                             searchState = false
-                        },
-                        onValueChange = { term ->
-                            searchTerm = term
+                            searchTerm = ""
                         },
                     )
                 } else {
@@ -107,6 +134,7 @@ public fun CasaScreen(
                         casaConfig = config,
                         onSearch = {
                             searchState = true
+                            searchTerm = ""
                         },
                         onBackClick = {
                             selectedModel = null
@@ -127,7 +155,7 @@ public fun CasaScreen(
                 modifier = Modifier.fillMaxWidth(),
                 domains = domains,
                 selectedDomains = selectedDomains,
-                onSelectFilter = { domain ->
+                onFilterSelected = { domain ->
                     if (!selectedDomains.contains(domain)) {
                         selectedDomains += domain
                     } else {

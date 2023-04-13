@@ -9,9 +9,6 @@
 
 package team.duckie.quackquack.casa.ui
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -24,23 +21,21 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
 
+// TODO: 문서화
 @Composable
 internal fun CasaSearchTopAppBar(
-    searchTerm: String,
-    focusRequester: FocusRequester,
+    modifier: Modifier = Modifier,
+    value: String,
     onValueChange: (term: String) -> Unit,
     onClear: () -> Unit,
     onSearch: (term: String) -> Unit,
 ) {
     TextField(
-        value = searchTerm,
+        modifier = modifier,
+        value = value,
         onValueChange = onValueChange,
         leadingIcon = {
             Icon(
@@ -51,17 +46,9 @@ internal fun CasaSearchTopAppBar(
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(
             onSearch = {
-                onSearch(searchTerm)
+                onSearch(value)
             },
         ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .statusBarsPadding()
-            .height(64.dp)
-            .focusRequester(focusRequester)
-            .onGloballyPositioned {
-                focusRequester.requestFocus()
-            },
         trailingIcon = {
             IconButton(onClick = onClear) {
                 Icon(

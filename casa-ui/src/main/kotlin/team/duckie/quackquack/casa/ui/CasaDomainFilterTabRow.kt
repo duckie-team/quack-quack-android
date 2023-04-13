@@ -22,16 +22,20 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+// TODO: 문서화
 @Composable
 internal fun FilterTabRow(
     modifier: Modifier = Modifier,
     domains: List<String>,
     selectedDomains: List<String>,
-    onSelectFilter: (domain: String) -> Unit,
+    onFilterSelected: (domain: String) -> Unit,
 ) {
     if (domains.isEmpty()) return
 
@@ -42,12 +46,16 @@ internal fun FilterTabRow(
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         items(domains) { domain ->
-            val selected = selectedDomains.contains(domain)
+            val selected by remember {
+                derivedStateOf {
+                    selectedDomains.contains(domain)
+                }
+            }
 
             FilterChip(
                 selected = selected,
                 onClick = {
-                    onSelectFilter(domain)
+                    onFilterSelected(domain)
                 },
                 label = {
                     Text(text = domain.lowercase())

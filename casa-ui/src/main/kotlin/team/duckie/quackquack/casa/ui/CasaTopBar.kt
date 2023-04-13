@@ -30,21 +30,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import team.duckie.quackquack.casa.material.CasaModel
 
+// TODO: 문서화
 @Composable
 public fun CasaTopBar(
+    modifier: Modifier = Modifier,
     selectedModel: CasaModel? = null,
     casaConfig: CasaConfig,
     onSearch: () -> Unit = {},
     onBackClick: () -> Unit = {},
 ) {
-    val context = LocalContext.current
     var menuExpanded by remember { mutableStateOf(false) }
 
     TopAppBar(
+        modifier = modifier,
         title = {
             Text(
                 text = selectedModel?.name ?: casaConfig.casaName,
@@ -77,30 +80,12 @@ public fun CasaTopBar(
                     },
                 ) {
                     val sourceUrl = selectedModel?.toSourceUrl() ?: casaConfig.baseSourceUrl
-                    DropdownMenuItem(
-                        onClick = {
-                            context.launchUrl(
-                                url = sourceUrl,
-                                updateMenuExpanded = {
-                                    menuExpanded = false
-                                },
-                            )
-                        },
-                        text = {
-                            Text(text = "Source code")
-                        },
-                    )
-                    DropdownMenuItem(
-                        onClick = {
-                            context.launchUrl(
-                                url = casaConfig.baseSourceUrl,
-                                updateMenuExpanded = {
-                                    menuExpanded = false
-                                },
-                            )
-                        },
-                        text = {
-                            Text(text = "Report bug")
+
+                    CasaTopBarDropdownMenuContent(
+                        sourceUrl = sourceUrl,
+                        casaConfig = casaConfig,
+                        updateMenuExpanded = { expanded ->
+                            menuExpanded = expanded
                         },
                     )
                 }
@@ -119,14 +104,38 @@ public fun CasaTopBar(
     )
 }
 
-private fun Context.launchUrl(
-    url: String,
+@Composable
+private fun CasaTopBarDropdownMenuContent(
+    sourceUrl: String,
+    casaConfig: CasaConfig,
     updateMenuExpanded: (expand: Boolean) -> Unit,
 ) {
+    val context = LocalContext.current
+
+    DropdownMenuItem(
+        onClick = {
+            context.launchUrl(sourceUrl)
+            updateMenuExpanded(false)
+        },
+        text = {
+            Text(text = "Source code")
+        },
+    )
+    DropdownMenuItem(
+        onClick = {
+            context.launchUrl(casaConfig.bugReportUrl)
+            updateMenuExpanded(false)
+        },
+        text = {
+            Text(text = "Report bug")
+        },
+    )
+}
+
+private fun Context.launchUrl(url: String) {
     startActivity(
         Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
     )
-    updateMenuExpanded(false)
 }
