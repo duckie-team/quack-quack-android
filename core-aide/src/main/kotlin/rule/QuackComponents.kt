@@ -3,6 +3,10 @@
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "ktlint")
 
+import kotlin.String
+import kotlin.Suppress
+import kotlin.collections.Map
+
 internal val quackComponents: Map<String, String> = run {
   val aide = mutableMapOf<String, String>()
 
