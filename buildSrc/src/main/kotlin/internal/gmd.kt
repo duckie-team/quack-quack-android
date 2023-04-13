@@ -11,7 +11,7 @@ import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.ManagedVirtualDevice
 import org.gradle.kotlin.dsl.create
 
-internal fun configureGmd(extension: CommonExtension<*, *, *, *>) {
+internal fun configureGmd(extension: CommonExtension<*, *, *, *, *>) {
     extension.testOptions {
         managedDevices {
             devices {

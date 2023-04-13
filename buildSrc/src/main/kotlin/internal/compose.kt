@@ -12,7 +12,7 @@ import kotlinOptions
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
-internal fun Project.configureCompose(extension: CommonExtension<*, *, *, *>) {
+internal fun Project.configureCompose(extension: CommonExtension<*, *, *, *, *>) {
     extension.apply {
         buildFeatures {
             compose = true
