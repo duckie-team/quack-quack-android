@@ -43,7 +43,7 @@ internal fun FilterTabRow(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp)
+        contentPadding = PaddingValues(horizontal = 16.dp),
     ) {
         items(domains) { domain ->
             val selected by remember {
@@ -60,7 +60,7 @@ internal fun FilterTabRow(
                 label = {
                     Text(text = domain.lowercase())
                 },
-                leadingIcon = (@Composable {
+                leadingIcon = (@Composable { // ktlint-disable parameter-list-wrapping
                     Icon(
                         imageVector = Icons.Rounded.Done,
                         contentDescription = null,

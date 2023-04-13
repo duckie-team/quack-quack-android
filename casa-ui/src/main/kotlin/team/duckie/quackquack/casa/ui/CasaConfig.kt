@@ -11,6 +11,7 @@ import androidx.compose.runtime.Immutable
 
 // TODO: 문서화
 @Immutable
+@Suppress("MaximumLineLength", "MaxLineLength")
 public data class CasaConfig(
     public val casaName: String = "QuackQuack catalog",
     public val bugReportUrl: String = "https://github.com/duckie-team/quack-quack-android/issues/new?assignees=jisungbin&labels=bug&template=bug_report.md&title=",

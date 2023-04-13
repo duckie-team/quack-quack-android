@@ -61,6 +61,6 @@ internal fun CasaSearchTopAppBar(
         colors = TextFieldDefaults.textFieldColors(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-        )
+        ),
     )
 }
