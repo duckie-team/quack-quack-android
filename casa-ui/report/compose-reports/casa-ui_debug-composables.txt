@@ -11,26 +11,3 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun CasaConte
   stable contentLazyListState: LazyListState
   stable onModelSelected: Function1<@[ParameterName(name = 'model')] CasaModel, Unit>
 )
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun CasaTopBar(
-  stable modifier: Modifier? = @static Companion
-  stable selectedModel: CasaModel? = @static null
-  stable casaConfig: CasaConfig
-  stable onSearch: Function0<Unit>? = @static {
-
-}
-
-  stable onBackClick: Function0<Unit>? = @static {
-
-}
-
-)
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun CasaTopBarDropdownMenuContent(
-  unused stable <this>: ColumnScope
-  stable sourceUrl: String
-  stable casaConfig: CasaConfig
-  stable updateMenuExpanded: Function1<@[ParameterName(name = 'expand')] Boolean, Unit>
-)
-restartable skippable scheme("[0, [0]]") fun CasaTheme(
-  stable darkTheme: Boolean = @dynamic isSystemInDarkTheme($composer, 0)
-  stable content: Function2<Composer, Int, Unit>
-)

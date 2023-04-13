@@ -56,17 +56,15 @@ public fun CasaTheme(
     }
 
     val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            val window = (view.context as Activity).window
-            val controller = WindowCompat.getInsetsController(window, view)
-            WindowCompat.setDecorFitsSystemWindows(window, false)
+    SideEffect {
+        val window = (view.context as Activity).window
+        val controller = WindowCompat.getInsetsController(window, view)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-            window.statusBarColor = Color.Transparent.toArgb()
-            window.navigationBarColor = Color.Transparent.toArgb()
-            controller.isAppearanceLightStatusBars = !darkTheme
-            controller.isAppearanceLightNavigationBars = !darkTheme
-        }
+        window.statusBarColor = Color.Transparent.toArgb()
+        window.navigationBarColor = Color.Transparent.toArgb()
+        controller.isAppearanceLightStatusBars = !darkTheme
+        controller.isAppearanceLightNavigationBars = !darkTheme
     }
 
     MaterialTheme(

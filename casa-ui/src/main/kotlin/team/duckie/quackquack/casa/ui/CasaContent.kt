@@ -11,6 +11,7 @@ package team.duckie.quackquack.casa.ui
 
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,6 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -39,31 +41,67 @@ import team.duckie.quackquack.casa.material.CasaModel
 internal fun CasaContent(
     modifier: Modifier = Modifier,
     models: ImmutableList<CasaModel>,
+    selectedDomains: List<String>,
     lazyListState: LazyListState,
     onClick: (model: CasaModel) -> Unit,
 ) {
-    // TODO: fading edge
+    val groupedModels = remember(models) {
+        models.groupBy(CasaModel::domain)
+    }
+
+    // TODO(3): fading edge
     LazyColumn(
         modifier = modifier,
         state = lazyListState,
-        contentPadding = PaddingValues(all = 16.dp),
+        contentPadding = PaddingValues(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        items(
-            items = models,
-            key = { model -> model.name }
-        ) { model ->
-            ModelCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .animateItemPlacement(spring()),
-                model = model,
-                onClick = {
-                    onClick(model)
-                },
-            )
+        groupedModels.forEach { (domain, models) ->
+            if (selectedDomains.size != 1) {
+                @Suppress("RemoveEmptyParenthesesFromLambdaCall")
+                stickyHeader(
+                    // error: key was already used
+                    // key = domain,
+                ) {
+                    DomainHeader(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = MaterialTheme.colorScheme.background)
+                            .padding(horizontal = 16.dp),
+                        domain = domain,
+                    )
+                }
+            }
+
+            items(
+                items = models,
+                key = { model -> model.name },
+            ) { model ->
+                ModelCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .animateItemPlacement(spring())
+                        .padding(horizontal = 16.dp),
+                    model = model,
+                    onClick = {
+                        onClick(model)
+                    },
+                )
+            }
         }
     }
+}
+
+@Composable
+private fun DomainHeader(
+    modifier: Modifier = Modifier,
+    domain: String,
+) {
+    Text(
+        modifier = modifier,
+        text = domain,
+        style = MaterialTheme.typography.titleLarge,
+    )
 }
 
 @Composable
@@ -87,7 +125,7 @@ private fun ModelCard(
             ) {
                 Text(
                     text = model.name,
-                    style = MaterialTheme.typography.labelLarge,
+                    style = MaterialTheme.typography.titleMedium,
                 )
                 Icon(
                     imageVector = Icons.Rounded.KeyboardArrowRight,

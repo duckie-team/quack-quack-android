@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -126,6 +127,7 @@ public fun CasaScreen(
                 if (isSearchState) {
                     CasaSearchTopAppBar(
                         modifier = Modifier
+                            .statusBarsPadding()
                             .fillMaxWidth()
                             .height(64.dp)
                             .focusRequester(focusRequester)
@@ -212,6 +214,7 @@ private fun CasaContentWithDoaminFilter(
         CasaContent(
             modifier = Modifier.fillMaxSize(),
             models = displayedModels,
+            selectedDomains = selectedDomains,
             lazyListState = contentLazyListState,
             onClick = onModelSelected,
         )
