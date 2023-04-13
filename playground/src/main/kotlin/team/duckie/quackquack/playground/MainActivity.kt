@@ -10,6 +10,8 @@ package team.duckie.quackquack.playground
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import kotlinx.collections.immutable.persistentListOf
 import team.duckie.quackquack.casa.material.CasaModel
@@ -21,6 +23,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CasaTheme {
+                val testCasaComponents = remember {
+                    persistentListOf<Pair<String, @Composable () -> Unit>>(
+                        "one" to { Text(text = "one") },
+                        "two" to { Text(text = "two") },
+                        "three" to { Text(text = "three") },
+                        "four" to { Text(text = "four") },
+                        "five" to { Text(text = "five") },
+                        "six" to { Text(text = "six") },
+                        "seven" to { Text(text = "seven") },
+                        "eight" to { Text(text = "eight") },
+                        "nine" to { Text(text = "nine") },
+                        "ten" to { Text(text = "ten") },
+                    )
+                }
                 val testCasaModels = remember {
                     persistentListOf(
                         CasaModel(
@@ -28,70 +44,70 @@ class MainActivity : ComponentActivity() {
                             path = "",
                             domain = "one",
                             kdocDefaultSection = "kdoc",
-                            components = persistentListOf(),
+                            components = testCasaComponents,
                         ),
                         CasaModel(
                             name = "two",
                             path = "",
                             domain = "two",
                             kdocDefaultSection = "kdoc",
-                            components = persistentListOf(),
+                            components = testCasaComponents,
                         ),
                         CasaModel(
                             name = "three",
                             path = "",
                             domain = "three",
                             kdocDefaultSection = "kdoc",
-                            components = persistentListOf(),
+                            components = testCasaComponents,
                         ),
                         CasaModel(
                             name = "four",
                             path = "",
                             domain = "four",
                             kdocDefaultSection = "kdoc",
-                            components = persistentListOf(),
+                            components = testCasaComponents,
                         ),
                         CasaModel(
                             name = "five",
                             path = "",
                             domain = "five",
                             kdocDefaultSection = "kdoc",
-                            components = persistentListOf(),
+                            components = testCasaComponents,
                         ),
                         CasaModel(
                             name = "six",
                             path = "",
                             domain = "six",
                             kdocDefaultSection = "kdoc",
-                            components = persistentListOf(),
+                            components = testCasaComponents,
                         ),
                         CasaModel(
                             name = "seven",
                             path = "",
                             domain = "seven",
                             kdocDefaultSection = "kdoc",
-                            components = persistentListOf(),
+                            components = testCasaComponents,
                         ),
                         CasaModel(
                             name = "eight",
                             path = "",
                             domain = "eight",
                             kdocDefaultSection = "kdoc",
-                            components = persistentListOf(),
+                            components = testCasaComponents,
                         ),
                         CasaModel(
                             name = "nine",
                             path = "",
                             domain = "nine",
                             kdocDefaultSection = "kdoc",
-                            components = persistentListOf(),
+                            components = testCasaComponents,
                         ),
                         CasaModel(
                             name = "ten",
                             path = "",
                             domain = "ten",
                             kdocDefaultSection = "kdoc",
-                            components = persistentListOf(),
+                            components = testCasaComponents,
                         ),
                     )
                 }

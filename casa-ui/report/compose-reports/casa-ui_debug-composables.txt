@@ -1,3 +1,34 @@
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun CasaComponents(
+  stable modifier: Modifier? = @static Companion
+  stable model: CasaModel
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable, [androidx.compose.ui.UiComposable]]") fun ComponentWithName(
+  stable modifier: Modifier? = @static Companion
+  stable name: String
+  stable component: Function2<Composer, Int, Unit>
+)
+restartable scheme("[androidx.compose.ui.UiComposable]") fun CasaContent(
+  stable modifier: Modifier? = @static Companion
+  stable models: ImmutableList<CasaModel>
+  unstable selectedDomains: List<String>
+  stable lazyListState: LazyListState
+  stable onClick: Function1<@[ParameterName(name = 'model')] CasaModel, Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun DomainHeader(
+  stable modifier: Modifier? = @static Companion
+  stable domain: String
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ModelCard(
+  stable modifier: Modifier? = @static Companion
+  stable model: CasaModel
+  stable onClick: Function0<Unit>
+)
+restartable scheme("[androidx.compose.ui.UiComposable]") fun FilterTabRow(
+  stable modifier: Modifier? = @static Companion
+  unstable domains: List<String>
+  unstable selectedDomains: List<String>
+  stable onFilterSelected: Function1<@[ParameterName(name = 'domain')] String, Unit>
+)
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun CasaScreen(
   stable modifier: Modifier? = @static Companion
   stable models: ImmutableList<CasaModel>
@@ -10,4 +41,34 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun CasaConte
   stable displayedModels: ImmutableList<CasaModel>
   stable contentLazyListState: LazyListState
   stable onModelSelected: Function1<@[ParameterName(name = 'model')] CasaModel, Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun CasaSearchTopAppBar(
+  stable modifier: Modifier? = @static Companion
+  stable value: String
+  stable onValueChange: Function1<@[ParameterName(name = 'term')] String, Unit>
+  stable onClear: Function0<Unit>
+  stable onSearchImeAction: Function1<@[ParameterName(name = 'term')] String, Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun CasaTopBar(
+  stable modifier: Modifier? = @static Companion
+  stable selectedModel: CasaModel? = @static null
+  stable casaConfig: CasaConfig
+  stable onSearch: Function0<Unit>? = @static {
+
+}
+
+  stable onBackClick: Function0<Unit>? = @static {
+
+}
+
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun CasaTopBarDropdownMenuContent(
+  unused stable <this>: ColumnScope
+  stable sourceUrl: String
+  stable casaConfig: CasaConfig
+  stable updateMenuExpanded: Function1<@[ParameterName(name = 'expand')] Boolean, Unit>
+)
+restartable skippable scheme("[0, [0]]") fun CasaTheme(
+  stable darkTheme: Boolean = @dynamic isSystemInDarkTheme($composer, 0)
+  stable content: Function2<Composer, Int, Unit>
 )

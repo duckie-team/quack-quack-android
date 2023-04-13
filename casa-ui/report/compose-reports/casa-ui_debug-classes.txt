@@ -1,0 +1,5 @@
+stable class CasaConfig {
+  stable val casaName: String
+  stable val bugReportUrl: String
+  stable val baseSourceUrl: String
+}
