@@ -18,7 +18,7 @@ public data class CasaModel(
     val path: String,
     val domain: String,
     val kdocDefaultSection: String,
-    val components: ImmutableList<@Composable () -> Unit>,
+    val components: ImmutableList<Pair<String, @Composable () -> Unit>>,
 ) {
     public fun toSourceUrl(): String = "TODO"
 }

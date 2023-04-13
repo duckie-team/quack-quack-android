@@ -19,3 +19,10 @@ internal fun CasaComponents(
 ) {
 
 }
+
+@Composable
+private fun Component(
+
+) {
+
+}

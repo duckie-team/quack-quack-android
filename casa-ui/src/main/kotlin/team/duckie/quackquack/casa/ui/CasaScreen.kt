@@ -5,10 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-@file:OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalAnimationApi::class,
-)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 
 package team.duckie.quackquack.casa.ui
 
@@ -21,12 +18,13 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.with
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -49,6 +47,7 @@ import androidx.compose.ui.util.fastMap
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import team.duckie.quackquack.casa.material.CasaModel
+import team.duckie.quackquack.casa.ui.data.CasaConfig
 
 // TODO: 문서화
 @Composable
@@ -57,20 +56,12 @@ public fun CasaScreen(
     models: ImmutableList<CasaModel>,
     config: CasaConfig = CasaConfig(),
 ) {
+    val contentLazyListState = rememberLazyListState()
     val focusRequester = remember { FocusRequester() }
 
     var searchState by rememberSaveable { mutableStateOf(false) }
     var searchTerm by rememberSaveable { mutableStateOf("") }
 
-    val displayedModels by remember(models) {
-        derivedStateOf {
-            models.filter { model ->
-                model.domain.contains(searchTerm, ignoreCase = true) ||
-                        model.name.contains(searchTerm, ignoreCase = true) ||
-                        model.kdocDefaultSection.contains(searchTerm, ignoreCase = true)
-            }.toImmutableList()
-        }
-    }
     val selectedDomains = rememberSaveable(
         saver = Saver<SnapshotStateList<String>, List<SnapshotStateList<String>>>(
             save = { stateList ->
@@ -82,6 +73,16 @@ public fun CasaScreen(
         ),
     ) {
         mutableStateListOf()
+    }
+    val displayedModels by remember(models) {
+        derivedStateOf {
+            models.filter { model ->
+                (model.domain.contains(searchTerm, ignoreCase = true) ||
+                        model.name.contains(searchTerm, ignoreCase = true) ||
+                        model.kdocDefaultSection.contains(searchTerm, ignoreCase = true)) &&
+                        if (selectedDomains.isNotEmpty()) selectedDomains.contains(model.domain) else true
+            }.toImmutableList()
+        }
     }
     var selectedModel by rememberSaveable(
         stateSaver = Saver<CasaModel?, Int>(
@@ -101,6 +102,10 @@ public fun CasaScreen(
     BackHandler(enabled = searchState) {
         searchState = false
         searchTerm = ""
+    }
+
+    BackHandler(enabled = selectedModel != null) {
+        selectedModel = null
     }
 
     Scaffold(
@@ -166,6 +171,12 @@ public fun CasaScreen(
                 domains = domains,
                 selectedDomains = selectedDomains,
                 displayedModels = displayedModels,
+                contentLazyListState = contentLazyListState,
+                onModelSelected = { model ->
+                    searchState = false
+                    searchTerm = ""
+                    selectedModel = model
+                },
             )
         } else {
             CasaComponents(
@@ -182,11 +193,10 @@ private fun CasaContentWithDoaminFilter(
     domains: ImmutableList<String>,
     selectedDomains: SnapshotStateList<String>,
     displayedModels: ImmutableList<CasaModel>,
+    contentLazyListState: LazyListState,
+    onModelSelected: (model: CasaModel) -> Unit,
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
+    Column(modifier = modifier) {
         FilterTabRow(
             modifier = Modifier.fillMaxWidth(),
             domains = domains,
@@ -202,6 +212,8 @@ private fun CasaContentWithDoaminFilter(
         CasaContent(
             modifier = Modifier.fillMaxSize(),
             models = displayedModels,
+            lazyListState = contentLazyListState,
+            onClick = onModelSelected,
         )
     }
 }

@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import team.duckie.quackquack.casa.material.CasaModel
+import team.duckie.quackquack.casa.ui.data.CasaConfig
 
 // TODO: 문서화
 @Composable
@@ -63,14 +64,14 @@ public fun CasaTopBar(
                         IconButton(onClick = onSearch) {
                             Icon(
                                 imageVector = Icons.Rounded.Search,
-                                contentDescription = null,
+                                contentDescription = "Search",
                             )
                         }
                     }
                     IconButton(onClick = { menuExpanded = true }) {
                         Icon(
                             imageVector = Icons.Rounded.MoreVert,
-                            contentDescription = null,
+                            contentDescription = "Menu",
                         )
                     }
                 }
@@ -97,7 +98,7 @@ public fun CasaTopBar(
                 IconButton(onClick = onBackClick) {
                     Icon(
                         imageVector = Icons.Rounded.ArrowBack,
-                        contentDescription = null,
+                        contentDescription = "Back",
                     )
                 }
             }
@@ -129,6 +130,15 @@ private fun ColumnScope.CasaTopBarDropdownMenuContent(
         },
         text = {
             Text(text = "Report bug")
+        },
+    )
+    DropdownMenuItem(
+        onClick = {
+            updateMenuExpanded(false)
+            // TODO: 오픈소스 라이선스
+        },
+        text = {
+            Text(text = "Opensource license")
         },
     )
 }

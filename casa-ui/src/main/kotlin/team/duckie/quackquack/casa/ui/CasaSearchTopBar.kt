@@ -40,7 +40,7 @@ internal fun CasaSearchTopAppBar(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Rounded.Search,
-                contentDescription = null,
+                contentDescription = "Search",
             )
         },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
@@ -53,7 +53,7 @@ internal fun CasaSearchTopAppBar(
             IconButton(onClick = onClear) {
                 Icon(
                     imageVector = Icons.Rounded.Clear,
-                    contentDescription = null,
+                    contentDescription = "Clear",
                 )
             }
         },
