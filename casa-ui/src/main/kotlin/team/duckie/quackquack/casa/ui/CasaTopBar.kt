@@ -13,6 +13,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -105,7 +106,7 @@ public fun CasaTopBar(
 }
 
 @Composable
-private fun CasaTopBarDropdownMenuContent(
+private fun ColumnScope.CasaTopBarDropdownMenuContent(
     sourceUrl: String,
     casaConfig: CasaConfig,
     updateMenuExpanded: (expand: Boolean) -> Unit,
