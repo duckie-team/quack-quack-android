@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-@file:Suppress("DSL_SCOPE_VIOLATION")
+@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
 plugins {
     `buildlogic-jvm-kotlin`
