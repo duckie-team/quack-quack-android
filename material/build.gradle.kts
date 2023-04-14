@@ -12,19 +12,18 @@ import org.jetbrains.dokka.gradle.DokkaTask
 plugins {
     `buildlogic-android-library`
     `buildlogic-android-compose`
-    `buildlogic-android-compose-metrics`
     `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
-    alias(libs.plugins.test.paparazzi)
 }
 
 tasks.withType<DokkaTask> {
-    moduleName.set("QuackQuack-Animation")
+    moduleName.set("QuackQuack-Material")
     // notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/1217")
 }
 
 android {
-    namespace = "team.duckie.quackquack.animation"
+    namespace = "team.duckie.quackquack.material"
+    resourcePrefix = "quack_"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -33,9 +32,9 @@ android {
 
 dependencies {
     implementations(
-        libs.compose.animation,
-        projects.util,
-        projects.material,
+        libs.compose.uiutil,
+        libs.compose.foundation,
+        libs.androidx.core.ktx, // needed for androidx.core.graphics (used in SquircleShape)
     )
     androidTestImplementations(
         libs.test.strikt,

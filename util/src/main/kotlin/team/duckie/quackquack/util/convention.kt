@@ -35,7 +35,7 @@ public annotation class DelicateQuackApi
 /**
  * 매우 실험적인 함수이기에 사용하기 전에 테스트가 꼭 필요함을 나타냅니다.
  *
- * @param checked 테스트 진행 여부
+ * @param passed 테스트 진행 여부
  */
 @Retention(AnnotationRetention.SOURCE)
-public annotation class MustBeTested(val checked: Boolean)
+public annotation class MustBeTested(val passed: Boolean)

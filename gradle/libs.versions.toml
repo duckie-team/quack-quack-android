@@ -26,6 +26,7 @@ compose-compiler = "1.4.4"
 compose-runtime = "1.4.1"
 compose-uiutil = "1.4.1"
 compose-foundation = "1.4.1"
+compose-ui = "1.4.1"
 compose-animation = "1.4.1"
 compose-material = "1.4.1"
 compose-material3 = "1.0.1" # for Playground
@@ -43,6 +44,12 @@ test-mockito-core = "5.3.0"
 test-mockito-android = "5.3.0"
 test-mockito-kotlin = "4.1.0"
 test-kotlin-compilation-ksp = "1.5.0"
+com-android-library = "8.1.0-alpha11"
+org-jetbrains-kotlin-android = "1.8.10"
+junit = "1.1.5"
+espresso-core = "3.5.1"
+appcompat = "1.6.1"
+material = "1.8.0"
 
 [plugins]
 gradle-publish-maven-core = { id = "com.vanniktech.maven.publish", version.ref = "gradle-publish-maven" }
@@ -54,6 +61,8 @@ kotlin-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "kotlin-dete
 kotlin-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "kotlin-ktlint-gradle" }
 
 test-paparazzi = { id = "app.cash.paparazzi", version.ref = "test-paparazzi" }
+com-android-library = { id = "com.android.library", version.ref = "com-android-library" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
 
 [libraries]
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
@@ -81,10 +90,10 @@ androidx-datastore = { module = "androidx.datastore:datastore-preferences", vers
 androidx-benchmark = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidx-benchmark" }
 androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "androidx-profileinstaller" }
 
-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose-runtime" }
 compose-uiutil = { module = "androidx.compose.ui:ui-util", version.ref = "compose-uiutil" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-foundation" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-ui" }
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose-animation" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose-material" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
@@ -105,6 +114,10 @@ test-kotlin-compilation-core = { module = "com.github.tschuchortdev:kotlin-compi
 test-kotlin-compilation-ksp = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version.ref = "test-kotlin-compilation-ksp" }
 
 detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "kotlin-detekt" }
+junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [bundles]
 android-lint = ["android-lint-api", "android-lint-checks"]

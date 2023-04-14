@@ -1,0 +1,129 @@
+restartable skippable fun QuackAnimatedContent(
+  stable modifier: Modifier? = @static Companion
+  targetState: T
+  stable content: @[ExtensionFunctionType] Function4<AnimatedVisibilityScope, @[ParameterName(name = 'animatedTargetState')] T, Composer, Int, Unit>
+)
+restartable skippable scheme("[0, [0]]") fun QuackAnimatedVisibility(
+  stable modifier: Modifier? = @static Companion
+  stable visible: Boolean
+  stable label: String? = @static "AnimatedVisibility"
+  stable otherEnterAnimation: EnterTransition? = @static null
+  stable otherExitAnimation: ExitTransition? = @static null
+  stable content: @[ExtensionFunctionType] Function3<AnimatedVisibilityScope, Composer, Int, Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackLarge1(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @static false
+  stable softWrap: Boolean = @static true
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackHeadLine1(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @static false
+  stable softWrap: Boolean = @static true
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackHeadLine2(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @static false
+  stable softWrap: Boolean = @static true
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackTitle1(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @static false
+  stable softWrap: Boolean = @static true
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackTitle2(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @static false
+  stable softWrap: Boolean = @static true
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackSubtitle(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @static false
+  stable softWrap: Boolean = @static true
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackSubtitle2(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @static false
+  stable softWrap: Boolean = @static true
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBody1(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @static false
+  stable softWrap: Boolean = @static true
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBody2(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @static false
+  stable softWrap: Boolean = @static true
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBody3(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @static false
+  stable softWrap: Boolean = @static true
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackText(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable typography: QuackTypography
+  stable singleLine: Boolean = @static false
+  stable softWrap: Boolean = @static true
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackClickableText(
+  stable modifier: Modifier
+  stable text: String
+  stable highlightData: HighlightData
+  stable style: TextStyle
+  stable softWrap: Boolean
+  stable overflow: TextOverflow
+  stable maxLines: Int
+)
+fun rememberSpanAnnotatedString(
+  stable text: String
+  unstable spanTexts: List<String>
+  stable spanStyle: SpanStyle
+  unstable annotationTexts: List<String>
+): AnnotatedString
+fun animateQuackColorAsState(
+  stable targetValue: QuackColor
+  stable label: String? = @static "animateQuackColorAsState"
+  stable finishedListener: Function1<@[ParameterName(name = 'color')] QuackColor, Unit>? = @static null
+): State<QuackColor>
+fun animateQuackColorAsStateInternal(
+  stable targetValue: QuackColor
+  unstable animationSpec: AnimationSpec<QuackColor>? = @dynamic QuackAnimationSpec()
+  stable label: String? = @static "animateQuackColorAsState"
+  stable finishedListener: Function1<@[ParameterName(name = 'color')] QuackColor, Unit>? = @static null
+): State<QuackColor>
+fun animatedQuackTextStyleAsState(
+  stable targetValue: QuackTypography
+  stable label: String? = @static "animatedQuackTextStyleAsState"
+  stable colorAnimationFinishedListener: Function1<@[ParameterName(name = 'color')] QuackColor, Unit>? = @static null
+  stable sizeAnimationFinishedListener: Function1<@[ParameterName(name = 'size')] Float, Unit>? = @static null
+  stable letterSpacingAnimationFinishedListener: Function1<@[ParameterName(name = 'letterSpacing')] Float, Unit>? = @static null
+  stable lineHeightAnimationFinishedListener: Function1<@[ParameterName(name = 'lineHeight')] Float, Unit>? = @static null
+  stable textAlignAnimationFinishedListener: Function1<@[ParameterName(name = 'textAlign')] TextAlign, Unit>? = @static null
+): QuackTypography
+restartable skippable scheme("[0, [0]]") fun QuackTheme(
+  stable content: Function2<Composer, Int, Unit>
+)

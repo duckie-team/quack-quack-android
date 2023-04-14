@@ -1,0 +1,18 @@
+unstable class QuackAnimationSpec {
+  stable var snapMode: Boolean
+  <runtime stability> = Unstable
+}
+stable class QuackTypography {
+  stable val color: QuackColor
+  stable val size: TextUnit
+  stable val weight: FontWeight
+  stable val letterSpacing: TextUnit
+  stable val lineHeight: TextUnit
+  stable val textAlign: TextAlign
+  stable val suit: FontFamily
+}
+stable class SquircleShape {
+  stable val SMOOTHING: Double
+  stable val OVERSAMPLING_MULTIPLIER: Float
+  <runtime stability> = Stable
+}
