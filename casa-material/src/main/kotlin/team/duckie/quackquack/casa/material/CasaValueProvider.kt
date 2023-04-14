@@ -5,7 +5,9 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-plugins {
-    `buildlogic-jvm-kotlin`
-    `buildlogic-kotlin-explicitapi`
+package team.duckie.quackquack.casa.material
+
+// TODO: 문서화
+public interface CasaValueProvider<T> {
+    public val value: T
 }

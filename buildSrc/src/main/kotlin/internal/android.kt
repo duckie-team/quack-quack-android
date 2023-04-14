@@ -17,7 +17,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 
-internal fun Project.configureAndroid(extension: CommonExtension<*, *, *, *>) {
+internal fun Project.configureAndroid(extension: CommonExtension<*, *, *, *, *>) {
     extension.apply {
         compileSdk = ApplicationConstants.CompileSdk
 
@@ -51,7 +51,7 @@ internal val Project.isAndroidProject: Boolean
     get() = pluginManager.hasPlugin(Plugins.AndroidApplication) ||
             pluginManager.hasPlugin(Plugins.AndroidLibrary)
 
-internal val Project.androidExtensions: CommonExtension<*, *, *, *>
+internal val Project.androidExtensions: CommonExtension<*, *, *, *, *>
     get() {
         return if (pluginManager.hasPlugin(Plugins.AndroidApplication)) {
             extensions.getByType<BaseAppModuleExtension>()

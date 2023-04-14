@@ -1,0 +1,6 @@
+restartable scheme("[androidx.compose.ui.UiComposable]") fun FilterTabRow(
+  stable modifier: Modifier? = @static Companion
+  unstable domains: List<String>
+  unstable selectedDomains: List<String>
+  stable onFilterSelected: Function1<@[ParameterName(name = 'domain')] String, Unit>
+)
