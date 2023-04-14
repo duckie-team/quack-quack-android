@@ -69,4 +69,3 @@ public value class QuackColor(public val value: Color) : ReadOnlyProperty<Any, C
 
     override fun getValue(thisRef: Any, property: KProperty<*>): Color = value
 }
-

@@ -1,6 +1,7 @@
 [versions]
 gradle-android = "8.1.0-alpha11"
 gradle-publish-maven = "0.25.1"
+gradle-dependency-handler-extensions = "1.1.0"
 
 google-autoservice-standard = "1.0.1"
 google-autoservice-ksp = "1.0.0"
@@ -44,16 +45,11 @@ test-mockito-core = "5.3.0"
 test-mockito-android = "5.3.0"
 test-mockito-kotlin = "4.1.0"
 test-kotlin-compilation-ksp = "1.5.0"
-com-android-library = "8.1.0-alpha11"
-org-jetbrains-kotlin-android = "1.8.20"
-junit = "1.1.5"
-espresso-core = "3.5.1"
-appcompat = "1.6.1"
-material = "1.8.0"
 
 [plugins]
 gradle-publish-maven-core = { id = "com.vanniktech.maven.publish", version.ref = "gradle-publish-maven" }
 gradle-publish-maven-base = { id = "com.vanniktech.maven.publish.base", version.ref = "gradle-publish-maven" }
+gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "gradle-dependency-handler-extensions" }
 
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "kotlin-dokka" }
@@ -61,8 +57,6 @@ kotlin-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "kotlin-dete
 kotlin-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "kotlin-ktlint-gradle" }
 
 test-paparazzi = { id = "app.cash.paparazzi", version.ref = "test-paparazzi" }
-com-android-library = { id = "com.android.library", version.ref = "com-android-library" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
 
 [libraries]
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
@@ -114,10 +108,6 @@ test-kotlin-compilation-core = { module = "com.github.tschuchortdev:kotlin-compi
 test-kotlin-compilation-ksp = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version.ref = "test-kotlin-compilation-ksp" }
 
 detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "kotlin-detekt" }
-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [bundles]
 android-lint = ["android-lint-api", "android-lint-checks"]
