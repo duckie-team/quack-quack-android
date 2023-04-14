@@ -7,8 +7,9 @@
 
 @file:Suppress("unused")
 
-package team.duckie.quackquack.core.util
+package team.duckie.quackquack.util
 
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.DpSize
  *
  * @param all 고정된 사이즈
  */
+@Stable
 public fun DpSize(all: Dp): DpSize {
     return DpSize(width = all, height = all)
 }

@@ -7,7 +7,7 @@
 
 @file:Suppress("unused")
 
-package team.duckie.quackquack.core.util
+package team.duckie.quackquack.util
 
 /**
  * MagicNumber을 예외적으로 허용할 때 사용하는 어노테이션 입니다.
@@ -15,7 +15,7 @@ package team.duckie.quackquack.core.util
  * @param because MagicNumber를 허용하는 이유
  */
 @Retention(AnnotationRetention.SOURCE)
-internal annotation class AllowMagicNumber(val because: String)
+public annotation class AllowMagicNumber(val because: String)
 
 /**
  * 주의깊게 사용해야 하는 API임을 나타냅니다.
@@ -38,4 +38,4 @@ public annotation class DelicateQuackApi
  * @param checked 테스트 진행 여부
  */
 @Retention(AnnotationRetention.SOURCE)
-internal annotation class MustBeTested(val checked: Boolean)
+public annotation class MustBeTested(val checked: Boolean)

@@ -7,13 +7,10 @@
 
 @file:Suppress("unused")
 
-package team.duckie.quackquack.core.util
+package team.duckie.quackquack.util
 
 /**
  * [condition]이 참이면 [run]을 실행합니다.
- *
- * @param condition 실행할 조건 [Boolean]값
- * @param run [condition]이 참일 때 실행할 람다
  *
  * @return [condition]이 참일 때 [run]을 실행한 결과
  */
@@ -29,10 +26,7 @@ public inline fun <T> T.runIf(
 }
 
 /**
- * [conditionBuilder]이 true 이면 [run]을 실행합니다.
- *
- * @param conditionBuilder 실행할 조건 [Boolean]값을 반환하는 람다
- * @param run [conditionBuilder]이 참일 때 실행할 람다
+ * [conditionBuilder]이 참이면 [run]을 실행합니다.
  *
  * @return [conditionBuilder]이 참일 때 [run]을 실행한 결과
  */
