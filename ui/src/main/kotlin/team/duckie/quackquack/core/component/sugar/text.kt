@@ -10,187 +10,17 @@ package team.duckie.quackquack.core.component.sugar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import kotlin.Boolean
+import kotlin.OptIn
+import kotlin.String
+import kotlin.Suppress
+import kotlin.Unit
 import team.duckie.quackquack.core.component.QuackText
 import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.sugar.material.GeneratedFile
 import team.duckie.quackquack.sugar.material.SugarCompilerApi
 import team.duckie.quackquack.sugar.material.SugarRefer
 import team.duckie.quackquack.sugar.material.sugar
-
-/**
- * 텍스트를 그리는 기본적인 컴포저블입니다.
- *
- * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
- * for details.
- */
-@Composable
-@SugarRefer("team.duckie.quackquack.core.component.QuackText")
-public fun QuackLarge1(
-  modifier: Modifier = sugar(),
-  text: String,
-  singleLine: Boolean = sugar(),
-  softWrap: Boolean = sugar(),
-  overflow: TextOverflow = sugar(),
-): Unit {
-  QuackText(
-    modifier = modifier,
-    text = text,
-    typography = QuackTypography.Large1,
-    singleLine = singleLine,
-    softWrap = softWrap,
-    overflow = overflow,
-  )
-}
-
-/**
- * 텍스트를 그리는 기본적인 컴포저블입니다.
- *
- * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
- * for details.
- */
-@Composable
-@SugarRefer("team.duckie.quackquack.core.component.QuackText")
-public fun QuackHeadLine1(
-  modifier: Modifier = sugar(),
-  text: String,
-  singleLine: Boolean = sugar(),
-  softWrap: Boolean = sugar(),
-  overflow: TextOverflow = sugar(),
-): Unit {
-  QuackText(
-    modifier = modifier,
-    text = text,
-    typography = QuackTypography.HeadLine1,
-    singleLine = singleLine,
-    softWrap = softWrap,
-    overflow = overflow,
-  )
-}
-
-/**
- * 텍스트를 그리는 기본적인 컴포저블입니다.
- *
- * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
- * for details.
- */
-@Composable
-@SugarRefer("team.duckie.quackquack.core.component.QuackText")
-public fun QuackHeadLine2(
-  modifier: Modifier = sugar(),
-  text: String,
-  singleLine: Boolean = sugar(),
-  softWrap: Boolean = sugar(),
-  overflow: TextOverflow = sugar(),
-): Unit {
-  QuackText(
-    modifier = modifier,
-    text = text,
-    typography = QuackTypography.HeadLine2,
-    singleLine = singleLine,
-    softWrap = softWrap,
-    overflow = overflow,
-  )
-}
-
-/**
- * 텍스트를 그리는 기본적인 컴포저블입니다.
- *
- * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
- * for details.
- */
-@Composable
-@SugarRefer("team.duckie.quackquack.core.component.QuackText")
-public fun QuackTitle1(
-  modifier: Modifier = sugar(),
-  text: String,
-  singleLine: Boolean = sugar(),
-  softWrap: Boolean = sugar(),
-  overflow: TextOverflow = sugar(),
-): Unit {
-  QuackText(
-    modifier = modifier,
-    text = text,
-    typography = QuackTypography.Title1,
-    singleLine = singleLine,
-    softWrap = softWrap,
-    overflow = overflow,
-  )
-}
-
-/**
- * 텍스트를 그리는 기본적인 컴포저블입니다.
- *
- * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
- * for details.
- */
-@Composable
-@SugarRefer("team.duckie.quackquack.core.component.QuackText")
-public fun QuackTitle2(
-  modifier: Modifier = sugar(),
-  text: String,
-  singleLine: Boolean = sugar(),
-  softWrap: Boolean = sugar(),
-  overflow: TextOverflow = sugar(),
-): Unit {
-  QuackText(
-    modifier = modifier,
-    text = text,
-    typography = QuackTypography.Title2,
-    singleLine = singleLine,
-    softWrap = softWrap,
-    overflow = overflow,
-  )
-}
-
-/**
- * 텍스트를 그리는 기본적인 컴포저블입니다.
- *
- * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
- * for details.
- */
-@Composable
-@SugarRefer("team.duckie.quackquack.core.component.QuackText")
-public fun QuackSubtitle(
-  modifier: Modifier = sugar(),
-  text: String,
-  singleLine: Boolean = sugar(),
-  softWrap: Boolean = sugar(),
-  overflow: TextOverflow = sugar(),
-): Unit {
-  QuackText(
-    modifier = modifier,
-    text = text,
-    typography = QuackTypography.Subtitle,
-    singleLine = singleLine,
-    softWrap = softWrap,
-    overflow = overflow,
-  )
-}
-
-/**
- * 텍스트를 그리는 기본적인 컴포저블입니다.
- *
- * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
- * for details.
- */
-@Composable
-@SugarRefer("team.duckie.quackquack.core.component.QuackText")
-public fun QuackSubtitle2(
-  modifier: Modifier = sugar(),
-  text: String,
-  singleLine: Boolean = sugar(),
-  softWrap: Boolean = sugar(),
-  overflow: TextOverflow = sugar(),
-): Unit {
-  QuackText(
-    modifier = modifier,
-    text = text,
-    typography = QuackTypography.Subtitle2,
-    singleLine = singleLine,
-    softWrap = softWrap,
-    overflow = overflow,
-  )
-}
 
 /**
  * 텍스트를 그리는 기본적인 컴포저블입니다.
@@ -261,6 +91,181 @@ public fun QuackBody3(
     modifier = modifier,
     text = text,
     typography = QuackTypography.Body3,
+    singleLine = singleLine,
+    softWrap = softWrap,
+    overflow = overflow,
+  )
+}
+
+/**
+ * 텍스트를 그리는 기본적인 컴포저블입니다.
+ *
+ * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
+ * for details.
+ */
+@Composable
+@SugarRefer("team.duckie.quackquack.core.component.QuackText")
+public fun QuackHeadLine1(
+  modifier: Modifier = sugar(),
+  text: String,
+  singleLine: Boolean = sugar(),
+  softWrap: Boolean = sugar(),
+  overflow: TextOverflow = sugar(),
+): Unit {
+  QuackText(
+    modifier = modifier,
+    text = text,
+    typography = QuackTypography.HeadLine1,
+    singleLine = singleLine,
+    softWrap = softWrap,
+    overflow = overflow,
+  )
+}
+
+/**
+ * 텍스트를 그리는 기본적인 컴포저블입니다.
+ *
+ * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
+ * for details.
+ */
+@Composable
+@SugarRefer("team.duckie.quackquack.core.component.QuackText")
+public fun QuackHeadLine2(
+  modifier: Modifier = sugar(),
+  text: String,
+  singleLine: Boolean = sugar(),
+  softWrap: Boolean = sugar(),
+  overflow: TextOverflow = sugar(),
+): Unit {
+  QuackText(
+    modifier = modifier,
+    text = text,
+    typography = QuackTypography.HeadLine2,
+    singleLine = singleLine,
+    softWrap = softWrap,
+    overflow = overflow,
+  )
+}
+
+/**
+ * 텍스트를 그리는 기본적인 컴포저블입니다.
+ *
+ * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
+ * for details.
+ */
+@Composable
+@SugarRefer("team.duckie.quackquack.core.component.QuackText")
+public fun QuackLarge1(
+  modifier: Modifier = sugar(),
+  text: String,
+  singleLine: Boolean = sugar(),
+  softWrap: Boolean = sugar(),
+  overflow: TextOverflow = sugar(),
+): Unit {
+  QuackText(
+    modifier = modifier,
+    text = text,
+    typography = QuackTypography.Large1,
+    singleLine = singleLine,
+    softWrap = softWrap,
+    overflow = overflow,
+  )
+}
+
+/**
+ * 텍스트를 그리는 기본적인 컴포저블입니다.
+ *
+ * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
+ * for details.
+ */
+@Composable
+@SugarRefer("team.duckie.quackquack.core.component.QuackText")
+public fun QuackSubtitle(
+  modifier: Modifier = sugar(),
+  text: String,
+  singleLine: Boolean = sugar(),
+  softWrap: Boolean = sugar(),
+  overflow: TextOverflow = sugar(),
+): Unit {
+  QuackText(
+    modifier = modifier,
+    text = text,
+    typography = QuackTypography.Subtitle,
+    singleLine = singleLine,
+    softWrap = softWrap,
+    overflow = overflow,
+  )
+}
+
+/**
+ * 텍스트를 그리는 기본적인 컴포저블입니다.
+ *
+ * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
+ * for details.
+ */
+@Composable
+@SugarRefer("team.duckie.quackquack.core.component.QuackText")
+public fun QuackSubtitle2(
+  modifier: Modifier = sugar(),
+  text: String,
+  singleLine: Boolean = sugar(),
+  softWrap: Boolean = sugar(),
+  overflow: TextOverflow = sugar(),
+): Unit {
+  QuackText(
+    modifier = modifier,
+    text = text,
+    typography = QuackTypography.Subtitle2,
+    singleLine = singleLine,
+    softWrap = softWrap,
+    overflow = overflow,
+  )
+}
+
+/**
+ * 텍스트를 그리는 기본적인 컴포저블입니다.
+ *
+ * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
+ * for details.
+ */
+@Composable
+@SugarRefer("team.duckie.quackquack.core.component.QuackText")
+public fun QuackTitle1(
+  modifier: Modifier = sugar(),
+  text: String,
+  singleLine: Boolean = sugar(),
+  softWrap: Boolean = sugar(),
+  overflow: TextOverflow = sugar(),
+): Unit {
+  QuackText(
+    modifier = modifier,
+    text = text,
+    typography = QuackTypography.Title1,
+    singleLine = singleLine,
+    softWrap = softWrap,
+    overflow = overflow,
+  )
+}
+
+/**
+ * 텍스트를 그리는 기본적인 컴포저블입니다.
+ *
+ * This document was auto-generated. Please see [team.duckie.quackquack.core.component.QuackText]
+ * for details.
+ */
+@Composable
+@SugarRefer("team.duckie.quackquack.core.component.QuackText")
+public fun QuackTitle2(
+  modifier: Modifier = sugar(),
+  text: String,
+  singleLine: Boolean = sugar(),
+  softWrap: Boolean = sugar(),
+  overflow: TextOverflow = sugar(),
+): Unit {
+  QuackText(
+    modifier = modifier,
+    text = text,
+    typography = QuackTypography.Title2,
     singleLine = singleLine,
     softWrap = softWrap,
     overflow = overflow,
