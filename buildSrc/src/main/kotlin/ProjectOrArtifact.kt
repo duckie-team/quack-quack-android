@@ -5,8 +5,10 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-plugins {
-    `buildlogic-jvm-kotlin`
-    `buildlogic-kotlin-explicitapi`
-    `buildlogic-quack-mavenpublishing`
+import org.gradle.api.artifacts.ProjectDependency
+
+// TODO: 문서화
+// TODO: implementation
+fun ProjectDependency.orArtifact(): Any {
+    return this
 }

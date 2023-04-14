@@ -5,8 +5,5 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-plugins {
-    `buildlogic-jvm-kotlin`
-    `buildlogic-kotlin-explicitapi`
-    `buildlogic-quack-mavenpublishing`
-}
+// TODO: 문서화
+const val sugarPoet = true

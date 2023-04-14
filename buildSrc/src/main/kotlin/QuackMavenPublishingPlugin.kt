@@ -26,12 +26,18 @@ private const val QuackBaseArtifactId = "team.duckie.quack"
 private const val QuackPublishExtensionName = "quack"
 
 class QuackMavenPublishingPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             applyPlugins(
                 libs.findPlugin("gradle-publish-maven-core").get().get().pluginId,
                 libs.findPlugin("gradle-publish-maven-base").get().get().pluginId,
             )
+
+            tasks.matching { task ->
+                task.name.contains("signMavenPublication")
+            }.configureEach {
+                notCompatibleWithConfigurationCache("https://github.com/vanniktech/gradle-maven-publish-plugin/issues/259")
+            }
 
             group = QuackBaseArtifactId
             val extension = extensions.create<QuackMavenExtension>(QuackPublishExtensionName)

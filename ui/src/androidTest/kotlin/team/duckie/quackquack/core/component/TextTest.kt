@@ -27,8 +27,12 @@ import strikt.api.expectThat
 import strikt.api.expectThrows
 import strikt.assertions.isEqualTo
 import strikt.assertions.withNotNull
+import team.duckie.quackquack.core.QuackText
+import team.duckie.quackquack.core.QuackTextErrors
+import team.duckie.quackquack.core.highlight
 import team.duckie.quackquack.core.material.QuackColor
 import team.duckie.quackquack.core.material.QuackTypography
+import team.duckie.quackquack.core.span
 import team.duckie.quackquack.core.util.isScreenshotSame
 import team.duckie.quackquack.core.util.markGolden
 import team.duckie.quackquack.core.util.markTest

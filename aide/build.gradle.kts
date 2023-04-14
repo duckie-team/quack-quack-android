@@ -6,8 +6,7 @@
  */
 
 plugins {
-    `buildlogic-jvm-kotlin`
-    `kotlin-kapt`
+    `buildlogic-jvm-kotlin` // fix order ("compileOnly" configuration missing)
     `buildlogic-android-lint`
     `buildlogic-test-kotest`
     alias(libs.plugins.kotlin.ksp)

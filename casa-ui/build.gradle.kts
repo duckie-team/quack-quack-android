@@ -11,8 +11,8 @@ plugins {
     `buildlogic-android-library`
     `buildlogic-android-compose`
     `buildlogic-android-compose-metrics`
-    `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
+    `buildlogic-jvm-dokka`
 }
 
 android {
@@ -24,12 +24,12 @@ android {
 }
 
 dependencies {
+    api(projects.casaMaterial.orArtifact())
     implementations(
         libs.kotlin.collections.immutable,
         libs.compose.activity, // needed for BackHandler
         libs.compose.material3,
         libs.compose.uiutil,
-        projects.casaMaterial,
     )
     androidTestImplementations(
         libs.test.strikt,

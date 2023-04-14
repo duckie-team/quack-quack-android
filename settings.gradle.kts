@@ -10,9 +10,7 @@
 rootProject.name = "quack-quack"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-// https://github.com/vanniktech/gradle-maven-publish-plugin/issues/259
-// enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 pluginManagement {
     repositories {

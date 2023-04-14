@@ -7,18 +7,11 @@
 
 @file:Suppress("UnstableApiUsage", "INLINE_FROM_HIGHER_PLATFORM")
 
-import org.jetbrains.dokka.gradle.DokkaTask
-
 plugins {
     `buildlogic-android-library`
-    `buildlogic-kotlin-explicitapi`
     `buildlogic-jvm-dokka`
+    `buildlogic-kotlin-explicitapi`
     `buildlogic-test-kotest`
-}
-
-tasks.withType<DokkaTask> {
-    moduleName.set("QuackQuack-Util")
-    // notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/1217")
 }
 
 android {
@@ -26,9 +19,7 @@ android {
 }
 
 dependencies {
-    implementations(
-        libs.compose.uiutil,
-        libs.compose.foundation,
-    )
+    api(libs.compose.uiutil)
+    implementation(libs.compose.foundation)
     testImplementation(libs.test.strikt)
 }

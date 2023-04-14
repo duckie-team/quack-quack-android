@@ -7,18 +7,11 @@
 
 @file:Suppress("UnstableApiUsage", "INLINE_FROM_HIGHER_PLATFORM")
 
-import org.jetbrains.dokka.gradle.DokkaTask
-
 plugins {
     `buildlogic-android-library`
     `buildlogic-android-compose`
     `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
-}
-
-tasks.withType<DokkaTask> {
-    moduleName.set("QuackQuack-Material")
-    // notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/1217")
 }
 
 android {

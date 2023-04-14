@@ -7,8 +7,6 @@
 
 @file:Suppress("UnstableApiUsage", "INLINE_FROM_HIGHER_PLATFORM")
 
-import org.jetbrains.dokka.gradle.DokkaTask
-
 plugins {
     `buildlogic-android-library`
     `buildlogic-android-compose`
@@ -16,11 +14,6 @@ plugins {
     `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
     alias(libs.plugins.test.paparazzi)
-}
-
-tasks.withType<DokkaTask> {
-    moduleName.set("QuackQuack-Animation")
-    // notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/1217")
 }
 
 android {
@@ -32,10 +25,10 @@ android {
 }
 
 dependencies {
+    api(projects.material.orArtifact())
     implementations(
         libs.compose.animation,
-        projects.util,
-        projects.material,
+        projects.util.orArtifact(),
     )
     androidTestImplementations(
         libs.test.strikt,

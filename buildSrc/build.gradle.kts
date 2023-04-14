@@ -37,10 +37,10 @@ gradlePlugin {
 
 dependencies {
     implementation(libs.gradle.android)
-    implementation(libs.gradle.publish.maven)
     implementation(libs.kotlin.gradle)
     implementation(libs.kotlin.dokka.base)
     implementation(libs.kotlin.dokka.plugin)
+    implementation(libs.gradle.publish.maven)
 }
 
 fun NamedDomainObjectContainer<PluginDeclaration>.pluginAutoRegister(className: String) {

@@ -37,8 +37,8 @@ private const val DOKKA_FOOTER_MESSAGE =
     "made with <span style=\"color: #ff8300;\">❤</span> by <a href=\"https://duckie.team/\">Duckie</a>"
 
 internal abstract class BuildLogicPlugin(private val block: Project.() -> Unit) : Plugin<Project> {
-    final override fun apply(target: Project) {
-        with(target, block = block)
+    final override fun apply(project: Project) {
+        with(project, block = block)
     }
 }
 
@@ -132,9 +132,6 @@ internal class TestJUnitPlugin : BuildLogicPlugin({
         )
     }
 })
-
-// prefix가 `Jvm`이 아니라 `Test`인 이유:
-// 적용 타켓(android or pure)에 따라 `useJUnitPlatform()` 방식이 달라짐
 internal class TestKotestPlugin : BuildLogicPlugin({
     useJUnitPlatformForTarget()
     dependencies.add("implementation", libs.findLibrary("test-kotest-framework").get())
@@ -144,6 +141,7 @@ internal class JvmDokkaPlugin : BuildLogicPlugin({
     applyPlugins(libs.findPlugin("kotlin-dokka").get().get().pluginId)
 
     tasks.withType<DokkaTask> {
+        notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/1217")
         outputDirectory.set(file("$projectDir/document"))
         suppressInheritedMembers.set(true)
 
@@ -172,7 +170,7 @@ internal class KotlinExplicitApiPlugin : BuildLogicPlugin({
 })
 
 // ref: https://kotest.io/docs/quickstart#test-framework
-internal fun Project.useJUnitPlatformForTarget() {
+private fun Project.useJUnitPlatformForTarget() {
     if (isAndroidProject) {
         androidExtensions.testOptions {
             unitTests.all { test ->
