@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-package team.duckie.quackquack.core.material
+package team.duckie.quackquack.animation
 
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.DurationBasedAnimationSpec
@@ -15,13 +15,13 @@ import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Stable
-import team.duckie.quackquack.core.util.DelicateQuackApi
+import team.duckie.quackquack.util.DelicateQuackApi
 
 /**
  * 덕키에서 기본적으로 사용할 애니메이션의 기본 지속 시간
  *
- * Playground 에서 [QuackAnimationMillis] 편집 후 기본값으로 되돌리고
- * 싶을 때 기본값을 참조하기 위해 public 으로 공개합니다.
+ * Playground에서 [QuackAnimationMillis] 편집 후 기본값으로 되돌리고
+ * 싶을 때 기본값을 참조하기 위해 public으로 공개합니다.
  */
 public const val QuackDefaultAnimationMillis: Int = 150
 
@@ -30,7 +30,7 @@ public const val QuackDefaultAnimationMillis: Int = 150
  *
  * 애니메이션 디버깅 용도로 수정을 허용합니다.
  * Transition API를 사용해 애니메이션을 디버깅하는 방법도 있지만
- * 컴포즈에서 Preview가 최적하게 돌아가지 않아 수동 애니메이션 디버깅을 진행합니다.
+ * 컴포즈에서 Preview가 최적하게 돌아가지 않아 수동 애니메이션 디버깅도 고려합니다.
  *
  * Playground에서 자유로운 지속 시간 편집으로 쉬운 디버깅을 위해 public으로 공개합니다.
  */
