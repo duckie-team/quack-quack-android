@@ -34,8 +34,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import team.duckie.quackquack.casa.material.CasaConfig
 import team.duckie.quackquack.casa.material.CasaModel
-import team.duckie.quackquack.casa.ui.data.CasaConfig
 
 // TODO: 문서화
 @Composable
@@ -81,7 +81,7 @@ public fun CasaTopBar(
                         menuExpanded = false
                     },
                 ) {
-                    val sourceUrl = selectedModel?.toSourceUrl() ?: casaConfig.baseSourceUrl
+                    val sourceUrl = selectedModel?.toSourceUrl(casaConfig) ?: casaConfig.baseSourceUrl
 
                     CasaTopBarDropdownMenuContent(
                         sourceUrl = sourceUrl,
@@ -135,7 +135,7 @@ private fun ColumnScope.CasaTopBarDropdownMenuContent(
     DropdownMenuItem(
         onClick = {
             updateMenuExpanded(false)
-            // TODO: 오픈소스 라이선스
+            // TODO(2): 오픈소스 라이선스
         },
         text = {
             Text(text = "Opensource license")

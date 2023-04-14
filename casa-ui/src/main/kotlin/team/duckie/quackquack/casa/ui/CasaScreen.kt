@@ -5,6 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
+@file:Suppress("Wrapping")
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 
 package team.duckie.quackquack.casa.ui
@@ -47,8 +48,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastMap
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import team.duckie.quackquack.casa.material.CasaConfig
 import team.duckie.quackquack.casa.material.CasaModel
-import team.duckie.quackquack.casa.ui.data.CasaConfig
 
 // TODO: 문서화
 @Composable

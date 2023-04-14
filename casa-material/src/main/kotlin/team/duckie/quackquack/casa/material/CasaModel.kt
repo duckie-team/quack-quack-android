@@ -20,5 +20,7 @@ public data class CasaModel(
     val kdocDefaultSection: String,
     val components: ImmutableList<Pair<String, @Composable () -> Unit>>,
 ) {
-    public fun toSourceUrl(): String = "TODO"
+    public fun toSourceUrl(config: CasaConfig): String {
+        return "${config.baseSourceUrl}/$path"
+    }
 }

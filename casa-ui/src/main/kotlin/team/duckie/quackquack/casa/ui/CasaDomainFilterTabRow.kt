@@ -5,6 +5,9 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
+/* ktlint-disable wrapping */
+
+@file:Suppress("Wrapping")
 @file:OptIn(ExperimentalMaterial3Api::class)
 
 package team.duckie.quackquack.casa.ui
@@ -60,7 +63,7 @@ internal fun FilterTabRow(
                 label = {
                     Text(text = domain.lowercase())
                 },
-                leadingIcon = (@Composable { // ktlint-disable parameter-list-wrapping
+                leadingIcon = (@Composable {
                     Icon(
                         imageVector = Icons.Rounded.Done,
                         contentDescription = null,
