@@ -30,7 +30,7 @@ internal fun Project.configureCompose(extension: CommonExtension<*, *, *, *, *>)
         }
 
         dependencies {
-            add("implementation", libs.findLibrary("compose-compiler").get())
+            add("implementation", libs.findLibrary("compose-runtime").get())
         }
     }
 }
