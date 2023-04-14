@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
+/* ktlint-disable wrapping */
+
 @file:Suppress("Wrapping")
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 
