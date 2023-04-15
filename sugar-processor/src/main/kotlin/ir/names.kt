@@ -18,7 +18,6 @@ import team.duckie.quackquack.sugar.material.SugarCompilerApi
 import team.duckie.quackquack.sugar.material.SugarName
 import team.duckie.quackquack.sugar.material.SugarRefer
 import team.duckie.quackquack.sugar.material.SugarToken
-import team.duckie.quackquack.sugar.material.sugar
 
 internal val ComposableFqn = "androidx.compose.runtime.Composable".toFqnClass()
 internal val ComposableCn = ClassName.bestGuess(ComposableFqn.asString())

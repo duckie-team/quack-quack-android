@@ -38,6 +38,7 @@ dependencies {
     implementations(
         libs.compose.activity,
         libs.compose.material3,
+        libs.kotlin.collections.immutable,
         projects.ui,
         projects.casaUi,
         projects.casaMaterial,

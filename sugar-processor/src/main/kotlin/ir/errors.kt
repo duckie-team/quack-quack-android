@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
+@file:OptIn(UnsafeCastFunction::class)
+
 package ir
 
 import org.jetbrains.kotlin.ir.backend.js.utils.asString
@@ -13,6 +15,7 @@ import org.jetbrains.kotlin.ir.declarations.IrValueParameter
 import org.jetbrains.kotlin.ir.expressions.IrClassReference
 import org.jetbrains.kotlin.ir.expressions.IrVarargElement
 import org.jetbrains.kotlin.name.FqName
+import org.jetbrains.kotlin.utils.addToStdlib.UnsafeCastFunction
 import org.jetbrains.kotlin.utils.addToStdlib.cast
 
 internal object NotSupportedError {

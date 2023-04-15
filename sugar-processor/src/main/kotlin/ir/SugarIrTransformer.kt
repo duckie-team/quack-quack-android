@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
+@file:OptIn(UnsafeCastFunction::class)
+
 package ir
 
 import Logger
@@ -21,6 +23,7 @@ import org.jetbrains.kotlin.ir.util.file
 import org.jetbrains.kotlin.ir.util.getAnnotation
 import org.jetbrains.kotlin.ir.util.hasAnnotation
 import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
+import org.jetbrains.kotlin.utils.addToStdlib.UnsafeCastFunction
 import org.jetbrains.kotlin.utils.addToStdlib.cast
 
 internal class SugarIrTransformer(

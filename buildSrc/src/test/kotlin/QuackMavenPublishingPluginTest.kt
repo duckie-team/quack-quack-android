@@ -17,6 +17,7 @@ class QuackMavenPublishingPluginTest : StringSpec() {
         beforeSpec(setUpProjectTestModeRule)
         afterSpec(tearDownProjectTestingRule)
 
+        // TODO: Testing
         "ArtifactConfig.from".config(enabled = false) {
             val mockProject = ProjectBuilder
                 .builder()
