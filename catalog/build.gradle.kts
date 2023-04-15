@@ -13,7 +13,7 @@ plugins {
 }
 
 android {
-    namespace = "team.duckie.quackquack.playground"
+    namespace = "team.duckie.quackquack.catalog"
 
     // https://github.com/Inconnu08/android-ratingreviews/issues/12#issuecomment-573385449
     configurations {
@@ -28,9 +28,7 @@ android {
 // https://github.com/Kotlin/kotlinx.coroutines/issues/2023#issuecomment-662996707
 configurations.all {
     resolutionStrategy {
-        resolutionStrategy {
-            exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-debug")
-        }
+        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-debug")
     }
 }
 
@@ -42,6 +40,5 @@ dependencies {
         projects.ui,
         projects.casaUi,
         projects.casaMaterial,
-        // QuackArtifactType.Core.setInternal().asArtifactFqPath(project),
     )
 }

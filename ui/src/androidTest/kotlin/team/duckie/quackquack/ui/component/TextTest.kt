@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-package team.duckie.quackquack.core.component
+package team.duckie.quackquack.ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.BasicText
@@ -27,18 +27,18 @@ import strikt.api.expectThat
 import strikt.api.expectThrows
 import strikt.assertions.isEqualTo
 import strikt.assertions.withNotNull
-import team.duckie.quackquack.core.QuackText
-import team.duckie.quackquack.core.QuackTextErrors
-import team.duckie.quackquack.core.highlight
-import team.duckie.quackquack.core.material.QuackColor
-import team.duckie.quackquack.core.material.QuackTypography
-import team.duckie.quackquack.core.span
-import team.duckie.quackquack.core.util.isScreenshotSame
-import team.duckie.quackquack.core.util.markGolden
-import team.duckie.quackquack.core.util.markTest
-import team.duckie.quackquack.core.util.onGolden
-import team.duckie.quackquack.core.util.onTest
-import team.duckie.quackquack.core.util.setQuackContent
+import team.duckie.quackquack.material.QuackColor
+import team.duckie.quackquack.material.QuackTypography
+import team.duckie.quackquack.ui.QuackText
+import team.duckie.quackquack.ui.QuackTextErrors
+import team.duckie.quackquack.ui.highlight
+import team.duckie.quackquack.ui.span
+import team.duckie.quackquack.ui.util.isScreenshotSame
+import team.duckie.quackquack.ui.util.markGolden
+import team.duckie.quackquack.ui.util.markTest
+import team.duckie.quackquack.ui.util.onGolden
+import team.duckie.quackquack.ui.util.onTest
+import team.duckie.quackquack.ui.util.setQuackContent
 import team.duckie.quackquack.util.Empty
 
 /**

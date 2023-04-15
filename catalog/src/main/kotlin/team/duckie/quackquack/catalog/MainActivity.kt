@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
  */
 
-package team.duckie.quackquack.playground
+package team.duckie.quackquack.catalog
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

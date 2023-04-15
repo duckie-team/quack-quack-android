@@ -99,10 +99,7 @@ internal data class ArtifactConfig(
 ) {
     companion object {
         fun from(project: Project): ArtifactConfig {
-            val groupSuffix = with(project.name) {
-                if (contains("-")) split("-").first()
-                else this
-            }
+            val groupSuffix = project.name.split("-").first()
             val module = project.name
             val version = project.parseArtifactVersion()
 
