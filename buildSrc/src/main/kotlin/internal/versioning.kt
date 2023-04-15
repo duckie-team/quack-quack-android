@@ -10,7 +10,11 @@ package internal
 import java.io.File
 import org.gradle.api.Project
 
+// TODO: 문서화
+internal var projectTestingMode = false
+
 internal fun Project.parseArtifactVersion(): String {
+    if (projectTestingMode) return "TEST"
     val versionFile = File(projectDir, "version.txt")
     if (!versionFile.exists() || !versionFile.isFile) {
         error(

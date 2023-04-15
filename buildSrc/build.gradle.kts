@@ -12,6 +12,10 @@ plugins {
     alias(libs.plugins.kotlin.dokka)
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
 gradlePlugin {
     val pluginClasses = listOf(
         "AndroidApplicationPlugin",
@@ -41,6 +45,8 @@ dependencies {
     implementation(libs.kotlin.dokka.base)
     implementation(libs.kotlin.dokka.plugin)
     implementation(libs.gradle.publish.maven)
+    testImplementation(libs.test.strikt)
+    testImplementation(libs.test.kotest.framework)
 }
 
 fun NamedDomainObjectContainer<PluginDeclaration>.pluginAutoRegister(className: String) {

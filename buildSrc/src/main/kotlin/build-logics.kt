@@ -134,7 +134,7 @@ internal class TestJUnitPlugin : BuildLogicPlugin({
 })
 internal class TestKotestPlugin : BuildLogicPlugin({
     useJUnitPlatformForTarget()
-    dependencies.add("implementation", libs.findLibrary("test-kotest-framework").get())
+    dependencies.add("testImplementation", libs.findLibrary("test-kotest-framework").get())
 })
 
 internal class JvmDokkaPlugin : BuildLogicPlugin({
