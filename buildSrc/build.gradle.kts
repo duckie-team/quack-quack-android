@@ -5,13 +5,15 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
  */
 
-@file:Suppress("DSL_SCOPE_VIOLATION")
-
 private val buildLogicPrefix = "quackquack"
 
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.kotlin.dokka)
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
 
 gradlePlugin {
@@ -39,10 +41,12 @@ gradlePlugin {
 
 dependencies {
     implementation(libs.gradle.android)
-    implementation(libs.gradle.publish.maven)
     implementation(libs.kotlin.gradle)
     implementation(libs.kotlin.dokka.base)
     implementation(libs.kotlin.dokka.plugin)
+    implementation(libs.gradle.publish.maven)
+    testImplementation(libs.test.strikt)
+    testImplementation(libs.test.kotest.framework)
 }
 
 fun NamedDomainObjectContainer<PluginDeclaration>.pluginAutoRegister(className: String) {

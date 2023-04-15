@@ -10,7 +10,3 @@ plugins {
     `buildlogic-kotlin-explicitapi`
     `buildlogic-quack-mavenpublishing`
 }
-
-quack {
-    type = QuackArtifactType.CoreAideAnnotation.setInternal()
-}

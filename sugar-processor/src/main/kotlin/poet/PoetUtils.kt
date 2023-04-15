@@ -14,7 +14,11 @@ import ir.SugarIrData
 import ir.SugarTokenName
 import org.jetbrains.kotlin.name.FqName
 
+// TODO: Testing
 internal fun String.bestGuessToKotlinPackageName(): String {
+    if (contains("src/main/java/")) {
+        error("The given package is a Java package.")
+    }
     return substringAfter("src/main/kotlin/").replace("/", ".")
 }
 

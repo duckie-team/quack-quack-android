@@ -27,6 +27,7 @@ internal const val QuackComponentPrefix = SugarName.PREFIX_NAME
 internal const val SugarDefaultName = SugarName.DEFAULT_NAME
 internal const val SugarTokenName = SugarName.TOKEN_NAME
 
+// sugar 함수에 리플렉션으로 접근 불가
 internal val SugarFqn = "team.duckie.quackquack.sugar.material.sugar".toFqnClass()
 internal val SugarNameFqn = SugarName::class.qualifiedName!!.toFqnClass()
 internal val SugarTokenFqn = SugarToken::class.qualifiedName!!.toFqnClass()

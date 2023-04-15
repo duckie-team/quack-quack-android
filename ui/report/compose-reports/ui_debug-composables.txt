@@ -1,0 +1,93 @@
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBody1(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-singleLine$fun-QuackBody1()
+  stable softWrap: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-softWrap$fun-QuackBody1()
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBody2(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-singleLine$fun-QuackBody1()
+  stable softWrap: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-softWrap$fun-QuackBody1()
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBody3(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-singleLine$fun-QuackBody1()
+  stable softWrap: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-softWrap$fun-QuackBody1()
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackHeadLine1(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-singleLine$fun-QuackBody1()
+  stable softWrap: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-softWrap$fun-QuackBody1()
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackHeadLine2(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-singleLine$fun-QuackBody1()
+  stable softWrap: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-softWrap$fun-QuackBody1()
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackLarge1(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-singleLine$fun-QuackBody1()
+  stable softWrap: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-softWrap$fun-QuackBody1()
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackSubtitle(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-singleLine$fun-QuackBody1()
+  stable softWrap: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-softWrap$fun-QuackBody1()
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackSubtitle2(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-singleLine$fun-QuackBody1()
+  stable softWrap: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-softWrap$fun-QuackBody1()
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackTitle1(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-singleLine$fun-QuackBody1()
+  stable softWrap: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-softWrap$fun-QuackBody1()
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackTitle2(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable singleLine: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-singleLine$fun-QuackBody1()
+  stable softWrap: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-softWrap$fun-QuackBody1()
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackText(
+  stable modifier: Modifier? = @static Companion
+  stable text: String
+  stable typography: QuackTypography
+  stable singleLine: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-singleLine$fun-QuackBody1()
+  stable softWrap: Boolean = @dynamic LiveLiterals$TextKt.Boolean$param-softWrap$fun-QuackBody1()
+  stable overflow: TextOverflow = @static Companion.Ellipsis
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackClickableText(
+  stable modifier: Modifier
+  stable text: String
+  stable highlightData: HighlightData
+  stable style: QuackTypography
+  stable softWrap: Boolean
+  stable overflow: TextOverflow
+  stable maxLines: Int
+)
+fun rememberSpanAnnotatedString(
+  stable text: String
+  unstable spanTexts: List<String>
+  stable spanStyle: SpanStyle
+  unstable annotationTexts: List<String>
+): AnnotatedString

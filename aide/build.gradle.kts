@@ -5,11 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-@file:Suppress("DSL_SCOPE_VIOLATION")
-
 plugins {
-    `buildlogic-jvm-kotlin`
-    `kotlin-kapt`
+    `buildlogic-jvm-kotlin` // fix order ("compileOnly" configuration missing)
     `buildlogic-android-lint`
     `buildlogic-test-kotest`
     alias(libs.plugins.kotlin.ksp)

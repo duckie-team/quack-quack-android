@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-package team.duckie.quackquack.core.component
+package team.duckie.quackquack.ui
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.text.BasicText

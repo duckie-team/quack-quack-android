@@ -15,7 +15,7 @@ import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.CompilerConfigurationKey
 
-internal const val PluginId = "team.duckie.quackquack.sugar.processor.kotlinc"
+internal const val PluginId = "team.duckie.quackquack.sugar.processor"
 
 internal val KEY_SUGAR_PATH = CompilerConfigurationKey<String>(
     "Where the sugar components will be created - required",

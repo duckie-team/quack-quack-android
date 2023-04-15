@@ -13,66 +13,59 @@ import internal.parseArtifactVersion
 import java.time.LocalDate
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.logging.LogLevel
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.annotations.VisibleForTesting
 
 private const val RepositoryName = "duckie-team/quack-quack-android"
-private const val QuackBaseArtifactId = "team.duckie.quack"
-private const val QuackPublishExtensionName = "quack"
+private const val QuackBaseGroupId = "team.duckie.quackquack"
 
 class QuackMavenPublishingPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             applyPlugins(
                 libs.findPlugin("gradle-publish-maven-core").get().get().pluginId,
                 libs.findPlugin("gradle-publish-maven-base").get().get().pluginId,
             )
 
-            group = QuackBaseArtifactId
-            val extension = extensions.create<QuackMavenExtension>(QuackPublishExtensionName)
+            tasks.matching { task ->
+                task.name.contains("signMavenPublication")
+            }.configureEach {
+                notCompatibleWithConfigurationCache("https://github.com/vanniktech/gradle-maven-publish-plugin/issues/259")
+            }
 
-            afterEvaluate {
-                if (!extension.isInitialized) {
-                    logger.log(
-                        LogLevel.WARN,
-                        "QuackMavenExtension 초기화가 누락되었습니다. quack 초기화가 필요합니다.",
-                    )
-                    return@afterEvaluate
+            val (group, module, version) = ArtifactConfig.from(this)
+            this.group = group
+            this.version = version
+
+            extensions.configure<PublishingExtension> {
+                publications.withType<MavenPublication> {
+                    artifactId = module
                 }
+            }
 
-                version = parseArtifactVersion()
+            extensions.configure<MavenPublishBaseExtension> {
+                publishToMavenCentral(
+                    host = SonatypeHost.S01,
+                    automaticRelease = true,
+                )
 
-                extensions.configure<PublishingExtension> {
-                    publications.withType<MavenPublication> {
-                        artifactId = extension.type.asArtifactId()
-                    }
-                }
+                signAllPublications()
 
-                extensions.configure<MavenPublishBaseExtension> {
-                    publishToMavenCentral(
-                        host = SonatypeHost.S01,
-                        automaticRelease = true,
-                    )
-
-                    signAllPublications()
-
-                    pom {
-                        configureMavenPom(extension)
-                    }
+                pom {
+                    configureMavenPom(module)
                 }
             }
         }
     }
 }
 
-private fun MavenPom.configureMavenPom(extension: QuackMavenExtension) {
-    name.set(extension.type.artifactId)
-    description.set(extension.type.description)
+private fun MavenPom.configureMavenPom(artifactName: String) {
+    name.set(artifactName)
+    description.set("https://github.com/$RepositoryName")
     inceptionYear.set(LocalDate.now().year.toString())
     url.set("https://github.com/$RepositoryName")
     licenses {
@@ -96,70 +89,28 @@ private fun MavenPom.configureMavenPom(extension: QuackMavenExtension) {
     }
 }
 
-open class QuackMavenExtension {
-    open lateinit var type: QuackArtifactType
-
-    internal val isInitialized get() = ::type.isInitialized
-
-    override fun toString() = """
-        artifactId: ${type.artifactId}
-        description: ${type.description}
-        level: ${type.level}
-    """.trimIndent()
-}
-
-enum class QuackArtifactType(
-    internal val artifactId: String,
-    internal val description: String,
-    internal var level: ArtifactLevel = ArtifactLevel.Public,
+// TOOD: Testing
+// Testing ref: https://discuss.gradle.org/t/testing-and-mocking-techniques/7064/2
+@VisibleForTesting
+internal data class ArtifactConfig(
+    val group: String,
+    val module: String,
+    val version: String,
 ) {
-    BOM(
-        artifactId = "quackquack-bom",
-        description = "Duckie's design system artifacts BOM",
-    ),
-    Core(
-        artifactId = "quackquack-core",
-        description = "The UI components of the Duckie design system",
-    ),
-    CoreAide(
-        artifactId = "quackquack-core-aide",
-        description = "Design convention lint for the Duckie design system",
-    ),
-    CoreAideAnnotation(
-        artifactId = "quackquack-core-aide-annotation",
-        description = "Marker annotations for CoreAide",
-    ),
-    CoreAideProcessor(
-        artifactId = "quackquack-core-aide-processor",
-        description = "Kotlin Symbol Processing for CoreAideAnnotation",
-    ),
-    CoreSugarMaterial(
-        artifactId = "quackquack-core-sugar-material",
-        description = "Materials for CoreSugar",
-    ),
-    CoreSugarProcessorKotlinc(
-        artifactId = "quackquack-core-sugar-processor-kotlinc",
-        description = "Kotlin Compiler Plugin for CoreSugarAnnotation",
-    ),
-    DokkaPaparazziIntegrate(
-        artifactId = "dokka-paparazzi-integrate",
-        description = "DokkaPlugin to integrate Dokka and Paparazzi",
-    );
+    companion object {
+        fun from(project: Project): ArtifactConfig {
+            val groupSuffix = with(project.name) {
+                if (contains("-")) split("-").first()
+                else this
+            }
+            val module = project.name
+            val version = project.parseArtifactVersion()
 
-    fun asArtifactId(): String {
-        return artifactId + if (level == ArtifactLevel.Internal) "-internal" else ""
+            return ArtifactConfig(
+                group = "$QuackBaseGroupId:$groupSuffix",
+                module = module,
+                version = version,
+            )
+        }
     }
-
-    fun asArtifactFqPath(project: Project): String {
-        return "$QuackBaseArtifactId:${asArtifactId()}:${project.parseArtifactVersion()}"
-    }
-
-    fun setInternal(): QuackArtifactType {
-        return apply { level = ArtifactLevel.Internal }
-    }
-}
-
-internal enum class ArtifactLevel {
-    Public,
-    Internal,
 }
