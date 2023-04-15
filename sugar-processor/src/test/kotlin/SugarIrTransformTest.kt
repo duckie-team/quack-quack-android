@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-@file:OptIn(ExperimentalCompilerApi::class)
+@file:OptIn(ExperimentalCompilerApi::class, UnsafeCastFunction::class)
 @file:Suppress(
     "RedundantUnitReturnType",
     "RedundantVisibilityModifier",
@@ -24,6 +24,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.engine.spec.tempdir
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.JvmTarget
+import org.jetbrains.kotlin.utils.addToStdlib.UnsafeCastFunction
 import org.jetbrains.kotlin.utils.addToStdlib.cast
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
