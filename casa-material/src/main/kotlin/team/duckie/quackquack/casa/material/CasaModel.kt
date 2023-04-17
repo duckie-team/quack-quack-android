@@ -15,12 +15,11 @@ import kotlinx.collections.immutable.ImmutableList
 @Immutable
 public data class CasaModel(
     val name: String,
-    val path: String,
     val domain: String,
     val kdocDefaultSection: String,
     val components: ImmutableList<Pair<String, @Composable () -> Unit>>,
 ) {
     public fun toSourceUrl(config: CasaConfig): String {
-        return "${config.baseSourceUrl}/$path"
+        return "${config.baseSourceUrl}/$domain"
     }
 }

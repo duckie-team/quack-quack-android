@@ -8,10 +8,14 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
 plugins {
-    `buildlogic-jvm-kotlin`
+    `buildlogic-android-library`
     `buildlogic-jvm-dokka`
     `buildlogic-test-kotest`
     alias(libs.plugins.kotlin.ksp)
+}
+
+android {
+    namespace = ""
 }
 
 ksp {
@@ -22,9 +26,13 @@ ksp {
 dependencies {
     ksp(libs.google.autoservice.ksp.processor)
     implementations(
+        libs.kotlin.reflect,
         libs.kotlin.ksp.api,
         libs.kotlin.kotlinpoet.core,
+        libs.kotlin.collections.immutable,
         libs.google.autoservice.annotation,
+        projects.casaMaterial,
+        projects.sugarMaterial,
     )
     testImplementations(
         libs.test.strikt,
