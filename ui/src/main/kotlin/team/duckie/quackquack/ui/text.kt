@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
 import team.duckie.quackquack.aide.annotation.DecorateModifier
+import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.runtime.QuackDataModifierModel
@@ -171,7 +172,7 @@ internal object QuackTextErrors {
 @Composable
 public fun QuackText(
     modifier: Modifier = Modifier,
-    text: String,
+    @CasaValue("\"QuackText\"") text: String,
     @SugarToken typography: QuackTypography,
     singleLine: Boolean = false,
     softWrap: Boolean = true,
