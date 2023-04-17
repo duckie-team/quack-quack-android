@@ -3,7 +3,7 @@
 // @formatter:off
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
-    "UnusedImport", "ktlint")
+    "UnusedImport", "NoUnusedImports", "ktlint")
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,7 +29,9 @@ import team.duckie.quackquack.ui.sugar.QuackTitle2
 private val textQuackTextCasaModel: CasaModel = CasaModel(
   name = "QuackText",
   domain = "text",
-  kdocDefaultSection = "텍스트를 그리는 기본적인 컴포저블입니다.",
+  kdocDefaultSection = """
+      |텍스트를 그리는 기본적인 컴포저블입니다.
+      |""".trimMargin(),
   components = persistentListOf<Pair<String, @Composable () -> Unit>>(
       "QuackBody1" to { QuackBody1(
           text = "QuackText",
