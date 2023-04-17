@@ -8,7 +8,6 @@
 package team.duckie.quackquack.casa.annotation
 
 import kotlin.reflect.KClass
-import org.intellij.lang.annotations.Language
 
 // TODO: 문서화
 @MustBeDocumented
@@ -20,7 +19,7 @@ public annotation class Casa
 @MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.SOURCE)
-public annotation class CasaValue(@Language("kotlin") val literal: String)
+public annotation class CasaValue(val literal: String)
 
 // TODO: 문서화
 @MustBeDocumented

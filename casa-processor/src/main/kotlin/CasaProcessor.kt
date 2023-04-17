@@ -31,20 +31,23 @@ private const val FormatterOffComment = "\n@formatter:off"
 private val suppressAnnotation = AnnotationSpec
     .builder(Suppress::class)
     .addMember(
-        "%S, %S, %S, %S, %S, %S",
+        "%S, %S, %S, %S, %S, %S, %S, %S",
         "NoConsecutiveBlankLines",
         "PackageDirectoryMismatch",
         "Wrapping",
         "TrailingCommaOnCallSite",
         "ArgumentListWrapping",
+        "RedundantVisibilityModifier",
+        "UnusedImport",
         "ktlint",
     )
     .useSiteTarget(AnnotationSpec.UseSiteTarget.FILE)
     .build()
 
-private val immutableCollectionImports = listOf(
+private val requiredImports = listOf(
     "kotlinx.collections.immutable.persistentListOf",
     "kotlinx.collections.immutable.toImmutableList",
+    "androidx.compose.runtime.Composable",
 )
 
 private const val SugarReferSn = "SugarRefer"
@@ -83,7 +86,8 @@ private fun KSFunctionDeclaration.parseSugarRefer(): String {
     return sugarRefer.arguments.first().value as String
 }
 
-private fun KSFunctionDeclaration.toCasaComponentLiteral(): String {
+private fun KSFunctionDeclaration.toCasaComponentLiteralWithImport(): Pair<String, String> {
+    val import = "team.duckie.quackquack.ui.sugar.${simpleName.asString()}"
     val parameterValueMap = parameters.mapNotNull { parameter ->
         if (parameter.hasDefault) {
             return@mapNotNull null
@@ -93,27 +97,29 @@ private fun KSFunctionDeclaration.toCasaComponentLiteral(): String {
             annotation.shortName.asString() == CasaValueSn
         }
         if (value != null) {
-            name to value
+            name to value.arguments.single().value as String
         } else if (parameter.type.resolve().isMarkedNullable) {
             name to "null"
         } else {
             error("Argument $name is non-null and no `CasaValue` was provided.")
         }
     }
-
-    return buildString {
+    val componentLiteral = buildString {
         appendLine("${simpleName.asString()}(")
         parameterValueMap.forEach { (name, value) ->
             appendLineWithIndent("$name = $value,")
         }
         append(")")
     }
+
+    return import to componentLiteral
 }
 
-private fun StringBuilder.appendCasaComponentPair(casa: KSFunctionDeclaration): StringBuilder {
+private fun StringBuilder.appendCasaComponentPairWithImport(casa: KSFunctionDeclaration): Pair<String, StringBuilder> {
     val name = casa.simpleName.asString()
-    val component = "{ ${casa.toCasaComponentLiteral()} }"
-    return append("$name to $component")
+    val (import, componentLiteral) = casa.toCasaComponentLiteralWithImport()
+    val component = "{ $componentLiteral }"
+    return import to append("\"$name\" to $component")
 }
 
 private fun createCasaModelPropertySpecWithImports(
@@ -123,12 +129,17 @@ private fun createCasaModelPropertySpecWithImports(
 ): Pair<List<String>, PropertySpec> {
     val imports = casas.first().parameters.map { parameter ->
         parameter.type.resolve().declaration.qualifiedName!!.asString()
-    }
+    }.toMutableList()
     val kdocString = casas.first().docString.orEmpty()
+        .split("This document was auto-generated.")
+        .first()
+        .trimIndent()
     val components = buildString {
-        appendLine("persistentListOf(")
+        appendLine("persistentListOf<Pair<String, @Composable () -> Unit>>(")
         casas.forEach { casa ->
-            appendCasaComponentPair(casa = casa)
+            appendCasaComponentPairWithImport(casa = casa).first.let { import ->
+                imports += import
+            }
             appendLine(",")
         }
         append(").toImmutableList()")
@@ -144,10 +155,10 @@ private fun createCasaModelPropertySpecWithImports(
             codeBlock = buildCodeBlock {
                 addStatement("CasaModel(")
                 withIndent {
-                    addStatement("name = %S", name)
-                    addStatement("domain = %S", domain)
-                    addStatement("kdocDefaultSection = %S", kdocString)
-                    addStatement("components = %L", components)
+                    addStatement("name = %S,", name)
+                    addStatement("domain = %S,", domain)
+                    addStatement("kdocDefaultSection = %S,", kdocString)
+                    addStatement("components = %L,", components)
                 }
                 addStatement(")")
             },
@@ -164,7 +175,7 @@ private fun generateCasaModels(
     casaPath: String?,
 ) {
     val imports = mutableListOf<String>().also { imports ->
-        imports += immutableCollectionImports
+        imports += requiredImports
     }
     val casasWithDomainGroup = casas.groupBy { declaration ->
         declaration.requireContainingFile.fileName.removeSuffix(".kt")
