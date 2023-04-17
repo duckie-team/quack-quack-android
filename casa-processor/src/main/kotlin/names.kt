@@ -6,9 +6,9 @@
  */
 
 import com.squareup.kotlinpoet.ClassName
-import team.duckie.quackquack.casa.annotation.Casa
-import team.duckie.quackquack.casa.annotation.CasaValues
 
-internal val CasaFqn = Casa::class.qualifiedName!!
-internal val CasaValuesFqn = CasaValues::class.qualifiedName!!
+internal const val SugarReferSn = "SugarRefer"
+
+internal const val CasaFqn = "team.duckie.quackquack.casa.annotation.Casa"
+internal const val CasaValueSn = "CasaValue"
 internal val CasaModelCn = ClassName(packageName = "team.duckie.quackquack.casa.material", "CasaModel")

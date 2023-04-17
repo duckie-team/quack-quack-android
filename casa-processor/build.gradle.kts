@@ -27,8 +27,6 @@ dependencies {
         libs.kotlin.kotlinpoet.core,
         libs.kotlin.collections.immutable,
         libs.google.autoservice.annotation,
-        projects.casaAnnotation,
-        projects.sugarMaterial,
     )
     testImplementations(
         libs.test.strikt,

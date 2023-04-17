@@ -6,34 +6,17 @@
  */
 
 // copied from kotlin-stdlib
-internal inline fun <T, V> Sequence<T>.singleWithTransform(predicate: (T) -> Pair<Boolean, V?>): V {
-    var single: V? = null
-    var found = false
-    for (element in this) {
-        val (find, transform) = predicate(element)
-        if (find) {
-            if (found) {
+internal fun <T> Sequence<T>.singleOrNullStrict(predicate: (T) -> Boolean): T? {
+    var single: T? = null
+    val iterator = iterator()
+    while (iterator.hasNext()) {
+        val element = iterator.next()
+        if (predicate(element)) {
+            if (single != null) {
                 throw IllegalArgumentException("Sequence contains more than one matching element.")
             }
-            single = transform ?: error("The element cannot be transformed to null.")
-            found = true
+            single = element
         }
-    }
-    if (!found) {
-        throw NoSuchElementException("Sequence contains no element matching the predicate.")
-    }
-    return single!!
-}
-
-// copied from kotlin-stdlib
-internal fun <T> Sequence<T>.singleOrNullStrict(): T? {
-    val iterator = iterator()
-    if (!iterator.hasNext()) {
-        return null
-    }
-    val single = iterator.next()
-    if (iterator.hasNext()) {
-        throw IllegalArgumentException("Sequence contains more than one matching element.")
     }
     return single
 }
