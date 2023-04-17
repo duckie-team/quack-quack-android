@@ -76,6 +76,7 @@ class SugarPoetTest : StringSpec() {
                     import kotlin.String
                     import kotlin.Suppress
                     import kotlin.Unit
+                    import team.duckie.quackquack.casa.`annotation`.Casa
                     import team.duckie.quackquack.sugar.material.GeneratedFile
                     import team.duckie.quackquack.sugar.material.SugarCompilerApi
                     import team.duckie.quackquack.sugar.material.SugarRefer
@@ -85,6 +86,7 @@ class SugarPoetTest : StringSpec() {
                      * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
+                    @Casa
                     @SugarRefer("QuackText")
                     public fun QuackOneText(
                       modifier: Modifier = sugar(),
@@ -105,6 +107,7 @@ class SugarPoetTest : StringSpec() {
                      * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
+                    @Casa
                     @SugarRefer("QuackText")
                     public fun QuackTwoText(
                       modifier: Modifier = sugar(),
@@ -125,6 +128,7 @@ class SugarPoetTest : StringSpec() {
                      * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
+                    @Casa
                     @SugarRefer("QuackText")
                     public fun QuackThreeText(
                       modifier: Modifier = sugar(),
@@ -200,6 +204,7 @@ class SugarPoetTest : StringSpec() {
                     import kotlin.String
                     import kotlin.Suppress
                     import kotlin.Unit
+                    import team.duckie.quackquack.casa.`annotation`.Casa
                     import team.duckie.quackquack.sugar.material.GeneratedFile
                     import team.duckie.quackquack.sugar.material.SugarCompilerApi
                     import team.duckie.quackquack.sugar.material.SugarRefer
@@ -211,6 +216,7 @@ class SugarPoetTest : StringSpec() {
                      * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
+                    @Casa
                     @SugarRefer("QuackText")
                     public fun QuackAwesomeOne(
                       modifier: Modifier = sugar(),
@@ -233,6 +239,7 @@ class SugarPoetTest : StringSpec() {
                      * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
+                    @Casa
                     @SugarRefer("QuackText")
                     public fun QuackAwesomeTwo(
                       modifier: Modifier = sugar(),
@@ -255,6 +262,7 @@ class SugarPoetTest : StringSpec() {
                      * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
+                    @Casa
                     @SugarRefer("QuackText")
                     public fun QuackAwesomeThree(
                       modifier: Modifier = sugar(),
@@ -321,6 +329,7 @@ class SugarPoetTest : StringSpec() {
                     import kotlin.String
                     import kotlin.Suppress
                     import kotlin.Unit
+                    import team.duckie.quackquack.casa.`annotation`.Casa
                     import team.duckie.quackquack.sugar.material.GeneratedFile
                     import team.duckie.quackquack.sugar.material.SugarCompilerApi
                     import team.duckie.quackquack.sugar.material.SugarRefer
@@ -330,6 +339,7 @@ class SugarPoetTest : StringSpec() {
                      * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
+                    @Casa
                     @SugarRefer("QuackText")
                     public fun QuackOneText(
                       modifier: Modifier = sugar(),
@@ -350,6 +360,7 @@ class SugarPoetTest : StringSpec() {
                      * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
+                    @Casa
                     @SugarRefer("QuackText")
                     public fun QuackTwoText(
                       modifier: Modifier = sugar(),
@@ -370,6 +381,7 @@ class SugarPoetTest : StringSpec() {
                      * This document was auto-generated. Please see [QuackText] for details.
                      */
                     @Composable
+                    @Casa
                     @SugarRefer("QuackText")
                     public fun QuackThreeText(
                       modifier: Modifier = sugar(),
