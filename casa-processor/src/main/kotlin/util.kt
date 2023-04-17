@@ -12,8 +12,8 @@ internal fun <T> Sequence<T>.singleOrNullStrict(predicate: (T) -> Boolean): T? {
     while (iterator.hasNext()) {
         val element = iterator.next()
         if (predicate(element)) {
-            if (single != null) {
-                throw IllegalArgumentException("Sequence contains more than one matching element.")
+            require(single == null) {
+                "Sequence contains more than one matching element."
             }
             single = element
         }

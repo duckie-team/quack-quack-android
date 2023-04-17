@@ -52,15 +52,16 @@ private fun KSFunctionDeclaration.parseSugarRefer(): String {
 
 private fun KSFunctionDeclaration.toCasaComponentLiteral(): String {
     val parameterValueMap = parameters.mapNotNull { parameter ->
-        if(parameter.hasDefault) return@mapNotNull null
+        if (parameter.hasDefault) {
+            return@mapNotNull null
+        }
         val name = parameter.name!!.asString()
         val value = parameter.annotations.singleOrNullStrict { annotation ->
             annotation.shortName.asString() == CasaValueSn
         }
         if (value != null) {
             name to value
-        }
-        else if (parameter.type.resolve().isMarkedNullable) {
+        } else if (parameter.type.resolve().isMarkedNullable) {
             name to "null"
         } else {
             error("Argument $name is non-null and no `CasaValue` was provided.")

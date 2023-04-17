@@ -11,4 +11,7 @@ internal const val SugarReferSn = "SugarRefer"
 
 internal const val CasaFqn = "team.duckie.quackquack.casa.annotation.Casa"
 internal const val CasaValueSn = "CasaValue"
-internal val CasaModelCn = ClassName(packageName = "team.duckie.quackquack.casa.material", "CasaModel")
+internal val CasaModelCn = ClassName(
+    packageName = "team.duckie.quackquack.casa.material",
+    "CasaModel",
+)

@@ -9,7 +9,6 @@
 
 plugins {
     `buildlogic-jvm-kotlin`
-    `buildlogic-jvm-dokka`
     `buildlogic-test-kotest`
     alias(libs.plugins.kotlin.ksp)
 }
