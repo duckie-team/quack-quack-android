@@ -25,6 +25,7 @@ dependencies {
     implementations(
         libs.google.autoservice.annotation,
         libs.kotlin.kotlinpoet.core,
+        projects.casaAnnotation.orArtifact(),
         projects.sugarMaterial.orArtifact(),
     )
     ksp(libs.google.autoservice.ksp.processor)

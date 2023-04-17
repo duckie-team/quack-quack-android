@@ -9,7 +9,6 @@
 
 plugins {
     `buildlogic-jvm-kotlin`
-    `buildlogic-jvm-dokka`
     `buildlogic-test-kotest`
     alias(libs.plugins.kotlin.ksp)
 }
@@ -22,8 +21,10 @@ ksp {
 dependencies {
     ksp(libs.google.autoservice.ksp.processor)
     implementations(
+        libs.kotlin.reflect,
         libs.kotlin.ksp.api,
         libs.kotlin.kotlinpoet.core,
+        libs.kotlin.collections.immutable,
         libs.google.autoservice.annotation,
     )
     testImplementations(

@@ -118,6 +118,11 @@ private fun checkCustomSugarNameIsValid(name: String) {
 }
 
 private fun IrValueParameter.toSugarParameter(isToken: Boolean): SugarParameter {
+    val casaValue = getAnnotation(CasaValueFqn)?.let { casaValueAnnotation ->
+        // Assuming the first argument is always "literal"
+        val casaValueExpression = casaValueAnnotation.getValueArgument(0)
+        casaValueExpression.cast<IrConst<String>>().value
+    }
     val sugarImports = getAnnotation(ImportsFqn)?.let { sugarImportsAnnotation ->
         // Assuming the first argument is always "clazz"
         val sugarImportsExpression = sugarImportsAnnotation.getValueArgument(0)
@@ -132,8 +137,8 @@ private fun IrValueParameter.toSugarParameter(isToken: Boolean): SugarParameter 
         name = name,
         type = type,
         isToken = isToken,
-        isComposable = hasAnnotation(ComposableFqn),
         imports = sugarImports.orEmpty(),
+        casaValueLiteral = casaValue,
         defaultValue = defaultValue,
     )
 }

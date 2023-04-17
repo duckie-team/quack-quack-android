@@ -11,6 +11,8 @@ package ir
 
 import com.squareup.kotlinpoet.ClassName
 import org.jetbrains.kotlin.name.FqName
+import team.duckie.quackquack.casa.annotation.Casa
+import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.sugar.material.GeneratedFile
 import team.duckie.quackquack.sugar.material.Imports
 import team.duckie.quackquack.sugar.material.NoSugar
@@ -26,6 +28,9 @@ internal const val QuackComponentPrefix = SugarName.PREFIX_NAME
 
 internal const val SugarDefaultName = SugarName.DEFAULT_NAME
 internal const val SugarTokenName = SugarName.TOKEN_NAME
+
+internal val CasaCn = ClassName.bestGuess(Casa::class.qualifiedName!!)
+internal val CasaValueFqn = CasaValue::class.qualifiedName!!.toFqnClass()
 
 // sugar 함수에 리플렉션으로 접근 불가
 internal val SugarFqn = "team.duckie.quackquack.sugar.material.sugar".toFqnClass()
