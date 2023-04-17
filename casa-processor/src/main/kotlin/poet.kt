@@ -18,12 +18,12 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import java.io.File
 import kotlinx.collections.immutable.ImmutableList
-import team.duckie.quackquack.casa.material.CasaModel
-import team.duckie.quackquack.casa.material.CasaValue
+import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.sugar.material.SugarCompilerApi
 import team.duckie.quackquack.sugar.material.SugarRefer
 
@@ -117,7 +117,7 @@ private fun createCasaModelPropertySpecWithImports(
     val casaModelPropertySpec = PropertySpec
         .builder(
             name = "${domain}${name}CasaModel",
-            type = CasaModel::class,
+            type = CasaModelCn,
         )
         .addModifiers(KModifier.PRIVATE)
         .initializer(
@@ -176,7 +176,7 @@ internal fun generateCasaModels(
     val casaModelPropertySpecsAccessor = PropertySpec
         .builder(
             name = "casaModels",
-            type = ImmutableList::class.parameterizedBy(CasaModel::class),
+            type = ImmutableList::class.asClassName().parameterizedBy(CasaModelCn),
         )
         .initializer(
             codeBlock = buildCodeBlock {

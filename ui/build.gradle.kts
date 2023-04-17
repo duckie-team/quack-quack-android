@@ -46,6 +46,7 @@ android {
 
 ksp {
     arg("AidePath", "$rootDir/aide/src/main/kotlin/rule")
+    arg("CasaPath", "$rootDir/catalog/src/main/kotlin/team/duckie/quackquack/catalog")
 }
 
 dependencies {
@@ -55,6 +56,7 @@ dependencies {
         libs.compose.material,
         projects.util.orArtifact(),
         projects.runtime.orArtifact(),
+        projects.casaAnnotation.orArtifact(),
         projects.sugarMaterial.orArtifact(),
         projects.aideAnnotation.orArtifact(),
     )
@@ -68,6 +70,9 @@ dependencies {
     lintPublish(projects.aide.orArtifact())
 
     if (!useArtifact) {
-        ksp(projects.aideProcessor)
+        ksps(
+            projects.aideProcessor,
+            projects.casaProcessor,
+        )
     }
 }

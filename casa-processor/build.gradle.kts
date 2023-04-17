@@ -8,14 +8,10 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
 plugins {
-    `buildlogic-android-library`
+    `buildlogic-jvm-kotlin`
     `buildlogic-jvm-dokka`
     `buildlogic-test-kotest`
     alias(libs.plugins.kotlin.ksp)
-}
-
-android {
-    namespace = ""
 }
 
 ksp {
@@ -31,7 +27,7 @@ dependencies {
         libs.kotlin.kotlinpoet.core,
         libs.kotlin.collections.immutable,
         libs.google.autoservice.annotation,
-        projects.casaMaterial,
+        projects.casaAnnotation,
         projects.sugarMaterial,
     )
     testImplementations(

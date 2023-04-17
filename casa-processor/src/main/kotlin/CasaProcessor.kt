@@ -17,7 +17,7 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.validate
 import kotlin.reflect.full.createInstance
-import team.duckie.quackquack.casa.material.CasaValues
+import team.duckie.quackquack.casa.annotation.CasaValues
 
 internal class CasaProcessor(
     private val codeGenerator: CodeGenerator,

@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
  */
 
-package team.duckie.quackquack.casa.material
+package team.duckie.quackquack.casa.annotation
 
 import kotlin.reflect.KClass
 import org.intellij.lang.annotations.Language
