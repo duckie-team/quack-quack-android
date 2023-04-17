@@ -16,6 +16,8 @@ import kotlin.OptIn
 import kotlin.String
 import kotlin.Suppress
 import kotlin.Unit
+import team.duckie.quackquack.casa.`annotation`.Casa
+import team.duckie.quackquack.casa.`annotation`.CasaValue
 import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.sugar.material.GeneratedFile
 import team.duckie.quackquack.sugar.material.SugarCompilerApi
@@ -29,10 +31,11 @@ import team.duckie.quackquack.ui.QuackText
  * This document was auto-generated. Please see [team.duckie.quackquack.ui.QuackText] for details.
  */
 @Composable
+@Casa
 @SugarRefer("team.duckie.quackquack.ui.QuackText")
 public fun QuackBody1(
   modifier: Modifier = sugar(),
-  text: String,
+  @CasaValue("\"QuackText\"") text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
   overflow: TextOverflow = sugar(),
@@ -53,10 +56,11 @@ public fun QuackBody1(
  * This document was auto-generated. Please see [team.duckie.quackquack.ui.QuackText] for details.
  */
 @Composable
+@Casa
 @SugarRefer("team.duckie.quackquack.ui.QuackText")
 public fun QuackBody2(
   modifier: Modifier = sugar(),
-  text: String,
+  @CasaValue("\"QuackText\"") text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
   overflow: TextOverflow = sugar(),
@@ -77,10 +81,11 @@ public fun QuackBody2(
  * This document was auto-generated. Please see [team.duckie.quackquack.ui.QuackText] for details.
  */
 @Composable
+@Casa
 @SugarRefer("team.duckie.quackquack.ui.QuackText")
 public fun QuackBody3(
   modifier: Modifier = sugar(),
-  text: String,
+  @CasaValue("\"QuackText\"") text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
   overflow: TextOverflow = sugar(),
@@ -101,10 +106,11 @@ public fun QuackBody3(
  * This document was auto-generated. Please see [team.duckie.quackquack.ui.QuackText] for details.
  */
 @Composable
+@Casa
 @SugarRefer("team.duckie.quackquack.ui.QuackText")
 public fun QuackHeadLine1(
   modifier: Modifier = sugar(),
-  text: String,
+  @CasaValue("\"QuackText\"") text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
   overflow: TextOverflow = sugar(),
@@ -125,10 +131,11 @@ public fun QuackHeadLine1(
  * This document was auto-generated. Please see [team.duckie.quackquack.ui.QuackText] for details.
  */
 @Composable
+@Casa
 @SugarRefer("team.duckie.quackquack.ui.QuackText")
 public fun QuackHeadLine2(
   modifier: Modifier = sugar(),
-  text: String,
+  @CasaValue("\"QuackText\"") text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
   overflow: TextOverflow = sugar(),
@@ -149,10 +156,11 @@ public fun QuackHeadLine2(
  * This document was auto-generated. Please see [team.duckie.quackquack.ui.QuackText] for details.
  */
 @Composable
+@Casa
 @SugarRefer("team.duckie.quackquack.ui.QuackText")
 public fun QuackLarge1(
   modifier: Modifier = sugar(),
-  text: String,
+  @CasaValue("\"QuackText\"") text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
   overflow: TextOverflow = sugar(),
@@ -173,10 +181,11 @@ public fun QuackLarge1(
  * This document was auto-generated. Please see [team.duckie.quackquack.ui.QuackText] for details.
  */
 @Composable
+@Casa
 @SugarRefer("team.duckie.quackquack.ui.QuackText")
 public fun QuackSubtitle(
   modifier: Modifier = sugar(),
-  text: String,
+  @CasaValue("\"QuackText\"") text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
   overflow: TextOverflow = sugar(),
@@ -197,10 +206,11 @@ public fun QuackSubtitle(
  * This document was auto-generated. Please see [team.duckie.quackquack.ui.QuackText] for details.
  */
 @Composable
+@Casa
 @SugarRefer("team.duckie.quackquack.ui.QuackText")
 public fun QuackSubtitle2(
   modifier: Modifier = sugar(),
-  text: String,
+  @CasaValue("\"QuackText\"") text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
   overflow: TextOverflow = sugar(),
@@ -221,10 +231,11 @@ public fun QuackSubtitle2(
  * This document was auto-generated. Please see [team.duckie.quackquack.ui.QuackText] for details.
  */
 @Composable
+@Casa
 @SugarRefer("team.duckie.quackquack.ui.QuackText")
 public fun QuackTitle1(
   modifier: Modifier = sugar(),
-  text: String,
+  @CasaValue("\"QuackText\"") text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
   overflow: TextOverflow = sugar(),
@@ -245,10 +256,11 @@ public fun QuackTitle1(
  * This document was auto-generated. Please see [team.duckie.quackquack.ui.QuackText] for details.
  */
 @Composable
+@Casa
 @SugarRefer("team.duckie.quackquack.ui.QuackText")
 public fun QuackTitle2(
   modifier: Modifier = sugar(),
-  text: String,
+  @CasaValue("\"QuackText\"") text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
   overflow: TextOverflow = sugar(),
