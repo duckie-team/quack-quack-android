@@ -39,6 +39,5 @@ dependencies {
         libs.kotlin.collections.immutable,
         projects.ui,
         projects.casaUi,
-        projects.casaMaterial,
     )
 }
