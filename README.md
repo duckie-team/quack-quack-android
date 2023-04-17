@@ -57,11 +57,11 @@ QuackQuack은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 그 이�
 
 ![project-dependency-graph.dot.svg](assets/project-dependency-graph.dot.svg)
 
-- ![catalog](https://img.shields.io/badge/catalog-8ED610?style=flat-square): 디자인 컴포넌트 미리 보기
-- ![casa](https://img.shields.io/badge/casa-D4C5F9?style=flat-square): 디자인 컴포넌트 미리 보기 구성 요소 자동 생성
-- ![aide](https://img.shields.io/badge/aide-98E1CF?style=flat-square): 안전한 디자인 시스템 사용을 돕는 안드로이드 린트 제공
-- ![sugar](https://img.shields.io/badge/sugar-BFD4F2?style=flat-square): 디자인 컴포넌트의 문법 설탕 자동 생성
-- ![quackquack](https://img.shields.io/badge/quackquack-36bcf5?style=flat-square): 디자인 컴포넌트 구현체
+- ![catalog](assets/badges/catalog.svg): 디자인 컴포넌트 미리 보기 앱
+- ![casa](assets/badges/casa.svg): 디자인 컴포넌트 미리 보기 구성 요소 자동 생성 모듈
+- ![aide](assets/badges/aide.svg): 안전한 디자인 시스템 사용을 돕는 안드로이드 린트 모듈
+- ![sugar](assets/badges/sugar.svg): 디자인 컴포넌트의 문법 설탕 자동 생성 모듈
+- ![quackquack](assets/badges/quackquack.svg): 디자인 컴포넌트 구현 모듈
 
 ## Tech Stacks
 
