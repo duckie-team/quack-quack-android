@@ -17,7 +17,9 @@ plugins {
     `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
     `buildlogic-quack-mavenpublishing`
+    `buildlogic-test-junit`
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.test.roborazzi)
 }
 
 tasks.withType<KotlinCompile> {
@@ -41,6 +43,12 @@ android {
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 ksp {
@@ -59,12 +67,19 @@ dependencies {
         projects.sugarMaterial.orArtifact(),
         projects.aideAnnotation.orArtifact(),
     )
+
     androidTestImplementations(
         libs.test.strikt,
         libs.test.junit.compose,
         libs.bundles.test.mockito,
         projects.screenshotMatcher,
     )
+    testImplementations(
+        libs.test.robolectric,
+        libs.test.junit.compose,
+        libs.bundles.test.roborazzi,
+    )
+
     kotlinCompilerPlugin(projects.sugarProcessor.orArtifact())
     lintPublish(projects.aide.orArtifact())
 

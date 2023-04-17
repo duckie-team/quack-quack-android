@@ -9,6 +9,7 @@ package team.duckie.quackquack.ui
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,17 +47,18 @@ class TextRoborazzi {
         composeTestRule.setContent {
             QuackText(
                 modifier = Modifier
+                    .fillMaxSize()
                     .background(color = Color.White)
                     .span(
                         texts = listOf("QuackQuack", "Duckie"),
                         style = SpanStyle(
                             color = QuackColor.DuckieOrange.value,
-                            fontWeight = FontWeight.Black,
+                            fontWeight = FontWeight.Bold,
                         ),
                     )
                     .padding(30.dp),
                 text = "QuackQuack is an awesome design system created by the Duckie team.",
-                typography = QuackTypography.Body1,
+                typography = QuackTypography.Large1,
             )
         }
     }

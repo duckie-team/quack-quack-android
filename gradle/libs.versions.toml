@@ -40,7 +40,8 @@ test-junit-core = "4.13.2"
 test-junit-engine = "5.9.2"
 test-junit-compose = "1.4.1"
 test-strikt = "0.34.1"
-test-paparazzi = "1.2.0"
+test-roborazzi = "1.0.0-rc-3"
+test-robolectric = "4.10"
 test-injector-parameter = "1.11"
 test-mockito-core = "5.3.0"
 test-mockito-android = "5.3.0"
@@ -58,7 +59,7 @@ kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "kotlin-dokka" }
 kotlin-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "kotlin-detekt" }
 kotlin-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "kotlin-ktlint-gradle" }
 
-test-paparazzi = { id = "app.cash.paparazzi", version.ref = "test-paparazzi" }
+test-roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "test-roborazzi" }
 
 [libraries]
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
@@ -103,6 +104,9 @@ test-junit-core = { module = "junit:junit", version.ref = "test-junit-core" }
 test-junit-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "test-junit-engine" } # testRuntimeOnly
 test-junit-compose = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "test-junit-compose" } # androidTestImplementation
 test-strikt = { module = "io.strikt:strikt-core", version.ref = "test-strikt" }
+test-roborazzi-core = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "test-roborazzi" }
+test-roborazzi-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "test-roborazzi" }
+test-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-robolectric" }
 test-injector-parameter = { module = "com.google.testparameterinjector:test-parameter-injector", version.ref = "test-injector-parameter" }
 test-mockito-core = { module = "org.mockito:mockito-core", version.ref = "test-mockito-core" }
 test-mockito-android = { module = "org.mockito:mockito-android", version.ref = "test-mockito-android" }
@@ -114,5 +118,6 @@ detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-format
 
 [bundles]
 android-lint = ["android-lint-api", "android-lint-checks"]
+test-roborazzi = ["test-roborazzi-core", "test-roborazzi-rule"]
 test-mockito = ["test-mockito-core", "test-mockito-android", "test-mockito-kotlin"]
 test-android-lint = ["android-lint-core", "test-android-lint"]
