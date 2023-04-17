@@ -2,17 +2,26 @@
   <img src="https://raw.githubusercontent.com/duckie-team/quack-quack-android/2.x.x/assets/logo-icon.svg" width="25%" alt="quackquack" />
 </p>
 <h1 align="center">QuackQuack</h1>
-<h5 align="center">Duckie Design System and Awesome Stuff!</h5>
-<p align="center">
-  <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-blue"/></a>
-  <a href="https://developer.android.com/about/versions/lollipop"><img alt="API 21+" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg"/></a>
-  <img alt="codestyle" src="https://raw.githubusercontent.com/duckie-team/duckie-android/develop/assets/badge/codestyle-duckie.svg"/>
-  <!-- <img alt="coverage" src="https://test.duckie.team/badge/quackquack/coverage.svg"/> -->
-</p>
+<h5 align="center">Highly automated and Modifier-driven Jetpack Compose design system.<br/>It's almost well-tested and adheres to the stability system.</h5>
+
+<img src="assets/QuackTextSnapshot_ModifierSpan.png" align="right"/>
+
+```kotlin
+QuackText(
+    modifier = Modifier
+        .fillMaxSize()
+        .background(color = Color.White)
+        .span(
+            texts = listOf("QuackQuack", "Duckie"),
+            style = SpanStyle(color = QuackColor.DuckieOrange.value),
+        )
+        .padding(30.dp),
+    text = "QuackQuack is an awesome design system created by the Duckie team.",
+    typography = QuackTypography.Large1,
+)
+```
 
 ---
-
-# ‼️ WIP ‼️
 
 ## Introduction
 
@@ -46,9 +55,9 @@ QuackQuack은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 그 이�
 
 <a href="https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="70"></a>
 
-## Usage
+## [WIP] Usage
 
-꽥꽥의 문서는 [여기](https://quack.duckie.team/android)서 확인하실 수 있습니다.
+꽥꽥의 문서는 [여기](https://quackquack.duckie.team/android)서 확인하실 수 있습니다.
 
 ## Goals
 
@@ -59,13 +68,13 @@ QuackQuack은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 그 이�
 
 [ARTICLES](ARTICLES.md) 문서를 참고해 주세요.
 
-## Download ![quackquack-core](https://img.shields.io/maven-central/v/team.duckie.quack/quackquack-core?style=flat-square)
+## [WIP] Download ![quackquack-core](https://img.shields.io/maven-central/v/team.duckie.quackquack/quackquack-ui?style=flat-square)
 
 꽥꽥은 MavenCentral 저장소에 배포됩니다.
 
 ```groovy
 dependencies {
-    implementation "team.duckie.quack:quackquack-core:{version}"
+    implementation "team.duckie.quackquack:quackquack-ui:{version}"
 }
 ```
 
