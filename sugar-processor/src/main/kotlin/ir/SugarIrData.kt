@@ -7,6 +7,7 @@
 
 package ir
 
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.ParameterSpec
 import org.jetbrains.kotlin.ir.backend.js.utils.asString
@@ -21,6 +22,7 @@ import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.utils.addToStdlib.applyIf
+import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.sugar.material.Imports
 import team.duckie.quackquack.sugar.material.SugarName
 import team.duckie.quackquack.sugar.material.SugarToken
@@ -92,17 +94,17 @@ internal data class SugarIrData(
  * @param name 인자명
  * @param type 인자의 타입
  * @param isToken 인자가 [Sugar Token][SugarToken]인지 여부
- * @param isComposable 인자 타입에 `androidx.compose.runtime.Composable` 어노테이션이 있는지 여부
  * @param imports [type] 외에 추가로 import가 필요한 클래스의 [fully-qualified name][FqName]으로 구성된 목록.
  * 자세한 정보는 [Imports]를 확인하세요.
+ * @param casaValueLiteral [CasaValue.literal] 값
  * @param defaultValue 인자의 기본 값
  */
 internal data class SugarParameter(
     val name: Name,
     val type: IrType,
     val isToken: Boolean,
-    val isComposable: Boolean,
     val imports: List<FqName>,
+    val casaValueLiteral: String?,
     val defaultValue: IrExpressionBody?,
 ) {
     init {
@@ -120,8 +122,13 @@ internal data class SugarParameter(
                 name = name.asString(),
                 type = ClassName.bestGuess(type.unsafeFqn),
             )
-            .applyIf(isComposable) {
-                addAnnotation(ComposableCn)
+            .applyIf(casaValueLiteral != null) {
+                addAnnotation(
+                    annotationSpec = AnnotationSpec
+                        .builder(CasaValue::class)
+                        .addMember("%S", casaValueLiteral!!)
+                        .build(),
+                )
             }
             .applyIf(defaultValue != null) {
                 defaultValue("%L()", "sugar")
@@ -134,8 +141,8 @@ internal data class SugarParameter(
             |name: ${name.asString()}
             |type: ${type.asString()}
             |isToken: $isToken
-            |isComposable: $isComposable
             |imports: ${imports.joinToString(transform = FqName::asString)}
+            |casaValueLiteral: $casaValueLiteral
             |defaultValue: ${defaultValue?.dumpKotlinLike()}
         """.trimMargin()
     }

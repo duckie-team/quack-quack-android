@@ -13,6 +13,7 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
+import ir.CasaCn
 import ir.ComposableCn
 import ir.SugarFqn
 import ir.SugarIrData
@@ -137,6 +138,7 @@ private fun SugarIrData.toFunSpecWithImports(tokenFqExpression: String): Pair<Li
     val funSpec = FunSpec
         .builder(sugarName)
         .addAnnotation(ComposableCn)
+        .addAnnotation(CasaCn)
         .addAnnotation(sugarReferAnnotation)
         .addModifiers(KModifier.PUBLIC)
         .addParameters(parametersWithoutToken.map(SugarParameter::toParameterSpec))
