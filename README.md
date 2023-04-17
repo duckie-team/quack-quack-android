@@ -9,7 +9,6 @@
 ```kotlin
 QuackText(
     modifier = Modifier
-        .fillMaxSize()
         .background(color = Color.White)
         .span(
             texts = listOf("QuackQuack", "Duckie"),
@@ -17,7 +16,7 @@ QuackText(
         )
         .padding(30.dp),
     text = "QuackQuack is an awesome design system created by the Duckie team.",
-    typography = QuackTypography.Large1,
+    typography = QuackTypography.Body1,
 )
 ```
 
@@ -49,9 +48,36 @@ QuackQuack은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 그 이�
 
 꽥꽥은 덕키 내부에서 사용할 목적으로 만들어졌기에 외부 프로젝트엔 적합하지 않을 수 있습니다. 다만, Jetpack Compose로 디자인 시스템 개발을 처음 시도하거나 디자인 시스템 도입을 고민하시는 분들께 도움이 됐으면 해서 public으로 진행합니다. 
 
+## Goals
+
+- 접근성, 재사용성 확장 (`이 컴포넌트가 없어요` ❌)
+- [오버엔지니어링](https://en.wikipedia.org/wiki/Overengineering), [조기 최적화](http://wiki.c2.com/?PrematureOptimization) ❌
+
+## Project Structure
+
+![project-dependency-graph.dot.svg](assets/project-dependency-graph.dot.svg)
+
+- ![catalog](https://img.shields.io/badge/catalog-8ED610?style=flat-square): 디자인 컴포넌트 미리 보기
+- ![casa](https://img.shields.io/badge/casa-D4C5F9?style=flat-square): 디자인 컴포넌트 미리 보기 구성 요소 자동 생성
+- ![aide](https://img.shields.io/badge/aide-98E1CF?style=flat-square): 안전한 디자인 시스템 사용을 돕는 안드로이드 린트 제공
+- ![sugar](https://img.shields.io/badge/sugar-BFD4F2?style=flat-square): 디자인 컴포넌트의 문법 설탕 자동 생성
+- ![quackquack](https://img.shields.io/badge/quackquack-36bcf5?style=flat-square): 디자인 컴포넌트 구현체
+
+## Tech Stacks
+
+- GitHub Actions
+- Android Lint
+- Jetpack Compose UI for Android
+- Jetpack Compose Runtime
+- Kotlin Symbol Processing
+- Kotlin Compiler Plugin
+- Gradle Plugin
+
+구현 세부사항은 각각 모듈의 README와 [ARTICLES](ARTICLES.md) 문서를 참고해 주세요.
+
 ## Preview
 
-[playground](playground) 모듈을 빌드하거나 [Google PlayStore](https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground)에서 미리 보기 앱을 설치하실 수 있습니다.
+[catalog](catalog) 모듈을 빌드하거나 [Google PlayStore](https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground)에서 미리 보기 앱을 설치하실 수 있습니다.
 
 <a href="https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="70"></a>
 
@@ -59,14 +85,6 @@ QuackQuack은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 그 이�
 
 꽥꽥의 문서는 [여기](https://quackquack.duckie.team/android)서 확인하실 수 있습니다.
 
-## Goals
-
-- 접근성, 재사용성 확장 (`이 컴포넌트가 없어요` ❌)
-- [오버엔지니어링](https://en.wikipedia.org/wiki/Overengineering), [조기 최적화](http://wiki.c2.com/?PrematureOptimization) ❌
-
-## Tech Stacks
-
-[ARTICLES](ARTICLES.md) 문서를 참고해 주세요.
 
 ## [WIP] Download ![quackquack-core](https://img.shields.io/maven-central/v/team.duckie.quackquack/quackquack-ui?style=flat-square)
 
@@ -80,7 +98,7 @@ dependencies {
 
 #### Snapshot
 
-개발 중 버전은 [Sonatype의 snapshot 저장소](https://s01.oss.sonatype.org/content/repositories/snapshots/team/duckie/quack/)에 배포됩니다.
+개발 중 버전은 [Sonatype의 snapshot 저장소](https://s01.oss.sonatype.org/content/repositories/snapshots/team/duckie/quackquack/)에 배포됩니다.
 
 ```groovy
 repositories {
