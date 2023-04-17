@@ -12,7 +12,6 @@ plugins {
     `buildlogic-android-compose`
     `buildlogic-android-compose-metrics`
     `buildlogic-kotlin-explicitapi`
-    `buildlogic-jvm-dokka`
 }
 
 android {
@@ -34,6 +33,5 @@ dependencies {
     androidTestImplementations(
         libs.test.strikt,
         libs.test.junit.compose,
-        libs.bundles.test.mockito,
     )
 }

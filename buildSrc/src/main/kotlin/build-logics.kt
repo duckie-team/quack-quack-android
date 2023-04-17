@@ -158,7 +158,10 @@ internal class JvmDokkaPlugin : BuildLogicPlugin({
 
 internal class KotlinExplicitApiPlugin : BuildLogicPlugin({
     tasks
-        .matching { it is KotlinCompile && !it.name.contains("test", ignoreCase = true) }
+        .matching { task ->
+            task is KotlinCompile &&
+                    !task.name.contains("test", ignoreCase = true)
+        }
         .configureEach {
             if (!project.hasProperty("kotlin.optOutExplicitApi")) {
                 val kotlinCompile = this as KotlinCompile

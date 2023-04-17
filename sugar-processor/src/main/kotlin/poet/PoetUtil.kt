@@ -22,6 +22,7 @@ internal fun String.bestGuessToKotlinPackageName(): String {
     return substringAfter("src/main/kotlin/").replace("/", ".")
 }
 
+// TODO: Testing
 internal fun SugarIrData.toSugarComponentName(tokenFqExpression: String): String {
     val tokenExpression = tokenFqExpression
         .substringAfterLast(".")

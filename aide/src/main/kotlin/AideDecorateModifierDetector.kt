@@ -29,11 +29,11 @@ import org.jetbrains.uast.UCallExpression
  * }
  * ```
  *
- * 도메인별 꽥꽥 컴포넌트와 도메인별 사용 가능한 DecorateModifier는 core-aide-processor에 의해
+ * 도메인별 꽥꽥 컴포넌트와 도메인별 사용 가능한 DecorateModifier는 ㅂaide-processor에 의해
  * 자동 생성됩니다. 해당 파일들은 rule 패키지에 저장되며, [`aideModifiers`][aideModifiers]와 [`quackComponents`][quackComponents]로
  * 조회할 수 있습니다.
  */
-class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
+class AideDecorateModifierDetector : Detector(), SourceCodeScanner {
     override fun getApplicableMethodNames() = quackComponents.keys.toList()
 
     override fun visitMethodCall(context: JavaContext, node: UCallExpression, method: PsiMethod) {
@@ -69,7 +69,6 @@ class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
             DecorateModifier 사용이 감지됐을 때는 `$IssueId` informational을 발생시킵니다.
         """.trimIndent()
 
-        // @VisibleForTesting
         internal const val IncidentMessage = "올바르지 않은 DecorateModifier의 사용이 감지되었습니다."
 
         internal val ISSUE = Issue.create(
@@ -80,7 +79,7 @@ class CoreAideDecorateModifierDetector : Detector(), SourceCodeScanner {
             priority = 5,
             severity = Severity.INFORMATIONAL,
             implementation = Implementation(
-                CoreAideDecorateModifierDetector::class.java,
+                AideDecorateModifierDetector::class.java,
                 EnumSet.of(Scope.JAVA_FILE),
                 Scope.JAVA_FILE_SCOPE,
             ),

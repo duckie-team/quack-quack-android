@@ -1,4 +1,4 @@
-# core-sugar-processor-kotlinc
+# sugar-processor-kotlinc
 
 1. [Overview](#overview)
 2. [Why not KSP?](#why-not-ksp)
@@ -12,7 +12,7 @@
 
 ## Overview
 
-이 모듈은 core 컴포넌트의 sugar syntax를 위한 컴포넌트를 자동 구현합니다. `core-sugar-processor-kotlinc`는 다음과 같은 단계로 진행됩니다.
+이 모듈은 core 컴포넌트의 sugar syntax를 위한 컴포넌트를 자동 구현합니다. `sugar-processor-kotlinc`는 다음과 같은 단계로 진행됩니다.
 
 1. `Ir Visit`
 2. `Code Generate`
@@ -22,7 +22,7 @@
 
 이 중 `Code Generate` 단계는 컴파일 옵션에 따라 생략할 수 있습니다.
 
-이 문서는 `core-sugar-processor-kotlinc`가 작동되는 세부 정책과 이러한 정책이 정해진 이유인 개발 초기의 고민들을 기록합니다.
+이 문서는 `sugar-processor-kotlinc`가 작동되는 세부 정책과 이러한 정책이 정해진 이유인 개발 초기의 고민들을 기록합니다.
 
 ## Why not KSP?
 
@@ -60,11 +60,11 @@ listOf(1, 2, 3)
 2. 생성할 코드의 default value는 `Any() as T`와 같은 식으로 컴파일 에러만 나지 않게 지정한다.
 3. 생성된 코드의 default value IR을 Ir Transformer를 통해 Ir Visitor에서 저장한 Ir로 교체한다.
 
-위와 같은 방법이 유효함을 로컬에서 증명하였고 `core-sugar-processor`가 `core-sugar-processor-kotlinc`로 바뀌게 됩니다([`0416f53`](https://github.com/duckie-team/quack-quack-android/pull/495/commits/0416f53e2d59add7fc8e0e2772b2fb459b216866)). 
+위와 같은 방법이 유효함을 로컬에서 증명하였고 `sugar-processor`가 `sugar-processor-kotlinc`로 바뀌게 됩니다([`0416f53`](https://github.com/duckie-team/quack-quack-android/pull/495/commits/0416f53e2d59add7fc8e0e2772b2fb459b216866)). 
 
 ## Ir Visit
 
-`core-sugar-processor-kotlinc`의 첫 번째 동작은 Ir Visit 입니다. 이 단계에서는 다음과 같은 정보를 수집합니다.
+`sugar-processor-kotlinc`의 첫 번째 동작은 Ir Visit 입니다. 이 단계에서는 다음과 같은 정보를 수집합니다.
 
 - `file`: IR이 제공된 파일
 - `referFqn`: IR이 제공된 함수의 fully-qualified name
@@ -115,7 +115,7 @@ value class Theme(val index: Int) {
 
 ## Code Generate
 
-`core-sugar-processor-kotlinc`의 두 번째 동작은 Code Generate 입니다. 이 단계는 건너뛸 수 있습니다. Code Generate는 내부적으로 [kotlinpoet](https://square.github.io/kotlinpoet/)를 사용하며, `poet` 이라는 네이밍을 사용합니다.
+`sugar-processor-kotlinc`의 두 번째 동작은 Code Generate 입니다. 이 단계는 건너뛸 수 있습니다. Code Generate는 내부적으로 [kotlinpoet](https://square.github.io/kotlinpoet/)를 사용하며, `poet` 이라는 네이밍을 사용합니다.
 
 `poet`이 실행되면 다음과 같은 코드를 생성합니다.
 
@@ -135,23 +135,23 @@ value class Theme(val index: Int) {
 
 ## Ir Transform
 
-`core-sugar-processor-kotlinc`의 마지막 동작은 Ir Transform 입니다. `poet`에서 생성한 `sugar()`를 SugarRefer의 IR로 교체하는 작업을 진행합니다.
+`sugar-processor-kotlinc`의 마지막 동작은 Ir Transform 입니다. `poet`에서 생성한 `sugar()`를 SugarRefer의 IR로 교체하는 작업을 진행합니다.
 
 SugarRefer의 IR 정보는 Ir Visit 단계에서 조회한 정보로 불러옵니다.
 
 ## Compile Options
 
-`core-sugar-processor-kotlinc`는 `poet`를 조정할 수 있는 2가지 컴파일 옵션을 제공합니다.
+`sugar-processor-kotlinc`는 `poet`를 조정할 수 있는 2가지 컴파일 옵션을 제공합니다.
 
 - `sugarPath`: Sugar Component가 생성될 위치 [String] \<required>
 - `poet`: Code Generate 단계를 활성화할지 여부 [Boolean] \<true>
 
 ## Caveat
 
-`core-sugar-processor-kotlinc`에는 몇 가지 단점이 존재합니다.
+`sugar-processor-kotlinc`에는 몇 가지 단점이 존재합니다.
 
 - Kotlin Compiler Plugin은 아직 experimental 상태입니다. 모든 API가 불안정하므로 예상치 못한 버그가 발생할 수 있습니다.
 - Kotlin Compiler Plugin의 문서가 *거의* 존재하지 않아 모두 정상적인 방법으로 구현한 건지 알 방법이 없습니다. 단순히 개발자에게 최고의 경험을 제공하고 싶다는 목표 하나만 가지고 3일간 공부한 내용을 바탕으로 개발되었으므로 안심할 수 없습니다.
 - sugar component의 인자로 함수형 타입은 지원되지 않습니다. 함수형 타입엔 [generic type erasure](https://docs.oracle.com/javase/tutorial/java/generics/erasure.html)가 적용되어 컴파일단에서는 `Function`까지만 조회됩니다. 즉, `Function`의 `T` 타입을 유추할 수 없기에 별도 대응이 필요합니다.
-- Compiler Plugin 등록 서비스로 deprecated된 방식을 사용합니다. (See [SugarComponentRegistrar.kt](https://github.com/duckie-team/quack-quack-android/blob/2.x.x/core-sugar-processor-kotlinc/src/main/kotlin/SugarComponentRegistrar.kt#L23))
+- Compiler Plugin 등록 서비스로 deprecated된 방식을 사용합니다. (See [SugarComponentRegistrar.kt](https://github.com/duckie-team/quack-quack-android/blob/2.x.x/sugar-processor-kotlinc/src/main/kotlin/SugarComponentRegistrar.kt#L23))
 - sugar token의 타입으로 `value class`, `data class`, `class`만 테스트가 진행됐습니다.

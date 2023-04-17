@@ -76,9 +76,8 @@ public object QuackAnimationSpec {
  *
  * @return [useAnimation] 여부에 따른 [DurationBasedAnimationSpec]
  */
-@Suppress("FunctionName")
 @Stable
-public fun <T> QuackOptionalAnimationSpec(useAnimation: Boolean): DurationBasedAnimationSpec<T> {
+public fun <T> quackOptionalAnimationSpec(useAnimation: Boolean): DurationBasedAnimationSpec<T> {
     return when (useAnimation) {
         true -> QuackAnimationSpec()
         else -> snap()

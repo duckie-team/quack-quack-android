@@ -21,7 +21,7 @@ import org.jetbrains.kotlin.utils.addToStdlib.cast
 internal object NotSupportedError {
     internal fun functionalType(name: String?): String {
         return "Functional types are not currently supported due to generic type erasure. " +
-                "($name)".getIfGivenIsNotNull(name)
+                "($name)".getIfGivenIsNotNullOrEmpty(name)
     }
 }
 
@@ -29,49 +29,49 @@ internal object SourceError {
     internal fun quackComponentFqnUnavailable(declaration: IrSimpleFunction?): String {
         return "A Quack component was detected, but unable to look up a fully qualified name. " +
                 "Is it an anonymous object? " +
-                "(${declaration?.name?.asString()})".getIfGivenIsNotNull(declaration)
+                "(${declaration?.name?.asString()})".getIfGivenIsNotNullOrEmpty(declaration)
     }
 
     internal fun importClazzFqnUnavailable(element: IrVarargElement?): String {
         return "Can't look up the fully qualified name of the class given as `clazz` in `@Imports`. " +
                 "Is it an anonymous class? " +
                 "(${element?.cast<IrClassReference>()?.type?.asString()})"
-                    .getIfGivenIsNotNull(element)
+                    .getIfGivenIsNotNullOrEmpty(element)
     }
 
     internal fun quackComponentWithoutSugarToken(fqn: FqName?): String {
         return "A Quack component was detected, but no SugarToken was applied. " +
-                "(${fqn?.asString()})".getIfGivenIsNotNull(fqn)
+                "(${fqn?.asString()})".getIfGivenIsNotNullOrEmpty(fqn)
     }
 
     internal fun multipleSugarTokenIsNotAllowed(declaration: IrSimpleFunction?): String {
         return "A Sugar component can only contain one SugarToken. " +
-                "(${declaration?.name?.asString()})".getIfGivenIsNotNull(declaration)
+                "(${declaration?.name?.asString()})".getIfGivenIsNotNullOrEmpty(declaration)
     }
 
     internal fun sugarNamePrefixIsNotQuack(name: String?): String {
         return "Quack component names must start with `SugarName.PREFIX_NAME " +
                 "(= $QuackComponentPrefix)`. " +
-                "($name)".getIfGivenIsNotNull(name)
+                "($name)".getIfGivenIsNotNullOrEmpty(name)
     }
 
     internal fun sugarNameWithoutTokenName(name: String?): String {
         return "When specifying the sugar component name directly, " +
                 "`SugarName.TOKEN_NAME (= $SugarTokenName)` must be used. " +
-                "($name)".getIfGivenIsNotNull(name)
+                "($name)".getIfGivenIsNotNullOrEmpty(name)
     }
 
     internal fun sugarTokenButNoCompanionObject(name: String?): String {
         return "The SugarToken class must include a companion object. " +
                 "See the sugar component creation policy for more information. " +
-                "($name)".getIfGivenIsNotNull(name)
+                "($name)".getIfGivenIsNotNullOrEmpty(name)
     }
 }
 
 internal object PoetError {
     internal fun sugarComponentButNoSugarRefer(declaration: IrSimpleFunction?): String {
         return "The SugarRefer for the Sugar component is missing. " +
-                "(${declaration?.name?.asString()})".getIfGivenIsNotNull(declaration)
+                "(${declaration?.name?.asString()})".getIfGivenIsNotNullOrEmpty(declaration)
     }
 }
 
@@ -79,7 +79,7 @@ internal object SugarVisitError {
     internal fun noMatchedSugarIrData(declaration: IrSimpleFunction?): String {
         return "No SugarIrData was found for the given SugarRefer. " +
                 "Please report it in a GitHub Issue. (https://link.duckie.team/quackquack-bug) " +
-                "(${declaration?.name?.asString()})".getIfGivenIsNotNull(declaration)
+                "(${declaration?.name?.asString()})".getIfGivenIsNotNullOrEmpty(declaration)
     }
 }
 
@@ -90,10 +90,10 @@ internal object SugarTransformError {
     ): String {
         return "The Sugar component has a parameter that doesn't exist in the SugarRefer. " +
                 "(${sugarIrData?.referFqn?.asString()}#${parameter?.name?.asString()})"
-                    .getIfGivenIsNotNull(sugarIrData, parameter)
+                    .getIfGivenIsNotNullOrEmpty(sugarIrData, parameter)
     }
 }
 
-private fun String.getIfGivenIsNotNull(vararg given: Any?): String {
+private fun String.getIfGivenIsNotNullOrEmpty(vararg given: Any?): String {
     return takeIf { given.all { it != null } }.orEmpty()
 }

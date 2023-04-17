@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 /**
  * 덕키에서 사용할 텍스트 스타일을 정의합니다.
  *
- * copy를 통한 값 변경은 덕키 스타일 가이드의 텍스트 스타일 사전 정의가 깨짐으로
+ * copy를 이용한 값 변경은 덕키 스타일 가이드의 텍스트 스타일 사전 정의가 깨짐으로
  * copy 생성을 방지하기 위해 data class가 아닌 class를 사용합니다.
  *
  * @param color 텍스트 색상. 기본값은 [QuackColor.Black] 입니다.
@@ -40,6 +40,7 @@ public class QuackTypography(
     public val lineHeight: TextUnit,
     public val textAlign: TextAlign = TextAlign.Start,
 ) {
+    @Stable
     public val suit: FontFamily = FontFamily(
         Font(resId = R.font.quack_suit_bold, weight = FontWeight.Bold),
         Font(resId = R.font.quack_suit_medium, weight = FontWeight.Medium),
@@ -47,8 +48,8 @@ public class QuackTypography(
     )
 
     /**
-     * [QuackTypography] 을 컴포즈 Text 컴포넌트에 사용하기 위해
-     * [TextStyle] 로 변환합니다.
+     * [QuackTypography]을 컴포즈 Text 컴포넌트에 사용하기 위해
+     * [TextStyle]로 변환합니다.
      */
     @Stable
     public fun asComposeStyle(): TextStyle {
@@ -122,6 +123,7 @@ public class QuackTypography(
     }
 
     public companion object {
+        @Stable
         public val Large1: QuackTypography = QuackTypography(
             size = 24.sp,
             weight = FontWeight.Bold,
@@ -130,6 +132,7 @@ public class QuackTypography(
             textAlign = TextAlign.Left,
         )
 
+        @Stable
         public val HeadLine1: QuackTypography = QuackTypography(
             size = 20.sp,
             weight = FontWeight.Bold,
@@ -137,6 +140,7 @@ public class QuackTypography(
             lineHeight = 26.sp,
         )
 
+        @Stable
         public val HeadLine2: QuackTypography = QuackTypography(
             size = 16.sp,
             weight = FontWeight.Bold,
@@ -144,6 +148,7 @@ public class QuackTypography(
             lineHeight = 22.sp,
         )
 
+        @Stable
         public val Title1: QuackTypography = QuackTypography(
             size = 16.sp,
             weight = FontWeight.Regular,
@@ -151,6 +156,7 @@ public class QuackTypography(
             lineHeight = 22.sp,
         )
 
+        @Stable
         public val Title2: QuackTypography = QuackTypography(
             size = 14.sp,
             weight = FontWeight.Bold,
@@ -158,6 +164,7 @@ public class QuackTypography(
             lineHeight = 20.sp,
         )
 
+        @Stable
         public val Subtitle: QuackTypography = QuackTypography(
             size = 14.sp,
             weight = FontWeight.Medium,
@@ -165,6 +172,7 @@ public class QuackTypography(
             lineHeight = 20.sp,
         )
 
+        @Stable
         public val Subtitle2: QuackTypography = QuackTypography(
             size = 12.sp,
             weight = FontWeight.Bold,
@@ -172,6 +180,7 @@ public class QuackTypography(
             lineHeight = 15.sp,
         )
 
+        @Stable
         public val Body1: QuackTypography = QuackTypography(
             size = 14.sp,
             weight = FontWeight.Regular,
@@ -179,6 +188,7 @@ public class QuackTypography(
             lineHeight = 20.sp,
         )
 
+        @Stable
         public val Body2: QuackTypography = QuackTypography(
             size = 12.sp,
             weight = FontWeight.Regular,
@@ -186,6 +196,7 @@ public class QuackTypography(
             lineHeight = 15.sp,
         )
 
+        @Stable
         public val Body3: QuackTypography = QuackTypography(
             size = 10.sp,
             weight = FontWeight.Regular,
@@ -200,16 +211,18 @@ public class QuackTypography(
  *
  * [FontWeight.Normal]는 `FontWeight.Regular`와 동일합니다.
  */
+@Stable
 public inline val FontWeight.Companion.Regular: FontWeight get() = Normal
 
 /**
  * [Float]를 [sp]로 변환합니다.
  */
 @Suppress("NOTHING_TO_INLINE")
+@Stable
 public inline fun Float.toSp(): TextUnit = TextUnit(value = this, type = TextUnitType.Sp)
 
 /**
  * [List]의 component 정의가 5까지만 있어서 6번째 component를 추가로 정의합니다.
  */
 @Suppress("MagicNumber")
-private operator fun <T> List<T>.component6() = get(index = 5)
+public operator fun <T> List<T>.component6(): T = get(index = 5)

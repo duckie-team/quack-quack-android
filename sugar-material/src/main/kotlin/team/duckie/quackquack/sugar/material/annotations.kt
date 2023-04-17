@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
 /**
  * sugar component의 이름을 직접 명시합니다. 만약 직접 명시하지 않으면
  * 기본 정책에 맞게 네이밍이 진행됩니다. sugar component의 기본 네이밍 정책은
- * `core-sugar-processor-kotlinc` 모듈을 참고하세요.
+ * `sugar-processor` 모듈을 참고하세요.
  *
  * sugar component의 이름을 직접 명시할 때는 다음과 같은 규칙이 보장돼야 합니다.
  *
@@ -186,8 +186,8 @@ public annotation class SugarToken
  * }
  * ```
  *
- * 이 정보는 `core-sugar-processor-kotlinc`에서 원래 함수의 IR 정보를 조회하기 위해
- * 추가됩니다. 자세한 정보는 `core-sugar-processor-kotlinc` 모듈을 참고하세요.
+ * 이 정보는 `sugar-processor`에서 원래 함수의 IR 정보를 조회하기 위해
+ * 추가됩니다. 자세한 정보는 `sugar-processor` 모듈을 참고하세요.
  *
  * *이 어노테이션은 꽥꽥 컴파일러에서만 사용될 목적으로 설계됐습니다.
  * 임의로 사용할 경우 예상치 못한 버그가 발생할 수 있습니다.*
@@ -225,9 +225,9 @@ public annotation class SugarRefer(val fqn: String)
 public annotation class NoSugar
 
 /**
- * `core-sugar-processor-kotlinc`에 의해 생성된 sugar components 파일임을 나타냅니다.
+ * `sugar-processor`에 의해 생성된 sugar components 파일임을 나타냅니다.
  * 이 어노테이션이 사용된 파일만 SugarIrTransform이 진행됩니다. 자세한 정보는
- * `core-sugar-processor-kotlinc` 모듈을 참고하세요.
+ * `sugar-processor` 모듈을 참고하세요.
  *
  * *이 어노테이션은 꽥꽥 컴파일러에서만 사용될 목적으로 설계됐습니다.
  * 임의로 사용할 경우 예상치 못한 버그가 발생할 수 있습니다.*
@@ -236,10 +236,10 @@ public annotation class NoSugar
 @MustBeDocumented
 @Target(AnnotationTarget.FILE)
 @Retention(AnnotationRetention.BINARY)
-public annotation class GeneratedFile
+public annotation class SugarGeneratedFile
 
 /**
- * `core-sugar-processor-kotlinc`가 생성하는 sugar component 코드에 추가로 import 돼야 하는
+ * `sugar-processor`가 생성하는 sugar component 코드에 추가로 import 돼야 하는
  * 클래스를 나타냅니다. 함수의 인자에 적용될 수 있으며, 인자의 타입과 인자의 기본 값 타입이
  * 다를 경우 사용할 수 있습니다.
  *
@@ -268,6 +268,7 @@ public annotation class GeneratedFile
  *
  * @param clazz 추가로 import할 클래스들
  */
+// TODO: Testing
 @MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.BINARY)

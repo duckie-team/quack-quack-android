@@ -19,7 +19,7 @@ import java.util.EnumSet
 import org.jetbrains.uast.UCallExpression
 
 @Suppress("unused") // why "unused" needed?
-private typealias RealDetector = CoreAideDecorateModifierDetector
+private typealias RealDetector = AideDecorateModifierDetector
 private typealias TestDetector = CoreAideDecorateModifierTestDetector
 
 class CoreAideDecorateModifierTestDetector : Detector(), SourceCodeScanner {

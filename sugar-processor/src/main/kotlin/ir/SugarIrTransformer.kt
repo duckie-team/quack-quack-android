@@ -44,7 +44,7 @@ internal class SugarIrTransformer(
         declaration: IrFile,
         data: Map<String, SugarIrData>,
     ): IrFile {
-        if (declaration.hasAnnotation(GeneratedFileFqn)) {
+        if (declaration.hasAnnotation(SugarGeneratedFileFqn)) {
             declaration.declarations.forEach { item ->
                 item.accept(this, data)
             }

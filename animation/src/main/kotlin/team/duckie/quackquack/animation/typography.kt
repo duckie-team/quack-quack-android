@@ -29,23 +29,23 @@ import team.duckie.quackquack.util.AllowMagicNumber
  * 식으로 구현하였습니다.
  */
 @Suppress("PrivatePropertyName")
-private val TextAlign.Companion.VectorConverter
-    get() = object : TwoWayConverter<TextAlign, AnimationVector1D> {
-        override val convertFromVector: (vector: AnimationVector1D) -> TextAlign
-            get() = { vector ->
-                @AllowMagicNumber(because = "TextAlign 의 range 를 나타냅니다.")
-                val index = vector.value.roundToInt().coerceIn(
-                    // TextAlign 의 값이 1 부터 시작
-                    range = 1..6,
-                )
-                values()[index]
-            }
-        override val convertToVector: (value: TextAlign) -> AnimationVector1D
-            get() = { value ->
-                // TextAlign 의 값이 1 부터 시작해서 +1
-                AnimationVector1D(values().indexOf(value) + 1f)
-            }
-    }
+private val TextAlignVectorConverter = object : TwoWayConverter<TextAlign, AnimationVector1D> {
+    val values = TextAlign.values()
+    override val convertFromVector: (vector: AnimationVector1D) -> TextAlign
+        get() = { vector ->
+            @AllowMagicNumber(because = "TextAlign 의 range 를 나타냅니다.")
+            val index = vector.value.roundToInt().coerceIn(
+                // TextAlign 의 값이 1 부터 시작
+                range = 1..6,
+            )
+            values[index]
+        }
+    override val convertToVector: (value: TextAlign) -> AnimationVector1D
+        get() = { value ->
+            // TextAlign 의 값이 1 부터 시작해서 +1
+            AnimationVector1D(values.indexOf(value) + 1f)
+        }
+}
 
 /**
  * [QuackTypography]에 변경이 있을 때 애니메이션을 적용합니다.
@@ -102,7 +102,7 @@ public fun animatedQuackTextStyleAsState(
     )
     val targetTextAlignAnimationState by animateValueAsState(
         targetValue = targetValue.textAlign,
-        typeConverter = TextAlign.VectorConverter,
+        typeConverter = TextAlignVectorConverter,
         animationSpec = QuackAnimationSpec(),
         label = label,
         finishedListener = textAlignAnimationFinishedListener,

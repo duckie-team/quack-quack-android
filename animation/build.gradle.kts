@@ -13,15 +13,10 @@ plugins {
     `buildlogic-android-compose-metrics`
     `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
-    alias(libs.plugins.test.paparazzi)
 }
 
 android {
     namespace = "team.duckie.quackquack.animation"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 }
 
 dependencies {
@@ -29,9 +24,5 @@ dependencies {
     implementations(
         libs.compose.animation,
         projects.util.orArtifact(),
-    )
-    androidTestImplementations(
-        libs.test.strikt,
-        libs.test.junit.compose,
     )
 }

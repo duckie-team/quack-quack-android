@@ -22,6 +22,7 @@ import androidx.compose.runtime.Immutable
 @Immutable
 @JvmInline
 // TODO(1): 리소스 정리 필요 (불필요한 아이콘까지 포함됨으로 예상됨)
+// TODO(1): @Stable 명시 필요 (명시적인 안정성을 선호함)
 // TODO(1): XML -> Compose SVG Path
 public value class QuackIcon(@DrawableRes public val drawableId: Int) {
     public companion object {

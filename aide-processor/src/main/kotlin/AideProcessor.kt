@@ -12,7 +12,7 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.validate
 
-internal class CoreAideProcessor(
+internal class AideProcessor(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger,
     private val aidePath: String?,

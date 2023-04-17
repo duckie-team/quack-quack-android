@@ -10,6 +10,7 @@
 package team.duckie.quackquack.material.shape
 
 import android.graphics.Path
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Shape
@@ -27,6 +28,7 @@ import kotlin.math.pow
  * Squircle 모양을 구현합니다.
  */
 // TAKEN FROM: https://stackoverflow.com/q/73299444/14299073
+@Immutable
 public object SquircleShape : Shape {
     private const val SMOOTHING = 3.0
     private const val OVERSAMPLING_MULTIPLIER = 4F

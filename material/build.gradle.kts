@@ -17,10 +17,6 @@ plugins {
 android {
     namespace = "team.duckie.quackquack.material"
     resourcePrefix = "quack_"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 }
 
 dependencies {
@@ -28,9 +24,5 @@ dependencies {
         libs.compose.uiutil,
         libs.compose.foundation,
         libs.androidx.core.ktx, // needed for androidx.core.graphics (used in SquircleShape)
-    )
-    androidTestImplementations(
-        libs.test.strikt,
-        libs.test.junit.compose,
     )
 }

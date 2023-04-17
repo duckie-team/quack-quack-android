@@ -39,13 +39,13 @@ internal class SugarIrExtension(
                 sugarPath = sugarPath,
             )
         }
-        moduleFragment.transform(transformer, sugarIrDatas.toMap())
+        moduleFragment.transform(transformer, sugarIrDatas.asMap())
     }
 }
 
-private fun List<SugarIrData>.toMap(): Map<String, SugarIrData> {
+private fun List<SugarIrData>.asMap(): Map<String, SugarIrData> {
     return buildMap(capacity = size) {
-        this@toMap.forEach { sugarIrData ->
+        this@asMap.forEach { sugarIrData ->
             set(sugarIrData.referFqn.asString(), sugarIrData)
         }
     }

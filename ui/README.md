@@ -1,6 +1,6 @@
-# core
+# ui
 
-`core` 모듈은 꽥꽥의 모든 UI 컴포넌트를 구현하는 모듈입니다. 기존의 `ui-components` 모듈과 완전히 다른 구현을 제공합니다.
+`ui` 모듈은 꽥꽥의 모든 UI 컴포넌트를 구현하는 모듈입니다. 기존의 `ui-components` 모듈과 완전히 다른 구현을 제공합니다.
 
 ### 정직했던 디자인 시스템
 
@@ -191,4 +191,4 @@ fun NormalButton(modifier: Modifier = Modifier, text: String) {} // same as Butt
 fun FlatButton(modifier: Modifier = Modifier, text: String) {} // same as Button(type = QuackButton.Flat, ...)
 ```
 
- 자세한 내용은 [`core-sugar-processor-kotlinc`](../core-sugar-processor-kotlinc) 모듈의 README를 참고하세요.
+ 자세한 내용은 [`sugar-processor`](../sugar-processor) 모듈의 README를 참고하세요.
