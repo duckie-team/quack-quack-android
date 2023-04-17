@@ -125,7 +125,7 @@ internal data class SugarParameter(
             .applyIf(casaValueLiteral != null) {
                 addAnnotation(
                     annotationSpec = AnnotationSpec
-                        .builder(CasaValue::class)
+                        .builder(CasaValueCn)
                         .addMember("%S", casaValueLiteral!!)
                         .build(),
                 )

@@ -9,5 +9,4 @@ plugins {
     `buildlogic-jvm-kotlin`
     `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
-    // `buildlogic-quack-mavenpublishing`
 }

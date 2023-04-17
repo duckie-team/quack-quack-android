@@ -21,7 +21,6 @@ internal val quackComponents: Map<String, String> = run {
   aide["QuackSubtitle2"] = "text"
   aide["QuackTitle1"] = "text"
   aide["QuackTitle2"] = "text"
-  aide["QuackText"] = "text"
 
   aide
 }

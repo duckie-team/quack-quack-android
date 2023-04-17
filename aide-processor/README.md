@@ -1,6 +1,6 @@
-# core-aide-processor
+# aide-processor
 
-본 모듈은 [`core-aide`](../core-aide)가 작동되기 위한 각각 도메인별 허용하는 데코레이터 Modifier의 모음을 자동으로 생성합니다.
+본 모듈은 [`aide`](../aide)가 작동되기 위한 각각 도메인별 허용하는 데코레이터 Modifier의 모음을 자동으로 생성합니다.
 
 기본 작동은 [`KSP`](https://kotlinlang.org/docs/ksp-overview.html)와 [`kotlinpoet`](https://github.com/square/kotlinpoet)으로 진행됩니다.
 

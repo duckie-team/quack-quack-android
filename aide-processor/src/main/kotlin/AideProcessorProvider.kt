@@ -17,9 +17,9 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 private const val AidePathArg = "AidePath"
 
 @AutoService(SymbolProcessorProvider::class)
-class CoreAideSymbolProcessorProvider : SymbolProcessorProvider {
+class AideSymbolProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        return CoreAideSymbolProcessor(
+        return AideSymbolProcessor(
             codeGenerator = environment.codeGenerator,
             logger = environment.logger,
             options = environment.options,
@@ -27,12 +27,12 @@ class CoreAideSymbolProcessorProvider : SymbolProcessorProvider {
     }
 }
 
-private class CoreAideSymbolProcessor(
+private class AideSymbolProcessor(
     codeGenerator: CodeGenerator,
     logger: KSPLogger,
     options: Map<String, Any>,
 ) : SymbolProcessor {
-    private val processor = CoreAideProcessor(
+    private val processor = AideProcessor(
         codeGenerator = codeGenerator,
         logger = logger,
         aidePath = options[AidePathArg]?.toString(),

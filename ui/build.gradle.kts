@@ -18,7 +18,6 @@ plugins {
     `buildlogic-kotlin-explicitapi`
     `buildlogic-quack-mavenpublishing`
     alias(libs.plugins.kotlin.ksp)
-    alias(libs.plugins.test.paparazzi)
 }
 
 tasks.withType<KotlinCompile> {

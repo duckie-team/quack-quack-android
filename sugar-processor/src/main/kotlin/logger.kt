@@ -13,7 +13,7 @@ import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSourceLocation
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.config.CompilerConfiguration
 
-internal const val LogPrefix = "[SUGAR (IR)]"
+internal const val LogPrefix = "SUGAR (IR)"
 
 internal interface Logger {
     fun warn(value: Any?, location: CompilerMessageSourceLocation? = null)
@@ -50,4 +50,4 @@ internal fun CompilerConfiguration.getLogger(): Logger {
 }
 
 internal fun Any?.prependLogPrefix(withNewline: Boolean = false) =
-    "$LogPrefix ${if (withNewline) "\n$this" else " $this"}"
+    "[$LogPrefix] ${if (withNewline) "\n$this" else " $this"}"

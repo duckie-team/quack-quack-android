@@ -117,7 +117,7 @@ src/test.kt:21: Information: 올바르지 않은 DecorateModifier의 사용이 �
         }
 
         "변수로 분리된 Modifier".config(enabled = false) {
-            TODO()
+            TODO("아직 지원하지 않음")
         }
     }
 

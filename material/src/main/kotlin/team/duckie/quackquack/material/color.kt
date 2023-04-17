@@ -53,19 +53,34 @@ public value class QuackColor(public val value: Color) : ReadOnlyProperty<Any, C
     }
 
     public companion object {
+        @Stable
         public val DuckieOrange: QuackColor = QuackColor(Color(0xFFFF8300))
 
+        @Stable
         public val Alert: QuackColor = QuackColor(Color(0xFFFF2929))
+
+        @Stable
         public val Dimmed: QuackColor = QuackColor(Color.Black.copy(alpha = 0.6f))
 
+        @Stable
         public val Gray1: QuackColor = QuackColor(Color(0xFF666666))
+
+        @Stable
         public val Gray2: QuackColor = QuackColor(Color(0xFFA8A8A8))
+
+        @Stable
         public val Gray3: QuackColor = QuackColor(Color(0xFFEFEFEF))
+
+        @Stable
         public val Gray4: QuackColor = QuackColor(Color(0xFFF6F6F6))
 
+        @Stable
         public val Black: QuackColor = QuackColor(Color(0xFF222222))
+
+        @Stable
         public val White: QuackColor = QuackColor(Color(0xFFFFFFFF))
     }
 
+    @Stable
     override fun getValue(thisRef: Any, property: KProperty<*>): Color = value
 }

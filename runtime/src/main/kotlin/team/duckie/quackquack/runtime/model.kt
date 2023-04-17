@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
  * [Modifier]로 제공될 꽥꽥 컴포넌트의 데이터임을 나타냅니다.
  * 다음과 같이 사용될 수 있습니다.
  *
- * ```kotlin
+ * ```
  * @JvmInline
  * value class StringData(value: String): QuackDataModifierModel
  *

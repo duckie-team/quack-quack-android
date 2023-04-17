@@ -21,7 +21,6 @@ ksp {
 dependencies {
     ksp(libs.google.autoservice.ksp.processor)
     implementations(
-        libs.kotlin.reflect,
         libs.kotlin.ksp.api,
         libs.kotlin.kotlinpoet.core,
         libs.kotlin.collections.immutable,

@@ -8,7 +8,6 @@ google-autoservice-ksp = "1.0.0"
 
 kotlin-core = "1.8.20"
 kotlin-ksp = "1.8.20-1.0.10"
-kotlin-reflect = "1.8.20"
 kotlin-dokka = "1.8.10"
 kotlin-kotlinpoet = "1.13.0"
 kotlin-detekt = "1.22.0"
@@ -69,7 +68,6 @@ google-autoservice-ksp-processor = { module = "dev.zacsweers.autoservice:auto-se
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-core" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin-core" }
 kotlin-embeddable-compiler = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin-core" }
-kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin-reflect" }
 kotlin-ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "kotlin-ksp" }
 kotlin-kotlinpoet-core = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-kotlinpoet" }
 kotlin-kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-kotlinpoet" }
@@ -82,7 +80,7 @@ android-lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "
 android-lint-checks = { module = "com.android.tools.lint:lint-checks", version.ref = "android-lint" } # compileOnly
 
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
-androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" } # needed for screenshot-matcher
 androidx-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-benchmark = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidx-benchmark" }
 androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "androidx-profileinstaller" }

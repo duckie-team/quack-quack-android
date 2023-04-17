@@ -27,11 +27,11 @@ import org.jetbrains.uast.getQualifiedChain
  * 이미 프로덕션 [rule]이 적용된 상태로 로드됐기에 효과가 없었습니다.
  *
  * 따라서 setUp, tearDown으로 fixture를 설정하는 건 어렵겠다고 판단하였고,
- * [rule]을 하드 코딩하는 게 아닌 직접 제공할 수 있는 [CoreAideDecorateModifierDetector]를
- * 만드는 것으로 해결하였습니다. [CoreAideDecorateModifierDetector]를 [프로덕션][CoreAideDecorateModifierDetector]과 [테스트][CoreAideDecorateModifierTestDetector] 버전으로
+ * [rule]을 하드 코딩하는 게 아닌 직접 제공할 수 있는 [AideDecorateModifierDetector]를
+ * 만드는 것으로 해결하였습니다. [AideDecorateModifierDetector]를 [프로덕션][AideDecorateModifierDetector]과 [테스트][CoreAideDecorateModifierTestDetector] 버전으로
  * 나눈 다음에, 공통되는 린트 로직을 갖을 수 있도록 해당 린트의 핵심 구현인 `visitMethodCall`을
  * 별도 함수로 분리하였습니다. 분리된 [visitMethodCallImpl] 함수에 [rule] fixture를 제공함으로써
- * testable한 [CoreAideDecorateModifierDetector]를 만들 수 있습니다.
+ * testable한 [AideDecorateModifierDetector]를 만들 수 있습니다.
  */
 internal fun visitMethodCallImpl(
     context: JavaContext,

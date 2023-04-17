@@ -55,10 +55,12 @@ class SugarIrTransformTest : StringSpec() {
                 kotlin(
                     "text-sugar.kt",
                     """
-                    @file:GeneratedFile
+                    @file:OptIn(SugarCompilerApi::class) 
+                    @file:SugarGeneratedFile
     
                     import androidx.compose.runtime.Composable
-                    import team.duckie.quackquack.sugar.material.GeneratedFile
+                    import team.duckie.quackquack.sugar.material.SugarCompilerApi
+                    import team.duckie.quackquack.sugar.material.SugarGeneratedFile
                     import team.duckie.quackquack.sugar.material.SugarRefer
                     import team.duckie.quackquack.sugar.material.sugar
     

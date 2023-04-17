@@ -47,7 +47,7 @@ internal class SugarIrVisitor(
     }
 
     override fun visitFile(declaration: IrFile) {
-        if (declaration.hasAnnotation(GeneratedFileFqn)) return
+        if (declaration.hasAnnotation(SugarGeneratedFileFqn)) return
         declaration.declarations.forEach { item ->
             item.accept(this, null)
         }
