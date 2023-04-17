@@ -2,6 +2,7 @@
 gradle-android = "8.1.0-alpha11"
 gradle-publish-maven = "0.25.2"
 gradle-dependency-handler-extensions = "1.1.0"
+gradle-dependency-graph = "1.1.0"
 
 google-autoservice-standard = "1.0.1"
 google-autoservice-ksp = "1.0.0"
@@ -50,6 +51,7 @@ test-kotlin-compilation-ksp = "1.5.0"
 gradle-publish-maven-core = { id = "com.vanniktech.maven.publish", version.ref = "gradle-publish-maven" }
 gradle-publish-maven-base = { id = "com.vanniktech.maven.publish.base", version.ref = "gradle-publish-maven" }
 gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "gradle-dependency-handler-extensions" }
+gradle-dependency-graph = { id = "land.sungbin.dependency.graph.plugin", version.ref = "gradle-dependency-graph" }
 
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "kotlin-dokka" }
