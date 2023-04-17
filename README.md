@@ -75,7 +75,22 @@ QuackQuack은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 그 이�
 
 구현 세부사항은 각각 모듈의 README와 [ARTICLES](ARTICLES.md) 문서를 참고해 주세요.
 
-## Preview
+## Testing
+
+테스트 가치가 있는 로직은 모두 테스트를 작성하였습니다. 
+
+- Compose Integration Test, Compose Screenshot Test
+- Unit Test
+
+Compose Test는 JUnit4에 의존하기에 [JUnit4](https://junit.org/junit4/)를 사용하고, Unit Test는 [Kotest](https://kotest.io/)를 사용합니다.
+
+Compile Test는 [Kotlin Compile Testing](https://github.com/tschuchortdev/kotlin-compile-testing)를 사용하고, Screenshot Test는 [Roborazzi](https://github.com/takahirom/roborazzi)를 사용합니다.
+
+## [WIP] Documentation
+
+dokka + docusaurus + dokka-roborazzi-integration 예정
+
+## [WIP] Preview
 
 [catalog](catalog) 모듈을 빌드하거나 [Google PlayStore](https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground)에서 미리 보기 앱을 설치하실 수 있습니다.
 
@@ -113,7 +128,7 @@ repositories {
 - Dev: [지성빈](https://sungb.in)
 - Design: [김혜진](https://my.surfit.io/w/417265724)
 
-## Contributing
+## Contributions
 
 모든 기여를 환영합니다. 기여하시기 전에 [contribution guide](.github/CONTRIBUTING.md)를 읽어 주세요.
 
@@ -123,4 +138,4 @@ repositories {
 
 ## License
 
-QuackQuack is designed and developed by 2022~2023 Duckie Team, and licensed under MIT. please see the [License](LICENSE) file.
+꽥꽥은 [MIT 라이선스](LICENSE)로 관리됩니다.
