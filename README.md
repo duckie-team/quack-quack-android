@@ -100,7 +100,7 @@ QuackQuack은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 그 이�
 - Kotlin Compiler Plugin
 - Gradle Plugin
 
-구현 세부사항은 각각 모듈의 README와 [ARTICLES](ARTICLES.md) 문서를 참고해 주세요.
+구현 세부사항은 각각 모듈 또는 [ARTICLES](ARTICLES.md) 문서를 참고해 주세요.
 
 ## Testing
 
