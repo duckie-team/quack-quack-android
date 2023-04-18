@@ -90,6 +90,10 @@ QuackQuack은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 그 이�
 - `animation`: 기초적인 애니메이션을 제공합니다.
 - `ui`: 디자인 컴포넌트를 구현합니다.
 
+## Workflows
+
+![workflows](assets/workflows.png)
+
 ## Tech Stacks
 
 - GitHub Actions
