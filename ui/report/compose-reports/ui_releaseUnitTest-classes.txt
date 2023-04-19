@@ -1,0 +1,5 @@
+unstable class TextRoborazzi {
+  runtime val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
+  unstable val roborazziRule: RoborazziRule
+  <runtime stability> = Unstable
+}
