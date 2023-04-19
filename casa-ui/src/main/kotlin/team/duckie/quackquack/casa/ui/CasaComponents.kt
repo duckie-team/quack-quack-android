@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.casa.material.CasaModel
 
-// TODO: 문서화
 @Composable
 internal fun CasaComponents(
     modifier: Modifier = Modifier,

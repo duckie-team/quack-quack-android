@@ -14,9 +14,9 @@ enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 pluginManagement {
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
-        gradlePluginPortal()
     }
 }
 
@@ -42,6 +42,6 @@ include(
     ":casa-annotation",
     ":casa-material",
     ":casa-processor",
-    // ":dokka-paparazzi-integration",
+    // ":dokka-roborazzi-integration",
     ":screenshot-matcher",
 )

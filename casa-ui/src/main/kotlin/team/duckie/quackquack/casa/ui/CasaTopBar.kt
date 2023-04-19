@@ -37,7 +37,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import team.duckie.quackquack.casa.material.CasaConfig
 import team.duckie.quackquack.casa.material.CasaModel
 
-// TODO: 문서화
 @Composable
 public fun CasaTopBar(
     modifier: Modifier = Modifier,
@@ -106,6 +105,7 @@ public fun CasaTopBar(
     )
 }
 
+@Suppress("UnusedReceiverParameter")
 @Composable
 private fun ColumnScope.CasaTopBarDropdownMenuContent(
     sourceUrl: String,

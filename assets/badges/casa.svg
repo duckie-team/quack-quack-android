@@ -1,0 +1,18 @@
+<!--
+  - Designed and developed by Duckie Team 2023.
+  -
+  - Licensed under the MIT.
+  - Please see full license: https://github.com/duckie-team/quack-quack-android/blob/2.x.x/LICENSE
+  -->
+
+<svg xmlns="http://www.w3.org/2000/svg" width="35" height="20" role="img" aria-label="casa">
+    <title>casa</title>
+    <g shape-rendering="crispEdges">
+        <rect width="0" height="20" fill="#d4c5f9" />
+        <rect x="0" width="35" height="20" fill="#d4c5f9" />
+    </g>
+    <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif"
+        text-rendering="geometricPrecision" font-size="110">
+        <text x="175" y="140" transform="scale(.1)" fill="#000" textLength="250">casa</text>
+    </g>
+</svg>

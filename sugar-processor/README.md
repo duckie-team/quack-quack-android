@@ -129,7 +129,7 @@ value class Theme(val index: Int) {
 1. Ir Visit 단계에서 수집한 Ir 데이터를 순회한다.
 2. `referFqn`을 `@SugarRefer`로 추가한다.
 3. `tokenFqExpressions`를 순회하며 주어진 조건에 맞는 sugar component 이름을 계산한다.
-4. `referFqn`의 호출로 함수의 본문을 시작하고 `"$parameterName = $parameterName"` 형태로 라인 추가를 진행한다. 만약 sugar token을 입력받는 인자라면 현재 순회중인 `tokenFqExpression` 값을 대입한다.
+4. `referFqn`의 호출로 함수의 본문을 시작하고 `"$parameterName = $parameterName"` 형태로 라인 추가를 진행한다. 만약 sugar token을 입력받는 인자라면 현재 순회 중인 `tokenFqExpression` 값을 대입한다.
 5. `referFqn` 함수의 인자에서 sugar token을 나타내는 인자를 제외한 나머지 인자들을 그대로 복사하고, default value가 있는 인자라면 `sugar()`를 default value로 하드 코딩한다.
 6. `referFqn` 함수의 KDoc을 그대로 복사한다.
 

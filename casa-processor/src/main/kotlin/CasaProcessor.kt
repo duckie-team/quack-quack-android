@@ -138,7 +138,7 @@ private fun createCasaModelPropertySpecWithImports(
     val components = buildString {
         appendLine("persistentListOf<Pair<String, @Composable () -> Unit>>(")
         casas.forEach { casa ->
-            appendCasaComponentPairWithImport(casa = casa).first.let { import ->
+            appendCasaComponentPairWithImport(casa = casa).let { (import, _) ->
                 imports += import
             }
             appendLine(",")

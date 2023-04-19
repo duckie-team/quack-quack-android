@@ -17,6 +17,36 @@ plugins {
     alias(libs.plugins.kotlin.detekt)
     alias(libs.plugins.kotlin.ktlint)
     alias(libs.plugins.gradle.dependency.handler.extensions)
+    alias(libs.plugins.gradle.dependency.graph)
+}
+
+val quackquackColor = "#36bcf5"
+val projectDependencyInfoMap = mapOf(
+    "casa" to DependencyInfo(color = "#D4C5F9"),
+    "catalog" to DependencyInfo(color = "#8ED610", isBoxShape = true),
+    "aide" to DependencyInfo(color = "#98E1CF"),
+    "sugar" to DependencyInfo(color = "#BFD4F2"),
+    "runtime" to DependencyInfo(color = quackquackColor),
+    "material" to DependencyInfo(color = quackquackColor),
+    "animation" to DependencyInfo(color = quackquackColor),
+    "ui" to DependencyInfo(color = quackquackColor),
+)
+
+dependencyGraphConfig {
+    dotFilePath = "assets/project-dependency-graph.dot"
+    outputFormat = OutputFormat.SVG
+
+    dependencyBuilder { project ->
+        val projectSimpleName = project.name.split("-").first()
+        projectDependencyInfoMap[projectSimpleName]
+    }
+}
+
+@Suppress("ktlint")
+tasks.matching { task ->
+    task.name.contains("dependencyGraph")
+}.configureEach {
+    notCompatibleWithConfigurationCache("https://github.com/jisungbin/dependency-graph-plugin/issues/8")
 }
 
 buildscript {
