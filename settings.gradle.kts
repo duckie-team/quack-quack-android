@@ -43,4 +43,5 @@ include(
     ":casa-material",
     ":casa-processor",
     ":screenshot-matcher",
+    ":bom",
 )
