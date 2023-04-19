@@ -4,12 +4,25 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
     title: 'QuackQuack',
-    tagline: 'Modifier-driven Jetpack Compose design system',
-    favicon: 'img/logo.ico',
     url: 'https://quackquack.duckie.team',
     baseUrl: '/',
-    onBrokenLinks: 'throw',
-    onBrokenMarkdownLinks: 'warn',
+    favicon: 'img/logo.ico',
+    tagline: 'Modifier-driven Jetpack Compose design system',
+    presets: [
+        [
+            '@docusaurus/preset-classic',
+            {
+                docs: {
+                    routeBasePath: '/',
+                    sidebarPath: require.resolve('./sidebars.js'),
+                    editUrl: 'https://github.com/duckie-team/quack-quack-android/edit/2.x.x/website/',
+                },
+                theme: {
+                    customCss: require.resolve('./src/css/custom.css'),
+                },
+            },
+        ],
+    ],
     themeConfig: {
         navbar: {
             title: 'QuackQuack',
@@ -35,21 +48,6 @@ const config = {
             defaultLanguage: ['kotlin'],
         },
     },
-    presets: [
-        [
-            '@docusaurus/preset-classic',
-            {
-                docs: {
-                    routeBasePath: '/',
-                    sidebarPath: require.resolve('./sidebars.js'),
-                    editUrl: 'https://github.com/duckie-team/quack-quack-android/edit/2.x.x/website/',
-                },
-                theme: {
-                    customCss: require.resolve('./src/css/custom.css'),
-                },
-            },
-        ],
-    ],
 };
 
 module.exports = config;
