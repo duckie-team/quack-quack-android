@@ -42,6 +42,7 @@ dependencyGraphConfig {
     }
 }
 
+@Suppress("ktlint")
 tasks.matching { task ->
     task.name.contains("dependencyGraph")
 }.configureEach {
