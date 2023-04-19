@@ -1,5 +1,4 @@
 ---
-sidebar_position: 1
 sidebar_label: 'Getting started'
 slug: /
 ---
@@ -105,15 +104,15 @@ Compile Test는 [Kotlin Compile Testing](https://github.com/tschuchortdev/kotlin
 
 <a href="https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" style={{width: 200}} /></a>
 
-## [WIP] Download ![quackquack-ui](https://img.shields.io/maven-central/v/team.duckie.quackquack.ui/ui?style=flat-square)
+## [WIP] Download ![](https://img.shields.io/maven-central/v/team.duckie.quackquack.bom/bom?style=flat-square)
 
 꽥꽥은 MavenCentral 저장소에 배포됩니다.
 
 ```kotlin
-dependencies {
-    implementation("team.duckie.quackquack.ui:ui:${version}")
-}
+implementation platform("team.duckie.quackquack.bom:bom:${version}")
 ```
+
+// TODO
 
 #### Snapshot
 
@@ -132,7 +131,7 @@ repositories {
 
 ## Contributions
 
-모든 기여를 환영합니다. 기여하시기 전에 [contribution guide](contribute.md)를 읽어 주세요.
+모든 기여를 환영합니다. 기여하시기 전에 [contribution guide](04-contribute.md)를 읽어 주세요.
 
 > 기여해 주신 모든 분께 감사합니다. 
 > 

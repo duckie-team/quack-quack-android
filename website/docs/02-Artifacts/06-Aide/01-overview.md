@@ -1,3 +1,7 @@
+---
+sidebar_label: 'Overview'
+---
+
 # aide
 
 본 모듈은 디자인 시스템을 지키기 위한 일종의 보호벽을 제공합니다.
@@ -8,7 +12,7 @@
 
 예를 들어 다음과 같은 컴포넌트가 있습니다.
 
-![tag](assets/tag.svg)
+![tag](images/tag.svg)
 
 이 컴포넌트는 스펙에 따르면 배경색이 DuckieOrange로 보여야 하지만, `Modifier.background(color = Color.Blue)`를 사용한다면 파란색으로 변경할 수 있습니다.
 
@@ -79,3 +83,9 @@ fun Modifier.highlight(text: String, color: Color): Modifier {
 ## Caveat
 
 - 개별 statement로 분리된 `Modifier`는 감지하지 못 합니다.
+
+## Download ![](https://img.shields.io/maven-central/v/team.duckie.quackquack.aide/aide?style=flat-square)
+
+```kotlin
+lintChecks("team.duckie.quackquack.aide:aide:${version}")
+```

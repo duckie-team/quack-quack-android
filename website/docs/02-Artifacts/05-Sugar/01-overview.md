@@ -1,16 +1,8 @@
-# sugar-processor-kotlinc
-
-1. [Overview](#overview)
-2. [Why not KSP?](#why-not-ksp)
-3. [Ir Visit](#ir-visit)
-4. [Code Generate](#code-generate)
-5. [Ir Transform](#ir-transform)
-6. [Compile Options](#compile-options)
-7. [Caveat](#caveat)
-
+---
+sidebar_label: 'Processor'
 ---
 
-## Overview
+# sugar-processor-kotlinc
 
 이 모듈은 core 컴포넌트의 sugar syntax를 위한 컴포넌트를 자동 구현합니다. `sugar-processor-kotlinc`는 다음과 같은 단계로 진행됩니다.
 
@@ -18,7 +10,7 @@
 2. `Code Generate`
 3. `Ir Transform`
 
-![flow](assets/flow.png)
+![flow](images/flow.png)
 
 이 중 `Code Generate` 단계는 컴파일 옵션에 따라 생략할 수 있습니다.
 
@@ -38,7 +30,7 @@ KSP는 [PSI](https://plugins.jetbrains.com/docs/intellij/psi.html) 기반으로 
 true
 ```
 
-<img src="assets/simple-psi-defaultvalue.jpeg" width="60%" alt="simple-psi-defaultvalue"/>
+<img src="images/simple-psi-defaultvalue.jpeg" width="60%" alt="simple-psi-defaultvalue"/>
 
 아래와 같이 sibling이 포함된 복잡한 PSI tree를 갖는 expression이라면 파싱의 난이도가 급격히 상승합니다.
 
@@ -46,7 +38,7 @@ true
 listOf(1, 2, 3)
 ```
 
-<img src="assets/complex-psi-defaultvalue.jpeg" width="60%" alt="complex-psi-defaultvalue"/>
+<img src="images/complex-psi-defaultvalue.jpeg" width="60%" alt="complex-psi-defaultvalue"/>
 
 따라서 default value까지 복사하여 sugar component 코드를 생성하는 건 무리라고 판단하고 default value 지원을 TODO로 남기려 했지만, 컴포즈 환경에서 default value가 없다는 건 개발자에게 너무 치명적인 경험 저하라고 생각하였습니다.
 
@@ -143,8 +135,8 @@ SugarRefer의 IR 정보는 Ir Visit 단계에서 조회한 정보로 불러옵�
 
 `sugar-processor-kotlinc`는 `poet`를 조정할 수 있는 2가지 컴파일 옵션을 제공합니다.
 
-- `sugarPath`: Sugar Component가 생성될 위치 [String] \<required>
-- `poet`: Code Generate 단계를 활성화할지 여부 [Boolean] \<true>
+- `sugarPath`: Sugar Component가 생성될 위치 [String] (기본값 없음, 필수)
+- `poet`: Code Generate 단계를 활성화할지 여부 [Boolean] (기본값: `true`)
 
 ## Caveat
 
@@ -155,3 +147,9 @@ SugarRefer의 IR 정보는 Ir Visit 단계에서 조회한 정보로 불러옵�
 - sugar component의 인자로 함수형 타입은 지원되지 않습니다. 함수형 타입엔 [generic type erasure](https://docs.oracle.com/javase/tutorial/java/generics/erasure.html)가 적용되어 컴파일단에서는 `Function`까지만 조회됩니다. 즉, `Function`의 `T` 타입을 유추할 수 없기에 별도 대응이 필요합니다.
 - Compiler Plugin 등록 서비스로 deprecated된 방식을 사용합니다. (See [SugarComponentRegistrar.kt](https://github.com/duckie-team/quack-quack-android/blob/b4aa5e7c3c4e13a2c1b84109912f99f3bd1bbe4c/sugar-processor/src/main/kotlin/SugarComponentRegistrar.kt#L22-L31))
 - sugar token의 타입으로 `value class`, `data class`, `class`만 테스트가 진행됐습니다.
+
+## Download ![](https://img.shields.io/maven-central/v/team.duckie.quackquack.sugar/sugar-processor?style=flat-square)
+
+```kotlin
+"kotlinCompilerPluginClasspath"("team.duckie.quackquack.sugar:sugar-processor:${version}")
+```
