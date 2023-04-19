@@ -5,7 +5,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
     title: 'QuackQuack',
     url: 'https://quackquack.duckie.team',
-    baseUrl: '/',
+    baseUrl: '/android/',
     favicon: 'img/logo.ico',
     tagline: 'Modifier-driven Jetpack Compose design system',
     presets: [
