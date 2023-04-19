@@ -11,7 +11,14 @@ package team.duckie.quackquack.casa.material
 
 import androidx.compose.runtime.Immutable
 
-// TODO: 문서화
+/**
+ * casa-ui에서 사용할 UI 정보를 제공합니다.
+ *
+ * @param casaName catalog 앱 이름
+ * @param bugReportUrl 버그 신고시 이동할 웹 링크
+ * @param baseSourceUrl 소스코드 보기에 기본으로 사용할 웹 링크.
+ * [baseSourceUrl]에 코드 파일 경로를 이어서 사용합니다.
+ */
 @Immutable
 public data class CasaConfig(
     public val casaName: String = "QuackQuack catalog",

@@ -1,3 +1,15 @@
 # casa-processor
 
 본 모듈은 `CasaModel` 자동 생성기를 구현합니다.
+
+sugar-processor로 생성된 sugar component는 기본적으로 `@Casa` 어노테이션을 포함하고 있습니다. casa-processor는 `@Casa` 컴포넌트에 작동하므로, 기본으로 생성되는 sugar component는 모두 `CasaModel`이 생성됩니다.
+
+---
+
+### 컴포넌트 인자 선정 방식
+
+casa component 인자에 기본값이 있다면 해당 인자는 건너뜁니다. 만약, 기본값이 없다면 세 가지 분기를 거칩니다.
+
+1. `@CasaValue` 어노테이션이 있다면 해당 리터럴를 인자 값으로 사용한다.
+2. `@CasaValue`  어노테이션이 없고 해당 인자가 nullable이라면 `null`을 인자 값으로 사용한다.
+3. 인자가 NonNull하고 `@CasaValue` 어노테이션이 없다면 예외를 발생시킨다.
