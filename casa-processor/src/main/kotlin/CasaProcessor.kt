@@ -132,7 +132,7 @@ private fun createCasaModelPropertySpecWithImports(
         parameter.type.resolve().declaration.qualifiedName!!.asString()
     }.toMutableList()
     val kdocString = casas.first().docString.orEmpty()
-        .split("This document was auto-generated.")
+        .split("This document was automatically generated")
         .first()
         .trimIndent()
     val components = buildString {
