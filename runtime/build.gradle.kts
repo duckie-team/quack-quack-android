@@ -10,7 +10,6 @@
 plugins {
     `buildlogic-android-library`
     `buildlogic-android-compose`
-    `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
 }
 

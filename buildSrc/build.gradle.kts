@@ -9,7 +9,6 @@ private val buildLogicPrefix = "quackquack"
 
 plugins {
     `kotlin-dsl`
-    alias(libs.plugins.kotlin.dokka)
 }
 
 tasks.withType<Test>().configureEach {
@@ -42,8 +41,6 @@ gradlePlugin {
 dependencies {
     implementation(libs.gradle.android)
     implementation(libs.kotlin.gradle)
-    implementation(libs.kotlin.dokka.base)
-    implementation(libs.kotlin.dokka.plugin)
     implementation(libs.gradle.publish.maven)
     testImplementation(libs.test.strikt)
     testImplementation(libs.test.kotest.framework)

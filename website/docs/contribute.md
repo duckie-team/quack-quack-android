@@ -1,3 +1,8 @@
+---
+sidebar_position: 4
+sidebar_label: 'Contributing'
+---
+
 # How to contribute
 
 quack-quack-android 프로젝트에 관심을 갖고 기여해 주셔서 감사합니다. 따라야 할 몇 가지 작은 규칙이 있습니다.

@@ -26,15 +26,10 @@ import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.dokka.base.DokkaBase
-import org.jetbrains.dokka.base.DokkaBaseConfiguration
-import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 private const val EXPLICIT_API = "-Xexplicit-api=strict"
-private const val DOKKA_FOOTER_MESSAGE =
-    "made with <span style=\"color: #ff8300;\">❤</span> by <a href=\"https://duckie.team/\">Duckie</a>"
 
 internal abstract class BuildLogicPlugin(private val block: Project.() -> Unit) : Plugin<Project> {
     final override fun apply(project: Project) {
@@ -135,25 +130,6 @@ internal class TestJUnitPlugin : BuildLogicPlugin({
 internal class TestKotestPlugin : BuildLogicPlugin({
     useJUnitPlatformForTarget()
     dependencies.add("testImplementation", libs.findLibrary("test-kotest-framework").get())
-})
-
-internal class JvmDokkaPlugin : BuildLogicPlugin({
-    applyPlugins(libs.findPlugin("kotlin-dokka").get().get().pluginId)
-
-    tasks.withType<DokkaTask> {
-        notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/1217")
-        outputDirectory.set(file("$projectDir/document"))
-        suppressInheritedMembers.set(true)
-
-        dokkaSourceSets.configureEach {
-            jdkVersion.set(ApplicationConstants.JavaVersionAsInt)
-        }
-
-        pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-            footerMessage = DOKKA_FOOTER_MESSAGE
-            customAssets = listOf(file("$rootDir/assets/logo-icon.svg"))
-        }
-    }
 })
 
 internal class KotlinExplicitApiPlugin : BuildLogicPlugin({

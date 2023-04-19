@@ -1,3 +1,9 @@
+---
+sidebar_position: 2
+---
+
+# Resources
+
 ## Articles
 
 - [덕키의 디자인 시스템 “꽥꽥” 을 소개합니다.](https://blog.duckie.team/%EB%8D%95%ED%82%A4%EC%9D%98-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%BD%A5%EA%BD%A5-%EC%9D%84-%EC%86%8C%EA%B0%9C%ED%95%A9%EB%8B%88%EB%8B%A4-59d962c4bf7)

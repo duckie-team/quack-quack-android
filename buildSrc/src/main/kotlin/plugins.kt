@@ -63,9 +63,6 @@ inline val PluginDependenciesSpec.`buildlogic-test-junit`: PluginDependencySpec
 inline val PluginDependenciesSpec.`buildlogic-test-kotest`: PluginDependencySpec
     get() = id(generatePluginRegisterId(TestKotestPlugin::class.simpleName!!))
 
-inline val PluginDependenciesSpec.`buildlogic-jvm-dokka`: PluginDependencySpec
-    get() = id(generatePluginRegisterId(JvmDokkaPlugin::class.simpleName!!))
-
 inline val PluginDependenciesSpec.`buildlogic-kotlin-explicitapi`: PluginDependencySpec
     get() = id(generatePluginRegisterId(KotlinExplicitApiPlugin::class.simpleName!!))
 

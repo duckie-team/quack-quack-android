@@ -42,6 +42,5 @@ include(
     ":casa-annotation",
     ":casa-material",
     ":casa-processor",
-    // ":dokka-roborazzi-integration",
     ":screenshot-matcher",
 )
