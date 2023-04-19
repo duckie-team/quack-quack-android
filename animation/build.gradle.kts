@@ -11,7 +11,6 @@ plugins {
     `buildlogic-android-library`
     `buildlogic-android-compose`
     `buildlogic-android-compose-metrics`
-    `buildlogic-jvm-dokka`
     `buildlogic-kotlin-explicitapi`
 }
 

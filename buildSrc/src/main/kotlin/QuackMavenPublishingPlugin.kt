@@ -66,7 +66,7 @@ class QuackMavenPublishingPlugin : Plugin<Project> {
 private fun MavenPom.configureMavenPom(artifactName: String) {
     name.set(artifactName)
     description.set("https://github.com/$RepositoryName")
-    inceptionYear.set(LocalDate.now().year.toString())
+    inceptionYear.set("2023")
     url.set("https://github.com/$RepositoryName")
     licenses {
         license {
@@ -83,7 +83,7 @@ private fun MavenPom.configureMavenPom(artifactName: String) {
         }
     }
     scm {
-        url.set("https://github.com/$RepositoryName/tree/main")
+        url.set("https://github.com/$RepositoryName")
         connection.set("scm:git:github.com/$RepositoryName.git")
         developerConnection.set("scm:git:ssh://github.com/$RepositoryName.git")
     }
@@ -104,7 +104,7 @@ internal data class ArtifactConfig(
             val version = project.parseArtifactVersion()
 
             return ArtifactConfig(
-                group = "$QuackBaseGroupId:$groupSuffix",
+                group = "$QuackBaseGroupId.$groupSuffix",
                 module = module,
                 version = version,
             )

@@ -9,7 +9,6 @@ google-autoservice-ksp = "1.0.0"
 
 kotlin-core = "1.8.20"
 kotlin-ksp = "1.8.20-1.0.10"
-kotlin-dokka = "1.8.10"
 kotlin-kotlinpoet = "1.13.0"
 kotlin-detekt = "1.22.0"
 kotlin-ktlint-gradle = "11.3.1"
@@ -55,7 +54,6 @@ gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.e
 gradle-dependency-graph = { id = "land.sungbin.dependency.graph.plugin", version.ref = "gradle-dependency-graph" }
 
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
-kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "kotlin-dokka" }
 kotlin-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "kotlin-detekt" }
 kotlin-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "kotlin-ktlint-gradle" }
 
@@ -74,8 +72,6 @@ kotlin-embeddable-compiler = { module = "org.jetbrains.kotlin:kotlin-compiler-em
 kotlin-ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "kotlin-ksp" }
 kotlin-kotlinpoet-core = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-kotlinpoet" }
 kotlin-kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-kotlinpoet" }
-kotlin-dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "kotlin-dokka" }
-kotlin-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "kotlin-dokka" }
 kotlin-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-collections-immutable" }
 
 android-lint-core = { module = "com.android.tools.lint:lint", version.ref = "android-lint" } # for testing
