@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import team.duckie.quackquack.casa.material.CasaModel
 
-// TODO: 문서화
 @Composable
 internal fun CasaContent(
     modifier: Modifier = Modifier,

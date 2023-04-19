@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 
-// TODO: 문서화
 @Composable
 internal fun CasaSearchTopAppBar(
     modifier: Modifier = Modifier,

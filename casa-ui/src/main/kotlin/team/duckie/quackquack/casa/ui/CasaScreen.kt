@@ -53,7 +53,6 @@ import kotlinx.collections.immutable.toImmutableList
 import team.duckie.quackquack.casa.material.CasaConfig
 import team.duckie.quackquack.casa.material.CasaModel
 
-// TODO: 문서화
 @Composable
 public fun CasaScreen(
     modifier: Modifier = Modifier,

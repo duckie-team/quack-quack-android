@@ -32,7 +32,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-// TODO: 문서화
 @Composable
 internal fun FilterTabRow(
     modifier: Modifier = Modifier,
