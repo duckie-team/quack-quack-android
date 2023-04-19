@@ -8,7 +8,7 @@ google-autoservice-standard = "1.0.1"
 google-autoservice-ksp = "1.0.0"
 
 kotlin-core = "1.8.20"
-kotlin-ksp = "1.8.20-1.0.10"
+kotlin-ksp = "1.8.20-1.0.11"
 kotlin-kotlinpoet = "1.13.0"
 kotlin-detekt = "1.22.0"
 kotlin-ktlint-gradle = "11.3.1"
@@ -34,7 +34,7 @@ compose-material3 = "1.0.1" # for Playground
 compose-activity = "1.7.0"
 compose-coil = "2.3.0"
 
-test-kotest = "5.6.0"
+test-kotest = "5.6.1"
 test-junit-core = "4.13.2"
 test-junit-engine = "5.9.2"
 test-junit-compose = "1.4.1"
