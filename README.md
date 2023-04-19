@@ -131,7 +131,6 @@ dokka + docusaurus + dokka-roborazzi-integration 예정
 
 꽥꽥의 문서는 [여기](https://quackquack.duckie.team/android)서 확인하실 수 있습니다.
 
-
 ## [WIP] Download ![quackquack-core](https://img.shields.io/maven-central/v/team.duckie.quackquack/quackquack-ui?style=flat-square)
 
 꽥꽥은 MavenCentral 저장소에 배포됩니다.
