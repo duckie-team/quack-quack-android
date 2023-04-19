@@ -7,6 +7,7 @@ const config = {
     url: 'https://quackquack.duckie.team',
     baseUrl: '/android/',
     favicon: 'img/logo.ico',
+    onBrokenMarkdownLinks: 'throw',
     tagline: 'Modifier-driven Jetpack Compose design system',
     presets: [
         [
