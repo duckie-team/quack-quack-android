@@ -45,7 +45,7 @@ const config = {
         prism: {
             theme: lightCodeTheme,
             darkTheme: darkCodeTheme,
-            defaultLanguage: ['kotlin'],
+            additionalLanguages: ['kotlin', 'bash'],
         },
     },
 };

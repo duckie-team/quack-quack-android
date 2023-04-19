@@ -1,6 +1,9 @@
-# OUT OF DATED
+---
+sidebar_position: 3
+sidebar_label: 'Release'
+---
 
-# RELEASING NOTE
+# Releasing note (out-of-date)
 
 ##  Prerequisites & Labels
 
@@ -69,7 +72,11 @@
 3. 지정된 `ReleaseTarget` label 에 맞게 publish 과정을 시작합니다.
 4. ![label-preview](https://img.shields.io/badge/publish-FBCA04?style=flat-square) :o:: 새로운 버전으로 `git tag` 및 깃허브 Release 등록을 진행합니다.
 
-> **Warning**: `BumpType` 과 `ReleaseTarget` label 이 모두 지정돼 있지 않다면 배포에 필요한 gradle task 실행에 실패하여 배포 자동화에 실패합니다.
+:::caution
+
+`BumpType` 과 `ReleaseTarget` label 이 모두 지정돼 있지 않다면 배포에 필요한 gradle task 실행에 실패하여 배포 자동화에 실패합니다.
+
+:::
 
 ## Playground 릴리스
 
@@ -78,7 +85,11 @@
 1. 미리 정의한 `bump` gradle task 를 진행하여 `BumpType` label 에 맞게 `playground` 의 bump 과정을 진행합니다.
 2. `playground` 의 release 과정을 시작합니다. Releasing 되면서 덕키팀 슬랙에 APK 가 [Firebase App Distribution](https://firebase.google.com/docs/app-distribution) 을 통해 전달되고, AAB 가 Google Playstore 에 업데이트 요청됩니다.
 
-> **Note**: Playground 릴리스는 Artifact 배포와는 다르게 `BumpType` label 만 요구합니다.
+:::tip
+
+Playground 릴리스는 Artifact 배포와는 다르게 `BumpType` label 만 요구합니다.
+
+:::
 
 ## 경고
 
