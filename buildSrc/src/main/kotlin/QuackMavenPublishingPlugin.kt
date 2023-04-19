@@ -10,14 +10,10 @@ import com.vanniktech.maven.publish.SonatypeHost
 import internal.applyPlugins
 import internal.libs
 import internal.parseArtifactVersion
-import java.time.LocalDate
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
-import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.withType
 import org.jetbrains.annotations.VisibleForTesting
 
 private const val RepositoryName = "duckie-team/quack-quack-android"
@@ -38,16 +34,14 @@ class QuackMavenPublishingPlugin : Plugin<Project> {
             }
 
             val (group, module, version) = ArtifactConfig.from(this)
-            this.group = group
-            this.version = version
-
-            extensions.configure<PublishingExtension> {
-                publications.withType<MavenPublication> {
-                    artifactId = module
-                }
-            }
 
             extensions.configure<MavenPublishBaseExtension> {
+                coordinates(
+                    groupId = group,
+                    artifactId = module,
+                    version = version,
+                )
+
                 publishToMavenCentral(
                     host = SonatypeHost.S01,
                     automaticRelease = true,
@@ -56,15 +50,15 @@ class QuackMavenPublishingPlugin : Plugin<Project> {
                 signAllPublications()
 
                 pom {
-                    configureMavenPom(module)
+                    configureMavenPom(artifactId = module)
                 }
             }
         }
     }
 }
 
-private fun MavenPom.configureMavenPom(artifactName: String) {
-    name.set(artifactName)
+private fun MavenPom.configureMavenPom(artifactId: String) {
+    name.set(artifactId)
     description.set("https://github.com/$RepositoryName")
     inceptionYear.set("2023")
     url.set("https://github.com/$RepositoryName")
