@@ -6,4 +6,4 @@
  */
 
 // TODO: 문서화
-const val useArtifact = false
+const val useArtifact = true
