@@ -10,6 +10,7 @@
 plugins {
     `buildlogic-android-library`
     `buildlogic-kotlin-explicitapi`
+    `buildlogic-quack-mavenpublishing`
 }
 
 android {
