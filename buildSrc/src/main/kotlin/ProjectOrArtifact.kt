@@ -10,5 +10,10 @@ import org.gradle.api.artifacts.ProjectDependency
 // TODO: 문서화
 // TODO: implementation
 fun ProjectDependency.orArtifact(): Any {
-    return this
+    return if (useArtifact) {
+        val artifact = ArtifactConfig.of(dependencyProject)
+        artifact.toString()
+    } else {
+        this
+    }
 }

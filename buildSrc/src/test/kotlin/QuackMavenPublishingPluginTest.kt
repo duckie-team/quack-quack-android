@@ -24,7 +24,7 @@ class QuackMavenPublishingPluginTest : StringSpec() {
                 .withName("my-awesome-project")
                 .build()
 
-            val artifactConfig = ArtifactConfig.from(mockProject)
+            val artifactConfig = ArtifactConfig.of(mockProject)
             expectThat(artifactConfig) {
                 get { group } isEqualTo "team.duckie.quackquack.my"
                 get { module } isEqualTo "my-awesome-project"

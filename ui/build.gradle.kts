@@ -56,14 +56,16 @@ ksp {
 }
 
 dependencies {
-    api(projects.animation.orArtifact())
+    apis(
+        projects.animation.orArtifact(),
+        projects.sugarMaterial.orArtifact(),
+    )
     implementations(
         libs.compose.coil,
         libs.compose.material,
         projects.util.orArtifact(),
         projects.runtime.orArtifact(),
         projects.casaAnnotation.orArtifact(),
-        projects.sugarMaterial.orArtifact(),
         projects.aideAnnotation.orArtifact(),
     )
 
@@ -80,7 +82,9 @@ dependencies {
     )
 
     kotlinCompilerPlugin(projects.sugarProcessor.orArtifact())
-    lintPublish(projects.aide.orArtifact())
+
+    // Found more than one jar in the 'lintPublish' configuration. (compose lint)
+    // lintPublish(projects.aide.orArtifact())
 
     if (!useArtifact) {
         ksps(

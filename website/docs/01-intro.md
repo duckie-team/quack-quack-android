@@ -1,5 +1,4 @@
 ---
-sidebar_position: 1
 sidebar_label: 'Getting started'
 slug: /
 ---
@@ -12,13 +11,11 @@ QuackQuack은 꽥꽥이라 발음하며 덕키의 디자인 시스템, 그 이�
 
 <details open>
 <summary>디자이너-개발자 간 UI 컴포넌트 용어/이미지 통일</summary>
-  <br/>
   디자이너는 컴포넌트를 디자인하면서 붙이는 레이블에 익숙하지만 개발자는 해당 레이블에 익숙하지 않을 수 있습니다. 또한 컴포넌트의 디자인 맥락이 머릿속에 있는데 개발자는 그렇지 않을 수 있습니다. 이러한 상황이 지속되면 디자이너와 개발자 간 소통이 어려워질 수 있습니다. 이를 예방하기 위해 덕키 디자인에 사용되는 컴포넌트를 시스템화하여 모두가 동일한 용어와 이미지를 연상할 수 있게 합니다. 또한 모르는 컴포넌트가 나왔을 때도 쉽게 찾아볼 수 있도록 합니다.
 </details>
 
 <details open>
 <summary>생산성</summary>
-  <br/>
   디자인을 시스템화하여 개발하면 다음과 같은 이점을 기대할 수 있습니다.
   <br/><br/>
   • 구현이 완료된 컴포넌트와 그렇지 않은 컴포넌트가 명확하게 구분되어 하나의 컴포넌트를 중복으로 개발하는 일이 없어짐
@@ -105,14 +102,31 @@ Compile Test는 [Kotlin Compile Testing](https://github.com/tschuchortdev/kotlin
 
 <a href="https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" style={{width: 200}} /></a>
 
-## [WIP] Download ![quackquack-ui](https://img.shields.io/maven-central/v/team.duckie.quackquack.ui/ui?style=flat-square)
+## Download ![](https://img.shields.io/maven-central/v/team.duckie.quackquack.bom/bom?style=flat-square)
 
 꽥꽥은 MavenCentral 저장소에 배포됩니다.
 
 ```kotlin
-dependencies {
-    implementation("team.duckie.quackquack.ui:ui:${version}")
-}
+implementation(platform("team.duckie.quackquack.bom:bom:${version}"))
+
+implementation("team.duckie.quackquack.runtime:runtime")
+implementation("team.duckie.quackquack.material:material")
+implementation("team.duckie.quackquack.animation:animation")
+implementation("team.duckie.quackquack.ui:ui")
+
+// "kotlinCompilerPluginClasspath"("team.duckie.quackquack.sugar:sugar-processor:${version}")
+implementation("team.duckie.quackquack.sugar:sugar-material")
+
+lintChecks("team.duckie.quackquack.aide:aide:${version}")
+implementation("team.duckie.quackquack.aide:aide-annotation")
+ksp("team.duckie.quackquack.aide:aide-processor:${version}")
+
+implementation("team.duckie.quackquack.casa:casa-ui")
+implementation("team.duckie.quackquack.casa:casa-annotation")
+implementation("team.duckie.quackquack.casa:casa-material")
+// ksp("team.duckie.quackquack.casa:casa-processor:${version}")
+
+implementation("team.duckie.quackquack.util:util")
 ```
 
 #### Snapshot
@@ -121,7 +135,9 @@ dependencies {
 
 ```kotlin
 repositories {
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+        mavenContent { snapshotsOnly() }
+    }
 }
 ```
 
@@ -132,7 +148,7 @@ repositories {
 
 ## Contributions
 
-모든 기여를 환영합니다. 기여하시기 전에 [contribution guide](contribute.md)를 읽어 주세요.
+모든 기여를 환영합니다. 기여하시기 전에 [contribution guide](04-contribute.md)를 읽어 주세요.
 
 > 기여해 주신 모든 분께 감사합니다. 
 > 

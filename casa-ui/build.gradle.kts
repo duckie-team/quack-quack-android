@@ -12,6 +12,7 @@ plugins {
     `buildlogic-android-compose`
     `buildlogic-android-compose-metrics`
     `buildlogic-kotlin-explicitapi`
+    `buildlogic-quack-mavenpublishing`
 }
 
 android {

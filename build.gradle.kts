@@ -11,7 +11,7 @@ import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 private val quackVersioningTaskTypeArgument = "type"
 private val quackVersioningTaskBumpArgument = "bump"
-private val quackInitializeVersion = "0.1.0"
+private val quackInitializeVersion = "2.0.0-alpha01"
 
 plugins {
     alias(libs.plugins.kotlin.detekt)
@@ -96,8 +96,15 @@ allprojects {
         }
     }
 
+    // TODO: 로직 재구현
+    // TOOD: Testing
     tasks.create("versioning") {
-        val type = getPropertyOrNull<String, VersioningType>(quackVersioningTaskTypeArgument) { type ->
+        if (project.parent == null) return@create
+
+        val versionFile = File(projectDir, "version.txt")
+        versionFile.writeText(quackInitializeVersion)
+
+        /*val type = getPropertyOrNull<String, VersioningType>(quackVersioningTaskTypeArgument) { type ->
             VersioningType.values().find { enum ->
                 enum.name.equals(type, ignoreCase = true)
             } ?: gradleError(
@@ -134,7 +141,7 @@ allprojects {
                 val newVersion = versionFile.bump(bump)
                 versionFile.writeText(newVersion)
             }
-        }
+        }*/
     }
 }
 

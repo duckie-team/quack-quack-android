@@ -1,3 +1,7 @@
+---
+sidebar_label: 'Overview'
+---
+
 # ui
 
 본 모듈은 꽥꽥의 디자인 컴포넌트를 구현합니다. 기존의 `ui-components` 모듈과 완전히 다른 구현을 제공합니다.
@@ -6,7 +10,7 @@
 
 `1.x.x` 버전까지 제공되는 `ui-components`는 *정직한* 디자인 시스템이었습니다. 정직하다 보니 발생하는 문제도 몇몇 있었습니다. 예를 들어 아래와 같은 컴포넌트가 있습니다.
 
-![secondary-button](assets/secondary-button.svg)
+![secondary-button](images/secondary-button.svg)
 
 이 컴포넌트는 덕키의 secondary 버튼입니다. secondary 버튼의 특징으론 양옆에 아이콘이 들어갈 수 있습니다. 이 특징은 secondary 버튼만의 고유한 특징입니다. 하지만 UI 개발 중에 primary 버튼에도 양옆 아이콘이 있음을 발견했습니다.
 
@@ -32,11 +36,11 @@
 
 이뿐만 아니라 variant 문제도 종종 발생합니다. 덕키에서 사용되는 타이포그래피는 다음과 같습니다.
 
-![typography](assets/typography.svg)
+![typography](images/typography.svg)
 
 그리고 아래 화면이 있습니다.
 
-![comment](assets/comment-ui.svg)
+![comment](images/comment-ui.svg)
 
 이 화면에서 `@멘션`은 `Body1` 타이포그래피를 사용하고 클릭 가능해야 했기에 `QuackAnnotatedBody1`이라는 네이밍의 컴포넌트로 개발되고 사용됐습니다. 하지만 다른 화면에서 동일한 역할을 하는 `Headline1` 타이포그래피의 컴포넌트가 필요해졌습니다.
 
@@ -149,7 +153,7 @@ Button(
 
 `Modifier.highlight`는 `Text`의 데코레이터이지만 위 코드를 보면 `Button`에 사용되고 있습니다. 이러한 경우를 예방하기 위해 해당 컴포넌트에서 사용 가능한 데코레이터 외에 다른 데코레이터의 사용이 감지되면 린트 에러를 표시합니다. 즉, 데코레이터가 잘못 사용됐음을 알릴 수 있습니다.
 
-이러한 시스템은 `aide` 모듈에서 제공합니다. 자세한 내용은 [해당](../aide) 모듈의 README를 참고하세요.
+이러한 시스템은 `aide` 모듈에서 제공합니다. 자세한 내용은 `aide` 모듈 문서를 참고하세요.
 
 ### 문법 설탕
 
@@ -191,4 +195,10 @@ fun NormalButton(modifier: Modifier = Modifier, text: String) {} // same as Butt
 fun FlatButton(modifier: Modifier = Modifier, text: String) {} // same as Button(type = QuackButton.Flat, ...)
 ```
 
- 자세한 내용은 [`sugar-processor`](../sugar-processor) 모듈의 README를 참고하세요.
+자세한 내용은 `sugar-processor` 모듈 문서를 참고하세요.
+
+## Download ![](https://img.shields.io/maven-central/v/team.duckie.quackquack.ui/ui?style=flat-square)
+
+```kotlin
+implementation("team.duckie.quackquack.ui:ui:${version}")
+```

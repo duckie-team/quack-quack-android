@@ -8,4 +8,5 @@
 plugins {
     `buildlogic-jvm-kotlin`
     `buildlogic-kotlin-explicitapi`
+    `buildlogic-quack-mavenpublishing`
 }

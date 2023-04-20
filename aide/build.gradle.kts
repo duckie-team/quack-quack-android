@@ -9,6 +9,7 @@ plugins {
     `buildlogic-jvm-kotlin` // fix order ("compileOnly" configuration missing)
     `buildlogic-android-lint`
     `buildlogic-test-kotest`
+    `buildlogic-quack-mavenpublishing`
     alias(libs.plugins.kotlin.ksp)
 }
 

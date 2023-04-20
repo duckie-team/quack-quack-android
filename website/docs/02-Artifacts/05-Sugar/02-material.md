@@ -1,0 +1,13 @@
+---
+sidebar_label: 'Material'
+---
+
+# sugar-material
+
+본 모듈은 sugar component를 만들기 위한 메타데이터 요소를 제공합니다.
+
+## Download ![](https://img.shields.io/maven-central/v/team.duckie.quackquack.sugar/sugar-material?style=flat-square)
+
+```kotlin
+implementation("team.duckie.quackquack.sugar:sugar-material:${version}")
+```
