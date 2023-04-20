@@ -33,7 +33,9 @@ class QuackMavenPublishingPlugin : Plugin<Project> {
                 notCompatibleWithConfigurationCache("https://github.com/vanniktech/gradle-maven-publish-plugin/issues/259")
             }
 
-            val (group, module, version) = ArtifactConfig.from(this)
+            val (group, module, version) = ArtifactConfig.from(this).also { artifact ->
+                logger.lifecycle("Publishing $artifact...")
+            }
 
             extensions.configure<MavenPublishBaseExtension> {
                 coordinates(
@@ -103,5 +105,9 @@ internal data class ArtifactConfig(
                 version = version,
             )
         }
+    }
+
+    override fun toString(): String {
+        return "$group:$module:$version"
     }
 }
