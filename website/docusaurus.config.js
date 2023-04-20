@@ -24,7 +24,23 @@ const config = {
             },
         ],
     ],
+    themes: [
+        [
+            require.resolve("@easyops-cn/docusaurus-search-local"),
+            /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
+            ({
+                indexBlog: false,
+                hashed: true,
+                language: ["en", "ko"],
+            }),
+        ],
+    ],
     themeConfig: {
+        docs: {
+            sidebar: {
+                hideable: true,
+            },
+        },
         navbar: {
             title: 'QuackQuack',
             logo: {
