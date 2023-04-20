@@ -102,7 +102,7 @@ Compile Test는 [Kotlin Compile Testing](https://github.com/tschuchortdev/kotlin
 
 <a href="https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" style={{width: 200}} /></a>
 
-## Download ![](https://img.shields.io/maven-central/v/team.duckie.quackquack.bom/bom?style=flat-square)
+## BOM Download ![](https://img.shields.io/maven-central/v/team.duckie.quackquack.bom/bom?style=flat-square)
 
 꽥꽥은 MavenCentral 저장소에 배포됩니다.
 
