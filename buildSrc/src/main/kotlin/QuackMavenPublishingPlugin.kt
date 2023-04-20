@@ -14,7 +14,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.kotlin.dsl.configure
-import org.jetbrains.annotations.VisibleForTesting
 
 private const val RepositoryName = "duckie-team/quack-quack-android"
 private const val QuackBaseGroupId = "team.duckie.quackquack"
@@ -33,7 +32,7 @@ class QuackMavenPublishingPlugin : Plugin<Project> {
                 notCompatibleWithConfigurationCache("https://github.com/vanniktech/gradle-maven-publish-plugin/issues/259")
             }
 
-            val (group, module, version) = ArtifactConfig.from(this).also { artifact ->
+            val (group, module, version) = ArtifactConfig.of(this).also { artifact ->
                 logger.lifecycle("Publishing $artifact...")
             }
 
@@ -87,14 +86,13 @@ private fun MavenPom.configureMavenPom(artifactId: String) {
 
 // TOOD: Testing
 // Testing ref: https://discuss.gradle.org/t/testing-and-mocking-techniques/7064/2
-@VisibleForTesting
 internal data class ArtifactConfig(
     val group: String,
     val module: String,
     val version: String,
 ) {
     companion object {
-        fun from(project: Project): ArtifactConfig {
+        fun of(project: Project): ArtifactConfig {
             val groupSuffix = project.name.split("-").first()
             val module = project.name
             val version = project.parseArtifactVersion()

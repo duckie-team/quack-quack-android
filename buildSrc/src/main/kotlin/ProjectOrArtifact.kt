@@ -11,7 +11,7 @@ import org.gradle.api.artifacts.ProjectDependency
 // TODO: implementation
 fun ProjectDependency.orArtifact(): Any {
     return if (useArtifact) {
-        val artifact = ArtifactConfig.from(dependencyProject)
+        val artifact = ArtifactConfig.of(dependencyProject)
         artifact.toString()
     } else {
         this
