@@ -102,15 +102,32 @@ Compile Test는 [Kotlin Compile Testing](https://github.com/tschuchortdev/kotlin
 
 <a href="https://play.google.com/store/apps/details?id=team.duckie.quackquack.playground"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" style={{width: 200}} /></a>
 
-## [WIP] Download ![](https://img.shields.io/maven-central/v/team.duckie.quackquack.bom/bom?style=flat-square)
+## Download ![](https://img.shields.io/maven-central/v/team.duckie.quackquack.bom/bom?style=flat-square)
 
 꽥꽥은 MavenCentral 저장소에 배포됩니다.
 
 ```kotlin
-implementation platform("team.duckie.quackquack.bom:bom:${version}")
-```
+implementation(platform("team.duckie.quackquack.bom:bom:${version}"))
 
-// TODO
+implementation("team.duckie.quackquack.runtime:runtime")
+implementation("team.duckie.quackquack.material:material")
+implementation("team.duckie.quackquack.animation:animation")
+implementation("team.duckie.quackquack.ui:ui")
+
+// "kotlinCompilerPluginClasspath"("team.duckie.quackquack.sugar:sugar-processor:${version}")
+implementation("team.duckie.quackquack.sugar:sugar-material")
+
+lintChecks("team.duckie.quackquack.aide:aide:${version}")
+implementation("team.duckie.quackquack.aide:aide-annotation")
+ksp("team.duckie.quackquack.aide:aide-processor:${version}")
+
+implementation("team.duckie.quackquack.casa:casa-ui")
+implementation("team.duckie.quackquack.casa:casa-annotation")
+implementation("team.duckie.quackquack.casa:casa-material")
+// ksp("team.duckie.quackquack.casa:casa-processor:${version}")
+
+implementation("team.duckie.quackquack.util:util")
+```
 
 #### Snapshot
 
@@ -118,7 +135,9 @@ implementation platform("team.duckie.quackquack.bom:bom:${version}")
 
 ```kotlin
 repositories {
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+        mavenContent { snapshotsOnly() }
+    }
 }
 ```
 
