@@ -80,9 +80,13 @@ fun Modifier.highlight(text: String, color: Color): Modifier {
 
 위와 같은 경우에 `Text` 컴포넌트는 데코레이션 `Modifier`로 `Modifier.highlight`만 허용됩니다.
 
+## Rules
+
+// TODO
+
 ## Caveat
 
-- 개별 statement로 분리된 `Modifier`는 감지하지 못 합니다.
+- 개별 statement로 분리된 `Modifier`는 감지하지 못합니다.
 
 ## Download ![](https://img.shields.io/maven-central/v/team.duckie.quackquack.aide/aide?style=flat-square)
 
