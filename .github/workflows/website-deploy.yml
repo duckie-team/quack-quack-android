@@ -28,11 +28,10 @@ jobs:
     #   }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Move locate to website folder
-        run: cd webstie
+      - name: Checkout website folder
+        uses: Bhacaz/checkout-files@v2
+        with:
+          files: website
 
       - name: Setup node 20
         uses: actions/setup-node@v3
