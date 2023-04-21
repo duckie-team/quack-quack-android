@@ -33,6 +33,10 @@ class DocumentableResourceParser : ComponentRegistrar {
     ) {
         project.extensionArea
             .getExtensionPoint(IrGenerationExtension.extensionPointName)
-            .registerExtension(DRPIrExtension(configuration.getLogger()), LoadingOrder.FIRST, project)
+            .registerExtension(
+                DRPIrExtension(configuration.getLogger()),
+                LoadingOrder.FIRST,
+                project,
+            )
     }
 }
