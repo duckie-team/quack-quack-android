@@ -44,6 +44,12 @@ jobs:
       - name: Build Docusaurus
         run: npm run --prefix website build
 
+      - name: Create index.html file at website root
+        run: touch website/index.html
+
+      - name: Write index.html file
+        run: echo "<script type='text/javascript'> location.href = '/android'; </script>" > website/index.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v3
 
