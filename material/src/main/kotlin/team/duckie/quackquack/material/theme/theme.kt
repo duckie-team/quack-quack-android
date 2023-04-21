@@ -51,12 +51,16 @@ public fun QuackTheme(content: @Composable () -> Unit) {
 }
 
 /**
- * 꽥꽥 컴포넌트에서 사용할 커서 색상을 제공합니다.
- *
- * 기본값은 [QuackColor.Black]이며, [QuackTheme]를 통해 꽥꽥 테마로 제공됩니다.
+ * 꽥꽥의 TextField 관련 컴포넌트에 사용할 테마를 지정합니다.
+ * [QuackTheme]를 통해 꽥꽥 테마로 제공됩니다.
  */
 @Immutable
 public interface QuackTextFieldColors {
+    /**
+     * 꽥꽥 컴포넌트에서 사용할 커서 색상
+     *
+     * 기본값으로 [QuackColor.Black]를 사용합니다.
+     */
     public val cursor: QuackColor
 }
 

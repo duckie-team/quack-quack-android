@@ -91,5 +91,6 @@ dependencies {
             projects.aideProcessor,
             projects.casaProcessor,
         )
+        kotlinCompilerPlugin(projects.docusaurusIntegration)
     }
 }

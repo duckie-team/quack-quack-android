@@ -1,0 +1,158 @@
+---
+sidebar_label: 'Documentation'
+slug: /documentation
+---
+
+import ColorBox from '@site/src/components/ColorBox';
+
+# 문서화 규칙
+
+꽥꽥 문서는 public한 `top-level property`, `class`, `color class`, `icon class`, `typography class`, `typealias`, `composable function`, `normal function`을 지원합니다.
+
+## Top-level property
+
+```markdown
+## file name
+
+| Signature | Description |
+|:---------:|:-----------:|
+|     -     |      -      |
+```
+
+### spec.kt
+
+|                      Signature                      |          Description           |
+|:---------------------------------------------------:|:------------------------------:|
+| `public const val QuackDefaultAnimationMillis: Int` | 꽥꽥에서 기본적으로 사용할 애니메이션의 기본 지속 시간 |
+|       `public var QuackAnimationMillis: Int`        |     꽥꽥에서 사용할 애니메이션의 지속 시간      |
+
+## Class
+
+```markdown
+## Class name
+
+description
+
+[class signature]
+
+### Constructor
+
+| Field name | Description |
+|:----------:|:-----------:|
+|     -      |      -      |
+
+### Properties
+
+#### Property name
+
+description
+
+[property signature]
+
+### Functions
+
+#### Function name
+
+description
+
+[function signature]
+
+| Parameter name | Description |
+|:--------------:|:-----------:|
+|       -        |      -      |
+```
+
+### QuackTextFieldColors
+
+꽥꽥의 TextField 관련 컴포넌트에 사용할 테마를 지정합니다. `QuackTheme`를 통해 꽥꽥 테마로 제공됩니다.
+
+```kotlin
+@Immutable
+public interface QuackTextFieldColors
+```
+
+#### Properties
+
+##### `cursor`
+
+꽥꽥 컴포넌트에서 사용할 커서 색상
+
+기본값으로 `QuackColor.Black`를 사용합니다.
+
+```kotlin
+public val cursor: QuackColor
+```
+
+## Color class
+
+```markdown
+## Class name
+
+description
+
+[class signature]
+
+### Constructor
+
+| Field name | Description |
+|:----------:|:-----------:|
+|     -      |      -      |
+
+### Properties
+
+| Name |                           Preview                           |
+|:----:|:-----------------------------------------------------------:|
+| name | <ColorBox width="100px" height="50px" color="color value"/> |
+```
+
+### QuackColor
+
+덕키에서 사용할 색상을 정의합니다.
+
+색상 정의는 코드 스타일 통일을 위해 ARGB 형식이 아닌 Hex 형식으로 해야 합니다.
+
+```kotlin
+@Immutable
+@JvmInline
+public value class QuackColor(public val value: Color)
+```
+
+#### Constructor
+
+| Field name |                 Description                 |
+|:----------:|:-------------------------------------------:|
+|  `value`   | 색상 값. 이 인자로 색상을 사용하기 위해 컴포즈의 `Color`로 받습니다. |
+
+#### Properties
+
+|      Name      |                         Preview                         |
+|:--------------:|:-------------------------------------------------------:|
+| `DuckieOrange` | <ColorBox width="100px" height="50px" color="#FF8300"/> |
+|    `Gray1`     | <ColorBox width="100px" height="50px" color="#666666"/> |
+|    `Black`     | <ColorBox width="100px" height="50px" color="#222222"/> |
+
+## Icon class
+
+// TODO
+
+## Typography class
+
+// TODO
+
+## Typealias
+
+// TODO
+
+## Composable function
+
+// TODO
+
+## Normal function (top-level function) {#normal-function}
+
+// TODO
+
+---
+
+## Caveat
+
+- 각각 요소의 시그니처를 IR에서 불러오기에 raw한 정보가 포함될 수 있습니다.
