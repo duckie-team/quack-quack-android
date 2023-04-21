@@ -22,10 +22,10 @@ jobs:
 
     runs-on: macos-latest
 
-    if: ${{
-      github.event.pull_request.merged &&
-      contains(github.event.pull_request.labels.*.name, 'documentation')
-      }}
+    # if: ${{
+    #   github.event.pull_request.merged &&
+    #   contains(github.event.pull_request.labels.*.name, 'documentation')
+    #   }}
 
     steps:
       - name: Checkout
