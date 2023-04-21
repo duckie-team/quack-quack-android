@@ -1,9 +1,8 @@
 name: website-deploy
 on:
-  # pull_request:
-  #   branches: [ 2.x.x ]
-  #   types: [ closed ]
-  push:
+  pull_request:
+    # branches: [ 2.x.x ]
+    types: [ closed ]
 
 permissions:
   contents: read
@@ -23,7 +22,7 @@ jobs:
     runs-on: macos-latest
 
     if: ${{
-      # github.event.pull_request.merged &&
+      github.event.pull_request.merged &&
       contains(github.event.pull_request.labels.*.name, 'documentation')
       }}
 
