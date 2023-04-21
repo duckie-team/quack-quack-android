@@ -1,8 +1,8 @@
 name: website-deploy
 on:
-  pull_request:
+  push:
     # branches: [ 2.x.x ]
-    types: [ closed ]
+    # types: [ closed ]
 
 permissions:
   contents: read
@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Move locate to website folder
-        run: cd ./webstie
+        run: cd webstie
 
       - name: Setup node 20
         uses: actions/setup-node@v3
