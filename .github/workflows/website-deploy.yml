@@ -1,8 +1,9 @@
 name: website-deploy
 on:
-  pull_request:
-    branches: [ 2.x.x ]
-    types: [ closed ]
+  # pull_request:
+  #   branches: [ 2.x.x ]
+  #   types: [ closed ]
+  push:
 
 permissions:
   contents: read
@@ -22,7 +23,7 @@ jobs:
     runs-on: macos-latest
 
     if: ${{
-      github.event.pull_request.merged &&
+      # github.event.pull_request.merged &&
       contains(github.event.pull_request.labels.*.name, 'documentation')
       }}
 
@@ -30,15 +31,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Move locate to website folder
+        run: cd ./webstie
+
       - name: Setup node 20
         uses: actions/setup-node@v3
         with:
           node-version: '20.0.0'
           cache: 'npm'
           cache-dependency-path: 'package-lock.json'
-
-      - name: Move locate to website folder
-        run: cd ./webstie
 
       - name: Build Docusaurus
         run: npm run build
