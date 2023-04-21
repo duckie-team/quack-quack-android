@@ -2,8 +2,8 @@ name: website-deploy
 on:
   push:
   # pull_request:
-    # branches: [ 2.x.x ]
-    # types: [ closed ]
+  # branches: [ 2.x.x ]
+  # types: [ closed ]
 
 permissions:
   contents: read
@@ -39,6 +39,9 @@ jobs:
           node-version: '20.0.0'
           cache: 'npm'
           cache-dependency-path: 'website/package-lock.json'
+
+      - name: Install npm packages
+        run: npm --prefix website install
 
       - name: Build Docusaurus
         run: npm run --prefix website build
