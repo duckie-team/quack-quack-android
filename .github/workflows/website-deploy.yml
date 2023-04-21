@@ -1,8 +1,9 @@
 name: website-deploy
 on:
-  pull_request:
+  push:
+  # pull_request:
     # branches: [ 2.x.x ]
-    types: [ closed ]
+    # types: [ closed ]
 
 permissions:
   contents: read
