@@ -1,0 +1,55 @@
+name: website-deploy
+on:
+  pull_request:
+    branches: [ 2.x.x ]
+    types: [ closed ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  website-deploy:
+    environment:
+      name: 'github-pages'
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: macos-latest
+
+    if: ${{
+      github.event.pull_request.merged &&
+      contains(github.event.pull_request.labels.*.name, 'documentation')
+      }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.0.0'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+
+      - name: Move locate to website folder
+        run: cd ./webstie
+
+      - name: Build Docusaurus
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'website/build'
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2
