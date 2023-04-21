@@ -21,6 +21,7 @@ import com.tschuchort.compiletesting.PluginOption
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.engine.spec.tempdir
 import java.io.File
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.JvmTarget
@@ -29,7 +30,7 @@ import strikt.assertions.isEqualTo
 import strikt.assertions.withNotNull
 
 class SugarPoetTest : StringSpec() {
-    private val temporaryFolder = /*tempdir()*/ kotlin.io.path.createTempDirectory(javaClass.name).toFile()
+    private val temporaryFolder = tempdir()
 
     init {
         """
