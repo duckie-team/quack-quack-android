@@ -1,5 +1,6 @@
 ---
 sidebar_label: 'Overview'
+title: 'sugar-processor'
 ---
 
 # sugar-processor-kotlinc
@@ -30,15 +31,23 @@ KSP는 [PSI](https://plugins.jetbrains.com/docs/intellij/psi.html) 기반으로 
 true
 ```
 
-<img src="images/simple-psi-defaultvalue.jpeg" width="60%" alt="simple-psi-defaultvalue"/>
+<img
+    src={require('./images/simple-psi-defaultvalue.jpeg').default}
+    style={{width: '60%'}}
+    alt='simple-psi-defaultvalue'
+/>
 
-아래와 같이 sibling이 포함된 복잡한 PSI tree를 갖는 expression이라면 파싱의 난이도가 급격히 상승합니다.
+아래와 같이 sibling이 포함된 복잡한 PSI tree를 갖는 expression이라면 파싱의 난이도가 매우 상승합니다.
 
 ```
 listOf(1, 2, 3)
 ```
 
-<img src="images/complex-psi-defaultvalue.jpeg" width="60%" alt="complex-psi-defaultvalue"/>
+<img
+    src={require('./images/complex-psi-defaultvalue.jpeg').default}
+    style={{width: '60%'}}
+    alt='complex-psi-defaultvalue'
+/>
 
 따라서 default value까지 복사하여 sugar component 코드를 생성하는 건 무리라고 판단하고 default value 지원을 TODO로 남기려 했지만, 컴포즈 환경에서 default value가 없다는 건 개발자에게 너무 치명적인 경험 저하라고 생각하였습니다.
 

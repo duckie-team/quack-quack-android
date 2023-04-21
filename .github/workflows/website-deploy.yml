@@ -35,13 +35,19 @@ jobs:
         with:
           node-version: '20.0.0'
           cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
+          cache-dependency-path: 'website/package-lock.json'
 
-      - name: Move locate to website folder
-        run: cd ./webstie
+      - name: Install npm packages
+        run: npm --prefix website install
 
       - name: Build Docusaurus
-        run: npm run build
+        run: npm run --prefix website build
+
+      - name: Create index.html file at website root
+        run: touch website/build/index.html
+
+      - name: Write index.html file
+        run: echo "<script type='text/javascript'> location.href = '/android'; </script>" > website/build/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
