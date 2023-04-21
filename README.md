@@ -22,4 +22,6 @@ QuackText(
 
 ---
 
-## The full documentation is available on the project website: https://quackquack.duckie.team/android
+## The full documentation is available on the project website: https://quackquack.duckie.team/android 
+
+## work-in-progress 🦆🦆🦆
