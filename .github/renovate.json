@@ -24,5 +24,6 @@
       "automergeStrategy": "rebase",
       "platformAutomerge": true
     }
-  ]
+  ],
+  "ignorePaths": ["website/**"]
 }
