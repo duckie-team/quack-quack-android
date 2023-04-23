@@ -1,0 +1,37 @@
+stable class QuackButtonColors {
+  stable val backgroundColor: QuackColor
+  stable val disabledBackgroundColor: QuackColor
+  stable val contentColor: QuackColor
+  stable val disabledContentColor: QuackColor
+  stable val borderColor: QuackColor
+  stable val disabledBorderColor: QuackColor
+  stable val iconColor: QuackColor
+  stable val rippleColor: QuackColor
+}
+stable class QuackLargeButtonDefaults {
+  stable var colors: QuackButtonColors
+  stable val radius: Dp
+  stable val contentPadding: QuackPadding
+  stable val iconSpacedBy: Dp
+  stable val borderThickness: Dp
+  stable val typography: QuackTypography
+  stable val disabledTypography: QuackTypography
+}
+stable class QuackMediumButtonDefaults {
+  stable var colors: QuackButtonColors
+  stable val radius: Dp
+  stable val contentPadding: QuackPadding
+  stable val iconSpacedBy: Dp
+  stable val borderThickness: Dp
+  stable val typography: QuackTypography
+  stable val disabledTypography: QuackTypography
+}
+stable class QuackSmallButtonDefaults {
+  stable var colors: QuackButtonColors
+  stable var radius: Dp
+  stable var contentPadding: QuackPadding
+  stable val iconSpacedBy: Dp
+  stable val borderThickness: Dp
+  stable var typography: QuackTypography
+  stable var disabledTypography: QuackTypography
+}

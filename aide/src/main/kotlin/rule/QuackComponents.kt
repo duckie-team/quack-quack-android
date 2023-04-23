@@ -11,6 +11,9 @@ import kotlin.collections.Map
 internal val quackComponents: Map<String, String> = run {
   val aide = mutableMapOf<String, String>()
 
+  aide["QuackButton"] = "button"
+  aide["QuackBaseButton"] = "button"
+
   aide["QuackBody1"] = "text"
   aide["QuackBody2"] = "text"
   aide["QuackBody3"] = "text"

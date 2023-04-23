@@ -109,6 +109,10 @@ internal data class SugarParameter(
 ) {
     init {
         if (type.isFunction()) {
+            // TODO(3): 함수형 타입 지원. 컴포즈에서 함수형 타입은 정말 많이 사용됨.
+            //          ex) content: @Composable () -> Unit
+            //          ex) onClick: () -> Unit
+            // TODO(3): ~~에러 메시지 개선 (FunctionName#paramName 으로 힌트 표시)~~
             error(NotSupportedError.functionalType(name.asString()))
         }
     }

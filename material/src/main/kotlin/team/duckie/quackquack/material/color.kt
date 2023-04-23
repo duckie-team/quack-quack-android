@@ -54,6 +54,9 @@ public value class QuackColor(public val value: Color) : ReadOnlyProperty<Any, C
 
     public companion object {
         @Stable
+        public val Unspecified: QuackColor = QuackColor(Color.Unspecified)
+
+        @Stable
         public val DuckieOrange: QuackColor = QuackColor(Color(0xFFFF8300))
 
         @Stable
