@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.runtime
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Composer
 import androidx.compose.runtime.Immutable
@@ -14,6 +15,36 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import team.duckie.quackquack.util.MustBeTested
+
+// TODO(1): @NoCopy 구현 및 data class 보일러플레이트 제거
+// Ref: https://github.com/AhmedMourad0/no-copy
+// copy 생성을 막아야 하기에 data class 미사용
+@Immutable
+public class QuackMaterializeResult internal constructor(
+    public val composeModifier: Modifier,
+    public val quackDataModels: List<QuackDataModifierModel>,
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is QuackMaterializeResult) return false
+
+        if (composeModifier != other.composeModifier) return false
+        if (quackDataModels != other.quackDataModels) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = composeModifier.hashCode()
+        result = 31 * result + quackDataModels.hashCode()
+        return result
+    }
+
+    @SuppressLint("ModifierFactoryExtensionFunction")
+    public operator fun component1(): Modifier = composeModifier
+
+    public operator fun component2(): List<QuackDataModifierModel> = quackDataModels
+}
 
 @JvmInline
 @Immutable
@@ -33,12 +64,20 @@ public fun Modifier.quackComposed(factory: @Composable Modifier.() -> Modifier):
 }
 
 /**
- * 컴포즈의 [Modifier]와 꽥꽥 컴포넌트의 데이터를 나타내는 [QuackDataModifierModel]를 구분하여 반환합니다.
+ * 컴포즈의 [Modifier]와 꽥꽥 컴포넌트의 데이터를 나타내는 [QuackDataModifierModel]를
+ * 구분하여 반환합니다.
  *
- * @return 컴포즈 자체의 [Modifier]와 [QuackDataModifierModel] 리스트의 [Pair]
+ * @param modifier 분석할 [Modifier]
+ * @param taversingCallback 주어진 [Modifier]를 foldIn으로 순회하며 방문하는
+ * element마다 호출할 선택적 콜백
+ *
+ * @return 컴포즈 자체의 [Modifier]와 [QuackDataModifierModel] 리스트를 담은 클래스
  */
 @MustBeTested(passed = true)
-public fun Composer.quackMaterializeOf(modifier: Modifier): Pair<Modifier, List<QuackDataModifierModel>> {
+public fun Composer.quackMaterializeOf(
+    modifier: Modifier,
+    taversingCallback: (modifier: Modifier) -> Unit = {},
+): QuackMaterializeResult {
     val needsNewGroup = modifier.any { it is QuackMaterializableComposedModifier }
 
     // Random number for fake group key. Chosen by fair die roll.
@@ -47,6 +86,7 @@ public fun Composer.quackMaterializeOf(modifier: Modifier): Pair<Modifier, List<
 
     val quackDataModels = mutableListOf<QuackDataModifierModel>()
     val composeModifier = modifier.foldIn<Modifier>(Modifier) { acc, element ->
+        taversingCallback(element)
         when (element) {
             is QuackDataModifierModel -> {
                 quackDataModels += element
@@ -73,5 +113,8 @@ public fun Composer.quackMaterializeOf(modifier: Modifier): Pair<Modifier, List<
 
     if (needsNewGroup) endReplaceableGroup()
 
-    return composeModifier to quackDataModels
+    return QuackMaterializeResult(
+        composeModifier = composeModifier,
+        quackDataModels = quackDataModels,
+    )
 }
