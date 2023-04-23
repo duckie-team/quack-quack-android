@@ -1,0 +1,34 @@
+restartable skippable fun QuackAnimatedContent(
+  stable modifier: Modifier? = @static Companion
+  targetState: T
+  stable label: String? = @dynamic LiveLiterals$AnimatedContentKt.String$param-label$fun-QuackAnimatedContent()
+  stable content: @[ExtensionFunctionType] Function4<AnimatedVisibilityScope, @[ParameterName(name = 'animatedTargetState')] T, Composer, Int, Unit>
+)
+restartable skippable scheme("[0, [0]]") fun QuackAnimatedVisibility(
+  stable modifier: Modifier? = @static Companion
+  stable visible: Boolean
+  stable label: String? = @dynamic LiveLiterals$AnimatedVisibilityKt.String$param-label$fun-QuackAnimatedVisibility()
+  stable otherEnterAnimation: EnterTransition? = @static null
+  stable otherExitAnimation: ExitTransition? = @static null
+  stable content: @[ExtensionFunctionType] Function3<AnimatedVisibilityScope, Composer, Int, Unit>
+)
+fun animatedQuackBorderAsState(
+  stable targetValue: QuackBorder
+  stable label: String? = @dynamic LiveLiterals$BorderKt.String$param-label$fun-animatedQuackBorderAsState()
+  stable widthAnimationfinishedListener: Function1<@[ParameterName(name = 'dp')] Dp, Unit>? = @static null
+  stable colorAnimationFinishedListener: Function1<@[ParameterName(name = 'color')] QuackColor, Unit>? = @static null
+): QuackBorder
+fun animateQuackColorAsState(
+  stable targetValue: QuackColor
+  stable label: String? = @dynamic LiveLiterals$ColorKt.String$param-label$fun-animateQuackColorAsState()
+  stable finishedListener: Function1<@[ParameterName(name = 'color')] QuackColor, Unit>? = @static null
+): State<QuackColor>
+fun animatedQuackTextStyleAsState(
+  stable targetValue: QuackTypography
+  stable label: String? = @dynamic LiveLiterals$TypographyKt.String$param-label$fun-animatedQuackTextStyleAsState()
+  stable colorAnimationFinishedListener: Function1<@[ParameterName(name = 'color')] QuackColor, Unit>? = @static null
+  stable sizeAnimationFinishedListener: Function1<@[ParameterName(name = 'size')] Float, Unit>? = @static null
+  stable letterSpacingAnimationFinishedListener: Function1<@[ParameterName(name = 'letterSpacing')] Float, Unit>? = @static null
+  stable lineHeightAnimationFinishedListener: Function1<@[ParameterName(name = 'lineHeight')] Float, Unit>? = @static null
+  stable textAlignAnimationFinishedListener: Function1<@[ParameterName(name = 'textAlign')] TextAlign, Unit>? = @static null
+): QuackTypography
