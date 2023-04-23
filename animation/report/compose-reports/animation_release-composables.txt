@@ -12,6 +12,12 @@ restartable skippable scheme("[0, [0]]") fun QuackAnimatedVisibility(
   stable otherExitAnimation: ExitTransition? = @static null
   stable content: @[ExtensionFunctionType] Function3<AnimatedVisibilityScope, Composer, Int, Unit>
 )
+fun animatedQuackBorderAsState(
+  stable targetValue: QuackBorder
+  stable label: String? = @static "QuackBorderAnimation"
+  stable widthAnimationfinishedListener: Function1<@[ParameterName(name = 'dp')] Dp, Unit>? = @static null
+  stable colorAnimationFinishedListener: Function1<@[ParameterName(name = 'color')] QuackColor, Unit>? = @static null
+): QuackBorder
 fun animateQuackColorAsState(
   stable targetValue: QuackColor
   stable label: String? = @static "animateQuackColorAsState"

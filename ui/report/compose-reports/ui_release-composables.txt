@@ -1,3 +1,27 @@
+scheme("[androidx.compose.ui.UiComposable]") fun QuackButton(
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable style: QuackButtonStyle<T>
+  stable text: String
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBaseButton(
+  stable modifier: Modifier
+  stable text: String
+  stable backgroundColor: QuackColor
+  stable iconColor: QuackColor
+  stable rippleColor: QuackColor
+  stable rippleEnabled: Boolean
+  stable shape: Shape
+  stable border: QuackBorder
+  stable typography: QuackTypography
+  stable contentPadding: QuackPadding
+  stable iconSpacedBy: Dp
+  stable leadingIcon: QuackIcon?
+  stable trailingIcon: QuackIcon?
+  stable onClick: Function0<Unit>?
+)
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBody1(
   stable modifier: Modifier? = @static Companion
   stable text: String
@@ -79,7 +103,7 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackText
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackClickableText(
   stable modifier: Modifier
   stable text: String
-  stable highlightData: HighlightData
+  stable textHighlightData: TextHighlightData
   stable style: QuackTypography
   stable softWrap: Boolean
   stable overflow: TextOverflow
@@ -91,3 +115,6 @@ fun rememberSpanAnnotatedString(
   stable spanStyle: SpanStyle
   unstable annotationTexts: List<String>
 ): AnnotatedString
+readonly inline fun currentFontScale(
+  stable content: Function1<@[ParameterName(name = 'fontScale')] Float, T>
+): T
