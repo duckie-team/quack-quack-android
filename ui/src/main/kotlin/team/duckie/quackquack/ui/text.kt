@@ -44,54 +44,16 @@ import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 public typealias HighlightText = Pair<String, ((text: String) -> Unit)?>
 
 @Stable
-private data class SpanData(
+private data class TextSpanData(
     val texts: List<String>,
     val style: SpanStyle,
-) : QuackDataModifierModel {
-    private val textArray = texts.toTypedArray()
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is SpanData) return false
-
-        if (texts != other.texts) return false
-        if (!textArray.contentEquals(other.texts.toTypedArray())) return false
-        if (style != other.style) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = textArray.contentHashCode()
-        result = 31 * result + style.hashCode()
-        return result
-    }
-}
+) : QuackDataModifierModel
 
 @Stable
-private data class HighlightData(
+private data class TextHighlightData(
     val highlights: List<HighlightText>,
     val span: SpanStyle,
-) : QuackDataModifierModel {
-    private val highlightArray = highlights.toTypedArray()
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is HighlightData) return false
-
-        if (highlights != other.highlights) return false
-        if (!highlightArray.contentEquals(other.highlights.toTypedArray())) return false
-        if (span != other.span) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = highlightArray.contentHashCode()
-        result = 31 * result + span.hashCode()
-        return result
-    }
-}
+) : QuackDataModifierModel
 
 /**
  * 주어진 텍스트에 [SpanStyle]을 적용합니다.
@@ -105,7 +67,7 @@ public fun Modifier.span(
     texts: List<String>,
     style: SpanStyle,
 ): Modifier {
-    return then(SpanData(texts = texts, style = style))
+    return then(TextSpanData(texts = texts, style = style))
 }
 
 /**
@@ -123,7 +85,7 @@ public fun Modifier.highlight(
         fontWeight = FontWeight.SemiBold,
     ),
 ): Modifier {
-    return then(HighlightData(highlights = highlights, span = span))
+    return then(TextHighlightData(highlights = highlights, span = span))
 }
 
 /**
@@ -147,7 +109,7 @@ public fun Modifier.highlight(
         val highlights = remember(texts, globalOnClick) {
             texts.fastMap { text -> HighlightText(text, globalOnClick) }
         }
-        then(HighlightData(highlights = highlights, span = span))
+        then(TextHighlightData(highlights = highlights, span = span))
     }
 }
 
@@ -180,10 +142,10 @@ public fun QuackText(
 ) {
     val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier)
     val spanData = remember(quackDataModels) {
-        quackDataModels.fastFirstIsInstanceOrNull<SpanData>()
+        quackDataModels.fastFirstIsInstanceOrNull<TextSpanData>()
     }
     val highlightData = remember(quackDataModels) {
-        quackDataModels.fastFirstIsInstanceOrNull<HighlightData>()
+        quackDataModels.fastFirstIsInstanceOrNull<TextHighlightData>()
     }
 
     if (highlightData != null && spanData != null) {
@@ -210,7 +172,7 @@ public fun QuackText(
         QuackClickableText(
             modifier = composeModifier,
             text = text,
-            highlightData = highlightData,
+            textHighlightData = highlightData,
             style = typography,
             overflow = overflow,
             softWrap = softWrap,
@@ -232,17 +194,17 @@ public fun QuackText(
 private fun QuackClickableText(
     modifier: Modifier,
     text: String,
-    highlightData: HighlightData,
+    textHighlightData: TextHighlightData,
     style: QuackTypography,
     softWrap: Boolean,
     overflow: TextOverflow,
     maxLines: Int,
 ) {
-    val highlightTexts = highlightData.highlights.fastMap(Pair<String, *>::first)
+    val highlightTexts = textHighlightData.highlights.fastMap(Pair<String, *>::first)
     val annotatedText = rememberSpanAnnotatedString(
         text = text,
         spanTexts = highlightTexts,
-        spanStyle = highlightData.span,
+        spanStyle = textHighlightData.span,
         annotationTexts = highlightTexts,
     )
 
@@ -251,7 +213,7 @@ private fun QuackClickableText(
         text = annotatedText,
         style = style.asComposeStyle(),
         onClick = { offset ->
-            highlightData.highlights.fastForEach { (text, onClick) ->
+            textHighlightData.highlights.fastForEach { (text, onClick) ->
                 val annotations = annotatedText.getStringAnnotations(
                     tag = text,
                     start = offset,
