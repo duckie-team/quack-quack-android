@@ -12,7 +12,10 @@
 package team.duckie.quackquack.material
 
 import androidx.annotation.DrawableRes
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 
 /**
  * 덕키에서 사용할 아이콘을 정의합니다.
@@ -25,6 +28,9 @@ import androidx.compose.runtime.Immutable
 // TODO(1): @Stable 명시 필요 (명시적인 안정성을 선호함)
 // TODO(1): XML -> Compose SVG Path
 public value class QuackIcon(@DrawableRes public val drawableId: Int) {
+    @Composable
+    public fun asPainter(): Painter = painterResource(drawableId)
+
     public companion object {
         public val TextLogo: QuackIcon = QuackIcon(R.drawable.quack_duckie_text_logo)
 
