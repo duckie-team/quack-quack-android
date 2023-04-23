@@ -3,7 +3,7 @@
 // @formatter:off
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
-    "UnusedImport", "NoUnusedImports", "ktlint", "SpacingAroundParens")
+    "UnusedImport", "NoUnusedImports", "ktlint")
 
 import androidx.compose.runtime.Composable
 import kotlin.Suppress
