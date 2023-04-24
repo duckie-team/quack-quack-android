@@ -1,8 +1,10 @@
 name: Android CI
 env:
-  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false"
+  GRADLE_OPTS: '-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false'
+  GRADLE_BUILD_ACTION_CACHE_DEBUG_ENABLED: true
 on:
   pull_request:
+  paths-ignore: [ '**/**.md', 'website/**' ]
 
 jobs:
   ci-build:

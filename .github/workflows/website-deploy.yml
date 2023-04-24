@@ -1,7 +1,7 @@
 name: website-deploy
 on:
   pull_request:
-    branches: [ 2.x.x ]
+    branches: [ main ]
     types: [ closed ]
 
 permissions:

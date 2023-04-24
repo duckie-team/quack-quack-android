@@ -9,7 +9,6 @@ package team.duckie.quackquack.ui
 
 import androidx.annotation.RestrictTo
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -19,7 +18,6 @@ import androidx.compose.runtime.currentComposer
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Shape
@@ -48,8 +46,7 @@ import team.duckie.quackquack.sugar.material.SugarToken
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
 import team.duckie.quackquack.ui.util.asLoose
-import team.duckie.quackquack.ui.util.currentFontScale
-import team.duckie.quackquack.util.DpSize
+import team.duckie.quackquack.ui.util.fontScaleAwareIconSize
 import team.duckie.quackquack.util.MustBeTested
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 
@@ -191,7 +188,7 @@ public class QuackLargeButtonDefaults internal constructor() :
     }
 
     @Stable
-    public override operator fun invoke(styleBuilder: QuackLargeButtonDefaults.() -> Unit): QuackLargeButtonDefaults {
+    override fun invoke(styleBuilder: QuackLargeButtonDefaults.() -> Unit): QuackLargeButtonDefaults {
         return apply(styleBuilder)
     }
 }
@@ -229,7 +226,7 @@ public class QuackMediumButtonDefaults internal constructor() :
     }
 
     @Stable
-    public override operator fun invoke(styleBuilder: QuackMediumButtonDefaults.() -> Unit): QuackMediumButtonDefaults {
+    override fun invoke(styleBuilder: QuackMediumButtonDefaults.() -> Unit): QuackMediumButtonDefaults {
         return apply(styleBuilder)
     }
 }
@@ -274,7 +271,7 @@ public class QuackSmallButtonDefaults internal constructor() :
     }
 
     @Stable
-    public override operator fun invoke(styleBuilder: QuackSmallButtonDefaults.() -> Unit): QuackSmallButtonDefaults {
+    override fun invoke(styleBuilder: QuackSmallButtonDefaults.() -> Unit): QuackSmallButtonDefaults {
         return apply(styleBuilder)
     }
 }
@@ -362,7 +359,7 @@ public fun <T : ButtonStyleMarker> QuackButton(
     }
 
     val contentPadding = style.contentPadding
-    val currentContentPadding = if (isSizeSpecified) QuackPadding() else contentPadding
+    val currentContentPadding = if (isSizeSpecified) null else contentPadding
 
     val iconSpacedBy = style.iconSpacedBy
 
@@ -380,6 +377,8 @@ public fun <T : ButtonStyleMarker> QuackButton(
     val leadingIcon = iconData?.leadingIcon
     val trailingIcon = iconData?.trailingIcon
 
+    val currentOnClick = onClick.takeIf { enabled }
+
     QuackBaseButton(
         modifier = composeModifier,
         text = text,
@@ -394,7 +393,7 @@ public fun <T : ButtonStyleMarker> QuackButton(
         iconSpacedBy = iconSpacedBy,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
-        onClick = onClick.takeIf { enabled },
+        onClick = currentOnClick,
     )
 }
 
@@ -414,7 +413,7 @@ public fun QuackBaseButton(
     shape: Shape,
     border: QuackBorder,
     typography: QuackTypography,
-    contentPadding: QuackPadding,
+    contentPadding: QuackPadding?,
     iconSpacedBy: Dp,
     leadingIcon: QuackIcon?,
     trailingIcon: QuackIcon?,
@@ -479,8 +478,12 @@ public fun QuackBaseButton(
 
         val looseConstraints = constraints.asLoose(width = true, height = true)
 
-        val horizontalPadding = contentPadding.horizontal.roundToPx() * 2
-        val verticalPadding = contentPadding.vertical.roundToPx() * 2
+        val horizontalPadding = contentPadding?.let { padding ->
+            padding.horizontal.roundToPx() * 2
+        } ?: 0
+        val verticalPadding = contentPadding?.let { padding ->
+            padding.vertical.roundToPx() * 2
+        } ?: 0
 
         val baselineConstraints = constraints.offset(
             horizontal = -horizontalPadding,
@@ -525,15 +528,6 @@ public fun QuackBaseButton(
                     ),
                 )
             }
-        }
-    }
-}
-
-public fun Modifier.fontScaleAwareIconSize(baseline: Dp = 24.dp): Modifier {
-    return composed {
-        currentFontScale { fontScale ->
-            val defaultSize = DpSize(all = baseline)
-            size(defaultSize * fontScale)
         }
     }
 }
