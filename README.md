@@ -14,7 +14,7 @@
 
 # ‼️ DEPRECATED ‼️
 
-Please see `2.x.x` branch.
+Please see `main` branch.
 
 ## Introduction
 
