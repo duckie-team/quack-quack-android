@@ -162,7 +162,7 @@ class MaterializingTest : StringSpec() {
             enabledOrReasonIf = {
                 Enabled.disabled(
                     reason = """
-                    - asop에 있는 recomposingKeyedComposedModifierSkips 테스트도 로컬로 돌려보면 실패함
+                    - asop에 있는 recomposingKeyedComposedModifierSkips 테스트를 로컬로 돌려보면 실패함
                     [https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui/src/test/kotlin/androidx/compose/ui/ComposedModifierTest.kt;l=288-320;drc=5729d22fd521d7e83ec4eb8dedd34a0c2f491738]
                     
                     - 안정성 테스트 코드를 어떻개 작성해야 할지 모르곘음
