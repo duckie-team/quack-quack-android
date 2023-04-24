@@ -4,7 +4,7 @@ env:
   GRADLE_BUILD_ACTION_CACHE_DEBUG_ENABLED: true
 on:
   pull_request:
-  paths-ignore: [ '**/**.md', 'website/**' ]
+    paths-ignore: [ '**/**.md', 'website/**' ]
 
 jobs:
   ci-build:
