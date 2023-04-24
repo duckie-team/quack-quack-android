@@ -14,15 +14,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+// TODO: 문서화
 @Stable
 public fun Modifier.quackSurface(
     shape: Shape = RectangleShape,
     backgroundColor: QuackColor = QuackColor.Unspecified,
     border: QuackBorder? = null,
     elevation: Dp = 0.dp,
+    role: Role? = null,
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor = QuackColor.Unspecified,
     onClick: (() -> Unit)? = null,
@@ -39,9 +42,10 @@ public fun Modifier.quackSurface(
             shape = shape,
         )
         .quackClickable(
-            onClick = onClick,
+            role = role,
             rippleEnabled = rippleEnabled,
             rippleColor = rippleColor,
+            onClick = onClick,
         )
         .quackBorder(
             border = border,

@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
 
 /**
  * 덕키에서 기본적으로 사용할 항상 ripple 표시 옵션
@@ -43,6 +44,8 @@ public var QuackAlwaysShowRipple: Boolean by mutableStateOf(QuackDefaultAlwaysSh
 /**
  * [Modifier.clickable]에 다양한 옵션을 부여합니다.
  *
+ * @param role 사용자 인터페이스 요소의 유형.
+ * 접근성 서비스는 이를 사용하여 요소를 설명하거나 사용자 지정할 수 있습니다.
  * @param rippleColor 표시될 리플의 색상.
  * null이들어오면 [Color.Unspecified]를 사용합니다.
  * @param rippleEnabled 리플을 설정할지 여부
@@ -55,6 +58,7 @@ public var QuackAlwaysShowRipple: Boolean by mutableStateOf(QuackDefaultAlwaysSh
  */
 @Stable
 public fun Modifier.quackClickable(
+    role: Role? = null,
     rippleColor: QuackColor? = null,
     rippleEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
@@ -62,9 +66,10 @@ public fun Modifier.quackClickable(
 ): Modifier = composed {
     val ripple = rememberRipple(color = rippleColor?.value ?: Color.Unspecified)
     combinedClickable(
-        onClick = onClick ?: {},
-        onLongClick = onLongClick,
         indication = ripple.takeIf { QuackAlwaysShowRipple || rippleEnabled },
         interactionSource = remember { MutableInteractionSource() },
+        role = role,
+        onClick = onClick ?: {},
+        onLongClick = onLongClick,
     )
 }
