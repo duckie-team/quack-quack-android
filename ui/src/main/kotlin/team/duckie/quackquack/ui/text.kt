@@ -172,7 +172,7 @@ public fun QuackText(
         QuackClickableText(
             modifier = composeModifier,
             text = text,
-            textHighlightData = highlightData,
+            highlightData = highlightData,
             style = typography,
             overflow = overflow,
             softWrap = softWrap,
@@ -194,17 +194,17 @@ public fun QuackText(
 private fun QuackClickableText(
     modifier: Modifier,
     text: String,
-    textHighlightData: TextHighlightData,
+    highlightData: TextHighlightData,
     style: QuackTypography,
     softWrap: Boolean,
     overflow: TextOverflow,
     maxLines: Int,
 ) {
-    val highlightTexts = textHighlightData.highlights.fastMap(Pair<String, *>::first)
+    val highlightTexts = highlightData.highlights.fastMap(Pair<String, *>::first)
     val annotatedText = rememberSpanAnnotatedString(
         text = text,
         spanTexts = highlightTexts,
-        spanStyle = textHighlightData.span,
+        spanStyle = highlightData.span,
         annotationTexts = highlightTexts,
     )
 
@@ -213,7 +213,7 @@ private fun QuackClickableText(
         text = annotatedText,
         style = style.asComposeStyle(),
         onClick = { offset ->
-            textHighlightData.highlights.fastForEach { (text, onClick) ->
+            highlightData.highlights.fastForEach { (text, onClick) ->
                 val annotations = annotatedText.getStringAnnotations(
                     tag = text,
                     start = offset,

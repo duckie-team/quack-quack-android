@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.ui.util
 
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.unit.Constraints
 
 /**
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.Constraints
  *
  * @return 주어진 조건에 맞게 loose해진 [Constraints]
  */
+@Stable
 public fun Constraints.asLoose(
     width: Boolean = false,
     height: Boolean = false,
