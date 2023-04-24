@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/duckie-team/quack-quack-android/2.x.x/assets/logo-icon.svg" width="25%" alt="quackquack" />
+  <img src="https://raw.githubusercontent.com/duckie-team/quack-quack-android/main/assets/logo-icon.svg" width="25%" alt="quackquack" />
 </p>
 <h1 align="center">QuackQuack</h1>
 <h4 align="center">Highly automated and Modifier-driven Jetpack Compose design system.<br/>It's almost well-tested and adheres to the stability system.</h4>
