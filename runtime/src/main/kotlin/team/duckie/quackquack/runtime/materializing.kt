@@ -18,6 +18,14 @@ import team.duckie.quackquack.util.MustBeTested
 // TODO(1): @NoCopy 구현 및 data class 보일러플레이트 제거
 // Ref: https://github.com/AhmedMourad0/no-copy
 // copy 생성을 막아야 하기에 data class 미사용
+/**
+ * [Composer.quackMaterializeOf]의 결과를 나타냅니다.
+ *
+ * @param composeModifier `androidx.compose.ui.Modifier`으로만 구성된 [Modifier]
+ * @param quackDataModels [QuackDataModifierModel]으로만 구성된 리스트
+ *
+ * @see Composer.quackMaterializeOf
+ */
 @Immutable
 public class QuackMaterializeResult internal constructor(
     public val composeModifier: Modifier,
@@ -57,6 +65,9 @@ internal object QuackMaterializingErrors {
  * 컴포즈의 [Modifier]와 꽥꽥 컴포넌트의 데이터를 나타내는 [QuackDataModifierModel]를
  * 구분하여 반환합니다.
  *
+ * [QuackComposedModifier.factory]의 반환값이 [QuackDataModifierModel]를 상속한다면
+ * [QuackComposedModifier]를 [QuackDataModifierModel]인 것으로 간주합니다.
+ *
  * @param modifier 분석할 [Modifier]
  * @param taversingCallback 주어진 [Modifier]를 foldIn으로 순회하며 방문하는
  * element마다 호출할 선택적 콜백
@@ -87,7 +98,7 @@ public fun Composer.quackMaterializeOf(
                     @Suppress("UNCHECKED_CAST")
                     val factory = element.factory as Modifier.(Composer, Int) -> Modifier
                     val composed = factory.invoke(Modifier, this, 0) as? QuackDataModifierModel ?: error(
-                        QuackMaterializingErrors.QuackDataModelProducerButNot,
+                        message = QuackMaterializingErrors.QuackDataModelProducerButNot,
                     )
                     quackDataModels += composed
                     acc

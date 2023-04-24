@@ -10,11 +10,11 @@ package team.duckie.quackquack.runtime
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.runtime.Composer
 import androidx.compose.ui.platform.InspectorInfo
 import androidx.compose.ui.platform.InspectorValueInfo
 import androidx.compose.ui.platform.NoInspectorInfo
-
-// TODO: 전체 문서화
 
 internal open class QuackComposedModifier(
     inspectorInfo: InspectorInfo.() -> Unit,
@@ -128,10 +128,12 @@ private class KeyedQuackComposedModifierN(
 }
 
 /**
- * [quackMaterializeOf]에서 `ComposedModifier`를 처리하기 위한 클래스입니다.
+ * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
  *
  * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며
  * folding하기 위해 `ComposedModifier`의 별도 대응이 필요합니다.
+ *
+ * @see Composer.quackMaterializeOf
  */
 @Stable
 public fun Modifier.quackComposed(
@@ -148,6 +150,21 @@ public fun Modifier.quackComposed(
     )
 }
 
+/**
+ * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
+ *
+ * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며
+ * folding하기 위해 `ComposedModifier`의 별도 대응이 필요합니다.
+ *
+ * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다.
+ * 이는 [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다.
+ * 따라서 인자로 제공되는 안정성에 의존한 로직을 구현하면 안 됩니다.
+ *
+ * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만 재실행돼야 함`
+ * 테스트를 참고하세요.
+ *
+ * @see Composer.quackMaterializeOf
+ */
 @Stable
 public fun Modifier.quackComposed(
     quackDataModelProducer: Boolean = true,
@@ -167,6 +184,21 @@ public fun Modifier.quackComposed(
     )
 }
 
+/**
+ * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
+ *
+ * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며
+ * folding하기 위해 `ComposedModifier`의 별도 대응이 필요합니다.
+ *
+ * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다.
+ * 이는 [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다.
+ * 따라서 인자로 제공되는 안정성에 의존한 로직을 구현하면 안 됩니다.
+ *
+ * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만 재실행돼야 함`
+ * 테스트를 참고하세요.
+ *
+ * @see Composer.quackMaterializeOf
+ */
 @Stable
 public fun Modifier.quackComposed(
     quackDataModelProducer: Boolean = true,
@@ -188,6 +220,21 @@ public fun Modifier.quackComposed(
     )
 }
 
+/**
+ * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
+ *
+ * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며
+ * folding하기 위해 `ComposedModifier`의 별도 대응이 필요합니다.
+ *
+ * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다.
+ * 이는 [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다.
+ * 따라서 인자로 제공되는 안정성에 의존한 로직을 구현하면 안 됩니다.
+ *
+ * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만 재실행돼야 함`
+ * 테스트를 참고하세요.
+ *
+ * @see Composer.quackMaterializeOf
+ */
 @Stable
 public fun Modifier.quackComposed(
     quackDataModelProducer: Boolean = true,
@@ -211,6 +258,21 @@ public fun Modifier.quackComposed(
     )
 }
 
+/**
+ * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
+ *
+ * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며
+ * folding하기 위해 `ComposedModifier`의 별도 대응이 필요합니다.
+ *
+ * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다.
+ * 이는 [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다.
+ * 따라서 인자로 제공되는 안정성에 의존한 로직을 구현하면 안 됩니다.
+ *
+ * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만 재실행돼야 함`
+ * 테스트를 참고하세요.
+ *
+ * @see Composer.quackMaterializeOf
+ */
 @Stable
 public fun Modifier.quackComposed(
     quackDataModelProducer: Boolean = true,
