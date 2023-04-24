@@ -12,6 +12,7 @@ plugins {
     `buildlogic-android-compose`
     `buildlogic-kotlin-explicitapi`
     `buildlogic-quack-mavenpublishing`
+    `buildlogic-test-kotest`
 }
 
 android {
@@ -20,6 +21,12 @@ android {
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+        }
+    }
 }
 
 dependencies {
@@ -27,8 +34,10 @@ dependencies {
         libs.compose.ui,
         projects.util.orArtifact(),
     )
-    androidTestImplementations(
+    testImplementations(
+        libs.test.kotlin.coroutines,
         libs.test.strikt,
-        libs.test.junit.compose,
+        libs.test.mockito.core,
+        libs.test.mockito.kotlin,
     )
 }

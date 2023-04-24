@@ -8,6 +8,7 @@ google-autoservice-standard = "1.0.1"
 google-autoservice-ksp = "1.0.0"
 
 kotlin-core = "1.8.20"
+kotlin-coroutines = "1.7.0-RC"
 kotlin-ksp = "1.8.20-1.0.11"
 kotlin-kotlinpoet = "1.13.0"
 kotlin-detekt = "1.22.0"
@@ -109,6 +110,7 @@ test-injector-parameter = { module = "com.google.testparameterinjector:test-para
 test-mockito-core = { module = "org.mockito:mockito-core", version.ref = "test-mockito-core" }
 test-mockito-android = { module = "org.mockito:mockito-android", version.ref = "test-mockito-android" }
 test-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "test-mockito-kotlin" }
+test-kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 test-kotlin-compilation-core = { module = "com.github.tschuchortdev:kotlin-compile-testing", version.ref = "test-kotlin-compilation-ksp" }
 test-kotlin-compilation-ksp = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version.ref = "test-kotlin-compilation-ksp" }
 
