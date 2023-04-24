@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
  * @param lineHeight 텍스트 줄 크기
  * @param textAlign 텍스트 align. 기본값은 Start 입니다.
  */
+// TODO(1): @NoCopy
 @Immutable
 public class QuackTypography(
     public val color: QuackColor = QuackColor.Black,
