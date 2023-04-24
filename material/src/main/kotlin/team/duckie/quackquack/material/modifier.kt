@@ -33,7 +33,7 @@ public fun Modifier.quackSurface(
             shape = shape,
             clip = false,
         )
-        .clip(shape)
+        .clip(shape = shape)
         .background(
             color = backgroundColor.value,
             shape = shape,

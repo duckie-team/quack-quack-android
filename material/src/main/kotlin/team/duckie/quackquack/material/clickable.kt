@@ -60,12 +60,11 @@ public fun Modifier.quackClickable(
     onClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
 ): Modifier = composed {
+    val ripple = rememberRipple(color = rippleColor?.value ?: Color.Unspecified)
     combinedClickable(
         onClick = onClick ?: {},
         onLongClick = onLongClick,
-        indication = rememberRipple(
-            color = rippleColor?.value ?: Color.Unspecified,
-        ).takeIf { QuackAlwaysShowRipple || rippleEnabled },
+        indication = ripple.takeIf { QuackAlwaysShowRipple || rippleEnabled },
         interactionSource = remember { MutableInteractionSource() },
     )
 }

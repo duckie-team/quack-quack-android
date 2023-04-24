@@ -16,7 +16,7 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBase
   stable shape: Shape
   stable border: QuackBorder
   stable typography: QuackTypography
-  stable contentPadding: QuackPadding
+  stable contentPadding: QuackPadding?
   stable iconSpacedBy: Dp
   stable leadingIcon: QuackIcon?
   stable trailingIcon: QuackIcon?
@@ -103,7 +103,7 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackText
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackClickableText(
   stable modifier: Modifier
   stable text: String
-  stable textHighlightData: TextHighlightData
+  stable highlightData: TextHighlightData
   stable style: QuackTypography
   stable softWrap: Boolean
   stable overflow: TextOverflow
