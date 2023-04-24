@@ -269,7 +269,7 @@ private suspend fun composed(
 
 @Suppress("EmptyFunctionBlock")
 private object EmptyApplier : Applier<Unit> {
-    override val current: Unit = Unit
+    override val current = Unit
     override fun down(node: Unit) {}
     override fun up() {}
     override fun clear() {}
