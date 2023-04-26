@@ -115,8 +115,8 @@ internal class JvmKotlinPlugin : BuildLogicPlugin({
     }
 
     extensions.configure<SourceSetContainer> {
-        getByName("main").java.srcDirs("src/main/kotlin")
-        getByName("test").java.srcDirs("src/test/kotlin")
+        getByName("main").java.srcDir("src/main/kotlin")
+        getByName("test").java.srcDir("src/test/kotlin")
     }
 
     dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get())
