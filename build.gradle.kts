@@ -57,7 +57,7 @@ buildscript {
     }
 }
 
-subprojects {
+allprojects {
     repositories {
         google()
         mavenCentral()
@@ -80,6 +80,7 @@ subprojects {
         extensions.configure<KtlintExtension> {
             version.set(rootProject.libs.versions.kotlin.ktlint.source.get())
             android.set(true)
+            verbose.set(true)
         }
 
         tasks.withType<KotlinCompile> {
