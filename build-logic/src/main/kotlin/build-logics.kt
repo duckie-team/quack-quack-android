@@ -7,6 +7,8 @@
 
 // @formatter:off
 
+@file:Suppress("UnstableApiUsage")
+
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import internal.ApplicationConstants
@@ -98,16 +100,16 @@ internal class AndroidComposeMetricsPlugin : BuildLogicPlugin({
 internal class JvmKotlinPlugin : BuildLogicPlugin({
     applyPlugins(Plugins.JavaLibrary, Plugins.KotlinJvm)
 
-    extensions.configure<JavaPluginExtension>() {
+    extensions.configure<JavaPluginExtension> {
         sourceCompatibility = ApplicationConstants.JavaVersion
         targetCompatibility = ApplicationConstants.JavaVersion
     }
 
-    extensions.configure<KotlinProjectExtension>() {
+    extensions.configure<KotlinProjectExtension> {
         jvmToolchain(ApplicationConstants.JavaVersionAsInt)
     }
 
-    extensions.configure<SourceSetContainer>() {
+    extensions.configure<SourceSetContainer> {
         getByName("main").java.srcDirs("src/main/kotlin/")
         getByName("test").java.srcDirs("src/test/kotlin/")
     }

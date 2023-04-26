@@ -7,7 +7,9 @@
 
 @file:Suppress("UnstableApiUsage")
 
-rootProject.name = "buildSrc"
+rootProject.name = "build-logic"
+
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 dependencyResolutionManagement {
     versionCatalogs {

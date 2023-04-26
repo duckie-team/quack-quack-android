@@ -6,7 +6,7 @@
  */
 
 plugins {
-    `buildlogic-jvm-kotlin`
-    `buildlogic-kotlin-explicitapi`
-    `buildlogic-quack-mavenpublishing`
+    quackquack("jvm-kotlin")
+    quackquack("kotlin-explicit-api")
+    quackquack("quack-publishing")
 }

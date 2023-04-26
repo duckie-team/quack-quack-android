@@ -6,13 +6,13 @@
  */
 
 plugins {
-    `buildlogic-jvm-kotlin`
-    `buildlogic-quack-mavenpublishing`
+    quackquack("jvm-kotlin")
+    quackquack("quack-publishing")
     alias(libs.plugins.kotlin.ksp)
 }
 
 dependencies {
     compileOnly(libs.kotlin.embeddable.compiler)
-    implementations(libs.google.autoservice.annotation)
+    implementation(libs.google.autoservice.annotation)
     ksp(libs.google.autoservice.ksp.processor)
 }

@@ -5,18 +5,18 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:Suppress("UnstableApiUsage", "INLINE_FROM_HIGHER_PLATFORM")
+@file:Suppress("UnstableApiUsage")
 
 import org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME as kotlinCompilerPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    `buildlogic-android-library`
-    `buildlogic-android-compose`
-    `buildlogic-android-compose-metrics`
-    `buildlogic-kotlin-explicitapi`
-    `buildlogic-quack-mavenpublishing`
-    `buildlogic-test-junit`
+    quackquack("android-library")
+    quackquack("android-compose")
+    quackquack("android-compose-metrics")
+    quackquack("kotlin-explicit-api")
+    quackquack("quack-publishing")
+    quackquack("test-junit")
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.test.roborazzi)
 }

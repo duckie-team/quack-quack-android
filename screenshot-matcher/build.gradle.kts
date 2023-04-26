@@ -6,7 +6,7 @@
  */
 
 plugins {
-    `buildlogic-android-library`
+    quackquack("android-library")
 }
 
 android {

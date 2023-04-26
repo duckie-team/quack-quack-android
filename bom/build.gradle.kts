@@ -7,7 +7,7 @@
 
 plugins {
     `java-platform`
-    `buildlogic-quack-mavenpublishing`
+    quackquack("quack-publishing")
 }
 
 dependencies {

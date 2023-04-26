@@ -5,14 +5,12 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:Suppress("UnstableApiUsage", "INLINE_FROM_HIGHER_PLATFORM")
-
 plugins {
-    `buildlogic-android-library`
-    `buildlogic-android-compose`
-    `buildlogic-android-compose-metrics`
-    `buildlogic-kotlin-explicitapi`
-    `buildlogic-quack-mavenpublishing`
+    quackquack("android-library")
+    quackquack("android-compose")
+    quackquack("android-compose-metrics")
+    quackquack("kotlin-explicit-api")
+    quackquack("quack-publishing")
 }
 
 android {

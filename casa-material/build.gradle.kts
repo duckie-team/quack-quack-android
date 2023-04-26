@@ -5,12 +5,10 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
-
 plugins {
-    `buildlogic-android-library`
-    `buildlogic-kotlin-explicitapi`
-    `buildlogic-quack-mavenpublishing`
+    quackquack("android-library")
+    quackquack("kotlin-explicit-api")
+    quackquack("quack-publishing")
 }
 
 android {
