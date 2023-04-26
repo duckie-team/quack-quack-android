@@ -26,8 +26,8 @@ internal fun Project.configureAndroid(extension: CommonExtension<*, *, *, *, *>)
         }
 
         sourceSets {
-            getByName("main").java.srcDirs("src/main/kotlin/")
-            getByName("test").java.srcDirs("src/test/kotlin/")
+            getByName("main").java.srcDirs("src/main/kotlin")
+            getByName("test").java.srcDirs("src/test/kotlin")
         }
 
         compileOptions {
@@ -39,7 +39,7 @@ internal fun Project.configureAndroid(extension: CommonExtension<*, *, *, *, *>)
             checkTestSources = true
         }
 
-        extensions.configure<KotlinProjectExtension>() {
+        extensions.configure<KotlinProjectExtension> {
             jvmToolchain(ApplicationConstants.JavaVersionAsInt)
         }
 

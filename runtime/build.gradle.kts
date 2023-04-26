@@ -1,18 +1,18 @@
 /*
- * Designed and developed by Duckie Team 2023.
- *
- * Licensed under the MIT.
- * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
- */
+* Designed and developed by Duckie Team 2023.
+*
+* Licensed under the MIT.
+* Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
+*/
 
-@file:Suppress("UnstableApiUsage", "INLINE_FROM_HIGHER_PLATFORM")
+@file:Suppress("UnstableApiUsage")
 
 plugins {
-    `buildlogic-android-library`
-    `buildlogic-android-compose`
-    `buildlogic-kotlin-explicitapi`
-    `buildlogic-quack-mavenpublishing`
-    `buildlogic-test-kotest`
+    quackquack("android-library")
+    quackquack("android-compose")
+    quackquack("kotlin-explicit-api")
+    quackquack("quack-publishing")
+    quackquack("test-kotest")
 }
 
 android {

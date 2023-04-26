@@ -31,7 +31,7 @@ private const val FormatterOffComment = "\n@formatter:off"
 private val suppressAnnotation = AnnotationSpec
     .builder(Suppress::class)
     .addMember(
-        "%S, %S, %S, %S, %S, %S, %S, %S, %S",
+        "%S, %S, %S, %S, %S, %S, %S, %S, %S, %S",
         "NoConsecutiveBlankLines",
         "PackageDirectoryMismatch",
         "Wrapping",
@@ -40,6 +40,7 @@ private val suppressAnnotation = AnnotationSpec
         "RedundantVisibilityModifier",
         "UnusedImport",
         "NoUnusedImports",
+        "SpacingAroundParens",
         "ktlint",
     )
     .useSiteTarget(AnnotationSpec.UseSiteTarget.FILE)

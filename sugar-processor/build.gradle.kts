@@ -5,12 +5,10 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
-
 plugins {
-    `buildlogic-jvm-kotlin`
-    `buildlogic-test-kotest`
-    `buildlogic-quack-mavenpublishing`
+    quackquack("jvm-kotlin")
+    quackquack("test-kotest")
+    quackquack("quack-publishing")
     alias(libs.plugins.kotlin.ksp)
 }
 

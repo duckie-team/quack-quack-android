@@ -26,7 +26,11 @@ internal fun Project.applyPlugins(vararg plugins: String) {
 
 internal inline operator fun <T : Any, C : NamedDomainObjectContainer<T>> C.invoke(
     configuration: Action<NamedDomainObjectContainerScope<T>>,
-) = apply { configuration.execute(NamedDomainObjectContainerScope.of(this)) }
+): C {
+    return apply {
+        configuration.execute(NamedDomainObjectContainerScope.of(this))
+    }
+}
 
 internal inline fun DependencyHandler.setupJunit(core: Any, engine: Any) {
     add("testImplementation", core)

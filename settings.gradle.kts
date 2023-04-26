@@ -18,6 +18,8 @@ pluginManagement {
         google()
         mavenCentral()
     }
+
+    includeBuild("build-logic")
 }
 
 buildCache {

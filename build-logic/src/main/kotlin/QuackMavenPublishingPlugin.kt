@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:Suppress("UnstableApiUsage")
+
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
 import internal.applyPlugins

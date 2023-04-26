@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:Suppress("UnstableApiUsage")
+
 package internal
 
 import com.android.build.api.dsl.CommonExtension
