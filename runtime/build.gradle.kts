@@ -5,7 +5,7 @@
 * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
 */
 
-@file:Suppress("UnstableApiUsage")
+@file:Suppress("UnstableApiUsage", "INLINE_FROM_HIGHER_PLATFORM")
 
 plugins {
     quackquack("android-library")
