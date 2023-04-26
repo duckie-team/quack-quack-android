@@ -21,6 +21,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.materialize
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.core.test.Enabled
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import kotlin.coroutines.CoroutineContext
@@ -106,7 +107,7 @@ class MaterializingTest : StringSpec() {
             }
 
             stdlibModifiers shouldHaveSize 2 // androidx.compose.ui.ComposedModifier is private
-            quackModifiers shouldHaveSize 0
+            quackModifiers.shouldBeEmpty()
         }
 
         "quack-ComposedModifier가 nonquack한 값을 반환하면 ISE를 던짐" {

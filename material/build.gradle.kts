@@ -11,7 +11,9 @@ plugins {
     quackquack("android-library")
     quackquack("android-compose")
     quackquack("kotlin-explicit-api")
+    quackquack("test-kotest")
     quackquack("quack-publishing")
+    alias(libs.plugins.kotlin.dataclass.nocopy)
 }
 
 android {
