@@ -20,7 +20,7 @@ android {
 dependencies {
     implementations(
         libs.compose.uiutil,
-        libs.compose.material, // needed for ripple feature (used in Modifier.quackClickable)
+        libs.compose.material.ripple,
         libs.androidx.core.ktx, // needed for androidx.core.graphics (used in SquircleShape)
         projects.util.orArtifact(),
     )
