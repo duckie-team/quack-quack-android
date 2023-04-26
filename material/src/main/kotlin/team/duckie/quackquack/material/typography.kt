@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
+import land.sungbin.kotlin.dataclass.nocopy.NoCopy
 
 /**
  * 덕키에서 사용할 텍스트 스타일을 정의합니다.
@@ -31,9 +32,9 @@ import androidx.compose.ui.unit.sp
  * @param lineHeight 텍스트 줄 크기
  * @param textAlign 텍스트 align. 기본값은 Start 입니다.
  */
-// TODO(1): @NoCopy
+@NoCopy
 @Immutable
-public class QuackTypography(
+public data class QuackTypography(
     public val color: QuackColor = QuackColor.Black,
     public val size: TextUnit,
     public val weight: FontWeight,
@@ -95,32 +96,6 @@ public class QuackTypography(
                 textAlign = textAlign,
             )
         }
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is QuackTypography) return false
-
-        if (color != other.color) return false
-        if (size != other.size) return false
-        if (weight != other.weight) return false
-        if (letterSpacing != other.letterSpacing) return false
-        if (lineHeight != other.lineHeight) return false
-        if (textAlign != other.textAlign) return false
-        if (suit != other.suit) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = color.hashCode()
-        result = 31 * result + size.hashCode()
-        result = 31 * result + weight.hashCode()
-        result = 31 * result + letterSpacing.hashCode()
-        result = 31 * result + lineHeight.hashCode()
-        result = 31 * result + textAlign.hashCode()
-        result = 31 * result + suit.hashCode()
-        return result
     }
 
     public companion object {

@@ -16,15 +16,15 @@ import androidx.compose.ui.util.packFloats
 import androidx.compose.ui.util.unpackFloat1
 import androidx.compose.ui.util.unpackFloat2
 
-// TODO: Testing
+// TOOD: 문서화
 @Immutable
 @JvmInline
-public value class QuackPadding(private val packedValue: Long) {
+public value class QuackPadding(@PublishedApi internal val packedValue: Long) {
     public val horizontal: Dp
-        get() = unpackFloat1(packedValue).dp
+        inline get() = unpackFloat1(packedValue).dp
 
     public val vertical: Dp
-        get() = unpackFloat2(packedValue).dp
+        inline get() = unpackFloat2(packedValue).dp
 
     @Stable
     public fun asPaddingValues(): PaddingValues {
@@ -42,9 +42,6 @@ public value class QuackPadding(private val packedValue: Long) {
 
 // TOOD: 문서화
 @Stable
-public fun QuackPadding(
-    horizontal: Dp = 0.dp,
-    vertical: Dp = 0.dp,
-): QuackPadding {
+public fun QuackPadding(horizontal: Dp = 0.dp, vertical: Dp = 0.dp): QuackPadding {
     return QuackPadding(packFloats(horizontal.value, vertical.value))
 }

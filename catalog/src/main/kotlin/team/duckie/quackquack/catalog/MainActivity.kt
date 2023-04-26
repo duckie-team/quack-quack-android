@@ -29,7 +29,7 @@ import team.duckie.quackquack.ui.QuackButton
 import team.duckie.quackquack.ui.QuackButtonStyle
 import team.duckie.quackquack.ui.icons
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
-import team.duckie.quackquack.util.runIf
+import team.duckie.quackquack.util.applyIf
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
                 var showIcons by remember { mutableStateOf(true) }
                 var enabled by remember { mutableStateOf(true) }
                 QuackButton(
-                    modifier = Modifier.then(Modifier).runIf(showIcons) {
+                    modifier = Modifier.then(Modifier).applyIf(showIcons) {
                         icons(
                             leadingIcon = QuackIcon.Heart,
                             trailingIcon = QuackIcon.Heart,

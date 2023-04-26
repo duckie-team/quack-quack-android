@@ -41,10 +41,7 @@ public val Constraints.Companion.Zero: Constraints
  * @see Constraints
  */
 @Stable
-public fun Constraints.fixedCopy(
-    width: Int? = null,
-    height: Int? = null,
-): Constraints {
+public fun Constraints.fixedCopy(width: Int? = null, height: Int? = null): Constraints {
     return Constraints(
         minWidth = width ?: this.minWidth,
         maxWidth = width ?: this.maxWidth,

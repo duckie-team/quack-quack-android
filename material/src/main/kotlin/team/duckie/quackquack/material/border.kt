@@ -18,9 +18,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.compose.ui.platform.inspectable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.util.runIf
+import team.duckie.quackquack.util.applyIf
 
 /**
  * [BorderStroke]에서 [BorderStroke.brush] 값을 [QuackColor]로 받기 위한
@@ -37,6 +39,7 @@ public class QuackBorder(
     /**
      * [color] 를 [Brush]로 변환합니다.
      */
+    @Stable
     public val brush: SolidColor = SolidColor(value = color.value)
 
     /**
@@ -61,9 +64,17 @@ public class QuackBorder(
 public fun Modifier.quackBorder(
     border: QuackBorder?,
     shape: Shape = RectangleShape,
-): Modifier = runIf(border != null) {
-    border(
-        border = border!!.asComposeBorder(),
-        shape = shape,
-    )
+): Modifier = applyIf(border != null) {
+    inspectable(
+        inspectorInfo = debugInspectorInfo {
+            name = "quackBorder"
+            properties["border"] = border
+            properties["shape"] = shape
+        },
+    ){
+        border(
+            border = border!!.asComposeBorder(),
+            shape = shape,
+        )
+    }
 }
