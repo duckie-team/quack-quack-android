@@ -8,8 +8,6 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.dsl)
-    alias(libs.plugins.kotlin.detekt)
-    alias(libs.plugins.kotlin.ktlint)
     alias(libs.plugins.gradle.dependency.handler.extensions)
 }
 
@@ -55,18 +53,6 @@ sourceSets {
     getByName("test").java.srcDirs("src/test/kotlin")
 }
 
-detekt {
-    parallel = true
-    buildUponDefaultConfig = true
-    toolVersion = libs.versions.kotlin.detekt.get()
-    config.setFrom(files("${rootDir.parentFile}/detekt-config.yml"))
-}
-
-ktlint {
-    version.set(libs.versions.kotlin.ktlint.source.get())
-    verbose.set(true)
-}
-
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
@@ -81,7 +67,6 @@ dependencies {
         libs.test.kotest.framework,
         libs.test.strikt,
     )
-    detektPlugins(libs.detekt.plugin.formatting)
 }
 
 // Pair<ClassName, PluginName>
