@@ -16,14 +16,14 @@ import strikt.assertions.withNotNull
 class CollectionTest : StringSpec() {
     init {
         "fastFirstIsInstanceOrNull로 반환된 요소는 T로 캐스팅 가능함" {
-            val elements = listOf(1, 'Q', Float.Companion, "4", Any())
+            val elements = listOf(1, 'Q', Float, "4", Any())
             val stringElement = elements.fastFirstIsInstanceOrNull<String>()
 
             expectThat(stringElement).withNotNull { isA<String>() }
         }
 
         "fastFirstIsInstanceOrNull가 null를 반환하면 주어진 리스트에 존재하지 않음" {
-            val elements = listOf(1, 'Q', Float.Companion, "4", Any())
+            val elements = listOf(1, 'Q', Float, "4", Any())
             val stringElement = elements.fastFirstIsInstanceOrNull<Double>()
 
             stringElement.shouldBeNull()
