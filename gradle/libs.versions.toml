@@ -39,7 +39,7 @@ compose-coil = "2.3.0"
 
 test-kotest = "5.6.1"
 test-junit-core = "4.13.2"
-test-junit-engine = "5.9.2"
+test-junit-engine = "5.9.3"
 test-junit-compose = "1.4.2"
 test-strikt = "0.34.1"
 test-roborazzi = "1.2.0-alpha-2"
