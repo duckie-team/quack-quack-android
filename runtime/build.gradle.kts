@@ -36,7 +36,6 @@ dependencies {
     )
     testImplementations(
         libs.test.kotlin.coroutines,
-        libs.test.strikt,
         libs.test.mockito.core,
         libs.test.mockito.kotlin,
     )
