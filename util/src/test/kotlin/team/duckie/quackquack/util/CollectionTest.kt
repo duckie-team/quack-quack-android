@@ -7,26 +7,34 @@
 
 package team.duckie.quackquack.util
 
-import io.kotest.core.spec.style.StringSpec
+import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.nulls.shouldBeNull
-import strikt.api.expectThat
-import strikt.assertions.isA
-import strikt.assertions.withNotNull
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeTypeOf
 
-class CollectionTest : StringSpec() {
+class CollectionTest : FreeSpec() {
     init {
-        "fastFirstIsInstanceOrNull로 반환된 요소는 T로 캐스팅 가능함" {
-            val elements = listOf(1, 'Q', Float, "4", Any())
-            val stringElement = elements.fastFirstIsInstanceOrNull<String>()
+        "fastFirstIsInstanceOrNul" - {
+            "반환된 요소는 T로 캐스팅 가능함" {
+                val elements = listOf(1, 'Q', Float, "4", Any())
+                val stringElement = elements.fastFirstIsInstanceOrNull<String>()
 
-            expectThat(stringElement).withNotNull { isA<String>() }
-        }
+                stringElement.shouldBeTypeOf<String>()
+            }
 
-        "fastFirstIsInstanceOrNull가 null를 반환하면 주어진 리스트에 존재하지 않음" {
-            val elements = listOf(1, 'Q', Float, "4", Any())
-            val stringElement = elements.fastFirstIsInstanceOrNull<Double>()
+            "null를 반환하면 주어진 리스트에 존재하지 않음" {
+                val elements = listOf(1, 'Q', Float, "4", Any())
+                val stringElement = elements.fastFirstIsInstanceOrNull<Double>()
 
-            stringElement.shouldBeNull()
+                stringElement.shouldBeNull()
+            }
+
+            "여러개의 요소가 제공됐다면 첫 번째에 해당하는 요소가 반환됨" {
+                val elements = listOf(1, 'Q', Float, "4", Any(), "6")
+                val stringElement = elements.fastFirstIsInstanceOrNull<String>()
+
+                stringElement shouldBe "4"
+            }
         }
     }
 }
