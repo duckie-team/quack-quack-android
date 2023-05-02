@@ -12,6 +12,7 @@
     "RedundantSuppression",
     "LongMethod",
     "HasPlatformType",
+    "UnusedReceiverParameter",
 )
 
 import com.tschuchort.compiletesting.KotlinCompilation
