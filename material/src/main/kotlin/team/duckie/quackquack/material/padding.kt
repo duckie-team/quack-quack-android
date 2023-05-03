@@ -19,7 +19,7 @@ import androidx.compose.ui.util.unpackFloat2
 // TOOD: 문서화
 @Immutable
 @JvmInline
-public value class QuackPadding(@PublishedApi internal val packedValue: Long) {
+public value class QuackPadding internal constructor(@PublishedApi internal val packedValue: Long) {
     public val horizontal: Dp
         inline get() = unpackFloat1(packedValue).dp
 
