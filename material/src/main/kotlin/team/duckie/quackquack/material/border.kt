@@ -71,7 +71,7 @@ public fun Modifier.quackBorder(
             properties["border"] = border
             properties["shape"] = shape
         },
-    ){
+    ) {
         border(
             border = border!!.asComposeBorder(),
             shape = shape,
