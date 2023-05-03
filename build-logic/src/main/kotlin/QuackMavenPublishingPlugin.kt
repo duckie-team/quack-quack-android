@@ -86,8 +86,6 @@ private fun MavenPom.configureMavenPom(artifactId: String) {
     }
 }
 
-// TOOD: Testing
-// Testing ref: https://discuss.gradle.org/t/testing-and-mocking-techniques/7064/2
 data class ArtifactConfig(
     val group: String,
     val module: String,
