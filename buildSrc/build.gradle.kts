@@ -6,7 +6,7 @@
  */
 
 plugins {
-    alias(libs.plugins.kotlin.dsl)
+    `kotlin-dsl`
 }
 
 repositories {

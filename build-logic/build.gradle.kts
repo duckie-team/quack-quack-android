@@ -8,8 +8,8 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
 plugins {
+    `kotlin-dsl`
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.dsl)
     alias(libs.plugins.gradle.dependency.handler.extensions)
 }
 

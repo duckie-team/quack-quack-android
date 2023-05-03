@@ -8,7 +8,6 @@ google-autoservice-standard = "1.0.1"
 google-autoservice-ksp = "1.0.0"
 
 kotlin-core = "1.8.20"
-kotlin-dsl = "4.0.14"
 kotlin-coroutines = "1.7.0-RC"
 kotlin-ksp = "1.8.20-1.0.11"
 kotlin-kotlinpoet = "1.13.0"
@@ -57,7 +56,6 @@ gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.e
 gradle-dependency-graph = { id = "land.sungbin.dependency.graph.plugin", version.ref = "gradle-dependency-graph" }
 
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-core" }
-kotlin-dsl = { id = "org.gradle.kotlin.kotlin-dsl", version.ref = "kotlin-dsl" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 kotlin-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "kotlin-detekt" }
 kotlin-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "kotlin-ktlint-gradle" }
