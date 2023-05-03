@@ -12,7 +12,3 @@ release
 local.properties
 google-services.json
 keystore
-core/out
-core/report
-core/document
-snapshots
