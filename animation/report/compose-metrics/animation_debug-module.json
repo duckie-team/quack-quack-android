@@ -4,7 +4,7 @@
  "readonlyComposables": 0,
  "totalComposables": 5,
  "restartGroups": 2,
- "totalGroups": 7,
+ "totalGroups": 5,
  "staticArguments": 1,
  "certainArguments": 25,
  "knownStableArguments": 41,
