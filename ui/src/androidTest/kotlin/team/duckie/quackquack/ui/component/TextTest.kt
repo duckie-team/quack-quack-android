@@ -17,37 +17,34 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
+import io.kotest.assertions.throwables.shouldThrowWithMessage
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
-import strikt.api.expectThat
-import strikt.api.expectThrows
-import strikt.assertions.isEqualTo
-import strikt.assertions.withNotNull
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.ui.QuackText
 import team.duckie.quackquack.ui.QuackTextErrors
 import team.duckie.quackquack.ui.highlight
 import team.duckie.quackquack.ui.span
-import team.duckie.quackquack.ui.util.isScreenshotSame
 import team.duckie.quackquack.ui.util.markGolden
 import team.duckie.quackquack.ui.util.markTest
 import team.duckie.quackquack.ui.util.onGolden
 import team.duckie.quackquack.ui.util.onTest
 import team.duckie.quackquack.ui.util.setQuackContent
+import team.duckie.quackquack.ui.util.shouldScreenshotEqual
 import team.duckie.quackquack.util.Empty
 
 /**
- * Text 컴포넌트의 로직을 테스트합니다.
+ * QuackText를 테스트합니다.
  *
  * - `Modifier.span`과 `Modifier.highlight`는 같이 사용할 수 없음
- * - `Modifier#span`과 `buildAnnotatedString`은 같은 텍스트 비쥬얼을 그림
- * - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 onClick 이벤트를 설정할 수 있음
- * - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 글로벌 onClick 이벤트를 설정할 수 있음
+ * - `Modifier.span`과 `buildAnnotatedString`은 같은 UI를 그림
+ * - `Modifier.highlight`로 특정 텍스트에 `SpanStyle` 및 onClick 이벤트를 설정할 수 있음
+ * - `Modifier.highlight`로 특정 텍스트에 `SpanStyle` 및 글로벌 onClick 이벤트를 설정할 수 있음
  */
 class TextTest {
     @get:Rule
@@ -56,7 +53,9 @@ class TextTest {
     // - `Modifier.span`과 `Modifier.highlight`는 같이 사용할 수 없음
     @Test
     fun cannot_use_ModifierSpan_and_ModifierHeight_same_time() {
-        expectThrows<IllegalStateException> {
+        shouldThrowWithMessage<IllegalStateException>(
+            message = QuackTextErrors.CannotUseSpanAndHighlightAtSameTime,
+        ) {
             rule.setQuackContent {
                 QuackText(
                     modifier = Modifier
@@ -73,13 +72,9 @@ class TextTest {
                 )
             }
         }
-            .get { message }
-            .withNotNull {
-                isEqualTo(QuackTextErrors.CannotUseSpanAndHighlightAtSameTime)
-            }
     }
 
-    // `Modifier#span`과 `buildAnnotatedString`은 같은 텍스트 비쥬얼을 그림
+    // `Modifier.span`과 `buildAnnotatedString`은 같은 UI를 그림
     @Test
     fun ModifierSpan_and_buildAnnotatedString_rendered_same_ui() {
         val style = SpanStyle(
@@ -113,13 +108,13 @@ class TextTest {
             }
         }
 
-        expectThat(rule.onTest()).isScreenshotSame(
+        rule.onTest().shouldScreenshotEqual(
             name = "Modifier#span",
             golden = rule.onGolden(),
         )
     }
 
-    // - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 onClick 이벤트를 설정할 수 있음
+    // - `Modifier.highlight`로 특정 텍스트에 `SpanStyle` 및 onClick 이벤트를 설정할 수 있음
     // Compose Testing API의 한계로 ClickableText의 클릭된 Offset까지는 테스트가 불가능함 (아마)
     // https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/foundation/foundation/src/androidAndroidTest/kotlin/androidx/compose/foundation/text/ClickableTextTest.kt
     @Test
@@ -155,7 +150,7 @@ class TextTest {
             }
         }
 
-        expectThat(rule.onTest()).isScreenshotSame(
+        rule.onTest().shouldScreenshotEqual(
             name = "Modifier#highlight-normal",
             golden = rule.onGolden(),
         )
@@ -166,7 +161,7 @@ class TextTest {
         }
     }
 
-    // - `Modifier.highlight`로 특정 텍스트에 [SpanStyle] 및 글로벌 onClick 이벤트를 설정할 수 있음
+    // - `Modifier.highlight`로 특정 텍스트에 `SpanStyle` 및 글로벌 onClick 이벤트를 설정할 수 있음
     @Test
     fun set_SpanStyle_and_global_OnClickEvent_with_ModifierHighlight() {
         val onClick: (String) -> Unit = mock()
@@ -201,7 +196,7 @@ class TextTest {
             }
         }
 
-        expectThat(rule.onTest()).isScreenshotSame(
+        rule.onTest().shouldScreenshotEqual(
             name = "Modifier#highlight-global",
             golden = rule.onGolden(),
         )

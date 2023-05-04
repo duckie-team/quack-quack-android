@@ -70,8 +70,8 @@ dependencies {
     )
 
     androidTestImplementations(
-        libs.test.strikt,
         libs.test.junit.compose,
+        libs.test.kotest.assertion.core,
         libs.bundles.test.mockito,
         projects.screenshotMatcher,
     )

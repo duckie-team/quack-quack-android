@@ -65,10 +65,7 @@ dependencies {
         libs.kotlin.gradle,
         libs.gradle.publish.maven,
     )
-    testImplementations(
-        libs.test.kotest.framework,
-        libs.test.strikt,
-    )
+    testImplementation(libs.test.kotest.framework)
 }
 
 // Pair<ClassName, PluginName>

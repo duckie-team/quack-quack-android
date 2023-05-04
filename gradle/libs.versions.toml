@@ -40,7 +40,6 @@ test-kotest = "5.6.1"
 test-junit-core = "4.13.2"
 test-junit-engine = "5.9.3"
 test-junit-compose = "1.4.2"
-test-strikt = "0.34.1"
 test-roborazzi = "1.2.0-alpha-2"
 test-robolectric = "4.10"
 test-injector-parameter = "1.11"
@@ -99,11 +98,11 @@ compose-activity = { module = "androidx.activity:activity-compose", version.ref 
 compose-coil = { module = "io.coil-kt:coil-compose", version.ref = "compose-coil" }
 
 test-android-lint = { module = "com.android.tools.lint:lint-tests", version.ref = "android-lint" }
-test-kotest-framework = { module = "io.kotest:kotest-runner-junit5", version.ref = "test-kotest" }
+test-kotest-framework = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "test-kotest" }
+test-kotest-assertion-core = { module = "io.kotest:kotest-assertions-core-jvm", version.ref = "test-kotest" }
 test-junit-core = { module = "junit:junit", version.ref = "test-junit-core" }
 test-junit-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "test-junit-engine" } # testRuntimeOnly
 test-junit-compose = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "test-junit-compose" } # androidTestImplementation
-test-strikt = { module = "io.strikt:strikt-core", version.ref = "test-strikt" }
 test-roborazzi-core = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "test-roborazzi" }
 test-roborazzi-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "test-roborazzi" }
 test-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-robolectric" }

@@ -31,8 +31,5 @@ dependencies {
         libs.compose.material3,
         libs.compose.uiutil,
     )
-    androidTestImplementations(
-        libs.test.strikt,
-        libs.test.junit.compose,
-    )
+    androidTestImplementation(libs.test.junit.compose)
 }
