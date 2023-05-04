@@ -11,6 +11,7 @@ plugins {
     quackquack("android-library")
     quackquack("android-compose")
     quackquack("android-compose-metrics")
+    quackquack("android-gmd")
     quackquack("kotlin-explicit-api")
     quackquack("quack-publishing")
 }

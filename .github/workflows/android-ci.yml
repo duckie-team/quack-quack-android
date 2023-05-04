@@ -1,10 +1,16 @@
 name: Android CI
+
 env:
   GRADLE_OPTS: '-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false'
   GRADLE_BUILD_ACTION_CACHE_DEBUG_ENABLED: true
+
 on:
   pull_request:
     paths-ignore: [ '**/**.md', 'website/**' ]
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   ci-build:
@@ -35,6 +41,14 @@ jobs:
 
       - name: Run test
         run: ./gradlew test --stacktrace
+
+      - name: Run ui test on ui module via gmd
+        if: contains(github.event.pull_request.labels.*.name, 'ui')
+        run: ./gradlew :ui:pixel4api30aospatdDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+
+      - name: Run ui test on casa-ui module via gmd
+        if: contains(github.event.pull_request.labels.*.name, 'casa-ui')
+        run: ./gradlew :casa-ui:pixel4api30aospatdDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
 
       - name: Run build
         run: ./gradlew buildDebug --stacktrace
