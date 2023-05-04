@@ -27,8 +27,5 @@ dependencies {
         libs.kotlin.collections.immutable,
         libs.google.autoservice.annotation,
     )
-    testImplementations(
-        libs.test.strikt,
-        libs.test.kotlin.compilation.ksp,
-    )
+    testImplementation(libs.test.kotlin.compilation.ksp)
 }
