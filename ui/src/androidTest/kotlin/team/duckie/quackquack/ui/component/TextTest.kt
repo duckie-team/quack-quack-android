@@ -38,19 +38,11 @@ import team.duckie.quackquack.ui.util.setQuackContent
 import team.duckie.quackquack.ui.util.shouldScreenshotEqual
 import team.duckie.quackquack.util.Empty
 
-/**
- * QuackText를 테스트합니다.
- *
- * - `Modifier.span`과 `Modifier.highlight`는 같이 사용할 수 없음
- * - `Modifier.span`과 `buildAnnotatedString`은 같은 UI를 그림
- * - `Modifier.highlight`로 특정 텍스트에 `SpanStyle` 및 onClick 이벤트를 설정할 수 있음
- * - `Modifier.highlight`로 특정 텍스트에 `SpanStyle` 및 글로벌 onClick 이벤트를 설정할 수 있음
- */
 class TextTest {
     @get:Rule
     val rule = createComposeRule()
 
-    // - `Modifier.span`과 `Modifier.highlight`는 같이 사용할 수 없음
+    // `Modifier.span`과 `Modifier.highlight`는 같이 사용할 수 없음
     @Test
     fun cannot_use_ModifierSpan_and_ModifierHeight_same_time() {
         shouldThrowWithMessage<IllegalStateException>(
@@ -114,7 +106,7 @@ class TextTest {
         )
     }
 
-    // - `Modifier.highlight`로 특정 텍스트에 `SpanStyle` 및 onClick 이벤트를 설정할 수 있음
+    // `Modifier.highlight`로 특정 텍스트에 `SpanStyle` 및 onClick 이벤트를 설정할 수 있음
     // Compose Testing API의 한계로 ClickableText의 클릭된 Offset까지는 테스트가 불가능함 (아마)
     // https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/foundation/foundation/src/androidAndroidTest/kotlin/androidx/compose/foundation/text/ClickableTextTest.kt
     @Test
@@ -161,7 +153,7 @@ class TextTest {
         }
     }
 
-    // - `Modifier.highlight`로 특정 텍스트에 `SpanStyle` 및 글로벌 onClick 이벤트를 설정할 수 있음
+    // `Modifier.highlight`로 특정 텍스트에 `SpanStyle` 및 글로벌 onClick 이벤트를 설정할 수 있음
     @Test
     fun set_SpanStyle_and_global_OnClickEvent_with_ModifierHighlight() {
         val onClick: (String) -> Unit = mock()
