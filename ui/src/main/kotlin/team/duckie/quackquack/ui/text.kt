@@ -76,7 +76,7 @@ public fun Modifier.span(
         properties["style"] = style
     },
 ) {
-    then(TextSpanData(texts = texts, style = style))
+    TextSpanData(texts = texts, style = style)
 }
 
 /**
@@ -130,7 +130,7 @@ public fun Modifier.highlight(
         val highlights = remember(texts, globalOnClick) {
             texts.fastMap { text -> HighlightText(text, globalOnClick) }
         }
-        then(TextHighlightData(highlights = highlights, span = span))
+        TextHighlightData(highlights = highlights, span = span)
     }
 }
 
