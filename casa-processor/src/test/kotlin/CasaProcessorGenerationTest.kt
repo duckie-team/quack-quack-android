@@ -182,7 +182,7 @@ public val casaModels: ImmutableList<CasaModel> = persistentListOf(
                              """.trimIndent()
 
                 result.exitCode shouldBe KotlinCompilation.ExitCode.OK
-                findKspGeneratedFileOrNull("CasaModels.kt")?.readText() shouldBe expect
+                findGeneratedFileOrNull("CasaModels.kt")?.readText() shouldBe expect
             }
 
             """
@@ -246,7 +246,7 @@ fun Text(text: String) = Unit
     }
 
     @Suppress("SameParameterValue")
-    private fun findKspGeneratedFileOrNull(fileName: String): File? {
+    private fun findGeneratedFileOrNull(fileName: String): File? {
         return temporaryFolder
             .walkTopDown()
             .find { file ->

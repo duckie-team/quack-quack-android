@@ -144,7 +144,7 @@ class MaterializingTest : StringSpec() {
                     [https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui/src/test/kotlin/androidx/compose/ui/ComposedModifierTest.kt;l=288-320;drc=5729d22fd521d7e83ec4eb8dedd34a0c2f491738]
                     
                     - 안정성 테스트 코드를 어떻게 작성해야 할지 모르겠음
-                    """.trimIndent(),
+                    """,
                 )
             },
         ) {

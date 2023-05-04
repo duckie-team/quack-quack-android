@@ -130,7 +130,7 @@ internal val aideModifiers: Map<String, List<String>> = run {
                              """.trimIndent()
 
                 result.exitCode shouldBe KotlinCompilation.ExitCode.OK
-                findKspGeneratedFileOrNull("AideModifiers.kt")?.readText() shouldBe expect
+                findGeneratedFileOrNull("AideModifiers.kt")?.readText() shouldBe expect
             }
 
             "꽥꽥 컴포넌트는 QuackComponents.kt 파일에 모여짐 - [kspIncremental: $kspIncremental]" {
@@ -220,7 +220,7 @@ internal val quackComponents: Map<String, String> = run {
                 """.trimIndent()
 
                 result.exitCode shouldBe KotlinCompilation.ExitCode.OK
-                findKspGeneratedFileOrNull("QuackComponents.kt")?.readText() shouldBe expect
+                findGeneratedFileOrNull("QuackComponents.kt")?.readText() shouldBe expect
             }
         }
     }
@@ -239,7 +239,7 @@ internal val quackComponents: Map<String, String> = run {
         }
     }
 
-    private fun findKspGeneratedFileOrNull(fileName: String): File? {
+    private fun findGeneratedFileOrNull(fileName: String): File? {
         return temporaryFolder
             .walkTopDown()
             .find { file ->

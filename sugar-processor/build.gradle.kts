@@ -28,8 +28,5 @@ dependencies {
         projects.sugarMaterial.orArtifact(),
     )
     ksp(libs.google.autoservice.ksp.processor)
-    testImplementations(
-        libs.test.strikt,
-        libs.test.kotlin.compilation.core,
-    )
+    testImplementation(libs.test.kotlin.compilation.core)
 }

@@ -22,6 +22,8 @@ import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import io.kotest.core.spec.style.ExpectSpec
 import io.kotest.engine.spec.tempdir
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import ir.NotSupportedError.functionalType
 import ir.PoetError.sugarComponentButNoSugarRefer
 import ir.SourceError.multipleSugarTokenIsNotAllowed
@@ -32,9 +34,6 @@ import ir.SourceError.sugarTokenButNoCompanionObject
 import ir.SugarTransformError.sugarComponentAndSugarReferHasDifferentParameters
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.JvmTarget
-import strikt.api.expectThat
-import strikt.assertions.contains
-import strikt.assertions.isEqualTo
 
 class SugarIrErrorTest : ExpectSpec() {
     private val temporaryFolder = tempdir()
@@ -58,8 +57,8 @@ class SugarIrErrorTest : ExpectSpec() {
                     ),
                 )
 
-                expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.INTERNAL_ERROR)
-                expectThat(result.messages).contains(functionalType(null))
+                result.exitCode shouldBe KotlinCompilation.ExitCode.INTERNAL_ERROR
+                result.messages shouldContain functionalType(null)
             }
         }
 
@@ -77,8 +76,8 @@ class SugarIrErrorTest : ExpectSpec() {
                     ),
                 )
 
-                expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-                expectThat(result.messages).contains(quackComponentWithoutSugarToken(null))
+                result.exitCode shouldBe KotlinCompilation.ExitCode.COMPILATION_ERROR
+                result.messages shouldContain quackComponentWithoutSugarToken(null)
             }
 
             expect("quackComponentWithoutSugarToken - @NoSugar applied") {
@@ -96,7 +95,7 @@ class SugarIrErrorTest : ExpectSpec() {
                     ),
                 )
 
-                expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+                result.exitCode shouldBe KotlinCompilation.ExitCode.OK
             }
 
             expect("multipleSugarTokenIsNotAllowed") {
@@ -116,8 +115,8 @@ class SugarIrErrorTest : ExpectSpec() {
                     ),
                 )
 
-                expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.INTERNAL_ERROR)
-                expectThat(result.messages).contains(multipleSugarTokenIsNotAllowed(null))
+                result.exitCode shouldBe KotlinCompilation.ExitCode.INTERNAL_ERROR
+                result.messages shouldContain multipleSugarTokenIsNotAllowed(null)
             }
 
             expect("sugarNamePrefixIsNotQuack") {
@@ -136,8 +135,8 @@ class SugarIrErrorTest : ExpectSpec() {
                     ),
                 )
 
-                expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.INTERNAL_ERROR)
-                expectThat(result.messages).contains(sugarNamePrefixIsNotQuack(null))
+                result.exitCode shouldBe KotlinCompilation.ExitCode.INTERNAL_ERROR
+                result.messages shouldContain sugarNamePrefixIsNotQuack(null)
             }
 
             expect("sugarNameWithoutTokenName") {
@@ -156,8 +155,8 @@ class SugarIrErrorTest : ExpectSpec() {
                     ),
                 )
 
-                expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.INTERNAL_ERROR)
-                expectThat(result.messages).contains(sugarNameWithoutTokenName(null))
+                result.exitCode shouldBe KotlinCompilation.ExitCode.INTERNAL_ERROR
+                result.messages shouldContain sugarNameWithoutTokenName(null)
             }
 
             expect("sugarTokenButNoCompanionObject") {
@@ -174,8 +173,8 @@ class SugarIrErrorTest : ExpectSpec() {
                     ),
                 )
 
-                expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.INTERNAL_ERROR)
-                expectThat(result.messages).contains(sugarTokenButNoCompanionObject(null))
+                result.exitCode shouldBe KotlinCompilation.ExitCode.INTERNAL_ERROR
+                result.messages shouldContain sugarTokenButNoCompanionObject(null)
             }
         }
 
@@ -198,8 +197,8 @@ class SugarIrErrorTest : ExpectSpec() {
                     ),
                 )
 
-                expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.INTERNAL_ERROR)
-                expectThat(result.messages).contains(sugarComponentButNoSugarRefer(null))
+                result.exitCode shouldBe KotlinCompilation.ExitCode.INTERNAL_ERROR
+                result.messages shouldContain sugarComponentButNoSugarRefer(null)
             }
         }
 
@@ -235,12 +234,10 @@ class SugarIrErrorTest : ExpectSpec() {
                     ),
                 )
 
-                expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.INTERNAL_ERROR)
-                expectThat(result.messages).contains(
-                    sugarComponentAndSugarReferHasDifferentParameters(
-                        sugarIrData = null,
-                        parameter = null,
-                    ),
+                result.exitCode shouldBe KotlinCompilation.ExitCode.INTERNAL_ERROR
+                result.messages shouldContain sugarComponentAndSugarReferHasDifferentParameters(
+                    sugarIrData = null,
+                    parameter = null,
                 )
             }
         }
