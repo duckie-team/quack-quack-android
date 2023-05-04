@@ -18,10 +18,6 @@ plugins {
 android {
     namespace = "team.duckie.quackquack.runtime"
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
     testOptions {
         unitTests {
             isReturnDefaultValues = true
