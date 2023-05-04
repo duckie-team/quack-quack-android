@@ -1,0 +1,4 @@
+unstable class TextTest {
+  unstable val rule: ComposeContentTestRule
+  <runtime stability> = Unstable
+}
