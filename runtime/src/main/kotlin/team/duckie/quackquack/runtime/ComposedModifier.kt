@@ -12,25 +12,15 @@ import androidx.compose.runtime.Composer
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.platform.InspectorInfo
-import androidx.compose.ui.platform.InspectorValueInfo
-import androidx.compose.ui.platform.NoInspectorInfo
 
-internal open class QuackComposedModifier(
-    inspectorInfo: InspectorInfo.() -> Unit,
-    val factory: @Composable Modifier.() -> Modifier,
-) : Modifier.Element, InspectorValueInfo(inspectorInfo)
+internal open class QuackComposedModifier(val factory: @Composable Modifier.() -> Modifier) : Modifier.Element
 
 @Stable
 private class KeyedQuackComposedModifier1(
     val fqName: String,
     val key1: Any?,
-    inspectorInfo: InspectorInfo.() -> Unit,
     factory: @Composable Modifier.() -> Modifier,
-) : QuackComposedModifier(
-    inspectorInfo = inspectorInfo,
-    factory = factory,
-) {
+) : QuackComposedModifier(factory) {
     override fun equals(other: Any?): Boolean {
         return other is KeyedQuackComposedModifier1 &&
                 fqName == other.fqName &&
@@ -47,12 +37,8 @@ private class KeyedQuackComposedModifier2(
     val fqName: String,
     val key1: Any?,
     val key2: Any?,
-    inspectorInfo: InspectorInfo.() -> Unit,
     factory: @Composable Modifier.() -> Modifier,
-) : QuackComposedModifier(
-    inspectorInfo = inspectorInfo,
-    factory = factory,
-) {
+) : QuackComposedModifier(factory) {
     override fun equals(other: Any?): Boolean {
         return other is KeyedQuackComposedModifier2 &&
                 fqName == other.fqName &&
@@ -74,12 +60,8 @@ private class KeyedQuackComposedModifier3(
     val key1: Any?,
     val key2: Any?,
     val key3: Any?,
-    inspectorInfo: InspectorInfo.() -> Unit,
     factory: @Composable Modifier.() -> Modifier,
-) : QuackComposedModifier(
-    inspectorInfo = inspectorInfo,
-    factory = factory,
-) {
+) : QuackComposedModifier(factory) {
     override fun equals(other: Any?): Boolean {
         return other is KeyedQuackComposedModifier3 &&
                 fqName == other.fqName &&
@@ -101,12 +83,8 @@ private class KeyedQuackComposedModifier3(
 private class KeyedQuackComposedModifierN(
     val fqName: String,
     val keys: Array<out Any?>,
-    inspectorInfo: InspectorInfo.() -> Unit,
     factory: @Composable Modifier.() -> Modifier,
-) : QuackComposedModifier(
-    inspectorInfo = inspectorInfo,
-    factory = factory,
-) {
+) : QuackComposedModifier(factory) {
     override fun equals(other: Any?): Boolean {
         return other is KeyedQuackComposedModifierN &&
                 fqName == other.fqName &&
@@ -131,19 +109,11 @@ private class KeyedQuackComposedModifierN(
  * @see Composer.quackMaterializeOf
  */
 @Stable
-public fun Modifier.quackComposed(
-    inspectorInfo: InspectorInfo.() -> Unit = NoInspectorInfo,
-    factory: @Composable Modifier.() -> Modifier,
-): Modifier {
-    return then(
-        QuackComposedModifier(
-            inspectorInfo = inspectorInfo,
-            factory = factory,
-        ),
-    )
+public fun Modifier.quackComposed(factory: @Composable Modifier.() -> Modifier): Modifier {
+    return then(QuackComposedModifier(factory))
 }
 
-// TODO: 문서화 개선 (key, fqn 인자 역할 설명)
+// TODO: 문서화 개선 (key, fqn 인자 역할 설명, inspectableInfo 사용 불가 안내)
 /**
  * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
  *
@@ -166,14 +136,12 @@ public fun Modifier.quackComposed(
 public fun Modifier.quackComposed(
     fullyQualifiedName: String,
     key1: Any?,
-    inspectorInfo: InspectorInfo.() -> Unit = NoInspectorInfo,
     factory: @Composable Modifier.() -> Modifier,
 ): Modifier {
     return then(
         KeyedQuackComposedModifier1(
             fqName = fullyQualifiedName,
             key1 = key1,
-            inspectorInfo = inspectorInfo,
             factory = factory,
         ),
     )
@@ -202,7 +170,6 @@ public fun Modifier.quackComposed(
     fullyQualifiedName: String,
     key1: Any?,
     key2: Any?,
-    inspectorInfo: InspectorInfo.() -> Unit = NoInspectorInfo,
     factory: @Composable Modifier.() -> Modifier,
 ): Modifier {
     return then(
@@ -210,7 +177,6 @@ public fun Modifier.quackComposed(
             fqName = fullyQualifiedName,
             key1 = key1,
             key2 = key2,
-            inspectorInfo = inspectorInfo,
             factory = factory,
         ),
     )
@@ -240,7 +206,6 @@ public fun Modifier.quackComposed(
     key1: Any?,
     key2: Any?,
     key3: Any?,
-    inspectorInfo: InspectorInfo.() -> Unit = NoInspectorInfo,
     factory: @Composable Modifier.() -> Modifier,
 ): Modifier {
     return then(
@@ -249,7 +214,6 @@ public fun Modifier.quackComposed(
             key1 = key1,
             key2 = key2,
             key3 = key3,
-            inspectorInfo = inspectorInfo,
             factory = factory,
         ),
     )
@@ -277,14 +241,12 @@ public fun Modifier.quackComposed(
 public fun Modifier.quackComposed(
     fullyQualifiedName: String,
     vararg keys: Any?,
-    inspectorInfo: InspectorInfo.() -> Unit = NoInspectorInfo,
     factory: @Composable Modifier.() -> Modifier,
 ): Modifier {
     return then(
         KeyedQuackComposedModifierN(
             fqName = fullyQualifiedName,
             keys = keys,
-            inspectorInfo = inspectorInfo,
             factory = factory,
         ),
     )

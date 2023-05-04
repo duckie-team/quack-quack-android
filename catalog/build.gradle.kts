@@ -23,6 +23,10 @@ android {
     packaging {
         resources.excludes.add("META-INF/*")
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 // https://github.com/Kotlin/kotlinx.coroutines/issues/2023#issuecomment-662996707
