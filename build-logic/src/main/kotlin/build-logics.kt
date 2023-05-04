@@ -157,6 +157,8 @@ internal class KotlinExplicitApiPlugin : BuildLogicPlugin({
 // ref: https://kotest.io/docs/quickstart#test-framework
 private fun Project.useTestPlatformForTarget() {
     fun AbstractTestTask.setTestConfiguration() {
+        // https://stackoverflow.com/a/36178581/14299073
+        outputs.upToDateWhen { false }
         testLogging {
             events = setOf(
                 TestLogEvent.PASSED,
@@ -182,6 +184,10 @@ private fun Project.useTestPlatformForTarget() {
         androidExtensions.testOptions {
             unitTests.all { test ->
                 test.useJUnitPlatform()
+
+                if (!test.name.contains("debug", ignoreCase = true)) {
+                    test.enabled = false
+                }
             }
         }
         tasks.withType<Test>().configureEach {
