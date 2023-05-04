@@ -9,7 +9,7 @@ import com.android.tools.lint.checks.infrastructure.TestFiles.kotlin
 import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.FreeSpec
 
-@Ignored(reason = "린트의 major 버전이 올라가면서 구현 방식이 달라짐 (린트 로직 재작성 필요)")
+@Ignored(reason = "https://github.com/duckie-team/quack-quack-android/issues/641")
 class ModifierInformationalTest : FreeSpec() {
     init {
         "도메인에 벗어나는 DecorateModifier를 사용했을 때 경고가 발생함" - {

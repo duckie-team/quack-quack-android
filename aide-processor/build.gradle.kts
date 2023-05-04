@@ -26,8 +26,5 @@ dependencies {
         libs.kotlin.kotlinpoet.core,
         libs.google.autoservice.annotation,
     )
-    testImplementations(
-        libs.test.strikt,
-        libs.test.kotlin.compilation.ksp,
-    )
+    testImplementation(libs.test.kotlin.compilation.ksp)
 }
