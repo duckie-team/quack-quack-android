@@ -27,7 +27,8 @@ internal fun Project.configureAndroid(extension: CommonExtension<*, *, *, *, *>)
 
         sourceSets {
             getByName("main").java.srcDir("src/main/kotlin")
-            getByName("androidTest").kotlin.srcDir("src/test/kotlin")
+            getByName("test").java.srcDir("src/test/kotlin")
+            getByName("androidTest").java.srcDir("src/androidTest/kotlin")
         }
 
         compileOptions {
