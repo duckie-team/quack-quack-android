@@ -65,6 +65,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Suppress("UnusedPrivateMember", "unused")
 @Composable
 private fun Preview(content: @Composable ColumnScope.() -> Unit) {
     Column(

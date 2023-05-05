@@ -46,5 +46,5 @@ package team.duckie.quackquack.sugar.material
 @Retention(AnnotationRetention.BINARY)
 annotation class SugarRefer(val fqn: String)
         """,
-    )
+    ),
 )

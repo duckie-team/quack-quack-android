@@ -111,7 +111,7 @@ fun Button2(
   @CasaValue("{}") onClick: () -> Unit,
 ) = Unit
                         """,
-                    )
+                    ),
                 )
 
                 @Language("kotlin")
