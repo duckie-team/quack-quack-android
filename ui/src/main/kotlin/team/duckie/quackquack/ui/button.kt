@@ -339,8 +339,7 @@ public fun Modifier.icons(
     )
 }
 
-// TODO(2): 빌트인 애니메이션 지원
-@MustBeTested(passed = false) // TODO: Testing (Modifier.inspectable)
+@MustBeTested(passed = false)
 @Composable
 @NonRestartableComposable
 @ExperimentalQuackQuackApi
