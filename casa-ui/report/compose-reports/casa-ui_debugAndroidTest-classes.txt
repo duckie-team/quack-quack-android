@@ -1,0 +1,4 @@
+unstable class CasaUiTest {
+  unstable val rule: ComposeContentTestRule
+  <runtime stability> = Unstable
+}

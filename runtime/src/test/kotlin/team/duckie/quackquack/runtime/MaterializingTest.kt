@@ -18,10 +18,11 @@ import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.runtime.withRunningRecomposer
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.materialize
+import io.kotest.assertions.throwables.shouldThrowWithMessage
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.core.test.Enabled
 import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldHaveSingleElement
 import io.kotest.matchers.collections.shouldHaveSize
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.channels.Channel
@@ -29,11 +30,6 @@ import kotlinx.coroutines.withContext
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
-import strikt.api.expectThat
-import strikt.api.expectThrows
-import strikt.assertions.containsExactly
-import strikt.assertions.hasSize
-import strikt.assertions.isEqualTo
 
 private object QuackElement : QuackDataModifierModel
 private object StdlibElement : Modifier.Element
@@ -67,8 +63,8 @@ class MaterializingTest : StringSpec() {
                 quackModifiers = quackDataModels
             }
 
-            expectThat(stdlibModifiers).containsExactly(StdlibElement)
-            expectThat(quackModifiers).containsExactly(QuackElement)
+            stdlibModifiers shouldHaveSingleElement StdlibElement
+            quackModifiers shouldHaveSingleElement QuackElement
         }
 
         "stdlib-ComposedModifier와 quack-ComposedModifier가 분리돼야 함" {
@@ -86,39 +82,20 @@ class MaterializingTest : StringSpec() {
                 quackModifiers = quackDataModels
             }
 
-            expectThat(stdlibModifiers).hasSize(1) // stdlib ComposedModifier is private
-            expectThat(quackModifiers).containsExactly(QuackElement)
-        }
-
-        "nonquack-ComposedModifier은 stdlib-materialize에 그대로 들어가야 함" {
-            lateinit var stdlibModifiers: List<Modifier>
-            lateinit var quackModifiers: List<Modifier>
-
-            @Suppress("UnnecessaryComposedModifier")
-            val modifier = Modifier
-                .composed { StdlibElement }
-                .quackComposed(quackDataModelProducer = false) { StdlibElement }
-
-            composed {
-                val (stdlibModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier)
-                stdlibModifiers = stdlibModifier.splitToList()
-                quackModifiers = quackDataModels
-            }
-
-            stdlibModifiers shouldHaveSize 2 // androidx.compose.ui.ComposedModifier is private
-            quackModifiers shouldHaveSize 0
+            stdlibModifiers shouldHaveSize 1 // stdlib ComposedModifier is private
+            quackModifiers shouldHaveSingleElement QuackElement
         }
 
         "quack-ComposedModifier가 nonquack한 값을 반환하면 ISE를 던짐" {
             val modifier = Modifier.quackComposed { this }
 
-            expectThrows<IllegalStateException> {
+            shouldThrowWithMessage<IllegalStateException>(
+                message = QuackMaterializingErrors.MustProducesQuackDataModel,
+            ) {
                 composed {
                     currentComposer.quackMaterializeOf(modifier)
                 }
             }
-                .get { message }
-                .isEqualTo(QuackMaterializingErrors.QuackDataModelProducerButNot)
         }
 
         "quack-ComposedModifier는 first-composition에 한 번만 실행돼야 함" {
@@ -150,6 +127,7 @@ class MaterializingTest : StringSpec() {
                 withRecomposer = {
                     recomposeScope.invalidate()
                     frameClock.advance(0L)
+
                     verify(invoker, times(2)).invoke()
                 },
             ) {
@@ -165,8 +143,8 @@ class MaterializingTest : StringSpec() {
                     - asop에 있는 recomposingKeyedComposedModifierSkips 테스트를 로컬로 돌려보면 실패함
                     [https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui/src/test/kotlin/androidx/compose/ui/ComposedModifierTest.kt;l=288-320;drc=5729d22fd521d7e83ec4eb8dedd34a0c2f491738]
                     
-                    - 안정성 테스트 코드를 어떻개 작성해야 할지 모르곘음
-                    """.trimIndent(),
+                    - 안정성 테스트 코드를 어떻게 작성해야 할지 모르겠음
+                    """,
                 )
             },
         ) {
@@ -197,45 +175,6 @@ class MaterializingTest : StringSpec() {
                 },
             ) {
                 currentComposer.quackMaterializeOf(modifier)
-                recomposeScope = currentRecomposeScope
-            }
-        }
-
-        "nonquack-ComposedModifier는 first-composition에 한 번만 실행돼야 함" {
-            val invoker: () -> Unit = mock()
-            val modifier = Modifier.quackComposed(quackDataModelProducer = false) {
-                invoker.invoke()
-                this
-            }
-
-            composed {
-                val (stdlibModifier, _) = currentComposer.quackMaterializeOf(modifier)
-                currentComposer.materialize(stdlibModifier)
-            }
-
-            verify(invoker, times(1)).invoke()
-        }
-
-        "nonquack-ComposedModifier는 re-composition에 한 번만 재실행돼야 함" {
-            lateinit var recomposeScope: RecomposeScope
-            val frameClock = TestMonotonicFrameClock()
-
-            val invoker: () -> Unit = mock()
-            val modifier = Modifier.quackComposed(quackDataModelProducer = false) {
-                invoker.invoke()
-                this
-            }
-
-            composed(
-                coroutineContext = frameClock,
-                withRecomposer = {
-                    recomposeScope.invalidate()
-                    frameClock.advance(0L)
-                    verify(invoker, times(2)).invoke()
-                },
-            ) {
-                val (stdlibModifier, _) = currentComposer.quackMaterializeOf(modifier)
-                currentComposer.materialize(stdlibModifier)
                 recomposeScope = currentRecomposeScope
             }
         }

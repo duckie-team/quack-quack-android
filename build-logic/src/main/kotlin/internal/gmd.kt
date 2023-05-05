@@ -17,6 +17,7 @@ internal fun configureGmd(extension: CommonExtension<*, *, *, *, *>) {
     extension.testOptions {
         managedDevices {
             devices {
+                // taskName: pixel4api30aospatd
                 val (device, apiLevel, systemImageSource, taskName) = DeviceConfig(
                     device = "Pixel 4",
                     apiLevel = 30,

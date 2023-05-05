@@ -16,5 +16,4 @@ plugins {
 dependencies {
     implementation(libs.google.autoservice.annotation)
     ksp(libs.google.autoservice.ksp.processor)
-    testImplementation(libs.test.strikt)
 }

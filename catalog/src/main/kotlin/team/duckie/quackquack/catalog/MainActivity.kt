@@ -17,32 +17,26 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.material.QuackIcon
-import team.duckie.quackquack.ui.QuackButton
-import team.duckie.quackquack.ui.QuackButtonStyle
-import team.duckie.quackquack.ui.icons
+import casaModels
+import team.duckie.quackquack.casa.ui.CasaScreen
+import team.duckie.quackquack.casa.ui.theme.CasaTheme
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
-import team.duckie.quackquack.util.runIf
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            /*CasaTheme {
+            CasaTheme {
                 CasaScreen(models = casaModels)
-            }*/
-            Preview {
+            }
+            /*Preview {
                 var showIcons by remember { mutableStateOf(true) }
                 var enabled by remember { mutableStateOf(true) }
                 QuackButton(
-                    modifier = Modifier.then(Modifier).runIf(showIcons) {
+                    modifier = Modifier.then(Modifier).applyIf(showIcons) {
                         icons(
                             leadingIcon = QuackIcon.Heart,
                             trailingIcon = QuackIcon.Heart,
@@ -66,11 +60,12 @@ class MainActivity : ComponentActivity() {
                 ) {
                     showIcons = !showIcons
                 }
-            }
+            }*/
         }
     }
 }
 
+@Suppress("UnusedPrivateMember", "unused")
 @Composable
 private fun Preview(content: @Composable ColumnScope.() -> Unit) {
     Column(

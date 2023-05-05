@@ -14,6 +14,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.compose.ui.platform.inspectable
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -29,8 +31,20 @@ public fun Modifier.quackSurface(
     rippleEnabled: Boolean = true,
     rippleColor: QuackColor = QuackColor.Unspecified,
     onClick: (() -> Unit)? = null,
-): Modifier {
-    return this
+): Modifier = inspectable(
+    inspectorInfo = debugInspectorInfo {
+        name = "quackSurface"
+        properties["shape"] = shape
+        properties["backgroundColor"] = backgroundColor
+        properties["border"] = border
+        properties["elevation"] = elevation
+        properties["role"] = role
+        properties["rippleEnabled"] = rippleEnabled
+        properties["rippleColor"] = rippleColor
+        properties["onClick"] = onClick
+    },
+) {
+    this
         .shadow(
             elevation = elevation,
             shape = shape,

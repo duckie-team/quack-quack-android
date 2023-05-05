@@ -15,6 +15,8 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.currentComposer
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.compose.ui.platform.inspectable
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -32,6 +34,7 @@ import team.duckie.quackquack.runtime.quackComposed
 import team.duckie.quackquack.runtime.quackMaterializeOf
 import team.duckie.quackquack.sugar.material.SugarName
 import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.ui.util.wrappedDebugInspectable
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 
 /**
@@ -66,8 +69,14 @@ private data class TextHighlightData(
 public fun Modifier.span(
     texts: List<String>,
     style: SpanStyle,
-): Modifier {
-    return then(TextSpanData(texts = texts, style = style))
+): Modifier = inspectable(
+    inspectorInfo = debugInspectorInfo {
+        name = "span"
+        properties["texts"] = texts
+        properties["style"] = style
+    },
+) {
+    TextSpanData(texts = texts, style = style)
 }
 
 /**
@@ -84,8 +93,14 @@ public fun Modifier.highlight(
         color = QuackColor.DuckieOrange.value,
         fontWeight = FontWeight.SemiBold,
     ),
-): Modifier {
-    return then(TextHighlightData(highlights = highlights, span = span))
+): Modifier = inspectable(
+    inspectorInfo = debugInspectorInfo {
+        name = "highlight"
+        properties["highlights"] = highlights
+        properties["span"] = span
+    },
+) {
+    TextHighlightData(highlights = highlights, span = span)
 }
 
 /**
@@ -104,12 +119,18 @@ public fun Modifier.highlight(
         fontWeight = FontWeight.SemiBold,
     ),
     globalOnClick: (text: String) -> Unit,
-): Modifier {
-    return quackComposed {
+): Modifier = inspectable(
+    inspectorInfo = debugInspectorInfo {
+        name = "highlight"
+        properties["texts"] = texts
+        properties["span"] = span
+    },
+) {
+    quackComposed {
         val highlights = remember(texts, globalOnClick) {
             texts.fastMap { text -> HighlightText(text, globalOnClick) }
         }
-        then(TextHighlightData(highlights = highlights, span = span))
+        TextHighlightData(highlights = highlights, span = span)
     }
 }
 
@@ -154,9 +175,18 @@ public fun QuackText(
 
     val maxLines = if (singleLine) 1 else Int.MAX_VALUE
 
+    val inspectableModifier = composeModifier.wrappedDebugInspectable {
+        name = "QuackText"
+        properties["text"] = text
+        properties["typography"] = typography
+        properties["singleLine"] = singleLine
+        properties["softWrap"] = softWrap
+        properties["overflow"] = overflow
+    }
+
     if (spanData != null) {
         BasicText(
-            modifier = composeModifier,
+            modifier = inspectableModifier,
             text = rememberSpanAnnotatedString(
                 text = text,
                 spanTexts = spanData.texts,
@@ -170,7 +200,7 @@ public fun QuackText(
         )
     } else if (highlightData != null) {
         QuackClickableText(
-            modifier = composeModifier,
+            modifier = inspectableModifier,
             text = text,
             highlightData = highlightData,
             style = typography,
@@ -180,7 +210,7 @@ public fun QuackText(
         )
     } else {
         BasicText(
-            modifier = composeModifier,
+            modifier = inspectableModifier,
             text = text,
             style = typography.asComposeStyle(),
             overflow = overflow,

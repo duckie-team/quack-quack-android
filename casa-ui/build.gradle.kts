@@ -5,10 +5,13 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
+
 plugins {
     quackquack("android-library")
     quackquack("android-compose")
     quackquack("android-compose-metrics")
+    quackquack("android-gmd")
     quackquack("kotlin-explicit-api")
     quackquack("quack-publishing")
 }
@@ -29,8 +32,5 @@ dependencies {
         libs.compose.material3,
         libs.compose.uiutil,
     )
-    androidTestImplementations(
-        libs.test.strikt,
-        libs.test.junit.compose,
-    )
+    androidTestImplementation(libs.test.junit.compose)
 }

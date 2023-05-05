@@ -19,5 +19,4 @@ android {
 dependencies {
     api(libs.compose.uiutil)
     implementation(libs.compose.foundation)
-    testImplementation(libs.test.strikt)
 }

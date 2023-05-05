@@ -46,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastMap
 import kotlinx.collections.immutable.ImmutableList
@@ -129,6 +130,7 @@ public fun CasaScreen(
                 if (isSearchState) {
                     CasaSearchTopAppBar(
                         modifier = Modifier
+                            .testTag("searchField")
                             .statusBarsPadding()
                             .fillMaxWidth()
                             .height(64.dp)
@@ -202,7 +204,9 @@ private fun CasaContentWithDoaminFilter(
 ) {
     Column(modifier = modifier) {
         FilterTabRow(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .testTag("domainNavigator")
+                .fillMaxWidth(),
             domains = domains,
             selectedDomains = selectedDomains,
             onFilterSelected = { domain ->
@@ -214,7 +218,9 @@ private fun CasaContentWithDoaminFilter(
             },
         )
         CasaContent(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .testTag("casaComponents")
+                .fillMaxSize(),
             models = displayedModels,
             selectedDomains = selectedDomains,
             lazyListState = contentLazyListState,

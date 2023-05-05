@@ -12,7 +12,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composer
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import team.duckie.quackquack.util.MustBeTested
 
 // TODO(1): @NoCopy 구현 및 data class 보일러플레이트 제거
@@ -36,6 +35,8 @@ public class QuackMaterializeResult internal constructor(
         if (other !is QuackMaterializeResult) return false
 
         if (composeModifier != other.composeModifier) return false
+
+        @Suppress("RedundantIf", "RedundantSuppression")
         if (quackDataModels != other.quackDataModels) return false
 
         return true
@@ -55,10 +56,10 @@ public class QuackMaterializeResult internal constructor(
 
 @VisibleForTesting
 internal object QuackMaterializingErrors {
-    const val QuackDataModelProducerButNot =
+    const val MustProducesQuackDataModel =
         "The result of the Modifier factory was expected to be a QuackDataModifierModel " +
-                "because isQuackDataModelProducer was provided as true, but it is not. " +
-                "Please provide isQuackDataModelProducer as false for correct information. "
+                "because `Modifier.quackComposed` was used, but it is not. " +
+                "If it returns the standard `Modifier.Element`, use `Modifier.composed` instead."
 }
 
 /**
@@ -94,18 +95,13 @@ public fun Composer.quackMaterializeOf(
                 acc
             }
             is QuackComposedModifier -> {
-                if (element.quackDataModelProducer) {
-                    @Suppress("UNCHECKED_CAST")
-                    val factory = element.factory as Modifier.(Composer, Int) -> Modifier
-                    val composed = factory.invoke(Modifier, this, 0) as? QuackDataModifierModel ?: error(
-                        message = QuackMaterializingErrors.QuackDataModelProducerButNot,
-                    )
-                    quackDataModels += composed
-                    acc
-                } else {
-                    @Suppress("UnnecessaryComposedModifier")
-                    acc.composed(factory = element.factory)
-                }
+                @Suppress("UNCHECKED_CAST")
+                val factory = element.factory as Modifier.(Composer, Int) -> Modifier
+                val composed = factory.invoke(Modifier, this, 0) as? QuackDataModifierModel ?: error(
+                    message = QuackMaterializingErrors.MustProducesQuackDataModel,
+                )
+                quackDataModels += composed
+                acc
             }
             else -> {
                 acc.then(element)

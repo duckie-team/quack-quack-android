@@ -22,12 +22,11 @@ import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.engine.spec.tempdir
+import io.kotest.matchers.shouldBe
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.JvmTarget
 import org.jetbrains.kotlin.utils.addToStdlib.UnsafeCastFunction
 import org.jetbrains.kotlin.utils.addToStdlib.cast
-import strikt.api.expectThat
-import strikt.assertions.isEqualTo
 
 class SugarIrTransformTest : StringSpec() {
     private val temporaryFolder = tempdir()
@@ -76,7 +75,7 @@ class SugarIrTransformTest : StringSpec() {
                 ),
             )
 
-            expectThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+            result.exitCode shouldBe KotlinCompilation.ExitCode.OK
 
             val sugarClass = result.classLoader.loadClass("Text_sugarKt")
             val quackTextMethod = sugarClass.getMethod(
@@ -90,7 +89,7 @@ class SugarIrTransformTest : StringSpec() {
             val mainClass = result.classLoader.loadClass("MainKt")
             val getNumberMethod = mainClass.getMethod("getNumber")
 
-            expectThat(getNumberMethod.invoke(mainClass).cast<Int>()).isEqualTo(Int.MAX_VALUE)
+            getNumberMethod.invoke(mainClass).cast<Int>() shouldBe Int.MAX_VALUE
         }
     }
 

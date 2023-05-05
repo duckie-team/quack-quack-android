@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:OptIn(ExperimentalFoundationApi::class)
+@file:OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 
 package team.duckie.quackquack.material
 
@@ -19,9 +19,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.semantics.Role
 
 /**
@@ -63,11 +65,25 @@ public fun Modifier.quackClickable(
     rippleEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
-): Modifier = composed {
+): Modifier = composed(
+    fullyQualifiedName = "team.duckie.quackquack.material.quackClickable",
+    key1 = rippleColor,
+    key2 = rippleEnabled,
+    inspectorInfo = debugInspectorInfo {
+        name = "quackClickable"
+        properties["role"] = role
+        properties["rippleColor"] = rippleColor
+        properties["rippleEnabled"] = rippleEnabled
+        properties["onClick"] = onClick
+        properties["onLongClick"] = onLongClick
+    },
+) {
     val ripple = rememberRipple(color = rippleColor?.value ?: Color.Unspecified)
+    val interactionSource = remember { MutableInteractionSource() }
+
     combinedClickable(
         indication = ripple.takeIf { QuackAlwaysShowRipple || rippleEnabled },
-        interactionSource = remember { MutableInteractionSource() },
+        interactionSource = interactionSource,
         role = role,
         onClick = onClick ?: {},
         onLongClick = onLongClick,

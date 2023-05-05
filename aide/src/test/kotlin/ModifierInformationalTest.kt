@@ -5,17 +5,18 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:Suppress("TrailingCommaOnCallSite")
-
 import com.android.tools.lint.checks.infrastructure.TestFiles.kotlin
+import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.FreeSpec
 
-class ModifierInformationalTest : FreeSpec({
-    "허용되지 않은 데코레이터를 사용했을 때 informational issue가 발생함" - {
-        "Modifier.Companion" {
-            lintTest(
-                kotlin(
-                    """
+@Ignored(reason = "https://github.com/duckie-team/quack-quack-android/issues/641")
+class ModifierInformationalTest : FreeSpec() {
+    init {
+        "도메인에 벗어나는 DecorateModifier를 사용했을 때 경고가 발생함" - {
+            "Modifier.Companion" {
+                lintTest(
+                    kotlin(
+                        """
                     fun main() {
                         QuackText(
                             Modifier
@@ -42,31 +43,31 @@ class ModifierInformationalTest : FreeSpec({
                         )
                     }
                     """,
-                ),
-            )
-                .expect(
-                    """
-src/test.kt:6: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
-                                .onClick {}
-                                ~~~~~~~~~~~
-src/test.kt:7: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
-                                .longParameters(
-                                ^
-src/test.kt:18: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
-                                .onClick {}
-                                ~~~~~~~~~~~
-src/test.kt:19: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
-                                .longParameters(
-                                ^
-0 errors, 0 warnings
-                    """,
+                    ),
                 )
-        }
+                    .expect(
+                        """
+src/test.kt:6: Warning: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .onClick {}
+                                ~~~~~~~~~~~
+src/test.kt:7: Warning: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .longParameters(
+                                ^
+src/test.kt:18: Warning: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .onClick {}
+                                ~~~~~~~~~~~
+src/test.kt:19: Warning: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .longParameters(
+                                ^
+0 errors, 4 warnings
+                    """,
+                    )
+            }
 
-        "Modifier" {
-            lintTest(
-                kotlin(
-                    """
+            "Modifier" {
+                lintTest(
+                    kotlin(
+                        """
                     fun main() {
                         val modifier = Modifier.span("", -1)
 
@@ -95,37 +96,37 @@ src/test.kt:19: Information: 올바르지 않은 DecorateModifier의 사용이 �
                         )
                     }
                     """,
-                ),
-            )
-                .expect(
-                    """
-src/test.kt:8: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
-                                .onClick {}
-                                ~~~~~~~~~~~
-src/test.kt:9: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
-                                .longParameters(
-                                ^
-src/test.kt:20: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
-                                .onClick {}
-                                ~~~~~~~~~~~
-src/test.kt:21: Information: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
-                                .longParameters(
-                                ^
-0 errors, 0 warnings
-                    """,
+                    ),
                 )
+                    .expect(
+                        """
+src/test.kt:8: Warning: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .onClick {}
+                                ~~~~~~~~~~~
+src/test.kt:9: Warning: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .longParameters(
+                                ^
+src/test.kt:20: Warning: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .onClick {}
+                                ~~~~~~~~~~~
+src/test.kt:21: Warning: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
+                                .longParameters(
+                                ^
+0 errors, 4 warnings
+                    """,
+                    )
+            }
+
+            "변수로 분리된 Modifier".config(enabled = false) {
+                TODO("아직 지원하지 않음")
+            }
         }
 
-        "변수로 분리된 Modifier".config(enabled = false) {
-            TODO("아직 지원하지 않음")
-        }
-    }
-
-    "informational issue가 발생했을 때 유효한 QuickFix가 제공됨" - {
-        "Modifier.Companion" {
-            lintTest(
-                kotlin(
-                    """
+        "도메인에 벗어나는 DecorateModifier를 사용했을 때 유효한 QuickFix가 제공됨" - {
+            "Modifier.Companion" {
+                lintTest(
+                    kotlin(
+                        """
                     fun main() {
                         QuackText(
                             Modifier
@@ -152,10 +153,10 @@ src/test.kt:21: Information: 올바르지 않은 DecorateModifier의 사용이 �
                         )
                     }
                     """,
-                ),
-            )
-                .expectFixDiffs(
-                    """
+                    ),
+                )
+                    .expectFixDiffs(
+                        """
 Autofix for src/test.kt line 6: Remove onClick modifier:
 @@ -6 +6
 -                                 .onClick {}
@@ -181,13 +182,13 @@ Autofix for src/test.kt line 19: Remove longParameters modifier:
 -                                 ),
 +                                 ,
                     """,
-                )
-        }
+                    )
+            }
 
-        "Modifier" {
-            lintTest(
-                kotlin(
-                    """
+            "Modifier" {
+                lintTest(
+                    kotlin(
+                        """
                     fun main() {
                         val modifier = Modifier.span("", -1)
 
@@ -216,10 +217,10 @@ Autofix for src/test.kt line 19: Remove longParameters modifier:
                         )
                     }
                     """,
-                ),
-            )
-                .expectFixDiffs(
-                    """
+                    ),
+                )
+                    .expectFixDiffs(
+                        """
 Autofix for src/test.kt line 8: Remove onClick modifier:
 @@ -8 +8
 -                                 .onClick {}
@@ -245,7 +246,8 @@ Autofix for src/test.kt line 21: Remove longParameters modifier:
 -                                 ),
 +                                 ,
                     """,
-                )
+                    )
+            }
         }
     }
-})
+}

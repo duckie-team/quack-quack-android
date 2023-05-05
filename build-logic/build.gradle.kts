@@ -5,9 +5,11 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
+
 plugins {
+    `kotlin-dsl`
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.dsl)
     alias(libs.plugins.gradle.dependency.handler.extensions)
 }
 
@@ -63,10 +65,7 @@ dependencies {
         libs.kotlin.gradle,
         libs.gradle.publish.maven,
     )
-    testImplementations(
-        libs.test.kotest.framework,
-        libs.test.strikt,
-    )
+    testImplementation(libs.test.kotest.framework)
 }
 
 // Pair<ClassName, PluginName>

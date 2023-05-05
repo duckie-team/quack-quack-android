@@ -1,5 +1,5 @@
 [versions]
-gradle-android = "8.2.0-alpha01"
+gradle-android = "8.2.0-alpha02"
 gradle-publish-maven = "0.25.2"
 gradle-dependency-handler-extensions = "1.1.0"
 gradle-dependency-graph = "1.1.0"
@@ -8,7 +8,6 @@ google-autoservice-standard = "1.0.1"
 google-autoservice-ksp = "1.0.0"
 
 kotlin-core = "1.8.20"
-kotlin-dsl = "4.0.14"
 kotlin-coroutines = "1.7.0-RC"
 kotlin-ksp = "1.8.20-1.0.11"
 kotlin-kotlinpoet = "1.13.1"
@@ -16,8 +15,9 @@ kotlin-detekt = "1.22.0"
 kotlin-ktlint-gradle = "11.3.2"
 kotlin-ktlint-source = "0.48.2"
 kotlin-collections-immutable = "0.3.5"
+kotlin-dataclass-nocopy = "1.0.4"
 
-android-lint = "30.4.2"
+android-lint = "31.2.0-alpha02" # agp + 23
 
 androidx-core-ktx = "1.10.0"
 androidx-annotation = "1.6.0"
@@ -31,7 +31,7 @@ compose-uiutil = "1.4.2"
 compose-foundation = "1.4.2"
 compose-ui = "1.4.2"
 compose-animation = "1.4.2"
-compose-material = "1.4.2"
+compose-material-ripple = "1.4.2"
 compose-material3 = "1.0.1" # for Playground
 compose-activity = "1.7.1"
 compose-coil = "2.3.0"
@@ -40,7 +40,6 @@ test-kotest = "5.6.1"
 test-junit-core = "4.13.2"
 test-junit-engine = "5.9.3"
 test-junit-compose = "1.4.2"
-test-strikt = "0.34.1"
 test-roborazzi = "1.2.0-alpha-4"
 test-robolectric = "4.10"
 test-injector-parameter = "1.11"
@@ -56,10 +55,10 @@ gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.e
 gradle-dependency-graph = { id = "land.sungbin.dependency.graph.plugin", version.ref = "gradle-dependency-graph" }
 
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-core" }
-kotlin-dsl = { id = "org.gradle.kotlin.kotlin-dsl", version.ref = "kotlin-dsl" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 kotlin-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "kotlin-detekt" }
 kotlin-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "kotlin-ktlint-gradle" }
+kotlin-dataclass-nocopy = { id = "land.sungbin.kotlin.dataclass.nocopy.plugin", version.ref = "kotlin-dataclass-nocopy" }
 
 test-roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "test-roborazzi" }
 
@@ -93,17 +92,17 @@ compose-uiutil = { module = "androidx.compose.ui:ui-util", version.ref = "compos
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-foundation" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-ui" }
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose-animation" }
-compose-material = { module = "androidx.compose.material:material", version.ref = "compose-material" }
+compose-material-ripple = { module = "androidx.compose.material:material-ripple", version.ref = "compose-material-ripple" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
 compose-coil = { module = "io.coil-kt:coil-compose", version.ref = "compose-coil" }
 
 test-android-lint = { module = "com.android.tools.lint:lint-tests", version.ref = "android-lint" }
-test-kotest-framework = { module = "io.kotest:kotest-runner-junit5", version.ref = "test-kotest" }
+test-kotest-framework = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "test-kotest" }
+test-kotest-assertion-core = { module = "io.kotest:kotest-assertions-core-jvm", version.ref = "test-kotest" }
 test-junit-core = { module = "junit:junit", version.ref = "test-junit-core" }
 test-junit-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "test-junit-engine" } # testRuntimeOnly
 test-junit-compose = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "test-junit-compose" } # androidTestImplementation
-test-strikt = { module = "io.strikt:strikt-core", version.ref = "test-strikt" }
 test-roborazzi-core = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "test-roborazzi" }
 test-roborazzi-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "test-roborazzi" }
 test-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-robolectric" }

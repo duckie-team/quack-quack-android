@@ -7,57 +7,44 @@
 
 package team.duckie.quackquack.ui
 
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.takahirom.roborazzi.RoborazziRule
-import org.junit.Rule
+import com.github.takahirom.roborazzi.captureRoboImage
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackTypography
+import team.duckie.quackquack.ui.util.snapshotPath
 
 @RunWith(AndroidJUnit4::class)
+@Config(manifest = Config.NONE)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-class TextRoborazzi {
-    @get:Rule
-    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
-
-    @get:Rule
-    val roborazziRule = RoborazziRule(
-        composeRule = composeTestRule,
-        captureRoot = composeTestRule.onRoot(),
-        options = RoborazziRule.Options(
-            outputDirectoryPath = "src/test/snapshots",
-        ),
-    )
-
+class TextSnapshot {
     @Test
     fun ModifierSpan() {
-        composeTestRule.setContent {
+        captureRoboImage(snapshotPath("text")) {
             QuackText(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = Color.White)
+                    .padding(30.dp)
                     .span(
                         texts = listOf("QuackQuack", "Duckie"),
                         style = SpanStyle(
                             color = QuackColor.DuckieOrange.value,
                             fontWeight = FontWeight.Bold,
                         ),
-                    )
-                    .padding(30.dp),
-                text = "QuackQuack is an awesome design system created by the Duckie team.",
+                    ),
+                text = "QuackQuack is an awesome ui kit created by the Duckie team.",
                 typography = QuackTypography.Large1,
             )
         }

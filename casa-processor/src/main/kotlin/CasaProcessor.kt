@@ -258,13 +258,17 @@ private fun generateFile(
 ) {
     val generatedPath: String
     if (path == null) {
-        val fileOutstream = codeGenerator.createNewFile(
-            dependencies = Dependencies.Empty,
-            packageName = fileSpec.packageName,
-            fileName = fileSpec.name,
-        )
-        fileOutstream.writer().use(fileSpec::writeTo)
-        generatedPath = fileSpec.packageName + "/" + fileSpec.name + ".kt"
+        generatedPath = try {
+            val fileOutstream = codeGenerator.createNewFile(
+                dependencies = Dependencies.Empty,
+                packageName = fileSpec.packageName,
+                fileName = fileSpec.name,
+            )
+            fileOutstream.writer().use(fileSpec::writeTo)
+            fileSpec.packageName + "/" + fileSpec.name + ".kt"
+        } catch (fileAlreadyExists: FileAlreadyExistsException) {
+            fileAlreadyExists.file.path
+        }
     } else {
         val file = File(path, "${fileSpec.name}.kt").also { file ->
             if (!file.exists()) {

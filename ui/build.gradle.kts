@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:Suppress("UnstableApiUsage")
+@file:Suppress("UnstableApiUsage", "INLINE_FROM_HIGHER_PLATFORM")
 
 import org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME as kotlinCompilerPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -14,6 +14,7 @@ plugins {
     quackquack("android-library")
     quackquack("android-compose")
     quackquack("android-compose-metrics")
+    quackquack("android-gmd")
     quackquack("kotlin-explicit-api")
     quackquack("quack-publishing")
     quackquack("test-junit")
@@ -62,7 +63,6 @@ dependencies {
     )
     implementations(
         libs.compose.coil,
-        libs.compose.material,
         libs.androidx.annotation,
         projects.util.orArtifact(),
         projects.runtime.orArtifact(),
@@ -71,8 +71,8 @@ dependencies {
     )
 
     androidTestImplementations(
-        libs.test.strikt,
         libs.test.junit.compose,
+        libs.test.kotest.assertion.core,
         libs.bundles.test.mockito,
         projects.screenshotMatcher,
     )
@@ -92,6 +92,6 @@ dependencies {
             projects.aideProcessor,
             projects.casaProcessor,
         )
-        kotlinCompilerPlugin(projects.docusaurusIntegration)
+        // kotlinCompilerPlugin(projects.docusaurusIntegration)
     }
 }
