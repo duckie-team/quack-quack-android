@@ -1,7 +1,7 @@
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
     docs: [
-        'Introduction',
+        'introduction',
         {
             type: 'category',
             label: 'Guides',
@@ -10,7 +10,6 @@ const sidebars = {
                 title: 'QuackQuack Guides',
                 description: 'QuackQuack의 다양한 기능을 배워봅시다!',
                 keywords: ['guides'],
-                image: '/img/banner.svg',
             },
             items: [
                 'guides/documentation-style',
@@ -82,14 +81,14 @@ const sidebars = {
                 },
             ],
         },
-        'Development Environment',
-        'Architecture',
-        'Modularization',
-        'Testing',
-        'Contributing',
-        'Resources',
-        'Releases',
-        'License',
+        'development-environment',
+        'architecture',
+        'modularization',
+        'testing',
+        'contributing',
+        'resources',
+        'releases',
+        'license',
     ],
 };
 module.exports = sidebars;

@@ -1,8 +1,8 @@
 ---
-sidebar_label: 'Ui'
+sidebar_label: Mental model
 ---
 
-# ui
+# Thinking in QuackQuack
 
 본 모듈은 꽥꽥의 디자인 컴포넌트를 구현합니다. 기존의 `ui-components` 모듈과 완전히 다른 구현을 제공합니다.
 
@@ -10,7 +10,7 @@ sidebar_label: 'Ui'
 
 `1.x.x` 버전까지 제공되는 `ui-components`는 *정직한* 디자인 시스템이었습니다. 정직하다 보니 발생하는 문제도 몇몇 있었습니다. 예를 들어 아래와 같은 컴포넌트가 있습니다.
 
-![secondary-button](images/secondary-button.svg)
+![secondary-button](../images/secondary-button.svg)
 
 이 컴포넌트는 덕키의 secondary 버튼입니다. secondary 버튼의 특징으론 양옆에 아이콘이 들어갈 수 있습니다. 이 특징은 secondary 버튼만의 고유한 특징입니다. 하지만 UI 개발 중에 primary 버튼에도 양옆 아이콘이 있음을 발견했습니다.
 
@@ -36,11 +36,11 @@ sidebar_label: 'Ui'
 
 이뿐만 아니라 variant 문제도 종종 발생합니다. 덕키에서 사용되는 타이포그래피는 다음과 같습니다.
 
-![typography](images/typography.svg)
+![typography](../images/typography.svg)
 
 그리고 아래 화면이 있습니다.
 
-![comment](images/comment-ui.svg)
+![comment](../images/comment-ui.svg)
 
 이 화면에서 `@멘션`은 `Body1` 타이포그래피를 사용하고 클릭 가능해야 했기에 `QuackAnnotatedBody1`이라는 네이밍의 컴포넌트로 개발되고 사용됐습니다. 하지만 다른 화면에서 동일한 역할을 하는 `Headline1` 타이포그래피의 컴포넌트가 필요해졌습니다.
 
