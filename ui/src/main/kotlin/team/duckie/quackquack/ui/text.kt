@@ -34,7 +34,7 @@ import team.duckie.quackquack.runtime.quackComposed
 import team.duckie.quackquack.runtime.quackMaterializeOf
 import team.duckie.quackquack.sugar.material.SugarName
 import team.duckie.quackquack.sugar.material.SugarToken
-import team.duckie.quackquack.ui.util.debugInspectable
+import team.duckie.quackquack.ui.util.wrappedDebugInspectable
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 
 /**
@@ -175,7 +175,7 @@ public fun QuackText(
 
     val maxLines = if (singleLine) 1 else Int.MAX_VALUE
 
-    val inspectableModifier = composeModifier.debugInspectable {
+    val inspectableModifier = composeModifier.wrappedDebugInspectable {
         name = "QuackText"
         properties["text"] = text
         properties["typography"] = typography
