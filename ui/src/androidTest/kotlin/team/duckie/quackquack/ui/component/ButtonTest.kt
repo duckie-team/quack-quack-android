@@ -10,9 +10,16 @@
 package team.duckie.quackquack.ui.component
 
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verifyNoInteractions
+import team.duckie.quackquack.ui.QuackButton
+import team.duckie.quackquack.ui.QuackButtonStyle
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
+import team.duckie.quackquack.ui.util.setQuackContent
 
 class ButtonTest {
     @get:Rule
@@ -57,7 +64,23 @@ class ButtonTest {
     // `enabled`가 false일 때는 `onClick` 이벤트가 작동하면 안됨
     @Test
     fun onClick_shouldnt_works_when_enabled_is_false() {
-        
+        val onClick: () -> Unit = mock()
+
+        rule.setQuackContent {
+            QuackButton(
+                enabled = false,
+                style = QuackButtonStyle.Large,
+                text = "button",
+                onClick = onClick,
+            )
+        }
+
+        val button = rule.onNodeWithTag("button")
+        button.performClick()
+
+        rule.runOnIdle {
+            verifyNoInteractions(onClick)
+        }
     }
 
     // 직접 사이즈를 지정했을 경우에는 `contentPadding`이 적용되면 안됨

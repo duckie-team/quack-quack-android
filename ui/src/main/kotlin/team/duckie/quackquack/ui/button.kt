@@ -28,6 +28,8 @@ import androidx.compose.ui.layout.LayoutModifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.platform.inspectable
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
@@ -485,18 +487,22 @@ public fun QuackBaseButton(
     }
 
     Layout(
-        modifier = modifier.quackSurface(
-            shape = shape,
-            backgroundColor = backgroundColor,
-            border = border,
-            rippleEnabled = rippleEnabled,
-            rippleColor = rippleColor,
-            onClick = onClick,
-        ),
+        modifier = modifier
+            .testTag("button")
+            .quackSurface(
+                shape = shape,
+                backgroundColor = backgroundColor,
+                border = border,
+                role = Role.Button,
+                rippleEnabled = rippleEnabled,
+                rippleColor = rippleColor,
+                onClick = onClick,
+            ),
         content = {
             if (leadingIcon != null) {
                 Box(
                     modifier = Modifier
+                        .testTag("leadingIcon")
                         .layoutId(LeadingIconLayoutId)
                         .fontScaleAwareIconSize()
                         .paint(
@@ -507,7 +513,9 @@ public fun QuackBaseButton(
                 )
             }
             QuackText(
-                modifier = Modifier.layoutId(TextLayoutId),
+                modifier = Modifier
+                    .testTag("buttonText")
+                    .layoutId(TextLayoutId),
                 text = text,
                 typography = typography,
                 singleLine = true,
@@ -516,6 +524,7 @@ public fun QuackBaseButton(
             if (trailingIcon != null) {
                 Box(
                     modifier = Modifier
+                        .testTag("trailingIcon")
                         .layoutId(TrailingIconLayoutId)
                         .fontScaleAwareIconSize()
                         .paint(
