@@ -8,7 +8,7 @@ const config = {
     baseUrl: '/android/',
     favicon: 'img/logo.ico',
     onBrokenMarkdownLinks: 'throw',
-    tagline: 'Highly automated and Modifier-driven Jetpack Compose design system',
+    tagline: 'Highly automated and Modifier-driven Jetpack Compose UI Kit',
     presets: [
         [
             '@docusaurus/preset-classic',
