@@ -4,7 +4,7 @@ sidebar_label: 'Processor'
 
 # aide-processor
 
-본 모듈은 [`aide`](01-overview.md)의 규칙을 자동 생산합니다. 기본 작동은 [`KSP`](https://kotlinlang.org/docs/ksp-overview.html)와 [`kotlinpoet`](https://github.com/square/kotlinpoet)으로 진행됩니다.
+본 모듈은 [`aide`](overview.md)의 규칙을 자동 생산합니다. 기본 작동은 [`KSP`](https://kotlinlang.org/docs/ksp-overview.html)와 [`kotlinpoet`](https://github.com/square/kotlinpoet)으로 진행됩니다.
 
 생성하는 규칙은 `QuackComponents`, `AideModifiers`가 있습니다.
 
