@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.ui
 
+import android.annotation.SuppressLint
 import androidx.annotation.RestrictTo
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +26,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.compose.ui.platform.inspectable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
@@ -47,6 +50,7 @@ import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
 import team.duckie.quackquack.ui.util.asLoose
 import team.duckie.quackquack.ui.util.fontScaleAwareIconSize
+import team.duckie.quackquack.ui.util.wrappedDebugInspectable
 import team.duckie.quackquack.util.MustBeTested
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 
@@ -83,6 +87,20 @@ public interface QuackButtonStyle<T : ButtonStyleMarker> {
         public val Small: QuackButtonStyle<QuackSmallButtonDefaults> get() = QuackSmallButtonDefaults()
     }
 }
+
+@SuppressLint("ModifierFactoryExtensionFunction")
+@Stable
+private fun QuackButtonStyle<*>.wrappedDebugInspectable(baseline: Modifier): Modifier =
+    baseline.wrappedDebugInspectable {
+        name = toString()
+        properties["colors"] = colors
+        properties["radius"] = radius
+        properties["contentPadding"] = contentPadding
+        properties["iconSpacedBy"] = iconSpacedBy
+        properties["borderThickness"] = borderThickness
+        properties["typography"] = typography
+        properties["disabledTypography"] = disabledTypography
+    }
 
 @Immutable
 public class QuackButtonColors internal constructor(
@@ -129,6 +147,8 @@ public class QuackButtonColors internal constructor(
         if (borderColor != other.borderColor) return false
         if (disabledBorderColor != other.disabledBorderColor) return false
         if (iconColor != other.iconColor) return false
+
+        @Suppress("RedundantIf")
         if (rippleColor != other.rippleColor) return false
 
         return true
@@ -144,6 +164,19 @@ public class QuackButtonColors internal constructor(
         result = 31 * result + iconColor.hashCode()
         result = 31 * result + rippleColor.hashCode()
         return result
+    }
+
+    override fun toString(): String {
+        return "QuackButtonColors(" +
+                "backgroundColor=$backgroundColor, " +
+                "disabledBackgroundColor=$disabledBackgroundColor, " +
+                "contentColor=$contentColor, " +
+                "disabledContentColor=$disabledContentColor, " +
+                "borderColor=$borderColor, " +
+                "disabledBorderColor=$disabledBorderColor, " +
+                "iconColor=$iconColor, " +
+                "rippleColor=$rippleColor" +
+                ")"
     }
 }
 
@@ -191,6 +224,8 @@ public class QuackLargeButtonDefaults internal constructor() :
     override fun invoke(styleBuilder: QuackLargeButtonDefaults.() -> Unit): QuackLargeButtonDefaults {
         return apply(styleBuilder)
     }
+
+    override fun toString(): String = "QuackLargeButtonDefaults"
 }
 
 @Immutable
@@ -229,6 +264,8 @@ public class QuackMediumButtonDefaults internal constructor() :
     override fun invoke(styleBuilder: QuackMediumButtonDefaults.() -> Unit): QuackMediumButtonDefaults {
         return apply(styleBuilder)
     }
+
+    override fun toString(): String = "QuackMediumButtonDefaults"
 }
 
 @Immutable
@@ -274,6 +311,8 @@ public class QuackSmallButtonDefaults internal constructor() :
     override fun invoke(styleBuilder: QuackSmallButtonDefaults.() -> Unit): QuackSmallButtonDefaults {
         return apply(styleBuilder)
     }
+
+    override fun toString(): String = "QuackSmallButtonDefaults"
 }
 
 @Stable
@@ -287,12 +326,16 @@ private data class ButtonIconData(
 public fun Modifier.icons(
     leadingIcon: QuackIcon? = null,
     trailingIcon: QuackIcon? = null,
-): Modifier {
-    return then(
-        ButtonIconData(
-            leadingIcon = leadingIcon,
-            trailingIcon = trailingIcon,
-        ),
+): Modifier = inspectable(
+    inspectorInfo = debugInspectorInfo {
+        name = "icons"
+        properties["leadingIcon"] = leadingIcon
+        properties["trailingIcon"] = trailingIcon
+    },
+) {
+    ButtonIconData(
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
     )
 }
 
@@ -379,8 +422,27 @@ public fun <T : ButtonStyleMarker> QuackButton(
 
     val currentOnClick = onClick.takeIf { enabled }
 
+    val inspectableModifier = style
+        .wrappedDebugInspectable(composeModifier)
+        .wrappedDebugInspectable {
+            name = "QuackButton"
+            properties["text"] = text
+            properties["backgroundColor"] = currentBackgroundColor
+            properties["iconColor"] = iconColor
+            properties["rippleColor"] = rippleColor
+            properties["rippleEnabled"] = currentRippleEnabled
+            properties["shape"] = shape
+            properties["border"] = currentBorder
+            properties["typography"] = currentTypography
+            properties["contentPadding"] = currentContentPadding
+            properties["iconSpacedBy"] = iconSpacedBy
+            properties["leadingIcon"] = leadingIcon
+            properties["trailingIcon"] = trailingIcon
+            properties["onClick"] = currentOnClick
+        }
+
     QuackBaseButton(
-        modifier = composeModifier,
+        modifier = inspectableModifier,
         text = text,
         backgroundColor = currentBackgroundColor,
         iconColor = iconColor,
