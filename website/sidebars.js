@@ -8,7 +8,7 @@ const sidebars = {
             link: {
                 type: 'generated-index',
                 title: 'QuackQuack Guides',
-                description: 'QuackQuack의 다양한 기능을 배워봅시다!',
+                description: '꽥꽥의 다양한 기능을 배워봅시다!',
                 keywords: ['guides'],
             },
             items: [
@@ -22,7 +22,7 @@ const sidebars = {
                     link: {
                         type: 'generated-index',
                         title: 'QuackQuack UI',
-                        description: 'QuackQuack의 핵심 모듈인 ui를 배워봅시다!',
+                        description: '꽥꽥의 핵심 모듈인 ui를 배워봅시다!',
                         keywords: ['ui'],
                     },
                     items: [
@@ -71,7 +71,7 @@ const sidebars = {
                     link: {
                         type: 'generated-index',
                         title: 'QuackQuack Utils',
-                        description: 'QuackQuack은 개발자의 편의를 위해 다양한 유틸을 제공합니다.',
+                        description: '꽥꽥은 개발자의 편의를 위해 다양한 유틸을 제공합니다.',
                         keywords: ['utilities'],
                     },
                     items: [
@@ -81,7 +81,7 @@ const sidebars = {
                 },
             ],
         },
-        'development-environment',
+        'development',
         'architecture',
         'modularization',
         'testing',
