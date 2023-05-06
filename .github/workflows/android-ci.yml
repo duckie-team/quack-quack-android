@@ -35,6 +35,8 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-home-cache-cleanup: true
+          cache-write-only: ${{ contains(github.event.pull_request.labels.*.name, 'gradle') }}
+          cache-read-only: ${{ !contains(github.event.pull_request.labels.*.name, 'gradle') }}
 
       - name: Code style checks
         run: ./gradlew ktlintCheck detekt
