@@ -10,7 +10,7 @@ package internal
 import java.io.File
 import org.gradle.api.Project
 
-// TODO: 문서화
+// TODO: 테스트 방식 변경
 internal var projectTestingMode = false
 
 internal fun Project.parseArtifactVersion(): String {

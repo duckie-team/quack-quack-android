@@ -5,7 +5,7 @@ export default function ColorBox({width, height, color}) {
         width: width,
         height: height,
         'background-color': color,
-        display: "inline-block"
+        display: "inline-block",
     };
 
     return (

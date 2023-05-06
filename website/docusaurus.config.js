@@ -6,9 +6,9 @@ const config = {
     title: 'QuackQuack',
     url: 'https://quackquack.duckie.team',
     baseUrl: '/android/',
-    favicon: 'img/logo.ico',
+    favicon: 'images/logo.ico',
     onBrokenMarkdownLinks: 'throw',
-    tagline: 'Highly automated and Modifier-driven Jetpack Compose design system',
+    tagline: 'Highly automated and Modifier-driven Jetpack Compose UI Kit',
     presets: [
         [
             '@docusaurus/preset-classic',
@@ -36,6 +36,7 @@ const config = {
         ],
     ],
     themeConfig: {
+        image: 'images/meta-banner.png',
         docs: {
             sidebar: {
                 hideable: true,
@@ -45,7 +46,7 @@ const config = {
             title: 'QuackQuack',
             logo: {
                 alt: 'QuackQuack Logo',
-                src: 'img/logo.svg',
+                src: 'images/logo.svg',
             },
             items: [
                 {
@@ -57,6 +58,11 @@ const config = {
         },
         footer: {
             style: 'dark',
+            logo: {
+                alt: 'Duckie Developer',
+                src: 'images/duckie-developer.svg',
+                href: 'https://github.com/duckie-team',
+            },
             copyright: `Copyright © ${new Date().getFullYear()} Duckie team. Built with Docusaurus.`,
         },
         prism: {

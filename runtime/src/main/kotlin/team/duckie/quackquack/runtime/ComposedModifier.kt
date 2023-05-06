@@ -113,7 +113,6 @@ public fun Modifier.quackComposed(factory: @Composable Modifier.() -> Modifier):
     return then(QuackComposedModifier(factory))
 }
 
-// TODO: 문서화 개선 (key, fqn 인자 역할 설명, inspectableInfo 사용 불가 안내)
 /**
  * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
  *

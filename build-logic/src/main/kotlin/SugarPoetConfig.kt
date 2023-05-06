@@ -5,5 +5,5 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-// TODO: 문서화
+// TODO: 작동 방식 변경 (gradle task)
 const val sugarPoet = true
