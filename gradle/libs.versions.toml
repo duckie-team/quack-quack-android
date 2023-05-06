@@ -77,6 +77,9 @@ kotlin-kotlinpoet-core = { module = "com.squareup:kotlinpoet", version.ref = "ko
 kotlin-kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-kotlinpoet" }
 kotlin-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-collections-immutable" }
 
+# This isn't strictly used but allows Renovate to see us using the ktlint artifact
+kotlin-ktlint = { module = "com.pinterest:ktlint", version.ref = "kotlin-ktlint-source" }
+
 android-lint-core = { module = "com.android.tools.lint:lint", version.ref = "android-lint" } # for testing
 android-lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "android-lint" } # compileOnly
 android-lint-checks = { module = "com.android.tools.lint:lint-checks", version.ref = "android-lint" } # compileOnly
