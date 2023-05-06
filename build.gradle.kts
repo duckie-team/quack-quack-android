@@ -14,6 +14,7 @@ plugins {
     alias(libs.plugins.kotlin.ktlint)
     alias(libs.plugins.gradle.dependency.handler.extensions)
     alias(libs.plugins.gradle.dependency.graph)
+    id("idea")
 }
 
 private val quackquackColor = "#36bcf5"
@@ -43,6 +44,12 @@ tasks.matching { task ->
     task.name.contains("dependencyGraph")
 }.configureEach {
     notCompatibleWithConfigurationCache("https://github.com/jisungbin/dependency-graph-plugin/issues/8")
+}
+
+idea {
+    module {
+        excludeDirs = excludeDirs + file("website")
+    }
 }
 
 buildscript {
