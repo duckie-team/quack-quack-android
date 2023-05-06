@@ -30,13 +30,12 @@ public class QuackMaterializeResult internal constructor(
     public val composeModifier: Modifier,
     public val quackDataModels: List<QuackDataModifierModel>,
 ) {
+    @Suppress("RedundantIf")
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is QuackMaterializeResult) return false
 
         if (composeModifier != other.composeModifier) return false
-
-        @Suppress("RedundantIf", "RedundantSuppression")
         if (quackDataModels != other.quackDataModels) return false
 
         return true
