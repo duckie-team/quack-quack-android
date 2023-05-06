@@ -5,6 +5,10 @@
     "config:base",
     "schedule:daily"
   ],
+  "labels": [
+    "dependencies",
+    "gradle"
+  ],
   "packageRules": [
     {
       "groupName": "Kotlin, KSP and Compose Compiler",
@@ -18,12 +22,26 @@
       ]
     },
     {
+      "groupName": "AGP and AS Lint",
+      "groupSlug": "android-tool",
+      "matchPackagePrefixes": [
+        "com.android.tools.build",
+        "com.android.tools.lint"
+      ]
+    },
+    {
       "description": "Automatically merge minor and patch-level updates",
-      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
       "automerge": true,
       "automergeStrategy": "rebase",
       "platformAutomerge": true
     }
   ],
-  "ignorePaths": ["website/**"]
+  "ignorePaths": [
+    "website/**"
+  ]
 }
