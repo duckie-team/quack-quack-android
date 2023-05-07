@@ -10,7 +10,6 @@
 plugins {
   quackquack("jvm-kotlin")
   quackquack("kotlin-explicit-api")
-  quackquack("test-kotest")
   quackquack("quack-publishing")
 }
 
