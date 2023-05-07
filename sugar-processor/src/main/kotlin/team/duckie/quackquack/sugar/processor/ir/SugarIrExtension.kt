@@ -14,39 +14,39 @@ import team.duckie.quackquack.sugar.processor.poet.generateSugarComponentFiles
 import team.duckie.quackquack.util.backend.Logger
 
 internal class SugarIrExtension(
-    private val logger: Logger,
-    private val sugarPath: String,
-    private val poet: Boolean,
+  private val logger: Logger,
+  private val sugarPath: String,
+  private val poet: Boolean,
 ) : IrGenerationExtension {
-    override fun generate(
-        moduleFragment: IrModuleFragment,
-        pluginContext: IrPluginContext,
-    ) {
-        val sugarIrDatas = mutableListOf<SugarIrData>()
-        val visitor = SugarIrVisitor(
-            context = pluginContext,
-            logger = logger,
-            addSugarIrData = sugarIrDatas::add,
-        )
-        val transformer = SugarIrTransformer(
-            context = pluginContext,
-            logger = logger,
-        )
-        moduleFragment.accept(visitor, null)
-        if (poet) {
-            generateSugarComponentFiles(
-                irDatas = sugarIrDatas,
-                sugarPath = sugarPath,
-            )
-        }
-        moduleFragment.transform(transformer, sugarIrDatas.asMap())
+  override fun generate(
+    moduleFragment: IrModuleFragment,
+    pluginContext: IrPluginContext,
+  ) {
+    val sugarIrDatas = mutableListOf<SugarIrData>()
+    val visitor = SugarIrVisitor(
+      context = pluginContext,
+      logger = logger,
+      addSugarIrData = sugarIrDatas::add,
+    )
+    val transformer = SugarIrTransformer(
+      context = pluginContext,
+      logger = logger,
+    )
+    moduleFragment.accept(visitor, null)
+    if (poet) {
+      generateSugarComponentFiles(
+        irDatas = sugarIrDatas,
+        sugarPath = sugarPath,
+      )
     }
+    moduleFragment.transform(transformer, sugarIrDatas.asMap())
+  }
 }
 
 private fun List<SugarIrData>.asMap(): Map<String, SugarIrData> {
-    return buildMap(capacity = size) {
-        this@asMap.forEach { sugarIrData ->
-            set(sugarIrData.referFqn.asString(), sugarIrData)
-        }
+  return buildMap(capacity = size) {
+    this@asMap.forEach { sugarIrData ->
+      set(sugarIrData.referFqn.asString(), sugarIrData)
     }
+  }
 }

@@ -50,7 +50,7 @@ internal fun Project.configureAndroid(extension: CommonExtension<*, *, *, *, *>)
 
 internal val Project.isAndroidProject: Boolean
   get() = pluginManager.hasPlugin(Plugins.AndroidApplication) ||
-      pluginManager.hasPlugin(Plugins.AndroidLibrary)
+    pluginManager.hasPlugin(Plugins.AndroidLibrary)
 
 internal val Project.androidExtensions: CommonExtension<*, *, *, *, *>
   get() {

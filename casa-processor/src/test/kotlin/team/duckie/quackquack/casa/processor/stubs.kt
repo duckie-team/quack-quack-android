@@ -13,7 +13,7 @@ import team.duckie.quackquack.util.backend.test.stub.ComposeStub
 import team.duckie.quackquack.util.backend.test.stub.SugarStub
 
 val stubs = listOf(
-    kotlin("Composable.kt", ComposeStub.Composable),
-    kotlin("CasaAnnotations.kt", CasaStub.Annotations),
-    kotlin("SugarAnnotations.kt", SugarStub.Annotations),
+  kotlin("Composable.kt", ComposeStub.Composable),
+  kotlin("CasaAnnotations.kt", CasaStub.Annotations),
+  kotlin("SugarAnnotations.kt", SugarStub.Annotations),
 )

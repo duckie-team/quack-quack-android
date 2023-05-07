@@ -36,15 +36,11 @@ public class QuackBorder(
   public val thickness: Dp = 1.dp,
   public val color: QuackColor,
 ) {
-  /**
-   * [color] 를 [Brush]로 변환합니다.
-   */
+  /** [color] 를 [Brush]로 변환합니다. */
   @Stable
   public val brush: SolidColor = SolidColor(value = color.value)
 
-  /**
-   * [QuackBorder] 를 [BorderStroke]로 변환합니다.
-   */
+  /** [QuackBorder] 를 [BorderStroke]로 변환합니다. */
   @Stable
   public fun asComposeBorder(): BorderStroke {
     return BorderStroke(width = thickness, brush = brush)
@@ -56,9 +52,8 @@ public class QuackBorder(
  *
  * @param border 적용할 [QuackBorder]
  * @param shape border에 적용할 [Shape]
- *
- * @return [border]가 적용된 [Modifier].
- * [border] 값이 null이 아닐때만 [border]가 적용됩니다.
+ * @return [border]가 적용된 [Modifier]. [border] 값이 null이 아닐때만 [border]가
+ *     적용됩니다.
  */
 @Stable
 public fun Modifier.quackBorder(

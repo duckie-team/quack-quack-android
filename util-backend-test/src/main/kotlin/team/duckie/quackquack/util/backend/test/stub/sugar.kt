@@ -10,8 +10,8 @@ package team.duckie.quackquack.util.backend.test.stub
 import org.intellij.lang.annotations.Language
 
 public object SugarStub {
-    @Language("kotlin")
-    public const val Typer: String = """
+  @Language("kotlin")
+  public const val Typer: String = """
 package team.duckie.quackquack.sugar.material
 
 fun <T> sugar(): T {
@@ -19,8 +19,8 @@ fun <T> sugar(): T {
 }   
     """
 
-    @Language("kotlin")
-    public const val Annotations: String = """
+  @Language("kotlin")
+  public const val Annotations: String = """
 package team.duckie.quackquack.sugar.material
 
 import kotlin.reflect.KClass

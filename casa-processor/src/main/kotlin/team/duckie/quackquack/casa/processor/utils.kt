@@ -9,21 +9,21 @@ package team.duckie.quackquack.casa.processor
 
 // copied from kotlin-stdlib
 internal fun <T> Sequence<T>.singleOrNullStrict(predicate: (T) -> Boolean): T? {
-    var single: T? = null
-    val iterator = iterator()
-    while (iterator.hasNext()) {
-        val element = iterator.next()
-        if (predicate(element)) {
-            require(single == null) { "Sequence contains more than one matching element." }
-            single = element
-        }
+  var single: T? = null
+  val iterator = iterator()
+  while (iterator.hasNext()) {
+    val element = iterator.next()
+    if (predicate(element)) {
+      require(single == null) { "Sequence contains more than one matching element." }
+      single = element
     }
-    return single
+  }
+  return single
 }
 
 internal fun StringBuilder.appendLineWithIndent(
-    value: String?,
-    indentSize: Int = 2,
+  value: String?,
+  indentSize: Int = 2,
 ): StringBuilder {
-    return appendLine("${" ".repeat(indentSize)}$value")
+  return appendLine("${" ".repeat(indentSize)}$value")
 }

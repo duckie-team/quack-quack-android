@@ -10,8 +10,8 @@ package team.duckie.quackquack.util.backend.test.stub
 import org.intellij.lang.annotations.Language
 
 public object CasaStub {
-    @Language("kotlin")
-    public const val Annotations: String = """
+  @Language("kotlin")
+  public const val Annotations: String = """
 package team.duckie.quackquack.casa.annotation
 
 @Target(AnnotationTarget.FUNCTION)

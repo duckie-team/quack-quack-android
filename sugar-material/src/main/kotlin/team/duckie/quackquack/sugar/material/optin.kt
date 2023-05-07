@@ -7,13 +7,11 @@
 
 package team.duckie.quackquack.sugar.material
 
-/**
- * `sugar-processor` 모듈에서만 사용돼야 함을 나타내는 optin 어노테이션입니다.
- */
+/** `sugar-processor` 모듈에서만 사용돼야 함을 나타내는 optin 어노테이션입니다. */
 @MustBeDocumented
 @RequiresOptIn(
-    message = "This indicates that the feature should only be used in the Sugar Compiler. " +
-            "Using it arbitrarily can lead to unexpected bugs.",
+  message = "This indicates that the feature should only be used in the Sugar Compiler. " +
+    "Using it arbitrarily can lead to unexpected bugs.",
 )
 @Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)

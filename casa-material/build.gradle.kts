@@ -8,18 +8,18 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
 plugins {
-    quackquack("android-library")
-    quackquack("kotlin-explicit-api")
-    quackquack("quack-publishing")
+  quackquack("android-library")
+  quackquack("kotlin-explicit-api")
+  quackquack("quack-publishing")
 }
 
 android {
-    namespace = "team.duckie.quackquack.casa.material"
+  namespace = "team.duckie.quackquack.casa.material"
 }
 
 dependencies {
-    implementations(
-        libs.kotlin.collections.immutable,
-        libs.compose.runtime,
-    )
+  implementations(
+    libs.kotlin.collections.immutable,
+    libs.compose.runtime,
+  )
 }

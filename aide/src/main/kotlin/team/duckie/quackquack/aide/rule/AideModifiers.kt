@@ -3,7 +3,12 @@
 // @formatter:off
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
-    "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "ktlint")
+    "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "ktlint")
+
+import kotlin.String
+import kotlin.Suppress
+import kotlin.collections.List
+import kotlin.collections.Map
 
 internal val aideModifiers: Map<String, List<String>> = run {
   val aide = mutableMapOf<String, List<String>>()

@@ -5,8 +5,6 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
  */
 
-@file:OptIn(ExperimentalQuackQuackApi::class)
-
 package team.duckie.quackquack.catalog
 
 import android.os.Bundle
@@ -20,17 +18,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import casaModels
-import team.duckie.quackquack.casa.ui.CasaScreen
 import team.duckie.quackquack.casa.ui.theme.CasaTheme
-import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
       CasaTheme {
-        CasaScreen(models = casaModels)
+        // CasaScreen(models = casaModels)
       }
       /*Preview {
           var showIcons by remember { mutableStateOf(true) }

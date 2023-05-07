@@ -12,13 +12,13 @@ import team.duckie.quackquack.util.backend.test.stub.ComposeStub
 import team.duckie.quackquack.util.backend.test.stub.SugarStub
 
 val stubs = listOf(
-    kotlin("Modifier.kt", ComposeStub.Modifier),
-    kotlin("Composable.kt", ComposeStub.Composable),
-    kotlin("annotations.kt", SugarStub.Annotations),
-    kotlin("typer.kt", SugarStub.Typer),
-    kotlin(
-        "AwesomeTypes.kt",
-        """
+  kotlin("Modifier.kt", ComposeStub.Modifier),
+  kotlin("Composable.kt", ComposeStub.Composable),
+  kotlin("annotations.kt", SugarStub.Annotations),
+  kotlin("typer.kt", SugarStub.Typer),
+  kotlin(
+    "AwesomeTypes.kt",
+    """
 @JvmInline
 value class AwesomeType(val index: Int) {
     companion object {
@@ -38,5 +38,5 @@ value class AwesomeType2(val index: Int) {
 @JvmInline
 value class AwesomeType3(val index: Int)
         """,
-    ),
+  ),
 )

@@ -13,22 +13,22 @@ import android.graphics.Bitmap
  * Interface to implement to provide custom bitmap matchers.
  */
 interface BitmapMatcher {
-    /**
-     * Compares the given bitmaps and returns result of the operation.
-     *
-     * The images need to have same size.
-     *
-     * @param expected The reference / golden image.
-     * @param given The image taken during the test.
-     * @param width Width of both of the images.
-     * @param height Height of both of the images.
-     */
-    fun compareBitmaps(
-        expected: IntArray,
-        given: IntArray,
-        width: Int,
-        height: Int,
-    ): MatchResult
+  /**
+   * Compares the given bitmaps and returns result of the operation.
+   *
+   * The images need to have same size.
+   *
+   * @param expected The reference / golden image.
+   * @param given The image taken during the test.
+   * @param width Width of both of the images.
+   * @param height Height of both of the images.
+   */
+  fun compareBitmaps(
+    expected: IntArray,
+    given: IntArray,
+    width: Int,
+    height: Int,
+  ): MatchResult
 }
 
 /**
@@ -41,7 +41,7 @@ interface BitmapMatcher {
  * was found.
  */
 data class MatchResult(
-    val matches: Boolean,
-    val comparisonStatistics: String,
-    val diff: Bitmap?,
+  val matches: Boolean,
+  val comparisonStatistics: String,
+  val diff: Bitmap?,
 )

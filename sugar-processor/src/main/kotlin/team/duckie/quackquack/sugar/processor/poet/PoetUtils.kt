@@ -13,14 +13,14 @@ import team.duckie.quackquack.sugar.processor.ir.SugarTokenName
 
 // TODO: Testing
 internal fun SugarIrData.toSugarComponentName(tokenFqExpression: String): String {
-    val tokenExpression = tokenFqExpression
-        .substringAfterLast(".")
-        .replaceFirstChar(Char::titlecase)
-    return sugarName?.replace(SugarTokenName, tokenExpression)
-        ?: referFqn
-            .shortName()
-            .asString()
-            .toMutableList()
-            .apply { addAll(QuackComponentPrefix.length, tokenExpression.toList()) }
-            .joinToString("")
+  val tokenExpression = tokenFqExpression
+    .substringAfterLast(".")
+    .replaceFirstChar(Char::titlecase)
+  return sugarName?.replace(SugarTokenName, tokenExpression)
+    ?: referFqn
+      .shortName()
+      .asString()
+      .toMutableList()
+      .apply { addAll(QuackComponentPrefix.length, tokenExpression.toList()) }
+      .joinToString("")
 }

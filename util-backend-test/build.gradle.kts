@@ -6,6 +6,6 @@
  */
 
 plugins {
-    quackquack("jvm-kotlin")
-    quackquack("kotlin-explicit-api")
+  quackquack("jvm-kotlin")
+  quackquack("kotlin-explicit-api")
 }

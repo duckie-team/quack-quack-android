@@ -15,22 +15,22 @@ import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.validate
 
 internal class CasaProcessor(
-    private val codeGenerator: CodeGenerator,
-    private val logger: KSPLogger,
-    private val casaPath: String?,
+  private val codeGenerator: CodeGenerator,
+  private val logger: KSPLogger,
+  private val casaPath: String?,
 ) {
-    fun resolve(resolver: Resolver): List<KSAnnotated> {
-        @Suppress("UNCHECKED_CAST")
-        val casas = resolver
-            .getSymbolsWithAnnotation(CasaFqn) as Sequence<KSFunctionDeclaration>
+  fun resolve(resolver: Resolver): List<KSAnnotated> {
+    @Suppress("UNCHECKED_CAST")
+    val casas = resolver
+      .getSymbolsWithAnnotation(CasaFqn) as Sequence<KSFunctionDeclaration>
 
-        generateCasaModels(
-            codeGenerator = codeGenerator,
-            logger = logger,
-            casas = casas,
-            casaPath = casaPath,
-        )
+    generateCasaModels(
+      codeGenerator = codeGenerator,
+      logger = logger,
+      casas = casas,
+      casaPath = casaPath,
+    )
 
-        return casas.filterNot(KSAnnotated::validate).toList()
-    }
+    return casas.filterNot(KSAnnotated::validate).toList()
+  }
 }

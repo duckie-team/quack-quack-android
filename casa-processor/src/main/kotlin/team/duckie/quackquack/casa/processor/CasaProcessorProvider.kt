@@ -21,27 +21,27 @@ private const val CasaPathArg = "CasaPath"
 @Suppress("unused")
 @AutoService(SymbolProcessorProvider::class)
 class CasaProcessorProvider : SymbolProcessorProvider {
-    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        return CasaSymbolProcessor(
-            codeGenerator = environment.codeGenerator,
-            logger = environment.logger,
-            options = environment.options,
-        )
-    }
+  override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
+    return CasaSymbolProcessor(
+      codeGenerator = environment.codeGenerator,
+      logger = environment.logger,
+      options = environment.options,
+    )
+  }
 }
 
 private class CasaSymbolProcessor(
-    codeGenerator: CodeGenerator,
-    logger: KSPLogger,
-    options: Map<String, Any>,
+  codeGenerator: CodeGenerator,
+  logger: KSPLogger,
+  options: Map<String, Any>,
 ) : SymbolProcessor {
-    private val processor = CasaProcessor(
-        codeGenerator = codeGenerator,
-        logger = logger,
-        casaPath = options[CasaPathArg]?.toString(),
-    )
+  private val processor = CasaProcessor(
+    codeGenerator = codeGenerator,
+    logger = logger,
+    casaPath = options[CasaPathArg]?.toString(),
+  )
 
-    override fun process(resolver: Resolver): List<KSAnnotated> {
-        return processor.resolve(resolver)
-    }
+  override fun process(resolver: Resolver): List<KSAnnotated> {
+    return processor.resolve(resolver)
+  }
 }

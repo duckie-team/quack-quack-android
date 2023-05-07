@@ -7,13 +7,13 @@
 
 @file:OptIn(ExperimentalCompilerApi::class, UnsafeCastFunction::class)
 @file:Suppress(
-    "RedundantUnitReturnType",
-    "RedundantVisibilityModifier",
-    "RedundantUnitExpression",
-    "RedundantSuppression",
-    "LongMethod",
-    "HasPlatformType",
-    "KDocUnresolvedReference",
+  "RedundantUnitReturnType",
+  "RedundantVisibilityModifier",
+  "RedundantUnitExpression",
+  "RedundantSuppression",
+  "LongMethod",
+  "HasPlatformType",
+  "KDocUnresolvedReference",
 )
 
 package team.duckie.quackquack.sugar.processor
@@ -31,97 +31,97 @@ import org.jetbrains.kotlin.utils.addToStdlib.UnsafeCastFunction
 import org.jetbrains.kotlin.utils.addToStdlib.cast
 
 class SugarIrTransformTest : StringSpec() {
-    private val temporaryFolder = tempdir()
+  private val tempDir = tempdir()
 
-    init {
-        "Default Argument에 SugarIrTransform이 정상 작동함" {
-            val result = compile(
-                kotlin(
-                    "main.kt",
-                    """
-                    import team.duckie.quackquack.sugar.material.SugarToken
-                    import androidx.compose.runtime.Composable
-    
-                    var number = 0
-            
-                    @Composable
-                    fun QuackText(
-                        @SugarToken style: AwesomeType,
-                        newNumber: Int = Int.MAX_VALUE,
-                    ) {
-                        number = newNumber
-                    }
-                    """,
-                ),
-                kotlin(
-                    "text-sugar.kt",
-                    """
-                    @file:OptIn(SugarCompilerApi::class) 
-                    @file:SugarGeneratedFile
-    
-                    import androidx.compose.runtime.Composable
-                    import team.duckie.quackquack.sugar.material.SugarCompilerApi
-                    import team.duckie.quackquack.sugar.material.SugarGeneratedFile
-                    import team.duckie.quackquack.sugar.material.SugarRefer
-                    import team.duckie.quackquack.sugar.material.sugar
-    
-                    @Composable
-                    @SugarRefer("QuackText")
-                    fun QuackOneText(newNumber: Int = sugar()) {
-                        QuackText(
-                            style = AwesomeType.One,
-                            newNumber = newNumber,
-                        )
-                    }
-                    """,
-                ),
-            )
+  init {
+    "Default Argument에 SugarIrTransform이 정상 작동함" {
+      val result = compile(
+        kotlin(
+          "main.kt",
+          """
+import team.duckie.quackquack.sugar.material.SugarToken
+import androidx.compose.runtime.Composable
 
-            result.exitCode shouldBe KotlinCompilation.ExitCode.OK
+var number = 0
 
-            val sugarClass = result.classLoader.loadClass("Text_sugarKt")
-            val quackTextMethod = sugarClass.getMethod(
-                "QuackOneText\$default",
-                Int::class.javaPrimitiveType,
-                Int::class.javaPrimitiveType,
-                java.lang.Object::class.java,
-            )
-            quackTextMethod.invoke(sugarClass, 0, 1, null)
+@Composable
+fun QuackText(
+    @SugarToken style: AwesomeType,
+    newNumber: Int = Int.MAX_VALUE,
+) {
+    number = newNumber
+}
+          """,
+        ),
+        kotlin(
+          "text-sugar.kt",
+          """
+@file:OptIn(SugarCompilerApi::class) 
+@file:SugarGeneratedFile
 
-            val mainClass = result.classLoader.loadClass("MainKt")
-            val getNumberMethod = mainClass.getMethod("getNumber")
+import androidx.compose.runtime.Composable
+import team.duckie.quackquack.sugar.material.SugarCompilerApi
+import team.duckie.quackquack.sugar.material.SugarGeneratedFile
+import team.duckie.quackquack.sugar.material.SugarRefer
+import team.duckie.quackquack.sugar.material.sugar
 
-            getNumberMethod.invoke(mainClass).cast<Int>() shouldBe Int.MAX_VALUE
-        }
+@Composable
+@SugarRefer("QuackText")
+fun QuackOneText(newNumber: Int = sugar()) {
+    QuackText(
+        style = AwesomeType.One,
+        newNumber = newNumber,
+    )
+}
+          """,
+        ),
+      )
+
+      result.exitCode shouldBe KotlinCompilation.ExitCode.OK
+
+      val sugarClass = result.classLoader.loadClass("Text_sugarKt")
+      val quackTextMethod = sugarClass.getMethod(
+        "QuackOneText\$default",
+        Int::class.javaPrimitiveType,
+        Int::class.javaPrimitiveType,
+        java.lang.Object::class.java,
+      )
+      quackTextMethod.invoke(sugarClass, 0, 1, null)
+
+      val mainClass = result.classLoader.loadClass("MainKt")
+      val getNumberMethod = mainClass.getMethod("getNumber")
+
+      getNumberMethod.invoke(mainClass).cast<Int>() shouldBe Int.MAX_VALUE
     }
+  }
 
-    private fun compile(vararg sourceFiles: SourceFile): KotlinCompilation.Result {
-        return prepareCompilation(*sourceFiles).compile()
-    }
+  private fun compile(vararg sourceFiles: SourceFile): KotlinCompilation.Result {
+    return prepareCompilation(*sourceFiles).compile()
+  }
 
-    private fun prepareCompilation(vararg sourceFiles: SourceFile): KotlinCompilation {
-        return KotlinCompilation().apply {
-            workingDir = temporaryFolder
-            sources = sourceFiles.asList() + stubs
-            jvmTarget = JvmTarget.JVM_17.toString()
-            supportsK2 = false
-            pluginOptions = listOf(
-                PluginOption(
-                    pluginId = PluginId,
-                    optionName = OPTION_SUGAR_PATH.optionName,
-                    optionValue = temporaryFolder.path,
-                ),
-                PluginOption(
-                    pluginId = PluginId,
-                    optionName = OPTION_POET.optionName,
-                    optionValue = "false",
-                ),
-            )
-            verbose = false
-            inheritClassPath = true
-            compilerPluginRegistrars = listOf(SugarComponentRegistrar.asPluginRegistrar())
-            commandLineProcessors = listOf(SugarCommandLineProcessor())
-            useK2 = false
-        }
+  private fun prepareCompilation(vararg sourceFiles: SourceFile): KotlinCompilation {
+    return KotlinCompilation().apply {
+      workingDir = tempDir
+      sources = sourceFiles.asList() + stubs
+      jvmTarget = JvmTarget.JVM_17.toString()
+      supportsK2 = false
+      pluginOptions = listOf(
+        PluginOption(
+          pluginId = PluginId,
+          optionName = OPTION_SUGAR_PATH.optionName,
+          optionValue = tempDir.path,
+        ),
+        PluginOption(
+          pluginId = PluginId,
+          optionName = OPTION_POET.optionName,
+          optionValue = "false",
+        ),
+      )
+      verbose = false
+      inheritClassPath = true
+      compilerPluginRegistrars = listOf(SugarComponentRegistrar.asPluginRegistrar())
+      commandLineProcessors = listOf(SugarCommandLineProcessor())
+      useK2 = false
     }
+  }
 }

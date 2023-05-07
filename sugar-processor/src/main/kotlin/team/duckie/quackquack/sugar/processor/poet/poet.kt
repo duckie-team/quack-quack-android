@@ -37,103 +37,103 @@ private val GeneratedComment = getGeneratedComment("sugar-processor")
 
 @Suppress("OPT_IN_CAN_ONLY_BE_USED_AS_ANNOTATION")
 private val SugarCompilerOptInAnnotation = AnnotationSpec
-    .builder(OptIn::class)
-    .addMember(
-        "%T::class, %T::class",
-        SugarCompilerApiCn,
-        SugarGeneratorUsageCn,
-    )
-    .useSiteTarget(AnnotationSpec.UseSiteTarget.FILE)
-    .build()
+  .builder(OptIn::class)
+  .addMember(
+    "%T::class, %T::class",
+    SugarCompilerApiCn,
+    SugarGeneratorUsageCn,
+  )
+  .useSiteTarget(AnnotationSpec.UseSiteTarget.FILE)
+  .build()
 
 private val SugarGeneratedFileMarkerAnnotation = AnnotationSpec
-    .builder(SugarGeneratedFileCn)
-    .useSiteTarget(AnnotationSpec.UseSiteTarget.FILE)
-    .build()
+  .builder(SugarGeneratedFileCn)
+  .useSiteTarget(AnnotationSpec.UseSiteTarget.FILE)
+  .build()
 
 internal fun generateSugarComponentFiles(
-    irDatas: List<SugarIrData>,
-    sugarPath: String,
+  irDatas: List<SugarIrData>,
+  sugarPath: String,
 ) {
-    val fileGroupedIrDatas = irDatas.groupBy { irData ->
-        irData.file.name
-    }
+  val fileGroupedIrDatas = irDatas.groupBy { irData ->
+    irData.file.name
+  }
 
-    fileGroupedIrDatas.forEach { (fileName, irDatas) ->
-        val (imports, funSpecs) = irDatas.toFunSpecsWithImports()
-        val ktSpec = FileSpec
-            .builder(
-                packageName = sugarPath.bestGuessToKotlinPackageName(),
-                fileName = fileName.substringBeforeLast("."),
-            )
-            .addFileComment(GeneratedComment)
-            .addFileComment(FormatterOffComment)
-            .addAnnotation(SuppressAnnotation)
-            .addAnnotation(SugarCompilerOptInAnnotation)
-            .addAnnotation(SugarGeneratedFileMarkerAnnotation)
-            .addImports(imports.toMutableList().apply { add(SugarFqn) })
-            .addFunctions(funSpecs)
-            .build()
+  fileGroupedIrDatas.forEach { (fileName, irDatas) ->
+    val (imports, funSpecs) = irDatas.toFunSpecsWithImports()
+    val ktSpec = FileSpec
+      .builder(
+        packageName = sugarPath.bestGuessToKotlinPackageName(),
+        fileName = fileName.substringBeforeLast("."),
+      )
+      .addFileComment(GeneratedComment)
+      .addFileComment(FormatterOffComment)
+      .addAnnotation(SuppressAnnotation)
+      .addAnnotation(SugarCompilerOptInAnnotation)
+      .addAnnotation(SugarGeneratedFileMarkerAnnotation)
+      .addImports(imports.toMutableList().apply { add(SugarFqn) })
+      .addFunctions(funSpecs)
+      .build()
 
-        File(sugarPath, fileName).also { file ->
-            if (!file.exists()) {
-                file.parentFile?.mkdirs()
-                file.createNewFile()
-            }
-        }.writeText(ktSpec.toString())
-    }
+    File(sugarPath, fileName).also { file ->
+      if (!file.exists()) {
+        file.parentFile?.mkdirs()
+        file.createNewFile()
+      }
+    }.writeText(ktSpec.toString())
+  }
 }
 
 private fun List<SugarIrData>.toFunSpecsWithImports(): Pair<List<FqName>, List<FunSpec>> {
-    val imports = mutableListOf<FqName>()
-    val funSpecs = mutableListOf<FunSpec>()
-    forEach { sugarIrData ->
-        imports += sugarIrData.referFqn
-        sugarIrData.tokenFqExpressions.forEach { tokenFqExpression ->
-            @Suppress("WRONG_ANNOTATION_TARGET", "LocalVariableName")
-            val (_imports, funSpec) = sugarIrData.toFunSpecWithImports(tokenFqExpression)
-            imports += _imports
-            funSpecs += funSpec
-        }
+  val imports = mutableListOf<FqName>()
+  val funSpecs = mutableListOf<FunSpec>()
+  forEach { sugarIrData ->
+    imports += sugarIrData.referFqn
+    sugarIrData.tokenFqExpressions.forEach { tokenFqExpression ->
+      @Suppress("WRONG_ANNOTATION_TARGET", "LocalVariableName")
+      val (_imports, funSpec) = sugarIrData.toFunSpecWithImports(tokenFqExpression)
+      imports += _imports
+      funSpecs += funSpec
     }
-    return imports to funSpecs
+  }
+  return imports to funSpecs
 }
 
 private fun SugarIrData.toFunSpecWithImports(tokenFqExpression: String): Pair<List<FqName>, FunSpec> {
-    val imports = mutableListOf<FqName>()
+  val imports = mutableListOf<FqName>()
 
-    val sugarReferAnnotation = AnnotationSpec
-        .builder(SugarReferCn)
-        .addMember("%S", referFqn.asString())
-        .build()
+  val sugarReferAnnotation = AnnotationSpec
+    .builder(SugarReferCn)
+    .addMember("%S", referFqn.asString())
+    .build()
 
-    val sugarName = toSugarComponentName(tokenFqExpression)
-    val sugarBody = buildCodeBlock {
-        addStatement("%L(", referFqn.shortName().asString())
-        withIndent {
-            parameters.forEach { parameter ->
-                imports += parameter.type.classFqName!!
-                imports += parameter.imports
+  val sugarName = toSugarComponentName(tokenFqExpression)
+  val sugarBody = buildCodeBlock {
+    addStatement("%L(", referFqn.shortName().asString())
+    withIndent {
+      parameters.forEach { parameter ->
+        imports += parameter.type.classFqName!!
+        imports += parameter.imports
 
-                val parameterName = parameter.name.asString()
-                val parameterValue = if (parameter.isToken) tokenFqExpression else parameterName
+        val parameterName = parameter.name.asString()
+        val parameterValue = if (parameter.isToken) tokenFqExpression else parameterName
 
-                addStatement("%L = %L,", parameterName, parameterValue)
-            }
-        }
-        addStatement(")")
+        addStatement("%L = %L,", parameterName, parameterValue)
+      }
     }
+    addStatement(")")
+  }
 
-    val funSpec = FunSpec
-        .builder(sugarName)
-        .addAnnotation(ComposableCn)
-        .addAnnotation(CasaCn)
-        .addAnnotation(sugarReferAnnotation)
-        .addModifiers(KModifier.PUBLIC)
-        .addParameters(parametersWithoutToken.map(SugarParameter::toParameterSpec))
-        .addCode(sugarBody)
-        .addKdoc(kdoc)
-        .build()
+  val funSpec = FunSpec
+    .builder(sugarName)
+    .addAnnotation(ComposableCn)
+    .addAnnotation(CasaCn)
+    .addAnnotation(sugarReferAnnotation)
+    .addModifiers(KModifier.PUBLIC)
+    .addParameters(parametersWithoutToken.map(SugarParameter::toParameterSpec))
+    .addCode(sugarBody)
+    .addKdoc(kdoc)
+    .build()
 
-    return imports to funSpec
+  return imports to funSpec
 }

@@ -10,15 +10,15 @@ package team.duckie.quackquack.util.backend.test.stub
 import org.intellij.lang.annotations.Language
 
 public object ComposeStub {
-    @Language("kotlin")
-    public const val Modifier: String = """
+  @Language("kotlin")
+  public const val Modifier: String = """
 package androidx.compose.ui
 
 interface Modifier { companion object : Modifier }
     """
 
-    @Language("kotlin")
-    public const val Composable: String = """
+  @Language("kotlin")
+  public const val Composable: String = """
 package androidx.compose.runtime
 
 @Retention(AnnotationRetention.BINARY)

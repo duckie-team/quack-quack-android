@@ -26,9 +26,7 @@ public data class CasaModel(
   val kdocDefaultSection: String,
   val components: ImmutableList<Pair<String, @Composable () -> Unit>>,
 ) {
-  /**
-   * [CasaConfig.baseSourceUrl]에 [코드 파일 경로][domain]를 이어서 반환합니다.
-   */
+  /** [CasaConfig.baseSourceUrl]에 [코드 파일 경로][domain]를 이어서 반환합니다. */
   public fun toSourceUrl(config: CasaConfig): String {
     return "${config.baseSourceUrl}/$domain"
   }

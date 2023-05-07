@@ -29,8 +29,8 @@ import androidx.compose.ui.semantics.Role
 /**
  * 덕키에서 기본적으로 사용할 항상 ripple 표시 옵션
  *
- * Playground에서 [QuackAlwaysShowRipple]편집 후 기본값으로 되돌리고
- * 싶을 때 기본값을 참조하기 위해 public으로 공개합니다.
+ * Playground에서 [QuackAlwaysShowRipple]편집 후 기본값으로 되돌리고 싶을 때 기본값을 참조하기 위해
+ * public으로 공개합니다.
  */
 public const val QuackDefaultAlwaysShowRipple: Boolean = false
 
@@ -46,16 +46,12 @@ public var QuackAlwaysShowRipple: Boolean by mutableStateOf(QuackDefaultAlwaysSh
 /**
  * [Modifier.clickable]에 다양한 옵션을 부여합니다.
  *
- * @param role 사용자 인터페이스 요소의 유형.
- * 접근성 서비스는 이를 사용하여 요소를 설명하거나 사용자 지정할 수 있습니다.
- * @param rippleColor 표시될 리플의 색상.
- * null이들어오면 [Color.Unspecified]를 사용합니다.
+ * @param role 사용자 인터페이스 요소의 유형. 접근성 서비스는 이를 사용하여 요소를 설명하거나 사용자 지정할 수 있습니다.
+ * @param rippleColor 표시될 리플의 색상. null이들어오면 [Color.Unspecified]를 사용합니다.
  * @param rippleEnabled 리플을 설정할지 여부
- * @param onClick 컴포넌트가 클릭됐을 때 실행할 람다식.
- * null이 들어오면 빈 람다를 사용합니다. (필수 옵션)
- * @param onLongClick 컴포넌트가 길게 클릭됐을 떄 실행할 람다식.
- * null이 들어오면 long-clickable을 설정하지 않습니다.
- *
+ * @param onClick 컴포넌트가 클릭됐을 때 실행할 람다식. null이 들어오면 빈 람다를 사용합니다. (필수 옵션)
+ * @param onLongClick 컴포넌트가 길게 클릭됐을 떄 실행할 람다식. null이 들어오면 long-clickable을
+ *     설정하지 않습니다.
  * @return [Modifier.clickable] 속성이 적용된 [Modifier]
  */
 @Stable

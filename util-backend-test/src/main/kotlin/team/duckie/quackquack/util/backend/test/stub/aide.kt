@@ -10,8 +10,8 @@ package team.duckie.quackquack.util.backend.test.stub
 import org.intellij.lang.annotations.Language
 
 public object AideStub {
-    @Language("kotlin")
-    public const val Annotation: String = """
+  @Language("kotlin")
+  public const val Annotation: String = """
 package team.duckie.quackquack.aide.annotation
 
 @Target(AnnotationTarget.FUNCTION)

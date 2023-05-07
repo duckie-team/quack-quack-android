@@ -23,8 +23,8 @@ private class KeyedQuackComposedModifier1(
 ) : QuackComposedModifier(factory) {
   override fun equals(other: Any?): Boolean {
     return other is KeyedQuackComposedModifier1 &&
-        fqName == other.fqName &&
-        key1 == other.key1
+      fqName == other.fqName &&
+      key1 == other.key1
   }
 
   override fun hashCode(): Int {
@@ -41,9 +41,9 @@ private class KeyedQuackComposedModifier2(
 ) : QuackComposedModifier(factory) {
   override fun equals(other: Any?): Boolean {
     return other is KeyedQuackComposedModifier2 &&
-        fqName == other.fqName &&
-        key1 == other.key1 &&
-        key2 == other.key2
+      fqName == other.fqName &&
+      key1 == other.key1 &&
+      key2 == other.key2
   }
 
   override fun hashCode(): Int {
@@ -64,10 +64,10 @@ private class KeyedQuackComposedModifier3(
 ) : QuackComposedModifier(factory) {
   override fun equals(other: Any?): Boolean {
     return other is KeyedQuackComposedModifier3 &&
-        fqName == other.fqName &&
-        key1 == other.key1 &&
-        key2 == other.key2 &&
-        key3 == other.key3
+      fqName == other.fqName &&
+      key1 == other.key1 &&
+      key2 == other.key2 &&
+      key3 == other.key3
   }
 
   override fun hashCode(): Int {
@@ -87,8 +87,8 @@ private class KeyedQuackComposedModifierN(
 ) : QuackComposedModifier(factory) {
   override fun equals(other: Any?): Boolean {
     return other is KeyedQuackComposedModifierN &&
-        fqName == other.fqName &&
-        keys.contentEquals(other.keys)
+      fqName == other.fqName &&
+      keys.contentEquals(other.keys)
   }
 
   override fun hashCode(): Int {
@@ -100,11 +100,11 @@ private class KeyedQuackComposedModifierN(
 /**
  * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
  *
- * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며
- * folding하기 위해 `ComposedModifier`의 별도 대응이 필요합니다.
+ * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며 folding하기 위해
+ * `ComposedModifier`의 별도 대응이 필요합니다.
  *
- * `quackComposed`는 무조건 [QuackDataModifierModel]를 반환해야 합니다.
- * 일반 [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
+ * `quackComposed`는 무조건 [QuackDataModifierModel]를 반환해야 합니다. 일반
+ * [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
  *
  * @see Composer.quackMaterializeOf
  */
@@ -116,18 +116,18 @@ public fun Modifier.quackComposed(factory: @Composable Modifier.() -> Modifier):
 /**
  * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
  *
- * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며
- * folding하기 위해 `ComposedModifier`의 별도 대응이 필요합니다.
+ * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며 folding하기 위해
+ * `ComposedModifier`의 별도 대응이 필요합니다.
  *
- * `quackComposed`는 무조건 [QuackDataModifierModel]를 반환해야 합니다.
- * 일반 [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
+ * `quackComposed`는 무조건 [QuackDataModifierModel]를 반환해야 합니다. 일반
+ * [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
  *
- * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다.
- * 이는 [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다.
- * 따라서 인자로 제공되는 안정성에 의존한 로직을 구현하면 안 됩니다.
+ * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다. 이는
+ * [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다. 따라서 인자로 제공되는 안정성에 의존한
+ * 로직을 구현하면 안 됩니다.
  *
- * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만 재실행돼야 함`
- * 테스트를 참고하세요.
+ * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만
+ * 재실행돼야 함` 테스트를 참고하세요.
  *
  * @see Composer.quackMaterializeOf
  */
@@ -149,18 +149,18 @@ public fun Modifier.quackComposed(
 /**
  * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
  *
- * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며
- * folding하기 위해 `ComposedModifier`의 별도 대응이 필요합니다.
+ * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며 folding하기 위해
+ * `ComposedModifier`의 별도 대응이 필요합니다.
  *
- * `quackComposed`는 무조건 [QuackDataModifierModel]를 반환해야 합니다.
- * 일반 [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
+ * `quackComposed`는 무조건 [QuackDataModifierModel]를 반환해야 합니다. 일반
+ * [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
  *
- * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다.
- * 이는 [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다.
- * 따라서 인자로 제공되는 안정성에 의존한 로직을 구현하면 안 됩니다.
+ * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다. 이는
+ * [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다. 따라서 인자로 제공되는 안정성에 의존한
+ * 로직을 구현하면 안 됩니다.
  *
- * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만 재실행돼야 함`
- * 테스트를 참고하세요.
+ * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만
+ * 재실행돼야 함` 테스트를 참고하세요.
  *
  * @see Composer.quackMaterializeOf
  */
@@ -184,18 +184,18 @@ public fun Modifier.quackComposed(
 /**
  * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
  *
- * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며
- * folding하기 위해 `ComposedModifier`의 별도 대응이 필요합니다.
+ * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며 folding하기 위해
+ * `ComposedModifier`의 별도 대응이 필요합니다.
  *
- * `quackComposed`는 무조건 [QuackDataModifierModel]를 반환해야 합니다.
- * 일반 [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
+ * `quackComposed`는 무조건 [QuackDataModifierModel]를 반환해야 합니다. 일반
+ * [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
  *
- * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다.
- * 이는 [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다.
- * 따라서 인자로 제공되는 안정성에 의존한 로직을 구현하면 안 됩니다.
+ * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다. 이는
+ * [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다. 따라서 인자로 제공되는 안정성에 의존한
+ * 로직을 구현하면 안 됩니다.
  *
- * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만 재실행돼야 함`
- * 테스트를 참고하세요.
+ * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만
+ * 재실행돼야 함` 테스트를 참고하세요.
  *
  * @see Composer.quackMaterializeOf
  */
@@ -221,18 +221,18 @@ public fun Modifier.quackComposed(
 /**
  * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
  *
- * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며
- * folding하기 위해 `ComposedModifier`의 별도 대응이 필요합니다.
+ * `composed`의 결과가 [QuackDataModifierModel]일 경우 `acc`를 유지하며 folding하기 위해
+ * `ComposedModifier`의 별도 대응이 필요합니다.
  *
- * `quackComposed`는 무조건 [QuackDataModifierModel]를 반환해야 합니다.
- * 일반 [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
+ * `quackComposed`는 무조건 [QuackDataModifierModel]를 반환해야 합니다. 일반
+ * [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
  *
- * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다.
- * 이는 [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다.
- * 따라서 인자로 제공되는 안정성에 의존한 로직을 구현하면 안 됩니다.
+ * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다. 이는
+ * [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다. 따라서 인자로 제공되는 안정성에 의존한
+ * 로직을 구현하면 안 됩니다.
  *
- * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만 재실행돼야 함`
- * 테스트를 참고하세요.
+ * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만
+ * 재실행돼야 함` 테스트를 참고하세요.
  *
  * @see Composer.quackMaterializeOf
  */

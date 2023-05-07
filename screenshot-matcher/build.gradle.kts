@@ -6,13 +6,13 @@
  */
 
 plugins {
-    quackquack("android-library")
+  quackquack("android-library")
 }
 
 android {
-    namespace = "team.duckie.quackquack.test.screenshot.matcher"
+  namespace = "team.duckie.quackquack.test.screenshot.matcher"
 }
 
 dependencies {
-    implementation(libs.androidx.annotation)
+  implementation(libs.androidx.annotation)
 }

@@ -82,9 +82,9 @@ public fun CasaScreen(
     derivedStateOf {
       models.filter { model ->
         (model.domain.contains(searchTerm, ignoreCase = true) ||
-            model.name.contains(searchTerm, ignoreCase = true) ||
-            model.kdocDefaultSection.contains(searchTerm, ignoreCase = true)) &&
-            if (selectedDomains.isNotEmpty()) selectedDomains.contains(model.domain) else true
+          model.name.contains(searchTerm, ignoreCase = true) ||
+          model.kdocDefaultSection.contains(searchTerm, ignoreCase = true)) &&
+          if (selectedDomains.isNotEmpty()) selectedDomains.contains(model.domain) else true
       }.toImmutableList()
     }
   }
@@ -122,7 +122,7 @@ public fun CasaScreen(
             expandHorizontally { it / 8 } + fadeIn(tween(100)) with fadeOut()
           } else {
             fadeIn(tween(500, delayMillis = 100)) with
-                shrinkHorizontally(tween(400)) { it / 8 } + fadeOut(tween(400))
+              shrinkHorizontally(tween(400)) { it / 8 } + fadeOut(tween(400))
           }
         },
         contentAlignment = Alignment.CenterEnd,

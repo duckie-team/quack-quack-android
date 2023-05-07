@@ -8,8 +8,8 @@
 package team.duckie.quackquack.sugar.material
 
 /**
- * `sugar-processor`로 sugar component를 생성할 때 함수의
- * default argument가 있는 인자에 기본값으로 사용됩니다.
+ * `sugar-processor`로 sugar component를 생성할 때 함수의 default argument가 있는 인자에
+ * 기본값으로 사용됩니다.
  *
  * ```
  * // original
@@ -54,13 +54,12 @@ package team.duckie.quackquack.sugar.material
  *
  * 자세한 내용은 `sugar-processor` 모듈을 참고하세요.
  *
- * *이 어노테이션은 꽥꽥 컴파일러에서만 사용될 목적으로 설계됐습니다.
- * 임의로 사용할 경우 예상치 못한 버그가 발생할 수 있습니다.*
+ * *이 어노테이션은 꽥꽥 컴파일러에서만 사용될 목적으로 설계됐습니다. 임의로 사용할 경우 예상치 못한 버그가 발생할 수 있습니다.*
  */
 @SugarCompilerApi
 public fun <T> sugar(): T {
-    throw NotImplementedError(
-        "SugarIrTransform did not proceed. " +
-                "Is the `core-sugar-processor-kotlinc` module applied?",
-    )
+  throw NotImplementedError(
+    "SugarIrTransform did not proceed. " +
+      "Is the `core-sugar-processor-kotlinc` module applied?",
+  )
 }

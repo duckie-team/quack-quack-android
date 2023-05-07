@@ -20,9 +20,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-/**
- * 컴포넌트에 주어진 디자인 스팩을 적용합니다.
- */
+/** 컴포넌트에 주어진 디자인 스팩을 적용합니다. */
 @Stable
 public fun Modifier.quackSurface(
   shape: Shape = RectangleShape,
@@ -46,25 +44,25 @@ public fun Modifier.quackSurface(
     properties["onClick"] = onClick
   },
 ) {
-    this
-        .shadow(
-            elevation = elevation,
-            shape = shape,
-            clip = false,
-        )
-        .clip(shape = shape)
-        .background(
-            color = backgroundColor.value,
-            shape = shape,
-        )
-        .quackClickable(
-            role = role,
-            rippleEnabled = rippleEnabled,
-            rippleColor = rippleColor,
-            onClick = onClick,
-        )
-        .quackBorder(
-            border = border,
-            shape = shape,
-        )
+  this
+    .shadow(
+      elevation = elevation,
+      shape = shape,
+      clip = false,
+    )
+    .clip(shape = shape)
+    .background(
+      color = backgroundColor.value,
+      shape = shape,
+    )
+    .quackClickable(
+      role = role,
+      rippleEnabled = rippleEnabled,
+      rippleColor = rippleColor,
+      onClick = onClick,
+    )
+    .quackBorder(
+      border = border,
+      shape = shape,
+    )
 }

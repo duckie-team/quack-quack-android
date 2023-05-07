@@ -29,91 +29,91 @@ import team.duckie.quackquack.util.backend.isQuackComponent
 import team.duckie.quackquack.util.backend.locationOf
 
 internal class SugarIrTransformer(
-    @Suppress("unused") private val context: IrPluginContext,
-    private val logger: Logger,
+  @Suppress("unused") private val context: IrPluginContext,
+  private val logger: Logger,
 ) : IrElementTransformer<Map<String, SugarIrData>> {
-    override fun visitModuleFragment(
-        declaration: IrModuleFragment,
-        data: Map<String, SugarIrData>,
-    ): IrModuleFragment {
-        declaration.files.forEach { file ->
-            file.accept(this, data)
-        }
-        return declaration
+  override fun visitModuleFragment(
+    declaration: IrModuleFragment,
+    data: Map<String, SugarIrData>,
+  ): IrModuleFragment {
+    declaration.files.forEach { file ->
+      file.accept(this, data)
     }
+    return declaration
+  }
 
-    override fun visitFile(
-        declaration: IrFile,
-        data: Map<String, SugarIrData>,
-    ): IrFile {
-        if (declaration.hasAnnotation(SugarGeneratedFileFqn)) {
-            declaration.declarations.forEach { item ->
-                item.accept(this, data)
-            }
-        }
-        return declaration
+  override fun visitFile(
+    declaration: IrFile,
+    data: Map<String, SugarIrData>,
+  ): IrFile {
+    if (declaration.hasAnnotation(SugarGeneratedFileFqn)) {
+      declaration.declarations.forEach { item ->
+        item.accept(this, data)
+      }
     }
+    return declaration
+  }
 
-    override fun visitSimpleFunction(
-        declaration: IrSimpleFunction,
-        data: Map<String, SugarIrData>,
-    ): IrStatement {
-        if (declaration.isQuackComponent) {
-            if (declaration.hasAnnotation(NoSugarFqn)) {
-                return super.visitSimpleFunction(declaration, data)
-            }
-
-            // run으로 throwError 하는 게 더 가독성이 좋음
-            val referAnnotation = declaration.getAnnotation(SugarReferFqn) ?: run {
-                logger.throwError(
-                    value = PoetError.sugarComponentButNoSugarRefer(declaration),
-                    location = declaration.file.locationOf(declaration),
-                )
-            }
-            val referFqn = referAnnotation.getReferFqName()
-
-            data[referFqn]?.let { referIrData ->
-                declaration.valueParameters.forEach { parameter ->
-                    parameter.defaultValue = referIrData.findMatchedDefaultValue(
-                        parameter = parameter,
-                        error = { message ->
-                            logger.throwError(
-                                value = message,
-                                location = declaration.file.locationOf(parameter),
-                            )
-                        },
-                    )
-                }
-            } ?: logger.throwError(
-                value = SugarVisitError.noMatchedSugarIrData(declaration),
-                location = declaration.file.locationOf(declaration),
-            )
-        }
-
+  override fun visitSimpleFunction(
+    declaration: IrSimpleFunction,
+    data: Map<String, SugarIrData>,
+  ): IrStatement {
+    if (declaration.isQuackComponent) {
+      if (declaration.hasAnnotation(NoSugarFqn)) {
         return super.visitSimpleFunction(declaration, data)
+      }
+
+      // run으로 throwError 하는 게 더 가독성이 좋음
+      val referAnnotation = declaration.getAnnotation(SugarReferFqn) ?: run {
+        logger.throwError(
+          value = PoetError.sugarComponentButNoSugarRefer(declaration),
+          location = declaration.file.locationOf(declaration),
+        )
+      }
+      val referFqn = referAnnotation.getReferFqName()
+
+      data[referFqn]?.let { referIrData ->
+        declaration.valueParameters.forEach { parameter ->
+          parameter.defaultValue = referIrData.findMatchedDefaultValue(
+            parameter = parameter,
+            error = { message ->
+              logger.throwError(
+                value = message,
+                location = declaration.file.locationOf(parameter),
+              )
+            },
+          )
+        }
+      } ?: logger.throwError(
+        value = SugarVisitError.noMatchedSugarIrData(declaration),
+        location = declaration.file.locationOf(declaration),
+      )
     }
+
+    return super.visitSimpleFunction(declaration, data)
+  }
 }
 
 private fun IrConstructorCall.getReferFqName(): String {
-    // Assuming the first argument is always "fqn"
-    val referFqnExpression = getValueArgument(0)
-    return referFqnExpression.cast<IrConst<String>>().value
+  // Assuming the first argument is always "fqn"
+  val referFqnExpression = getValueArgument(0)
+  return referFqnExpression.cast<IrConst<String>>().value
 }
 
 private fun SugarIrData.findMatchedDefaultValue(
-    parameter: IrValueParameter,
-    error: (message: String) -> Unit,
+  parameter: IrValueParameter,
+  error: (message: String) -> Unit,
 ): IrExpressionBody? {
-    val matched = parameters.find { referParameter ->
-        referParameter.name.asString() == parameter.name.asString()
-    }
-    if (matched == null) {
-        error(
-            SugarTransformError.sugarComponentAndSugarReferHasDifferentParameters(
-                sugarIrData = this,
-                parameter = parameter,
-            ),
-        )
-    }
-    return matched?.defaultValue
+  val matched = parameters.find { referParameter ->
+    referParameter.name.asString() == parameter.name.asString()
+  }
+  if (matched == null) {
+    error(
+      SugarTransformError.sugarComponentAndSugarReferHasDifferentParameters(
+        sugarIrData = this,
+        parameter = parameter,
+      ),
+    )
+  }
+  return matched?.defaultValue
 }

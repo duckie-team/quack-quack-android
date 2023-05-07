@@ -23,9 +23,9 @@ formatting:
   ImportOrdering:
     active: false
   MaximumLineLength:
-    maxLineLength: 150
+    active: false
   Indentation:
-    indentSize: 2
+    active: false
   ArgumentListWrapping:
     indentSize: 2
     maxLineLength: 150
@@ -37,12 +37,11 @@ formatting:
   CommentWrapping:
     active: true
     indentSize: 2
-  FunctionSignature:
-    active: true
-    indentSize: 2
   Filename:
     active: false
   PackageName:
+    active: false
+  AnnotationOnSeparateLine:
     active: false
 
 style:
