@@ -54,6 +54,11 @@ const config = {
                     label: 'GitHub',
                     position: 'right',
                 },
+                {
+                    href: 'https://quackquack.duckie.team/android/api',
+                    label: 'API',
+                    position: 'right',
+                },
             ],
         },
         footer: {

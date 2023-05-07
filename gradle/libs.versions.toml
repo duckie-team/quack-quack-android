@@ -9,6 +9,7 @@ google-autoservice-ksp = "1.0.0"
 
 kotlin-core = "1.8.20"
 kotlin-coroutines = "1.7.0-RC"
+kotlin-dokka = "1.8.10"
 kotlin-ksp = "1.8.20-1.0.11"
 kotlin-kotlinpoet = "1.13.2"
 kotlin-detekt = "1.22.0"
@@ -55,6 +56,7 @@ gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.e
 gradle-dependency-graph = { id = "land.sungbin.dependency.graph.plugin", version.ref = "gradle-dependency-graph" }
 
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-core" }
+kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "kotlin-dokka" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 kotlin-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "kotlin-detekt" }
 kotlin-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "kotlin-ktlint-gradle" }
@@ -72,6 +74,7 @@ google-autoservice-ksp-processor = { module = "dev.zacsweers.autoservice:auto-se
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-core" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin-core" }
 kotlin-embeddable-compiler = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin-core" }
+kotlin-dokka = { module = "org.jetbrains.dokka:dokka-maven-plugin", version.ref = "kotlin-dokka" }
 kotlin-ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "kotlin-ksp" }
 kotlin-kotlinpoet-core = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-kotlinpoet" }
 kotlin-kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-kotlinpoet" }
