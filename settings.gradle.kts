@@ -31,6 +31,7 @@ buildCache {
 include(
     ":catalog",
     ":util",
+    ":util-backend",
     ":runtime",
     ":material",
     ":animation",
