@@ -28,5 +28,8 @@ dependencies {
         libs.google.autoservice.annotation,
         projects.utilBackend,
     )
-    testImplementation(libs.test.kotlin.compilation.ksp)
+    testImplementations(
+        libs.test.kotlin.compilation.ksp,
+        projects.utilBackendTest,
+    )
 }

@@ -25,12 +25,12 @@ import com.tschuchort.compiletesting.symbolProcessorProviders
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.engine.spec.tempdir
 import io.kotest.matchers.shouldBe
-import java.io.File
 import org.intellij.lang.annotations.Language
+import team.duckie.quackquack.util.backend.test.findGeneratedFileOrNull
 
 class CoreAideGenerationTest : StringSpec() {
     private val useKspIncrementals = listOf(true, false)
-    private val temporaryFolder = tempdir()
+    private val tempDir = tempdir()
 
     init {
         useKspIncrementals.forEach { kspIncremental ->
@@ -132,7 +132,7 @@ internal val aideModifiers: Map<String, List<String>> = run {
                              """.trimIndent()
 
                 result.exitCode shouldBe KotlinCompilation.ExitCode.OK
-                findGeneratedFileOrNull("AideModifiers.kt")?.readText() shouldBe expect
+                tempDir.findGeneratedFileOrNull("AideModifiers.kt")?.readText() shouldBe expect
             }
 
             "꽥꽥 컴포넌트는 QuackComponents.kt 파일에 모여짐 - [kspIncremental: $kspIncremental]" {
@@ -222,7 +222,7 @@ internal val quackComponents: Map<String, String> = run {
                 """.trimIndent()
 
                 result.exitCode shouldBe KotlinCompilation.ExitCode.OK
-                findGeneratedFileOrNull("QuackComponents.kt")?.readText() shouldBe expect
+                tempDir.findGeneratedFileOrNull("QuackComponents.kt")?.readText() shouldBe expect
             }
         }
     }
@@ -233,19 +233,11 @@ internal val quackComponents: Map<String, String> = run {
 
     private fun prepareCompilation(useKspIncremental: Boolean, vararg sourceFiles: SourceFile): KotlinCompilation {
         return KotlinCompilation().apply {
-            workingDir = temporaryFolder
+            workingDir = tempDir
             sources = sourceFiles.asList() + stubs
             kspIncremental = useKspIncremental
             allWarningsAsErrors = true
             symbolProcessorProviders = listOf(AideSymbolProcessorProvider())
         }
-    }
-
-    private fun findGeneratedFileOrNull(fileName: String): File? {
-        return temporaryFolder
-            .walkTopDown()
-            .find { file ->
-                file.name == fileName
-            }
     }
 }

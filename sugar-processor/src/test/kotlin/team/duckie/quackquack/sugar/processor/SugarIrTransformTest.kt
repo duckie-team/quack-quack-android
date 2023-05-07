@@ -46,7 +46,7 @@ class SugarIrTransformTest : StringSpec() {
             
                     @Composable
                     fun QuackText(
-                        @SugarToken style: AwesomeType? = null,
+                        @SugarToken style: AwesomeType,
                         newNumber: Int = Int.MAX_VALUE,
                     ) {
                         number = newNumber
@@ -114,7 +114,7 @@ class SugarIrTransformTest : StringSpec() {
                 PluginOption(
                     pluginId = PluginId,
                     optionName = OPTION_POET.optionName,
-                    optionValue = "true",
+                    optionValue = "false",
                 ),
             )
             verbose = false

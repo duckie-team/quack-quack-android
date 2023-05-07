@@ -25,6 +25,24 @@ import team.duckie.quackquack.util.backend.toLiteralListString
 
 private val GeneratedComment = getGeneratedComment("aide-processor")
 
+internal fun generateQuackComponents(
+    codeGenerator: CodeGenerator,
+    logger: KSPLogger,
+    symbols: Sequence<KSFunctionDeclaration>,
+    aidePath: String?,
+) {
+    val quackComponents = symbols.toDomainWithSimpleNameGroups()
+    val quackComponentsFileSpec = createQuackComponentsFileSpec(quackComponents)
+
+    generateBuildOrLocalFile(
+        codeGenerator = codeGenerator,
+        fileSpec = quackComponentsFileSpec,
+        path = aidePath,
+        logger = logger,
+        tag = "aide",
+    )
+}
+
 private fun createQuackComponentsFileSpec(groupedComponents: List<Pair<String, Set<String>>>): FileSpec {
     val quackComponents = PropertySpec
         .builder(
@@ -68,18 +86,18 @@ private fun createQuackComponentsFileSpec(groupedComponents: List<Pair<String, S
         .build()
 }
 
-internal fun generateQuackComponents(
+internal fun generateAideModifiers(
     codeGenerator: CodeGenerator,
     logger: KSPLogger,
     symbols: Sequence<KSFunctionDeclaration>,
     aidePath: String?,
 ) {
-    val quackComponents = symbols.toDomainWithSimpleNameGroups()
-    val quackComponentsFileSpec = createQuackComponentsFileSpec(quackComponents)
+    val aideModifiers = symbols.toDomainWithSimpleNameGroups()
+    val aideModifiersFileSpec = createAideModifiersFileSpec(aideModifiers)
 
     generateBuildOrLocalFile(
         codeGenerator = codeGenerator,
-        fileSpec = quackComponentsFileSpec,
+        fileSpec = aideModifiersFileSpec,
         path = aidePath,
         logger = logger,
         tag = "aide",
@@ -128,24 +146,6 @@ private fun createAideModifiersFileSpec(groupedModifiers: List<Pair<String, Set<
         .addAnnotation(SuppressAnnotation)
         .addProperty(aideModifiers)
         .build()
-}
-
-internal fun generateAideModifiers(
-    codeGenerator: CodeGenerator,
-    logger: KSPLogger,
-    symbols: Sequence<KSFunctionDeclaration>,
-    aidePath: String?,
-) {
-    val aideModifiers = symbols.toDomainWithSimpleNameGroups()
-    val aideModifiersFileSpec = createAideModifiersFileSpec(aideModifiers)
-
-    generateBuildOrLocalFile(
-        codeGenerator = codeGenerator,
-        fileSpec = aideModifiersFileSpec,
-        path = aidePath,
-        logger = logger,
-        tag = "aide",
-    )
 }
 
 private fun Sequence<KSFunctionDeclaration>.toDomainWithSimpleNameGroups(): List<Pair<String, Set<String>>> {

@@ -8,40 +8,11 @@
 package team.duckie.quackquack.aide.processor
 
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
+import team.duckie.quackquack.util.backend.test.stub.AideStub
+import team.duckie.quackquack.util.backend.test.stub.ComposeStub
 
 val stubs = listOf(
-    kotlin(
-        "Modifier.kt",
-        """
-package androidx.compose.ui
-
-interface Modifier { companion object : Modifier }
-        """,
-    ),
-    kotlin(
-        "DecorateModifier.kt",
-        """
-package team.duckie.quackquack.aide.annotation
-
-@MustBeDocumented
-@Target(AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.SOURCE)
-annotation class DecorateModifier
-        """,
-    ),
-    kotlin(
-        "Composable.kt",
-        """
-package androidx.compose.runtime
-
-@Retention(AnnotationRetention.BINARY)
-@Target(
-    AnnotationTarget.FUNCTION,
-    AnnotationTarget.TYPE,
-    AnnotationTarget.TYPE_PARAMETER,
-    AnnotationTarget.PROPERTY_GETTER,
-)
-annotation class Composable
-        """,
-    ),
+    kotlin("Modifier.kt", ComposeStub.Modifier),
+    kotlin("Composable.kt", ComposeStub.Composable),
+    kotlin("DecorateModifier.kt", AideStub.Annotation),
 )

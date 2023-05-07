@@ -14,9 +14,7 @@ internal fun <T> Sequence<T>.singleOrNullStrict(predicate: (T) -> Boolean): T? {
     while (iterator.hasNext()) {
         val element = iterator.next()
         if (predicate(element)) {
-            require(single == null) {
-                "Sequence contains more than one matching element."
-            }
+            require(single == null) { "Sequence contains more than one matching element." }
             single = element
         }
     }
@@ -25,7 +23,7 @@ internal fun <T> Sequence<T>.singleOrNullStrict(predicate: (T) -> Boolean): T? {
 
 internal fun StringBuilder.appendLineWithIndent(
     value: String?,
-    indentSize: Int = 4,
+    indentSize: Int = 2,
 ): StringBuilder {
     return appendLine("${" ".repeat(indentSize)}$value")
 }

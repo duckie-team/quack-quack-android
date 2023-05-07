@@ -29,5 +29,8 @@ dependencies {
         projects.utilBackend.orArtifact(),
     )
     ksp(libs.google.autoservice.ksp.processor)
-    testImplementation(libs.test.kotlin.compilation.core)
+    testImplementations(
+        libs.test.kotlin.compilation.core,
+        projects.utilBackendTest,
+    )
 }

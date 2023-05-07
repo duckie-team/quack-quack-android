@@ -32,6 +32,7 @@ include(
     ":catalog",
     ":util",
     ":util-backend",
+    ":util-backend-test",
     ":runtime",
     ":material",
     ":animation",

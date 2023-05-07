@@ -264,7 +264,7 @@ class SugarIrErrorTest : ExpectSpec() {
                 PluginOption(
                     pluginId = PluginId,
                     optionName = OPTION_POET.optionName,
-                    optionValue = "true",
+                    optionValue = "false",
                 ),
             )
             verbose = false
