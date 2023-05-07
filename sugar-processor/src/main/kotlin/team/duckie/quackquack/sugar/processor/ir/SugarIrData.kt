@@ -26,6 +26,7 @@ import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.sugar.material.Imports
 import team.duckie.quackquack.sugar.material.SugarName
 import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.util.backend.unsafeFqn
 
 /**
  * [SugarIrVisitor]에서 IR을 방문하면서 수집할 정보들을 관리합니다.

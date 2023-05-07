@@ -24,7 +24,9 @@ import org.jetbrains.kotlin.ir.util.hasAnnotation
 import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
 import org.jetbrains.kotlin.utils.addToStdlib.UnsafeCastFunction
 import org.jetbrains.kotlin.utils.addToStdlib.cast
-import team.duckie.quackquack.sugar.processor.Logger
+import team.duckie.quackquack.util.backend.Logger
+import team.duckie.quackquack.util.backend.isQuackComponent
+import team.duckie.quackquack.util.backend.locationOf
 
 internal class SugarIrTransformer(
     @Suppress("unused") private val context: IrPluginContext,

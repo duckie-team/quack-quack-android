@@ -5,9 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:Suppress("unused")
-
-package team.duckie.quackquack.sugar.processor
+package team.duckie.quackquack.util.backend
 
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
@@ -15,33 +13,33 @@ import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSourceLocation
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.config.CompilerConfiguration
 
-internal const val LogPrefix = "sugar-processor"
+public interface Logger {
+    public val tag: String
 
-internal interface Logger {
-    fun warn(value: Any?, location: CompilerMessageSourceLocation? = null)
-    fun error(value: Any?, location: CompilerMessageSourceLocation? = null)
-    fun throwError(value: Any?, location: CompilerMessageSourceLocation? = null): Nothing
+    public fun warn(value: Any?, location: CompilerMessageSourceLocation? = null)
+    public fun error(value: Any?, location: CompilerMessageSourceLocation? = null)
+    public fun throwError(value: Any?, location: CompilerMessageSourceLocation? = null): Nothing
 
-    operator fun invoke(value: Any?, location: CompilerMessageSourceLocation? = null) {
+    public operator fun invoke(value: Any?, location: CompilerMessageSourceLocation? = null) {
         warn(value = value, location = location)
     }
 }
 
-internal fun CompilerConfiguration.getLogger(): Logger {
+public fun CompilerConfiguration.getLogger(tag: String): Logger {
     val messageCollector = get(
         CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY,
         MessageCollector.NONE,
     )
 
     return object : Logger {
+        override val tag = tag
+
         override fun warn(value: Any?, location: CompilerMessageSourceLocation?) {
             messageCollector.report(CompilerMessageSeverity.WARNING, value.toString(), location)
-            println(value) // for test logging
         }
 
         override fun error(value: Any?, location: CompilerMessageSourceLocation?) {
             messageCollector.report(CompilerMessageSeverity.ERROR, value.toString(), location)
-            println(value) // for test logging
         }
 
         override fun throwError(value: Any?, location: CompilerMessageSourceLocation?): Nothing {
@@ -51,5 +49,6 @@ internal fun CompilerConfiguration.getLogger(): Logger {
     }
 }
 
-internal fun Any?.prependLogPrefix(withNewline: Boolean = false) =
-    "[$LogPrefix] ${if (withNewline) "\n$this" else " $this"}"
+context(Logger)
+public fun Any?.prependLogPrefix(withNewline: Boolean = false): String =
+    "[$tag] ${if (withNewline) "\n$this" else " $this"}"

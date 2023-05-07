@@ -10,8 +10,8 @@ package team.duckie.quackquack.sugar.processor.ir
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
-import team.duckie.quackquack.sugar.processor.Logger
 import team.duckie.quackquack.sugar.processor.poet.generateSugarComponentFiles
+import team.duckie.quackquack.util.backend.Logger
 
 internal class SugarIrExtension(
     private val logger: Logger,

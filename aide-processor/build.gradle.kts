@@ -25,6 +25,7 @@ dependencies {
         libs.kotlin.ksp.api,
         libs.kotlin.kotlinpoet.core,
         libs.google.autoservice.annotation,
+        projects.utilBackend.orArtifact(),
     )
     testImplementation(libs.test.kotlin.compilation.ksp)
 }

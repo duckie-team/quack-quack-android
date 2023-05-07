@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.aide.processor
+package team.duckie.quackquack.util.backend
 
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.symbol.KSDeclaration
@@ -13,16 +13,19 @@ import com.google.devtools.ksp.symbol.KSFile
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.Modifier
 
-internal val KSDeclaration.requireContainingFile: KSFile
+/**
+ * [KSDeclaration.containingFile]을 non-null하게 조회합니다.
+ */
+public val KSDeclaration.requireContainingFile: KSFile
     get() = requireNotNull(containingFile) {
         "This($simpleName) symbol didn't come from the source file. " +
                 "Is that symbol in the class file?"
     }
 
-internal val Dependencies.Companion.Empty: Dependencies
+public val Dependencies.Companion.Empty: Dependencies
     get() = Dependencies(aggregating = false)
 
-internal val KSFunctionDeclaration.isPublicQuackComponent: Boolean
+public val KSFunctionDeclaration.isPublicQuackComponent: Boolean
     get() {
         // 1. 공개 함수이고,
         // 2. 함수명이 Quack으로 시작하며,
@@ -32,7 +35,7 @@ internal val KSFunctionDeclaration.isPublicQuackComponent: Boolean
                 returnType.toString() == UnitSn
     }
 
-internal val KSFunctionDeclaration.isPublicModifier: Boolean
+public val KSFunctionDeclaration.isPublicModifier: Boolean
     get() {
         // 1. 공개 함수이고,
         // 2. Modifier의 확장 함수이며,

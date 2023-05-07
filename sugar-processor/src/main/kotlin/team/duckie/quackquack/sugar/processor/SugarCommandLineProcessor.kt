@@ -34,7 +34,7 @@ internal val KEY_POET = CompilerConfigurationKey<String>(
     "Whether to enable sugar components generation - default is true",
 )
 internal val OPTION_POET = CliOption(
-    optionName = "team/duckie/quackquack/sugar/processor/poet",
+    optionName = "poet",
     valueDescription = "<true | false>",
     description = KEY_POET.toString(),
     required = false,
@@ -45,10 +45,7 @@ internal val OPTION_POET = CliOption(
 class SugarCommandLineProcessor : CommandLineProcessor {
     override val pluginId = PluginId
 
-    override val pluginOptions = listOf(
-        OPTION_SUGAR_PATH,
-        OPTION_POET,
-    )
+    override val pluginOptions = listOf(OPTION_SUGAR_PATH, OPTION_POET)
 
     override fun processOption(
         option: AbstractCliOption,

@@ -26,6 +26,7 @@ dependencies {
         libs.kotlin.kotlinpoet.core,
         libs.kotlin.collections.immutable,
         libs.google.autoservice.annotation,
+        projects.utilBackend,
     )
     testImplementation(libs.test.kotlin.compilation.ksp)
 }

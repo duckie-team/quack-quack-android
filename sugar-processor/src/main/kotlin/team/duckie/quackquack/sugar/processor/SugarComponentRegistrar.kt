@@ -20,6 +20,7 @@ import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import team.duckie.quackquack.sugar.processor.ir.SugarIrExtension
 import team.duckie.quackquack.sugar.processor.ir.SugarIrVisitor
+import team.duckie.quackquack.util.backend.getLogger
 
 /**
  * ### Deprecated된 메서드를 사용하는 이유
@@ -58,10 +59,14 @@ class SugarComponentRegistrar : ComponentRegistrar {
         }
 
         private fun CompilerConfiguration.getSugarIrExtension(): SugarIrExtension {
-            val sugarPath = checkNotNull(this[KEY_SUGAR_PATH]) { "sugarPath was missing." }
+            val sugarPath = requireNotNull(this[KEY_SUGAR_PATH]) { "sugarPath was missing." }
             val poet = this[KEY_POET]?.toBooleanStrict() ?: true
 
-            return SugarIrExtension(logger = getLogger(), sugarPath = sugarPath, poet = poet)
+            return SugarIrExtension(
+                logger = getLogger("sugar-processor"),
+                sugarPath = sugarPath,
+                poet = poet,
+            )
         }
     }
 }

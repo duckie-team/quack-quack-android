@@ -5,9 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:Suppress("unused")
-
-package team.duckie.quackquack.sugar.processor.ir
+package team.duckie.quackquack.util.backend
 
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocationWithRange
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSourceLocation
@@ -29,19 +27,22 @@ import org.jetbrains.kotlin.ir.util.hasAnnotation
  * 3. 함수의 반환 타입이 [Unit] 입니다.
  * 4. 함수의 이름이 [Quack][QuackComponentPrefix]으로 시작합니다.
  */
-internal val IrSimpleFunction.isQuackComponent: Boolean
+public val IrSimpleFunction.isQuackComponent: Boolean
     get() = hasAnnotation(ComposableFqn) &&
             visibility.isPublicAPI &&
             returnType.isUnit() &&
             name.asString().startsWith(QuackComponentPrefix)
 
-internal val IrType.unsafeFqn: String
+/**
+ * [IrType.classFqName]을 non-null하게 조회합니다.
+ * */
+public val IrType.unsafeFqn: String
     get() = classFqName!!.asString()
 
 /**
  * 주어진 파일 내에서 [irElement]의 위치를 조최합니다.
  */
-internal fun IrFile.locationOf(irElement: IrElement?): CompilerMessageSourceLocation {
+public fun IrFile.locationOf(irElement: IrElement?): CompilerMessageSourceLocation {
     val sourceRangeInfo = fileEntry.getSourceRangeInfo(
         beginOffset = irElement?.startOffset ?: SYNTHETIC_OFFSET,
         endOffset = irElement?.endOffset ?: SYNTHETIC_OFFSET,

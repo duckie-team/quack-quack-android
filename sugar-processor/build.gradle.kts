@@ -26,6 +26,7 @@ dependencies {
         libs.kotlin.kotlinpoet.core,
         projects.casaAnnotation.orArtifact(),
         projects.sugarMaterial.orArtifact(),
+        projects.utilBackend.orArtifact(),
     )
     ksp(libs.google.autoservice.ksp.processor)
     testImplementation(libs.test.kotlin.compilation.core)

@@ -13,6 +13,8 @@ import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.validate
+import team.duckie.quackquack.util.backend.isPublicModifier
+import team.duckie.quackquack.util.backend.isPublicQuackComponent
 
 internal class AideProcessor(
     private val codeGenerator: CodeGenerator,

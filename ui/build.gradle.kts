@@ -52,7 +52,7 @@ android {
 }
 
 ksp {
-    arg("AidePath", "$rootDir/aide/src/main/kotlin/rule")
+    arg("AidePath", "$rootDir/aide/src/main/kotlin/team/duckie/quackquack/aide/rule")
     arg("CasaPath", "$rootDir/catalog/src/main/kotlin/team/duckie/quackquack/catalog")
 }
 
@@ -87,7 +87,7 @@ dependencies {
     // Found more than one jar in the 'lintPublish' configuration. (compose lint)
     // lintPublish(projects.aide.orArtifact())
 
-    if (!useArtifact) {
+    safeRunWithinDevelopmentMode {
         ksps(
             projects.aideProcessor,
             projects.casaProcessor,
