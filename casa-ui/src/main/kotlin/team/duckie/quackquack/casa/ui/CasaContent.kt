@@ -38,103 +38,103 @@ import team.duckie.quackquack.casa.material.CasaModel
 
 @Composable
 internal fun CasaContent(
-    modifier: Modifier = Modifier,
-    models: ImmutableList<CasaModel>,
-    selectedDomains: List<String>,
-    lazyListState: LazyListState,
-    onClick: (model: CasaModel) -> Unit,
+  modifier: Modifier = Modifier,
+  models: ImmutableList<CasaModel>,
+  selectedDomains: List<String>,
+  lazyListState: LazyListState,
+  onClick: (model: CasaModel) -> Unit,
 ) {
-    val groupedModels = remember(models) {
-        models.groupBy(CasaModel::domain)
-    }
+  val groupedModels = remember(models) {
+    models.groupBy(CasaModel::domain)
+  }
 
-    // TODO(3): fading edge
-    LazyColumn(
-        modifier = modifier,
-        state = lazyListState,
-        contentPadding = PaddingValues(vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        groupedModels.forEach { (domain, models) ->
-            if (selectedDomains.size != 1) {
-                @Suppress("RemoveEmptyParenthesesFromLambdaCall")
-                stickyHeader(
-                    // error: key was already used
-                    // key = domain,
-                ) {
-                    DomainHeader(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(color = MaterialTheme.colorScheme.background)
-                            .padding(horizontal = 16.dp),
-                        domain = domain,
-                    )
-                }
-            }
-
-            items(
-                items = models,
-                key = { model -> model.name },
-            ) { model ->
-                ModelCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .animateItemPlacement(spring())
-                        .padding(horizontal = 16.dp),
-                    model = model,
-                    onClick = {
-                        onClick(model)
-                    },
-                )
-            }
+  // TODO(3): fading edge
+  LazyColumn(
+    modifier = modifier,
+    state = lazyListState,
+    contentPadding = PaddingValues(vertical = 16.dp),
+    verticalArrangement = Arrangement.spacedBy(16.dp),
+  ) {
+    groupedModels.forEach { (domain, models) ->
+      if (selectedDomains.size != 1) {
+        @Suppress("RemoveEmptyParenthesesFromLambdaCall")
+        stickyHeader(
+          // error: key was already used
+          // key = domain,
+        ) {
+          DomainHeader(
+            modifier = Modifier
+              .fillMaxWidth()
+              .background(color = MaterialTheme.colorScheme.background)
+              .padding(horizontal = 16.dp),
+            domain = domain,
+          )
         }
+      }
+
+      items(
+        items = models,
+        key = { model -> model.name },
+      ) { model ->
+        ModelCard(
+          modifier = Modifier
+            .fillMaxWidth()
+            .animateItemPlacement(spring())
+            .padding(horizontal = 16.dp),
+          model = model,
+          onClick = {
+            onClick(model)
+          },
+        )
+      }
     }
+  }
 }
 
 @Composable
 private fun DomainHeader(
-    modifier: Modifier = Modifier,
-    domain: String,
+  modifier: Modifier = Modifier,
+  domain: String,
 ) {
-    Text(
-        modifier = modifier,
-        text = domain,
-        style = MaterialTheme.typography.titleLarge,
-    )
+  Text(
+    modifier = modifier,
+    text = domain,
+    style = MaterialTheme.typography.titleLarge,
+  )
 }
 
 @Composable
 private fun ModelCard(
-    modifier: Modifier = Modifier,
-    model: CasaModel,
-    onClick: () -> Unit,
+  modifier: Modifier = Modifier,
+  model: CasaModel,
+  onClick: () -> Unit,
 ) {
-    ElevatedCard(
-        modifier = modifier,
-        onClick = onClick,
+  ElevatedCard(
+    modifier = modifier,
+    onClick = onClick,
+  ) {
+    Column(
+      modifier = Modifier.padding(16.dp),
+      verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = model.name,
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Icon(
-                    imageVector = Icons.Rounded.KeyboardArrowRight,
-                    contentDescription = "Forward",
-                )
-            }
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = model.kdocDefaultSection,
-            )
-        }
+      Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+      ) {
+        Text(
+          text = model.name,
+          style = MaterialTheme.typography.titleMedium,
+        )
+        Icon(
+          imageVector = Icons.Rounded.KeyboardArrowRight,
+          contentDescription = "Forward",
+        )
+      }
+      Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = model.kdocDefaultSection,
+      )
     }
+  }
 }

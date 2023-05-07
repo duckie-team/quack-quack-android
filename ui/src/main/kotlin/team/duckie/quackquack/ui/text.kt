@@ -21,7 +21,6 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
@@ -40,22 +39,21 @@ import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 /**
  * `Modifier.highlight`에 들어가는 하이라이트 아이템을 [Pair]로 나타냅니다.
  *
- * 하이라이트 대상 문자열을 나타내는 `String`과,
- * 하이라이트 문자열을 눌렀을 때 실행될 `(text: String) -> Unit` 람다로 구성돼 있습니다.
- * 람다 속 `text` 인자는 클릭된 문자열을 반환합니다.
+ * 하이라이트 대상 문자열을 나타내는 `String`과, 하이라이트 문자열을 눌렀을 때 실행될 `(text: String) ->
+ * Unit` 람다로 구성돼 있습니다. 람다 속 `text` 인자는 클릭된 문자열을 반환합니다.
  */
 public typealias HighlightText = Pair<String, ((text: String) -> Unit)?>
 
 @Stable
 private data class TextSpanData(
-    val texts: List<String>,
-    val style: SpanStyle,
+  val texts: List<String>,
+  val style: SpanStyle,
 ) : QuackDataModifierModel
 
 @Stable
 private data class TextHighlightData(
-    val highlights: List<HighlightText>,
-    val span: SpanStyle,
+  val highlights: List<HighlightText>,
+  val span: SpanStyle,
 ) : QuackDataModifierModel
 
 /**
@@ -67,16 +65,16 @@ private data class TextHighlightData(
 @DecorateModifier
 @Stable
 public fun Modifier.span(
-    texts: List<String>,
-    style: SpanStyle,
+  texts: List<String>,
+  style: SpanStyle,
 ): Modifier = inspectable(
-    inspectorInfo = debugInspectorInfo {
-        name = "span"
-        properties["texts"] = texts
-        properties["style"] = style
-    },
+  inspectorInfo = debugInspectorInfo {
+    name = "span"
+    properties["texts"] = texts
+    properties["style"] = style
+  },
 ) {
-    TextSpanData(texts = texts, style = style)
+  TextSpanData(texts = texts, style = style)
 }
 
 /**
@@ -88,19 +86,19 @@ public fun Modifier.span(
 @DecorateModifier
 @Stable
 public fun Modifier.highlight(
-    highlights: List<HighlightText>,
-    span: SpanStyle = SpanStyle(
-        color = QuackColor.DuckieOrange.value,
-        fontWeight = FontWeight.SemiBold,
-    ),
+  highlights: List<HighlightText>,
+  span: SpanStyle = SpanStyle(
+    color = QuackColor.DuckieOrange.value,
+    fontWeight = FontWeight.SemiBold,
+  ),
 ): Modifier = inspectable(
-    inspectorInfo = debugInspectorInfo {
-        name = "highlight"
-        properties["highlights"] = highlights
-        properties["span"] = span
-    },
+  inspectorInfo = debugInspectorInfo {
+    name = "highlight"
+    properties["highlights"] = highlights
+    properties["span"] = span
+  },
 ) {
-    TextHighlightData(highlights = highlights, span = span)
+  TextHighlightData(highlights = highlights, span = span)
 }
 
 /**
@@ -113,30 +111,30 @@ public fun Modifier.highlight(
 @DecorateModifier
 @Stable
 public fun Modifier.highlight(
-    texts: List<String>,
-    span: SpanStyle = SpanStyle(
-        color = QuackColor.DuckieOrange.value,
-        fontWeight = FontWeight.SemiBold,
-    ),
-    globalOnClick: (text: String) -> Unit,
+  texts: List<String>,
+  span: SpanStyle = SpanStyle(
+    color = QuackColor.DuckieOrange.value,
+    fontWeight = FontWeight.SemiBold,
+  ),
+  globalOnClick: (text: String) -> Unit,
 ): Modifier = inspectable(
-    inspectorInfo = debugInspectorInfo {
-        name = "highlight"
-        properties["texts"] = texts
-        properties["span"] = span
-    },
+  inspectorInfo = debugInspectorInfo {
+    name = "highlight"
+    properties["texts"] = texts
+    properties["span"] = span
+  },
 ) {
-    quackComposed {
-        val highlights = remember(texts, globalOnClick) {
-            texts.fastMap { text -> HighlightText(text, globalOnClick) }
-        }
-        TextHighlightData(highlights = highlights, span = span)
+  quackComposed {
+    val highlights = remember(texts, globalOnClick) {
+      texts.fastMap { text -> HighlightText(text, globalOnClick) }
     }
+    TextHighlightData(highlights = highlights, span = span)
+  }
 }
 
 @VisibleForTesting
 internal object QuackTextErrors {
-    const val CannotUseSpanAndHighlightAtSameTime = "Modifier.span과 Modifier.highlight는 같이 사용될 수 없습니다."
+  const val CannotUseSpanAndHighlightAtSameTime = "Modifier.span과 Modifier.highlight는 같이 사용될 수 없습니다."
 }
 
 /**
@@ -144,120 +142,119 @@ internal object QuackTextErrors {
  *
  * @param text 그릴 텍스트
  * @param typography 텍스트를 그릴 때 사용할 타이포그래피
- * @param singleLine 텍스트가 한 줄로 그려질 지 여부.
- * 텍스트가 주어진 줄 수를 초과하면 [softWrap] 및 [overflow]에 따라 잘립니다.
- * @param softWrap 텍스트에 softwrap break를 적용할지 여부.
- * `false`이면 텍스트 글리프가 가로 공간이 무제한인 것처럼 배치됩니다.
- * 또한 [overflow] 및 [TextAlign]에 예기치 않은 효과가 발생할 수 있습니다.
+ * @param singleLine 텍스트가 한 줄로 그려질 지 여부. 텍스트가 주어진 줄 수를 초과하면 [softWrap] 및
+ *     [overflow]에 따라 잘립니다.
+ * @param softWrap 텍스트에 softwrap break를 적용할지 여부. `false`이면 텍스트 글리프가 가로 공간이
+ *     무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
  */
 @SugarName(SugarName.PREFIX_NAME + SugarName.TOKEN_NAME)
 @Composable
 public fun QuackText(
-    modifier: Modifier = Modifier,
-    @CasaValue("\"QuackText\"") text: String,
-    @SugarToken typography: QuackTypography,
-    singleLine: Boolean = false,
-    softWrap: Boolean = true,
-    overflow: TextOverflow = TextOverflow.Ellipsis,
+  modifier: Modifier = Modifier,
+  @CasaValue("\"QuackText\"") text: String,
+  @SugarToken typography: QuackTypography,
+  singleLine: Boolean = false,
+  softWrap: Boolean = true,
+  overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
-    val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier)
-    val spanData = remember(quackDataModels) {
-        quackDataModels.fastFirstIsInstanceOrNull<TextSpanData>()
-    }
-    val highlightData = remember(quackDataModels) {
-        quackDataModels.fastFirstIsInstanceOrNull<TextHighlightData>()
-    }
+  val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier)
+  val spanData = remember(quackDataModels) {
+    quackDataModels.fastFirstIsInstanceOrNull<TextSpanData>()
+  }
+  val highlightData = remember(quackDataModels) {
+    quackDataModels.fastFirstIsInstanceOrNull<TextHighlightData>()
+  }
 
-    if (highlightData != null && spanData != null) {
-        error(QuackTextErrors.CannotUseSpanAndHighlightAtSameTime)
-    }
+  if (highlightData != null && spanData != null) {
+    error(QuackTextErrors.CannotUseSpanAndHighlightAtSameTime)
+  }
 
-    val maxLines = if (singleLine) 1 else Int.MAX_VALUE
+  val maxLines = if (singleLine) 1 else Int.MAX_VALUE
 
-    val inspectableModifier = composeModifier.wrappedDebugInspectable {
-        name = "QuackText"
-        properties["text"] = text
-        properties["typography"] = typography
-        properties["singleLine"] = singleLine
-        properties["softWrap"] = softWrap
-        properties["overflow"] = overflow
-    }
+  val inspectableModifier = composeModifier.wrappedDebugInspectable {
+    name = "QuackText"
+    properties["text"] = text
+    properties["typography"] = typography
+    properties["singleLine"] = singleLine
+    properties["softWrap"] = softWrap
+    properties["overflow"] = overflow
+  }
 
-    if (spanData != null) {
-        BasicText(
-            modifier = inspectableModifier,
-            text = rememberSpanAnnotatedString(
-                text = text,
-                spanTexts = spanData.texts,
-                spanStyle = spanData.style,
-                annotationTexts = emptyList(),
-            ),
-            style = typography.asComposeStyle(),
-            overflow = overflow,
-            softWrap = softWrap,
-            maxLines = maxLines,
-        )
-    } else if (highlightData != null) {
-        QuackClickableText(
-            modifier = inspectableModifier,
-            text = text,
-            highlightData = highlightData,
-            style = typography,
-            overflow = overflow,
-            softWrap = softWrap,
-            maxLines = maxLines,
-        )
-    } else {
-        BasicText(
-            modifier = inspectableModifier,
-            text = text,
-            style = typography.asComposeStyle(),
-            overflow = overflow,
-            softWrap = softWrap,
-            maxLines = maxLines,
-        )
-    }
+  if (spanData != null) {
+    BasicText(
+      modifier = inspectableModifier,
+      text = rememberSpanAnnotatedString(
+        text = text,
+        spanTexts = spanData.texts,
+        spanStyle = spanData.style,
+        annotationTexts = emptyList(),
+      ),
+      style = typography.asComposeStyle(),
+      overflow = overflow,
+      softWrap = softWrap,
+      maxLines = maxLines,
+    )
+  } else if (highlightData != null) {
+    QuackClickableText(
+      modifier = inspectableModifier,
+      text = text,
+      highlightData = highlightData,
+      style = typography,
+      overflow = overflow,
+      softWrap = softWrap,
+      maxLines = maxLines,
+    )
+  } else {
+    BasicText(
+      modifier = inspectableModifier,
+      text = text,
+      style = typography.asComposeStyle(),
+      overflow = overflow,
+      softWrap = softWrap,
+      maxLines = maxLines,
+    )
+  }
 }
 
 @Composable
 private fun QuackClickableText(
-    modifier: Modifier,
-    text: String,
-    highlightData: TextHighlightData,
-    style: QuackTypography,
-    softWrap: Boolean,
-    overflow: TextOverflow,
-    maxLines: Int,
+  modifier: Modifier,
+  text: String,
+  highlightData: TextHighlightData,
+  style: QuackTypography,
+  softWrap: Boolean,
+  overflow: TextOverflow,
+  maxLines: Int,
 ) {
-    val highlightTexts = highlightData.highlights.fastMap(Pair<String, *>::first)
-    val annotatedText = rememberSpanAnnotatedString(
-        text = text,
-        spanTexts = highlightTexts,
-        spanStyle = highlightData.span,
-        annotationTexts = highlightTexts,
-    )
+  val highlightTexts = highlightData.highlights.fastMap(Pair<String, *>::first)
+  val annotatedText = rememberSpanAnnotatedString(
+    text = text,
+    spanTexts = highlightTexts,
+    spanStyle = highlightData.span,
+    annotationTexts = highlightTexts,
+  )
 
-    ClickableText(
-        modifier = modifier,
-        text = annotatedText,
-        style = style.asComposeStyle(),
-        onClick = { offset ->
-            highlightData.highlights.fastForEach { (text, onClick) ->
-                val annotations = annotatedText.getStringAnnotations(
-                    tag = text,
-                    start = offset,
-                    end = offset,
-                )
-                if (annotations.isNotEmpty() && onClick != null) {
-                    onClick(text)
-                }
-            }
-        },
-        softWrap = softWrap,
-        overflow = overflow,
-        maxLines = maxLines,
-    )
+  ClickableText(
+    modifier = modifier,
+    text = annotatedText,
+    style = style.asComposeStyle(),
+    onClick = { offset ->
+      highlightData.highlights.fastForEach { (text, onClick) ->
+        val annotations = annotatedText.getStringAnnotations(
+          tag = text,
+          start = offset,
+          end = offset,
+        )
+        if (annotations.isNotEmpty() && onClick != null) {
+          onClick(text)
+        }
+      }
+    },
+    softWrap = softWrap,
+    overflow = overflow,
+    maxLines = maxLines,
+  )
 }
 
 /**
@@ -270,35 +267,35 @@ private fun QuackClickableText(
 @Stable
 @Composable
 private fun rememberSpanAnnotatedString(
-    text: String,
-    spanTexts: List<String>,
-    spanStyle: SpanStyle,
-    annotationTexts: List<String>,
+  text: String,
+  spanTexts: List<String>,
+  spanStyle: SpanStyle,
+  annotationTexts: List<String>,
 ): AnnotatedString {
-    return remember(text, spanTexts, spanStyle) {
-        buildAnnotatedString {
-            append(text)
-            spanTexts.fastForEach { spanText ->
-                val spanStartIndex = text.indexOf(spanText)
-                if (spanStartIndex != -1) {
-                    addStyle(
-                        style = spanStyle,
-                        start = spanStartIndex,
-                        end = spanStartIndex + spanText.length,
-                    )
-                }
-            }
-            annotationTexts.fastForEach { annotationText ->
-                val annotationStartIndex = text.indexOf(annotationText)
-                if (annotationStartIndex != -1) {
-                    addStringAnnotation(
-                        tag = annotationText,
-                        start = annotationStartIndex,
-                        end = annotationStartIndex + annotationText.length,
-                        annotation = annotationText,
-                    )
-                }
-            }
+  return remember(text, spanTexts, spanStyle) {
+    buildAnnotatedString {
+      append(text)
+      spanTexts.fastForEach { spanText ->
+        val spanStartIndex = text.indexOf(spanText)
+        if (spanStartIndex != -1) {
+          addStyle(
+            style = spanStyle,
+            start = spanStartIndex,
+            end = spanStartIndex + spanText.length,
+          )
         }
+      }
+      annotationTexts.fastForEach { annotationText ->
+        val annotationStartIndex = text.indexOf(annotationText)
+        if (annotationStartIndex != -1) {
+          addStringAnnotation(
+            tag = annotationText,
+            start = annotationStartIndex,
+            end = annotationStartIndex + annotationText.length,
+            annotation = annotationText,
+          )
+        }
+      }
     }
+  }
 }

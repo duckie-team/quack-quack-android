@@ -39,114 +39,114 @@ import team.duckie.quackquack.casa.material.CasaModel
 
 @Composable
 public fun CasaTopBar(
-    modifier: Modifier = Modifier,
-    selectedModel: CasaModel? = null,
-    casaConfig: CasaConfig,
-    onSearch: () -> Unit = {},
-    onBackClick: () -> Unit = {},
+  modifier: Modifier = Modifier,
+  selectedModel: CasaModel? = null,
+  casaConfig: CasaConfig,
+  onSearch: () -> Unit = {},
+  onBackClick: () -> Unit = {},
 ) {
-    var menuExpanded by remember { mutableStateOf(false) }
+  var menuExpanded by remember { mutableStateOf(false) }
 
-    TopAppBar(
-        modifier = modifier,
-        title = {
-            Text(
-                text = selectedModel?.name ?: casaConfig.casaName,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+  TopAppBar(
+    modifier = modifier,
+    title = {
+      Text(
+        text = selectedModel?.name ?: casaConfig.casaName,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+      )
+    },
+    actions = {
+      Box {
+        Row {
+          if (selectedModel == null) {
+            IconButton(onClick = onSearch) {
+              Icon(
+                imageVector = Icons.Rounded.Search,
+                contentDescription = "Search",
+              )
+            }
+          }
+          IconButton(onClick = { menuExpanded = true }) {
+            Icon(
+              imageVector = Icons.Rounded.MoreVert,
+              contentDescription = "Menu",
             )
-        },
-        actions = {
-            Box {
-                Row {
-                    if (selectedModel == null) {
-                        IconButton(onClick = onSearch) {
-                            Icon(
-                                imageVector = Icons.Rounded.Search,
-                                contentDescription = "Search",
-                            )
-                        }
-                    }
-                    IconButton(onClick = { menuExpanded = true }) {
-                        Icon(
-                            imageVector = Icons.Rounded.MoreVert,
-                            contentDescription = "Menu",
-                        )
-                    }
-                }
-                DropdownMenu(
-                    expanded = menuExpanded,
-                    onDismissRequest = {
-                        menuExpanded = false
-                    },
-                ) {
-                    val sourceUrl = selectedModel?.toSourceUrl(casaConfig) ?: casaConfig.baseSourceUrl
+          }
+        }
+        DropdownMenu(
+          expanded = menuExpanded,
+          onDismissRequest = {
+            menuExpanded = false
+          },
+        ) {
+          val sourceUrl = selectedModel?.toSourceUrl(casaConfig) ?: casaConfig.baseSourceUrl
 
-                    CasaTopBarDropdownMenuContent(
-                        sourceUrl = sourceUrl,
-                        casaConfig = casaConfig,
-                        updateMenuExpanded = { expanded ->
-                            menuExpanded = expanded
-                        },
-                    )
-                }
-            }
-        },
-        navigationIcon = {
-            if (selectedModel != null) {
-                IconButton(onClick = onBackClick) {
-                    Icon(
-                        imageVector = Icons.Rounded.ArrowBack,
-                        contentDescription = "Back",
-                    )
-                }
-            }
-        },
-    )
+          CasaTopBarDropdownMenuContent(
+            sourceUrl = sourceUrl,
+            casaConfig = casaConfig,
+            updateMenuExpanded = { expanded ->
+              menuExpanded = expanded
+            },
+          )
+        }
+      }
+    },
+    navigationIcon = {
+      if (selectedModel != null) {
+        IconButton(onClick = onBackClick) {
+          Icon(
+            imageVector = Icons.Rounded.ArrowBack,
+            contentDescription = "Back",
+          )
+        }
+      }
+    },
+  )
 }
 
 @Suppress("UnusedReceiverParameter")
 @Composable
 private fun ColumnScope.CasaTopBarDropdownMenuContent(
-    sourceUrl: String,
-    casaConfig: CasaConfig,
-    updateMenuExpanded: (expand: Boolean) -> Unit,
+  sourceUrl: String,
+  casaConfig: CasaConfig,
+  updateMenuExpanded: (expand: Boolean) -> Unit,
 ) {
-    val context = LocalContext.current
+  val context = LocalContext.current
 
-    DropdownMenuItem(
-        onClick = {
-            context.launchUrl(sourceUrl)
-            updateMenuExpanded(false)
-        },
-        text = {
-            Text(text = "Source code")
-        },
-    )
-    DropdownMenuItem(
-        onClick = {
-            context.launchUrl(casaConfig.bugReportUrl)
-            updateMenuExpanded(false)
-        },
-        text = {
-            Text(text = "Report bug")
-        },
-    )
-    DropdownMenuItem(
-        onClick = {
-            updateMenuExpanded(false)
-            // TODO(2): 오픈소스 라이선스
-        },
-        text = {
-            Text(text = "Opensource license")
-        },
-    )
+  DropdownMenuItem(
+    onClick = {
+      context.launchUrl(sourceUrl)
+      updateMenuExpanded(false)
+    },
+    text = {
+      Text(text = "Source code")
+    },
+  )
+  DropdownMenuItem(
+    onClick = {
+      context.launchUrl(casaConfig.bugReportUrl)
+      updateMenuExpanded(false)
+    },
+    text = {
+      Text(text = "Report bug")
+    },
+  )
+  DropdownMenuItem(
+    onClick = {
+      updateMenuExpanded(false)
+      // TODO(2): 오픈소스 라이선스
+    },
+    text = {
+      Text(text = "Opensource license")
+    },
+  )
 }
 
 private fun Context.launchUrl(url: String) {
-    startActivity(
-        Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        },
-    )
+  startActivity(
+    Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+      addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    },
+  )
 }

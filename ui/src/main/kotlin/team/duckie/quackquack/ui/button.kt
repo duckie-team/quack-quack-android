@@ -9,10 +9,6 @@ package team.duckie.quackquack.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -29,7 +25,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.node.LayoutModifierNode
 import androidx.compose.ui.platform.InspectorInfo
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.platform.inspectable
@@ -69,304 +64,311 @@ import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 @QuackDsl
 public interface ButtonStyleMarker
 
-/**
- * 기본으로 제공되는 [ButtonStyleMarker]의 스팩들에서 공통되는 필드를 나타냅니다.
- */
+/** 기본으로 제공되는 [ButtonStyleMarker]의 스팩들에서 공통되는 필드를 나타냅니다. */
 @Immutable
 public interface QuackButtonStyle<T : ButtonStyleMarker> {
-    /** 사용할 색상들 */
-    public val colors: QuackButtonColors
+  /** 사용할 색상들 */
+  public val colors: QuackButtonColors
 
-    /** 모서리의 둥글기 정도 */
-    public val radius: Dp
+  /** 모서리의 둥글기 정도 */
+  public val radius: Dp
 
-    /** 컨텐츠 주변에 들어갈 패딩 */
-    public val contentPadding: QuackPadding
+  /** 컨텐츠 주변에 들어갈 패딩 */
+  public val contentPadding: QuackPadding
 
-    /** 배치되는 아이콘과 텍스트 사이의 간격 */
-    public val iconSpacedBy: Dp
+  /** 배치되는 아이콘과 텍스트 사이의 간격 */
+  public val iconSpacedBy: Dp
 
-    /** 테두리의 굵기  */
-    public val borderThickness: Dp
+  /** 테두리의 굵기 */
+  public val borderThickness: Dp
 
-    /** 활성화 상태에서 표시될 텍스트의 타이포그래피 */
-    public val typography: QuackTypography
+  /** 활성화 상태에서 표시될 텍스트의 타이포그래피 */
+  public val typography: QuackTypography
 
-    /** 비활성화 상태에서 표시될 텍스트의 타이포그래피 */
-    public val disabledTypography: QuackTypography
+  /** 비활성화 상태에서 표시될 텍스트의 타이포그래피 */
+  public val disabledTypography: QuackTypography
 
-    /** 필드에 mutation을 적용하는 람다 */
+  /** 필드에 mutation을 적용하는 람다 */
+  @Stable
+  public operator fun invoke(styleBuilder: T.() -> Unit): T
+
+  public companion object {
+    /** 기본으로 정의된 스팩 중 [QuackLargeButtonDefaults]를 가져옵니다. */
     @Stable
-    public operator fun invoke(styleBuilder: T.() -> Unit): T
+    public val Large: QuackButtonStyle<QuackLargeButtonDefaults> get() = QuackLargeButtonDefaults()
 
-    public companion object {
-        /** 기본으로 정의된 스팩 중 [QuackLargeButtonDefaults]를 가져옵니다. */
-        @Stable
-        public val Large: QuackButtonStyle<QuackLargeButtonDefaults> get() = QuackLargeButtonDefaults()
+    /** 기본으로 정의된 스팩 중 [QuackMediumButtonDefaults]를 가져옵니다. */
+    @Stable
+    public val Medium: QuackButtonStyle<QuackMediumButtonDefaults> get() = QuackMediumButtonDefaults()
 
-        /** 기본으로 정의된 스팩 중 [QuackMediumButtonDefaults]를 가져옵니다. */
-        @Stable
-        public val Medium: QuackButtonStyle<QuackMediumButtonDefaults> get() = QuackMediumButtonDefaults()
-
-        /** 기본으로 정의된 스팩 중 [QuackSmallButtonDefaults]를 가져옵니다. */
-        // TODO(3): 데코레이터 모디파이어 사용 금지 린트 제공
-        @Stable
-        public val Small: QuackButtonStyle<QuackSmallButtonDefaults> get() = QuackSmallButtonDefaults()
-    }
+    /** 기본으로 정의된 스팩 중 [QuackSmallButtonDefaults]를 가져옵니다. */
+    // TODO(3): 데코레이터 모디파이어 사용 금지 린트 제공
+    @Stable
+    public val Small: QuackButtonStyle<QuackSmallButtonDefaults> get() = QuackSmallButtonDefaults()
+  }
 }
 
-/**
- * [QuackButtonStyle]의 필드들을 [InspectorInfo]로 기록합니다.
- */
+/** [QuackButtonStyle]의 필드들을 [InspectorInfo]로 기록합니다. */
 @SuppressLint("ModifierFactoryExtensionFunction")
 @Stable
 private fun QuackButtonStyle<*>.wrappedDebugInspectable(baseline: Modifier): Modifier =
-    baseline.wrappedDebugInspectable {
-        name = toString()
-        properties["colors"] = colors
-        properties["radius"] = radius
-        properties["contentPadding"] = contentPadding
-        properties["iconSpacedBy"] = iconSpacedBy
-        properties["borderThickness"] = borderThickness
-        properties["typography"] = typography
-        properties["disabledTypography"] = disabledTypography
-    }
+  baseline.wrappedDebugInspectable {
+    name = toString()
+    properties["colors"] = colors
+    properties["radius"] = radius
+    properties["contentPadding"] = contentPadding
+    properties["iconSpacedBy"] = iconSpacedBy
+    properties["borderThickness"] = borderThickness
+    properties["typography"] = typography
+    properties["disabledTypography"] = disabledTypography
+  }
 
 /**
  * 버튼에서 사용할 색상들을 정의합니다.
  *
  * @param backgroundColor 활성화 상태의 배경 색상
  * @param disabledBackgroundColor 비활성화 상태의 배경 색상
- * @param contentColor 활성화 상태의 컨텐츠 색상 (아이콘 색상은 [iconColor]로
- * 관리되며, 컨텐츠라 하면 대부분 버튼의 텍스트를 의미합니다.)
- * @param disabledBorderColor 비활성화 상태의 컨텐츠 색상 (아이콘 색상은
- * [iconColor]로 관리되며, 컨텐츠라 하면 대부분 버튼의 텍스트를 의미합니다.)
+ * @param contentColor 활성화 상태의 컨텐츠 색상 (아이콘 색상은 [iconColor]로 관리되며, 컨텐츠라 하면
+ *     대부분 버튼의 텍스트를 의미합니다.)
+ * @param disabledBorderColor 비활성화 상태의 컨텐츠 색상 (아이콘 색상은 [iconColor]로 관리되며,
+ *     컨텐츠라 하면 대부분 버튼의 텍스트를 의미합니다.)
  * @param iconColor 활성화 상태에 관계 없이 항상 사용할 아이콘 색상
  * @param rippleColor 활성화 상태에 관계 없이 항상 사용할 리플 색상
  */
 @Immutable
 public class QuackButtonColors internal constructor(
-    internal val backgroundColor: QuackColor,
-    internal val disabledBackgroundColor: QuackColor,
-    internal val contentColor: QuackColor,
-    internal val disabledContentColor: QuackColor,
-    internal val borderColor: QuackColor,
-    internal val disabledBorderColor: QuackColor,
-    internal val iconColor: QuackColor,
-    internal val rippleColor: QuackColor,
+  internal val backgroundColor: QuackColor,
+  internal val disabledBackgroundColor: QuackColor,
+  internal val contentColor: QuackColor,
+  internal val disabledContentColor: QuackColor,
+  internal val borderColor: QuackColor,
+  internal val disabledBorderColor: QuackColor,
+  internal val iconColor: QuackColor,
+  internal val rippleColor: QuackColor,
 ) {
-    /**
-     * 기존 색상에서 일부 값만 변경하여 새로운 인스턴스를 반환합니다.
-     */
-    @Stable
-    internal fun copy(
-        backgroundColor: QuackColor = this.backgroundColor,
-        disabledBackgroundColor: QuackColor = this.disabledBackgroundColor,
-        contentColor: QuackColor = this.contentColor,
-        disabledContentColor: QuackColor = this.disabledContentColor,
-        borderColor: QuackColor = this.borderColor,
-        disabledBorderColor: QuackColor = this.disabledBorderColor,
-        iconColor: QuackColor = this.iconColor,
-        rippleColor: QuackColor = this.rippleColor,
-    ): QuackButtonColors {
-        return QuackButtonColors(
-            backgroundColor = backgroundColor,
-            disabledBackgroundColor = disabledBackgroundColor,
-            contentColor = contentColor,
-            disabledContentColor = disabledContentColor,
-            borderColor = borderColor,
-            disabledBorderColor = disabledBorderColor,
-            iconColor = iconColor,
-            rippleColor = rippleColor,
-        )
-    }
+  /** 기존 색상에서 일부 값만 변경하여 새로운 인스턴스를 반환합니다. */
+  @Stable
+  internal fun copy(
+    backgroundColor: QuackColor = this.backgroundColor,
+    disabledBackgroundColor: QuackColor = this.disabledBackgroundColor,
+    contentColor: QuackColor = this.contentColor,
+    disabledContentColor: QuackColor = this.disabledContentColor,
+    borderColor: QuackColor = this.borderColor,
+    disabledBorderColor: QuackColor = this.disabledBorderColor,
+    iconColor: QuackColor = this.iconColor,
+    rippleColor: QuackColor = this.rippleColor,
+  ): QuackButtonColors {
+    return QuackButtonColors(
+      backgroundColor = backgroundColor,
+      disabledBackgroundColor = disabledBackgroundColor,
+      contentColor = contentColor,
+      disabledContentColor = disabledContentColor,
+      borderColor = borderColor,
+      disabledBorderColor = disabledBorderColor,
+      iconColor = iconColor,
+      rippleColor = rippleColor,
+    )
+  }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is QuackButtonColors) return false
+  @Suppress("RedundantIf")
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (other !is QuackButtonColors) return false
 
-        if (backgroundColor != other.backgroundColor) return false
-        if (disabledBackgroundColor != other.disabledBackgroundColor) return false
-        if (contentColor != other.contentColor) return false
-        if (disabledContentColor != other.disabledContentColor) return false
-        if (borderColor != other.borderColor) return false
-        if (disabledBorderColor != other.disabledBorderColor) return false
-        if (iconColor != other.iconColor) return false
+    if (backgroundColor != other.backgroundColor) return false
+    if (disabledBackgroundColor != other.disabledBackgroundColor) return false
+    if (contentColor != other.contentColor) return false
+    if (disabledContentColor != other.disabledContentColor) return false
+    if (borderColor != other.borderColor) return false
+    if (disabledBorderColor != other.disabledBorderColor) return false
+    if (iconColor != other.iconColor) return false
+    if (rippleColor != other.rippleColor) return false
 
-        @Suppress("RedundantIf")
-        if (rippleColor != other.rippleColor) return false
+    return true
+  }
 
-        return true
-    }
+  override fun hashCode(): Int {
+    var result = backgroundColor.hashCode()
+    result = 31 * result + disabledBackgroundColor.hashCode()
+    result = 31 * result + contentColor.hashCode()
+    result = 31 * result + disabledContentColor.hashCode()
+    result = 31 * result + borderColor.hashCode()
+    result = 31 * result + disabledBorderColor.hashCode()
+    result = 31 * result + iconColor.hashCode()
+    result = 31 * result + rippleColor.hashCode()
+    return result
+  }
 
-    override fun hashCode(): Int {
-        var result = backgroundColor.hashCode()
-        result = 31 * result + disabledBackgroundColor.hashCode()
-        result = 31 * result + contentColor.hashCode()
-        result = 31 * result + disabledContentColor.hashCode()
-        result = 31 * result + borderColor.hashCode()
-        result = 31 * result + disabledBorderColor.hashCode()
-        result = 31 * result + iconColor.hashCode()
-        result = 31 * result + rippleColor.hashCode()
-        return result
-    }
-
-    override fun toString(): String {
-        return "QuackButtonColors(" +
-                "backgroundColor=$backgroundColor, " +
-                "disabledBackgroundColor=$disabledBackgroundColor, " +
-                "contentColor=$contentColor, " +
-                "disabledContentColor=$disabledContentColor, " +
-                "borderColor=$borderColor, " +
-                "disabledBorderColor=$disabledBorderColor, " +
-                "iconColor=$iconColor, " +
-                "rippleColor=$rippleColor" +
-                ")"
-    }
+  override fun toString(): String {
+    return "QuackButtonColors(" +
+      "backgroundColor=$backgroundColor, " +
+      "disabledBackgroundColor=$disabledBackgroundColor, " +
+      "contentColor=$contentColor, " +
+      "disabledContentColor=$disabledContentColor, " +
+      "borderColor=$borderColor, " +
+      "disabledBorderColor=$disabledBorderColor, " +
+      "iconColor=$iconColor, " +
+      "rippleColor=$rippleColor" +
+      ")"
+  }
 }
 
 /**
  * 꽥꽥 디자인 가이드의 `Buttons#LargeButtons`에 해당하는 디자인 스팩을 정의합니다.
+ *
+ * ### mutation 가능한 필드
+ * - colors(backgroundColor, disabledBackgroundColor, contentColor,
+ *   disabledContentColor, borderColor, disabledBorderColor, iconColor)
  */
 @Immutable
 public class QuackLargeButtonDefaults internal constructor() :
-    QuackButtonStyle<QuackLargeButtonDefaults>, ButtonStyleMarker {
-    public override var colors: QuackButtonColors = buttonColors()
+  QuackButtonStyle<QuackLargeButtonDefaults>, ButtonStyleMarker {
 
-    public override val radius: Dp = 8.dp
+  override var colors: QuackButtonColors = buttonColors()
 
-    public override val contentPadding: QuackPadding = QuackPadding(
-        horizontal = 112.dp,
-        vertical = 12.dp,
+  override val radius: Dp = 8.dp
+
+  override val contentPadding: QuackPadding = QuackPadding(
+    horizontal = 112.dp,
+    vertical = 12.dp,
+  )
+  override val iconSpacedBy: Dp = 4.dp
+
+  override val borderThickness: Dp = 1.dp
+
+  override val typography: QuackTypography = QuackTypography.Subtitle
+  override val disabledTypography: QuackTypography = typography
+
+  @Stable
+  public fun buttonColors(
+    backgroundColor: QuackColor = QuackColor.DuckieOrange,
+    disabledBackgroundColor: QuackColor = QuackColor.Gray2,
+    contentColor: QuackColor = QuackColor.White,
+    disabledContentColor: QuackColor = QuackColor.White,
+    borderColor: QuackColor = backgroundColor,
+    disabledBorderColor: QuackColor = disabledBackgroundColor,
+    iconColor: QuackColor = contentColor,
+  ): QuackButtonColors {
+    return QuackButtonColors(
+      backgroundColor = backgroundColor,
+      disabledBackgroundColor = disabledBackgroundColor,
+      contentColor = contentColor,
+      disabledContentColor = disabledContentColor,
+      borderColor = borderColor,
+      disabledBorderColor = disabledBorderColor,
+      rippleColor = QuackColor.Unspecified,
+      iconColor = iconColor,
     )
-    public override val iconSpacedBy: Dp = 4.dp
+  }
 
-    public override val borderThickness: Dp = 1.dp
+  override fun invoke(styleBuilder: QuackLargeButtonDefaults.() -> Unit): QuackLargeButtonDefaults {
+    return apply(styleBuilder)
+  }
 
-    public override val typography: QuackTypography = QuackTypography.Subtitle
-    public override val disabledTypography: QuackTypography = typography
-
-    @Stable
-    public fun buttonColors(
-        backgroundColor: QuackColor = QuackColor.DuckieOrange,
-        disabledBackgroundColor: QuackColor = QuackColor.Gray2,
-        contentColor: QuackColor = QuackColor.White,
-        disabledContentColor: QuackColor = QuackColor.White,
-        borderColor: QuackColor = backgroundColor,
-        disabledBorderColor: QuackColor = disabledBackgroundColor,
-        iconColor: QuackColor = contentColor,
-    ): QuackButtonColors {
-        return QuackButtonColors(
-            backgroundColor = backgroundColor,
-            disabledBackgroundColor = disabledBackgroundColor,
-            contentColor = contentColor,
-            disabledContentColor = disabledContentColor,
-            borderColor = borderColor,
-            disabledBorderColor = disabledBorderColor,
-            rippleColor = QuackColor.Unspecified,
-            iconColor = iconColor,
-        )
-    }
-
-    @Stable
-    override fun invoke(styleBuilder: QuackLargeButtonDefaults.() -> Unit): QuackLargeButtonDefaults {
-        return apply(styleBuilder)
-    }
-
-    override fun toString(): String = "QuackLargeButtonDefaults"
+  override fun toString(): String = "QuackLargeButtonDefaults"
 }
 
 /**
  * 꽥꽥 디자인 가이드의 `Buttons#MediumButton`에 해당하는 디자인 스팩을 정의합니다.
+ *
+ * ### mutation 가능한 필드
+ * - colors(iconColor)
  */
 @Immutable
 public class QuackMediumButtonDefaults internal constructor() :
-    QuackButtonStyle<QuackMediumButtonDefaults>, ButtonStyleMarker {
-    public override var colors: QuackButtonColors = QuackButtonColors(
-        backgroundColor = QuackColor.White,
-        disabledBackgroundColor = QuackColor.White,
-        contentColor = QuackColor.Black,
-        disabledContentColor = QuackColor.DuckieOrange,
-        borderColor = QuackColor.DuckieOrange,
-        disabledBorderColor = QuackColor.Gray3,
-        rippleColor = QuackColor.Unspecified,
-        iconColor = QuackColor.Black,
-    )
+  QuackButtonStyle<QuackMediumButtonDefaults>, ButtonStyleMarker {
 
-    public override val radius: Dp = 8.dp
+  override var colors: QuackButtonColors = QuackButtonColors(
+    backgroundColor = QuackColor.White,
+    disabledBackgroundColor = QuackColor.White,
+    contentColor = QuackColor.Black,
+    disabledContentColor = QuackColor.DuckieOrange,
+    borderColor = QuackColor.DuckieOrange,
+    disabledBorderColor = QuackColor.Gray3,
+    rippleColor = QuackColor.Unspecified,
+    iconColor = QuackColor.Black,
+  )
 
-    public override val contentPadding: QuackPadding = QuackPadding(
-        horizontal = 58.dp,
-        vertical = 10.dp,
-    )
-    public override val iconSpacedBy: Dp = 4.dp
+  override val radius: Dp = 8.dp
 
-    public override val borderThickness: Dp = 1.dp
+  override val contentPadding: QuackPadding = QuackPadding(
+    horizontal = 58.dp,
+    vertical = 10.dp,
+  )
+  override val iconSpacedBy: Dp = 4.dp
 
-    public override val typography: QuackTypography = QuackTypography.Body1
-    public override val disabledTypography: QuackTypography = QuackTypography.Title2
+  override val borderThickness: Dp = 1.dp
 
-    @Stable
-    public fun buttonColors(iconColor: QuackColor = colors.iconColor): QuackButtonColors {
-        return colors.copy(iconColor = iconColor)
-    }
+  override val typography: QuackTypography = QuackTypography.Body1
+  override val disabledTypography: QuackTypography = QuackTypography.Title2
 
-    @Stable
-    override fun invoke(styleBuilder: QuackMediumButtonDefaults.() -> Unit): QuackMediumButtonDefaults {
-        return apply(styleBuilder)
-    }
+  @Stable
+  public fun buttonColors(iconColor: QuackColor = colors.iconColor): QuackButtonColors {
+    return colors.copy(iconColor = iconColor)
+  }
 
-    override fun toString(): String = "QuackMediumButtonDefaults"
+  override fun invoke(styleBuilder: QuackMediumButtonDefaults.() -> Unit): QuackMediumButtonDefaults {
+    return apply(styleBuilder)
+  }
+
+  override fun toString(): String = "QuackMediumButtonDefaults"
 }
 
 /**
  * 꽥꽥 디자인 가이드의 `Buttons#SmallButtons`에 해당하는 디자인 스팩을 정의합니다.
+ *
+ * ### mutation 가능한 필드
+ * - colors(backgroundColor, disabledBackgroundColor, contentColor,
+ *   disabledContentColor, borderColor, disabledBorderColor)
+ * - radius
+ * - contentPadding
+ * - typography, disabledTypography
  */
 @Immutable
 public class QuackSmallButtonDefaults internal constructor() :
-    QuackButtonStyle<QuackSmallButtonDefaults>, ButtonStyleMarker {
-    public override var colors: QuackButtonColors = buttonColors()
+  QuackButtonStyle<QuackSmallButtonDefaults>, ButtonStyleMarker {
 
-    public override var radius: Dp = 8.dp
+  override var colors: QuackButtonColors = buttonColors()
 
-    public override var contentPadding: QuackPadding = QuackPadding(
-        horizontal = 12.dp,
-        vertical = 8.dp,
+  override var radius: Dp = 8.dp
+
+  override var contentPadding: QuackPadding = QuackPadding(
+    horizontal = 12.dp,
+    vertical = 8.dp,
+  )
+  override val iconSpacedBy: Dp = 4.dp
+
+  override val borderThickness: Dp = 1.dp
+
+  override var typography: QuackTypography = QuackTypography.Body1
+  override var disabledTypography: QuackTypography = QuackTypography.Body1
+
+  @Stable
+  public fun buttonColors(
+    backgroundColor: QuackColor = QuackColor.DuckieOrange,
+    disabledBackgroundColor: QuackColor = QuackColor.Gray2,
+    contentColor: QuackColor = QuackColor.White,
+    disabledContentColor: QuackColor = QuackColor.White,
+    borderColor: QuackColor = backgroundColor,
+    disabledBorderColor: QuackColor = disabledBackgroundColor,
+  ): QuackButtonColors {
+    return QuackButtonColors(
+      backgroundColor = backgroundColor,
+      disabledBackgroundColor = disabledBackgroundColor,
+      contentColor = contentColor,
+      disabledContentColor = disabledContentColor,
+      borderColor = borderColor,
+      disabledBorderColor = disabledBorderColor,
+      rippleColor = QuackColor.Unspecified,
+      iconColor = QuackColor.Unspecified,
     )
-    public override val iconSpacedBy: Dp = 4.dp
+  }
 
-    public override val borderThickness: Dp = 1.dp
+  override fun invoke(styleBuilder: QuackSmallButtonDefaults.() -> Unit): QuackSmallButtonDefaults {
+    return apply(styleBuilder)
+  }
 
-    public override var typography: QuackTypography = QuackTypography.Body1
-    public override var disabledTypography: QuackTypography = QuackTypography.Body1
-
-    @Stable
-    public fun buttonColors(
-        backgroundColor: QuackColor = QuackColor.DuckieOrange,
-        disabledBackgroundColor: QuackColor = QuackColor.Gray2,
-        contentColor: QuackColor = QuackColor.White,
-        disabledContentColor: QuackColor = QuackColor.White,
-        borderColor: QuackColor = backgroundColor,
-        disabledBorderColor: QuackColor = disabledBackgroundColor,
-    ): QuackButtonColors {
-        return QuackButtonColors(
-            backgroundColor = backgroundColor,
-            disabledBackgroundColor = disabledBackgroundColor,
-            contentColor = contentColor,
-            disabledContentColor = disabledContentColor,
-            borderColor = borderColor,
-            disabledBorderColor = disabledBorderColor,
-            rippleColor = QuackColor.Unspecified,
-            iconColor = QuackColor.Unspecified,
-        )
-    }
-
-    @Stable
-    override fun invoke(styleBuilder: QuackSmallButtonDefaults.() -> Unit): QuackSmallButtonDefaults {
-        return apply(styleBuilder)
-    }
-
-    override fun toString(): String = "QuackSmallButtonDefaults"
+  override fun toString(): String = "QuackSmallButtonDefaults"
 }
 
 /**
@@ -377,13 +379,12 @@ public class QuackSmallButtonDefaults internal constructor() :
  */
 @Stable
 private data class ButtonIconData(
-    val leadingIcon: QuackIcon?,
-    val trailingIcon: QuackIcon?,
+  val leadingIcon: QuackIcon?,
+  val trailingIcon: QuackIcon?,
 ) : QuackDataModifierModel
 
 /**
- * 버튼에 아이콘을 추가합니다. 모든 아이콘은 버튼 텍스트를 기준으로
- * 양옆에 배치됩니다.
+ * 버튼에 아이콘을 추가합니다. 모든 아이콘은 버튼 텍스트를 기준으로 양옆에 배치됩니다.
  *
  * @param leadingIcon 왼쪽에 배치될 아이콘
  * @param trailingIcon 오른쪽에 배치될 아이콘
@@ -391,78 +392,83 @@ private data class ButtonIconData(
 @DecorateModifier
 @Stable
 public fun Modifier.icons(
-    leadingIcon: QuackIcon? = null,
-    trailingIcon: QuackIcon? = null,
+  leadingIcon: QuackIcon? = null,
+  trailingIcon: QuackIcon? = null,
 ): Modifier = inspectable(
-    inspectorInfo = debugInspectorInfo {
-        name = "icons"
-        properties["leadingIcon"] = leadingIcon
-        properties["trailingIcon"] = trailingIcon
-    },
+  inspectorInfo = debugInspectorInfo {
+    name = "icons"
+    properties["leadingIcon"] = leadingIcon
+    properties["trailingIcon"] = trailingIcon
+  },
 ) {
-    ButtonIconData(
-        leadingIcon = leadingIcon,
-        trailingIcon = trailingIcon,
-    )
+  ButtonIconData(
+    leadingIcon = leadingIcon,
+    trailingIcon = trailingIcon,
+  )
 }
 
 /**
  * 버튼을 그립니다.
- *
  * - 이 컴포넌트는 자체의 패딩 정책을 구현합니다.
  * - 이 컴포넌트는 자체의 배치 정책을 구현합니다.
  * - [스타일][style]별로 사용 가능한 데코레이터가 달라집니다.
  *
- * 패딩 정책
- * =========
+ * ### 패딩 정책
+ * 1. [버튼의 스타일][QuackButtonStyle]에서
+ *    [contentPadding][QuackButtonStyle.contentPadding] 옵션을 별도로 제공하고 있습니다.
+ *    이는 [Modifier.padding]과 다른 패딩 정책을 사용합니다. [Modifier.padding]은 버튼의 루트
+ *    레이아웃을 기준으로 패딩이 적용되지만, [QuackButtonStyle.contentPadding]은 버튼의 텍스트를
+ *    기준으로 패딩이 적용됩니다. 이 부분의 자세한 내용은 배치 정책 문서를 참고하세요.
+ * 2. [LayoutModifier]를 사용하여 컴포넌트의 사이즈가 명시됐다면
+ *    [QuackButtonStyle.contentPadding] 옵션은 무시됩니다.
+ *    [contentPadding][QuackButtonStyle.contentPadding]은 컴포넌트 사이즈 하드코딩을
+ *    대체하는 용도로 제공됩니다. 하지만 컴포넌트 사이즈가 하드코딩됐다면
+ *    [contentPadding][QuackButtonStyle.contentPadding]을 제공하는 의미가 없어집니다.
+ *    따라서 컴포넌트의 사이즈가 하드코딩됐다면 개발자의 의도를 존중한다는 원칙하에 컴포넌트의 사이즈가 중첩으로 확장되는 일을
+ *    예방하고자 [contentPadding][QuackButtonStyle.contentPadding] 옵션을 무시합니다. 예를
+ *    들어 `Modifier.height(10.dp)`로 컴포넌트 높이를 명시했고,
+ *    [contentPadding][QuackButtonStyle.contentPadding]으로
+ *    `QuackPadding(vertical=10.dp)`을 제공했다고 해봅시다. 이런 경우에는
+ *    [contentPadding][QuackButtonStyle.contentPadding]이 무시되고 버튼의 높이가 10dp로
+ *    적용됩니다. 컴포넌트 사이즈를 명시하면서 패딩을 적용하고 싶다면
+ *    [contentPadding][QuackButtonStyle.contentPadding] 대신에
+ *    [Modifier.padding]을 사용하세요. [LayoutModifier]를 사용하는 흔한 [Modifier]로는
+ *    [Modifier.size], [Modifier.height], [Modifier.width] 등이 있습니다.
+ *    [LayoutModifierNode]를 사용하는 [Modifier]는
+ *    [contentPadding][QuackButtonStyle.contentPadding] 무시 옵션이 아직 지원되지
+ *    않습니다.
+ *    ([#636](https://github.com/duckie-team/quack-quack-android/issues/636))
  *
- * 1. [버튼의 스타일][QuackButtonStyle]에서 [contentPadding][QuackButtonStyle.contentPadding] 옵션을
- * 별도로 제공하고 있습니다. 이는 [Modifier.padding]과 다른 패딩 정책을 사용합니다. [Modifier.padding]은
- * 버튼의 루트 레이아웃을 기준으로 패딩이 적용되지만, [QuackButtonStyle.contentPadding]은 버튼의
- * 텍스트를 기준으로 패딩이 적용됩니다. 이 부분의 자세한 내용은 배치 정책 세션을 참고하세요.
- * 2. [LayoutModifier]를 사용하여 컴포넌트의 사이즈가 명시됐다면 [QuackButtonStyle.contentPadding]
- * 옵션은 무시됩니다. [contentPadding][QuackButtonStyle.contentPadding]은 컴포넌트 사이즈 하드코딩을
- * 대체하는 용도로 제공됩니다. 하지만 컴포넌트 사이즈가 하드코딩됐다면 [contentPadding][QuackButtonStyle.contentPadding]을
- * 제공하는 의미가 없어집니다. 따라서 컴포넌트의 사이즈가 하드코딩됐다면 개발자의 의도를 존중한다는 원칙하에
- * 컴포넌트의 사이즈가 중첩으로 확장되는 일을 예방하고자 [contentPadding][QuackButtonStyle.contentPadding]
- * 옵션을 무시합니다. 예를 들어 `Modifier.height(10.dp)`로 컴포넌트 높이를 명시했고, [contentPadding][QuackButtonStyle.contentPadding]으로
- * `QuackPadding(vertical=10.dp)`을 제공했다고 해봅시다. 이런 경우에는 [contentPadding][QuackButtonStyle.contentPadding]이
- * 무시되고 버튼의 높이가 10dp로 적용됩니다. 컴포넌트 사이즈를 명시하면서 패딩을 적용하고 싶다면
- * [contentPadding][QuackButtonStyle.contentPadding] 대신에 [Modifier.padding]을 사용하세요.
- * [LayoutModifier]를 사용하는 흔한 [Modifier]로는 [Modifier.size], [Modifier.height], [Modifier.width] 등이
- * 있습니다. [LayoutModifierNode]를 사용하는 [Modifier]는 [contentPadding][QuackButtonStyle.contentPadding] 무시
- * 옵션이 아직 지원되지 않습니다. ([#636](https://github.com/duckie-team/quack-quack-android/issues/636))
+ * ### 배치 정책
  *
- * 배치 정책
- * =========
+ * [style.contentPadding][QuackButtonStyle.contentPadding]은 항상
+ * 버튼의 텍스트를 기준으로 적용됩니다. 예를 들어 버튼의 아이콘을 leading과 trailing을 모두
+ * 제공했고, [contentPadding][QuackButtonStyle.contentPadding]으로
+ * `QuackPadding(horizontal=10.dp)`를 제공했다면 양끝의 horizontal
+ * 패딩이 각각 아이콘을 기준으로 적용되는 게 아닌 버튼의 텍스트를 기준으로 적용됩니다. 따라서 개발자는
+ * [contentPadding][QuackButtonStyle.contentPadding]의 값을 제공할 때 양끝
+ * 아이콘을 기준으로 제공하는 게 아닌 가운데 텍스트를 기준으로 제공해야 합니다. 이 정책은 양끝 아이콘이 동적으로
+ * 적용될 때 의도하지 않는 버튼 사이즈 변경을 예방하기 위해 고안됐습니다. 예를 들어 `contentPadding:
+ * QuackPadding(horizontal=10.dp)`을 양끝 아이콘 기준으로 적용했다고 해봅시다. 처음에는 양끝에 아이콘이
+ * 없어서 가운데 텍스트를 기준으로 패딩이 적용됩니다. 이 시점에는 버튼의 너비가 25dp입니다. (왼쪽 패딩 10dp, 텍스트
+ * 5dp, 오른쪽 패딩 10dp) 사용자 요청에 의해 양쪽 모두에 5dp의 너비를 갖는 아이콘이 추가되었습니다. 이 시점에서는 양쪽
+ * 아이콘이 존재하므로 [contentPadding][QuackButtonStyle.contentPadding]이 양쪽 아이콘을
+ * 기준으로 적용되어 버튼의 너비가 35dp입니다. (왼쪽 패딩 10dp, 왼쪽 아이콘 5dp, 텍스트 5dp, 오른쪽 아이콘
+ * 5dp, 오른쪽 패딩 10dp) 즉, 의도하지 않게 버튼의 너비가 10dp 증가하였습니다. 이러한 상황을 예방하기 위해 이 정책이
+ * 사용됩니다.
  *
- * [style.contentPadding][QuackButtonStyle.contentPadding]은 항상 버튼의 텍스트를 기준으로
- * 적용됩니다. 예를 들어 버튼의 아이콘을 leading과 trailing을 모두 제공했고, [contentPadding][QuackButtonStyle.contentPadding]으로
- * `QuackPadding(horizontal=10.dp)`를 제공했다면 양끝의 horizontal 패딩이 각각 아이콘을 기준으로
- * 적용되는 게 아닌 버튼의 텍스트를 기준으로 적용됩니다. 따라서 개발자는 [contentPadding][QuackButtonStyle.contentPadding]의 값을
- * 제공할 때 양끝 아이콘을 기준으로 제공하는 게 아닌 가운데 텍스트를 기준으로 제공해야 합니다.
- * 이 정책은 양끝 아이콘이 동적으로 적용될 때 의도하지 않는 버튼 사이즈 변경을 예방하기 위해
- * 고안됐습니다. 예를 들어 `contentPadding: QuackPadding(horizontal=10.dp)`을 양끝 아이콘 기준으로
- * 적용했다고 해봅시다. 처음에는 양끝에 아이콘이 없어서 가운데 텍스트를 기준으로 패딩이 적용됩니다.
- * 이 시점에는 버튼의 너비가 25dp입니다. (왼쪽 패딩 10dp, 텍스트 5dp, 오른쪽 패딩 10dp) 사용자
- * 요청에 의해 양쪽 모두에 5dp의 너비를 갖는 아이콘이 추가되었습니다. 이 시점에서는 양쪽 아이콘이
- * 존재하므로 [contentPadding][QuackButtonStyle.contentPadding]이 양쪽 아이콘을 기준으로 적용되어
- * 버튼의 너비가 35dp입니다. (왼쪽 패딩 10dp, 왼쪽 아이콘 5dp, 텍스트 5dp, 오른쪽 아이콘 5dp,
- * 오른쪽 패딩 10dp) 즉, 의도하지 않게 버튼의 너비가 10dp 증가하였습니다. 이러한 상황을 예방하기
- * 위해 이 정책이 사용됩니다.
- *
- * 사용 가능 데코레이터
- * ====================
- *
- * |                 style               | [icons][Modifier.icons] |                          description                         |
- * | :---------------------------------: | :---------------------: | :----------------------------------------------------------: |
- * |  [Large][QuackLargeButtonDefaults]  |            ⭕           |                                                              |
- * | [Medium][QuackMediumButtonDefaults] |            ⭕           |                                                              |
- * |  [Small][QuackSmallButtonDefaults]  |            ❌           | 버튼의 너비가 좁기에 아이콘 데코레이터를 사용할 수 없습니다. |
+ * ### 사용 가능 데코레이터
+ * | style                               | [icons][Modifier.icons] | description                        |
+ * |:-----------------------------------:|:-----------------------:|:----------------------------------:|
+ * |  [Large][QuackLargeButtonDefaults]  |            ⭕            |                                    |
+ * | [Medium][QuackMediumButtonDefaults] |            ⭕            |                                    |
+ * |  [Small][QuackSmallButtonDefaults]  |            ❌            | 버튼의 너비가 좁기에 아이콘 데코레이터를 사용할 수 없습니다. |
  *
  * @param enabled 활성화 상태 여부
- * @param style 적용할 스타일. 사전 정의 스타일로 [QuackButtonStyle.Large][QuackLargeButtonDefaults],
- * [QuackButtonStyle.Medium][QuackMediumButtonDefaults], [QuackButtonStyle.Small][QuackSmallButtonDefaults]이 제공됩니다.
+ * @param style 적용할 스타일. 사전 정의 스타일로
+ *     [QuackButtonStyle.Large][QuackLargeButtonDefaults],
+ *     [QuackButtonStyle.Medium][QuackMediumButtonDefaults],
+ *     [QuackButtonStyle.Small][QuackSmallButtonDefaults]이 제공됩니다.
  * @param rippleEnabled 클릭됐을 때 리플 애니메이션을 적용할지 여부
  * @param onClick 클릭했을 때 실행할 람다식. [enabled]이 true일 때만 작동합니다.
  */
@@ -472,118 +478,116 @@ public fun Modifier.icons(
 @ExperimentalQuackQuackApi
 @NoSugar // onClick param is functional type (currently not supported)
 public fun <T : ButtonStyleMarker> QuackButton(
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    @SugarToken
-    @CasaValue("QuackButtonStyle.Large")
-    style: QuackButtonStyle<T>,
-    @CasaValue("\"QuackButton is experimental\"") text: String,
-    rippleEnabled: Boolean = true,
-    @CasaValue("{}") onClick: () -> Unit,
+  modifier: Modifier = Modifier,
+  enabled: Boolean = true,
+  @SugarToken @CasaValue("QuackButtonStyle.Large") style: QuackButtonStyle<T>,
+  @CasaValue("\"QuackButton is experimental\"") text: String,
+  rippleEnabled: Boolean = true,
+  @CasaValue("{}") onClick: () -> Unit,
 ) {
-    val isSmallButton = style is QuackSmallButtonDefaults
-    // TODO: 다른 경우로 사이즈를 지정하는 방법이 있을까?
-    // TODO(3): LayoutModifierNode 지원
-    var isSizeSpecified = false
-    val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier) { currentModifier ->
-        if (!isSizeSpecified) {
-            isSizeSpecified = currentModifier is LayoutModifier
-        }
+  val isSmallButton = style is QuackSmallButtonDefaults
+  // TODO: 다른 경우로 사이즈를 지정하는 방법이 있을까?
+  // TODO(3): LayoutModifierNode 지원
+  var isSizeSpecified = false
+  val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier) { currentModifier ->
+    if (!isSizeSpecified) {
+      isSizeSpecified = currentModifier is LayoutModifier
     }
-    val iconData = remember(quackDataModels, isSmallButton) {
-        quackDataModels.fastFirstIsInstanceOrNull<ButtonIconData>().takeUnless { isSmallButton }
-    }
+  }
+  val iconData = remember(quackDataModels, isSmallButton) {
+    quackDataModels.fastFirstIsInstanceOrNull<ButtonIconData>().takeUnless { isSmallButton }
+  }
 
-    val backgroundColor = style.colors.backgroundColor
-    val disabledBackgroundColor = style.colors.disabledBackgroundColor
-    val currentBackgroundColor = if (enabled) backgroundColor else disabledBackgroundColor
+  val backgroundColor = style.colors.backgroundColor
+  val disabledBackgroundColor = style.colors.disabledBackgroundColor
+  val currentBackgroundColor = if (enabled) backgroundColor else disabledBackgroundColor
 
-    val contentColor = style.colors.contentColor
-    val disabledContentColor = style.colors.disabledContentColor
-    val currentContentColor = if (enabled) contentColor else disabledContentColor
+  val contentColor = style.colors.contentColor
+  val disabledContentColor = style.colors.disabledContentColor
+  val currentContentColor = if (enabled) contentColor else disabledContentColor
 
-    val borderThickness = style.borderThickness
-    val borderColor = style.colors.borderColor
-    val disabledBorderColor = style.colors.disabledBorderColor
-    val currentBorder = remember(
-        enabled,
-        borderThickness,
-        borderColor,
-        disabledBorderColor,
-    ) {
-        QuackBorder(
-            thickness = borderThickness,
-            color = if (enabled) borderColor else disabledBorderColor,
-        )
-    }
-
-    val iconColor = style.colors.iconColor
-
-    val rippleColor = style.colors.rippleColor
-
-    val currentRippleEnabled = if (enabled) rippleEnabled else false
-
-    val radius = style.radius
-    val shape = remember(radius) {
-        RoundedCornerShape(size = radius)
-    }
-
-    val contentPadding = style.contentPadding
-    val currentContentPadding = if (isSizeSpecified) null else contentPadding
-
-    val iconSpacedBy = style.iconSpacedBy
-
-    val typography = style.typography
-    val disabledTypography = style.disabledTypography
-    val currentTypography = remember(
-        enabled,
-        typography,
-        disabledTypography,
-        currentContentColor,
-    ) {
-        (if (enabled) typography else disabledTypography).change(color = currentContentColor)
-    }
-
-    val leadingIcon = iconData?.leadingIcon
-    val trailingIcon = iconData?.trailingIcon
-
-    val currentOnClick = onClick.takeIf { enabled }
-
-    val inspectableModifier = style
-        .wrappedDebugInspectable(composeModifier)
-        .wrappedDebugInspectable {
-            name = "QuackButton"
-            properties["text"] = text
-            properties["backgroundColor"] = currentBackgroundColor
-            properties["iconColor"] = iconColor
-            properties["rippleColor"] = rippleColor
-            properties["rippleEnabled"] = currentRippleEnabled
-            properties["shape"] = shape
-            properties["border"] = currentBorder
-            properties["typography"] = currentTypography
-            properties["contentPadding"] = currentContentPadding
-            properties["iconSpacedBy"] = iconSpacedBy
-            properties["leadingIcon"] = leadingIcon
-            properties["trailingIcon"] = trailingIcon
-            properties["onClick"] = currentOnClick
-        }
-
-    QuackBaseButton(
-        modifier = inspectableModifier,
-        text = text,
-        backgroundColor = currentBackgroundColor,
-        iconColor = iconColor,
-        rippleColor = rippleColor,
-        rippleEnabled = currentRippleEnabled,
-        shape = shape,
-        border = currentBorder,
-        typography = currentTypography,
-        contentPadding = currentContentPadding,
-        iconSpacedBy = iconSpacedBy,
-        leadingIcon = leadingIcon,
-        trailingIcon = trailingIcon,
-        onClick = currentOnClick,
+  val borderThickness = style.borderThickness
+  val borderColor = style.colors.borderColor
+  val disabledBorderColor = style.colors.disabledBorderColor
+  val currentBorder = remember(
+    enabled,
+    borderThickness,
+    borderColor,
+    disabledBorderColor,
+  ) {
+    QuackBorder(
+      thickness = borderThickness,
+      color = if (enabled) borderColor else disabledBorderColor,
     )
+  }
+
+  val iconColor = style.colors.iconColor
+
+  val rippleColor = style.colors.rippleColor
+
+  val currentRippleEnabled = if (enabled) rippleEnabled else false
+
+  val radius = style.radius
+  val shape = remember(radius) {
+    RoundedCornerShape(size = radius)
+  }
+
+  val contentPadding = style.contentPadding
+  val currentContentPadding = if (isSizeSpecified) null else contentPadding
+
+  val iconSpacedBy = style.iconSpacedBy
+
+  val typography = style.typography
+  val disabledTypography = style.disabledTypography
+  val currentTypography = remember(
+    enabled,
+    typography,
+    disabledTypography,
+    currentContentColor,
+  ) {
+    (if (enabled) typography else disabledTypography).change(color = currentContentColor)
+  }
+
+  val leadingIcon = iconData?.leadingIcon
+  val trailingIcon = iconData?.trailingIcon
+
+  val currentOnClick = onClick.takeIf { enabled }
+
+  val inspectableModifier = style
+    .wrappedDebugInspectable(composeModifier)
+    .wrappedDebugInspectable {
+      name = "QuackButton"
+      properties["text"] = text
+      properties["backgroundColor"] = currentBackgroundColor
+      properties["iconColor"] = iconColor
+      properties["rippleColor"] = rippleColor
+      properties["rippleEnabled"] = currentRippleEnabled
+      properties["shape"] = shape
+      properties["border"] = currentBorder
+      properties["typography"] = currentTypography
+      properties["contentPadding"] = currentContentPadding
+      properties["iconSpacedBy"] = iconSpacedBy
+      properties["leadingIcon"] = leadingIcon
+      properties["trailingIcon"] = trailingIcon
+      properties["onClick"] = currentOnClick
+    }
+
+  QuackBaseButton(
+    modifier = inspectableModifier,
+    text = text,
+    backgroundColor = currentBackgroundColor,
+    iconColor = iconColor,
+    rippleColor = rippleColor,
+    rippleEnabled = currentRippleEnabled,
+    shape = shape,
+    border = currentBorder,
+    typography = currentTypography,
+    contentPadding = currentContentPadding,
+    iconSpacedBy = iconSpacedBy,
+    leadingIcon = leadingIcon,
+    trailingIcon = trailingIcon,
+    onClick = currentOnClick,
+  )
 }
 
 private const val TextLayoutId = "QuackBaseButtonText"
@@ -591,145 +595,142 @@ private const val LeadingIconLayoutId = "QuackBaseButtonLeadingIcon"
 private const val TrailingIconLayoutId = "QuackBaseButtonTrailingIcon"
 
 /**
- * 고유한 배치 정책으로 버튼을 그립니다.
- * 배치 정책의 자세한 정보는 [QuackButton] 문서를 참고하세요.
+ * 고유한 배치 정책으로 버튼을 그립니다. 배치 정책의 자세한 정보는 [QuackButton] 문서를 참고하세요.
  *
  * 이 컴포넌트는 [QuackButtonStyle]의 필드를 개별 인자로 받습니다.
  */
 @NoSugar
 @Composable
 public fun QuackBaseButton(
-    modifier: Modifier,
-    text: String,
-    backgroundColor: QuackColor,
-    iconColor: QuackColor,
-    rippleColor: QuackColor,
-    rippleEnabled: Boolean,
-    shape: Shape,
-    border: QuackBorder,
-    typography: QuackTypography,
-    contentPadding: QuackPadding?,
-    iconSpacedBy: Dp,
-    leadingIcon: QuackIcon?,
-    trailingIcon: QuackIcon?,
-    onClick: (() -> Unit)?,
+  modifier: Modifier,
+  text: String,
+  backgroundColor: QuackColor,
+  iconColor: QuackColor,
+  rippleColor: QuackColor,
+  rippleEnabled: Boolean,
+  shape: Shape,
+  border: QuackBorder,
+  typography: QuackTypography,
+  contentPadding: QuackPadding?,
+  iconSpacedBy: Dp,
+  leadingIcon: QuackIcon?,
+  trailingIcon: QuackIcon?,
+  onClick: (() -> Unit)?,
 ) {
-    val currentColorFilter = remember(iconColor) {
-        ColorFilter.tint(iconColor.value)
-    }
+  val currentColorFilter = remember(iconColor) { ColorFilter.tint(iconColor.value) }
 
-    Layout(
-        modifier = modifier
-            .testTag("button")
-            .quackSurface(
-                shape = shape,
-                backgroundColor = backgroundColor,
-                border = border,
-                role = Role.Button,
-                rippleEnabled = rippleEnabled,
-                rippleColor = rippleColor,
-                onClick = onClick,
+  Layout(
+    modifier = modifier
+      .testTag("button")
+      .quackSurface(
+        shape = shape,
+        backgroundColor = backgroundColor,
+        border = border,
+        role = Role.Button,
+        rippleEnabled = rippleEnabled,
+        rippleColor = rippleColor,
+        onClick = onClick,
+      ),
+    content = {
+      if (leadingIcon != null) {
+        Box(
+          modifier = Modifier
+            .testTag("leadingIcon")
+            .layoutId(LeadingIconLayoutId)
+            .fontScaleAwareIconSize()
+            .paint(
+              painter = leadingIcon.asPainter(),
+              colorFilter = currentColorFilter,
+              contentScale = ContentScale.Fit,
             ),
-        content = {
-            if (leadingIcon != null) {
-                Box(
-                    modifier = Modifier
-                        .testTag("leadingIcon")
-                        .layoutId(LeadingIconLayoutId)
-                        .fontScaleAwareIconSize()
-                        .paint(
-                            painter = leadingIcon.asPainter(),
-                            colorFilter = currentColorFilter,
-                            contentScale = ContentScale.Fit,
-                        ),
-                )
-            }
-            QuackText(
-                modifier = Modifier
-                    .testTag("buttonText")
-                    .layoutId(TextLayoutId),
-                text = text,
-                typography = typography,
-                singleLine = true,
-                softWrap = false,
-            )
-            if (trailingIcon != null) {
-                Box(
-                    modifier = Modifier
-                        .testTag("trailingIcon")
-                        .layoutId(TrailingIconLayoutId)
-                        .fontScaleAwareIconSize()
-                        .paint(
-                            painter = trailingIcon.asPainter(),
-                            colorFilter = currentColorFilter,
-                            contentScale = ContentScale.Fit,
-                        ),
-                )
-            }
-        },
-    ) { measurables, constraints ->
-        val leadingIconMeasurable = measurables.fastFirstOrNull { measurable ->
-            measurable.layoutId == LeadingIconLayoutId
-        }
-        val textMeasurable = measurables.fastFirstOrNull { measurable ->
-            measurable.layoutId == TextLayoutId
-        }!!
-        val trailingIconMeasurable = measurables.fastFirstOrNull { measurable ->
-            measurable.layoutId == TrailingIconLayoutId
-        }
-
-        val looseConstraints = constraints.asLoose(width = true, height = true)
-
-        val horizontalPadding = contentPadding?.let { padding ->
-            padding.horizontal.roundToPx() * 2
-        } ?: 0
-        val verticalPadding = contentPadding?.let { padding ->
-            padding.vertical.roundToPx() * 2
-        } ?: 0
-
-        val baselineConstraints = constraints.offset(
-            horizontal = -horizontalPadding,
-            vertical = -verticalPadding,
         )
-        val textPlaceable = textMeasurable.measure(baselineConstraints)
-
-        val width = constraints.constrainWidth(textPlaceable.width + horizontalPadding)
-        val height = constraints.constrainHeight(textPlaceable.height + verticalPadding)
-
-        layout(width = width, height = height) {
-            val textPlaceableX = Alignment.CenterHorizontally.align(
-                size = textPlaceable.width,
-                space = width,
-                layoutDirection = layoutDirection,
-            )
-            textPlaceable.place(
-                x = textPlaceableX,
-                y = Alignment.CenterVertically.align(
-                    size = textPlaceable.height,
-                    space = height,
-                ),
-            )
-
-            if (leadingIconMeasurable != null) {
-                val leadingIconPlaceable = leadingIconMeasurable.measure(looseConstraints)
-                leadingIconPlaceable.place(
-                    x = textPlaceableX - iconSpacedBy.roundToPx() - leadingIconPlaceable.width,
-                    y = Alignment.CenterVertically.align(
-                        size = leadingIconPlaceable.height,
-                        space = height,
-                    ),
-                )
-            }
-            if (trailingIconMeasurable != null) {
-                val trailingIconPlaceable = trailingIconMeasurable.measure(looseConstraints)
-                trailingIconPlaceable.place(
-                    x = textPlaceableX + textPlaceable.width + iconSpacedBy.roundToPx(),
-                    y = Alignment.CenterVertically.align(
-                        size = trailingIconPlaceable.height,
-                        space = height,
-                    ),
-                )
-            }
-        }
+      }
+      QuackText(
+        modifier = Modifier
+          .testTag("buttonText")
+          .layoutId(TextLayoutId),
+        text = text,
+        typography = typography,
+        singleLine = true,
+        softWrap = false,
+      )
+      if (trailingIcon != null) {
+        Box(
+          modifier = Modifier
+            .testTag("trailingIcon")
+            .layoutId(TrailingIconLayoutId)
+            .fontScaleAwareIconSize()
+            .paint(
+              painter = trailingIcon.asPainter(),
+              colorFilter = currentColorFilter,
+              contentScale = ContentScale.Fit,
+            ),
+        )
+      }
+    },
+  ) { measurables, constraints ->
+    val leadingIconMeasurable = measurables.fastFirstOrNull { measurable ->
+      measurable.layoutId == LeadingIconLayoutId
     }
+    val textMeasurable = measurables.fastFirstOrNull { measurable ->
+      measurable.layoutId == TextLayoutId
+    }!!
+    val trailingIconMeasurable = measurables.fastFirstOrNull { measurable ->
+      measurable.layoutId == TrailingIconLayoutId
+    }
+
+    val looseConstraints = constraints.asLoose(width = true, height = true)
+
+    val horizontalPadding = contentPadding?.let { padding ->
+      padding.horizontal.roundToPx() * 2
+    } ?: 0
+    val verticalPadding = contentPadding?.let { padding ->
+      padding.vertical.roundToPx() * 2
+    } ?: 0
+
+    val baselineConstraints = constraints.offset(
+      horizontal = -horizontalPadding,
+      vertical = -verticalPadding,
+    )
+    val textPlaceable = textMeasurable.measure(baselineConstraints)
+
+    val width = constraints.constrainWidth(textPlaceable.width + horizontalPadding)
+    val height = constraints.constrainHeight(textPlaceable.height + verticalPadding)
+
+    layout(width = width, height = height) {
+      val textPlaceableX = Alignment.CenterHorizontally.align(
+        size = textPlaceable.width,
+        space = width,
+        layoutDirection = layoutDirection,
+      )
+      textPlaceable.place(
+        x = textPlaceableX,
+        y = Alignment.CenterVertically.align(
+          size = textPlaceable.height,
+          space = height,
+        ),
+      )
+
+      if (leadingIconMeasurable != null) {
+        val leadingIconPlaceable = leadingIconMeasurable.measure(looseConstraints)
+        leadingIconPlaceable.place(
+          x = textPlaceableX - iconSpacedBy.roundToPx() - leadingIconPlaceable.width,
+          y = Alignment.CenterVertically.align(
+            size = leadingIconPlaceable.height,
+            space = height,
+          ),
+        )
+      }
+      if (trailingIconMeasurable != null) {
+        val trailingIconPlaceable = trailingIconMeasurable.measure(looseConstraints)
+        trailingIconPlaceable.place(
+          x = textPlaceableX + textPlaceable.width + iconSpacedBy.roundToPx(),
+          y = Alignment.CenterVertically.align(
+            size = trailingIconPlaceable.height,
+            space = height,
+          ),
+        )
+      }
+    }
+  }
 }

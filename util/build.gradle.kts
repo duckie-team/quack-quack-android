@@ -6,17 +6,17 @@
  */
 
 plugins {
-    quackquack("android-library")
-    quackquack("kotlin-explicit-api")
-    quackquack("test-kotest")
-    quackquack("quack-publishing")
+  quackquack("android-library")
+  quackquack("kotlin-explicit-api")
+  quackquack("test-kotest")
+  quackquack("quack-publishing")
 }
 
 android {
-    namespace = "team.duckie.quackquack.util"
+  namespace = "team.duckie.quackquack.util"
 }
 
 dependencies {
-    api(libs.compose.uiutil)
-    implementation(libs.compose.foundation)
+  api(libs.compose.uiutil)
+  implementation(libs.compose.foundation)
 }

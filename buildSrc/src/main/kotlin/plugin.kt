@@ -10,5 +10,5 @@ import org.gradle.plugin.use.PluginDependencySpec
 
 @Suppress("NOTHING_TO_INLINE")
 inline fun PluginDependenciesSpec.quackquack(pluginName: String): PluginDependencySpec {
-    return id("quackquack.plugin.$pluginName")
+  return id("quackquack.plugin.$pluginName")
 }

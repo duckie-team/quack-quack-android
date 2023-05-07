@@ -13,24 +13,24 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
 internal fun Project.configureCompose(extension: CommonExtension<*, *, *, *, *>) {
-    extension.apply {
-        buildFeatures {
-            compose = true
-        }
-
-        composeOptions {
-            kotlinCompilerExtensionVersion = libs.findVersion("compose-compiler").get().toString()
-        }
-
-        kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + listOf(
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:liveLiteralsEnabled=false",
-            )
-        }
-
-        dependencies {
-            add("implementation", libs.findLibrary("compose-runtime").get())
-        }
+  extension.apply {
+    buildFeatures {
+      compose = true
     }
+
+    composeOptions {
+      kotlinCompilerExtensionVersion = libs.findVersion("compose-compiler").get().toString()
+    }
+
+    kotlinOptions {
+      freeCompilerArgs = freeCompilerArgs + listOf(
+        "-P",
+        "plugin:androidx.compose.compiler.plugins.kotlin:liveLiteralsEnabled=false",
+      )
+    }
+
+    dependencies {
+      add("implementation", libs.findLibrary("compose-runtime").get())
+    }
+  }
 }

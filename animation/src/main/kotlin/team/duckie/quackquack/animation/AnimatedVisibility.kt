@@ -27,27 +27,27 @@ import androidx.compose.ui.Modifier
  */
 @Composable
 public fun QuackAnimatedVisibility(
-    modifier: Modifier = Modifier,
-    visible: Boolean,
-    label: String = "AnimatedVisibility",
-    otherEnterAnimation: EnterTransition? = null,
-    otherExitAnimation: ExitTransition? = null,
-    content: @Composable AnimatedVisibilityScope.() -> Unit,
+  modifier: Modifier = Modifier,
+  visible: Boolean,
+  label: String = "AnimatedVisibility",
+  otherEnterAnimation: EnterTransition? = null,
+  otherExitAnimation: ExitTransition? = null,
+  content: @Composable AnimatedVisibilityScope.() -> Unit,
 ) {
-    AnimatedVisibility(
-        modifier = modifier,
-        visible = visible,
-        enter = fadeIn(QuackAnimationSpec()).optionalAdd(otherEnterAnimation),
-        exit = fadeOut(QuackAnimationSpec()).optionalAdd(otherExitAnimation),
-        label = label,
-        content = content,
-    )
+  AnimatedVisibility(
+    modifier = modifier,
+    visible = visible,
+    enter = fadeIn(QuackAnimationSpec()).optionalAdd(otherEnterAnimation),
+    exit = fadeOut(QuackAnimationSpec()).optionalAdd(otherExitAnimation),
+    label = label,
+    content = content,
+  )
 }
 
 private fun EnterTransition.optionalAdd(additional: EnterTransition?): EnterTransition {
-    return if (additional != null) plus(additional) else this
+  return if (additional != null) plus(additional) else this
 }
 
 private fun ExitTransition.optionalAdd(additional: ExitTransition?): ExitTransition {
-    return if (additional != null) plus(additional) else this
+  return if (additional != null) plus(additional) else this
 }

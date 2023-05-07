@@ -18,38 +18,38 @@ import team.duckie.quackquack.test.screenshot.matcher.MatchResult
 private val bitmapMatcher: BitmapMatcher = MSSIMMatcher()
 
 fun screenshotMatcher(name: String, given: Bitmap, golden: Bitmap): MatchResult {
-    val result = bitmapMatcher.compareBitmaps(
-        expected = golden.toIntArray(),
-        given = given.toIntArray(),
-        width = given.width,
-        height = given.height,
-    )
+  val result = bitmapMatcher.compareBitmaps(
+    expected = golden.toIntArray(),
+    given = given.toIntArray(),
+    width = given.width,
+    height = given.height,
+  )
 
-    val dir = File(
-        InstrumentationRegistry.getInstrumentation().targetContext.cacheDir,
-        name,
-    ).also(File::mkdir)
+  val dir = File(
+    InstrumentationRegistry.getInstrumentation().targetContext.cacheDir,
+    name,
+  ).also(File::mkdir)
 
-    val givenFile = File(dir, "given.png").also(File::createNewFile)
-    FileOutputStream(givenFile).use { out ->
-        given.compress(Bitmap.CompressFormat.PNG, 100, out)
-    }
+  val givenFile = File(dir, "given.png").also(File::createNewFile)
+  FileOutputStream(givenFile).use { out ->
+    given.compress(Bitmap.CompressFormat.PNG, 100, out)
+  }
 
-    val goldenFile = File(dir, "golden.png").also(File::createNewFile)
-    FileOutputStream(goldenFile).use { out ->
-        golden.compress(Bitmap.CompressFormat.PNG, 100, out)
-    }
+  val goldenFile = File(dir, "golden.png").also(File::createNewFile)
+  FileOutputStream(goldenFile).use { out ->
+    golden.compress(Bitmap.CompressFormat.PNG, 100, out)
+  }
 
-    val diffFile = File(dir, "diff.png").also(File::createNewFile)
-    FileOutputStream(diffFile).use { out ->
-        result.diff?.compress(Bitmap.CompressFormat.PNG, 100, out)
-    }
+  val diffFile = File(dir, "diff.png").also(File::createNewFile)
+  FileOutputStream(diffFile).use { out ->
+    result.diff?.compress(Bitmap.CompressFormat.PNG, 100, out)
+  }
 
-    return result
+  return result
 }
 
 private fun Bitmap.toIntArray(): IntArray {
-    val bitmapArray = IntArray(width * height)
-    getPixels(bitmapArray, 0, width, 0, 0, width, height)
-    return bitmapArray
+  val bitmapArray = IntArray(width * height)
+  getPixels(bitmapArray, 0, width, 0, 0, width, height)
+  return bitmapArray
 }

@@ -26,40 +26,40 @@ import androidx.compose.ui.text.input.ImeAction
 
 @Composable
 internal fun CasaSearchTopAppBar(
-    modifier: Modifier = Modifier,
-    value: String,
-    onValueChange: (term: String) -> Unit,
-    onClear: () -> Unit,
-    onSearchImeAction: (term: String) -> Unit,
+  modifier: Modifier = Modifier,
+  value: String,
+  onValueChange: (term: String) -> Unit,
+  onClear: () -> Unit,
+  onSearchImeAction: (term: String) -> Unit,
 ) {
-    TextField(
-        modifier = modifier,
-        value = value,
-        onValueChange = onValueChange,
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Rounded.Search,
-                contentDescription = "Search",
-            )
-        },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(
-            onSearch = {
-                onSearchImeAction(value)
-            },
-        ),
-        trailingIcon = {
-            IconButton(onClick = onClear) {
-                Icon(
-                    imageVector = Icons.Rounded.Clear,
-                    contentDescription = "Clear",
-                )
-            }
-        },
-        singleLine = true,
-        colors = TextFieldDefaults.textFieldColors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-        ),
-    )
+  TextField(
+    modifier = modifier,
+    value = value,
+    onValueChange = onValueChange,
+    leadingIcon = {
+      Icon(
+        imageVector = Icons.Rounded.Search,
+        contentDescription = "Search",
+      )
+    },
+    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+    keyboardActions = KeyboardActions(
+      onSearch = {
+        onSearchImeAction(value)
+      },
+    ),
+    trailingIcon = {
+      IconButton(onClick = onClear) {
+        Icon(
+          imageVector = Icons.Rounded.Clear,
+          contentDescription = "Clear",
+        )
+      }
+    },
+    singleLine = true,
+    colors = TextFieldDefaults.textFieldColors(
+      focusedIndicatorColor = Color.Transparent,
+      unfocusedIndicatorColor = Color.Transparent,
+    ),
+  )
 }

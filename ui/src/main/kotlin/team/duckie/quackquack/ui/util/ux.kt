@@ -23,17 +23,17 @@ import team.duckie.quackquack.util.DpSize
 @Composable
 @ReadOnlyComposable
 public inline fun <T> currentFontScale(content: (fontScale: Float) -> T): T {
-    val configration = LocalConfiguration.current
-    return content(configration.fontScale)
+  val configration = LocalConfiguration.current
+  return content(configration.fontScale)
 }
 
 @Stable
 public fun Modifier.fontScaleAwareIconSize(baseline: Dp = 24.dp): Modifier {
-    return composed {
-        currentFontScale { fontScale ->
-            // value class 라 인스턴스 생성 비용 적음 (remember 보다 저렴함)
-            val defaultSize = DpSize(all = baseline)
-            size(defaultSize * fontScale)
-        }
+  return composed {
+    currentFontScale { fontScale ->
+      // value class 라 인스턴스 생성 비용 적음 (remember 보다 저렴함)
+      val defaultSize = DpSize(all = baseline)
+      size(defaultSize * fontScale)
     }
+  }
 }

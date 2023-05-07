@@ -30,7 +30,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup node 20
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.6
+
+      - name: Setup Gradle & Build Dokka
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-home-cache-cleanup: true
+          cache-write-only: false
+          cache-read-only: true
+          arguments: dokkaHtmlMultiModule --no-configuration-cache
+
+      - name: Setup Node 20
         uses: actions/setup-node@v3
         with:
           node-version: '20.0.0'

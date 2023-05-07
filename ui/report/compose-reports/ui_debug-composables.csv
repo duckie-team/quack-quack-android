@@ -1,5 +1,5 @@
 package,name,composable,skippable,restartable,readonly,inline,isLambda,hasDefaults,defaultsGroup,groups,calls,
-team.duckie.quackquack.ui.QuackButton,QuackButton,1,0,0,0,0,0,0,0,1,5,
+team.duckie.quackquack.ui.QuackButton,QuackButton,1,0,0,0,0,0,0,0,1,6,
 team.duckie.quackquack.ui.QuackBaseButton,QuackBaseButton,1,1,1,0,0,0,0,0,1,2,
 team.duckie.quackquack.ui.sugar.QuackBody1,QuackBody1,1,1,1,0,0,0,0,0,1,1,
 team.duckie.quackquack.ui.sugar.QuackBody2,QuackBody2,1,1,1,0,0,0,0,0,1,1,

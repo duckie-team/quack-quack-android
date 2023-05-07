@@ -12,9 +12,9 @@ import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import androidx.compose.ui.test.onNodeWithTag
 
 fun SemanticsNodeInteractionsProvider.onTest(): SemanticsNodeInteraction {
-    return onNodeWithTag("test")
+  return onNodeWithTag("test")
 }
 
 fun SemanticsNodeInteractionsProvider.onGolden(): SemanticsNodeInteraction {
-    return onNodeWithTag("golden")
+  return onNodeWithTag("golden")
 }

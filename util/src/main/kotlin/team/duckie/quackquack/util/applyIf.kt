@@ -20,8 +20,8 @@ import kotlin.contracts.contract
  * @return [condition]이 참일 때 [run]을 실행한 결과
  */
 public inline fun <T> T.applyIf(condition: Boolean, run: T.() -> T): T {
-    contract { callsInPlace(run, InvocationKind.EXACTLY_ONCE) }
-    return if (condition) run() else this
+  contract { callsInPlace(run, InvocationKind.EXACTLY_ONCE) }
+  return if (condition) run() else this
 }
 
 /**
@@ -30,9 +30,9 @@ public inline fun <T> T.applyIf(condition: Boolean, run: T.() -> T): T {
  * @return [conditionBuilder]이 참일 때 [run]을 실행한 결과
  */
 public inline fun <T> T.applyIf(conditionBuilder: (receiver: T) -> Boolean, run: T.() -> T): T {
-    contract {
-        callsInPlace(conditionBuilder, InvocationKind.EXACTLY_ONCE)
-        callsInPlace(run, InvocationKind.EXACTLY_ONCE)
-    }
-    return if (conditionBuilder(this)) run() else this
+  contract {
+    callsInPlace(conditionBuilder, InvocationKind.EXACTLY_ONCE)
+    callsInPlace(run, InvocationKind.EXACTLY_ONCE)
+  }
+  return if (conditionBuilder(this)) run() else this
 }

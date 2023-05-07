@@ -6,13 +6,13 @@
  */
 
 plugins {
-    quackquack("jvm-kotlin")
-    quackquack("quack-publishing")
-    alias(libs.plugins.kotlin.ksp)
+  quackquack("jvm-kotlin")
+  quackquack("quack-publishing")
+  alias(libs.plugins.kotlin.ksp)
 }
 
 dependencies {
-    compileOnly(libs.kotlin.embeddable.compiler)
-    implementation(libs.google.autoservice.annotation)
-    ksp(libs.google.autoservice.ksp.processor)
+  compileOnly(libs.kotlin.embeddable.compiler)
+  implementation(libs.google.autoservice.annotation)
+  ksp(libs.google.autoservice.ksp.processor)
 }

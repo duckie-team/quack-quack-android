@@ -15,7 +15,7 @@ QuackText(
             style = SpanStyle(color = QuackColor.DuckieOrange.value),
         )
         .padding(30.dp),
-    text = "QuackQuack is an awesome design system created by the Duckie team.",
+    text = "QuackQuack is an awesome ui kit created by the Duckie team.",
     typography = QuackTypography.Body1,
 )
 ```
