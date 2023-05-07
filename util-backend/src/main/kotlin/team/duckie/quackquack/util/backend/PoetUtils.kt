@@ -41,6 +41,9 @@ public val SuppressAnnotation: AnnotationSpec = AnnotationSpec
   .useSiteTarget(AnnotationSpec.UseSiteTarget.FILE)
   .build()
 
+public fun FileSpec.Builder.addImports(vararg imports: FqName): FileSpec.Builder =
+  addImports(imports.asList())
+
 public fun FileSpec.Builder.addImports(imports: List<FqName>): FileSpec.Builder =
   apply {
     imports.forEach { import ->
@@ -50,6 +53,19 @@ public fun FileSpec.Builder.addImports(imports: List<FqName>): FileSpec.Builder 
       )
     }
   }
+
+public fun FileSpec.Builder.addAnnotations(vararg annotations: AnnotationSpec): FileSpec.Builder =
+  addAnnotations(annotations.asList())
+
+public fun FileSpec.Builder.addAnnotations(annotations: List<AnnotationSpec>): FileSpec.Builder =
+  apply {
+    annotations.forEach { annotation ->
+      addAnnotation(annotation)
+    }
+  }
+
+public fun FileSpec.Builder.addFunctions(vararg functions: FunSpec): FileSpec.Builder =
+  addFunctions(functions.asList())
 
 public fun FileSpec.Builder.addFunctions(functions: List<FunSpec>): FileSpec.Builder =
   apply {

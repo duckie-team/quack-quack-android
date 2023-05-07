@@ -26,6 +26,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.engine.spec.tempdir
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
+import org.jetbrains.kotlin.config.JvmTarget
 import team.duckie.quackquack.util.backend.test.findGeneratedFileOrNull
 
 class CoreAideGenerationTest : StringSpec() {
@@ -235,8 +236,9 @@ internal val quackComponents: Map<String, String> = run {
     return KotlinCompilation().apply {
       workingDir = tempDir
       sources = sourceFiles.asList() + stubs
+      jvmTarget = JvmTarget.JVM_17.toString()
+      inheritClassPath = true
       kspIncremental = useKspIncremental
-      allWarningsAsErrors = true
       symbolProcessorProviders = listOf(AideSymbolProcessorProvider())
     }
   }

@@ -415,7 +415,9 @@ public fun QuackThreeText(
       workingDir = tempDir
       sources = sourceFiles.asList() + stubs
       jvmTarget = JvmTarget.JVM_17.toString()
+      inheritClassPath = true
       supportsK2 = false
+      useK2 = false
       pluginOptions = listOf(
         PluginOption(
           pluginId = PluginId,
@@ -428,11 +430,8 @@ public fun QuackThreeText(
           optionValue = "true",
         ),
       )
-      verbose = false
-      inheritClassPath = true
       compilerPluginRegistrars = listOf(SugarComponentRegistrar.asPluginRegistrar())
       commandLineProcessors = listOf(SugarCommandLineProcessor())
-      useK2 = false
     }
   }
 }

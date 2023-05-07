@@ -28,6 +28,7 @@ import team.duckie.quackquack.sugar.processor.ir.SugarParameter
 import team.duckie.quackquack.sugar.processor.ir.SugarReferCn
 import team.duckie.quackquack.util.backend.FormatterOffComment
 import team.duckie.quackquack.util.backend.SuppressAnnotation
+import team.duckie.quackquack.util.backend.addAnnotations
 import team.duckie.quackquack.util.backend.addFunctions
 import team.duckie.quackquack.util.backend.addImports
 import team.duckie.quackquack.util.backend.bestGuessToKotlinPackageName
@@ -68,9 +69,11 @@ internal fun generateSugarComponentFiles(
       )
       .addFileComment(GeneratedComment)
       .addFileComment(FormatterOffComment)
-      .addAnnotation(SuppressAnnotation)
-      .addAnnotation(SugarCompilerOptInAnnotation)
-      .addAnnotation(SugarGeneratedFileMarkerAnnotation)
+      .addAnnotations(
+        SuppressAnnotation,
+        SugarCompilerOptInAnnotation,
+        SugarGeneratedFileMarkerAnnotation,
+      )
       .addImports(imports.toMutableList().apply { add(SugarFqn) })
       .addFunctions(funSpecs)
       .build()
