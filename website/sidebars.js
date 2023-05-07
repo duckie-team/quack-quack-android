@@ -26,9 +26,10 @@ const sidebars = {
                         keywords: ['ui'],
                     },
                     items: [
+                        'guides/ui/changes-in-quackquack-2',
                         'guides/ui/mental-model',
                         'guides/ui/components',
-                        'guides/ui/tokens',
+                        'guides/ui/design-tokens',
                     ],
                 },
                 {
