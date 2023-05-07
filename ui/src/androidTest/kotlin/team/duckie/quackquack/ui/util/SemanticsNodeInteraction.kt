@@ -17,31 +17,31 @@ import io.kotest.matchers.should
 
 @Suppress("NewApi")
 fun SemanticsNodeInteraction.captureToBitmap(): Bitmap {
-    return captureToImage().asAndroidBitmap()
+  return captureToImage().asAndroidBitmap()
 }
 
 fun screenshotEqualMatcher(
-    name: String,
-    golden: SemanticsNodeInteraction,
+  name: String,
+  golden: SemanticsNodeInteraction,
 ): Matcher<SemanticsNodeInteraction> = Matcher { given ->
-    val givenBitmap = given.captureToBitmap()
-    val goldenBitmap = golden.captureToBitmap()
-    val result = screenshotMatcher(
-        name = name,
-        given = givenBitmap,
-        golden = goldenBitmap,
-    )
+  val givenBitmap = given.captureToBitmap()
+  val goldenBitmap = golden.captureToBitmap()
+  val result = screenshotMatcher(
+    name = name,
+    given = givenBitmap,
+    golden = goldenBitmap,
+  )
 
-    MatcherResult(
-        passed = result.matches,
-        failureMessageFn = { result.comparisonStatistics },
-        negatedFailureMessageFn = { error("The shouldNot operation is not allowed.") },
-    )
+  MatcherResult(
+    passed = result.matches,
+    failureMessageFn = { result.comparisonStatistics },
+    negatedFailureMessageFn = { error("The shouldNot operation is not allowed.") },
+  )
 }
 
 fun SemanticsNodeInteraction.shouldScreenshotEqual(
-    name: String,
-    golden: SemanticsNodeInteraction,
+  name: String,
+  golden: SemanticsNodeInteraction,
 ) {
-    this should screenshotEqualMatcher(name = name, golden = golden)
+  this should screenshotEqualMatcher(name = name, golden = golden)
 }

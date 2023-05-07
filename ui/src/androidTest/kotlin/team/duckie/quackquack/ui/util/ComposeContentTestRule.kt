@@ -12,7 +12,7 @@ import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import team.duckie.quackquack.material.theme.QuackTheme
 
 fun ComposeContentTestRule.setQuackContent(content: @Composable () -> Unit) {
-    setContent {
-        QuackTheme(content = content)
-    }
+  setContent {
+    QuackTheme(content = content)
+  }
 }

@@ -39,25 +39,25 @@ import quackComponents
  * 조회할 수 있습니다.
  */
 class AideDecorateModifierDetector : Detector(), SourceCodeScanner {
-    override fun getApplicableMethodNames() = quackComponents.keys.toList()
+  override fun getApplicableMethodNames() = quackComponents.keys.toList()
 
-    override fun visitMethodCall(context: JavaContext, node: UCallExpression, method: PsiMethod) {
-        visitMethodCallImpl(
-            context = context,
-            method = method,
-            node = node,
-            modifierFqn = ModifierFqn,
-            quackComponents = quackComponents,
-            aideModifiers = aideModifiers,
-            issue = ISSUE,
-            incidentMessage = IncidentMessage,
-        )
-    }
+  override fun visitMethodCall(context: JavaContext, node: UCallExpression, method: PsiMethod) {
+    visitMethodCallImpl(
+      context = context,
+      method = method,
+      node = node,
+      modifierFqn = ModifierFqn,
+      quackComponents = quackComponents,
+      aideModifiers = aideModifiers,
+      issue = ISSUE,
+      incidentMessage = IncidentMessage,
+    )
+  }
 
-    internal companion object {
-        private const val IssueId = "WrongDecorateModifier"
-        private const val IssueBrief = "사용하고자 하는 데코레이터가 해당 도메인에 선언된 게 맞나요?"
-        private const val IssueExplanation = """
+  internal companion object {
+    private const val IssueId = "WrongDecorateModifier"
+    private const val IssueBrief = "사용하고자 하는 데코레이터가 해당 도메인에 선언된 게 맞나요?"
+    private const val IssueExplanation = """
             꽥꽥은 컴포넌트를 도메인으로 구분하며, 도메인마다 사용 가능한 데코레이터가 달라집니다.
             예를 들어 다음과 같은 컴포넌트가 있습니다.
             
@@ -74,20 +74,20 @@ class AideDecorateModifierDetector : Detector(), SourceCodeScanner {
             데코레이터 사용이 감지됐을 때는 `$IssueId` 경고를 발생시킵니다.
         """
 
-        internal const val IncidentMessage = "도메인에 벗어나는 데코레이터의 사용이 감지되었습니다."
+    internal const val IncidentMessage = "도메인에 벗어나는 데코레이터의 사용이 감지되었습니다."
 
-        internal val ISSUE = Issue.create(
-            id = IssueId,
-            briefDescription = IssueBrief,
-            explanation = IssueExplanation,
-            category = Category.CORRECTNESS,
-            priority = 7,
-            severity = Severity.WARNING,
-            implementation = Implementation(
-                AideDecorateModifierDetector::class.java,
-                EnumSet.of(Scope.JAVA_FILE),
-                Scope.JAVA_FILE_SCOPE,
-            ),
-        )
-    }
+    internal val ISSUE = Issue.create(
+      id = IssueId,
+      briefDescription = IssueBrief,
+      explanation = IssueExplanation,
+      category = Category.CORRECTNESS,
+      priority = 7,
+      severity = Severity.WARNING,
+      implementation = Implementation(
+        AideDecorateModifierDetector::class.java,
+        EnumSet.of(Scope.JAVA_FILE),
+        Scope.JAVA_FILE_SCOPE,
+      ),
+    )
+  }
 }

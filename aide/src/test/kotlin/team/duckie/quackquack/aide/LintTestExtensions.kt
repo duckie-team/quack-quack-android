@@ -28,36 +28,36 @@ private typealias RealDetector = AideDecorateModifierDetector
 private typealias TestDetector = CoreAideDecorateModifierTestDetector
 
 class CoreAideDecorateModifierTestDetector : Detector(), SourceCodeScanner {
-    override fun getApplicableMethodNames() = testQuackComponents.keys.toList()
+  override fun getApplicableMethodNames() = testQuackComponents.keys.toList()
 
-    override fun visitMethodCall(context: JavaContext, node: UCallExpression, method: PsiMethod) {
-        visitMethodCallImpl(
-            context = context,
-            method = method,
-            node = node,
-            modifierFqn = ModifierSn,
-            quackComponents = testQuackComponents,
-            aideModifiers = testAideModifiers,
-            issue = ISSUE,
-            incidentMessage = RealDetector.IncidentMessage,
-        )
+  override fun visitMethodCall(context: JavaContext, node: UCallExpression, method: PsiMethod) {
+    visitMethodCallImpl(
+      context = context,
+      method = method,
+      node = node,
+      modifierFqn = ModifierSn,
+      quackComponents = testQuackComponents,
+      aideModifiers = testAideModifiers,
+      issue = ISSUE,
+      incidentMessage = RealDetector.IncidentMessage,
+    )
+  }
+
+  companion object {
+    private val TestImplementation = Implementation(
+      TestDetector::class.java,
+      EnumSet.of(Scope.JAVA_FILE),
+      Scope.JAVA_FILE_SCOPE,
+    )
+
+    val ISSUE = RealDetector.ISSUE.apply {
+      implementation = TestImplementation
     }
-
-    companion object {
-        private val TestImplementation = Implementation(
-            TestDetector::class.java,
-            EnumSet.of(Scope.JAVA_FILE),
-            Scope.JAVA_FILE_SCOPE,
-        )
-
-        val ISSUE = RealDetector.ISSUE.apply {
-            implementation = TestImplementation
-        }
-    }
+  }
 }
 
 private val material = kotlin(
-    """
+  """
     interface Modifier { companion object : Modifier }
 
     fun Modifier.span(text: String, color: Int) = this
@@ -69,11 +69,11 @@ private val material = kotlin(
 )
 
 fun lintTest(vararg sources: TestFile): TestLintResult {
-    return TestLintTask.lint()
-        .allowMissingSdk()
-        .allowDuplicates()
-        .allowSystemErrors(false) // default is true
-        .files(*(sources.asList() + material).map { it.within("src") }.toTypedArray())
-        .issues(TestDetector.ISSUE)
-        .run()
+  return TestLintTask.lint()
+    .allowMissingSdk()
+    .allowDuplicates()
+    .allowSystemErrors(false) // default is true
+    .files(*(sources.asList() + material).map { it.within("src") }.toTypedArray())
+    .issues(TestDetector.ISSUE)
+    .run()
 }

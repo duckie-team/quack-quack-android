@@ -26,55 +26,55 @@ import team.duckie.quackquack.casa.ui.theme.CasaTheme
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            CasaTheme {
-                CasaScreen(models = casaModels)
-            }
-            /*Preview {
-                var showIcons by remember { mutableStateOf(true) }
-                var enabled by remember { mutableStateOf(true) }
-                QuackButton(
-                    modifier = Modifier.then(Modifier).applyIf(showIcons) {
-                        icons(
-                            leadingIcon = QuackIcon.Heart,
-                            trailingIcon = QuackIcon.Heart,
-                        )
-                    },
-                    enabled = enabled,
-                    style = QuackButtonStyle.Large,
-                    text = "Hello, World!",
-                ) {
-                    toast("Hello, World!")
-                }
-                QuackButton(
-                    style = QuackButtonStyle.Medium,
-                    text = "enabled state: $enabled",
-                ) {
-                    enabled = !enabled
-                }
-                QuackButton(
-                    style = QuackButtonStyle.Small,
-                    text = "showIcons state: $showIcons",
-                ) {
-                    showIcons = !showIcons
-                }
-            }*/
-        }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent {
+      CasaTheme {
+        CasaScreen(models = casaModels)
+      }
+      /*Preview {
+          var showIcons by remember { mutableStateOf(true) }
+          var enabled by remember { mutableStateOf(true) }
+          QuackButton(
+              modifier = Modifier.then(Modifier).applyIf(showIcons) {
+                  icons(
+                      leadingIcon = QuackIcon.Heart,
+                      trailingIcon = QuackIcon.Heart,
+                  )
+              },
+              enabled = enabled,
+              style = QuackButtonStyle.Large,
+              text = "Hello, World!",
+          ) {
+              toast("Hello, World!")
+          }
+          QuackButton(
+              style = QuackButtonStyle.Medium,
+              text = "enabled state: $enabled",
+          ) {
+              enabled = !enabled
+          }
+          QuackButton(
+              style = QuackButtonStyle.Small,
+              text = "showIcons state: $showIcons",
+          ) {
+              showIcons = !showIcons
+          }
+      }*/
     }
+  }
 }
 
 @Suppress("UnusedPrivateMember", "unused")
 @Composable
 private fun Preview(content: @Composable ColumnScope.() -> Unit) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(
-            space = 8.dp,
-            alignment = Alignment.CenterVertically,
-        ),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        content = content,
-    )
+  Column(
+    modifier = Modifier.fillMaxSize(),
+    verticalArrangement = Arrangement.spacedBy(
+      space = 8.dp,
+      alignment = Alignment.CenterVertically,
+    ),
+    horizontalAlignment = Alignment.CenterHorizontally,
+    content = content,
+  )
 }

@@ -28,115 +28,115 @@ import org.junit.Test
 import team.duckie.quackquack.casa.ui.theme.CasaTheme
 
 class CasaUiTest {
-    @get:Rule
-    val rule = createComposeRule()
+  @get:Rule
+  val rule = createComposeRule()
 
-    // 검색
-    @Test
-    fun searchable() {
-        rule.setCasaScreen()
+  // 검색
+  @Test
+  fun searchable() {
+    rule.setCasaScreen()
 
-        val searchField = rule.onNodeWithTag("searchField")
-        val searchIcon = rule.onNodeWithContentDescription("Search")
-        val clearIcon = rule.onNodeWithContentDescription("Clear")
-        val casaComponents = rule.onNodeWithTag("casaComponents")
+    val searchField = rule.onNodeWithTag("searchField")
+    val searchIcon = rule.onNodeWithContentDescription("Search")
+    val clearIcon = rule.onNodeWithContentDescription("Clear")
+    val casaComponents = rule.onNodeWithTag("casaComponents")
 
-        searchIcon.performClick()
-        searchField.assertIsDisplayed()
-        // TODO: assertIsDisplayed() vs. assertExists()
-        // TODO: assert keyboard is open (how?)
+    searchIcon.performClick()
+    searchField.assertIsDisplayed()
+    // TODO: assertIsDisplayed() vs. assertExists()
+    // TODO: assert keyboard is open (how?)
 
-        searchField.performTextInput("kdoc")
-        casaComponents.assertSingleTextIsDisplayedOnChildren(
-            "QuackText KDOC",
-            "QuackButton KDOC",
-            "QuackTag KDOC",
-        )
+    searchField.performTextInput("kdoc")
+    casaComponents.assertSingleTextIsDisplayedOnChildren(
+      "QuackText KDOC",
+      "QuackButton KDOC",
+      "QuackTag KDOC",
+    )
 
-        searchField.performTextReplacement("aWeSoMe")
-        casaComponents.assertSingleTextIsDisplayedOnChildren(
-            "AwEsOmEQuackText",
-            "AwesomeQuackButton",
-        )
-        casaComponents.assertTextIsNotDisplayedOnChildren("QuackTag")
+    searchField.performTextReplacement("aWeSoMe")
+    casaComponents.assertSingleTextIsDisplayedOnChildren(
+      "AwEsOmEQuackText",
+      "AwesomeQuackButton",
+    )
+    casaComponents.assertTextIsNotDisplayedOnChildren("QuackTag")
 
-        searchField.performTextReplacement("button")
-        casaComponents.assertSingleTextIsDisplayedOnChildren("QuackButton KDOC")
-        casaComponents.assertTextIsNotDisplayedOnChildren("QuackText KDOC", "QuackTag KDOC")
+    searchField.performTextReplacement("button")
+    casaComponents.assertSingleTextIsDisplayedOnChildren("QuackButton KDOC")
+    casaComponents.assertTextIsNotDisplayedOnChildren("QuackText KDOC", "QuackTag KDOC")
 
-        clearIcon.performClick()
-        searchField.assertTextEquals("")
-        casaComponents.assertSingleTextIsDisplayedOnChildren(
-            "AwEsOmEQuackText",
-            "AwesomeQuackButton",
-            "QuackTag",
-        )
+    clearIcon.performClick()
+    searchField.assertTextEquals("")
+    casaComponents.assertSingleTextIsDisplayedOnChildren(
+      "AwEsOmEQuackText",
+      "AwesomeQuackButton",
+      "QuackTag",
+    )
+  }
+
+  // 도메인 네비게이션
+  @Test
+  fun navigation() {
+    rule.setCasaScreen()
+
+    val navigator = rule.onNodeWithTag("domainNavigator")
+    val casaComponents = rule.onNodeWithTag("casaComponents")
+
+    navigator.onChildren().filterToOne(hasTextExactly("text")).performClick()
+    casaComponents.assertSingleTextIsDisplayedOnChildren("QuackText KDOC")
+    casaComponents.assertTextIsNotDisplayedOnChildren(
+      "QuackButton KDOC",
+      "QuackTag KDOC",
+    )
+
+    navigator.onChildren().filterToOne(hasTextExactly("button")).performClick()
+    casaComponents.assertSingleTextIsDisplayedOnChildren(
+      "QuackText KDOC",
+      "QuackButton KDOC",
+    )
+    casaComponents.assertTextIsNotDisplayedOnChildren("QuackTag KDOC")
+
+    navigator.onChildren().run {
+      filterToOne(hasTextExactly("text")).performClick() // disable
+      filterToOne(hasTextExactly("button")).performClick() // disable
+      filterToOne(hasTextExactly("tag")).performClick() // enable
     }
+    casaComponents.assertSingleTextIsDisplayedOnChildren("QuackTag KDOC")
+    casaComponents.assertTextIsNotDisplayedOnChildren(
+      "QuackText KDOC",
+      "QuackButton KDOC",
+    )
 
-    // 도메인 네비게이션
-    @Test
-    fun navigation() {
-        rule.setCasaScreen()
-
-        val navigator = rule.onNodeWithTag("domainNavigator")
-        val casaComponents = rule.onNodeWithTag("casaComponents")
-
-        navigator.onChildren().filterToOne(hasTextExactly("text")).performClick()
-        casaComponents.assertSingleTextIsDisplayedOnChildren("QuackText KDOC")
-        casaComponents.assertTextIsNotDisplayedOnChildren(
-            "QuackButton KDOC",
-            "QuackTag KDOC",
-        )
-
-        navigator.onChildren().filterToOne(hasTextExactly("button")).performClick()
-        casaComponents.assertSingleTextIsDisplayedOnChildren(
-            "QuackText KDOC",
-            "QuackButton KDOC",
-        )
-        casaComponents.assertTextIsNotDisplayedOnChildren("QuackTag KDOC")
-
-        navigator.onChildren().run {
-            filterToOne(hasTextExactly("text")).performClick() // disable
-            filterToOne(hasTextExactly("button")).performClick() // disable
-            filterToOne(hasTextExactly("tag")).performClick() // enable
-        }
-        casaComponents.assertSingleTextIsDisplayedOnChildren("QuackTag KDOC")
-        casaComponents.assertTextIsNotDisplayedOnChildren(
-            "QuackText KDOC",
-            "QuackButton KDOC",
-        )
-
-        navigator.onChildren().filterToOne(hasTextExactly("tag")).performClick() // disable
-        casaComponents.assertSingleTextIsDisplayedOnChildren(
-            "QuackText KDOC",
-            "QuackButton KDOC",
-            "QuackTag KDOC",
-        )
-    }
+    navigator.onChildren().filterToOne(hasTextExactly("tag")).performClick() // disable
+    casaComponents.assertSingleTextIsDisplayedOnChildren(
+      "QuackText KDOC",
+      "QuackButton KDOC",
+      "QuackTag KDOC",
+    )
+  }
 }
 
 private fun ComposeContentTestRule.setCasaScreen() {
-    setContent {
-        CasaTheme {
-            CasaScreen(models = casaModels)
-        }
+  setContent {
+    CasaTheme {
+      CasaScreen(models = casaModels)
     }
+  }
 }
 
 private fun SemanticsNodeInteraction.assertSingleTextIsDisplayedOnChildren(vararg text: String) {
-    if (text.isEmpty()) return
+  if (text.isEmpty()) return
 
-    val children = onChildren()
-    text.forEach { currentText ->
-        children.filterToOne(hasText(currentText)).assertTextContains(currentText)
-    }
+  val children = onChildren()
+  text.forEach { currentText ->
+    children.filterToOne(hasText(currentText)).assertTextContains(currentText)
+  }
 }
 
 private fun SemanticsNodeInteraction.assertTextIsNotDisplayedOnChildren(vararg text: String) {
-    if (text.isEmpty()) return
+  if (text.isEmpty()) return
 
-    val matcher = text.drop(1).fold(!hasText(text.first())) { acc, element ->
-        acc and !hasText(element)
-    }
-    onChildren().assertAll(matcher)
+  val matcher = text.drop(1).fold(!hasText(text.first())) { acc, element ->
+    acc and !hasText(element)
+  }
+  onChildren().assertAll(matcher)
 }

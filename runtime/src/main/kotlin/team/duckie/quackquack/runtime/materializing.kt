@@ -28,16 +28,16 @@ import team.duckie.quackquack.util.MustBeTested
 @NoCopy
 @Immutable
 public data class QuackMaterializeResult internal constructor(
-    public val composeModifier: Modifier,
-    public val quackDataModels: List<QuackDataModifierModel>,
+  public val composeModifier: Modifier,
+  public val quackDataModels: List<QuackDataModifierModel>,
 )
 
 @VisibleForTesting
 internal object QuackMaterializingErrors {
-    const val MustProducesQuackDataModel =
-        "The result of the Modifier factory was expected to be a QuackDataModifierModel " +
-                "because `Modifier.quackComposed` was used, but it is not. " +
-                "If it returns the standard `Modifier.Element`, use `Modifier.composed` instead."
+  const val MustProducesQuackDataModel =
+    "The result of the Modifier factory was expected to be a QuackDataModifierModel " +
+        "because `Modifier.quackComposed` was used, but it is not. " +
+        "If it returns the standard `Modifier.Element`, use `Modifier.composed` instead."
 }
 
 /**
@@ -55,42 +55,42 @@ internal object QuackMaterializingErrors {
  */
 @MustBeTested(passed = true)
 public fun Composer.quackMaterializeOf(
-    modifier: Modifier,
-    taversingCallback: (modifier: Modifier) -> Unit = {},
+  modifier: Modifier,
+  taversingCallback: (modifier: Modifier) -> Unit = {},
 ): QuackMaterializeResult {
-    val needsNewGroup = modifier.any { it is QuackComposedModifier }
+  val needsNewGroup = modifier.any { it is QuackComposedModifier }
 
-    // Random number for fake group key. Chosen by fair die roll.
-    // `Integer.toHexString(Random.nextInt())`
-    if (needsNewGroup) startReplaceableGroup(0x7cf25b00)
+  // Random number for fake group key. Chosen by fair die roll.
+  // `Integer.toHexString(Random.nextInt())`
+  if (needsNewGroup) startReplaceableGroup(0x7cf25b00)
 
-    val quackDataModels = mutableListOf<QuackDataModifierModel>()
-    val composeModifier = modifier.foldIn<Modifier>(Modifier) { acc, element ->
-        taversingCallback(element)
-        when (element) {
-            is QuackDataModifierModel -> {
-                quackDataModels += element
-                acc
-            }
-            is QuackComposedModifier -> {
-                @Suppress("UNCHECKED_CAST")
-                val factory = element.factory as Modifier.(Composer, Int) -> Modifier
-                val composed = factory.invoke(Modifier, this, 0) as? QuackDataModifierModel ?: error(
-                    message = QuackMaterializingErrors.MustProducesQuackDataModel,
-                )
-                quackDataModels += composed
-                acc
-            }
-            else -> {
-                acc.then(element)
-            }
-        }
+  val quackDataModels = mutableListOf<QuackDataModifierModel>()
+  val composeModifier = modifier.foldIn<Modifier>(Modifier) { acc, element ->
+    taversingCallback(element)
+    when (element) {
+      is QuackDataModifierModel -> {
+        quackDataModels += element
+        acc
+      }
+      is QuackComposedModifier -> {
+        @Suppress("UNCHECKED_CAST")
+        val factory = element.factory as Modifier.(Composer, Int) -> Modifier
+        val composed = factory.invoke(Modifier, this, 0) as? QuackDataModifierModel ?: error(
+          message = QuackMaterializingErrors.MustProducesQuackDataModel,
+        )
+        quackDataModels += composed
+        acc
+      }
+      else -> {
+        acc.then(element)
+      }
     }
+  }
 
-    if (needsNewGroup) endReplaceableGroup()
+  if (needsNewGroup) endReplaceableGroup()
 
-    return QuackMaterializeResult(
-        composeModifier = composeModifier,
-        quackDataModels = quackDataModels,
-    )
+  return QuackMaterializeResult(
+    composeModifier = composeModifier,
+    quackDataModels = quackDataModels,
+  )
 }

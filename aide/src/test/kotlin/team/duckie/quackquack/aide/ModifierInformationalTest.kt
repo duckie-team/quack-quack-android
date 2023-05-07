@@ -13,12 +13,12 @@ import io.kotest.core.spec.style.FreeSpec
 
 @Ignored(reason = "https://github.com/duckie-team/quack-quack-android/issues/641")
 class ModifierInformationalTest : FreeSpec() {
-    init {
-        "도메인에 벗어나는 DecorateModifier를 사용했을 때 경고가 발생함" - {
-            "Modifier.Companion" {
-                lintTest(
-                    kotlin(
-                        """
+  init {
+    "도메인에 벗어나는 DecorateModifier를 사용했을 때 경고가 발생함" - {
+      "Modifier.Companion" {
+        lintTest(
+          kotlin(
+            """
                     fun main() {
                         QuackText(
                             Modifier
@@ -45,10 +45,10 @@ class ModifierInformationalTest : FreeSpec() {
                         )
                     }
                     """,
-                    ),
-                )
-                    .expect(
-                        """
+          ),
+        )
+          .expect(
+            """
 src/test.kt:6: Warning: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
                                 .onClick {}
                                 ~~~~~~~~~~~
@@ -63,13 +63,13 @@ src/test.kt:19: Warning: 올바르지 않은 DecorateModifier의 사용이 감�
                                 ^
 0 errors, 4 warnings
                     """,
-                    )
-            }
+          )
+      }
 
-            "Modifier" {
-                lintTest(
-                    kotlin(
-                        """
+      "Modifier" {
+        lintTest(
+          kotlin(
+            """
                     fun main() {
                         val modifier = Modifier.span("", -1)
 
@@ -98,10 +98,10 @@ src/test.kt:19: Warning: 올바르지 않은 DecorateModifier의 사용이 감�
                         )
                     }
                     """,
-                    ),
-                )
-                    .expect(
-                        """
+          ),
+        )
+          .expect(
+            """
 src/test.kt:8: Warning: 올바르지 않은 DecorateModifier의 사용이 감지되었습니다. [WrongDecorateModifier]
                                 .onClick {}
                                 ~~~~~~~~~~~
@@ -116,19 +116,19 @@ src/test.kt:21: Warning: 올바르지 않은 DecorateModifier의 사용이 감�
                                 ^
 0 errors, 4 warnings
                     """,
-                    )
-            }
+          )
+      }
 
-            "변수로 분리된 Modifier".config(enabled = false) {
-                TODO("아직 지원하지 않음")
-            }
-        }
+      "변수로 분리된 Modifier".config(enabled = false) {
+        TODO("아직 지원하지 않음")
+      }
+    }
 
-        "도메인에 벗어나는 DecorateModifier를 사용했을 때 유효한 QuickFix가 제공됨" - {
-            "Modifier.Companion" {
-                lintTest(
-                    kotlin(
-                        """
+    "도메인에 벗어나는 DecorateModifier를 사용했을 때 유효한 QuickFix가 제공됨" - {
+      "Modifier.Companion" {
+        lintTest(
+          kotlin(
+            """
                     fun main() {
                         QuackText(
                             Modifier
@@ -155,10 +155,10 @@ src/test.kt:21: Warning: 올바르지 않은 DecorateModifier의 사용이 감�
                         )
                     }
                     """,
-                    ),
-                )
-                    .expectFixDiffs(
-                        """
+          ),
+        )
+          .expectFixDiffs(
+            """
 Autofix for src/test.kt line 6: Remove onClick modifier:
 @@ -6 +6
 -                                 .onClick {}
@@ -184,13 +184,13 @@ Autofix for src/test.kt line 19: Remove longParameters modifier:
 -                                 ),
 +                                 ,
                     """,
-                    )
-            }
+          )
+      }
 
-            "Modifier" {
-                lintTest(
-                    kotlin(
-                        """
+      "Modifier" {
+        lintTest(
+          kotlin(
+            """
                     fun main() {
                         val modifier = Modifier.span("", -1)
 
@@ -219,10 +219,10 @@ Autofix for src/test.kt line 19: Remove longParameters modifier:
                         )
                     }
                     """,
-                    ),
-                )
-                    .expectFixDiffs(
-                        """
+          ),
+        )
+          .expectFixDiffs(
+            """
 Autofix for src/test.kt line 8: Remove onClick modifier:
 @@ -8 +8
 -                                 .onClick {}
@@ -248,8 +248,8 @@ Autofix for src/test.kt line 21: Remove longParameters modifier:
 -                                 ),
 +                                 ,
                     """,
-                    )
-            }
-        }
+          )
+      }
     }
+  }
 }

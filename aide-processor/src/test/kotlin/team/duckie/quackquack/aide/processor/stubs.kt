@@ -12,7 +12,7 @@ import team.duckie.quackquack.util.backend.test.stub.AideStub
 import team.duckie.quackquack.util.backend.test.stub.ComposeStub
 
 val stubs = listOf(
-    kotlin("Modifier.kt", ComposeStub.Modifier),
-    kotlin("Composable.kt", ComposeStub.Composable),
-    kotlin("DecorateModifier.kt", AideStub.Annotation),
+  kotlin("Modifier.kt", ComposeStub.Modifier),
+  kotlin("Composable.kt", ComposeStub.Composable),
+  kotlin("DecorateModifier.kt", AideStub.Annotation),
 )

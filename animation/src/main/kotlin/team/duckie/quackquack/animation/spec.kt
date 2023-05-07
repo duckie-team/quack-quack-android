@@ -40,32 +40,32 @@ public var QuackAnimationMillis: Int = QuackDefaultAnimationMillis
  * 꽥꽥에서 사용할 [AnimationSpec]의 정보
  */
 public object QuackAnimationSpec {
-    /**
-     * 일부 환경에서는 애니메이션이 없이 진행돼야 할 때도 있습니다.
-     * 이 값을 true로 설정하면 모든 애니메이션을 무시합니다.
-     *
-     * **이 값의 변경은 모든 애니메이션에 영향을 미치므로 신중하게 사용해야 합니다.**
-     */
-    @DelicateQuackApi
-    public var snapMode: Boolean = false
+  /**
+   * 일부 환경에서는 애니메이션이 없이 진행돼야 할 때도 있습니다.
+   * 이 값을 true로 설정하면 모든 애니메이션을 무시합니다.
+   *
+   * **이 값의 변경은 모든 애니메이션에 영향을 미치므로 신중하게 사용해야 합니다.**
+   */
+  @DelicateQuackApi
+  public var snapMode: Boolean = false
 
-    /**
-     * 꽥꽥에서 사용할 [애니메이션의 기본 스팩][AnimationSpec]
-     *
-     * @return 덕키에서 사용할 [AnimationSpec]. [snapMode] 에 따라 반환값이 달라집니다.
-     * `false`라면 덕키에서 사용하는 애니메이션 스팩인 [TweenSpec]이 반환되고,
-     * `true`라면 [SnapSpec]이 반환됩니다.
-     *
-     * @see snapMode
-     */
-    @OptIn(DelicateQuackApi::class)
-    public operator fun <T> invoke(): DurationBasedAnimationSpec<T> = when (snapMode) {
-        true -> snap()
-        else -> tween(
-            durationMillis = QuackAnimationMillis,
-            easing = LinearEasing,
-        )
-    }
+  /**
+   * 꽥꽥에서 사용할 [애니메이션의 기본 스팩][AnimationSpec]
+   *
+   * @return 덕키에서 사용할 [AnimationSpec]. [snapMode] 에 따라 반환값이 달라집니다.
+   * `false`라면 덕키에서 사용하는 애니메이션 스팩인 [TweenSpec]이 반환되고,
+   * `true`라면 [SnapSpec]이 반환됩니다.
+   *
+   * @see snapMode
+   */
+  @OptIn(DelicateQuackApi::class)
+  public operator fun <T> invoke(): DurationBasedAnimationSpec<T> = when (snapMode) {
+    true -> snap()
+    else -> tween(
+      durationMillis = QuackAnimationMillis,
+      easing = LinearEasing,
+    )
+  }
 }
 
 /**
@@ -78,8 +78,8 @@ public object QuackAnimationSpec {
  */
 @Stable
 public fun <T> quackOptionalAnimationSpec(useAnimation: Boolean): DurationBasedAnimationSpec<T> {
-    return when (useAnimation) {
-        true -> QuackAnimationSpec()
-        else -> snap()
-    }
+  return when (useAnimation) {
+    true -> QuackAnimationSpec()
+    else -> snap()
+  }
 }

@@ -9,23 +9,7 @@
 
 package team.duckie.quackquack.ui.sugar
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
-import kotlin.Boolean
-import kotlin.OptIn
-import kotlin.String
-import kotlin.Suppress
-import kotlin.Unit
-import team.duckie.quackquack.casa.`annotation`.Casa
-import team.duckie.quackquack.casa.`annotation`.CasaValue
-import team.duckie.quackquack.casa.`annotation`.SugarGeneratorUsage
-import team.duckie.quackquack.material.QuackTypography
-import team.duckie.quackquack.sugar.material.SugarCompilerApi
-import team.duckie.quackquack.sugar.material.SugarGeneratedFile
-import team.duckie.quackquack.sugar.material.SugarRefer
-import team.duckie.quackquack.sugar.material.sugar
-import team.duckie.quackquack.ui.QuackText
+import androidx.compose.runtime.Composableimport androidx.compose.ui.Modifierimport androidx.compose.ui.text.style.TextOverflowimport team.duckie.quackquack.casa.annotation.Casaimport team.duckie.quackquack.casa.annotation.CasaValueimport team.duckie.quackquack.material.QuackTypographyimport team.duckie.quackquack.sugar.material.SugarCompilerApiimport team.duckie.quackquack.sugar.material.SugarGeneratedFileimport team.duckie.quackquack.sugar.material.SugarReferimport team.duckie.quackquack.sugar.material.sugarimport team.duckie.quackquack.ui.QuackTextandroidx.compose.ui.Modifierimport androidx.compose.ui.text.style.TextOverflowimport team.duckie.quackquack.casa.annotation.Casaimport team.duckie.quackquack.casa.annotation.CasaValueimport team.duckie.quackquack.casa.annotation.SugarGeneratorUsageimport team.duckie.quackquack.material.QuackTypographyimport team.duckie.quackquack.sugar.material.SugarCompilerApiimport team.duckie.quackquack.sugar.material.SugarGeneratedFileimport team.duckie.quackquack.sugar.material.SugarReferimport team.duckie.quackquack.sugar.material.sugarimport team.duckie.quackquack.ui.QuackText
 
 /**
  * 텍스트를 그리는 기본적인 컴포저블입니다.

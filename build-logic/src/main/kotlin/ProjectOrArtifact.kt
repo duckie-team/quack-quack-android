@@ -48,12 +48,12 @@ const val useArtifact = false
  * @see useArtifact
  */
 fun ProjectDependency.orArtifact(): Any {
-    return if (useArtifact) {
-        val artifact = ArtifactConfig.of(dependencyProject)
-        artifact.toString()
-    } else {
-        this
-    }
+  return if (useArtifact) {
+    val artifact = ArtifactConfig.of(dependencyProject)
+    artifact.toString()
+  } else {
+    this
+  }
 }
 
 /**
@@ -62,5 +62,5 @@ fun ProjectDependency.orArtifact(): Any {
  * [useArtifact]가 false라면 개발 중인 단계에 있다고 가정합니다.
  */
 fun <S, R> S.safeRunWithinDevelopmentMode(block: S.() -> R) {
-    if (!useArtifact) block()
+  if (!useArtifact) block()
 }

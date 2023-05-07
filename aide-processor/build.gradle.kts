@@ -8,27 +8,27 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
 plugins {
-    quackquack("jvm-kotlin")
-    quackquack("test-kotest")
-    quackquack("quack-publishing")
-    alias(libs.plugins.kotlin.ksp)
+  quackquack("jvm-kotlin")
+  quackquack("test-kotest")
+  quackquack("quack-publishing")
+  alias(libs.plugins.kotlin.ksp)
 }
 
 ksp {
-    arg("autoserviceKsp.verify", "true")
-    arg("autoserviceKsp.verbose", "true")
+  arg("autoserviceKsp.verify", "true")
+  arg("autoserviceKsp.verbose", "true")
 }
 
 dependencies {
-    ksp(libs.google.autoservice.ksp.processor)
-    implementations(
-        libs.kotlin.ksp.api,
-        libs.kotlin.kotlinpoet.core,
-        libs.google.autoservice.annotation,
-        projects.utilBackend.orArtifact(),
-    )
-    testImplementations(
-        libs.test.kotlin.compilation.ksp,
-        projects.utilBackendTest,
-    )
+  ksp(libs.google.autoservice.ksp.processor)
+  implementations(
+    libs.kotlin.ksp.api,
+    libs.kotlin.kotlinpoet.core,
+    libs.google.autoservice.annotation,
+    projects.utilBackend.orArtifact(),
+  )
+  testImplementations(
+    libs.test.kotlin.compilation.ksp,
+    projects.utilBackendTest,
+  )
 }

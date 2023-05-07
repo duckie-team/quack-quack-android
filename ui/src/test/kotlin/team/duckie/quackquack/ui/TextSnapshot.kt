@@ -29,24 +29,24 @@ import team.duckie.quackquack.ui.util.snapshotPath
 @Config(manifest = Config.NONE)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class TextSnapshot {
-    @Test
-    fun ModifierSpan() {
-        captureRoboImage(snapshotPath("text")) {
-            QuackText(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = Color.White)
-                    .padding(30.dp)
-                    .span(
-                        texts = listOf("QuackQuack", "Duckie"),
-                        style = SpanStyle(
-                            color = QuackColor.DuckieOrange.value,
-                            fontWeight = FontWeight.Bold,
-                        ),
-                    ),
-                text = "QuackQuack is an awesome ui kit created by the Duckie team.",
-                typography = QuackTypography.Large1,
-            )
-        }
+  @Test
+  fun ModifierSpan() {
+    captureRoboImage(snapshotPath("text")) {
+      QuackText(
+        modifier = Modifier
+          .fillMaxWidth()
+          .background(color = Color.White)
+          .padding(30.dp)
+          .span(
+            texts = listOf("QuackQuack", "Duckie"),
+            style = SpanStyle(
+              color = QuackColor.DuckieOrange.value,
+              fontWeight = FontWeight.Bold,
+            ),
+          ),
+        text = "QuackQuack is an awesome ui kit created by the Duckie team.",
+        typography = QuackTypography.Large1,
+      )
     }
+  }
 }

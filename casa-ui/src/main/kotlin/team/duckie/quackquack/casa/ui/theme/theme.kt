@@ -24,51 +24,51 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val casaDarkColorScheme = darkColorScheme(
-    primary = primaryDark,
-    onPrimary = Color.White,
-    secondary = secondaryDark,
-    onSecondary = Color.White,
-    background = Color.DarkGray,
+  primary = primaryDark,
+  onPrimary = Color.White,
+  secondary = secondaryDark,
+  onSecondary = Color.White,
+  background = Color.DarkGray,
 )
 
 private val casaLightColorScheme = lightColorScheme(
-    primary = primary,
-    onPrimary = Color.Black,
-    secondary = secondary,
-    onSecondary = Color.White,
-    background = Color(0xFFFcFcFc),
+  primary = primary,
+  onPrimary = Color.Black,
+  secondary = secondary,
+  onSecondary = Color.White,
+  background = Color(0xFFFcFcFc),
 )
 
 @Composable
 public fun CasaTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit,
+  darkTheme: Boolean = isSystemInDarkTheme(),
+  content: @Composable () -> Unit,
 ) {
-    val context = LocalContext.current
-    val colorScheme = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> if (darkTheme) {
-            dynamicDarkColorScheme(context)
-        } else {
-            dynamicLightColorScheme(context)
-        }
-        darkTheme -> casaDarkColorScheme
-        else -> casaLightColorScheme
+  val context = LocalContext.current
+  val colorScheme = when {
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> if (darkTheme) {
+      dynamicDarkColorScheme(context)
+    } else {
+      dynamicLightColorScheme(context)
     }
+    darkTheme -> casaDarkColorScheme
+    else -> casaLightColorScheme
+  }
 
-    val view = LocalView.current
-    SideEffect {
-        val window = (view.context as Activity).window
-        val controller = WindowCompat.getInsetsController(window, view)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+  val view = LocalView.current
+  SideEffect {
+    val window = (view.context as Activity).window
+    val controller = WindowCompat.getInsetsController(window, view)
+    WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        window.statusBarColor = Color.Transparent.toArgb()
-        window.navigationBarColor = Color.Transparent.toArgb()
-        controller.isAppearanceLightStatusBars = !darkTheme
-        controller.isAppearanceLightNavigationBars = !darkTheme
-    }
+    window.statusBarColor = Color.Transparent.toArgb()
+    window.navigationBarColor = Color.Transparent.toArgb()
+    controller.isAppearanceLightStatusBars = !darkTheme
+    controller.isAppearanceLightNavigationBars = !darkTheme
+  }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        content = content,
-    )
+  MaterialTheme(
+    colorScheme = colorScheme,
+    content = content,
+  )
 }

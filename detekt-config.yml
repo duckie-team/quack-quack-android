@@ -25,13 +25,25 @@ formatting:
   MaximumLineLength:
     maxLineLength: 150
   Indentation:
-    active: false
+    indentSize: 2
+  ArgumentListWrapping:
+    indentSize: 2
+    maxLineLength: 150
+  KdocWrapping:
+    active: true
+    indentSize: 2
+  Wrapping:
+    indentSize: 2
+  CommentWrapping:
+    active: true
+    indentSize: 2
+  FunctionSignature:
+    active: true
+    indentSize: 2
   Filename:
     active: false
   PackageName:
     active: false
-  ArgumentListWrapping:
-    maxLineLength: 150
 
 style:
   MagicNumber:

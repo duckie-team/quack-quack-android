@@ -20,11 +20,11 @@ import androidx.compose.ui.unit.Constraints
  */
 @Stable
 public fun Constraints.asLoose(
-    width: Boolean = false,
-    height: Boolean = false,
+  width: Boolean = false,
+  height: Boolean = false,
 ): Constraints {
-    return copy(
-        minWidth = if (width) 0 else minWidth,
-        minHeight = if (height) 0 else minHeight,
-    )
+  return copy(
+    minWidth = if (width) 0 else minWidth,
+    minHeight = if (height) 0 else minHeight,
+  )
 }

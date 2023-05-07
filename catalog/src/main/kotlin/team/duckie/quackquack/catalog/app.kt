@@ -11,8 +11,8 @@ import android.app.Application
 import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
 
 class App : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        isDebugInspectorInfoEnabled = BuildConfig.DEBUG
-    }
+  override fun onCreate() {
+    super.onCreate()
+    isDebugInspectorInfoEnabled = BuildConfig.DEBUG
+  }
 }

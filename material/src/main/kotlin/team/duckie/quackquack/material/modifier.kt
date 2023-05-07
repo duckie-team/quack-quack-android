@@ -25,26 +25,26 @@ import androidx.compose.ui.unit.dp
  */
 @Stable
 public fun Modifier.quackSurface(
-    shape: Shape = RectangleShape,
-    backgroundColor: QuackColor = QuackColor.Unspecified,
-    border: QuackBorder? = null,
-    elevation: Dp = 0.dp,
-    role: Role? = null,
-    rippleEnabled: Boolean = true,
-    rippleColor: QuackColor = QuackColor.Unspecified,
-    onClick: (() -> Unit)? = null,
+  shape: Shape = RectangleShape,
+  backgroundColor: QuackColor = QuackColor.Unspecified,
+  border: QuackBorder? = null,
+  elevation: Dp = 0.dp,
+  role: Role? = null,
+  rippleEnabled: Boolean = true,
+  rippleColor: QuackColor = QuackColor.Unspecified,
+  onClick: (() -> Unit)? = null,
 ): Modifier = inspectable(
-    inspectorInfo = debugInspectorInfo {
-        name = "quackSurface"
-        properties["shape"] = shape
-        properties["backgroundColor"] = backgroundColor
-        properties["border"] = border
-        properties["elevation"] = elevation
-        properties["role"] = role
-        properties["rippleEnabled"] = rippleEnabled
-        properties["rippleColor"] = rippleColor
-        properties["onClick"] = onClick
-    },
+  inspectorInfo = debugInspectorInfo {
+    name = "quackSurface"
+    properties["shape"] = shape
+    properties["backgroundColor"] = backgroundColor
+    properties["border"] = border
+    properties["elevation"] = elevation
+    properties["role"] = role
+    properties["rippleEnabled"] = rippleEnabled
+    properties["rippleColor"] = rippleColor
+    properties["onClick"] = onClick
+  },
 ) {
     this
         .shadow(

@@ -12,12 +12,12 @@ package team.duckie.quackquack.ui.util
 import java.io.File
 
 inline fun snapshotPath(domain: String): File {
-    return File("src/test/snapshots/$domain/${getCurrentMethodName()}.png").also { file ->
-        file.parentFile?.mkdirs()
-    }
+  return File("src/test/snapshots/$domain/${getCurrentMethodName()}.png").also { file ->
+    file.parentFile?.mkdirs()
+  }
 }
 
 inline fun getCurrentMethodName(): String {
-    // https://stackoverflow.com/a/32329165/14299073
-    return Thread.currentThread().stackTrace[1].methodName
+  // https://stackoverflow.com/a/32329165/14299073
+  return Thread.currentThread().stackTrace[1].methodName
 }

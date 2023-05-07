@@ -30,21 +30,21 @@ import team.duckie.quackquack.util.AllowMagicNumber
  */
 @Suppress("PrivatePropertyName")
 private val TextAlignVectorConverter = object : TwoWayConverter<TextAlign, AnimationVector1D> {
-    val values = TextAlign.values()
-    override val convertFromVector: (vector: AnimationVector1D) -> TextAlign
-        get() = { vector ->
-            @AllowMagicNumber(because = "TextAlign 의 range 를 나타냅니다.")
-            val index = vector.value.roundToInt().coerceIn(
-                // TextAlign 의 값이 1 부터 시작
-                range = 1..6,
-            )
-            values[index]
-        }
-    override val convertToVector: (value: TextAlign) -> AnimationVector1D
-        get() = { value ->
-            // TextAlign 의 값이 1 부터 시작해서 +1
-            AnimationVector1D(values.indexOf(value) + 1f)
-        }
+  val values = TextAlign.values()
+  override val convertFromVector: (vector: AnimationVector1D) -> TextAlign
+    get() = { vector ->
+      @AllowMagicNumber(because = "TextAlign 의 range 를 나타냅니다.")
+      val index = vector.value.roundToInt().coerceIn(
+        // TextAlign 의 값이 1 부터 시작
+        range = 1..6,
+      )
+      values[index]
+    }
+  override val convertToVector: (value: TextAlign) -> AnimationVector1D
+    get() = { value ->
+      // TextAlign 의 값이 1 부터 시작해서 +1
+      AnimationVector1D(values.indexOf(value) + 1f)
+    }
 }
 
 /**
@@ -69,51 +69,51 @@ private val TextAlignVectorConverter = object : TwoWayConverter<TextAlign, Anima
  */
 @Composable
 public fun animatedQuackTextStyleAsState(
-    targetValue: QuackTypography,
-    label: String = "animatedQuackTextStyleAsState",
-    colorAnimationFinishedListener: ((color: QuackColor) -> Unit)? = null,
-    sizeAnimationFinishedListener: ((size: Float) -> Unit)? = null,
-    letterSpacingAnimationFinishedListener: ((letterSpacing: Float) -> Unit)? = null,
-    lineHeightAnimationFinishedListener: ((lineHeight: Float) -> Unit)? = null,
-    textAlignAnimationFinishedListener: ((textAlign: TextAlign) -> Unit)? = null,
+  targetValue: QuackTypography,
+  label: String = "animatedQuackTextStyleAsState",
+  colorAnimationFinishedListener: ((color: QuackColor) -> Unit)? = null,
+  sizeAnimationFinishedListener: ((size: Float) -> Unit)? = null,
+  letterSpacingAnimationFinishedListener: ((letterSpacing: Float) -> Unit)? = null,
+  lineHeightAnimationFinishedListener: ((lineHeight: Float) -> Unit)? = null,
+  textAlignAnimationFinishedListener: ((textAlign: TextAlign) -> Unit)? = null,
 ): QuackTypography {
-    val targetColorAnimationState by animateQuackColorAsState(
-        targetValue = targetValue.color,
-        label = label,
-        finishedListener = colorAnimationFinishedListener,
-    )
-    val targetSizeAnimationState by animateFloatAsState(
-        targetValue = targetValue.size.value,
-        animationSpec = QuackAnimationSpec(),
-        label = label,
-        finishedListener = sizeAnimationFinishedListener,
-    )
-    val targetLetterSpacingAnimationState by animateFloatAsState(
-        targetValue = targetValue.letterSpacing.value,
-        animationSpec = QuackAnimationSpec(),
-        label = label,
-        finishedListener = letterSpacingAnimationFinishedListener,
-    )
-    val targetLineHeightAnimationState by animateFloatAsState(
-        targetValue = targetValue.lineHeight.value,
-        animationSpec = QuackAnimationSpec(),
-        label = label,
-        finishedListener = lineHeightAnimationFinishedListener,
-    )
-    val targetTextAlignAnimationState by animateValueAsState(
-        targetValue = targetValue.textAlign,
-        typeConverter = TextAlignVectorConverter,
-        animationSpec = QuackAnimationSpec(),
-        label = label,
-        finishedListener = textAlignAnimationFinishedListener,
-    )
+  val targetColorAnimationState by animateQuackColorAsState(
+    targetValue = targetValue.color,
+    label = label,
+    finishedListener = colorAnimationFinishedListener,
+  )
+  val targetSizeAnimationState by animateFloatAsState(
+    targetValue = targetValue.size.value,
+    animationSpec = QuackAnimationSpec(),
+    label = label,
+    finishedListener = sizeAnimationFinishedListener,
+  )
+  val targetLetterSpacingAnimationState by animateFloatAsState(
+    targetValue = targetValue.letterSpacing.value,
+    animationSpec = QuackAnimationSpec(),
+    label = label,
+    finishedListener = letterSpacingAnimationFinishedListener,
+  )
+  val targetLineHeightAnimationState by animateFloatAsState(
+    targetValue = targetValue.lineHeight.value,
+    animationSpec = QuackAnimationSpec(),
+    label = label,
+    finishedListener = lineHeightAnimationFinishedListener,
+  )
+  val targetTextAlignAnimationState by animateValueAsState(
+    targetValue = targetValue.textAlign,
+    typeConverter = TextAlignVectorConverter,
+    animationSpec = QuackAnimationSpec(),
+    label = label,
+    finishedListener = textAlignAnimationFinishedListener,
+  )
 
-    return QuackTypography(
-        color = targetColorAnimationState,
-        size = targetSizeAnimationState.toSp(),
-        weight = targetValue.weight,
-        letterSpacing = targetLetterSpacingAnimationState.toSp(),
-        lineHeight = targetLineHeightAnimationState.toSp(),
-        textAlign = targetTextAlignAnimationState,
-    )
+  return QuackTypography(
+    color = targetColorAnimationState,
+    size = targetSizeAnimationState.toSp(),
+    weight = targetValue.weight,
+    letterSpacing = targetLetterSpacingAnimationState.toSp(),
+    lineHeight = targetLineHeightAnimationState.toSp(),
+    textAlign = targetTextAlignAnimationState,
+  )
 }

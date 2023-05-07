@@ -17,30 +17,30 @@ import org.jetbrains.kotlin.ir.util.dumpKotlinLike
 import org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid
 
 internal class DRPIrVisitor(
-    @Suppress("unused") private val context: IrPluginContext,
-    private val logger: Logger,
+  @Suppress("unused") private val context: IrPluginContext,
+  private val logger: Logger,
 ) : IrElementVisitorVoid {
-    override fun visitModuleFragment(declaration: IrModuleFragment) {
-        declaration.files.forEach { file ->
-            file.accept(this, null)
-        }
+  override fun visitModuleFragment(declaration: IrModuleFragment) {
+    declaration.files.forEach { file ->
+      file.accept(this, null)
     }
+  }
 
-    override fun visitFile(declaration: IrFile) {
-        declaration.declarations.forEach { item ->
-            item.accept(this, null)
-        }
+  override fun visitFile(declaration: IrFile) {
+    declaration.declarations.forEach { item ->
+      item.accept(this, null)
     }
+  }
 
-    override fun visitSimpleFunction(declaration: IrSimpleFunction) {
-        logger(declaration.dumpKotlinLike())
-    }
+  override fun visitSimpleFunction(declaration: IrSimpleFunction) {
+    logger(declaration.dumpKotlinLike())
+  }
 
-    override fun visitTypeAlias(declaration: IrTypeAlias) {
-        logger(declaration.dumpKotlinLike())
-    }
+  override fun visitTypeAlias(declaration: IrTypeAlias) {
+    logger(declaration.dumpKotlinLike())
+  }
 
-    override fun visitClass(declaration: IrClass) {
-        logger(declaration.dumpKotlinLike())
-    }
+  override fun visitClass(declaration: IrClass) {
+    logger(declaration.dumpKotlinLike())
+  }
 }

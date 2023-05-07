@@ -20,18 +20,18 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 
 @AutoService(ComponentRegistrar::class)
 class DocumentableResourceParser : ComponentRegistrar {
-    override val supportsK2 = false
+  override val supportsK2 = false
 
-    override fun registerProjectComponents(
-        project: MockProject,
-        configuration: CompilerConfiguration,
-    ) {
-        project.extensionArea
-            .getExtensionPoint(IrGenerationExtension.extensionPointName)
-            .registerExtension(
-                DRPIrExtension(configuration.getLogger()),
-                LoadingOrder.FIRST,
-                project,
-            )
-    }
+  override fun registerProjectComponents(
+    project: MockProject,
+    configuration: CompilerConfiguration,
+  ) {
+    project.extensionArea
+      .getExtensionPoint(IrGenerationExtension.extensionPointName)
+      .registerExtension(
+        DRPIrExtension(configuration.getLogger()),
+        LoadingOrder.FIRST,
+        project,
+      )
+  }
 }

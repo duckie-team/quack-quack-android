@@ -16,5 +16,5 @@ import androidx.compose.ui.util.fastFirstOrNull
  * 모든 원소가 [T]로 casting이 불가하면 null을 반환합니다.
  */
 public inline fun <reified T> List<*>.fastFirstIsInstanceOrNull(): T? {
-    return fastFirstOrNull { it is T } as? T
+  return fastFirstOrNull { it is T } as? T
 }

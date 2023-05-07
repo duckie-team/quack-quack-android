@@ -60,32 +60,32 @@ public var QuackAlwaysShowRipple: Boolean by mutableStateOf(QuackDefaultAlwaysSh
  */
 @Stable
 public fun Modifier.quackClickable(
-    role: Role? = null,
-    rippleColor: QuackColor? = null,
-    rippleEnabled: Boolean = true,
-    onClick: (() -> Unit)? = null,
-    onLongClick: (() -> Unit)? = null,
+  role: Role? = null,
+  rippleColor: QuackColor? = null,
+  rippleEnabled: Boolean = true,
+  onClick: (() -> Unit)? = null,
+  onLongClick: (() -> Unit)? = null,
 ): Modifier = composed(
-    fullyQualifiedName = "team.duckie.quackquack.material.quackClickable",
-    key1 = rippleColor,
-    key2 = rippleEnabled,
-    inspectorInfo = debugInspectorInfo {
-        name = "quackClickable"
-        properties["role"] = role
-        properties["rippleColor"] = rippleColor
-        properties["rippleEnabled"] = rippleEnabled
-        properties["onClick"] = onClick
-        properties["onLongClick"] = onLongClick
-    },
+  fullyQualifiedName = "team.duckie.quackquack.material.quackClickable",
+  key1 = rippleColor,
+  key2 = rippleEnabled,
+  inspectorInfo = debugInspectorInfo {
+    name = "quackClickable"
+    properties["role"] = role
+    properties["rippleColor"] = rippleColor
+    properties["rippleEnabled"] = rippleEnabled
+    properties["onClick"] = onClick
+    properties["onLongClick"] = onLongClick
+  },
 ) {
-    val ripple = rememberRipple(color = rippleColor?.value ?: Color.Unspecified)
-    val interactionSource = remember { MutableInteractionSource() }
+  val ripple = rememberRipple(color = rippleColor?.value ?: Color.Unspecified)
+  val interactionSource = remember { MutableInteractionSource() }
 
-    combinedClickable(
-        indication = ripple.takeIf { QuackAlwaysShowRipple || rippleEnabled },
-        interactionSource = interactionSource,
-        role = role,
-        onClick = onClick ?: {},
-        onLongClick = onLongClick,
-    )
+  combinedClickable(
+    indication = ripple.takeIf { QuackAlwaysShowRipple || rippleEnabled },
+    interactionSource = interactionSource,
+    role = role,
+    onClick = onClick ?: {},
+    onLongClick = onLongClick,
+  )
 }

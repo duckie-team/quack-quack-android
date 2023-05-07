@@ -24,130 +24,130 @@ import team.duckie.quackquack.material.QuackColor
 /* ----- START: Copied from AOSP ----- */
 
 private val M1 = floatArrayOf(
-    0.80405736f,
-    0.026893456f,
-    0.04586542f,
-    0.3188387f,
-    0.9319606f,
-    0.26299807f,
-    -0.11419419f,
-    0.05105356f,
-    0.83999807f,
+  0.80405736f,
+  0.026893456f,
+  0.04586542f,
+  0.3188387f,
+  0.9319606f,
+  0.26299807f,
+  -0.11419419f,
+  0.05105356f,
+  0.83999807f,
 )
 
 private val InverseM1 = floatArrayOf(
-    1.2485008f,
-    -0.032856926f,
-    -0.057883114f,
-    -0.48331892f,
-    1.1044513f,
-    -0.3194066f,
-    0.19910365f,
-    -0.07159331f,
-    1.202023f,
+  1.2485008f,
+  -0.032856926f,
+  -0.057883114f,
+  -0.48331892f,
+  1.1044513f,
+  -0.3194066f,
+  0.19910365f,
+  -0.07159331f,
+  1.202023f,
 )
 
 private fun multiplyColumn(
-    column: Int,
-    x: Float,
-    y: Float,
-    z: Float,
-    matrix: FloatArray,
+  column: Int,
+  x: Float,
+  y: Float,
+  z: Float,
+  matrix: FloatArray,
 ) = x * matrix[column] + y * matrix[3 + column] + z * matrix[6 + column]
 
 private val QuackColorVectorConverter: (colorSpace: ColorSpace) -> TwoWayConverter<QuackColor, AnimationVector4D> =
-    { colorSpace ->
-        TwoWayConverter(
-            convertToVector = { quackColor ->
-                val color = quackColor.value
-                val colorXyz = color.convert(colorSpace = ColorSpaces.CieXyz)
+  { colorSpace ->
+    TwoWayConverter(
+      convertToVector = { quackColor ->
+        val color = quackColor.value
+        val colorXyz = color.convert(colorSpace = ColorSpaces.CieXyz)
 
-                val x = colorXyz.red
-                val y = colorXyz.green
-                val z = colorXyz.blue
+        val x = colorXyz.red
+        val y = colorXyz.green
+        val z = colorXyz.blue
 
-                val l = multiplyColumn(
-                    column = 0,
-                    x = x,
-                    y = y,
-                    z = z,
-                    matrix = M1,
-                ).pow(x = 1f / 3f)
+        val l = multiplyColumn(
+          column = 0,
+          x = x,
+          y = y,
+          z = z,
+          matrix = M1,
+        ).pow(x = 1f / 3f)
 
-                val a = multiplyColumn(
-                    column = 1,
-                    x = x,
-                    y = y,
-                    z = z,
-                    matrix = M1,
-                ).pow(x = 1f / 3f)
+        val a = multiplyColumn(
+          column = 1,
+          x = x,
+          y = y,
+          z = z,
+          matrix = M1,
+        ).pow(x = 1f / 3f)
 
-                val b = multiplyColumn(
-                    column = 2,
-                    x = x,
-                    y = y,
-                    z = z,
-                    matrix = M1,
-                ).pow(x = 1f / 3f)
+        val b = multiplyColumn(
+          column = 2,
+          x = x,
+          y = y,
+          z = z,
+          matrix = M1,
+        ).pow(x = 1f / 3f)
 
-                AnimationVector4D(
-                    v1 = color.alpha,
-                    v2 = l,
-                    v3 = a,
-                    v4 = b,
-                )
-            },
-            convertFromVector = { vector ->
-                val l = vector.v2.pow(x = 3f)
-                val a = vector.v3.pow(x = 3f)
-                val b = vector.v4.pow(x = 3f)
-
-                val x = multiplyColumn(
-                    column = 0,
-                    x = l,
-                    y = a,
-                    z = b,
-                    matrix = InverseM1,
-                )
-                val y = multiplyColumn(
-                    column = 1,
-                    x = l,
-                    y = a,
-                    z = b,
-                    matrix = InverseM1,
-                )
-                val z = multiplyColumn(
-                    column = 2,
-                    x = l,
-                    y = a,
-                    z = b,
-                    matrix = InverseM1,
-                )
-
-                val colorXyz = Color(
-                    alpha = vector.v1.coerceIn(
-                        minimumValue = 0f,
-                        maximumValue = 1f,
-                    ),
-                    red = x.coerceIn(
-                        minimumValue = -2f,
-                        maximumValue = 2f,
-                    ),
-                    green = y.coerceIn(
-                        minimumValue = -2f,
-                        maximumValue = 2f,
-                    ),
-                    blue = z.coerceIn(
-                        minimumValue = -2f,
-                        maximumValue = 2f,
-                    ),
-                    colorSpace = ColorSpaces.CieXyz,
-                )
-
-                QuackColor(colorXyz.convert(colorSpace = colorSpace))
-            },
+        AnimationVector4D(
+          v1 = color.alpha,
+          v2 = l,
+          v3 = a,
+          v4 = b,
         )
-    }
+      },
+      convertFromVector = { vector ->
+        val l = vector.v2.pow(x = 3f)
+        val a = vector.v3.pow(x = 3f)
+        val b = vector.v4.pow(x = 3f)
+
+        val x = multiplyColumn(
+          column = 0,
+          x = l,
+          y = a,
+          z = b,
+          matrix = InverseM1,
+        )
+        val y = multiplyColumn(
+          column = 1,
+          x = l,
+          y = a,
+          z = b,
+          matrix = InverseM1,
+        )
+        val z = multiplyColumn(
+          column = 2,
+          x = l,
+          y = a,
+          z = b,
+          matrix = InverseM1,
+        )
+
+        val colorXyz = Color(
+          alpha = vector.v1.coerceIn(
+            minimumValue = 0f,
+            maximumValue = 1f,
+          ),
+          red = x.coerceIn(
+            minimumValue = -2f,
+            maximumValue = 2f,
+          ),
+          green = y.coerceIn(
+            minimumValue = -2f,
+            maximumValue = 2f,
+          ),
+          blue = z.coerceIn(
+            minimumValue = -2f,
+            maximumValue = 2f,
+          ),
+          colorSpace = ColorSpaces.CieXyz,
+        )
+
+        QuackColor(colorXyz.convert(colorSpace = colorSpace))
+      },
+    )
+  }
 
 /* ----- END: Copied from AOSP ----- */
 
@@ -162,18 +162,18 @@ private val QuackColorVectorConverter: (colorSpace: ColorSpace) -> TwoWayConvert
  */
 @Composable
 public fun animateQuackColorAsState(
-    targetValue: QuackColor,
-    label: String = "animateQuackColorAsState",
-    finishedListener: ((color: QuackColor) -> Unit)? = null,
+  targetValue: QuackColor,
+  label: String = "animateQuackColorAsState",
+  finishedListener: ((color: QuackColor) -> Unit)? = null,
 ): State<QuackColor> {
-    val converter = remember(targetValue.value.colorSpace) {
-        QuackColorVectorConverter(targetValue.value.colorSpace)
-    }
-    return animateValueAsState(
-        targetValue = targetValue,
-        typeConverter = converter,
-        animationSpec = QuackAnimationSpec(),
-        finishedListener = finishedListener,
-        label = label,
-    )
+  val converter = remember(targetValue.value.colorSpace) {
+    QuackColorVectorConverter(targetValue.value.colorSpace)
+  }
+  return animateValueAsState(
+    targetValue = targetValue,
+    typeConverter = converter,
+    animationSpec = QuackAnimationSpec(),
+    finishedListener = finishedListener,
+    label = label,
+  )
 }

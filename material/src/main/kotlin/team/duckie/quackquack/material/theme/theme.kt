@@ -26,7 +26,7 @@ import team.duckie.quackquack.material.QuackColor
  * @see QuackTextFieldColors
  */
 public val LocalQuackTextFieldColors: ProvidableCompositionLocal<QuackTextFieldColors> =
-    staticCompositionLocalOf { DefaultTextFieldColors }
+  staticCompositionLocalOf { DefaultTextFieldColors }
 
 /**
  * 꽥꽥에서 사용하는 컴포저블 테마를 제공합니다.
@@ -39,15 +39,15 @@ public val LocalQuackTextFieldColors: ProvidableCompositionLocal<QuackTextFieldC
  */
 @Composable
 public fun QuackTheme(content: @Composable () -> Unit) {
-    CompositionLocalProvider(
-        LocalOverscrollConfiguration provides null,
-        LocalTextSelectionColors provides TextSelectionColors(
-            handleColor = QuackColor.DuckieOrange.value,
-            backgroundColor = QuackColor.DuckieOrange.change(alpha = 0.2f).value,
-        ),
-        LocalQuackTextFieldColors provides DefaultTextFieldColors,
-        content = content,
-    )
+  CompositionLocalProvider(
+    LocalOverscrollConfiguration provides null,
+    LocalTextSelectionColors provides TextSelectionColors(
+      handleColor = QuackColor.DuckieOrange.value,
+      backgroundColor = QuackColor.DuckieOrange.change(alpha = 0.2f).value,
+    ),
+    LocalQuackTextFieldColors provides DefaultTextFieldColors,
+    content = content,
+  )
 }
 
 /**
@@ -56,12 +56,12 @@ public fun QuackTheme(content: @Composable () -> Unit) {
  */
 @Immutable
 public interface QuackTextFieldColors {
-    /**
-     * 꽥꽥 컴포넌트에서 사용할 커서 색상
-     *
-     * 기본값으로 [QuackColor.Black]를 사용합니다.
-     */
-    public val cursor: QuackColor
+  /**
+   * 꽥꽥 컴포넌트에서 사용할 커서 색상
+   *
+   * 기본값으로 [QuackColor.Black]를 사용합니다.
+   */
+  public val cursor: QuackColor
 }
 
 /**
@@ -69,5 +69,5 @@ public interface QuackTextFieldColors {
  */
 @Immutable
 public object DefaultTextFieldColors : QuackTextFieldColors {
-    override val cursor: QuackColor = QuackColor.DuckieOrange
+  override val cursor: QuackColor = QuackColor.DuckieOrange
 }

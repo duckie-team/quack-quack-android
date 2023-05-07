@@ -8,9 +8,9 @@
 package team.duckie.quackquack.aide.rule
 
 val testQuackComponents: Map<String, String> = run {
-    val aide = mutableMapOf<String, String>()
+  val aide = mutableMapOf<String, String>()
 
-    aide["QuackText"] = "text"
+  aide["QuackText"] = "text"
 
-    aide
+  aide
 }

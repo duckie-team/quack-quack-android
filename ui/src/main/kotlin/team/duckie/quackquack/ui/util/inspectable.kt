@@ -15,9 +15,9 @@ import androidx.compose.ui.platform.InspectorInfo
 
 @Stable
 public fun Modifier.wrappedDebugInspectable(debugInspectorInfo: InspectorInfo.() -> Unit): Modifier {
-    val begin = InspectableModifier { DebugInspectorInfo(debugInspectorInfo) }
-    return Modifier
-        .then(begin)
-        .then(this)
-        .then(begin.end)
+  val begin = InspectableModifier { DebugInspectorInfo(debugInspectorInfo) }
+  return Modifier
+    .then(begin)
+    .then(this)
+    .then(begin.end)
 }

@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.Constraints
  */
 @Stable
 public val Constraints.Companion.Zero: Constraints
-    get() = fixed(width = 0, height = 0)
+  get() = fixed(width = 0, height = 0)
 
 /**
  * 주어진 사이즈로 고정된 [Constraints]를 생성합니다.
@@ -33,12 +33,12 @@ public val Constraints.Companion.Zero: Constraints
  */
 @Stable
 public fun Constraints.fixedCopy(width: Int? = null, height: Int? = null): Constraints {
-    return Constraints(
-        minWidth = width ?: this.minWidth,
-        maxWidth = width ?: this.maxWidth,
-        minHeight = height ?: this.minHeight,
-        maxHeight = height ?: this.maxHeight,
-    )
+  return Constraints(
+    minWidth = width ?: this.minWidth,
+    maxWidth = width ?: this.maxWidth,
+    minHeight = height ?: this.minHeight,
+    maxHeight = height ?: this.maxHeight,
+  )
 }
 
 /**

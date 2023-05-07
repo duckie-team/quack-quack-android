@@ -21,7 +21,7 @@ import androidx.compose.runtime.Immutable
  */
 @Immutable
 public data class CasaConfig(
-    public val casaName: String = "QuackQuack catalog",
-    public val bugReportUrl: String = "https://github.com/duckie-team/quack-quack-android/issues/new?assignees=jisungbin&labels=bug&template=bug_report.md&title=",
-    public val baseSourceUrl: String = "https://github.com/duckie-team/quack-quack-android/tree/main/core/src/main/kotlin",
+  public val casaName: String = "QuackQuack catalog",
+  public val bugReportUrl: String = "https://github.com/duckie-team/quack-quack-android/issues/new?assignees=jisungbin&labels=bug&template=bug_report.md&title=",
+  public val baseSourceUrl: String = "https://github.com/duckie-team/quack-quack-android/tree/main/core/src/main/kotlin",
 )

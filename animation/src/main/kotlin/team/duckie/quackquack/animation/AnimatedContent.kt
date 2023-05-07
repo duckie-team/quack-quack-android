@@ -31,27 +31,27 @@ import androidx.compose.ui.Modifier
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 public fun <T> QuackAnimatedContent(
-    modifier: Modifier = Modifier,
-    targetState: T,
-    label: String = "AnimatedContent",
-    content: @Composable AnimatedVisibilityScope.(animatedTargetState: T) -> Unit,
+  modifier: Modifier = Modifier,
+  targetState: T,
+  label: String = "AnimatedContent",
+  content: @Composable AnimatedVisibilityScope.(animatedTargetState: T) -> Unit,
 ) {
-    AnimatedContent(
-        modifier = modifier,
-        targetState = targetState,
-        transitionSpec = {
-            fadeIn(
-                animationSpec = QuackAnimationSpec(),
-            ) with fadeOut(
-                animationSpec = QuackAnimationSpec(),
-            ) using SizeTransform(
-                clip = false,
-                sizeAnimationSpec = { _, _ ->
-                    QuackAnimationSpec()
-                },
-            )
+  AnimatedContent(
+    modifier = modifier,
+    targetState = targetState,
+    transitionSpec = {
+      fadeIn(
+        animationSpec = QuackAnimationSpec(),
+      ) with fadeOut(
+        animationSpec = QuackAnimationSpec(),
+      ) using SizeTransform(
+        clip = false,
+        sizeAnimationSpec = { _, _ ->
+          QuackAnimationSpec()
         },
-        label = label,
-        content = content,
-    )
+      )
+    },
+    label = label,
+    content = content,
+  )
 }

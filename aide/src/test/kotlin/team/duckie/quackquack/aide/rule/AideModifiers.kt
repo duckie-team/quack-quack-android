@@ -8,12 +8,12 @@
 package team.duckie.quackquack.aide.rule
 
 val testAideModifiers: Map<String, List<String>> = run {
-    val aide = mutableMapOf<String, List<String>>()
+  val aide = mutableMapOf<String, List<String>>()
 
-    aide["text"] = listOf("span")
-    aide["_span"] = emptyList()
-    aide["_longParameters"] = emptyList()
-    aide["_onClick"] = emptyList()
+  aide["text"] = listOf("span")
+  aide["_span"] = emptyList()
+  aide["_longParameters"] = emptyList()
+  aide["_onClick"] = emptyList()
 
-    aide
+  aide
 }

@@ -12,11 +12,11 @@ import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
 
 internal class DRPIrExtension(private val logger: Logger) : IrGenerationExtension {
-    override fun generate(
-        moduleFragment: IrModuleFragment,
-        pluginContext: IrPluginContext,
-    ) {
-        val visitor = DRPIrVisitor(context = pluginContext, logger = logger)
-        moduleFragment.accept(visitor, null)
-    }
+  override fun generate(
+    moduleFragment: IrModuleFragment,
+    pluginContext: IrPluginContext,
+  ) {
+    val visitor = DRPIrVisitor(context = pluginContext, logger = logger)
+    moduleFragment.accept(visitor, null)
+  }
 }

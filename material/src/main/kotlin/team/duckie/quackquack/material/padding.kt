@@ -27,28 +27,28 @@ import androidx.compose.ui.util.unpackFloat2
 @Immutable
 @JvmInline
 public value class QuackPadding internal constructor(@PublishedApi internal val packedValue: Long) {
-    /** 왼쪽과 오른쪽 가장자리에 적용될 패딩 값 */
-    public val horizontal: Dp
-        inline get() = unpackFloat1(packedValue).dp
+  /** 왼쪽과 오른쪽 가장자리에 적용될 패딩 값 */
+  public val horizontal: Dp
+    inline get() = unpackFloat1(packedValue).dp
 
-    /** 위쪽과 아래쪽 가장자리에 적용될 패딩 값 */
-    public val vertical: Dp
-        inline get() = unpackFloat2(packedValue).dp
+  /** 위쪽과 아래쪽 가장자리에 적용될 패딩 값 */
+  public val vertical: Dp
+    inline get() = unpackFloat2(packedValue).dp
 
-    /** [QuackPadding] 값을 [PaddingValues]로 변환합니다. */
-    @Stable
-    public fun asPaddingValues(): PaddingValues {
-        return PaddingValues(horizontal = horizontal, vertical = vertical)
-    }
+  /** [QuackPadding] 값을 [PaddingValues]로 변환합니다. */
+  @Stable
+  public fun asPaddingValues(): PaddingValues {
+    return PaddingValues(horizontal = horizontal, vertical = vertical)
+  }
 
-    /** [QuackPadding]의 일부 값을 변경하여 반환합니다. */
-    @Stable
-    public fun copy(
-        horizontal: Dp = this.horizontal,
-        vertical: Dp = this.vertical,
-    ): QuackPadding {
-        return QuackPadding(horizontal = horizontal, vertical = vertical)
-    }
+  /** [QuackPadding]의 일부 값을 변경하여 반환합니다. */
+  @Stable
+  public fun copy(
+    horizontal: Dp = this.horizontal,
+    vertical: Dp = this.vertical,
+  ): QuackPadding {
+    return QuackPadding(horizontal = horizontal, vertical = vertical)
+  }
 }
 
 /**
@@ -59,5 +59,5 @@ public value class QuackPadding internal constructor(@PublishedApi internal val 
  */
 @Stable
 public fun QuackPadding(horizontal: Dp = 0.dp, vertical: Dp = 0.dp): QuackPadding {
-    return QuackPadding(packFloats(horizontal.value, vertical.value))
+  return QuackPadding(packFloats(horizontal.value, vertical.value))
 }

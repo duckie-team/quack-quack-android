@@ -17,83 +17,83 @@ internal open class QuackComposedModifier(val factory: @Composable Modifier.() -
 
 @Stable
 private class KeyedQuackComposedModifier1(
-    val fqName: String,
-    val key1: Any?,
-    factory: @Composable Modifier.() -> Modifier,
+  val fqName: String,
+  val key1: Any?,
+  factory: @Composable Modifier.() -> Modifier,
 ) : QuackComposedModifier(factory) {
-    override fun equals(other: Any?): Boolean {
-        return other is KeyedQuackComposedModifier1 &&
-                fqName == other.fqName &&
-                key1 == other.key1
-    }
+  override fun equals(other: Any?): Boolean {
+    return other is KeyedQuackComposedModifier1 &&
+        fqName == other.fqName &&
+        key1 == other.key1
+  }
 
-    override fun hashCode(): Int {
-        return 31 * fqName.hashCode() + key1.hashCode()
-    }
+  override fun hashCode(): Int {
+    return 31 * fqName.hashCode() + key1.hashCode()
+  }
 }
 
 @Stable
 private class KeyedQuackComposedModifier2(
-    val fqName: String,
-    val key1: Any?,
-    val key2: Any?,
-    factory: @Composable Modifier.() -> Modifier,
+  val fqName: String,
+  val key1: Any?,
+  val key2: Any?,
+  factory: @Composable Modifier.() -> Modifier,
 ) : QuackComposedModifier(factory) {
-    override fun equals(other: Any?): Boolean {
-        return other is KeyedQuackComposedModifier2 &&
-                fqName == other.fqName &&
-                key1 == other.key1 &&
-                key2 == other.key2
-    }
+  override fun equals(other: Any?): Boolean {
+    return other is KeyedQuackComposedModifier2 &&
+        fqName == other.fqName &&
+        key1 == other.key1 &&
+        key2 == other.key2
+  }
 
-    override fun hashCode(): Int {
-        var result = fqName.hashCode()
-        result = 31 * result + key1.hashCode()
-        result = 31 * result + key2.hashCode()
-        return result
-    }
+  override fun hashCode(): Int {
+    var result = fqName.hashCode()
+    result = 31 * result + key1.hashCode()
+    result = 31 * result + key2.hashCode()
+    return result
+  }
 }
 
 @Stable
 private class KeyedQuackComposedModifier3(
-    val fqName: String,
-    val key1: Any?,
-    val key2: Any?,
-    val key3: Any?,
-    factory: @Composable Modifier.() -> Modifier,
+  val fqName: String,
+  val key1: Any?,
+  val key2: Any?,
+  val key3: Any?,
+  factory: @Composable Modifier.() -> Modifier,
 ) : QuackComposedModifier(factory) {
-    override fun equals(other: Any?): Boolean {
-        return other is KeyedQuackComposedModifier3 &&
-                fqName == other.fqName &&
-                key1 == other.key1 &&
-                key2 == other.key2 &&
-                key3 == other.key3
-    }
+  override fun equals(other: Any?): Boolean {
+    return other is KeyedQuackComposedModifier3 &&
+        fqName == other.fqName &&
+        key1 == other.key1 &&
+        key2 == other.key2 &&
+        key3 == other.key3
+  }
 
-    override fun hashCode(): Int {
-        var result = fqName.hashCode()
-        result = 31 * result + key1.hashCode()
-        result = 31 * result + key2.hashCode()
-        result = 31 * result + key3.hashCode()
-        return result
-    }
+  override fun hashCode(): Int {
+    var result = fqName.hashCode()
+    result = 31 * result + key1.hashCode()
+    result = 31 * result + key2.hashCode()
+    result = 31 * result + key3.hashCode()
+    return result
+  }
 }
 
 @Stable
 private class KeyedQuackComposedModifierN(
-    val fqName: String,
-    val keys: Array<out Any?>,
-    factory: @Composable Modifier.() -> Modifier,
+  val fqName: String,
+  val keys: Array<out Any?>,
+  factory: @Composable Modifier.() -> Modifier,
 ) : QuackComposedModifier(factory) {
-    override fun equals(other: Any?): Boolean {
-        return other is KeyedQuackComposedModifierN &&
-                fqName == other.fqName &&
-                keys.contentEquals(other.keys)
-    }
+  override fun equals(other: Any?): Boolean {
+    return other is KeyedQuackComposedModifierN &&
+        fqName == other.fqName &&
+        keys.contentEquals(other.keys)
+  }
 
-    override fun hashCode(): Int {
-        return 31 * fqName.hashCode() + keys.contentHashCode()
-    }
+  override fun hashCode(): Int {
+    return 31 * fqName.hashCode() + keys.contentHashCode()
+  }
 }
 
 // TODO(1): 반환 타입이 `Modifier.Element`일 경우 린트로 경고 표시
@@ -110,7 +110,7 @@ private class KeyedQuackComposedModifierN(
  */
 @Stable
 public fun Modifier.quackComposed(factory: @Composable Modifier.() -> Modifier): Modifier {
-    return then(QuackComposedModifier(factory))
+  return then(QuackComposedModifier(factory))
 }
 
 /**
@@ -133,17 +133,17 @@ public fun Modifier.quackComposed(factory: @Composable Modifier.() -> Modifier):
  */
 @Stable
 public fun Modifier.quackComposed(
-    fullyQualifiedName: String,
-    key1: Any?,
-    factory: @Composable Modifier.() -> Modifier,
+  fullyQualifiedName: String,
+  key1: Any?,
+  factory: @Composable Modifier.() -> Modifier,
 ): Modifier {
-    return then(
-        KeyedQuackComposedModifier1(
-            fqName = fullyQualifiedName,
-            key1 = key1,
-            factory = factory,
-        ),
-    )
+  return then(
+    KeyedQuackComposedModifier1(
+      fqName = fullyQualifiedName,
+      key1 = key1,
+      factory = factory,
+    ),
+  )
 }
 
 /**
@@ -166,19 +166,19 @@ public fun Modifier.quackComposed(
  */
 @Stable
 public fun Modifier.quackComposed(
-    fullyQualifiedName: String,
-    key1: Any?,
-    key2: Any?,
-    factory: @Composable Modifier.() -> Modifier,
+  fullyQualifiedName: String,
+  key1: Any?,
+  key2: Any?,
+  factory: @Composable Modifier.() -> Modifier,
 ): Modifier {
-    return then(
-        KeyedQuackComposedModifier2(
-            fqName = fullyQualifiedName,
-            key1 = key1,
-            key2 = key2,
-            factory = factory,
-        ),
-    )
+  return then(
+    KeyedQuackComposedModifier2(
+      fqName = fullyQualifiedName,
+      key1 = key1,
+      key2 = key2,
+      factory = factory,
+    ),
+  )
 }
 
 /**
@@ -201,21 +201,21 @@ public fun Modifier.quackComposed(
  */
 @Stable
 public fun Modifier.quackComposed(
-    fullyQualifiedName: String,
-    key1: Any?,
-    key2: Any?,
-    key3: Any?,
-    factory: @Composable Modifier.() -> Modifier,
+  fullyQualifiedName: String,
+  key1: Any?,
+  key2: Any?,
+  key3: Any?,
+  factory: @Composable Modifier.() -> Modifier,
 ): Modifier {
-    return then(
-        KeyedQuackComposedModifier3(
-            fqName = fullyQualifiedName,
-            key1 = key1,
-            key2 = key2,
-            key3 = key3,
-            factory = factory,
-        ),
-    )
+  return then(
+    KeyedQuackComposedModifier3(
+      fqName = fullyQualifiedName,
+      key1 = key1,
+      key2 = key2,
+      key3 = key3,
+      factory = factory,
+    ),
+  )
 }
 
 /**
@@ -238,15 +238,15 @@ public fun Modifier.quackComposed(
  */
 @Stable
 public fun Modifier.quackComposed(
-    fullyQualifiedName: String,
-    vararg keys: Any?,
-    factory: @Composable Modifier.() -> Modifier,
+  fullyQualifiedName: String,
+  vararg keys: Any?,
+  factory: @Composable Modifier.() -> Modifier,
 ): Modifier {
-    return then(
-        KeyedQuackComposedModifierN(
-            fqName = fullyQualifiedName,
-            keys = keys,
-            factory = factory,
-        ),
-    )
+  return then(
+    KeyedQuackComposedModifierN(
+      fqName = fullyQualifiedName,
+      keys = keys,
+      factory = factory,
+    ),
+  )
 }

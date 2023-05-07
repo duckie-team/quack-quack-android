@@ -15,12 +15,12 @@ import com.google.auto.service.AutoService
 @Suppress("unused")
 @AutoService(IssueRegistry::class)
 class AideIssueRegistry : IssueRegistry() {
-    override val issues = listOf(AideDecorateModifierDetector.ISSUE)
-    override val api = CURRENT_API
-    override val vendor = Vendor(
-        vendorName = "DUCKIE",
-        identifier = "duckie-team/quack-quack-android",
-        feedbackUrl = "https://github.com/duckie-team/quack-quack-android/issues",
-        contact = "ji@sungb.in",
-    )
+  override val issues = listOf(AideDecorateModifierDetector.ISSUE)
+  override val api = CURRENT_API
+  override val vendor = Vendor(
+    vendorName = "DUCKIE",
+    identifier = "duckie-team/quack-quack-android",
+    feedbackUrl = "https://github.com/duckie-team/quack-quack-android/issues",
+    contact = "ji@sungb.in",
+  )
 }

@@ -12,8 +12,8 @@ package team.duckie.quackquack.casa.annotation
  */
 @MustBeDocumented
 @RequiresOptIn(
-    message = "This indicates that the feature should only be used in the Sugar Generator. " +
-            "Using it arbitrarily can lead to unexpected bugs.",
+  message = "This indicates that the feature should only be used in the Sugar Generator. " +
+      "Using it arbitrarily can lead to unexpected bugs.",
 )
 @Target(AnnotationTarget.ANNOTATION_CLASS)
 @Retention(AnnotationRetention.BINARY)

@@ -21,40 +21,40 @@ import team.duckie.quackquack.casa.material.CasaModel
 
 @Composable
 internal fun CasaComponents(
-    modifier: Modifier = Modifier,
-    model: CasaModel,
+  modifier: Modifier = Modifier,
+  model: CasaModel,
 ) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        items(
-            items = model.components,
-            key = Pair<String, *>::first, // name
-        ) { (name, component) ->
-            ComponentWithName(
-                name = name,
-                component = component,
-            )
-        }
+  LazyColumn(
+    modifier = modifier,
+    contentPadding = PaddingValues(all = 16.dp),
+    verticalArrangement = Arrangement.spacedBy(16.dp),
+  ) {
+    items(
+      items = model.components,
+      key = Pair<String, *>::first, // name
+    ) { (name, component) ->
+      ComponentWithName(
+        name = name,
+        component = component,
+      )
     }
+  }
 }
 
 @Composable
 private fun ComponentWithName(
-    modifier: Modifier = Modifier,
-    name: String,
-    component: @Composable () -> Unit,
+  modifier: Modifier = Modifier,
+  name: String,
+  component: @Composable () -> Unit,
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        Text(
-            text = name,
-            style = MaterialTheme.typography.titleMedium,
-        )
-        component()
-    }
+  Column(
+    modifier = modifier,
+    verticalArrangement = Arrangement.spacedBy(8.dp),
+  ) {
+    Text(
+      text = name,
+      style = MaterialTheme.typography.titleMedium,
+    )
+    component()
+  }
 }

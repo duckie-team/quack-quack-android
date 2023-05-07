@@ -34,42 +34,42 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun FilterTabRow(
-    modifier: Modifier = Modifier,
-    domains: List<String>,
-    selectedDomains: List<String>,
-    onFilterSelected: (domain: String) -> Unit,
+  modifier: Modifier = Modifier,
+  domains: List<String>,
+  selectedDomains: List<String>,
+  onFilterSelected: (domain: String) -> Unit,
 ) {
-    if (domains.isEmpty()) return
+  if (domains.isEmpty()) return
 
-    LazyRow(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-    ) {
-        items(domains) { domain ->
-            val selected by remember {
-                derivedStateOf {
-                    selectedDomains.contains(domain)
-                }
-            }
-
-            FilterChip(
-                selected = selected,
-                onClick = {
-                    onFilterSelected(domain)
-                },
-                label = {
-                    Text(text = domain.lowercase())
-                },
-                leadingIcon = (@Composable {
-                    Icon(
-                        imageVector = Icons.Rounded.Done,
-                        contentDescription = null,
-                        modifier = Modifier.size(FilterChipDefaults.IconSize),
-                    )
-                }).takeIf { selected },
-            )
+  LazyRow(
+    modifier = modifier,
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = Arrangement.spacedBy(8.dp),
+    contentPadding = PaddingValues(horizontal = 16.dp),
+  ) {
+    items(domains) { domain ->
+      val selected by remember {
+        derivedStateOf {
+          selectedDomains.contains(domain)
         }
+      }
+
+      FilterChip(
+        selected = selected,
+        onClick = {
+          onFilterSelected(domain)
+        },
+        label = {
+          Text(text = domain.lowercase())
+        },
+        leadingIcon = (@Composable {
+          Icon(
+            imageVector = Icons.Rounded.Done,
+            contentDescription = null,
+            modifier = Modifier.size(FilterChipDefaults.IconSize),
+          )
+        }).takeIf { selected },
+      )
     }
+  }
 }

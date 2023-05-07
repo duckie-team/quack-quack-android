@@ -27,21 +27,21 @@ import team.duckie.quackquack.material.QuackColor
  */
 @Composable
 public fun animatedQuackBorderAsState(
-    targetValue: QuackBorder,
-    label: String = "QuackBorderAnimation",
-    widthAnimationfinishedListener: ((dp: Dp) -> Unit)? = null,
-    colorAnimationFinishedListener: ((color: QuackColor) -> Unit)? = null,
+  targetValue: QuackBorder,
+  label: String = "QuackBorderAnimation",
+  widthAnimationfinishedListener: ((dp: Dp) -> Unit)? = null,
+  colorAnimationFinishedListener: ((color: QuackColor) -> Unit)? = null,
 ): QuackBorder {
-    val widthAnimationState by animateDpAsState(
-        targetValue = targetValue.thickness,
-        animationSpec = QuackAnimationSpec(),
-        finishedListener = widthAnimationfinishedListener,
-        label = label,
-    )
-    val colorAnimationState by animateQuackColorAsState(
-        targetValue = targetValue.color,
-        label = label,
-        finishedListener = colorAnimationFinishedListener,
-    )
-    return QuackBorder(thickness = widthAnimationState, color = colorAnimationState)
+  val widthAnimationState by animateDpAsState(
+    targetValue = targetValue.thickness,
+    animationSpec = QuackAnimationSpec(),
+    finishedListener = widthAnimationfinishedListener,
+    label = label,
+  )
+  val colorAnimationState by animateQuackColorAsState(
+    targetValue = targetValue.color,
+    label = label,
+    finishedListener = colorAnimationFinishedListener,
+  )
+  return QuackBorder(thickness = widthAnimationState, color = colorAnimationState)
 }

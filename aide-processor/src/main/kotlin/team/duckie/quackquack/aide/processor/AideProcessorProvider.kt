@@ -20,27 +20,27 @@ private const val AidePathArg = "AidePath"
 
 @AutoService(SymbolProcessorProvider::class)
 class AideSymbolProcessorProvider : SymbolProcessorProvider {
-    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        return AideSymbolProcessor(
-            codeGenerator = environment.codeGenerator,
-            logger = environment.logger,
-            options = environment.options,
-        )
-    }
+  override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
+    return AideSymbolProcessor(
+      codeGenerator = environment.codeGenerator,
+      logger = environment.logger,
+      options = environment.options,
+    )
+  }
 }
 
 private class AideSymbolProcessor(
-    codeGenerator: CodeGenerator,
-    logger: KSPLogger,
-    options: Map<String, Any>,
+  codeGenerator: CodeGenerator,
+  logger: KSPLogger,
+  options: Map<String, Any>,
 ) : SymbolProcessor {
-    private val processor = AideProcessor(
-        codeGenerator = codeGenerator,
-        logger = logger,
-        aidePath = options[AidePathArg]?.toString(),
-    )
+  private val processor = AideProcessor(
+    codeGenerator = codeGenerator,
+    logger = logger,
+    aidePath = options[AidePathArg]?.toString(),
+  )
 
-    override fun process(resolver: Resolver): List<KSAnnotated> {
-        return processor.resolve(resolver)
-    }
+  override fun process(resolver: Resolver): List<KSAnnotated> {
+    return processor.resolve(resolver)
+  }
 }

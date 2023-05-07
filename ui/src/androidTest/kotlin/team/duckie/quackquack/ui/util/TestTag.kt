@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 
 fun Modifier.markTest(): Modifier {
-    return testTag("test")
+  return testTag("test")
 }
 
 fun Modifier.markGolden(): Modifier {
-    return testTag("golden")
+  return testTag("golden")
 }
