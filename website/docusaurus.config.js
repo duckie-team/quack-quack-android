@@ -44,6 +44,7 @@ const config = {
         },
         navbar: {
             title: 'QuackQuack',
+            hideOnScroll: true,
             logo: {
                 alt: 'QuackQuack Logo',
                 src: 'images/logo.svg',
