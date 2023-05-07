@@ -20,7 +20,7 @@ import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import team.duckie.quackquack.sugar.processor.ir.SugarIrExtension
 import team.duckie.quackquack.sugar.processor.ir.SugarIrVisitor
-import team.duckie.quackquack.util.backend.getLogger
+import team.duckie.quackquack.util.backend.kotlinc.getLogger
 
 /**
  * ### Deprecated된 메서드를 사용하는 이유

@@ -15,9 +15,5 @@ plugins {
 }
 
 dependencies {
-  implementations(
-    libs.kotlin.ksp.api,
-    libs.kotlin.kotlinpoet.core,
-    libs.kotlin.embeddable.compiler,
-  )
+  implementation(libs.kotlin.kotlinpoet.core)
 }

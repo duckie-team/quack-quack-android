@@ -104,7 +104,9 @@ fun QuackOneText(newNumber: Int = sugar()) {
       workingDir = tempDir
       sources = sourceFiles.asList() + stubs
       jvmTarget = JvmTarget.JVM_17.toString()
+      inheritClassPath = true
       supportsK2 = false
+      useK2 = false
       pluginOptions = listOf(
         PluginOption(
           pluginId = PluginId,
@@ -117,11 +119,8 @@ fun QuackOneText(newNumber: Int = sugar()) {
           optionValue = "false",
         ),
       )
-      verbose = false
-      inheritClassPath = true
       compilerPluginRegistrars = listOf(SugarComponentRegistrar.asPluginRegistrar())
       commandLineProcessors = listOf(SugarCommandLineProcessor())
-      useK2 = false
     }
   }
 }

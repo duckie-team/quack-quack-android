@@ -25,7 +25,7 @@ import org.jetbrains.kotlin.utils.addToStdlib.applyIf
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.sugar.material.SugarName
 import team.duckie.quackquack.sugar.material.SugarToken
-import team.duckie.quackquack.util.backend.unsafeFqn
+import team.duckie.quackquack.util.backend.kotlinc.unsafeFqn
 
 /**
  * [SugarIrVisitor]에서 IR을 방문하면서 수집할 정보들을 관리합니다.
@@ -75,14 +75,14 @@ internal data class SugarIrData(
 
   override fun toString(): String {
     return """
-           file: ${file.name}
-           referFqn: ${referFqn.asString()}
-           kdoc: $kdoc
-           sugarName: $sugarName
-           sugarToken: ${sugarToken.name.asString()}
-           tokenExpressions: $tokenFqExpressions
-           parameters: ${parameters.joinToString("\n\n", prefix = "\n")}
-           """.trimIndent()
+           |file: ${file.name}
+           |referFqn: ${referFqn.asString()}
+           |kdoc: $kdoc
+           |sugarName: $sugarName
+           |sugarToken: ${sugarToken.name.asString()}
+           |tokenExpressions: $tokenFqExpressions
+           |parameters: ${parameters.joinToString("\n\n", prefix = "\n")}
+    """.trimMargin()
   }
 }
 
@@ -142,12 +142,12 @@ internal data class SugarParameter(
 
   override fun toString(): String {
     return """
-           name: ${name.asString()}
-           type: ${type.asString()}
-           isToken: $isToken
-           imports: ${imports.joinToString(transform = FqName::asString)}
-           casaValueLiteral: $casaValueLiteral
-           defaultValue: ${defaultValue?.dumpKotlinLike()}
-           """.trimIndent()
+           |name: ${name.asString()}
+           |type: ${type.asString()}
+           |isToken: $isToken
+           |imports: ${imports.joinToString(transform = FqName::asString)}
+           |casaValueLiteral: $casaValueLiteral
+           |defaultValue: ${defaultValue?.dumpKotlinLike()}
+    """.trimMargin()
   }
 }

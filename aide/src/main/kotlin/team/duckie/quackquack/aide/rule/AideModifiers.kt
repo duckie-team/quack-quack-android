@@ -3,7 +3,8 @@
 // @formatter:off
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
-    "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "ktlint")
+    "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "NoUnitReturn",
+    "ktlint")
 
 import kotlin.String
 import kotlin.Suppress

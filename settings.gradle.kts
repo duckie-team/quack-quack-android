@@ -32,6 +32,8 @@ include(
   ":catalog",
   ":util",
   ":util-backend",
+  ":util-backend-ksp",
+  ":util-backend-kotlinc",
   ":util-backend-test",
   ":runtime",
   ":material",

@@ -18,12 +18,12 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import team.duckie.quackquack.util.backend.FormatterOffComment
 import team.duckie.quackquack.util.backend.SuppressAnnotation
-import team.duckie.quackquack.util.backend.generateBuildOrLocalFile
-import team.duckie.quackquack.util.backend.getGeneratedComment
-import team.duckie.quackquack.util.backend.requireContainingFile
+import team.duckie.quackquack.util.backend.getGeneratedFileComment
+import team.duckie.quackquack.util.backend.ksp.generateBuildOrLocalFile
+import team.duckie.quackquack.util.backend.ksp.requireContainingFile
 import team.duckie.quackquack.util.backend.toLiteralListString
 
-private val GeneratedComment = getGeneratedComment("aide-processor")
+private val GeneratedComment = getGeneratedFileComment("aide-processor")
 
 internal fun generateQuackComponents(
   codeGenerator: CodeGenerator,
@@ -148,16 +148,14 @@ private fun createAideModifiersFileSpec(groupedModifiers: List<Pair<String, Set<
     .build()
 }
 
-private fun Sequence<KSFunctionDeclaration>.toDomainWithSimpleNameGroups(): List<Pair<String, Set<String>>> {
-  return this
-    .groupBy { value ->
-      val fileName = value.requireContainingFile.fileName
-      fileName.removeSuffix(".kt")
-    }
+private fun Sequence<KSFunctionDeclaration>.toDomainWithSimpleNameGroups(): List<Pair<String, Set<String>>> =
+  groupBy { value ->
+    val fileName = value.requireContainingFile.fileName
+    fileName.removeSuffix(".kt")
+  }
     .map { (domain, values) ->
       val valueSimpleNames = values.map { value ->
         value.simpleName.asString()
       }
       domain to valueSimpleNames.toSet()
     }
-}

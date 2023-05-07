@@ -25,7 +25,7 @@ formatting:
   MaximumLineLength:
     active: false
   Indentation:
-    active: false
+    indentSize: 2
   ArgumentListWrapping:
     indentSize: 2
     maxLineLength: 150

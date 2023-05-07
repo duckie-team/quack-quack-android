@@ -18,14 +18,13 @@ import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import kotlinx.collections.immutable.ImmutableList
-import team.duckie.quackquack.util.backend.BaseGeneratedComment
 import team.duckie.quackquack.util.backend.FormatterOffComment
 import team.duckie.quackquack.util.backend.SuppressAnnotation
-import team.duckie.quackquack.util.backend.generateBuildOrLocalFile
-import team.duckie.quackquack.util.backend.getGeneratedComment
-import team.duckie.quackquack.util.backend.requireContainingFile
+import team.duckie.quackquack.util.backend.getGeneratedFileComment
+import team.duckie.quackquack.util.backend.ksp.generateBuildOrLocalFile
+import team.duckie.quackquack.util.backend.ksp.requireContainingFile
 
-private val GeneratedComment = getGeneratedComment("casa-processor")
+private val GeneratedComment = getGeneratedFileComment("casa-processor")
 private val RequiredImports = listOf(
   "kotlinx.collections.immutable.persistentListOf",
   "kotlinx.collections.immutable.toImmutableList",
@@ -55,7 +54,6 @@ internal fun generateCasaModels(
   val casaModelPropertySpecs = buildList {
     groupedCasasWithNameGroup.forEach { (domain, casasWithNameGroup) ->
       casasWithNameGroup.forEach { (name, casas) ->
-        @Suppress("WRONG_ANNOTATION_TARGET", "LocalVariableName")
         val (_imports, casaModelPropertySpec) = createCasaModelPropertySpecWithImports(
           domain = domain,
           name = name,
@@ -158,7 +156,7 @@ private fun createCasaModelPropertySpecWithImports(
     parameter.type.resolve().declaration.qualifiedName!!.asString()
   }.toMutableList()
   val kdocString = casas.first().docString.orEmpty()
-    .split(BaseGeneratedComment)
+    .split("This document was automatically generated")
     .first()
     .trimIndent()
   val components = buildString {

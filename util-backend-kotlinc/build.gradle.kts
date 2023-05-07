@@ -9,27 +9,15 @@
 
 plugins {
   quackquack("jvm-kotlin")
+  quackquack("kotlin-explicit-api")
   quackquack("test-kotest")
   quackquack("quack-publishing")
-  alias(libs.plugins.kotlin.ksp)
-}
-
-ksp {
-  arg("autoserviceKsp.verify", "true")
-  arg("autoserviceKsp.verbose", "true")
 }
 
 dependencies {
-  ksp(libs.google.autoservice.ksp.processor)
+  api(projects.utilBackend.orArtifact())
   implementations(
-    libs.kotlin.ksp.api,
     libs.kotlin.kotlinpoet.core,
-    libs.kotlin.collections.immutable,
-    libs.google.autoservice.annotation,
-    projects.utilBackendKsp,
-  )
-  testImplementations(
-    libs.test.kotlin.compilation.ksp,
-    projects.utilBackendTest,
+    libs.kotlin.embeddable.compiler,
   )
 }

@@ -66,7 +66,8 @@ fun QuackText(
 // @formatter:off
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
-    "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "ktlint")
+    "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "NoUnitReturn",
+    "ktlint")
 @file:OptIn(SugarCompilerApi::class, SugarGeneratorUsage::class)
 @file:SugarGeneratedFile
 
@@ -141,7 +142,7 @@ public fun QuackThreeText(
   )
 }
 
-                   """.trimIndent()
+      """.trimIndent()
 
       result.exitCode shouldBe KotlinCompilation.ExitCode.OK
       tempDir.findGeneratedFileOrNull("text.kt")?.readText()?.removePackageLine() shouldBe expect
@@ -186,7 +187,8 @@ fun QuackText(
 // @formatter:off
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
-    "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "ktlint")
+    "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "NoUnitReturn",
+    "ktlint")
 @file:OptIn(SugarCompilerApi::class, SugarGeneratorUsage::class)
 @file:SugarGeneratedFile
 
@@ -288,7 +290,7 @@ public fun QuackAwesomeThree(
   )
 }
 
-                   """.trimIndent()
+      """.trimIndent()
 
       result.exitCode shouldBe KotlinCompilation.ExitCode.OK
       tempDir.findGeneratedFileOrNull("text.kt")?.readText()?.removePackageLine() shouldBe expect
@@ -324,7 +326,8 @@ fun QuackText(
 // @formatter:off
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
-    "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "ktlint")
+    "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "NoUnitReturn",
+    "ktlint")
 @file:OptIn(SugarCompilerApi::class, SugarGeneratorUsage::class)
 @file:SugarGeneratedFile
 
@@ -399,7 +402,7 @@ public fun QuackThreeText(
   )
 }
 
-                   """.trimIndent()
+      """.trimIndent()
 
       result.exitCode shouldBe KotlinCompilation.ExitCode.OK
       tempDir.findGeneratedFileOrNull("text.kt")?.readText()?.removePackageLine() shouldBe expect

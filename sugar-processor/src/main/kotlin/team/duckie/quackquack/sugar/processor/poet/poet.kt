@@ -30,11 +30,11 @@ import team.duckie.quackquack.util.backend.FormatterOffComment
 import team.duckie.quackquack.util.backend.SuppressAnnotation
 import team.duckie.quackquack.util.backend.addAnnotations
 import team.duckie.quackquack.util.backend.addFunctions
-import team.duckie.quackquack.util.backend.addImports
 import team.duckie.quackquack.util.backend.bestGuessToKotlinPackageName
-import team.duckie.quackquack.util.backend.getGeneratedComment
+import team.duckie.quackquack.util.backend.getGeneratedFileComment
+import team.duckie.quackquack.util.backend.kotlinc.addImports
 
-private val GeneratedComment = getGeneratedComment("sugar-processor")
+private val GeneratedComment = getGeneratedFileComment("sugar-processor")
 
 @Suppress("OPT_IN_CAN_ONLY_BE_USED_AS_ANNOTATION")
 private val SugarCompilerOptInAnnotation = AnnotationSpec
@@ -93,7 +93,6 @@ private fun List<SugarIrData>.toFunSpecsWithImports(): Pair<List<FqName>, List<F
   forEach { sugarIrData ->
     imports += sugarIrData.referFqn
     sugarIrData.tokenFqExpressions.forEach { tokenFqExpression ->
-      @Suppress("WRONG_ANNOTATION_TARGET", "LocalVariableName")
       val (_imports, funSpec) = sugarIrData.toFunSpecWithImports(tokenFqExpression)
       imports += _imports
       funSpecs += funSpec
