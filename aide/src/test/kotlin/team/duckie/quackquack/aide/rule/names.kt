@@ -5,4 +5,6 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-rootProject.name = "buildSrc"
+package team.duckie.quackquack.aide.rule
+
+const val ModifierSn = "Modifier"

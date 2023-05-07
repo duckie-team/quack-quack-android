@@ -7,51 +7,30 @@
 
 package team.duckie.quackquack.runtime
 
-import android.annotation.SuppressLint
 import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composer
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
+import land.sungbin.kotlin.dataclass.nocopy.NoCopy
 import team.duckie.quackquack.util.MustBeTested
 
-// TODO(1): @NoCopy 구현 및 data class 보일러플레이트 제거
-// Ref: https://github.com/AhmedMourad0/no-copy
-// copy 생성을 막아야 하기에 data class 미사용
 /**
  * [Composer.quackMaterializeOf]의 결과를 나타냅니다.
+ *
+ * 이 클래스의 경우 값을 임의로 변경하면 안되므로 **자동 생성되는 copy 함수는
+ * 꽥꽥 컴파일 단계에서 제거**됩니다.
  *
  * @param composeModifier `androidx.compose.ui.Modifier`으로만 구성된 [Modifier]
  * @param quackDataModels [QuackDataModifierModel]으로만 구성된 리스트
  *
  * @see Composer.quackMaterializeOf
  */
+@NoCopy
 @Immutable
-public class QuackMaterializeResult internal constructor(
+public data class QuackMaterializeResult internal constructor(
     public val composeModifier: Modifier,
     public val quackDataModels: List<QuackDataModifierModel>,
-) {
-    @Suppress("RedundantIf")
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is QuackMaterializeResult) return false
-
-        if (composeModifier != other.composeModifier) return false
-        if (quackDataModels != other.quackDataModels) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = composeModifier.hashCode()
-        result = 31 * result + quackDataModels.hashCode()
-        return result
-    }
-
-    @SuppressLint("ModifierFactoryExtensionFunction")
-    public operator fun component1(): Modifier = composeModifier
-
-    public operator fun component2(): List<QuackDataModifierModel> = quackDataModels
-}
+)
 
 @VisibleForTesting
 internal object QuackMaterializingErrors {

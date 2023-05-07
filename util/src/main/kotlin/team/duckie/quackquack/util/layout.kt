@@ -10,17 +10,8 @@
 package team.duckie.quackquack.util
 
 import androidx.compose.runtime.Stable
-import androidx.compose.ui.layout.IntrinsicMeasurable
-import androidx.compose.ui.layout.LayoutIdParentData
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.unit.Constraints
-
-/**
- * [IntrinsicMeasurable]에서 컴포저블의 layoutId를 찾습니다.
- */
-@Stable
-public val IntrinsicMeasurable.layoutId: Any?
-    get() = (parentData as? LayoutIdParentData)?.layoutId
 
 /**
  * 0으로 고정된 [Constraints]을 나타냅니다.

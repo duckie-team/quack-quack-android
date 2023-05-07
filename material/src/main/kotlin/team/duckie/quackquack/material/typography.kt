@@ -23,7 +23,7 @@ import land.sungbin.kotlin.dataclass.nocopy.NoCopy
  * 덕키에서 사용할 텍스트 스타일을 정의합니다.
  *
  * copy를 이용한 값 변경은 덕키 스타일 가이드의 텍스트 스타일 사전 정의가 깨짐으로
- * copy 생성을 방지하기 위해 data class가 아닌 class를 사용합니다.
+ * **자동 생성되는 copy 함수는 꽥꽥 컴파일 단계에서 제거**됩니다.
  *
  * @param color 텍스트 색상. 기본값은 [QuackColor.Black] 입니다.
  * @param size 텍스트 한 글자 크기
