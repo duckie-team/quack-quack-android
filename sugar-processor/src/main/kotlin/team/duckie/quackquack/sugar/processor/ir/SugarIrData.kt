@@ -179,7 +179,7 @@ internal data class SugarParameter(
         addAnnotation(
           AnnotationSpec
             .builder(ComposableCn)
-            .build()
+            .build(),
         )
       }
       .applyIf(defaultValue != null) {

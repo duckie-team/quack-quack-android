@@ -48,4 +48,3 @@ public fun CompilerConfiguration.getLogger(tag: String): Logger {
     }
   }
 }
-

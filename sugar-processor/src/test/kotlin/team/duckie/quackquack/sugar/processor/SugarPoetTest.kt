@@ -68,7 +68,8 @@ fun QuackText(
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
     "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "NoUnitReturn",
-    "RedundantUnitReturnType", "ModifierParameter", "KDocUnresolvedReference", "ktlint")
+    "RedundantUnitReturnType", "ModifierParameter", "KDocUnresolvedReference", "NoTrailingSpaces",
+    "NoMultipleSpaces", "ktlint")
 @file:OptIn(SugarCompilerApi::class, SugarGeneratorUsage::class)
 @file:SugarGeneratedFile
 
@@ -193,7 +194,8 @@ fun QuackText(
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
     "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "NoUnitReturn",
-    "RedundantUnitReturnType", "ModifierParameter", "KDocUnresolvedReference", "ktlint")
+    "RedundantUnitReturnType", "ModifierParameter", "KDocUnresolvedReference", "NoTrailingSpaces",
+    "NoMultipleSpaces", "ktlint")
 @file:OptIn(SugarCompilerApi::class, SugarGeneratorUsage::class)
 @file:SugarGeneratedFile
 
@@ -342,7 +344,8 @@ fun QuackText(
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
     "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "NoUnitReturn",
-    "RedundantUnitReturnType", "ModifierParameter", "KDocUnresolvedReference", "ktlint")
+    "RedundantUnitReturnType", "ModifierParameter", "KDocUnresolvedReference", "NoTrailingSpaces",
+    "NoMultipleSpaces", "ktlint")
 @file:OptIn(SugarCompilerApi::class, SugarGeneratorUsage::class)
 @file:SugarGeneratedFile
 
@@ -420,7 +423,8 @@ fun QuackCheckbox2(
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
     "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "NoUnitReturn",
-    "RedundantUnitReturnType", "ModifierParameter", "KDocUnresolvedReference", "ktlint")
+    "RedundantUnitReturnType", "ModifierParameter", "KDocUnresolvedReference", "NoTrailingSpaces",
+    "NoMultipleSpaces", "ktlint")
 @file:OptIn(SugarCompilerApi::class, SugarGeneratorUsage::class)
 @file:SugarGeneratedFile
 

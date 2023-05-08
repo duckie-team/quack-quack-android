@@ -47,9 +47,9 @@ class SugarIrErrorTest : ExpectSpec() {
         enabledOrReasonIf = {
           Enabled.disabled(
             "테스트 코드는 실패하는데 실제 코드로 돌려보면 정상 작동함.." +
-              "추후 테스트 코드가 실패하는 원인을 찾아야 함."
+              "추후 테스트 코드가 실패하는 원인을 찾아야 함.",
           )
-        }
+        },
       ) {
         val result = compile(
           kotlin(

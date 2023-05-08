@@ -125,7 +125,8 @@ fun Button2(
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
     "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "NoUnitReturn",
-    "RedundantUnitReturnType", "ModifierParameter", "KDocUnresolvedReference", "ktlint")
+    "RedundantUnitReturnType", "ModifierParameter", "KDocUnresolvedReference", "NoTrailingSpaces",
+    "NoMultipleSpaces", "ktlint")
 
 import androidx.compose.runtime.Composable
 import kotlin.Boolean

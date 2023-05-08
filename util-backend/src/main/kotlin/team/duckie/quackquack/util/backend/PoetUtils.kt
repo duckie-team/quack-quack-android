@@ -20,8 +20,8 @@ public const val FormatterOffComment: String = "\n@formatter:off"
 public val SuppressAnnotation: AnnotationSpec = AnnotationSpec
   .builder(Suppress::class)
   .addMember(
-    // FIXME: how to suppress all lints? (detekt, compose, ... etc)
-    "%S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S",
+    // FIXME: How to suppress all lints? (detekt, compose, ... etc)
+    "%S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S",
     "NoConsecutiveBlankLines",
     "PackageDirectoryMismatch",
     "Wrapping",
@@ -36,6 +36,8 @@ public val SuppressAnnotation: AnnotationSpec = AnnotationSpec
     "RedundantUnitReturnType",
     "ModifierParameter",
     "KDocUnresolvedReference",
+    "NoTrailingSpaces",
+    "NoMultipleSpaces",
     "ktlint",
   )
   .useSiteTarget(AnnotationSpec.UseSiteTarget.FILE)
