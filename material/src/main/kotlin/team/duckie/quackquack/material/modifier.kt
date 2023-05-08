@@ -20,7 +20,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-/** 컴포넌트에 주어진 디자인 스팩을 적용합니다. */
+/** 컴포넌트에 주어진 디자인 스펙을 적용합니다. */
 @Stable
 public fun Modifier.quackSurface(
   shape: Shape = RectangleShape,
