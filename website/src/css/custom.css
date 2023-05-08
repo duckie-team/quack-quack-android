@@ -1,7 +1,9 @@
-@import url("https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css");
+@import url('https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css');
+@import url('https://cdn.jsdelivr.net/gh/joungkyun/font-d2coding-ligature/d2coding-ligature.css');
 
 :root {
   --ifm-font-family-base: 'SUIT Variable';
+  --ifm-font-family-monospace: 'D2 coding Ligature';
   --ifm-color-primary: #ff8300;
   --ifm-color-primary-dark: #ff8300;
   --ifm-color-primary-darker: #ff8300;
