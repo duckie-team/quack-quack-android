@@ -4,7 +4,7 @@
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
     "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "NoUnitReturn",
-    "ktlint")
+    "RedundantUnitReturnType", "ModifierParameter", "KDocUnresolvedReference", "ktlint")
 
 import kotlin.String
 import kotlin.Suppress
