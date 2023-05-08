@@ -66,7 +66,7 @@ internal class SugarIrTransformer(
       // run으로 throwError 하는 게 더 가독성이 좋음
       val referAnnotation = declaration.getAnnotation(SugarReferFqn) ?: run {
         logger.throwError(
-          value = PoetError.sugarComponentButNoSugarRefer(declaration),
+          message = PoetError.sugarComponentButNoSugarRefer(declaration.name.asString()),
           location = declaration.file.locationOf(declaration),
         )
       }
@@ -75,17 +75,18 @@ internal class SugarIrTransformer(
       data[referFqn]?.let { referIrData ->
         declaration.valueParameters.forEach { parameter ->
           parameter.defaultValue = referIrData.findMatchedDefaultValue(
+            sugarComponentName = declaration.name.asString(),
             parameter = parameter,
             error = { message ->
               logger.throwError(
-                value = message,
+                message = message,
                 location = declaration.file.locationOf(parameter),
               )
             },
           )
         }
       } ?: logger.throwError(
-        value = SugarVisitError.noMatchedSugarIrData(declaration),
+        message = SugarVisitError.noMatchedSugarIrData(declaration.name.asString()),
         location = declaration.file.locationOf(declaration),
       )
     }
@@ -101,6 +102,7 @@ private fun IrConstructorCall.getReferFqName(): String {
 }
 
 private fun SugarIrData.findMatchedDefaultValue(
+  sugarComponentName: String,
   parameter: IrValueParameter,
   error: (message: String) -> Unit,
 ): IrExpressionBody? {
@@ -110,8 +112,7 @@ private fun SugarIrData.findMatchedDefaultValue(
   if (matched == null) {
     error(
       SugarTransformError.sugarComponentAndSugarReferHasDifferentParameters(
-        sugarIrData = this,
-        parameter = parameter,
+        "(refer) ${owner.name.asString()} -> (sugar) $sugarComponentName#${parameter.name.asString()}",
       ),
     )
   }

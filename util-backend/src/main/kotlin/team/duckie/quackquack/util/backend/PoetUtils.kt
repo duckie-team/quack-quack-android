@@ -5,16 +5,10 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-/*
- * Designed and developed by Duckie Team 2023.
- *
- * Licensed under the MIT.
- * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
- */
-
 package team.duckie.quackquack.util.backend
 
 import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 
@@ -26,7 +20,8 @@ public const val FormatterOffComment: String = "\n@formatter:off"
 public val SuppressAnnotation: AnnotationSpec = AnnotationSpec
   .builder(Suppress::class)
   .addMember(
-    "%S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S",
+    // FIXME: How to suppress all lints? (detekt, compose, ... etc)
+    "%S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S",
     "NoConsecutiveBlankLines",
     "PackageDirectoryMismatch",
     "Wrapping",
@@ -38,6 +33,11 @@ public val SuppressAnnotation: AnnotationSpec = AnnotationSpec
     "SpacingAroundParens",
     "Indentation",
     "NoUnitReturn",
+    "RedundantUnitReturnType",
+    "ModifierParameter",
+    "KDocUnresolvedReference",
+    "NoTrailingSpaces",
+    "NoMultipleSpaces",
     "ktlint",
   )
   .useSiteTarget(AnnotationSpec.UseSiteTarget.FILE)
@@ -47,18 +47,16 @@ public fun FileSpec.Builder.addAnnotations(vararg annotations: AnnotationSpec): 
   addAnnotations(annotations.asList())
 
 public fun FileSpec.Builder.addAnnotations(annotations: List<AnnotationSpec>): FileSpec.Builder =
-  apply {
-    annotations.forEach { annotation ->
-      addAnnotation(annotation)
-    }
-  }
+  apply { annotations.forEach(::addAnnotation) }
+
+public fun FunSpec.Builder.addAnnotations(vararg annotations: ClassName): FunSpec.Builder =
+  addAnnotations(annotations.asList())
+
+public fun FunSpec.Builder.addAnnotations(annotations: List<ClassName>): FunSpec.Builder =
+  apply { annotations.forEach(::addAnnotation) }
 
 public fun FileSpec.Builder.addFunctions(vararg functions: FunSpec): FileSpec.Builder =
   addFunctions(functions.asList())
 
 public fun FileSpec.Builder.addFunctions(functions: List<FunSpec>): FileSpec.Builder =
-  apply {
-    functions.forEach { function ->
-      addFunction(function)
-    }
-  }
+  apply { functions.forEach(::addFunction) }

@@ -476,7 +476,6 @@ public fun Modifier.icons(
 @Composable
 @NonRestartableComposable
 @ExperimentalQuackQuackApi
-@NoSugar // onClick param is functional type (currently not supported)
 public fun <T : ButtonStyleMarker> QuackButton(
   modifier: Modifier = Modifier,
   enabled: Boolean = true,

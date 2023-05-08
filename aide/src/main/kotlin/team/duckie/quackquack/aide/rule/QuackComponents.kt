@@ -4,7 +4,8 @@
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
     "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "NoUnitReturn",
-    "ktlint")
+    "RedundantUnitReturnType", "ModifierParameter", "KDocUnresolvedReference", "NoTrailingSpaces",
+    "NoMultipleSpaces", "ktlint")
 
 import kotlin.String
 import kotlin.Suppress
@@ -15,6 +16,9 @@ internal val quackComponents: Map<String, String> = run {
 
   aide["QuackButton"] = "button"
   aide["QuackBaseButton"] = "button"
+  aide["QuackLargeButton"] = "button"
+  aide["QuackMediumButton"] = "button"
+  aide["QuackSmallButton"] = "button"
 
   aide["QuackBody1"] = "text"
   aide["QuackBody2"] = "text"

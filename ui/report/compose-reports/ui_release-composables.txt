@@ -22,70 +22,91 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBase
   stable trailingIcon: QuackIcon?
   stable onClick: Function0<Unit>?
 )
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBody1(
+scheme("[androidx.compose.ui.UiComposable]") fun QuackLargeButton(
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable text: String
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackMediumButton(
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable text: String
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackSmallButton(
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable text: String
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackBody1(
   stable modifier: Modifier? = @static Companion
   stable text: String
   stable singleLine: Boolean = @static false
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBody2(
+scheme("[androidx.compose.ui.UiComposable]") fun QuackBody2(
   stable modifier: Modifier? = @static Companion
   stable text: String
   stable singleLine: Boolean = @static false
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBody3(
+scheme("[androidx.compose.ui.UiComposable]") fun QuackBody3(
   stable modifier: Modifier? = @static Companion
   stable text: String
   stable singleLine: Boolean = @static false
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackHeadLine1(
+scheme("[androidx.compose.ui.UiComposable]") fun QuackHeadLine1(
   stable modifier: Modifier? = @static Companion
   stable text: String
   stable singleLine: Boolean = @static false
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackHeadLine2(
+scheme("[androidx.compose.ui.UiComposable]") fun QuackHeadLine2(
   stable modifier: Modifier? = @static Companion
   stable text: String
   stable singleLine: Boolean = @static false
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackLarge1(
+scheme("[androidx.compose.ui.UiComposable]") fun QuackLarge1(
   stable modifier: Modifier? = @static Companion
   stable text: String
   stable singleLine: Boolean = @static false
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackSubtitle(
+scheme("[androidx.compose.ui.UiComposable]") fun QuackSubtitle(
   stable modifier: Modifier? = @static Companion
   stable text: String
   stable singleLine: Boolean = @static false
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackSubtitle2(
+scheme("[androidx.compose.ui.UiComposable]") fun QuackSubtitle2(
   stable modifier: Modifier? = @static Companion
   stable text: String
   stable singleLine: Boolean = @static false
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackTitle1(
+scheme("[androidx.compose.ui.UiComposable]") fun QuackTitle1(
   stable modifier: Modifier? = @static Companion
   stable text: String
   stable singleLine: Boolean = @static false
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackTitle2(
+scheme("[androidx.compose.ui.UiComposable]") fun QuackTitle2(
   stable modifier: Modifier? = @static Companion
   stable text: String
   stable singleLine: Boolean = @static false

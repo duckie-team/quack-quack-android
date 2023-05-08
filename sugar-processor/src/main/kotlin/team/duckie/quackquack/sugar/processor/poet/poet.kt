@@ -8,6 +8,7 @@
 package team.duckie.quackquack.sugar.processor.poet
 
 import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -16,9 +17,12 @@ import com.squareup.kotlinpoet.withIndent
 import java.io.File
 import org.jetbrains.kotlin.ir.declarations.name
 import org.jetbrains.kotlin.ir.types.classFqName
+import org.jetbrains.kotlin.ir.util.file
 import org.jetbrains.kotlin.name.FqName
 import team.duckie.quackquack.sugar.processor.ir.CasaCn
 import team.duckie.quackquack.sugar.processor.ir.ComposableCn
+import team.duckie.quackquack.sugar.processor.ir.NonRestartableComposableCn
+import team.duckie.quackquack.sugar.processor.ir.NonRestartableComposableFqn
 import team.duckie.quackquack.sugar.processor.ir.SugarCompilerApiCn
 import team.duckie.quackquack.sugar.processor.ir.SugarFqn
 import team.duckie.quackquack.sugar.processor.ir.SugarGeneratedFileCn
@@ -26,6 +30,7 @@ import team.duckie.quackquack.sugar.processor.ir.SugarGeneratorUsageCn
 import team.duckie.quackquack.sugar.processor.ir.SugarIrData
 import team.duckie.quackquack.sugar.processor.ir.SugarParameter
 import team.duckie.quackquack.sugar.processor.ir.SugarReferCn
+import team.duckie.quackquack.sugar.processor.ir.toFqnStringOrEmpty
 import team.duckie.quackquack.util.backend.FormatterOffComment
 import team.duckie.quackquack.util.backend.SuppressAnnotation
 import team.duckie.quackquack.util.backend.addAnnotations
@@ -52,12 +57,9 @@ private val SugarGeneratedFileMarkerAnnotation = AnnotationSpec
   .useSiteTarget(AnnotationSpec.UseSiteTarget.FILE)
   .build()
 
-internal fun generateSugarComponentFiles(
-  irDatas: List<SugarIrData>,
-  sugarPath: String,
-) {
+internal fun generateSugarComponentFiles(irDatas: List<SugarIrData>, sugarPath: String) {
   val fileGroupedIrDatas = irDatas.groupBy { irData ->
-    irData.file.name
+    irData.owner.file.name
   }
 
   fileGroupedIrDatas.forEach { (fileName, irDatas) ->
@@ -74,7 +76,7 @@ internal fun generateSugarComponentFiles(
         SugarCompilerOptInAnnotation,
         SugarGeneratedFileMarkerAnnotation,
       )
-      .addImports(imports.toMutableList().apply { add(SugarFqn) })
+      .addImports(imports.toMutableList().apply { add(SugarFqn); add(NonRestartableComposableFqn) })
       .addFunctions(funSpecs)
       .build()
 
@@ -126,15 +128,23 @@ private fun SugarIrData.toFunSpecWithImports(tokenFqExpression: String): Pair<Li
     addStatement(")")
   }
 
+  val optinCns = optins.map { irOptin ->
+    ClassName.bestGuess(irOptin.toFqnStringOrEmpty())
+  }
+
   val funSpec = FunSpec
     .builder(sugarName)
-    .addAnnotation(ComposableCn)
-    .addAnnotation(CasaCn)
+    .addAnnotations(
+      CasaCn,
+      ComposableCn,
+      NonRestartableComposableCn,
+      *optinCns.toTypedArray(),
+    )
     .addAnnotation(sugarReferAnnotation)
     .addModifiers(KModifier.PUBLIC)
     .addParameters(parametersWithoutToken.map(SugarParameter::toParameterSpec))
     .addCode(sugarBody)
-    .addKdoc(kdoc)
+    .addKdoc(kdocGetter(tokenFqExpression))
     .build()
 
   return imports to funSpec

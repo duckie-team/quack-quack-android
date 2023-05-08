@@ -11,7 +11,9 @@ package team.duckie.quackquack.sugar.processor.ir
 
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.backend.jvm.ir.psiElement
+import org.jetbrains.kotlin.ir.backend.js.utils.asString
 import org.jetbrains.kotlin.ir.declarations.IrFile
+import org.jetbrains.kotlin.ir.declarations.IrFunction
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
 import org.jetbrains.kotlin.ir.declarations.IrValueParameter
@@ -26,6 +28,7 @@ import org.jetbrains.kotlin.ir.util.file
 import org.jetbrains.kotlin.ir.util.fqNameWhenAvailable
 import org.jetbrains.kotlin.ir.util.getAnnotation
 import org.jetbrains.kotlin.ir.util.hasAnnotation
+import org.jetbrains.kotlin.ir.util.parentAsClass
 import org.jetbrains.kotlin.ir.util.properties
 import org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
@@ -37,7 +40,6 @@ import org.jetbrains.kotlin.utils.addToStdlib.cast
 import team.duckie.quackquack.util.backend.kotlinc.Logger
 import team.duckie.quackquack.util.backend.kotlinc.isQuackComponent
 import team.duckie.quackquack.util.backend.kotlinc.locationOf
-import team.duckie.quackquack.util.backend.kotlinc.prependLogPrefix
 
 internal class SugarIrVisitor(
   @Suppress("unused") private val context: IrPluginContext,
@@ -60,43 +62,51 @@ internal class SugarIrVisitor(
   override fun visitSimpleFunction(declaration: IrSimpleFunction) {
     if (declaration.isQuackComponent) {
       val componentLocation = declaration.file.locationOf(declaration)
-      val componentFqn = declaration.fqNameWhenAvailable ?: return logger.error(
-        value = SourceError.quackComponentFqnUnavailable(declaration),
+      val componentFqn = declaration.fqNameWhenAvailable ?: logger.throwError(
+        message = SourceError.quackComponentFqnUnavailable(declaration.name.asString()),
         location = componentLocation,
       )
 
       if (declaration.hasAnnotation(NoSugarFqn)) return
 
       val sugarNameAnnotation = declaration.getAnnotation(SugarNameFqn)
-      val sugarName = sugarNameAnnotation?.getSugarNameIfNotDefault()
+      val sugarName = sugarNameAnnotation?.getSugarNameIfNotDefault(owner = declaration)
 
       var sugarToken: IrValueParameter? = null
       val sugarParameters = declaration.valueParameters.map { parameter ->
         val isSugarToken = parameter.hasAnnotation(SugarTokenFqn)
         if (isSugarToken) {
           check(sugarToken == null) {
-            SourceError.multipleSugarTokenIsNotAllowed(declaration)
+            SourceError.multipleSugarTokenIsNotAllowed(declaration.name.asString())
           }
           sugarToken = parameter
         }
-        parameter.toSugarParameter(isToken = isSugarToken)
+        parameter.toSugarParameter(owner = declaration, isToken = isSugarToken)
       }
-      sugarToken ?: return logger.error(
-        value = SourceError.quackComponentWithoutSugarToken(componentFqn),
+      sugarToken ?: logger.throwError(
+        message = SourceError.quackComponentWithoutSugarToken(componentFqn.asString()),
         location = componentLocation,
       )
 
+      val optins = declaration.annotations.filter { annotation ->
+        annotation.symbol.owner.parentAsClass.hasAnnotation(RequiresOptInFqn)
+      }
+
       val sugarIrData = SugarIrData(
-        file = declaration.file,
+        owner = declaration,
         referFqn = componentFqn,
-        kdoc = declaration.getSugarKDoc(
-          referFqn = componentFqn,
-          sugarTokenName = sugarToken!!.name.asString(),
-        ),
+        kdocGetter = { usedTokenLiteral ->
+          declaration.getSugarKDoc(
+            referFqn = componentFqn,
+            tokenName = sugarToken!!.name.asString(),
+            usedTokenLiteral = usedTokenLiteral,
+          )
+        },
         sugarName = sugarName,
         sugarToken = sugarToken!!,
         tokenFqExpressions = sugarToken!!.getAllTokenFqExpressions(),
         parameters = sugarParameters,
+        optins = optins,
       )
 
       logger(with(logger) { sugarIrData.prependLogPrefix(withNewline = true) })
@@ -105,26 +115,28 @@ internal class SugarIrVisitor(
   }
 }
 
-private fun IrConstructorCall.getSugarNameIfNotDefault(): String? {
+private fun IrConstructorCall.getSugarNameIfNotDefault(owner: IrFunction): String? {
   // Assuming the first argument is always "name"
   val sugarNameExpression = getValueArgument(0)
   return sugarNameExpression.cast<IrConst<String>>().value.takeIf { name ->
     (name != SugarDefaultName).also { isCustomSugarName ->
-      if (isCustomSugarName) checkCustomSugarNameIsValid(name)
+      if (isCustomSugarName) checkCustomSugarNameIsValid(owner, name)
     }
   }
 }
 
-private fun checkCustomSugarNameIsValid(name: String) {
+private fun checkCustomSugarNameIsValid(owner: IrFunction, name: String) {
+  val cause = "${owner.name.asString()} ($name)"
+
   require(name.startsWith(QuackComponentPrefix)) {
-    SourceError.sugarNamePrefixIsNotQuack(name)
+    SourceError.sugarNamePrefixIsNotQuack(cause)
   }
   require(name.contains(SugarTokenName)) {
-    SourceError.sugarNameWithoutTokenName(name)
+    SourceError.sugarNameWithoutTokenName(cause)
   }
 }
 
-private fun IrValueParameter.toSugarParameter(isToken: Boolean): SugarParameter {
+private fun IrValueParameter.toSugarParameter(owner: IrFunction, isToken: Boolean): SugarParameter {
   val casaValue = getAnnotation(CasaValueFqn)?.let { casaValueAnnotation ->
     // Assuming the first argument is always "literal"
     val casaValueExpression = casaValueAnnotation.getValueArgument(0)
@@ -135,15 +147,18 @@ private fun IrValueParameter.toSugarParameter(isToken: Boolean): SugarParameter 
     val sugarImportsExpression = sugarImportsAnnotation.getValueArgument(0)
     sugarImportsExpression.cast<IrVararg>().elements.map { element ->
       element.cast<IrClassReference>().classType.classFqName ?: error(
-        message = SourceError.importClazzFqnUnavailable(element),
+        SourceError.importClazzFqnUnavailable(element.cast<IrClassReference>().type.asString()),
       )
     }
   }
+  val isComposable = hasAnnotation(ComposableFqn)
 
   return SugarParameter(
+    owner = owner,
     name = name,
     type = type,
     isToken = isToken,
+    isComposable = isComposable,
     imports = sugarImports.orEmpty(),
     casaValueLiteral = casaValue,
     defaultValue = defaultValue,
@@ -152,9 +167,15 @@ private fun IrValueParameter.toSugarParameter(isToken: Boolean): SugarParameter 
 
 // TODO(2): 사용된 토큰 기재
 // TODO(1): util-backend-kotlinc로 KDoc 추출 공통 로직 분리
-private fun IrSimpleFunction.getSugarKDoc(referFqn: FqName, sugarTokenName: String): String {
+// TODO: default section은 없고 KDoc Tag만 있는 경우는 로직이 어떻게?
+private fun IrSimpleFunction.getSugarKDoc(
+  referFqn: FqName,
+  tokenName: String,
+  usedTokenLiteral: String,
+): String {
+  val usedTokenComment = "This component uses `$usedTokenLiteral` as the token value for `$tokenName`."
   val generatedDocComment = "This document was automatically generated by [${referFqn.asString()}].\n" +
-    "If any links are broken, please check the original document."
+    "If any contents are broken, please check the original document."
 
   val kdocArea = psiElement?.children?.firstOrNull { it is KDoc } as? KDoc
   val kdocDefaultSection = kdocArea?.getDefaultSection() ?: return ""
@@ -167,11 +188,11 @@ private fun IrSimpleFunction.getSugarKDoc(referFqn: FqName, sugarTokenName: Stri
 
   return buildString {
     appendLine(kdocDefaultSection.getContent().trim())
-    appendLine("\n$generatedDocComment\n")
+    appendLine("\n$usedTokenComment\n\n$generatedDocComment\n")
     for (tag in kdocTags) {
       val tagName = tag.name?.let { "@$it " }.orEmpty()
       var subjectName = tag.getSubjectName()
-      if (subjectName == sugarTokenName) continue
+      if (subjectName == tokenName) continue
       subjectName = subjectName?.plus(" ").orEmpty()
 
       appendLine("${tagName}${subjectName}${tag.getContent()}")
