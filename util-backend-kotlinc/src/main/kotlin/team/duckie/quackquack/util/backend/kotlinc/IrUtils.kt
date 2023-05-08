@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.util.backend.kotlinc
 
+import com.squareup.kotlinpoet.ClassName
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocationWithRange
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSourceLocation
 import org.jetbrains.kotlin.ir.IrElement
@@ -35,6 +36,10 @@ public val IrSimpleFunction.isQuackComponent: Boolean
 /** [IrType.classFqName]을 non-null하게 조회합니다. */
 public val IrType.unsafeFqn: String
   get() = classFqName!!.asString()
+
+/** 주어진 타입의 [ClassName]을 non-null하게 조회합니다. */
+public val IrType.unsafeClassName: ClassName
+  get() = ClassName.bestGuess(classFqName!!.asString())
 
 /** 주어진 파일 내에서 [irElement]의 위치를 조최합니다. */
 public fun IrFile.locationOf(irElement: IrElement?): CompilerMessageSourceLocation {
