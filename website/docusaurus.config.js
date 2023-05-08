@@ -17,6 +17,8 @@ const config = {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/duckie-team/quack-quack-android/edit/main/website/',
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

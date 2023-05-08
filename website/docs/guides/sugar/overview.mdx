@@ -4,6 +4,8 @@ sidebar_label: Overview
 
 # sugar-processor-kotlinc
 
+... 작성 중
+
 이 모듈은 core 컴포넌트의 sugar syntax를 위한 컴포넌트를 자동 구현합니다. `sugar-processor-kotlinc`는 다음과 같은 단계로 진행됩니다.
 
 1. `Ir Visit`
@@ -156,7 +158,7 @@ SugarRefer의 IR 정보는 Ir Visit 단계에서 조회한 정보로 불러옵�
 - Compiler Plugin 등록 서비스로 deprecated된 방식을 사용합니다. (See [SugarComponentRegistrar.kt](https://github.com/duckie-team/quack-quack-android/blob/b4aa5e7c3c4e13a2c1b84109912f99f3bd1bbe4c/sugar-processor/src/main/kotlin/SugarComponentRegistrar.kt#L22-L31))
 - sugar token의 타입으로 `value class`, `data class`, `class`만 테스트가 진행됐습니다.
 
-## Download ![](https://img.shields.io/maven-central/v/team.duckie.quackquack.sugar/sugar-processor?style=flat-square)
+## Download ![](https://img.shields.io/maven-central/v/team.duckie.quackquack.sugar/sugar-processor?style=flat-square) {#download}
 
 ```kotlin
 "kotlinCompilerPluginClasspath"("team.duckie.quackquack.sugar:sugar-processor:${version}")
