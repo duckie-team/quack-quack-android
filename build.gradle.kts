@@ -103,7 +103,6 @@ allprojects {
         freeCompilerArgs = freeCompilerArgs + listOf(
           "-opt-in=kotlin.OptIn",
           "-opt-in=kotlin.RequiresOptIn",
-          "-Xcontext-receivers",
         )
       }
     }
