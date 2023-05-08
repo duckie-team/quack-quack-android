@@ -82,6 +82,8 @@ internal fun generateCasaModels(
     )
     .addModifiers(KModifier.PUBLIC)
     .build()
+
+  // TODO(3): OptIn 어노테이션 자동 추가
   val casaModelFileSpec = FileSpec
     .builder(
       packageName = "",
