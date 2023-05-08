@@ -4,12 +4,15 @@
 @file:Suppress("NoConsecutiveBlankLines", "PackageDirectoryMismatch", "Wrapping",
     "TrailingCommaOnCallSite", "ArgumentListWrapping", "RedundantVisibilityModifier",
     "UnusedImport", "NoUnusedImports", "SpacingAroundParens", "Indentation", "NoUnitReturn",
-    "ktlint")
+    "RedundantUnitReturnType", "ModifierParameter", "KDocUnresolvedReference", "NoTrailingSpaces",
+    "NoMultipleSpaces", "ktlint")
+@file:OptIn(ExperimentalQuackQuackApi::class)
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import kotlin.Boolean
+import kotlin.Function0
 import kotlin.String
 import kotlin.Suppress
 import kotlinx.collections.immutable.ImmutableList
@@ -22,16 +25,104 @@ import team.duckie.quackquack.ui.sugar.QuackBody3
 import team.duckie.quackquack.ui.sugar.QuackHeadLine1
 import team.duckie.quackquack.ui.sugar.QuackHeadLine2
 import team.duckie.quackquack.ui.sugar.QuackLarge1
+import team.duckie.quackquack.ui.sugar.QuackLargeButton
+import team.duckie.quackquack.ui.sugar.QuackMediumButton
+import team.duckie.quackquack.ui.sugar.QuackSmallButton
 import team.duckie.quackquack.ui.sugar.QuackSubtitle
 import team.duckie.quackquack.ui.sugar.QuackSubtitle2
 import team.duckie.quackquack.ui.sugar.QuackTitle1
-import team.duckie.quackquack.ui.sugar.QuackTitle2
+import team.duckie.quackquack.ui.sugar.QuackTitle2import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
+
+private val buttonQuackButtonCasaModel: CasaModel = CasaModel(
+  name = "QuackButton",
+  domain = "button",
+  kdocDefaultSection = """
+      |버튼을 그립니다.
+      |- 이 컴포넌트는 자체의 패딩 정책을 구현합니다.
+      |- 이 컴포넌트는 자체의 배치 정책을 구현합니다.
+      |- [스타일][style]별로 사용 가능한 데코레이터가 달라집니다.
+      |
+      |### 패딩 정책
+      |1. [버튼의 스타일][QuackButtonStyle]에서
+      |    [contentPadding][QuackButtonStyle.contentPadding] 옵션을 별도로 제공하고 있습니다.
+      |    이는 [Modifier.padding]과 다른 패딩 정책을 사용합니다. [Modifier.padding]은 버튼의 루트
+      |    레이아웃을 기준으로 패딩이 적용되지만, [QuackButtonStyle.contentPadding]은 버튼의 텍스트를
+      |    기준으로 패딩이 적용됩니다. 이 부분의 자세한 내용은 배치 정책 문서를 참고하세요.
+      |2. [LayoutModifier]를 사용하여 컴포넌트의 사이즈가 명시됐다면
+      |    [QuackButtonStyle.contentPadding] 옵션은 무시됩니다.
+      |    [contentPadding][QuackButtonStyle.contentPadding]은 컴포넌트 사이즈 하드코딩을
+      |    대체하는 용도로 제공됩니다. 하지만 컴포넌트 사이즈가 하드코딩됐다면
+      |    [contentPadding][QuackButtonStyle.contentPadding]을 제공하는 의미가 없어집니다.
+      |    따라서 컴포넌트의 사이즈가 하드코딩됐다면 개발자의 의도를 존중한다는 원칙하에 컴포넌트의 사이즈가 중첩으로 확장되는 일을
+      |    예방하고자 [contentPadding][QuackButtonStyle.contentPadding] 옵션을 무시합니다. 예를
+      |    들어 `Modifier.height(10.dp)`로 컴포넌트 높이를 명시했고,
+      |    [contentPadding][QuackButtonStyle.contentPadding]으로
+      |    `QuackPadding(vertical=10.dp)`을 제공했다고 해봅시다. 이런 경우에는
+      |    [contentPadding][QuackButtonStyle.contentPadding]이 무시되고 버튼의 높이가 10dp로
+      |    적용됩니다. 컴포넌트 사이즈를 명시하면서 패딩을 적용하고 싶다면
+      |    [contentPadding][QuackButtonStyle.contentPadding] 대신에
+      |    [Modifier.padding]을 사용하세요. [LayoutModifier]를 사용하는 흔한 [Modifier]로는
+      |    [Modifier.size], [Modifier.height], [Modifier.width] 등이 있습니다.
+      |    [LayoutModifierNode]를 사용하는 [Modifier]는
+      |    [contentPadding][QuackButtonStyle.contentPadding] 무시 옵션이 아직 지원되지
+      |    않습니다.
+      |    ([#636](https://github.com/duckie-team/quack-quack-android/issues/636))
+      |
+      |### 배치 정책
+      |
+      |[style.contentPadding][QuackButtonStyle.contentPadding]은 항상
+      |버튼의 텍스트를 기준으로 적용됩니다. 예를 들어 버튼의 아이콘을 leading과 trailing을 모두
+      |제공했고, [contentPadding][QuackButtonStyle.contentPadding]으로
+      |`QuackPadding(horizontal=10.dp)`를 제공했다면 양끝의 horizontal
+      |패딩이 각각 아이콘을 기준으로 적용되는 게 아닌 버튼의 텍스트를 기준으로 적용됩니다. 따라서 개발자는
+      |[contentPadding][QuackButtonStyle.contentPadding]의 값을 제공할 때 양끝
+      |아이콘을 기준으로 제공하는 게 아닌 가운데 텍스트를 기준으로 제공해야 합니다. 이 정책은 양끝 아이콘이 동적으로
+      |적용될 때 의도하지 않는 버튼 사이즈 변경을 예방하기 위해 고안됐습니다. 예를 들어 `contentPadding:
+      |QuackPadding(horizontal=10.dp)`을 양끝 아이콘 기준으로 적용했다고 해봅시다. 처음에는 양끝에 아이콘이
+      |없어서 가운데 텍스트를 기준으로 패딩이 적용됩니다. 이 시점에는 버튼의 너비가 25dp입니다. (왼쪽 패딩 10dp, 텍스트
+      |5dp, 오른쪽 패딩 10dp) 사용자 요청에 의해 양쪽 모두에 5dp의 너비를 갖는 아이콘이 추가되었습니다. 이 시점에서는 양쪽
+      |아이콘이 존재하므로 [contentPadding][QuackButtonStyle.contentPadding]이 양쪽 아이콘을
+      |기준으로 적용되어 버튼의 너비가 35dp입니다. (왼쪽 패딩 10dp, 왼쪽 아이콘 5dp, 텍스트 5dp, 오른쪽 아이콘
+      |5dp, 오른쪽 패딩 10dp) 즉, 의도하지 않게 버튼의 너비가 10dp 증가하였습니다. 이러한 상황을 예방하기 위해 이 정책이
+      |사용됩니다.
+      |
+      |### 사용 가능 데코레이터
+      || style                               | [icons][Modifier.icons] | description                    
+      |   |
+      ||:-----------------------------------:|:-----------------------:|:----------------------------------:|
+      ||  [Large][QuackLargeButtonDefaults]  |            ⭕            |                                
+      |   |
+      || [Medium][QuackMediumButtonDefaults] |            ⭕            |                                
+      |   |
+      ||  [Small][QuackSmallButtonDefaults]  |            ❌            | 버튼의 너비가 좁기에 아이콘 데코레이터를 사용할 수
+      |없습니다. |
+      |
+      |This component uses `QuackButtonStyle.Large` as the token value for `style`.
+      |""".trimMargin(),
+  components = persistentListOf<Pair<String, @Composable () -> Unit>>(
+      "QuackLargeButton" to { QuackLargeButton(
+        text = "QuackButton is experimental",
+        onClick = {},
+      ) },
+      "QuackMediumButton" to { QuackMediumButton(
+        text = "QuackButton is experimental",
+        onClick = {},
+      ) },
+      "QuackSmallButton" to { QuackSmallButton(
+        text = "QuackButton is experimental",
+        onClick = {},
+      ) },
+      ).toImmutableList(),
+)
+
 
 private val textQuackTextCasaModel: CasaModel = CasaModel(
   name = "QuackText",
   domain = "text",
   kdocDefaultSection = """
       |텍스트를 그리는 기본적인 컴포저블입니다.
+      |
+      |This component uses `QuackTypography.Body1` as the token value for `typography`.
       |""".trimMargin(),
   components = persistentListOf<Pair<String, @Composable () -> Unit>>(
       "QuackBody1" to { QuackBody1(
@@ -69,6 +160,7 @@ private val textQuackTextCasaModel: CasaModel = CasaModel(
 
 
 public val casaModels: ImmutableList<CasaModel> = persistentListOf(
+  buttonQuackButtonCasaModel,
   textQuackTextCasaModel,
 )
 
