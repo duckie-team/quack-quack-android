@@ -6,13 +6,17 @@ description: 꽥꽥을 두 번째 버전으로 새로 개발하게 된 핵심 �
 
 꽥꽥은 1 버전과 2 버전으로 나뉩니다. 이 문서는 꽥꽥을 두 번째 버전으로 새로 개발하게 된 핵심 사유를 소개합니다.
 
-> 과거의 이 문서는 꽥꽥 두 번째 버전의 제안서였습니다.
+:::note
+
+과거의 이 문서는 꽥꽥 두 번째 버전의 제안서였습니다.
+
+:::
 
 ### 정직했던 UI Kit
 
 첫 번째 버전의 꽥꽥은 너무 정직한 UI Kit이었습니다. 너무 정직하다 보니 발생하는 문제도 몇몇 있었습니다. 예를 들어 아래와 같은 컴포넌트가 있습니다.
 
-![secondary-button](../images/secondary-button.svg)
+![secondary-button](images/secondary-button.svg)
 
 이 컴포넌트는 덕키의 secondary 버튼입니다. secondary 버튼의 특징으론 양옆에 아이콘이 들어갈 수 있습니다. 이 특징은 secondary 버튼만의 고유한 특징입니다. 하지만 프로덕트 개발 중에 primary 버튼에도 양옆 아이콘이 있음을 발견했습니다.
 
@@ -38,11 +42,11 @@ description: 꽥꽥을 두 번째 버전으로 새로 개발하게 된 핵심 �
 
 이뿐만 아니라 variant 문제도 종종 발생합니다. 덕키에서 사용되는 타이포그래피는 다음과 같습니다.
 
-![typography](../images/typography.svg)
+![typography](images/typography.svg)
 
 그리고 아래 화면이 있습니다.
 
-![comment](../images/comment-ui.svg)
+![comment](images/comment-ui.svg)
 
 이 화면에서 `@멘션`은 `Body1` 타이포그래피를 사용하고 클릭 가능해야 했기에 `QuackAnnotatedBody1`이라는 네이밍의 컴포넌트로 개발되고 사용됐습니다. 하지만 다른 화면에서 동일한 역할을 하는 `Headline1` 타이포그래피의 컴포넌트가 필요해졌습니다.
 
@@ -64,7 +68,7 @@ UI Kit의 정직함을 해결하기 위해 `디자인 토큰`을 도입해 보�
 
 ```kotlin
 Text(
-    typography = Body1,
+  typography = Body1,
 )
 ```
 
@@ -72,16 +76,16 @@ Text(
 
 ```kotlin
 Text(
-    typography = Body1,
-    modifier = Modifier
-        .annotated(
-            clickable = { text ->
-                AnnotatedClickable(text, "@DUCKIE", DuckieOrange, ::mentionClicked)
-            }
-        )
-        .highlight { text ->
-            Highlight(text, "@DUCKIE", SemiBold)
-        },
+  typography = Body1,
+  modifier = Modifier
+    .annotated(
+      clickable = { text ->
+        AnnotatedClickable(text, "@DUCKIE", DuckieOrange, ::mentionClicked)
+      }
+    )
+    .highlight { text ->
+      Highlight(text, "@DUCKIE", SemiBold)
+    },
 )
 ```
 
@@ -89,17 +93,17 @@ Text(
 
 ```kotlin
 Text(
-    typography = Body1,
-    modifier = Modifier
-        .annotated(
-            clickable = { text ->
-                AnnotatedClickable(text, "@DUCKIE", DuckieOrange, ::mentionClicked)
-            }
-        )
-        .highlight { text ->
-            Highlight(text, "@DUCKIE", SemiBold)
-        },
-    text = "@DUCKIE 팀은 더 재밌는 덕질 문화를 만들어 갑니다.",
+  typography = Body1,
+  modifier = Modifier
+    .annotated(
+      clickable = { text ->
+        AnnotatedClickable(text, "@DUCKIE", DuckieOrange, ::mentionClicked)
+      }
+    )
+    .highlight { text ->
+      Highlight(text, "@DUCKIE", SemiBold)
+    },
+  text = "@DUCKIE 팀은 더 재밌는 덕질 문화를 만들어 갑니다.",
 )
 ```
 
@@ -107,7 +111,7 @@ Text(
 
 ```kotlin
 Button(
-    type = Secondary,
+  type = Secondary,
 )
 ```
 
@@ -115,10 +119,10 @@ Button(
 
 ```kotlin
 Button(
-    type = Secondary,
-    modifier = Modifier
-        .leadingIcon(Close)
-        .trailingIcon(Heart),
+  type = Secondary,
+  modifier = Modifier
+    .leadingIcon(Close)
+    .trailingIcon(Heart),
 )
 ```
 
@@ -126,12 +130,12 @@ Button(
 
 ```kotlin
 Button(
-    type = Secondary,
-    modifier = Modifier
-        .leadingIcon(Close)
-        .trailingIcon(Heart),
-    text = "@DUCKIE 팀은 더 재밌는 덕질 문화를 만들어 갑니다.",
-    onClick = ::duckie,
+  type = Secondary,
+  modifier = Modifier
+    .leadingIcon(Close)
+    .trailingIcon(Heart),
+  text = "@DUCKIE 팀은 더 재밌는 덕질 문화를 만들어 갑니다.",
+  onClick = ::duckie,
 )
 ```
 
@@ -141,15 +145,15 @@ Button(
 
 ```kotlin
 Button(
-    type = Secondary,
-    modifier = Modifier
-        .leadingIcon(Close)
-        .trailingIcon(Heart)
-        .highlight { text ->
-            Highlight(text, "@DUCKIE", SemiBold)
-        },
-    text = "@DUCKIE 팀은 더 재밌는 덕질 문화를 만들어 갑니다.",
-    onClick = ::duckie,
+  type = Secondary,
+  modifier = Modifier
+    .leadingIcon(Close)
+    .trailingIcon(Heart)
+    .highlight { text ->
+      Highlight(text, "@DUCKIE", SemiBold)
+    },
+  text = "@DUCKIE 팀은 더 재밌는 덕질 문화를 만들어 갑니다.",
+  onClick = ::duckie,
 )
 ```
 
@@ -163,12 +167,12 @@ Button(
 
 ```kotlin
 Button(
-    type = Secondary,
-    modifier = Modifier
-        .leadingIcon(Close)
-        .trailingIcon(Heart),
-    text = "@DUCKIE 팀은 더 재밌는 덕질 문화를 만들어 갑니다.",
-    onClick = ::duckie,
+  type = Secondary,
+  modifier = Modifier
+    .leadingIcon(Close)
+    .trailingIcon(Heart),
+  text = "@DUCKIE 팀은 더 재밌는 덕질 문화를 만들어 갑니다.",
+  onClick = ::duckie,
 )
 ```
 
@@ -176,11 +180,11 @@ Button(
 
  ```kotlin
  SecondaryButton(
-     modifier = Modifier
-         .leadingIcon(Close)
-         .trailingIcon(Heart),
-     text = "@DUCKIE 팀은 더 재밌는 덕질 문화를 만들어 갑니다.",
-     onClick = ::duckie,
+   modifier = Modifier
+     .leadingIcon(Close)
+     .trailingIcon(Heart),
+   text = "@DUCKIE 팀은 더 재밌는 덕질 문화를 만들어 갑니다.",
+   onClick = ::duckie,
  )
  ```
 
@@ -194,4 +198,3 @@ fun DefaultButton(modifier: Modifier = Modifier, text: String) // same as Button
 fun NormalButton(modifier: Modifier = Modifier, text: String) // same as Button(type = QuackButton.Normal, ...)
 fun FlatButton(modifier: Modifier = Modifier, text: String) // same as Button(type = QuackButton.Flat, ...)
 ```
-
