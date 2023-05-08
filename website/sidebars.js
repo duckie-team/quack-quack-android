@@ -34,6 +34,8 @@ const sidebars = {
             'guides/ui/mental-model',
             'guides/ui/components',
             'guides/ui/design-tokens',
+            'guides/ui/decorators',
+            'guides/ui/best-practices',
           ],
         },
         {
