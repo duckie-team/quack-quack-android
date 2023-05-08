@@ -57,14 +57,14 @@ import team.duckie.quackquack.util.MustBeTested
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 
 /**
- * 버튼의 디자인 스팩을 나타냅니다.
+ * 버튼의 디자인 스펙을 나타냅니다.
  *
  * @see QuackButtonStyle
  */
 @QuackDsl
 public interface ButtonStyleMarker
 
-/** 기본으로 제공되는 [ButtonStyleMarker]의 스팩들에서 공통되는 필드를 나타냅니다. */
+/** 기본으로 제공되는 [ButtonStyleMarker]의 스펙들에서 공통되는 필드를 나타냅니다. */
 @Immutable
 public interface QuackButtonStyle<T : ButtonStyleMarker> {
   /** 사용할 색상들 */
@@ -93,15 +93,15 @@ public interface QuackButtonStyle<T : ButtonStyleMarker> {
   public operator fun invoke(styleBuilder: T.() -> Unit): T
 
   public companion object {
-    /** 기본으로 정의된 스팩 중 [QuackLargeButtonDefaults]를 가져옵니다. */
+    /** 기본으로 정의된 스펙 중 [QuackLargeButtonDefaults]를 가져옵니다. */
     @Stable
     public val Large: QuackButtonStyle<QuackLargeButtonDefaults> get() = QuackLargeButtonDefaults()
 
-    /** 기본으로 정의된 스팩 중 [QuackMediumButtonDefaults]를 가져옵니다. */
+    /** 기본으로 정의된 스펙 중 [QuackMediumButtonDefaults]를 가져옵니다. */
     @Stable
     public val Medium: QuackButtonStyle<QuackMediumButtonDefaults> get() = QuackMediumButtonDefaults()
 
-    /** 기본으로 정의된 스팩 중 [QuackSmallButtonDefaults]를 가져옵니다. */
+    /** 기본으로 정의된 스펙 중 [QuackSmallButtonDefaults]를 가져옵니다. */
     // TODO(3): 데코레이터 모디파이어 사용 금지 린트 제공
     @Stable
     public val Small: QuackButtonStyle<QuackSmallButtonDefaults> get() = QuackSmallButtonDefaults()
@@ -214,7 +214,7 @@ public class QuackButtonColors internal constructor(
 }
 
 /**
- * 꽥꽥 디자인 가이드의 `Buttons#LargeButtons`에 해당하는 디자인 스팩을 정의합니다.
+ * 꽥꽥 디자인 가이드의 `Buttons#LargeButtons`에 해당하는 디자인 스펙을 정의합니다.
  *
  * ### mutation 가능한 필드
  * - colors(backgroundColor, disabledBackgroundColor, contentColor,
@@ -269,7 +269,7 @@ public class QuackLargeButtonDefaults internal constructor() :
 }
 
 /**
- * 꽥꽥 디자인 가이드의 `Buttons#MediumButton`에 해당하는 디자인 스팩을 정의합니다.
+ * 꽥꽥 디자인 가이드의 `Buttons#MediumButton`에 해당하는 디자인 스펙을 정의합니다.
  *
  * ### mutation 가능한 필드
  * - colors(iconColor)
@@ -315,7 +315,7 @@ public class QuackMediumButtonDefaults internal constructor() :
 }
 
 /**
- * 꽥꽥 디자인 가이드의 `Buttons#SmallButtons`에 해당하는 디자인 스팩을 정의합니다.
+ * 꽥꽥 디자인 가이드의 `Buttons#SmallButtons`에 해당하는 디자인 스펙을 정의합니다.
  *
  * ### mutation 가능한 필드
  * - colors(backgroundColor, disabledBackgroundColor, contentColor,

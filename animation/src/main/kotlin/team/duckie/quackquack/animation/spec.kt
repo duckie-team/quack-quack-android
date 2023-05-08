@@ -44,10 +44,10 @@ public object QuackAnimationSpec {
   public var snapMode: Boolean = false
 
   /**
-   * 꽥꽥에서 사용할 [애니메이션의 기본 스팩][AnimationSpec]
+   * 꽥꽥에서 사용할 [애니메이션의 기본 스펙][AnimationSpec]
    *
    * @return 덕키에서 사용할 [AnimationSpec]. [snapMode] 에 따라 반환값이 달라집니다. `false`라면
-   *     덕키에서 사용하는 애니메이션 스팩인 [TweenSpec]이 반환되고, `true`라면 [SnapSpec]이 반환됩니다.
+   *     덕키에서 사용하는 애니메이션 스펙인 [TweenSpec]이 반환되고, `true`라면 [SnapSpec]이 반환됩니다.
    * @see snapMode
    */
   @OptIn(DelicateQuackApi::class)

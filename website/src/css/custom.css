@@ -1,24 +1,26 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/variable/pretendardvariable-dynamic-subset.css");
+@import url('https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css');
+@import url('https://cdn.jsdelivr.net/gh/joungkyun/font-d2coding-ligature/d2coding-ligature.css');
 
 :root {
-    --ifm-font-family-base: 'Pretendard Variable';
-    --ifm-color-primary: #ff8300;
-    --ifm-color-primary-dark: #ff8300;
-    --ifm-color-primary-darker: #ff8300;
-    --ifm-color-primary-darkest: #ff8300;
-    --ifm-color-primary-light: #ff8300;
-    --ifm-color-primary-lighter: #ff8300;
-    --ifm-color-primary-lightest: #ff8300;
-    --ifm-code-font-size: 95%;
+  --ifm-font-family-base: 'SUIT Variable';
+  --ifm-font-family-monospace: 'D2 coding Ligature';
+  --ifm-color-primary: #ff8300;
+  --ifm-color-primary-dark: #ff8300;
+  --ifm-color-primary-darker: #ff8300;
+  --ifm-color-primary-darkest: #ff8300;
+  --ifm-color-primary-light: #ff8300;
+  --ifm-color-primary-lighter: #ff8300;
+  --ifm-color-primary-lightest: #ff8300;
+  --ifm-code-font-size: 95%;
 }
 
 .docusaurus-highlight-code-line {
-    background-color: rgba(0, 0, 0, 0.1);
-    display: block;
-    margin: 0 calc(-1 * var(--ifm-pre-padding));
-    padding: 0 var(--ifm-pre-padding);
+  background-color: rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
 }
 
 html[data-theme='dark'] .docusaurus-highlight-code-line {
-    background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
 }
