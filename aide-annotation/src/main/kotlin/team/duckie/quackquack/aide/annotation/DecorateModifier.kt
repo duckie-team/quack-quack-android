@@ -15,15 +15,15 @@ package team.duckie.quackquack.aide.annotation
  * ```
  * @Composable
  * fun Text(
- * modifier: Modifier = Modifier,
- * text: String,
+ *   modifier: Modifier = Modifier,
+ *   text: String,
  * ) {
- * BasicText(modifier = modifier, text = text)
+ *   BasicText(modifier = modifier, text = text)
  * }
  *
  * @DecorateModifier
  * fun Modifier.highlight(text: String, color: Color): Modifier {
- * // ... awesome code
+ *   // ... awesome code
  * }
  * ```
  *
