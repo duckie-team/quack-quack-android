@@ -18,20 +18,24 @@ dependencies {
 
   val publishableProjects = with(projects) {
     listOf(
+      util,
+      utilBackend,
+      // TODO: publish utilBackendKsp,
+      utilBackendKotlinc,
+      // TODO: publish utilBackendTest,
       runtime,
       material,
       animation,
       ui,
-      sugarProcessor,
-      sugarMaterial,
       aide,
       aideAnnotation,
       aideProcessor,
+      sugarMaterial,
+      sugarProcessor,
       casaUi,
       casaAnnotation,
       casaMaterial,
       casaProcessor,
-      util,
     )
   }.map { project ->
     ArtifactConfig.of(project.dependencyProject).toString()
