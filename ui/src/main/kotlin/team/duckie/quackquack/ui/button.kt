@@ -113,35 +113,43 @@ public interface QuackButtonStyle<T : ButtonStyleMarker> {
   public companion object {
     /** 버튼 디자인 가이드의 `LargeButtons # primary` 디자인 스펙을 가져옵니다. */
     @Stable
-    public val PrimaryLarge: QuackButtonStyle<QuackPrimaryLargeButtonDefaults> get() = QuackPrimaryLargeButtonDefaults()
+    public val PrimaryLarge: QuackButtonStyle<QuackPrimaryLargeButtonDefaults>
+      get() = QuackPrimaryLargeButtonDefaults()
 
     /** 버튼 디자인 가이드의 `LargeButtons # secondary` 디자인 스펙을 가져옵니다. */
     @Stable
-    public val SecondaryLarge: QuackButtonStyle<QuackSecondaryLargeButtonDefaults> get() = QuackSecondaryLargeButtonDefaults()
+    public val SecondaryLarge: QuackButtonStyle<QuackSecondaryLargeButtonDefaults>
+      get() = QuackSecondaryLargeButtonDefaults()
 
     /** 버튼 디자인 가이드의 `MediumButton` 디자인 스펙을 가져옵니다. */
     @Stable
-    public val Medium: QuackButtonStyle<QuackMediumButtonDefaults> get() = QuackMediumButtonDefaults()
+    public val Medium: QuackButtonStyle<QuackMediumButtonDefaults>
+      get() = QuackMediumButtonDefaults()
 
     /** 버튼 디자인 가이드의 `SmallButtons # primary, filled` 디자인 스펙을 가져옵니다. */
     @Stable
-    public val PrimaryFilledSmall: QuackButtonStyle<QuackPrimaryFilledSmallButtonDefaults> get() = QuackPrimaryFilledSmallButtonDefaults()
+    public val PrimaryFilledSmall: QuackButtonStyle<QuackPrimaryFilledSmallButtonDefaults>
+      get() = QuackPrimaryFilledSmallButtonDefaults()
 
     /** 버튼 디자인 가이드의 `SmallButtons # primary, outlined` 디자인 스펙을 가져옵니다. */
     @Stable
-    public val PrimaryOutlinedSmall: QuackButtonStyle<QuackPrimaryOutlinedSmallButtonDefaults> get() = QuackPrimaryOutlinedSmallButtonDefaults()
+    public val PrimaryOutlinedSmall: QuackButtonStyle<QuackPrimaryOutlinedSmallButtonDefaults>
+      get() = QuackPrimaryOutlinedSmallButtonDefaults()
 
     /** 버튼 디자인 가이드의 `SmallButtons # primary, outlined, round` 디자인 스펙을 가져옵니다. */
     @Stable
-    public val PrimaryOutlinedRoundSmall: QuackButtonStyle<QuackPrimaryOutlinedRoundSmallButtonDefaults> get() = QuackPrimaryOutlinedRoundSmallButtonDefaults()
+    public val PrimaryOutlinedRoundSmall: QuackButtonStyle<QuackPrimaryOutlinedRoundSmallButtonDefaults>
+      get() = QuackPrimaryOutlinedRoundSmallButtonDefaults()
 
     /** 버튼 디자인 가이드의 `SmallButtons # secondary` 디자인 스펙을 가져옵니다. */
     @Stable
-    public val SecondarySmall: QuackButtonStyle<QuackSecondarySmallButtonDefaults> get() = QuackSecondarySmallButtonDefaults()
+    public val SecondarySmall: QuackButtonStyle<QuackSecondarySmallButtonDefaults>
+      get() = QuackSecondarySmallButtonDefaults()
 
     /** 버튼 디자인 가이드의 `SmallButtons # secondary, round` 디자인 스펙을 가져옵니다. */
     @Stable
-    public val SecondaryRoundSmall: QuackButtonStyle<QuackSecondaryRoundSmallButtonDefaults> get() = QuackSecondaryRoundSmallButtonDefaults()
+    public val SecondaryRoundSmall: QuackButtonStyle<QuackSecondaryRoundSmallButtonDefaults>
+      get() = QuackSecondaryRoundSmallButtonDefaults()
   }
 }
 
