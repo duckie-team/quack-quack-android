@@ -22,6 +22,7 @@ import team.duckie.quackquack.util.MustBeTested
  *
  * @param composeModifier `androidx.compose.ui.Modifier`으로만 구성된 [Modifier]
  * @param quackDataModels [QuackDataModifierModel]으로만 구성된 리스트
+ *
  * @see Composer.quackMaterializeOf
  */
 @NoCopy
@@ -49,6 +50,7 @@ internal object QuackMaterializingErrors {
  * @param modifier 분석할 [Modifier]
  * @param taversingCallback 주어진 [Modifier]를 foldIn으로 순회하며 방문하는 element마다
  * 호출할 선택적 콜백
+ *
  * @return 컴포즈 자체의 [Modifier]와 [QuackDataModifierModel] 리스트를 담은 클래스
  */
 @MustBeTested(passed = true)
