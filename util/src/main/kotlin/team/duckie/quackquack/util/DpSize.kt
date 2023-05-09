@@ -21,4 +21,3 @@ import androidx.compose.ui.unit.DpSize
 @Stable
 public fun DpSize(all: Dp): DpSize =
   DpSize(width = all, height = all)
-

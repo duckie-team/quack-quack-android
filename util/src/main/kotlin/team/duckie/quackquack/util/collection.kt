@@ -17,4 +17,3 @@ import androidx.compose.ui.util.fastFirstOrNull
  */
 public inline fun <reified T> List<*>.fastFirstIsInstanceOrNull(): T? =
   fastFirstOrNull { it is T } as? T
-

@@ -28,4 +28,3 @@ public fun Collection<String>.toLiteralListString(): String =
     postfix = ")",
     transform = { "\"$it\"" },
   )
-
