@@ -69,6 +69,16 @@ import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 @QuackDsl
 public interface ButtonStyleMarker
 
+/** Large Button 디자인 스펙을 나타냅니다.  */
+public interface QuackLargeButtonStyle : ButtonStyleMarker
+
+/** Medium Button 디자인 스펙을 나타냅니다.  */
+public interface QuackMediumButtonStyle : ButtonStyleMarker
+
+// TODO(3): 데코레이터 사용 불가능 린트 제공
+/** Small Button 디자인 스펙을 나타냅니다.  */
+public interface QuackSmallButtonStyle : ButtonStyleMarker
+
 /** 기본으로 제공되는 [ButtonStyleMarker]의 스펙들에서 공통되는 필드를 나타냅니다. */
 @Immutable
 public interface QuackButtonStyle<T : ButtonStyleMarker> {
@@ -93,23 +103,53 @@ public interface QuackButtonStyle<T : ButtonStyleMarker> {
   /** 비활성화 상태에서 표시될 텍스트의 타이포그래피 */
   public val disabledTypography: QuackTypography
 
-  /** 필드에 mutation을 적용하는 람다 */
+  /** 디자인 스펙을 변경하는 람다 */
   @Stable
   public operator fun invoke(styleBuilder: T.() -> Unit): T
 
+  // TODO: 이 부분까지 자동화는 무리일까?
+  // TODO: 더 효율적인 토큰화 방식 고안...
+  //       지금은 중복되는 코드가 많이 나온다. 얘도 Modifier로 처리할까? 근데 어떤 스타일로?
   public companion object {
-    /** 기본으로 정의된 스펙 중 [QuackLargeButtonDefaults]를 가져옵니다. */
+    /** 버튼 디자인 가이드의 `LargeButtons # primary` 디자인 스펙을 가져옵니다. */
     @Stable
-    public val Large: QuackButtonStyle<QuackLargeButtonDefaults> get() = QuackLargeButtonDefaults()
+    public val PrimaryLarge: QuackButtonStyle<QuackPrimaryLargeButtonDefaults>
+      get() = QuackPrimaryLargeButtonDefaults()
 
-    /** 기본으로 정의된 스펙 중 [QuackMediumButtonDefaults]를 가져옵니다. */
+    /** 버튼 디자인 가이드의 `LargeButtons # secondary` 디자인 스펙을 가져옵니다. */
     @Stable
-    public val Medium: QuackButtonStyle<QuackMediumButtonDefaults> get() = QuackMediumButtonDefaults()
+    public val SecondaryLarge: QuackButtonStyle<QuackSecondaryLargeButtonDefaults>
+      get() = QuackSecondaryLargeButtonDefaults()
 
-    /** 기본으로 정의된 스펙 중 [QuackSmallButtonDefaults]를 가져옵니다. */
-    // TODO(3): 데코레이터 모디파이어 사용 금지 린트 제공
+    /** 버튼 디자인 가이드의 `MediumButton` 디자인 스펙을 가져옵니다. */
     @Stable
-    public val Small: QuackButtonStyle<QuackSmallButtonDefaults> get() = QuackSmallButtonDefaults()
+    public val Medium: QuackButtonStyle<QuackMediumButtonDefaults>
+      get() = QuackMediumButtonDefaults()
+
+    /** 버튼 디자인 가이드의 `SmallButtons # primary, filled` 디자인 스펙을 가져옵니다. */
+    @Stable
+    public val PrimaryFilledSmall: QuackButtonStyle<QuackPrimaryFilledSmallButtonDefaults>
+      get() = QuackPrimaryFilledSmallButtonDefaults()
+
+    /** 버튼 디자인 가이드의 `SmallButtons # primary, outlined` 디자인 스펙을 가져옵니다. */
+    @Stable
+    public val PrimaryOutlinedSmall: QuackButtonStyle<QuackPrimaryOutlinedSmallButtonDefaults>
+      get() = QuackPrimaryOutlinedSmallButtonDefaults()
+
+    /** 버튼 디자인 가이드의 `SmallButtons # primary, outlined, round` 디자인 스펙을 가져옵니다. */
+    @Stable
+    public val PrimaryOutlinedRoundSmall: QuackButtonStyle<QuackPrimaryOutlinedRoundSmallButtonDefaults>
+      get() = QuackPrimaryOutlinedRoundSmallButtonDefaults()
+
+    /** 버튼 디자인 가이드의 `SmallButtons # secondary` 디자인 스펙을 가져옵니다. */
+    @Stable
+    public val SecondarySmall: QuackButtonStyle<QuackSecondarySmallButtonDefaults>
+      get() = QuackSecondarySmallButtonDefaults()
+
+    /** 버튼 디자인 가이드의 `SmallButtons # secondary, round` 디자인 스펙을 가져옵니다. */
+    @Stable
+    public val SecondaryRoundSmall: QuackButtonStyle<QuackSecondaryRoundSmallButtonDefaults>
+      get() = QuackSecondaryRoundSmallButtonDefaults()
   }
 }
 
@@ -153,7 +193,7 @@ public class QuackButtonColors internal constructor(
 ) {
   /** 기존 색상에서 일부 값만 변경하여 새로운 인스턴스를 반환합니다. */
   @Stable
-  internal fun copy(
+  public fun copy(
     backgroundColor: QuackColor = this.backgroundColor,
     disabledBackgroundColor: QuackColor = this.disabledBackgroundColor,
     contentColor: QuackColor = this.contentColor,
@@ -162,8 +202,8 @@ public class QuackButtonColors internal constructor(
     disabledBorderColor: QuackColor = this.disabledBorderColor,
     iconColor: QuackColor = this.iconColor,
     rippleColor: QuackColor = this.rippleColor,
-  ): QuackButtonColors {
-    return QuackButtonColors(
+  ): QuackButtonColors =
+    QuackButtonColors(
       backgroundColor = backgroundColor,
       disabledBackgroundColor = disabledBackgroundColor,
       contentColor = contentColor,
@@ -173,7 +213,6 @@ public class QuackButtonColors internal constructor(
       iconColor = iconColor,
       rippleColor = rippleColor,
     )
-  }
 
   @Suppress("RedundantIf")
   override fun equals(other: Any?): Boolean {
@@ -218,32 +257,25 @@ public class QuackButtonColors internal constructor(
   }
 }
 
-/**
- * 꽥꽥 디자인 가이드의 `Buttons#LargeButtons`에 해당하는 디자인 스펙을 정의합니다.
- *
- * ### mutation 가능한 필드
- *
- * - colors(backgroundColor, disabledBackgroundColor, contentColor,
- * disabledContentColor, borderColor, disabledBorderColor, iconColor)
- */
-@Immutable
-public class QuackLargeButtonDefaults internal constructor() :
-  QuackButtonStyle<QuackLargeButtonDefaults>, ButtonStyleMarker {
+/** 버튼 디자인 가이드의 `LargeButtons # primary` 디자인 스펙을 정의합니다. */
+@Stable
+public class QuackPrimaryLargeButtonDefaults internal constructor() :
+  QuackButtonStyle<QuackPrimaryLargeButtonDefaults>, QuackLargeButtonStyle {
 
   override var colors: QuackButtonColors = buttonColors()
 
-  override val radius: Dp = 8.dp
+  override var radius: Dp = 8.dp
 
-  override val contentPadding: QuackPadding = QuackPadding(
+  override var contentPadding: QuackPadding = QuackPadding(
     horizontal = 112.dp,
     vertical = 12.dp,
   )
-  override val iconSpacedBy: Dp = 4.dp
+  override var iconSpacedBy: Dp = 4.dp
 
-  override val borderThickness: Dp = 1.dp
+  override var borderThickness: Dp = 1.dp
 
-  override val typography: QuackTypography = QuackTypography.Subtitle
-  override val disabledTypography: QuackTypography = typography
+  override var typography: QuackTypography = QuackTypography.Subtitle
+  override var disabledTypography: QuackTypography = typography
 
   @Stable
   public fun buttonColors(
@@ -253,88 +285,130 @@ public class QuackLargeButtonDefaults internal constructor() :
     disabledContentColor: QuackColor = QuackColor.White,
     borderColor: QuackColor = backgroundColor,
     disabledBorderColor: QuackColor = disabledBackgroundColor,
+    rippleColor: QuackColor = QuackColor.Unspecified,
     iconColor: QuackColor = contentColor,
-  ): QuackButtonColors {
-    return QuackButtonColors(
+  ): QuackButtonColors =
+    QuackButtonColors(
       backgroundColor = backgroundColor,
       disabledBackgroundColor = disabledBackgroundColor,
       contentColor = contentColor,
       disabledContentColor = disabledContentColor,
       borderColor = borderColor,
       disabledBorderColor = disabledBorderColor,
-      rippleColor = QuackColor.Unspecified,
+      rippleColor = rippleColor,
       iconColor = iconColor,
     )
-  }
 
-  override fun invoke(styleBuilder: QuackLargeButtonDefaults.() -> Unit): QuackLargeButtonDefaults {
-    return apply(styleBuilder)
-  }
+  override fun invoke(styleBuilder: QuackPrimaryLargeButtonDefaults.() -> Unit): QuackPrimaryLargeButtonDefaults =
+    apply(styleBuilder)
 
-  override fun toString(): String = "QuackLargeButtonDefaults"
+  override fun toString(): String = this::class.simpleName!!
 }
 
-/**
- * 꽥꽥 디자인 가이드의 `Buttons#MediumButton`에 해당하는 디자인 스펙을 정의합니다.
- *
- * ### mutation 가능한 필드
- *
- * - colors(iconColor)
- */
-@Immutable
-public class QuackMediumButtonDefaults internal constructor() :
-  QuackButtonStyle<QuackMediumButtonDefaults>, ButtonStyleMarker {
+/** 버튼 디자인 가이드의 `LargeButtons # secondary` 디자인 스펙을 정의합니다. */
+@Stable
+public class QuackSecondaryLargeButtonDefaults internal constructor() :
+  QuackButtonStyle<QuackSecondaryLargeButtonDefaults>, QuackLargeButtonStyle {
 
-  override var colors: QuackButtonColors = QuackButtonColors(
-    backgroundColor = QuackColor.White,
-    disabledBackgroundColor = QuackColor.White,
-    contentColor = QuackColor.Black,
-    disabledContentColor = QuackColor.DuckieOrange,
-    borderColor = QuackColor.DuckieOrange,
-    disabledBorderColor = QuackColor.Gray3,
-    rippleColor = QuackColor.Unspecified,
-    iconColor = QuackColor.Black,
+  override var colors: QuackButtonColors = buttonColors()
+
+  override var radius: Dp = 8.dp
+
+  override var contentPadding: QuackPadding = QuackPadding(
+    horizontal = 112.dp,
+    vertical = 12.dp,
   )
+  override var iconSpacedBy: Dp = 4.dp
 
-  override val radius: Dp = 8.dp
+  override var borderThickness: Dp = 1.dp
 
-  override val contentPadding: QuackPadding = QuackPadding(
+  override var typography: QuackTypography = QuackTypography.Subtitle
+  override var disabledTypography: QuackTypography = typography
+
+  @Stable
+  public fun buttonColors(
+    backgroundColor: QuackColor = QuackColor.White,
+    disabledBackgroundColor: QuackColor = backgroundColor,
+    contentColor: QuackColor = QuackColor.Black,
+    disabledContentColor: QuackColor = contentColor,
+    borderColor: QuackColor = QuackColor.Gray3,
+    disabledBorderColor: QuackColor = borderColor,
+    rippleColor: QuackColor = QuackColor.Unspecified,
+    iconColor: QuackColor = contentColor,
+  ): QuackButtonColors =
+    QuackButtonColors(
+      backgroundColor = backgroundColor,
+      disabledBackgroundColor = disabledBackgroundColor,
+      contentColor = contentColor,
+      disabledContentColor = disabledContentColor,
+      borderColor = borderColor,
+      disabledBorderColor = disabledBorderColor,
+      rippleColor = rippleColor,
+      iconColor = iconColor,
+    )
+
+  override fun invoke(styleBuilder: QuackSecondaryLargeButtonDefaults.() -> Unit): QuackSecondaryLargeButtonDefaults =
+    apply(styleBuilder)
+
+  override fun toString(): String = this::class.simpleName!!
+}
+
+/** 버튼 디자인 가이드의 `MediumButton` 디자인 스펙을 정의합니다. */
+@Stable
+public class QuackMediumButtonDefaults internal constructor() :
+  QuackButtonStyle<QuackMediumButtonDefaults>, QuackMediumButtonStyle {
+
+  override var colors: QuackButtonColors = buttonColors()
+
+  override var radius: Dp = 8.dp
+
+  override var contentPadding: QuackPadding = QuackPadding(
     horizontal = 58.dp,
     vertical = 10.dp,
   )
-  override val iconSpacedBy: Dp = 4.dp
+  override var iconSpacedBy: Dp = 4.dp
 
-  override val borderThickness: Dp = 1.dp
+  override var borderThickness: Dp = 1.dp
 
-  override val typography: QuackTypography = QuackTypography.Body1
-  override val disabledTypography: QuackTypography = QuackTypography.Title2
+  override var typography: QuackTypography = QuackTypography.Body1
+  override var disabledTypography: QuackTypography = QuackTypography.Title2
 
   @Stable
-  public fun buttonColors(iconColor: QuackColor = colors.iconColor): QuackButtonColors {
-    return colors.copy(iconColor = iconColor)
-  }
+  public fun buttonColors(
+    backgroundColor: QuackColor = QuackColor.White,
+    disabledBackgroundColor: QuackColor = QuackColor.Unspecified,
+    contentColor: QuackColor = QuackColor.Black,
+    disabledContentColor: QuackColor = QuackColor.Unspecified,
+    borderColor: QuackColor = QuackColor.DuckieOrange,
+    disabledBorderColor: QuackColor = QuackColor.Unspecified,
+    rippleColor: QuackColor = QuackColor.Unspecified,
+    iconColor: QuackColor = contentColor,
+  ): QuackButtonColors =
+    QuackButtonColors(
+      backgroundColor = backgroundColor,
+      disabledBackgroundColor = disabledBackgroundColor,
+      contentColor = contentColor,
+      disabledContentColor = disabledContentColor,
+      borderColor = borderColor,
+      disabledBorderColor = disabledBorderColor,
+      rippleColor = rippleColor,
+      iconColor = iconColor,
+    )
 
-  override fun invoke(styleBuilder: QuackMediumButtonDefaults.() -> Unit): QuackMediumButtonDefaults {
-    return apply(styleBuilder)
-  }
+  override fun invoke(styleBuilder: QuackMediumButtonDefaults.() -> Unit): QuackMediumButtonDefaults =
+    apply(styleBuilder)
 
-  override fun toString(): String = "QuackMediumButtonDefaults"
+  override fun toString(): String = this::class.simpleName!!
 }
 
 /**
- * 꽥꽥 디자인 가이드의 `Buttons#SmallButtons`에 해당하는 디자인 스펙을 정의합니다.
+ * 버튼 디자인 가이드의 `SmallButtons # primary, filled` 디자인 스펙을 정의합니다.
  *
- * ### mutation 가능한 필드
- *
- * - colors(backgroundColor, disabledBackgroundColor, contentColor,
- * disabledContentColor, borderColor, disabledBorderColor)
- * - radius
- * - contentPadding
- * - typography, disabledTypography
+ * `SmallButton`은 기본적으로 너비가 좁기에 데코레이터를 허용하지 않습니다.
  */
-@Immutable
-public class QuackSmallButtonDefaults internal constructor() :
-  QuackButtonStyle<QuackSmallButtonDefaults>, ButtonStyleMarker {
+@Stable
+public class QuackPrimaryFilledSmallButtonDefaults internal constructor() :
+  QuackButtonStyle<QuackPrimaryFilledSmallButtonDefaults>, QuackSmallButtonStyle {
 
   override var colors: QuackButtonColors = buttonColors()
 
@@ -344,12 +418,12 @@ public class QuackSmallButtonDefaults internal constructor() :
     horizontal = 12.dp,
     vertical = 8.dp,
   )
-  override val iconSpacedBy: Dp = 4.dp
+  override var iconSpacedBy: Dp = Dp.Unspecified
 
-  override val borderThickness: Dp = 1.dp
+  override var borderThickness: Dp = 1.dp
 
   override var typography: QuackTypography = QuackTypography.Body1
-  override var disabledTypography: QuackTypography = QuackTypography.Body1
+  override var disabledTypography: QuackTypography = typography
 
   @Stable
   public fun buttonColors(
@@ -359,6 +433,8 @@ public class QuackSmallButtonDefaults internal constructor() :
     disabledContentColor: QuackColor = QuackColor.White,
     borderColor: QuackColor = backgroundColor,
     disabledBorderColor: QuackColor = disabledBackgroundColor,
+    rippleColor: QuackColor = QuackColor.Unspecified,
+    iconColor: QuackColor = QuackColor.Unspecified,
   ): QuackButtonColors {
     return QuackButtonColors(
       backgroundColor = backgroundColor,
@@ -367,16 +443,227 @@ public class QuackSmallButtonDefaults internal constructor() :
       disabledContentColor = disabledContentColor,
       borderColor = borderColor,
       disabledBorderColor = disabledBorderColor,
-      rippleColor = QuackColor.Unspecified,
-      iconColor = QuackColor.Unspecified,
+      rippleColor = rippleColor,
+      iconColor = iconColor,
     )
   }
 
-  override fun invoke(styleBuilder: QuackSmallButtonDefaults.() -> Unit): QuackSmallButtonDefaults {
-    return apply(styleBuilder)
+  override fun invoke(styleBuilder: QuackPrimaryFilledSmallButtonDefaults.() -> Unit): QuackPrimaryFilledSmallButtonDefaults =
+    apply(styleBuilder)
+
+  override fun toString(): String = this::class.simpleName!!
+}
+
+/**
+ * 버튼 디자인 가이드의 `SmallButtons # primary, outlined` 디자인 스펙을 정의합니다.
+ *
+ * `SmallButton`은 기본적으로 너비가 좁기에 데코레이터를 허용하지 않습니다.
+ */
+@Stable
+public class QuackPrimaryOutlinedSmallButtonDefaults internal constructor() :
+  QuackButtonStyle<QuackPrimaryOutlinedSmallButtonDefaults>, QuackSmallButtonStyle {
+
+  override var colors: QuackButtonColors = buttonColors()
+
+  override var radius: Dp = 8.dp
+
+  override var contentPadding: QuackPadding = QuackPadding(
+    horizontal = 12.dp,
+    vertical = 8.dp,
+  )
+  override var iconSpacedBy: Dp = Dp.Unspecified
+
+  override var borderThickness: Dp = 1.dp
+
+  override var typography: QuackTypography = QuackTypography.Body1
+  override var disabledTypography: QuackTypography = typography
+
+  @Stable
+  public fun buttonColors(
+    backgroundColor: QuackColor = QuackColor.Gray3,
+    disabledBackgroundColor: QuackColor = QuackColor.White,
+    contentColor: QuackColor = QuackColor.Gray1,
+    disabledContentColor: QuackColor = QuackColor.DuckieOrange,
+    borderColor: QuackColor = backgroundColor,
+    disabledBorderColor: QuackColor = disabledContentColor,
+    rippleColor: QuackColor = QuackColor.Unspecified,
+    iconColor: QuackColor = QuackColor.Unspecified,
+  ): QuackButtonColors {
+    return QuackButtonColors(
+      backgroundColor = backgroundColor,
+      disabledBackgroundColor = disabledBackgroundColor,
+      contentColor = contentColor,
+      disabledContentColor = disabledContentColor,
+      borderColor = borderColor,
+      disabledBorderColor = disabledBorderColor,
+      rippleColor = rippleColor,
+      iconColor = iconColor,
+    )
   }
 
-  override fun toString(): String = "QuackSmallButtonDefaults"
+  override fun invoke(styleBuilder: QuackPrimaryOutlinedSmallButtonDefaults.() -> Unit): QuackPrimaryOutlinedSmallButtonDefaults =
+    apply(styleBuilder)
+
+  override fun toString(): String = this::class.simpleName!!
+}
+
+/**
+ * 버튼 디자인 가이드의 `SmallButtons # primary, outlined, round` 디자인 스펙을 정의합니다.
+ *
+ * `SmallButton`은 기본적으로 너비가 좁기에 데코레이터를 허용하지 않습니다.
+ */
+@Stable
+public class QuackPrimaryOutlinedRoundSmallButtonDefaults internal constructor() :
+  QuackButtonStyle<QuackPrimaryOutlinedRoundSmallButtonDefaults>, QuackSmallButtonStyle {
+
+  override var colors: QuackButtonColors = buttonColors()
+
+  override var radius: Dp = 30.dp
+
+  override var contentPadding: QuackPadding = QuackPadding(
+    horizontal = 8.dp,
+    vertical = 4.dp,
+  )
+  override var iconSpacedBy: Dp = Dp.Unspecified
+
+  override var borderThickness: Dp = 1.dp
+
+  override var typography: QuackTypography = QuackTypography.Subtitle2
+  override var disabledTypography: QuackTypography = typography
+
+  @Stable
+  public fun buttonColors(
+    backgroundColor: QuackColor = QuackColor.Gray3,
+    disabledBackgroundColor: QuackColor = QuackColor.White,
+    contentColor: QuackColor = QuackColor.Gray1,
+    disabledContentColor: QuackColor = QuackColor.DuckieOrange,
+    borderColor: QuackColor = backgroundColor,
+    disabledBorderColor: QuackColor = disabledContentColor,
+    rippleColor: QuackColor = QuackColor.Unspecified,
+    iconColor: QuackColor = QuackColor.Unspecified,
+  ): QuackButtonColors {
+    return QuackButtonColors(
+      backgroundColor = backgroundColor,
+      disabledBackgroundColor = disabledBackgroundColor,
+      contentColor = contentColor,
+      disabledContentColor = disabledContentColor,
+      borderColor = borderColor,
+      disabledBorderColor = disabledBorderColor,
+      rippleColor = rippleColor,
+      iconColor = iconColor,
+    )
+  }
+
+  override fun invoke(styleBuilder: QuackPrimaryOutlinedRoundSmallButtonDefaults.() -> Unit): QuackPrimaryOutlinedRoundSmallButtonDefaults =
+    apply(styleBuilder)
+
+  override fun toString(): String = this::class.simpleName!!
+}
+
+/**
+ * 버튼 디자인 가이드의 `SmallButtons # secondary` 디자인 스펙을 정의합니다.
+ *
+ * `SmallButton`은 기본적으로 너비가 좁기에 데코레이터를 허용하지 않습니다.
+ */
+@Stable
+public class QuackSecondarySmallButtonDefaults internal constructor() :
+  QuackButtonStyle<QuackSecondarySmallButtonDefaults>, QuackSmallButtonStyle {
+
+  override var colors: QuackButtonColors = buttonColors()
+
+  override var radius: Dp = 8.dp
+
+  override var contentPadding: QuackPadding = QuackPadding(
+    horizontal = 12.dp,
+    vertical = 7.dp,
+  )
+  override var iconSpacedBy: Dp = Dp.Unspecified
+
+  override var borderThickness: Dp = 1.dp
+
+  override var typography: QuackTypography = QuackTypography.Body1
+  override var disabledTypography: QuackTypography = typography
+
+  @Stable
+  public fun buttonColors(
+    backgroundColor: QuackColor = QuackColor.White,
+    disabledBackgroundColor: QuackColor = QuackColor.Unspecified,
+    contentColor: QuackColor = QuackColor.Gray1,
+    disabledContentColor: QuackColor = QuackColor.Unspecified,
+    borderColor: QuackColor = QuackColor.Gray3,
+    disabledBorderColor: QuackColor = QuackColor.Unspecified,
+    rippleColor: QuackColor = QuackColor.Unspecified,
+    iconColor: QuackColor = QuackColor.Unspecified,
+  ): QuackButtonColors {
+    return QuackButtonColors(
+      backgroundColor = backgroundColor,
+      disabledBackgroundColor = disabledBackgroundColor,
+      contentColor = contentColor,
+      disabledContentColor = disabledContentColor,
+      borderColor = borderColor,
+      disabledBorderColor = disabledBorderColor,
+      rippleColor = rippleColor,
+      iconColor = iconColor,
+    )
+  }
+
+  override fun invoke(styleBuilder: QuackSecondarySmallButtonDefaults.() -> Unit): QuackSecondarySmallButtonDefaults =
+    apply(styleBuilder)
+
+  override fun toString(): String = this::class.simpleName!!
+}
+
+/**
+ * 버튼 디자인 가이드의 `SmallButtons # secondary, round` 디자인 스펙을 정의합니다.
+ *
+ * `SmallButton`은 기본적으로 너비가 좁기에 데코레이터를 허용하지 않습니다.
+ */
+@Stable
+public class QuackSecondaryRoundSmallButtonDefaults internal constructor() :
+  QuackButtonStyle<QuackSecondaryRoundSmallButtonDefaults>, QuackSmallButtonStyle {
+
+  override var colors: QuackButtonColors = buttonColors()
+
+  override var radius: Dp = 30.dp
+
+  override var contentPadding: QuackPadding = QuackPadding(
+    horizontal = 8.dp,
+    vertical = 4.dp,
+  )
+  override var iconSpacedBy: Dp = Dp.Unspecified
+
+  override var borderThickness: Dp = 1.dp
+
+  override var typography: QuackTypography = QuackTypography.Subtitle2
+  override var disabledTypography: QuackTypography = typography
+
+  @Stable
+  public fun buttonColors(
+    backgroundColor: QuackColor = QuackColor.White,
+    disabledBackgroundColor: QuackColor = QuackColor.Unspecified,
+    contentColor: QuackColor = QuackColor.Gray1,
+    disabledContentColor: QuackColor = QuackColor.Unspecified,
+    borderColor: QuackColor = QuackColor.Gray3,
+    disabledBorderColor: QuackColor = QuackColor.Unspecified,
+    rippleColor: QuackColor = QuackColor.Unspecified,
+    iconColor: QuackColor = QuackColor.Unspecified,
+  ): QuackButtonColors {
+    return QuackButtonColors(
+      backgroundColor = backgroundColor,
+      disabledBackgroundColor = disabledBackgroundColor,
+      contentColor = contentColor,
+      disabledContentColor = disabledContentColor,
+      borderColor = borderColor,
+      disabledBorderColor = disabledBorderColor,
+      rippleColor = rippleColor,
+      iconColor = iconColor,
+    )
+  }
+
+  override fun invoke(styleBuilder: QuackSecondaryRoundSmallButtonDefaults.() -> Unit): QuackSecondaryRoundSmallButtonDefaults =
+    apply(styleBuilder)
+
+  override fun toString(): String = this::class.simpleName!!
 }
 
 /**
@@ -460,15 +747,14 @@ public fun Modifier.icons(
  *
  * ### 사용 가능 데코레이터
  *
- * |                 style               | [icons][Modifier.icons] |                          description                         |
- * | :---------------------------------: | :---------------------: | :----------------------------------------------------------: |
- * |  [Large][QuackLargeButtonDefaults]  |            ⭕           |                                                              |
- * | [Medium][QuackMediumButtonDefaults] |            ⭕           |                                                              |
- * |  [Small][QuackSmallButtonDefaults]  |            ❌           | 버튼의 너비가 좁기에 아이콘 데코레이터를 사용할 수 없습니다. |
+ * |                 style             | [icons][Modifier.icons] |                       description                       |
+ * | :-------------------------------: | :---------------------: | :-----------------------------------------------------: |
+ * |  [Large][QuackLargeButtonStyle]  |            ⭕           |                                                          |
+ * | [Medium][QuackMediumButtonStyle] |            ⭕           |                                                          |
+ * |  [Small][QuackSmallButtonStyle]  |            ❌           | 버튼의 너비가 좁기에 아이콘 데코레이터를 사용할 수 없습니다. |
  *
  * @param enabled 활성화 상태 여부
- * @param style 적용할 스타일. 사전 정의 스타일로 [QuackButtonStyle.Large][QuackLargeButtonDefaults],
- * [QuackButtonStyle.Medium][QuackMediumButtonDefaults], [QuackButtonStyle.Small][QuackSmallButtonDefaults]이 제공됩니다.
+ * @param style 적용할 스타일. 사전 정의 스타일은 [QuackButtonStyle.Companion] 필드를 참고하세요.
  * @param text 중앙에 표시할 텍스트
  * @param rippleEnabled 클릭했을 때 리플 애니메이션을 적용할지 여부
  * @param onClick 클릭했을 때 실행할 람다식. [enabled]이 true일 때만 작동합니다.
@@ -485,7 +771,7 @@ public fun <T : ButtonStyleMarker> QuackButton(
   rippleEnabled: Boolean = true,
   @CasaValue("{}") onClick: () -> Unit,
 ) {
-  val isSmallButton = style is QuackSmallButtonDefaults
+  val isSmallButton = style is QuackSmallButtonStyle
   // TODO: 다른 경우로 사이즈를 지정하는 방법이 있을까?
   // TODO(3): LayoutModifierNode 지원
   var isSizeSpecified = false

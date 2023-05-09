@@ -69,7 +69,7 @@ class ButtonTest {
     rule.setQuackContent {
       QuackButton(
         enabled = false,
-        style = QuackButtonStyle.Large,
+        style = QuackButtonStyle.PrimaryLarge,
         text = "button",
         onClick = onClick,
       )
