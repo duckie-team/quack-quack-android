@@ -17,10 +17,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 /**
- * 컴포저블의 visiblilty 변화에 애니메이션을 적용하는 컨테이너 입니다.
+ * 컴포저블의 visiblilty 변화에 애니메이션을 적용합니다.
  *
  * @param visible visibility 여부
- * @param label 내부 구현인 Transition API에 사용될 label
+ * @param label Animation Inspector에서 이 애니메이션을 구분할 별칭
  * @param otherEnterAnimation 추가로 더할 enter 애니메이션
  * @param otherExitAnimation 추가로 더할 exit 애니메이션
  * @param content visiblilty 애니메이션이 적용될 컴포저블 컨텐츠

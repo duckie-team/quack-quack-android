@@ -123,8 +123,8 @@ public fun Modifier.quackComposed(factory: @Composable Modifier.() -> Modifier):
  * [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
  *
  * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다. 이는
- * [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다. 따라서 인자로 제공되는 안정성에 의존한
- * 로직을 구현하면 안 됩니다.
+ * [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다. 따라서 인자로 제공되는
+ * 안정성에 의존한 로직을 구현하면 안 됩니다.
  *
  * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만
  * 재실행돼야 함` 테스트를 참고하세요.
@@ -156,8 +156,8 @@ public fun Modifier.quackComposed(
  * [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
  *
  * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다. 이는
- * [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다. 따라서 인자로 제공되는 안정성에 의존한
- * 로직을 구현하면 안 됩니다.
+ * [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다. 따라서 인자로 제공되는
+ * 안정성에 의존한 로직을 구현하면 안 됩니다.
  *
  * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만
  * 재실행돼야 함` 테스트를 참고하세요.
@@ -191,8 +191,8 @@ public fun Modifier.quackComposed(
  * [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
  *
  * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다. 이는
- * [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다. 따라서 인자로 제공되는 안정성에 의존한
- * 로직을 구현하면 안 됩니다.
+ * [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다. 따라서 인자로 제공되는
+ * 안정성에 의존한 로직을 구현하면 안 됩니다.
  *
  * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만
  * 재실행돼야 함` 테스트를 참고하세요.
@@ -228,8 +228,8 @@ public fun Modifier.quackComposed(
  * [Modifier.Element]를 반환하는 경우에는 표준 [composed]를 사용하세요.
  *
  * `fullyQualifiedName`과 `key`를 통한 안정성 정보가 아직 검증되지 않았습니다. 이는
- * [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다. 따라서 인자로 제공되는 안정성에 의존한
- * 로직을 구현하면 안 됩니다.
+ * [Modifier.composed]의 aosp-test 로컬 테스트 결과도 동일합니다. 따라서 인자로 제공되는
+ * 안정성에 의존한 로직을 구현하면 안 됩니다.
  *
  * 자세한 정보는 `quack-KeyedComposedModifier는 안정성을 준수하며 re-composition에 한 번만
  * 재실행돼야 함` 테스트를 참고하세요.

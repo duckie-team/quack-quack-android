@@ -15,15 +15,15 @@ import androidx.compose.ui.unit.Constraints
  *
  * @param width [Constraints.minWidth]을 loose 할지 여부
  * @param height [Constraints.minHeight]을 loose 할지 여부
- * @return 주어진 조건에 맞게 loose해진 [Constraints]
+ *
+ * @return 주어진 조건에 맞게 loose 해진 [Constraints]
  */
 @Stable
 public fun Constraints.asLoose(
   width: Boolean = false,
   height: Boolean = false,
-): Constraints {
-  return copy(
+): Constraints =
+  copy(
     minWidth = if (width) 0 else minWidth,
     minHeight = if (height) 0 else minHeight,
   )
-}

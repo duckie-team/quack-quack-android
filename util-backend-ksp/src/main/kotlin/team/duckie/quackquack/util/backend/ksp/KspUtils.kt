@@ -23,22 +23,33 @@ public val KSDeclaration.requireContainingFile: KSFile
 public val Dependencies.Companion.Empty: Dependencies
   get() = Dependencies(aggregating = false)
 
+/**
+ * 주어진 [함수][KSFunctionDeclaration]가 꽥꽥 컴포넌트인지 조회합니다.
+ * 다음과 같은 조건이 일치하면 꽥꽥 컴포넌트라고 판단합니다.
+ *
+ * 1. [@Composable][ComposableFqn] 어노테이션이 적용돼 있습니다.
+ * 2. 함수의 접근제한자가 public 입니다.
+ * 3. 함수의 반환 타입이 [Unit] 입니다.
+ * 4. 함수의 이름이 [Quack][QuackComponentPrefix]으로 시작합니다.
+ */
 public val KSFunctionDeclaration.isPublicQuackComponent: Boolean
-  get() {
-    // 1. 공개 함수이고,
-    // 2. 함수명이 Quack으로 시작하며,
-    // 3. 반환 타입이 없어야 함
-    return modifiers.contains(Modifier.PUBLIC) &&
-      simpleName.asString().startsWith(QuackComponentPrefix) &&
-      returnType.toString() == UnitSn
-  }
+  get() = annotations.any { annotation ->
+    annotation.shortName.getShortName() == ComposableSn &&
+      annotation.annotationType.resolve().declaration.qualifiedName?.asString() == ComposableFqn
+  } &&
+    modifiers.contains(Modifier.PUBLIC) &&
+    returnType.toString() == UnitSn &&
+    simpleName.asString().startsWith(QuackComponentPrefix)
 
+/**
+ * 주어진 [함수][KSFunctionDeclaration]가 public [Modifier][ModifierSn] 인지 조회합니다.
+ * 다음과 같은 조건이 일치하면 꽥꽥 컴포넌트라고 판단합니다.
+ *
+ * 1. 함수의 접근제한자가 public 입니다.
+ * 2. 함수의 receiver 타입이 [Modifier][ModifierSn] 입니다.
+ * 4. 함수의 반환 타입이 [Modifier][ModifierSn] 입니다.
+ */
 public val KSFunctionDeclaration.isPublicModifier: Boolean
-  get() {
-    // 1. 공개 함수이고,
-    // 2. Modifier의 확장 함수이며,
-    // 3. Modifier를 반환해야 함
-    return modifiers.contains(Modifier.PUBLIC) &&
-      extensionReceiver.toString() == ModifierSn &&
-      returnType.toString() == ModifierSn
-  }
+  get() = modifiers.contains(Modifier.PUBLIC) &&
+    extensionReceiver.toString() == ModifierSn &&
+    returnType.toString() == ModifierSn

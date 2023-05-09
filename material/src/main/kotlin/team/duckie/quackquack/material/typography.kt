@@ -22,14 +22,14 @@ import land.sungbin.kotlin.dataclass.nocopy.NoCopy
 /**
  * 덕키에서 사용할 텍스트 스타일을 정의합니다.
  *
- * copy를 이용한 값 변경은 덕키 스타일 가이드의 텍스트 스타일 사전 정의가 깨짐으로 **자동 생성되는 copy 함수는 꽥꽥
- * 컴파일 단계에서 제거**됩니다.
+ * copy를 이용한 값 변경은 덕키 스타일 가이드의 텍스트 스타일 사전 정의가 깨짐으로
+ * **자동 생성되는 copy 함수는 꽥꽥 컴파일 단계에서 제거**됩니다.
  *
  * @param color 텍스트 색상. 기본값은 [QuackColor.Black] 입니다.
  * @param size 텍스트 한 글자 크기
  * @param weight 텍스트 굵기
  * @param letterSpacing 텍스트 자간
- * @param lineHeight 텍스트 줄 크기
+ * @param lineHeight 픽셀 단위로 지정된 줄 높이로, 인접한 줄의 기준선 사이의 공간
  * @param textAlign 텍스트 align. 기본값은 Start 입니다.
  */
 @NoCopy
@@ -65,13 +65,16 @@ public data class QuackTypography(
 
   /**
    * 정해진 [QuackTypography]에서 일부 값만 변경이 필요할 때가 있습니다. 이를 대응하기 위해
-   * [QuackTypography]에서 변경을 허용하는 필드만 변경하여 새로운 [QuackTypography]를 반환하는 API를
-   * 구현합니다.
+   * [QuackTypography]에서 변경을 허용하는 필드만 변경하여 새로운 [QuackTypography]를 반환하는
+   * API를 제공합니다.
    *
    * 색상과 정렬의 변경은 고정된 디자인의 목적을 해치지 않을 것으로 예상하여 public으로 노출합니다.
    *
-   * @param color 변경할 색상
-   * @param textAlign 변경할 textAlign
+   * @param color 변경할 색상. 색상은 고정된 디자인의 목적을 해치지 않을 것으로 예상하여
+   * 변경을 허용합니다.
+   * @param textAlign 변경할 textAlign. textAlign은 고정된 디자인의 목적을 해치지 않을
+   * 것으로 예상하여 변경을 허용합니다.
+   *
    * @return 새로운 스타일이 적용된 [QuackTypography]
    */
   @Stable

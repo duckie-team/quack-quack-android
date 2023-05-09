@@ -9,5 +9,8 @@ package team.duckie.quackquack.util.backend.ksp
 
 internal const val QuackComponentPrefix = "Quack"
 
+internal const val ComposableSn = "Composable"
+internal const val ComposableFqn = "androidx.compose.runtime.Composable"
+
 internal const val ModifierSn = "Modifier"
 internal const val UnitSn = "Unit"

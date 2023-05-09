@@ -16,8 +16,8 @@ import androidx.compose.runtime.Immutable
  *
  * @param casaName catalog 앱 이름
  * @param bugReportUrl 버그 신고시 이동할 웹 링크
- * @param baseSourceUrl 소스코드 보기에 기본으로 사용할 웹 링크. [baseSourceUrl]에 코드 파일 경로를
- *     이어서 사용합니다.
+ * @param baseSourceUrl 소스코드 보기에 기본으로 사용할 웹 링크. [baseSourceUrl]에
+ * 코드 파일 경로를 이어서 사용합니다.
  */
 @Immutable
 public data class CasaConfig(

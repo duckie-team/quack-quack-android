@@ -30,12 +30,14 @@ public value class QuackColor(public val value: Color) : ReadOnlyProperty<Any, C
   public fun toBrush(): SolidColor = SolidColor(value)
 
   /**
-   * 정해진 [QuackColor]에서 일부 값만 변경이 필요할 때가 있습니다. 이를 대응하기 위해 현재 [QuackColor]에서
-   * 변경을 허용하는 필드만 변경하여 새로운 [QuackColor]를 반환하는 API를 구현합니다.
+   * 정해진 [QuackColor]에서 일부 값만 변경이 필요할 때가 있습니다. 이를 대응하기 위해
+   * 현재 [QuackColor]에서 변경을 허용하는 필드만 변경하여 새로운 [QuackColor]를 반환하는
+   * API를 제공합니다.
    *
-   * 투명도 변경은 고정된 디자인의 목적을 해치지 않을 것으로 예상하여 public으로 노출합니다.
    *
-   * @param alpha 변경할 투명도
+   * @param alpha 변경할 투명도. 투명도는 고정된 디자인의 목적을 해치지 않을 것으로 예상하여
+   * 변경을 허용합니다.
+   *
    * @return [alpha] 값이 변경된 [QuackColor]
    */
   @Stable

@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
  *
  * @Stable
  * fun Modifier.appendStringData(data: String): Modifier {
- *     return then(StringData(data))
+ * return then(StringData(data))
  * }
  * ```
  *

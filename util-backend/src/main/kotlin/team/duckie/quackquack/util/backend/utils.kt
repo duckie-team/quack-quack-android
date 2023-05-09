@@ -14,8 +14,7 @@ public fun String.bestGuessToKotlinPackageName(): String {
 }
 
 /**
- * 주어진 문자열 리스트를 문자열
- * [리터럴](https://en.wikipedia.org/wiki/Literal_(computer_programming))로
+ * 주어진 문자열 리스트를 문자열 [리터럴](https://en.wikipedia.org/wiki/Literal_(computer_programming))로
  * 반환합니다.
  *
  * ```
@@ -23,10 +22,9 @@ public fun String.bestGuessToKotlinPackageName(): String {
  * Output: "listOf(\"1\", \"2\", \"3\")"
  * ```
  */
-public fun Collection<String>.toLiteralListString(): String {
-  return joinToString(
+public fun Collection<String>.toLiteralListString(): String =
+  joinToString(
     prefix = "listOf(",
     postfix = ")",
     transform = { "\"$it\"" },
   )
-}

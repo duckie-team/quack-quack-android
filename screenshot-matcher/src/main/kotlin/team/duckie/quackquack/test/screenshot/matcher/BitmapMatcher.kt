@@ -35,10 +35,10 @@ interface BitmapMatcher {
  * Result of the matching performed by [BitmapMatcher].
  *
  * @param matches True if bitmaps match.
- * @param comparisonStatistics Matching statistics provided by this matcher that performed the
- * comparison.
- * @param diff Diff bitmap that highlights the differences between the images. Can be null if match
- * was found.
+ * @param comparisonStatistics Matching statistics provided by this matcher
+ * that performed the comparison.
+ * @param diff Diff bitmap that highlights the differences between the images.
+ * Can be null if match was found.
  */
 data class MatchResult(
   val matches: Boolean,

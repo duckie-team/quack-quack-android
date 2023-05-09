@@ -90,7 +90,7 @@ dependencies {
   safeRunWithinDevelopmentMode {
     ksps(
       projects.aideProcessor,
-      projects.casaProcessor,
+      // TODO: projects.casaProcessor,
     )
     // kotlinCompilerPlugin(projects.docusaurusIntegration)
   }

@@ -14,8 +14,8 @@ import com.squareup.kotlinpoet.FileSpec
 import java.io.File
 
 /**
- * 주어진 [path]가 null이 아니면 해당 [path]에 파일을 생성하고, 그렇지 않다면 제공된 build 폴더에 파일을
- * 생성합니다.
+ * 주어진 [path]가 null이 아니면 해당 [path]에 파일을 생성하고,
+ * 그렇지 않다면 제공된 build 폴더에 파일을 생성합니다.
  *
  * @param logger 생성된 파일 위치를 로깅할 선택적 logger
  * @param tag [logger]를 이용해 로깅할 때 사용할 선택적 태그

@@ -17,7 +17,8 @@ import team.duckie.quackquack.util.MustBeTested
 /**
  * [Composer.quackMaterializeOf]의 결과를 나타냅니다.
  *
- * 이 클래스의 경우 값을 임의로 변경하면 안되므로 **자동 생성되는 copy 함수는 꽥꽥 컴파일 단계에서 제거**됩니다.
+ * 이 클래스의 경우 값을 임의로 변경하면 안되므로 **자동 생성되는 copy 함수는
+ * 꽥꽥 컴파일 단계에서 제거**됩니다.
  *
  * @param composeModifier `androidx.compose.ui.Modifier`으로만 구성된 [Modifier]
  * @param quackDataModels [QuackDataModifierModel]으로만 구성된 리스트
@@ -47,7 +48,7 @@ internal object QuackMaterializingErrors {
  *
  * @param modifier 분석할 [Modifier]
  * @param taversingCallback 주어진 [Modifier]를 foldIn으로 순회하며 방문하는 element마다
- *     호출할 선택적 콜백
+ * 호출할 선택적 콜백
  * @return 컴포즈 자체의 [Modifier]와 [QuackDataModifierModel] 리스트를 담은 클래스
  */
 @MustBeTested(passed = true)
