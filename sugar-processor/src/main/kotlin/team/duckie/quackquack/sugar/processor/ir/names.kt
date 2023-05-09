@@ -29,8 +29,7 @@ internal val RequiresOptInFqn = RequiresOptIn::class.qualifiedName!!.toFqnClass(
 
 internal val ComposableFqn = "androidx.compose.runtime.Composable".toFqnClass()
 internal val ComposableCn = ClassName.bestGuess(ComposableFqn.asString())
-internal val NonRestartableComposableFqn = "androidx.compose.runtime.NonRestartableComposable".toFqnClass()
-internal val NonRestartableComposableCn = ClassName.bestGuess(NonRestartableComposableFqn.asString())
+internal val NonRestartableComposableCn = ClassName.bestGuess("androidx.compose.runtime.NonRestartableComposable")
 
 internal const val QuackComponentPrefix = SugarName.PREFIX_NAME
 

@@ -22,7 +22,6 @@ import org.jetbrains.kotlin.name.FqName
 import team.duckie.quackquack.sugar.processor.ir.CasaCn
 import team.duckie.quackquack.sugar.processor.ir.ComposableCn
 import team.duckie.quackquack.sugar.processor.ir.NonRestartableComposableCn
-import team.duckie.quackquack.sugar.processor.ir.NonRestartableComposableFqn
 import team.duckie.quackquack.sugar.processor.ir.SugarCompilerApiCn
 import team.duckie.quackquack.sugar.processor.ir.SugarFqn
 import team.duckie.quackquack.sugar.processor.ir.SugarGeneratedFileCn
@@ -76,7 +75,7 @@ internal fun generateSugarComponentFiles(irDatas: List<SugarIrData>, sugarPath: 
         SugarCompilerOptInAnnotation,
         SugarGeneratedFileMarkerAnnotation,
       )
-      .addImports(imports.toMutableList().apply { add(SugarFqn); add(NonRestartableComposableFqn) })
+      .addImports(imports.toMutableList().apply { add(SugarFqn) })
       .addFunctions(funSpecs)
       .build()
 

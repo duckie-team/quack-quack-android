@@ -15,25 +15,25 @@ package team.duckie.quackquack.sugar.material
  * // original
  * @Composable
  * fun QuackAwesome(
- *     modifier: Modifier = Modifier,
- *     @SugarToken theme: Theme,
+ *   modifier: Modifier = Modifier,
+ *   @SugarToken theme: Theme,
  * ) {
- *     QuackTheme(
- *         modifier = Modifier,
- *         theme = theme,
- *     )
+ *   QuackTheme(
+ *     modifier = Modifier,
+ *     theme = theme,
+ *   )
  * }
  *
  * // generated
  * @Composable
  * @SugarRefer("QuackAwesome")
  * fun QuackDefaultAwesome(
- *     modifier: Modifier = sugar(),
+ *   modifier: Modifier = sugar(),
  * ) {
- *     QuackTheme(
- *         modifier = Modifier,
- *         theme = Theme.Default,
- *     )
+ *   QuackTheme(
+ *     modifier = Modifier,
+ *     theme = Theme.Default,
+ *   )
  * }
  * ```
  *
@@ -43,23 +43,24 @@ package team.duckie.quackquack.sugar.material
  * @Composable
  * @SugarRefer("QuackAwesome")
  * fun QuackDefaultAwesome(
- *     modifier: Modifier = sugar(), // after ir transform: `sugar()` -> `Modifier`
+ *   modifier: Modifier = sugar(), // after ir transform: `sugar()` -> `Modifier`
  * ) {
- *     QuackTheme(
- *         modifier = Modifier,
- *         theme = Theme.Default,
- *     )
+ *   QuackTheme(
+ *     modifier = Modifier,
+ *     theme = Theme.Default,
+ *   )
  * }
  * ```
  *
  * 자세한 내용은 `sugar-processor` 모듈을 참고하세요.
  *
- * *이 어노테이션은 꽥꽥 컴파일러에서만 사용될 목적으로 설계됐습니다. 임의로 사용할 경우 예상치 못한 버그가 발생할 수 있습니다.*
+ * *이 어노테이션은 꽥꽥 컴파일러에서만 사용될 목적으로 설계됐습니다. 임의로 사용할
+ * 경우 예상치 못한 버그가 발생할 수 있습니다.*
  */
 @SugarCompilerApi
 public fun <T> sugar(): T {
   throw NotImplementedError(
     "SugarIrTransform did not proceed. " +
-      "Is the `core-sugar-processor-kotlinc` module applied?",
+      "Is the sugar-processor compiler plugin applied?",
   )
 }

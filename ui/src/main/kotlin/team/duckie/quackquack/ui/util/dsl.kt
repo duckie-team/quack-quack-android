@@ -7,6 +7,7 @@
 
 package team.duckie.quackquack.ui.util
 
+/** 꽥꽥의 DSL 범위를 지정합니다. */
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.BINARY)
 @DslMarker

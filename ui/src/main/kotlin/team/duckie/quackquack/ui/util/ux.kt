@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.util.DpSize
 
+/** 현재 font scale을 람다로 제공합니다. */
 @SuppressLint("ComposableNaming")
 @Composable
 @ReadOnlyComposable
@@ -27,11 +28,19 @@ public inline fun <T> currentFontScale(content: (fontScale: Float) -> T): T {
   return content(configration.fontScale)
 }
 
+/**
+ * [Modifier]를 이용하여 컴포저블의 사이즈를 fontscale-aware 하게 설정합니다.
+ *
+ * 모든 컴포저블에 사용할 수 있지만 아이콘 컴포저블에 사용함을 권장합니다.
+ *
+ * @param baseline 기준값으로 사용할 컴포넌트 사이즈. 아이콘 컴포저블에 사용함을
+ * 권장으로 개발됐기에 기본값으로 `24.dp`를 사용합니다.
+ */
 @Stable
 public fun Modifier.fontScaleAwareIconSize(baseline: Dp = 24.dp): Modifier {
   return composed {
     currentFontScale { fontScale ->
-      // value class 라 인스턴스 생성 비용 적음 (remember 보다 저렴함)
+      // value class라 인스턴스 생성 비용 적음 (remember 보다 저렴함)
       val defaultSize = DpSize(all = baseline)
       size(defaultSize * fontScale)
     }

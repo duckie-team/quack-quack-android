@@ -24,8 +24,8 @@ import androidx.core.graphics.translationMatrix
 import kotlin.math.abs
 import kotlin.math.pow
 
-/** Squircle 모양을 구현합니다. */
 // TAKEN FROM: https://stackoverflow.com/q/73299444/14299073
+/** [Squircle](https://en.wikipedia.org/wiki/Squircle) 모양을 구현합니다. */
 @Immutable
 public object SquircleShape : Shape {
   private const val SMOOTHING = 3.0

@@ -30,6 +30,7 @@ public val LocalQuackTextFieldColors: ProvidableCompositionLocal<QuackTextFieldC
 
 /**
  * 꽥꽥에서 사용하는 컴포저블 테마를 제공합니다. 이 테마에서는 다음과 같을 작업을 진행합니다.
+ *
  * 1. OverscrollEffect 제거
  * 2. 꽥꽥 컴포넌트에서 사용할 커서(cursor) 테마 제공
  *
@@ -48,7 +49,7 @@ public fun QuackTheme(content: @Composable () -> Unit) {
   )
 }
 
-/** 꽥꽥의 TextField 관련 컴포넌트에 사용할 테마를 지정합니다. [QuackTheme]를 통해 꽥꽥 테마로 제공됩니다. */
+/** 꽥꽥의 TextField 관련 컴포넌트에 사용할 테마를 지정합니다. */
 @Immutable
 public interface QuackTextFieldColors {
   /**
@@ -59,7 +60,7 @@ public interface QuackTextFieldColors {
   public val cursor: QuackColor
 }
 
-/** [QuackTextFieldColors]의 덕키 기본값을 구현합니다. */
+/** [QuackTextFieldColors]의 덕키 기본값 */
 @Immutable
 public object DefaultTextFieldColors : QuackTextFieldColors {
   override val cursor: QuackColor = QuackColor.DuckieOrange

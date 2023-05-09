@@ -7,10 +7,11 @@
 
 package team.duckie.quackquack.ui.util
 
+/** 실험적인 API를 사용하기 전 경고를 나타냅니다. */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
 @RequiresOptIn(
-  message = "This QuackQuack API is experimental and is likely to change or " +
-    "to be removed in the future.",
+  message = "This QuackQuack API is still in an experimental stage " +
+    "and may encounter unexpected bugs. Use is at your own risk.",
 )
 public annotation class ExperimentalQuackQuackApi

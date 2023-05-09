@@ -21,6 +21,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
@@ -39,8 +40,9 @@ import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 /**
  * `Modifier.highlight`에 들어가는 하이라이트 아이템을 [Pair]로 나타냅니다.
  *
- * 하이라이트 대상 문자열을 나타내는 `String`과, 하이라이트 문자열을 눌렀을 때 실행될 `(text: String) ->
- * Unit` 람다로 구성돼 있습니다. 람다 속 `text` 인자는 클릭된 문자열을 반환합니다.
+ * 하이라이트 대상 문자열을 나타내는 `String`과, 하이라이트 문자열을 눌렀을 때 실행될
+ * `(text: String) -> Unit` 람다로 구성돼 있습니다. 람다 속 `text` 인자는 클릭된 문자열을
+ * 반환합니다.
  */
 public typealias HighlightText = Pair<String, ((text: String) -> Unit)?>
 
@@ -142,10 +144,11 @@ internal object QuackTextErrors {
  *
  * @param text 그릴 텍스트
  * @param typography 텍스트를 그릴 때 사용할 타이포그래피
- * @param singleLine 텍스트가 한 줄로 그려질 지 여부. 텍스트가 주어진 줄 수를 초과하면 [softWrap] 및
- *     [overflow]에 따라 잘립니다.
- * @param softWrap 텍스트에 softwrap break를 적용할지 여부. `false`이면 텍스트 글리프가 가로 공간이
- *     무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은 효과가 발생할 수 있습니다.
+ * @param singleLine 텍스트가 한 줄로 그려질 지 여부. 텍스트가 주어진 줄 수를 초과하면
+ * [softWrap] 및 [overflow]에 따라 잘립니다.
+ * @param softWrap 텍스트에 softwrap break를 적용할지 여부. `false`이면 텍스트 글리프가
+ * 가로 공간이 무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은
+ * 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
  */
 @SugarName(SugarName.PREFIX_NAME + SugarName.TOKEN_NAME)
@@ -172,14 +175,15 @@ public fun QuackText(
 
   val maxLines = if (singleLine) 1 else Int.MAX_VALUE
 
-  val inspectableModifier = composeModifier.wrappedDebugInspectable {
-    name = "QuackText"
-    properties["text"] = text
-    properties["typography"] = typography
-    properties["singleLine"] = singleLine
-    properties["softWrap"] = softWrap
-    properties["overflow"] = overflow
-  }
+  val inspectableModifier = composeModifier
+    .wrappedDebugInspectable {
+      name = "QuackText"
+      properties["text"] = text
+      properties["typography"] = typography
+      properties["singleLine"] = singleLine
+      properties["softWrap"] = softWrap
+      properties["overflow"] = overflow
+    }
 
   if (spanData != null) {
     BasicText(
@@ -266,7 +270,7 @@ private fun QuackClickableText(
  */
 @Stable
 @Composable
-private fun rememberSpanAnnotatedString(
+public fun rememberSpanAnnotatedString(
   text: String,
   spanTexts: List<String>,
   spanStyle: SpanStyle,

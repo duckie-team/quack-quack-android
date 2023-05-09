@@ -11,7 +11,7 @@ package team.duckie.quackquack.casa.annotation
  * `CasaModel`에 포함할 컴포넌트임을 나타냅니다.
  *
  * @throws IllegalStateException 컴포넌트 인자가 NonNull에 기본값이 없고 [CasaValue]도 없을
- *     때 [IllegalStateException]이 발생합니다.
+ * 때 [IllegalStateException]이 발생합니다.
  */
 @SugarGeneratorUsage
 @MustBeDocumented
@@ -29,8 +29,8 @@ public annotation class Casa
  * fun Awesome(who: String) {}
  * ```
  *
- * 위 `Awesome` 컴포넌트의 `who` 인자는 기본값이 없으므로 [CasaValue]로 `who` 인자의 값을 명시해야
- * 합니다.
+ * 위 `Awesome` 컴포넌트의 `who` 인자는 기본값이 없으므로 [CasaValue]로 `who` 인자의 값을
+ * 명시해야 합니다.
  *
  * ```
  * @Composable
@@ -38,8 +38,9 @@ public annotation class Casa
  * ```
  *
  * @param literal casa component에 사용할 인자 값의 *리터럴*
+ *
  * @throws IllegalArgumentException 하나의 인자에 2개 이상의 [CasaValue]가 사용됐을 때
- *     [IllegalArgumentException]이 발생합니다.
+ * [IllegalArgumentException]이 발생합니다.
  */
 @MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)

@@ -53,7 +53,7 @@ public class QuackBorder(
  * @param border 적용할 [QuackBorder]
  * @param shape border에 적용할 [Shape]
  * @return [border]가 적용된 [Modifier]. [border] 값이 null이 아닐때만 [border]가
- *     적용됩니다.
+ * 적용됩니다.
  */
 @Stable
 public fun Modifier.quackBorder(

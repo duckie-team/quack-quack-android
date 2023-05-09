@@ -9,6 +9,10 @@ package team.duckie.quackquack.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -25,6 +29,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.node.LayoutModifierNode
 import androidx.compose.ui.platform.InspectorInfo
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.platform.inspectable
@@ -111,7 +116,7 @@ public interface QuackButtonStyle<T : ButtonStyleMarker> {
 /** [QuackButtonStyle]의 필드들을 [InspectorInfo]로 기록합니다. */
 @SuppressLint("ModifierFactoryExtensionFunction")
 @Stable
-private fun QuackButtonStyle<*>.wrappedDebugInspectable(baseline: Modifier): Modifier =
+public fun QuackButtonStyle<*>.wrappedDebugInspectable(baseline: Modifier): Modifier =
   baseline.wrappedDebugInspectable {
     name = toString()
     properties["colors"] = colors
@@ -128,10 +133,10 @@ private fun QuackButtonStyle<*>.wrappedDebugInspectable(baseline: Modifier): Mod
  *
  * @param backgroundColor 활성화 상태의 배경 색상
  * @param disabledBackgroundColor 비활성화 상태의 배경 색상
- * @param contentColor 활성화 상태의 컨텐츠 색상 (아이콘 색상은 [iconColor]로 관리되며, 컨텐츠라 하면
- *     대부분 버튼의 텍스트를 의미합니다.)
- * @param disabledBorderColor 비활성화 상태의 컨텐츠 색상 (아이콘 색상은 [iconColor]로 관리되며,
- *     컨텐츠라 하면 대부분 버튼의 텍스트를 의미합니다.)
+ * @param contentColor 활성화 상태의 컨텐츠 색상 (아이콘 색상은 [iconColor]로 관리되며,
+ * 컨텐츠라 하면 대부분 버튼의 텍스트를 의미합니다.)
+ * @param disabledBorderColor 비활성화 상태의 컨텐츠 색상 (아이콘 색상은 [iconColor]로
+ * 관리되며, 컨텐츠라 하면 대부분 버튼의 텍스트를 의미합니다.)
  * @param iconColor 활성화 상태에 관계 없이 항상 사용할 아이콘 색상
  * @param rippleColor 활성화 상태에 관계 없이 항상 사용할 리플 색상
  */
@@ -217,8 +222,9 @@ public class QuackButtonColors internal constructor(
  * 꽥꽥 디자인 가이드의 `Buttons#LargeButtons`에 해당하는 디자인 스펙을 정의합니다.
  *
  * ### mutation 가능한 필드
+ *
  * - colors(backgroundColor, disabledBackgroundColor, contentColor,
- *   disabledContentColor, borderColor, disabledBorderColor, iconColor)
+ * disabledContentColor, borderColor, disabledBorderColor, iconColor)
  */
 @Immutable
 public class QuackLargeButtonDefaults internal constructor() :
@@ -272,6 +278,7 @@ public class QuackLargeButtonDefaults internal constructor() :
  * 꽥꽥 디자인 가이드의 `Buttons#MediumButton`에 해당하는 디자인 스펙을 정의합니다.
  *
  * ### mutation 가능한 필드
+ *
  * - colors(iconColor)
  */
 @Immutable
@@ -318,8 +325,9 @@ public class QuackMediumButtonDefaults internal constructor() :
  * 꽥꽥 디자인 가이드의 `Buttons#SmallButtons`에 해당하는 디자인 스펙을 정의합니다.
  *
  * ### mutation 가능한 필드
+ *
  * - colors(backgroundColor, disabledBackgroundColor, contentColor,
- *   disabledContentColor, borderColor, disabledBorderColor)
+ * disabledContentColor, borderColor, disabledBorderColor)
  * - radius
  * - contentPadding
  * - typography, disabledTypography
@@ -409,67 +417,60 @@ public fun Modifier.icons(
 
 /**
  * 버튼을 그립니다.
+ *
  * - 이 컴포넌트는 자체의 패딩 정책을 구현합니다.
  * - 이 컴포넌트는 자체의 배치 정책을 구현합니다.
  * - [스타일][style]별로 사용 가능한 데코레이터가 달라집니다.
  *
  * ### 패딩 정책
- * 1. [버튼의 스타일][QuackButtonStyle]에서
- *    [contentPadding][QuackButtonStyle.contentPadding] 옵션을 별도로 제공하고 있습니다.
- *    이는 [Modifier.padding]과 다른 패딩 정책을 사용합니다. [Modifier.padding]은 버튼의 루트
- *    레이아웃을 기준으로 패딩이 적용되지만, [QuackButtonStyle.contentPadding]은 버튼의 텍스트를
- *    기준으로 패딩이 적용됩니다. 이 부분의 자세한 내용은 배치 정책 문서를 참고하세요.
- * 2. [LayoutModifier]를 사용하여 컴포넌트의 사이즈가 명시됐다면
- *    [QuackButtonStyle.contentPadding] 옵션은 무시됩니다.
- *    [contentPadding][QuackButtonStyle.contentPadding]은 컴포넌트 사이즈 하드코딩을
- *    대체하는 용도로 제공됩니다. 하지만 컴포넌트 사이즈가 하드코딩됐다면
- *    [contentPadding][QuackButtonStyle.contentPadding]을 제공하는 의미가 없어집니다.
- *    따라서 컴포넌트의 사이즈가 하드코딩됐다면 개발자의 의도를 존중한다는 원칙하에 컴포넌트의 사이즈가 중첩으로 확장되는 일을
- *    예방하고자 [contentPadding][QuackButtonStyle.contentPadding] 옵션을 무시합니다. 예를
- *    들어 `Modifier.height(10.dp)`로 컴포넌트 높이를 명시했고,
- *    [contentPadding][QuackButtonStyle.contentPadding]으로
- *    `QuackPadding(vertical=10.dp)`을 제공했다고 해봅시다. 이런 경우에는
- *    [contentPadding][QuackButtonStyle.contentPadding]이 무시되고 버튼의 높이가 10dp로
- *    적용됩니다. 컴포넌트 사이즈를 명시하면서 패딩을 적용하고 싶다면
- *    [contentPadding][QuackButtonStyle.contentPadding] 대신에
- *    [Modifier.padding]을 사용하세요. [LayoutModifier]를 사용하는 흔한 [Modifier]로는
- *    [Modifier.size], [Modifier.height], [Modifier.width] 등이 있습니다.
- *    [LayoutModifierNode]를 사용하는 [Modifier]는
- *    [contentPadding][QuackButtonStyle.contentPadding] 무시 옵션이 아직 지원되지
- *    않습니다.
- *    ([#636](https://github.com/duckie-team/quack-quack-android/issues/636))
+ *
+ * 1. [버튼의 스타일][QuackButtonStyle]에서 [contentPadding][QuackButtonStyle.contentPadding] 옵션을
+ * 별도로 제공하고 있습니다. 이는 [Modifier.padding]과 다른 패딩 정책을 사용합니다. [Modifier.padding]은
+ * 버튼의 루트 레이아웃을 기준으로 패딩이 적용되지만, [QuackButtonStyle.contentPadding]은 버튼의
+ * 텍스트를 기준으로 패딩이 적용됩니다. 이 부분의 자세한 내용은 배치 정책 세션을 참고하세요.
+ * 2. [LayoutModifier]를 사용하여 컴포넌트의 사이즈가 명시됐다면 [QuackButtonStyle.contentPadding]
+ * 옵션은 무시됩니다. [contentPadding][QuackButtonStyle.contentPadding]은 컴포넌트 사이즈 하드코딩을
+ * 대체하는 용도로 제공됩니다. 하지만 컴포넌트 사이즈가 하드코딩됐다면 [contentPadding][QuackButtonStyle.contentPadding]을
+ * 제공하는 의미가 없어집니다. 따라서 컴포넌트의 사이즈가 하드코딩됐다면 개발자의 의도를 존중한다는 원칙하에
+ * 컴포넌트의 사이즈가 중첩으로 확장되는 일을 예방하고자 [contentPadding][QuackButtonStyle.contentPadding]
+ * 옵션을 무시합니다. 예를 들어 `Modifier.height(10.dp)`로 컴포넌트 높이를 명시했고, [contentPadding][QuackButtonStyle.contentPadding]으로
+ * `QuackPadding(vertical=10.dp)`을 제공했다고 해봅시다. 이런 경우에는 [contentPadding][QuackButtonStyle.contentPadding]이
+ * 무시되고 버튼의 높이가 10dp로 적용됩니다. 컴포넌트 사이즈를 명시하면서 패딩을 적용하고 싶다면
+ * [contentPadding][QuackButtonStyle.contentPadding] 대신에 [Modifier.padding]을 사용하세요.
+ * [LayoutModifier]를 사용하는 흔한 [Modifier]로는 [Modifier.size], [Modifier.height], [Modifier.width] 등이
+ * 있습니다. [LayoutModifierNode]를 사용하는 [Modifier]는 [contentPadding][QuackButtonStyle.contentPadding] 무시
+ * 옵션이 아직 지원되지 않습니다. ([#636](https://github.com/duckie-team/quack-quack-android/issues/636))
  *
  * ### 배치 정책
  *
- * [style.contentPadding][QuackButtonStyle.contentPadding]은 항상
- * 버튼의 텍스트를 기준으로 적용됩니다. 예를 들어 버튼의 아이콘을 leading과 trailing을 모두
- * 제공했고, [contentPadding][QuackButtonStyle.contentPadding]으로
- * `QuackPadding(horizontal=10.dp)`를 제공했다면 양끝의 horizontal
- * 패딩이 각각 아이콘을 기준으로 적용되는 게 아닌 버튼의 텍스트를 기준으로 적용됩니다. 따라서 개발자는
- * [contentPadding][QuackButtonStyle.contentPadding]의 값을 제공할 때 양끝
- * 아이콘을 기준으로 제공하는 게 아닌 가운데 텍스트를 기준으로 제공해야 합니다. 이 정책은 양끝 아이콘이 동적으로
- * 적용될 때 의도하지 않는 버튼 사이즈 변경을 예방하기 위해 고안됐습니다. 예를 들어 `contentPadding:
- * QuackPadding(horizontal=10.dp)`을 양끝 아이콘 기준으로 적용했다고 해봅시다. 처음에는 양끝에 아이콘이
- * 없어서 가운데 텍스트를 기준으로 패딩이 적용됩니다. 이 시점에는 버튼의 너비가 25dp입니다. (왼쪽 패딩 10dp, 텍스트
- * 5dp, 오른쪽 패딩 10dp) 사용자 요청에 의해 양쪽 모두에 5dp의 너비를 갖는 아이콘이 추가되었습니다. 이 시점에서는 양쪽
- * 아이콘이 존재하므로 [contentPadding][QuackButtonStyle.contentPadding]이 양쪽 아이콘을
- * 기준으로 적용되어 버튼의 너비가 35dp입니다. (왼쪽 패딩 10dp, 왼쪽 아이콘 5dp, 텍스트 5dp, 오른쪽 아이콘
- * 5dp, 오른쪽 패딩 10dp) 즉, 의도하지 않게 버튼의 너비가 10dp 증가하였습니다. 이러한 상황을 예방하기 위해 이 정책이
- * 사용됩니다.
+ * [style.contentPadding][QuackButtonStyle.contentPadding]은 항상 버튼의 텍스트를 기준으로
+ * 적용됩니다. 예를 들어 버튼의 아이콘을 leading과 trailing을 모두 제공했고, [contentPadding][QuackButtonStyle.contentPadding]으로
+ * `QuackPadding(horizontal=10.dp)`를 제공했다면 양끝의 horizontal 패딩이 각각 아이콘을 기준으로
+ * 적용되는 게 아닌 버튼의 텍스트를 기준으로 적용됩니다. 따라서 개발자는 [contentPadding][QuackButtonStyle.contentPadding]의 값을
+ * 제공할 때 양끝 아이콘을 기준으로 제공하는 게 아닌 가운데 텍스트를 기준으로 제공해야 합니다.
+ * 이 정책은 양끝 아이콘이 동적으로 적용될 때 의도하지 않는 버튼 사이즈 변경을 예방하기 위해
+ * 고안됐습니다. 예를 들어 `contentPadding: QuackPadding(horizontal=10.dp)`을 양끝 아이콘 기준으로
+ * 적용했다고 해봅시다. 처음에는 양끝에 아이콘이 없어서 가운데 텍스트를 기준으로 패딩이 적용됩니다.
+ * 이 시점에는 버튼의 너비가 25dp입니다. (왼쪽 패딩 10dp, 텍스트 5dp, 오른쪽 패딩 10dp) 사용자
+ * 요청에 의해 양쪽 모두에 5dp의 너비를 갖는 아이콘이 추가되었습니다. 이 시점에서는 양쪽 아이콘이
+ * 존재하므로 [contentPadding][QuackButtonStyle.contentPadding]이 양쪽 아이콘을 기준으로 적용되어
+ * 버튼의 너비가 35dp입니다. (왼쪽 패딩 10dp, 왼쪽 아이콘 5dp, 텍스트 5dp, 오른쪽 아이콘 5dp,
+ * 오른쪽 패딩 10dp) 즉, 의도하지 않게 버튼의 너비가 10dp 증가하였습니다. 이러한 상황을 예방하기
+ * 위해 이 정책이 사용됩니다.
  *
  * ### 사용 가능 데코레이터
- * | style                               | [icons][Modifier.icons] | description                        |
- * |:-----------------------------------:|:-----------------------:|:----------------------------------:|
- * |  [Large][QuackLargeButtonDefaults]  |            ⭕            |                                    |
- * | [Medium][QuackMediumButtonDefaults] |            ⭕            |                                    |
- * |  [Small][QuackSmallButtonDefaults]  |            ❌            | 버튼의 너비가 좁기에 아이콘 데코레이터를 사용할 수 없습니다. |
+ *
+ * |                 style               | [icons][Modifier.icons] |                          description                         |
+ * | :---------------------------------: | :---------------------: | :----------------------------------------------------------: |
+ * |  [Large][QuackLargeButtonDefaults]  |            ⭕           |                                                              |
+ * | [Medium][QuackMediumButtonDefaults] |            ⭕           |                                                              |
+ * |  [Small][QuackSmallButtonDefaults]  |            ❌           | 버튼의 너비가 좁기에 아이콘 데코레이터를 사용할 수 없습니다. |
  *
  * @param enabled 활성화 상태 여부
- * @param style 적용할 스타일. 사전 정의 스타일로
- *     [QuackButtonStyle.Large][QuackLargeButtonDefaults],
- *     [QuackButtonStyle.Medium][QuackMediumButtonDefaults],
- *     [QuackButtonStyle.Small][QuackSmallButtonDefaults]이 제공됩니다.
- * @param rippleEnabled 클릭됐을 때 리플 애니메이션을 적용할지 여부
+ * @param style 적용할 스타일. 사전 정의 스타일로 [QuackButtonStyle.Large][QuackLargeButtonDefaults],
+ * [QuackButtonStyle.Medium][QuackMediumButtonDefaults], [QuackButtonStyle.Small][QuackSmallButtonDefaults]이 제공됩니다.
+ * @param text 중앙에 표시할 텍스트
+ * @param rippleEnabled 클릭했을 때 리플 애니메이션을 적용할지 여부
  * @param onClick 클릭했을 때 실행할 람다식. [enabled]이 true일 때만 작동합니다.
  */
 @MustBeTested(passed = true)
@@ -593,6 +594,9 @@ private const val TextLayoutId = "QuackBaseButtonText"
 private const val LeadingIconLayoutId = "QuackBaseButtonLeadingIcon"
 private const val TrailingIconLayoutId = "QuackBaseButtonTrailingIcon"
 
+// TODO: Modifier.testTag 별도 모듈로 분리 (아마 util-test)
+//       isQuackQuackTestTagEnabled 로컬 변수 boolean 값에 따라 활성화해야 함
+//       (클라이언트에서 test tag 중복 방지)
 /**
  * 고유한 배치 정책으로 버튼을 그립니다. 배치 정책의 자세한 정보는 [QuackButton] 문서를 참고하세요.
  *

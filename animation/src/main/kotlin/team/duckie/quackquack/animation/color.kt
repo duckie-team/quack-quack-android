@@ -155,8 +155,9 @@ private val QuackColorVectorConverter: (colorSpace: ColorSpace) -> TwoWayConvert
  * [QuackColor]에 변경이 있을 때 애니메이션을 적용합니다.
  *
  * @param targetValue 색상 변경을 감지할 [QuackColor]
- * @param label Android Studio Animation Inspecter에서 해당 애니메이션을 나타낼 레이블
+ * @param label Animation Inspector에서 이 애니메이션을 구분할 별칭
  * @param finishedListener 애니메이션이 끝났을 때 실행될 콜백
+ *
  * @return 색상이 변경됐을 때 색상이 변경되는 애니메이션의 [State] 객체
  */
 @Composable

@@ -19,6 +19,6 @@ import androidx.compose.ui.unit.DpSize
  * @param all 고정된 사이즈
  */
 @Stable
-public fun DpSize(all: Dp): DpSize {
-  return DpSize(width = all, height = all)
-}
+public fun DpSize(all: Dp): DpSize =
+  DpSize(width = all, height = all)
+
