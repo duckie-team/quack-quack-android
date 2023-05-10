@@ -17,3 +17,7 @@ android {
     getByName("main").java.srcDir("src/sample/kotlin")
   }
 }
+
+dependencies {
+  compileOnly(projects.ui)
+}
