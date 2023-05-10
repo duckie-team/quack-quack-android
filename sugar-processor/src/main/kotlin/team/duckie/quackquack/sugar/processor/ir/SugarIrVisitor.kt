@@ -109,7 +109,7 @@ internal class SugarIrVisitor(
         optins = optins,
       )
 
-      logger(with(logger) { sugarIrData.prependLogPrefix(withNewline = true) })
+      // logger(with(logger) { sugarIrData.prependLogPrefix(withNewline = true) })
       addSugarIrData(sugarIrData)
     }
   }
