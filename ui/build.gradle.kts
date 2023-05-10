@@ -51,6 +51,12 @@ android {
   }
 }
 
+kotlin {
+  sourceSets {
+    getByName("main").kotlin.srcDir("src/sample/kotlin")
+  }
+}
+
 ksp {
   arg("AidePath", "$rootDir/aide/src/main/kotlin/team/duckie/quackquack/aide/rule")
   arg("CasaPath", "$rootDir/catalog/src/main/kotlin/team/duckie/quackquack/catalog")
