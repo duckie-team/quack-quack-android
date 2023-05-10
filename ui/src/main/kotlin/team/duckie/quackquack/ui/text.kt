@@ -151,7 +151,7 @@ internal object QuackTextErrors {
  * 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
  *
- * @sample [team.duckie.quackquack.ui.sample.SampleTest]
+ * @sample team.duckie.quackquack.ui.sample.SampleTest
  */
 @SugarName(SugarName.PREFIX_NAME + SugarName.TOKEN_NAME)
 @Composable

@@ -10,8 +10,10 @@
 package team.duckie.quackquack.ui.sample
 
 import androidx.compose.runtime.Composable
+import team.duckie.quackquack.material.QuackTypography
+import team.duckie.quackquack.ui.QuackText
 
 @Composable
 fun SampleTest() {
-  println("Hello, World!")
+  QuackText(text = "Hello, World!", typography = QuackTypography.Body1)
 }
