@@ -1,7 +1,7 @@
-### 테스트 방식
+## 테스트 방식
 
-https://twitter.com/ji_sungbin/status/1654405012926369793
+https://quackquack.duckie.team/android/testing#snapshot-test
 
-### @RequiresApi(Build.VERSION_CODES.O)
+## @RequiresApi(Build.VERSION_CODES.O)
 
 SDK Level 26부터 테스트 가능
