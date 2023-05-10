@@ -15,7 +15,6 @@ plugins {
   alias(libs.plugins.kotlin.dokka)
   alias(libs.plugins.gradle.dependency.graph)
   alias(libs.plugins.gradle.dependency.handler.extensions)
-  alias(libs.plugins.kotlin.jvm) apply false
   idea
 }
 
