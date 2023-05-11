@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
   quackquack("android-library")
   quackquack("android-compose")
@@ -16,6 +18,10 @@ android {
   sourceSets {
     getByName("main").java.srcDir("src/sample/kotlin")
   }
+}
+
+tasks.withType<KotlinCompile> {
+  enabled = false
 }
 
 dependencies {
