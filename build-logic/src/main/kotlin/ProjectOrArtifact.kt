@@ -39,7 +39,7 @@ import org.gradle.api.artifacts.ProjectDependency
  * 로컬 모듈을 아티팩트로 변환하는 로직은 [ProjectDependency.orArtifact]를
  * 참고하세요.
  */
-const val useArtifact = false
+private const val useArtifact = false
 
 /**
  * 로컬 모듈을 publishing된 아티팩트로 변환합니다.

@@ -150,6 +150,8 @@ internal object QuackTextErrors {
  * 가로 공간이 무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은
  * 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
+ *
+ * @sample team.duckie.quackquack.ui.sample.SampleTest
  */
 @SugarName(SugarName.PREFIX_NAME + SugarName.TOKEN_NAME)
 @Composable

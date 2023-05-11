@@ -13,8 +13,9 @@ import org.jetbrains.kotlin.ir.declarations.IrFile
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
 import org.jetbrains.kotlin.ir.declarations.IrTypeAlias
-import org.jetbrains.kotlin.ir.util.dumpKotlinLike
+import org.jetbrains.kotlin.ir.util.file
 import org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid
+import team.duckie.quackquack.util.backend.kotlinc.locationOf
 
 internal class DRPIrVisitor(
   @Suppress("unused") private val context: IrPluginContext,
@@ -33,14 +34,24 @@ internal class DRPIrVisitor(
   }
 
   override fun visitSimpleFunction(declaration: IrSimpleFunction) {
-    logger(declaration.dumpKotlinLike())
+    val message = with(declaration.file.locationOf(declaration)) {
+      """
+      [name: ${declaration.name.asString()}]
+      path: $path
+      line: $line
+      column: $column
+      lineEnd: $lineEnd
+      columnEnd: $columnEnd
+      """.trimIndent()
+    }
+    logger(message)
   }
 
   override fun visitTypeAlias(declaration: IrTypeAlias) {
-    logger(declaration.dumpKotlinLike())
+    logger(declaration.name.asString())
   }
 
   override fun visitClass(declaration: IrClass) {
-    logger(declaration.dumpKotlinLike())
+    logger(declaration.name.asString())
   }
 }
