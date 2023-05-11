@@ -45,8 +45,6 @@ import team.duckie.quackquack.ui.QuackText
  * 가로 공간이 무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은
  * 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
- *
- * @sample team.duckie.quackquack.ui.sample.SampleTest 
  */
 @Casa
 @Composable
@@ -84,8 +82,6 @@ public fun QuackBody1(
  * 가로 공간이 무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은
  * 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
- *
- * @sample team.duckie.quackquack.ui.sample.SampleTest 
  */
 @Casa
 @Composable
@@ -123,8 +119,6 @@ public fun QuackBody2(
  * 가로 공간이 무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은
  * 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
- *
- * @sample team.duckie.quackquack.ui.sample.SampleTest 
  */
 @Casa
 @Composable
@@ -162,8 +156,6 @@ public fun QuackBody3(
  * 가로 공간이 무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은
  * 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
- *
- * @sample team.duckie.quackquack.ui.sample.SampleTest 
  */
 @Casa
 @Composable
@@ -201,8 +193,6 @@ public fun QuackHeadLine1(
  * 가로 공간이 무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은
  * 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
- *
- * @sample team.duckie.quackquack.ui.sample.SampleTest 
  */
 @Casa
 @Composable
@@ -240,8 +230,6 @@ public fun QuackHeadLine2(
  * 가로 공간이 무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은
  * 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
- *
- * @sample team.duckie.quackquack.ui.sample.SampleTest 
  */
 @Casa
 @Composable
@@ -279,8 +267,6 @@ public fun QuackLarge1(
  * 가로 공간이 무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은
  * 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
- *
- * @sample team.duckie.quackquack.ui.sample.SampleTest 
  */
 @Casa
 @Composable
@@ -318,8 +304,6 @@ public fun QuackSubtitle(
  * 가로 공간이 무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은
  * 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
- *
- * @sample team.duckie.quackquack.ui.sample.SampleTest 
  */
 @Casa
 @Composable
@@ -357,8 +341,6 @@ public fun QuackSubtitle2(
  * 가로 공간이 무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은
  * 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
- *
- * @sample team.duckie.quackquack.ui.sample.SampleTest 
  */
 @Casa
 @Composable
@@ -396,8 +378,6 @@ public fun QuackTitle1(
  * 가로 공간이 무제한인 것처럼 배치됩니다. 또한 [overflow] 및 [TextAlign]에 예기치 않은
  * 효과가 발생할 수 있습니다.
  * @param overflow 시각적 overflow를 처리하는 방법
- *
- * @sample team.duckie.quackquack.ui.sample.SampleTest 
  */
 @Casa
 @Composable

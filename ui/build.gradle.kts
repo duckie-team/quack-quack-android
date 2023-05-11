@@ -56,14 +56,7 @@ ksp {
   arg("CasaPath", "$rootDir/catalog/src/main/kotlin/team/duckie/quackquack/catalog")
 }
 
-val sample: Configuration by configurations.creating {
-  isCanBeResolved = false
-  isCanBeConsumed = false
-}
-
 dependencies {
-  sample(projects.uiSample)
-
   apis(
     projects.animation.orArtifact(),
     projects.sugarMaterial.orArtifact(),

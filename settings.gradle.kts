@@ -39,7 +39,6 @@ include(
   ":material",
   ":animation",
   ":ui",
-  ":ui-sample",
   ":aide",
   ":aide-annotation",
   ":aide-processor",

@@ -17,7 +17,9 @@ package team.duckie.quackquack.util
 @Retention(AnnotationRetention.SOURCE)
 public annotation class AllowMagicNumber(val because: String)
 
-/** 주의깊게 사용해야 하는 API임을 나타냅니다. */
+/**
+ * 주의깊게 사용해야 하는 API임을 나타냅니다.
+ */
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
 @RequiresOptIn(
@@ -25,7 +27,7 @@ public annotation class AllowMagicNumber(val because: String)
   message = "This is a delicate API and its use requires care. Make sure you fully read " +
     "and understand documentation of the declaration that is marked as a delicate API.",
 )
-public annotation class DelicateQuackQuackApi
+public annotation class DelicateQuackApi
 
 /**
  * 매우 실험적인 함수이기에 사용하기 전에 테스트가 꼭 필요함을 나타냅니다.
