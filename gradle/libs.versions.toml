@@ -33,7 +33,7 @@ compose-foundation = "1.4.3"
 compose-ui = "1.4.3"
 compose-animation = "1.4.3"
 compose-material-ripple = "1.4.3"
-compose-material3 = "1.0.1" # for Playground
+compose-material3 = "1.1.0" # for Playground
 compose-activity = "1.7.1"
 compose-coil = "2.3.0"
 
