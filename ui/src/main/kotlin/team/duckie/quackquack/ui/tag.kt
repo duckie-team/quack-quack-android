@@ -8,6 +8,7 @@
 package team.duckie.quackquack.ui
 
 import android.annotation.SuppressLint
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -467,7 +468,7 @@ private data class TagTrailingIconData(
 @DecorateModifier
 @Stable
 public fun Modifier.trailingIcon(
-  icon: QuackIcon = QuackIcon.Close,
+  icon: QuackIcon,
   iconSize: Dp = 16.dp,
   onClick: () -> Unit,
 ): Modifier =
@@ -485,6 +486,12 @@ public fun Modifier.trailingIcon(
       onClick = onClick,
     )
   }
+
+@VisibleForTesting
+internal object QuackTagErrors {
+  const val GrayscaleFlatStyleUnselectedState = "Per design guidelines, " +
+    "the GrayscaleFlat design specification does not allow an unselected state."
+}
 
 /**
  * 태그를 그립니다.
@@ -549,6 +556,11 @@ public fun <T : TagStyleMarker> QuackTag(
   rippleEnabled: Boolean = true,
   @CasaValue("{}") onClick: () -> Unit,
 ) {
+  val isGrayscaleFlat = style is QuackGrayscaleFlatTagDefaults
+  if (isGrayscaleFlat) {
+    check(selected) { QuackTagErrors.GrayscaleFlatStyleUnselectedState }
+  }
+
   var isSizeSpecified = false
   val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier) { currentModifier ->
     if (!isSizeSpecified) {
@@ -556,7 +568,7 @@ public fun <T : TagStyleMarker> QuackTag(
     }
   }
   val trailingIconData = remember(quackDataModels) {
-    quackDataModels.fastFirstIsInstanceOrNull<TagTrailingIconData>()
+    quackDataModels.fastFirstIsInstanceOrNull<TagTrailingIconData>().takeUnless { isGrayscaleFlat }
   }
 
   val backgroundColor = style.colors.backgroundColor
@@ -683,11 +695,7 @@ public fun QuackBaseTag(
   trailingIconOnClick: (() -> Unit)?,
   onClick: (() -> Unit)?,
 ) {
-  if (trailingIcon != null) {
-    requireNotNull(trailingIconSize) {
-      "A trailing icon was given, but the size of the trailing icon was not given."
-    }
-  }
+  if (trailingIcon != null) requireNotNull(trailingIconSize)
 
   val currentIconColorFilter = remember(iconColor) {
     ColorFilter.tint(iconColor?.value ?: Color.Unspecified)
