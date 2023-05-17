@@ -742,9 +742,9 @@ public fun QuackBaseTag(
                   painter = trailingIcon.asPainter(),
                   colorFilter = currentIconColorFilter,
                   contentScale = ContentScale.Fit,
-                )
+                ),
             )
-          }
+          },
         ) { measurables, constraints ->
           val measurable = measurables.single()
 
@@ -757,14 +757,14 @@ public fun QuackBaseTag(
               y = Alignment.CenterVertically.align(
                 size = placeable.height,
                 space = constraints.minHeight,
-              )
+              ),
             )
           }
         }
         Box(
           Modifier
             .layoutId(FakeTrailingIconLayoutId)
-            .fontScaleAwareIconSize(baseline = trailingIconSize!!)
+            .fontScaleAwareIconSize(baseline = trailingIconSize!!),
         )
       }
     },
@@ -807,7 +807,7 @@ public fun QuackBaseTag(
         .plus(startHorizontalPadding)
         .plus(textPlaceable.width)
         .applyIf(trailingIcon != null) { plus(halfIconSpacedByPx) }
-        .plus(trailingIconContainerConstraints?.minWidth ?: trailingIconAwareEndHorizontalPadding)
+        .plus(trailingIconContainerConstraints?.minWidth ?: trailingIconAwareEndHorizontalPadding),
     )
 
     layout(width = width, height = height) {
