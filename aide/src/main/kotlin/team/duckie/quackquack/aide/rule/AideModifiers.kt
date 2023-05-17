@@ -18,6 +18,9 @@ internal val aideModifiers: Map<String, List<String>> = run {
   aide["button"] = listOf("icons")
   aide["_icons"] = emptyList()
 
+  aide["tag"] = listOf("trailingIcon")
+  aide["_trailingIcon"] = emptyList()
+
   aide["text"] = listOf("span", "highlight")
   aide["_span"] = emptyList()
   aide["_highlight"] = emptyList()

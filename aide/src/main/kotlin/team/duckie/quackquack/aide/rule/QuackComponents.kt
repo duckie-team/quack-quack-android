@@ -25,6 +25,13 @@ internal val quackComponents: Map<String, String> = run {
   aide["QuackSecondarySmallButton"] = "button"
   aide["QuackSecondaryRoundSmallButton"] = "button"
 
+  aide["QuackOutlinedTag"] = "tag"
+  aide["QuackFilledTag"] = "tag"
+  aide["QuackGrayscaleFlatTag"] = "tag"
+  aide["QuackGrayscaleOutlinedTag"] = "tag"
+  aide["QuackTag"] = "tag"
+  aide["QuackBaseTag"] = "tag"
+
   aide["QuackBody1"] = "text"
   aide["QuackBody2"] = "text"
   aide["QuackBody3"] = "text"
