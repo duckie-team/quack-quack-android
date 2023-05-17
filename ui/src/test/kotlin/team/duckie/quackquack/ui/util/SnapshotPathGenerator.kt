@@ -11,10 +11,11 @@ package team.duckie.quackquack.ui.util
 
 import java.io.File
 
-inline fun snapshotPath(domain: String): File {
-  return File("src/test/snapshots/$domain/${getCurrentMethodName()}.png").also { file ->
-    file.parentFile?.mkdirs()
-  }
+const val BaseSnapshotPath = "src/test/snapshots"
+
+inline fun snapshotPath(domain: String, isGif: Boolean = false): File {
+  return File("$BaseSnapshotPath/$domain/${getCurrentMethodName()}.${if (isGif) "gif" else "png"}")
+    .also { file -> file.parentFile?.mkdirs() }
 }
 
 inline fun getCurrentMethodName(): String {
