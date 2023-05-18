@@ -71,8 +71,9 @@ dependencies {
   implementations(
     libs.compose.coil,
     libs.androidx.annotation,
-    projects.util.orArtifact(),
     projects.runtime.orArtifact(),
+    projects.material.orArtifact(),
+    projects.util.orArtifact(),
     projects.casaAnnotation.orArtifact(),
     projects.aideAnnotation.orArtifact(),
   )

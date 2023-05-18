@@ -11,6 +11,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.SolidColor
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -28,6 +29,14 @@ public value class QuackColor(public val value: Color) : ReadOnlyProperty<Any, C
   /** [QuackColor]를 [Brush]로 변환합니다. */
   @Stable
   public fun toBrush(): SolidColor = SolidColor(value)
+
+  /**
+   * [QuackColor]를 [ColorFilter]로 변환합니다. 만약 주어진 [QuackColor]가
+   * [QuackColor.Unspecified]라면 null을 반환합니다.
+   */
+  @Stable
+  public fun toColorFilterOrNull(): ColorFilter? =
+    if (this == Unspecified) null else ColorFilter.tint(value)
 
   /**
    * 정해진 [QuackColor]에서 일부 값만 변경이 필요할 때가 있습니다. 이를 대응하기 위해

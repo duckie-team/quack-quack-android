@@ -8,30 +8,122 @@ stable class QuackButtonColors {
   stable val iconColor: QuackColor
   stable val rippleColor: QuackColor
 }
-stable class QuackLargeButtonDefaults {
-  stable var colors: QuackButtonColors
-  stable val radius: Dp
-  stable val contentPadding: QuackPadding
-  stable val iconSpacedBy: Dp
-  stable val borderThickness: Dp
-  stable val typography: QuackTypography
-  stable val disabledTypography: QuackTypography
-}
-stable class QuackMediumButtonDefaults {
-  stable var colors: QuackButtonColors
-  stable val radius: Dp
-  stable val contentPadding: QuackPadding
-  stable val iconSpacedBy: Dp
-  stable val borderThickness: Dp
-  stable val typography: QuackTypography
-  stable val disabledTypography: QuackTypography
-}
-stable class QuackSmallButtonDefaults {
+stable class QuackPrimaryLargeButtonDefaults {
   stable var colors: QuackButtonColors
   stable var radius: Dp
   stable var contentPadding: QuackPadding
-  stable val iconSpacedBy: Dp
-  stable val borderThickness: Dp
+  stable var iconSpacedBy: Dp
+  stable var borderThickness: Dp
   stable var typography: QuackTypography
   stable var disabledTypography: QuackTypography
+}
+stable class QuackSecondaryLargeButtonDefaults {
+  stable var colors: QuackButtonColors
+  stable var radius: Dp
+  stable var contentPadding: QuackPadding
+  stable var iconSpacedBy: Dp
+  stable var borderThickness: Dp
+  stable var typography: QuackTypography
+  stable var disabledTypography: QuackTypography
+}
+stable class QuackMediumButtonDefaults {
+  stable var colors: QuackButtonColors
+  stable var radius: Dp
+  stable var contentPadding: QuackPadding
+  stable var iconSpacedBy: Dp
+  stable var borderThickness: Dp
+  stable var typography: QuackTypography
+  stable var disabledTypography: QuackTypography
+}
+stable class QuackPrimaryFilledSmallButtonDefaults {
+  stable var colors: QuackButtonColors
+  stable var radius: Dp
+  stable var contentPadding: QuackPadding
+  stable var iconSpacedBy: Dp
+  stable var borderThickness: Dp
+  stable var typography: QuackTypography
+  stable var disabledTypography: QuackTypography
+}
+stable class QuackPrimaryOutlinedSmallButtonDefaults {
+  stable var colors: QuackButtonColors
+  stable var radius: Dp
+  stable var contentPadding: QuackPadding
+  stable var iconSpacedBy: Dp
+  stable var borderThickness: Dp
+  stable var typography: QuackTypography
+  stable var disabledTypography: QuackTypography
+}
+stable class QuackPrimaryOutlinedRoundSmallButtonDefaults {
+  stable var colors: QuackButtonColors
+  stable var radius: Dp
+  stable var contentPadding: QuackPadding
+  stable var iconSpacedBy: Dp
+  stable var borderThickness: Dp
+  stable var typography: QuackTypography
+  stable var disabledTypography: QuackTypography
+}
+stable class QuackSecondarySmallButtonDefaults {
+  stable var colors: QuackButtonColors
+  stable var radius: Dp
+  stable var contentPadding: QuackPadding
+  stable var iconSpacedBy: Dp
+  stable var borderThickness: Dp
+  stable var typography: QuackTypography
+  stable var disabledTypography: QuackTypography
+}
+stable class QuackSecondaryRoundSmallButtonDefaults {
+  stable var colors: QuackButtonColors
+  stable var radius: Dp
+  stable var contentPadding: QuackPadding
+  stable var iconSpacedBy: Dp
+  stable var borderThickness: Dp
+  stable var typography: QuackTypography
+  stable var disabledTypography: QuackTypography
+}
+stable class QuackTagColors {
+  stable val backgroundColor: QuackColor
+  stable val unselectedBackgroundColor: QuackColor
+  stable val contentColor: QuackColor
+  stable val unselectedContentColor: QuackColor
+  stable val borderColor: QuackColor
+  stable val unselectedBorderColor: QuackColor
+  stable val iconColor: QuackColor
+  stable val unselectedIconColor: QuackColor
+  stable val rippleColor: QuackColor
+}
+stable class QuackOutlinedTagDefaults {
+  stable var colors: QuackTagColors
+  stable var radius: Dp
+  stable var contentPadding: QuackPadding
+  stable var iconSpacedBy: Dp
+  stable var borderThickness: Dp
+  stable var typography: QuackTypography
+  stable var unselectedTypography: QuackTypography
+}
+stable class QuackFilledTagDefaults {
+  stable var colors: QuackTagColors
+  stable var radius: Dp
+  stable var contentPadding: QuackPadding
+  stable var iconSpacedBy: Dp
+  stable var borderThickness: Dp
+  stable var typography: QuackTypography
+  stable var unselectedTypography: QuackTypography
+}
+stable class QuackGrayscaleFlatTagDefaults {
+  stable var colors: QuackTagColors
+  stable var radius: Dp
+  stable var contentPadding: QuackPadding
+  stable var iconSpacedBy: Dp
+  stable var borderThickness: Dp
+  stable var typography: QuackTypography
+  stable var unselectedTypography: QuackTypography
+}
+stable class QuackGrayscaleOutlinedTagDefaults {
+  stable var colors: QuackTagColors
+  stable var radius: Dp
+  stable var contentPadding: QuackPadding
+  stable var iconSpacedBy: Dp
+  stable var borderThickness: Dp
+  stable var typography: QuackTypography
+  stable var unselectedTypography: QuackTypography
 }

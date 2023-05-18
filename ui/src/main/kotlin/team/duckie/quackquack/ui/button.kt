@@ -23,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
@@ -906,7 +905,7 @@ public fun QuackBaseButton(
   trailingIcon: QuackIcon?,
   onClick: (() -> Unit)?,
 ) {
-  val currentColorFilter = remember(iconColor) { ColorFilter.tint(iconColor.value) }
+  val currentColorFilter = remember(iconColor) { iconColor.toColorFilterOrNull() }
 
   Layout(
     modifier = modifier
