@@ -24,8 +24,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
@@ -698,7 +696,7 @@ public fun QuackBaseTag(
   if (trailingIcon != null) requireNotNull(trailingIconSize)
 
   val currentIconColorFilter = remember(iconColor) {
-    ColorFilter.tint(iconColor?.value ?: Color.Unspecified)
+    (iconColor ?: QuackColor.Unspecified).toColorFilterOrNull()
   }
 
   Layout(
