@@ -52,6 +52,6 @@ public fun QuackIcon(
         painter = icon.asPainter(),
         contentScale = contentScale,
         colorFilter = currentColorFilter,
-      )
+      ),
   )
 }
