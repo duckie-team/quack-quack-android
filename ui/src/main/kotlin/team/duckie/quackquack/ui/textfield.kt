@@ -7,25 +7,45 @@
 
 package team.duckie.quackquack.ui
 
-import android.util.Log
+import android.annotation.SuppressLint
 import androidx.annotation.IntRange
+import androidx.compose.foundation.interaction.FocusInteraction
+import androidx.compose.foundation.interaction.Interaction
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.currentComposer
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.LayoutModifier
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackIcon
 import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.runtime.QuackDataModifierModel
+import team.duckie.quackquack.runtime.quackMaterializeOf
+import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
 import team.duckie.quackquack.ui.token.HorizontalDirection
 import team.duckie.quackquack.ui.token.IconRole
 import team.duckie.quackquack.ui.token.VerticalDirection
+import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
+import team.duckie.quackquack.ui.util.wrappedDebugInspectable
+import team.duckie.quackquack.util.fastFilterIsInstanceOrNull
+import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 
 @Immutable
-public enum class TextFieldState {
+public enum class TextFieldInteractionState {
   Error, Success, Default,
 }
 
@@ -97,7 +117,7 @@ public interface QuackDefaultTextFieldStyle : TextFieldStyleMarker {
 public interface QuackFilledTextFieldStyle : TextFieldStyleMarker {
   public data class TextFieldColors internal constructor(
     internal val backgroundColor: QuackColor?,
-    internal val backgroundColorGetter: (() -> QuackColor)?,
+    internal val backgroundColorGetter: ((interaction: Interaction, text: String) -> QuackColor)?,
     internal val contentColor: QuackColor,
     internal val placeholderColor: QuackColor,
   ) : TextFieldColorMarker
@@ -107,7 +127,7 @@ public interface QuackFilledTextFieldStyle : TextFieldStyleMarker {
   @Stable
   public fun textFieldColors(
     backgroundColor: QuackColor?,
-    backgroundColorGetter: (() -> QuackColor)?,
+    backgroundColorGetter: ((interaction: Interaction, text: String) -> QuackColor)?,
     contentColor: QuackColor,
     placeholderColor: QuackColor,
   ): TextFieldColors =
@@ -142,6 +162,9 @@ public interface QuackTextFieldStyle<
   /** 디자인 스펙을 변경하는 람다 */
   @Stable
   public operator fun invoke(styleBuilder: StyleMarker.() -> Unit): StyleMarker
+
+  @Stable
+  public fun Modifier.wrappedDebugInspectable(): Modifier
 
   // TODO(3): 싱글톤으로 관리해도 되지 않을까?
   public companion object {
@@ -198,6 +221,17 @@ public class QuackDefaultTextFieldDefaults internal constructor() :
 
   override fun invoke(styleBuilder: QuackDefaultTextFieldDefaults.() -> Unit): QuackDefaultTextFieldDefaults =
     apply(styleBuilder)
+
+  override fun Modifier.wrappedDebugInspectable(): Modifier =
+    wrappedDebugInspectable {
+      name = toString()
+      properties["colors"] = colors
+      properties["contentPadding"] = contentPadding
+      properties["contentSpacedBy"] = contentSpacedBy
+      properties["typography"] = typography
+    }
+
+  override fun toString(): String = this::class.java.simpleName
 }
 
 @ExperimentalDesignToken
@@ -223,6 +257,17 @@ public class QuackDefaultLargeTextFieldDefaults :
 
   override fun invoke(styleBuilder: QuackDefaultLargeTextFieldDefaults.() -> Unit): QuackDefaultLargeTextFieldDefaults =
     apply(styleBuilder)
+
+  override fun Modifier.wrappedDebugInspectable(): Modifier =
+    wrappedDebugInspectable {
+      name = toString()
+      properties["colors"] = colors
+      properties["contentPadding"] = contentPadding
+      properties["contentSpacedBy"] = contentSpacedBy
+      properties["typography"] = typography
+    }
+
+  override fun toString(): String = this::class.java.simpleName
 }
 
 @ExperimentalDesignToken
@@ -256,6 +301,18 @@ public class QuackFilledLargeTextFieldDefaults :
 
   override fun invoke(styleBuilder: QuackFilledLargeTextFieldDefaults.() -> Unit): QuackFilledLargeTextFieldDefaults =
     apply(styleBuilder)
+
+  override fun Modifier.wrappedDebugInspectable(): Modifier =
+    wrappedDebugInspectable {
+      name = toString()
+      properties["radius"] = radius
+      properties["colors"] = colors
+      properties["contentPadding"] = contentPadding
+      properties["contentSpacedBy"] = contentSpacedBy
+      properties["typography"] = typography
+    }
+
+  override fun toString(): String = this::class.java.simpleName
 }
 
 @ExperimentalDesignToken
@@ -266,19 +323,17 @@ public class QuackFilledFlatTextFieldDefaults :
     >,
   QuackFilledTextFieldStyle {
 
-  private val ColorNoSettingWarnMessage =
-    "The `QuackFilledFlatTextFieldDefaults` is used, but the `colors#backgroundColorGetter` is not set. " +
-      "According to the design guidelines, the background color of a `QuackFilledFlatTextField` can change " +
-      "depending on whether it is focused or not."
-
   override var radius: Dp = 8.dp
 
   override var colors: QuackFilledTextFieldStyle.TextFieldColors =
     textFieldColors(
       backgroundColor = null,
-      backgroundColorGetter = {
-        Log.w(this::class.simpleName!!, ColorNoSettingWarnMessage)
-        QuackColor.White
+      backgroundColorGetter = { interaction, text ->
+        if (text.isNotEmpty()) QuackColor.White
+        else when (interaction) {
+          is FocusInteraction.Focus -> QuackColor.White
+          else -> QuackColor.Gray4
+        }
       },
       contentColor = QuackColor.Black,
       placeholderColor = QuackColor.Gray2,
@@ -296,4 +351,131 @@ public class QuackFilledFlatTextFieldDefaults :
 
   override fun invoke(styleBuilder: QuackFilledFlatTextFieldDefaults.() -> Unit): QuackFilledFlatTextFieldDefaults =
     apply(styleBuilder)
+
+  override fun Modifier.wrappedDebugInspectable(): Modifier =
+    wrappedDebugInspectable {
+      name = toString()
+      properties["radius"] = radius
+      properties["colors"] = colors
+      properties["contentPadding"] = contentPadding
+      properties["contentSpacedBy"] = contentSpacedBy
+      properties["typography"] = typography
+    }
+
+  override fun toString(): String = this::class.java.simpleName
+}
+
+// TODO(2): casa support for value state
+@ExperimentalDesignToken
+@ExperimentalQuackQuackApi
+@NonRestartableComposable
+@Composable
+public fun <
+  TextFieldStyle : QuackTextFieldStyle<*, QuackDefaultTextFieldStyle.TextFieldColors>,
+  > QuackTextField(
+  @CasaValue("\"QuackTextFieldPreview\"") value: String,
+  @CasaValue("{}") onValueChange: (String) -> Unit,
+  @CasaValue("QuackTextFieldStyle.Default") style: TextFieldStyle,
+  modifier: Modifier = Modifier,
+  placeholderValue: String? = null,
+  placeholderStrategy: PlaceholderStrategy = PlaceholderStrategy.Hidable,
+  keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+  keyboardActions: KeyboardActions = KeyboardActions.Default,
+  singleLine: Boolean = false,
+  minLines: Int = 1,
+  maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+  visualTransformation: VisualTransformation = VisualTransformation.None,
+  onTextLayout: (TextLayoutResult) -> Unit = {},
+  interactionState: TextFieldInteractionState = TextFieldInteractionState.Default,
+  interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+) {
+  var isSizeSpecified = false
+  val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier) { currentModifier ->
+    if (!isSizeSpecified) {
+      isSizeSpecified = currentModifier is LayoutModifier
+    }
+  }
+  val iconDatas = remember(quackDataModels) {
+    quackDataModels.fastFilterIsInstanceOrNull<TextFieldIconData>()
+  }
+  val indicatorData = remember(quackDataModels) {
+    quackDataModels.fastFirstIsInstanceOrNull<TextFieldIndicatorData>()
+  }
+  val countableData = remember(quackDataModels) {
+    quackDataModels.fastFirstIsInstanceOrNull<TextFieldCountableData>()
+  }
+
+  val backgroundColor = style.colors.backgroundColor
+  val contentColor = style.colors.contentColor
+  val placeholderColor = style.colors.placeholderColor
+  val errorColor = style.colors.errorColor
+  val successColor = style.colors.successColor
+
+  val contentPadding = style.contentPadding
+  val currentContentPadding = if (isSizeSpecified) null else contentPadding
+
+  val contentSpacedBy = style.contentSpacedBy
+
+  val typography = remember(style.typography, contentColor) {
+    style.typography.change(color = contentColor)
+  }
+  val placeholderTypography = remember(style.typography, placeholderColor) {
+    style.typography.change(color = placeholderColor)
+  }
+
+  val inspectableModifier =
+      with(style) { composeModifier.wrappedDebugInspectable() }
+      .wrappedDebugInspectable {
+        name = "QuackTextField"
+        properties["value"] = value
+        properties["onValueChange"] = onValueChange
+        properties["iconDatas"] = iconDatas
+        properties["indicatorData"] = indicatorData
+        properties["countableData"] = countableData
+        properties["composeModifier"] = composeModifier
+        properties["placeholderValue"] = placeholderValue
+        properties["placeholderStrategy"] = placeholderStrategy
+        properties["keyboardOptions"] = keyboardOptions
+        properties["keyboardActions"] = keyboardActions
+        properties["singleLine"] = singleLine
+        properties["minLines"] = minLines
+        properties["maxLines"] = maxLines
+        properties["visualTransformation"] = visualTransformation
+        properties["onTextLayout"] = onTextLayout
+        properties["interactionState"] = interactionState
+        properties["interactionSource"] = interactionSource
+        properties["isSizeSpecified"] = isSizeSpecified
+        properties["backgroundColor"] = backgroundColor
+        properties["contentColor"] = contentColor
+        properties["placeholderColor"] = placeholderColor
+        properties["errorColor"] = errorColor
+        properties["errorColor"] = errorColor
+        properties["successColor"] = successColor
+        properties["contentPadding"] = currentContentPadding
+        properties["contentSpacedBy"] = contentSpacedBy
+        properties["typography"] = typography
+        properties["placeholderTypography"] = placeholderTypography
+      }
+}
+
+@ExperimentalQuackQuackApi
+@NonRestartableComposable
+@Composable
+public fun QuackFilledTextField() {
+  // LaunchedEffect(interactionSource) {
+  //   interactionSource.interactions.collect { interaction ->
+  //   }
+  // }
+}
+
+@SuppressLint("ComposableNaming")
+@NoSugar
+@ExperimentalQuackQuackApi
+@NonRestartableComposable
+@Composable
+public fun QuackOutlinedTextField(): Nothing {
+  throw NotImplementedError(
+    "The design that this component is used for is not in development scope, " +
+      "so it this component is not yet developed.",
+  )
 }

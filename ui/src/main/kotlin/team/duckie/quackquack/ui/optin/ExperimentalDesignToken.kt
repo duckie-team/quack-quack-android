@@ -8,7 +8,7 @@
 package team.duckie.quackquack.ui.optin
 
 /** 실험적인 디자인 토큰을 사용하기 전 경고를 나타냅니다. */
-@Target(AnnotationTarget.CLASS)
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
 @RequiresOptIn(
   message = "This design token is experimental, and its specification is not complete. " +
