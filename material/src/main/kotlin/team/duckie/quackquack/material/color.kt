@@ -69,6 +69,9 @@ public value class QuackColor(public val value: Color) : ReadOnlyProperty<Any, C
     public val Alert: QuackColor = QuackColor(Color(0xFFFF2929))
 
     @Stable
+    public val Success: QuackColor = QuackColor(Color(0xFF02B288))
+
+    @Stable
     public val Dimmed: QuackColor = QuackColor(Color(0x99000000)) // 0.6 alpha
 
     @Stable
