@@ -7,6 +7,9 @@
 
 package team.duckie.quackquack.ui.token
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 public enum class IconRole {
   Button, Default,
 }

@@ -7,10 +7,14 @@
 
 package team.duckie.quackquack.ui.token
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 public enum class HorizontalDirection {
   Left, Right,
 }
 
+@Immutable
 public enum class VerticalDirection {
   Top, Down,
 }
