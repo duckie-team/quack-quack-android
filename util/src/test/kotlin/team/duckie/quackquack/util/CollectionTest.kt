@@ -23,20 +23,21 @@ class CollectionTest : FreeSpec() {
         stringElement.shouldNotBeNull()
       }
 
-      "null를 반환하면 주어진 리스트에 존재하지 않음" {
+      "캐스팅 가능한 요소가 없다면 null을 반환함" {
         val elements = listOf(1, 'Q', Float, "4", Any())
-        val stringElement = elements.fastFirstIsInstanceOrNull<Double>()
+        val doubleElement = elements.fastFirstIsInstanceOrNull<Double>()
 
-        stringElement.shouldBeNull()
+        doubleElement.shouldBeNull()
       }
 
-      "여러개의 요소가 제공됐다면 첫 번째에 해당하는 요소가 반환됨" {
+      "캐스팅 가능한 요소가 여러개라면 첫 번째에 해당하는 요소를 반환함" {
         val elements = listOf(1, 'Q', Float, "4", Any(), "6")
         val stringElement = elements.fastFirstIsInstanceOrNull<String>()
 
         stringElement shouldBe "4"
       }
     }
+
     "fastFilterIsInstanceOrNull" - {
       "캐스팅 가능한 요소가 있다면 null이 반환되지 않음" {
         val elements = listOf(1, 'Q', Float, "4", Any(), "10")
@@ -45,14 +46,14 @@ class CollectionTest : FreeSpec() {
         stringElement.shouldNotBeNull()
       }
 
-      "null를 반환하면 주어진 리스트에 존재하지 않음" {
+      "캐스팅 가능한 요소가 없다면 null을 반환함" {
         val elements = listOf(1, 'Q', Float, "4", Any())
-        val stringElement = elements.fastFilterIsInstanceOrNull<Double>()
+        val doubleElement = elements.fastFilterIsInstanceOrNull<Double>()
 
-        stringElement.shouldBeNull()
+        doubleElement.shouldBeNull()
       }
 
-      "여러개의 요소가 제공됐다면 해당되는 모든 요소가 반환됨" {
+      "캐스팅 가능한 요소가 여러개라면 모든 요소를 반환함" {
         val elements = listOf(1, 'Q', Float, "4", Any(), "6")
         val stringElement = elements.fastFilterIsInstanceOrNull<String>()
 
