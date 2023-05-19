@@ -423,6 +423,8 @@ public fun <
     style.typography.change(color = placeholderColor)
   }
 
+  // TODO(2): InspectableModifier의 올바른 제공법 연구 필요
+  //          지금은 너무 많은 정보를 보내는 거 같음
   val inspectableModifier =
       with(style) { composeModifier.wrappedDebugInspectable() }
       .wrappedDebugInspectable {
