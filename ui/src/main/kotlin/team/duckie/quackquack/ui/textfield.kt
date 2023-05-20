@@ -9,21 +9,29 @@ package team.duckie.quackquack.ui
 
 import android.annotation.SuppressLint
 import androidx.annotation.IntRange
+import androidx.annotation.RestrictTo
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.currentComposer
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.LayoutModifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -31,6 +39,8 @@ import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackIcon
 import team.duckie.quackquack.material.QuackTypography
+import team.duckie.quackquack.material.quackSurface
+import team.duckie.quackquack.material.theme.LocalQuackTextFieldTheme
 import team.duckie.quackquack.runtime.QuackDataModifierModel
 import team.duckie.quackquack.runtime.quackMaterializeOf
 import team.duckie.quackquack.sugar.material.NoSugar
@@ -45,7 +55,7 @@ import team.duckie.quackquack.util.fastFilterIsInstanceOrNull
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 
 @Immutable
-public enum class TextFieldInteractionState {
+public enum class TextFieldValidationState {
   Error, Success, Default,
 }
 
@@ -54,8 +64,9 @@ public enum class PlaceholderStrategy {
   Always, Hidable,
 }
 
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 @Stable
-private data class TextFieldIconData(
+public data class TextFieldIconData(
   val icon: QuackIcon,
   val iconSize: Dp,
   val tint: QuackColor?,
@@ -65,16 +76,18 @@ private data class TextFieldIconData(
   val onClick: ((text: String) -> Unit)?,
 ) : QuackDataModifierModel
 
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 @Stable
-private data class TextFieldIndicatorData(
+public data class TextFieldIndicatorData(
   val thickness: Dp,
   val color: QuackColor?,
   val colorGetter: ((text: String) -> QuackColor)?,
   val direction: VerticalDirection,
 ) : QuackDataModifierModel
 
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 @Stable
-private data class TextFieldCountableData(
+public data class TextFieldCountableData(
   val baseColor: QuackColor,
   val highlightColor: QuackColor,
   val typography: QuackTypography,
@@ -96,6 +109,8 @@ public interface QuackDefaultTextFieldStyle : TextFieldStyleMarker {
     internal val errorColor: QuackColor,
     internal val successColor: QuackColor,
   ) : TextFieldColorMarker
+
+  public val validationTypography: QuackTypography
 
   @Stable
   public fun textFieldColors(
@@ -218,6 +233,7 @@ public class QuackDefaultTextFieldDefaults internal constructor() :
   override var contentSpacedBy: Dp = 8.dp
 
   override var typography: QuackTypography = QuackTypography.Body1
+  override val validationTypography: QuackTypography = QuackTypography.Body1
 
   override fun invoke(styleBuilder: QuackDefaultTextFieldDefaults.() -> Unit): QuackDefaultTextFieldDefaults =
     apply(styleBuilder)
@@ -254,6 +270,7 @@ public class QuackDefaultLargeTextFieldDefaults :
   override var contentSpacedBy: Dp = 8.dp
 
   override var typography: QuackTypography = QuackTypography.Body1
+  override val validationTypography: QuackTypography = QuackTypography.Body1
 
   override fun invoke(styleBuilder: QuackDefaultLargeTextFieldDefaults.() -> Unit): QuackDefaultLargeTextFieldDefaults =
     apply(styleBuilder)
@@ -365,18 +382,19 @@ public class QuackFilledFlatTextFieldDefaults :
   override fun toString(): String = this::class.java.simpleName
 }
 
-// TODO(2): casa support for value state
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
 @Composable
 public fun <
-  TextFieldStyle : QuackTextFieldStyle<*, QuackDefaultTextFieldStyle.TextFieldColors>,
+  TextFieldStyle : QuackTextFieldStyle<QuackDefaultTextFieldStyle, QuackDefaultTextFieldStyle.TextFieldColors>,
   > QuackTextField(
   @CasaValue("\"QuackTextFieldPreview\"") value: String,
-  @CasaValue("{}") onValueChange: (String) -> Unit,
+  @CasaValue("{}") onValueChange: (value: String) -> Unit,
   @CasaValue("QuackTextFieldStyle.Default") style: TextFieldStyle,
   modifier: Modifier = Modifier,
+  enabled: Boolean = true,
+  readOnly: Boolean = false,
   placeholderValue: String? = null,
   placeholderStrategy: PlaceholderStrategy = PlaceholderStrategy.Hidable,
   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -385,8 +403,87 @@ public fun <
   minLines: Int = 1,
   maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
   visualTransformation: VisualTransformation = VisualTransformation.None,
-  onTextLayout: (TextLayoutResult) -> Unit = {},
-  interactionState: TextFieldInteractionState = TextFieldInteractionState.Default,
+  onTextLayout: (layoutResult: TextLayoutResult) -> Unit = {},
+  validationState: TextFieldValidationState = TextFieldValidationState.Default,
+  interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+) {
+  // start --- COPIED FROM BasicTextField (string value version)
+
+  // 최신 내부 텍스트 필드 값 상태를 보유합니다. 컴포지션의 올바른 값을 갖기 위해 이 값을 유지해야 합니다.
+  var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
+
+  // 재구성된 최신 TextFieldValue를 보유합니다. 컴포지션을 보존해야 하기 때문에 `TextFieldValue(text = value)`를
+  // CoreTextField에 단순히 전달할 수 없었습니다.
+  val textFieldValue = textFieldValueState.copy(text = value)
+
+  SideEffect {
+    if (textFieldValue.selection != textFieldValueState.selection ||
+      textFieldValue.composition != textFieldValueState.composition
+    ) {
+      textFieldValueState = textFieldValue
+    }
+  }
+
+  // 텍스트 필드가 재구성되었거나 onValueChange 콜백에서 업데이트된 마지막 문자열 값입니다.
+  // 이 값을 추적하여 다음과 같은 경우 동일한 문자열에 대해 onValueChange(String)를 호출하지 않도록 합니다.
+  // CoreTextField의 onValueChange가 중간에 재구성되지 않고 여러 번 호출되는 것을 방지합니다.
+  var lastTextValue by remember(value) { mutableStateOf(value) }
+
+  QuackTextField(
+    value = textFieldValue,
+    onValueChange = { newTextFieldValueState ->
+      textFieldValueState = newTextFieldValueState
+
+      val stringChangedSinceLastInvocation = lastTextValue != newTextFieldValueState.text
+      lastTextValue = newTextFieldValueState.text
+
+      if (stringChangedSinceLastInvocation) {
+        onValueChange(newTextFieldValueState.text)
+      }
+    },
+    // end --- COPIED FROM BasicTextField (string value version)
+    style = style,
+    modifier = modifier,
+    enabled = enabled,
+    readOnly = readOnly,
+    placeholderValue = placeholderValue,
+    placeholderStrategy = placeholderStrategy,
+    keyboardOptions = keyboardOptions,
+    keyboardActions = keyboardActions,
+    singleLine = singleLine,
+    minLines = minLines,
+    maxLines = maxLines,
+    visualTransformation = visualTransformation,
+    onTextLayout = onTextLayout,
+    validationState = validationState,
+    interactionSource = interactionSource,
+  )
+}
+
+// TODO(2): casa support for value state
+@ExperimentalDesignToken
+@ExperimentalQuackQuackApi
+@NonRestartableComposable
+@Composable
+public fun <
+  TextFieldStyle : QuackTextFieldStyle<QuackDefaultTextFieldStyle, QuackDefaultTextFieldStyle.TextFieldColors>,
+  > QuackTextField(
+  @CasaValue("\"QuackTextFieldPreview\"") value: TextFieldValue,
+  @CasaValue("{}") onValueChange: (value: TextFieldValue) -> Unit,
+  @CasaValue("QuackTextFieldStyle.Default") style: TextFieldStyle,
+  modifier: Modifier = Modifier,
+  enabled: Boolean = true,
+  readOnly: Boolean = false,
+  placeholderValue: String? = null,
+  placeholderStrategy: PlaceholderStrategy = PlaceholderStrategy.Hidable,
+  keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+  keyboardActions: KeyboardActions = KeyboardActions.Default,
+  singleLine: Boolean = false,
+  minLines: Int = 1,
+  maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+  visualTransformation: VisualTransformation = VisualTransformation.None,
+  onTextLayout: (layoutResult: TextLayoutResult) -> Unit = {},
+  validationState: TextFieldValidationState = TextFieldValidationState.Default,
   interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
   var isSizeSpecified = false
@@ -422,19 +519,22 @@ public fun <
   val placeholderTypography = remember(style.typography, placeholderColor) {
     style.typography.change(color = placeholderColor)
   }
+  val errorTypograhpy = remember(style.typography)
 
   // TODO(2): InspectableModifier의 올바른 제공법 연구 필요
   //          지금은 너무 많은 정보를 보내는 거 같음
   val inspectableModifier =
-      with(style) { composeModifier.wrappedDebugInspectable() }
+    with(style) { composeModifier.wrappedDebugInspectable() }
       .wrappedDebugInspectable {
         name = "QuackTextField"
         properties["value"] = value
         properties["onValueChange"] = onValueChange
+        properties["composeModifier"] = composeModifier
+        properties["enabled"] = enabled
+        properties["readOnly"] = readOnly
         properties["iconDatas"] = iconDatas
         properties["indicatorData"] = indicatorData
         properties["countableData"] = countableData
-        properties["composeModifier"] = composeModifier
         properties["placeholderValue"] = placeholderValue
         properties["placeholderStrategy"] = placeholderStrategy
         properties["keyboardOptions"] = keyboardOptions
@@ -444,13 +544,12 @@ public fun <
         properties["maxLines"] = maxLines
         properties["visualTransformation"] = visualTransformation
         properties["onTextLayout"] = onTextLayout
-        properties["interactionState"] = interactionState
+        properties["validationState"] = validationState
         properties["interactionSource"] = interactionSource
         properties["isSizeSpecified"] = isSizeSpecified
         properties["backgroundColor"] = backgroundColor
         properties["contentColor"] = contentColor
         properties["placeholderColor"] = placeholderColor
-        properties["errorColor"] = errorColor
         properties["errorColor"] = errorColor
         properties["successColor"] = successColor
         properties["contentPadding"] = currentContentPadding
@@ -458,6 +557,70 @@ public fun <
         properties["typography"] = typography
         properties["placeholderTypography"] = placeholderTypography
       }
+}
+
+private const val LeadingIconLayoutId = "QuackBaseTextFieldLeadingIconLayoutId"
+private const val TrailingContentLayoutId = "QuackBaseTextFieldTrailingContentLayoutId"
+
+@ExperimentalQuackQuackApi
+@Composable
+public fun QuackBaseTextField(
+  value: TextFieldValue,
+  onValueChange: (value: TextFieldValue) -> Unit,
+  modifier: Modifier,
+  enabled: Boolean,
+  readOnly: Boolean,
+  iconDatas: List<TextFieldIconData>?,
+  indicatorData: TextFieldIndicatorData?,
+  countableData: TextFieldCountableData?,
+  placeholderValue: String?,
+  placeholderStrategy: PlaceholderStrategy,
+  keyboardOptions: KeyboardOptions,
+  keyboardActions: KeyboardActions,
+  singleLine: Boolean,
+  minLines: Int,
+  maxLines: Int,
+  visualTransformation: VisualTransformation,
+  onTextLayout: (layoutResult: TextLayoutResult) -> Unit,
+  validationState: TextFieldValidationState,
+  interactionSource: MutableInteractionSource,
+  backgroundColor: QuackColor,
+  contentColor: QuackColor,
+  placeholderColor: QuackColor,
+  errorColor: QuackColor,
+  successColor: QuackColor,
+  contentPadding: PaddingValues?,
+  contentSpacedBy: Dp,
+  typography: QuackTypography,
+  placeholderTypography: QuackTypography,
+) {
+  val currentCursorColor = LocalQuackTextFieldTheme.current.cursor
+  val currentCursorBrush = remember(currentCursorColor, calculation = currentCursorColor::toBrush)
+  val currentTextStyle = remember(typography, calculation = typography::asComposeStyle)
+
+  BasicTextField(
+    value = value,
+    onValueChange = onValueChange,
+    modifier = modifier
+      .testTag("BaseTextField")
+      .quackSurface(
+        backgroundColor = backgroundColor,
+      ),
+    enabled = enabled,
+    readOnly = readOnly,
+    textStyle = currentTextStyle,
+    keyboardOptions = keyboardOptions,
+    keyboardActions = keyboardActions,
+    singleLine = singleLine,
+    minLines = minLines,
+    maxLines = maxLines,
+    visualTransformation = visualTransformation,
+    onTextLayout = onTextLayout,
+    interactionSource = interactionSource,
+    cursorBrush = currentCursorBrush,
+  ) {
+
+  }
 }
 
 @ExperimentalQuackQuackApi
