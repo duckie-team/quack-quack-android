@@ -519,7 +519,13 @@ public fun <
   val placeholderTypography = remember(style.typography, placeholderColor) {
     style.typography.change(color = placeholderColor)
   }
-  val errorTypograhpy = remember(style.typography)
+  val validationTypography = (style as QuackDefaultTextFieldStyle).validationTypography
+  val errorTypography = remember(validationTypography, style.colors.errorColor) {
+    validationTypography.change(color = style.colors.errorColor)
+  }
+  val successTypography = remember(validationTypography, style.colors.successColor) {
+    validationTypography.change(color = style.colors.successColor)
+  }
 
   // TODO(2): InspectableModifier의 올바른 제공법 연구 필요
   //          지금은 너무 많은 정보를 보내는 거 같음
@@ -556,6 +562,8 @@ public fun <
         properties["contentSpacedBy"] = contentSpacedBy
         properties["typography"] = typography
         properties["placeholderTypography"] = placeholderTypography
+        properties["errorTypography"] = errorTypography
+        properties["successTypography"] = successTypography
       }
 }
 
@@ -593,6 +601,8 @@ public fun QuackBaseTextField(
   contentSpacedBy: Dp,
   typography: QuackTypography,
   placeholderTypography: QuackTypography,
+  errorTypography: QuackTypography,
+  successTypography: QuackTypography,
 ) {
   val currentCursorColor = LocalQuackTextFieldTheme.current.cursor
   val currentCursorBrush = remember(currentCursorColor, calculation = currentCursorColor::toBrush)
