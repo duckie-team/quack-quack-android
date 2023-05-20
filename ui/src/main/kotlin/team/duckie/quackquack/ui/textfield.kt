@@ -28,9 +28,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutModifier
+import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.compose.ui.platform.inspectable
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
@@ -91,6 +97,7 @@ public data class TextFieldCountableData(
   val baseColor: QuackColor,
   val highlightColor: QuackColor,
   val typography: QuackTypography,
+  val bodySpacedBy: Dp,
   @IntRange(from = 1) val maxCount: Int,
 ) : QuackDataModifierModel
 
@@ -382,6 +389,79 @@ public class QuackFilledFlatTextFieldDefaults :
   override fun toString(): String = this::class.java.simpleName
 }
 
+@Stable
+public fun Modifier.showIcon(
+  icon: QuackIcon,
+  iconSize: Dp,
+  tint: QuackColor?,
+  tintGetter: ((text: String) -> QuackColor)?,
+  role: IconRole,
+  direction: HorizontalDirection,
+  onClick: ((text: String) -> Unit)?,
+): Modifier =
+  inspectable(
+    inspectorInfo = debugInspectorInfo {
+      name = "showIcon"
+      properties["icon"] = icon
+      properties["iconSize"] = iconSize
+      properties["tint"] = tint
+      properties["tintGetter"] = tintGetter
+      properties["role"] = role
+      properties["direction"] = direction
+      properties["onClick"] = onClick
+    },
+  ) {
+    TextFieldIconData(
+      icon = icon,
+      iconSize = iconSize,
+      tint = tint,
+      tintGetter = tintGetter,
+      role = role,
+      direction = direction,
+      onClick = onClick,
+    )
+  }
+
+@Suppress("ModifierFactoryExtensionFunction")
+@Stable
+public fun TextFieldIndicatorData.toDrawModifier(text: String): Modifier =
+  Modifier.drawWithCache {
+    val currentBorderColor = (colorGetter?.invoke(text) ?: color)?.value
+    val startOffset = when (direction) {
+      VerticalDirection.Top -> Offset(x = 0f, y = 0f)
+      VerticalDirection.Down -> Offset(x = 0f, y = size.height)
+    }
+    val endOffset = when (direction) {
+      VerticalDirection.Top -> Offset(x = size.width, y = 0f)
+      VerticalDirection.Down -> Offset(x = size.width, y = size.height)
+    }
+
+    onDrawWithContent {
+      drawContent()
+      if (currentBorderColor != null) {
+        drawLine(
+          color = currentBorderColor,
+          start = startOffset,
+          end = endOffset,
+          strokeWidth = thickness.value,
+        )
+      }
+    }
+  }
+
+@Stable
+public fun TextFieldCountableData.toDrawModifier(): Modifier =
+  Modifier.drawWithCache {
+    onDrawBehind {
+      drawContent()
+      drawText()
+    }
+  }
+
+@Stable
+public val TextFieldIconData.isButtonRole: Boolean
+  inline get() = role == IconRole.Button
+
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
@@ -520,11 +600,11 @@ public fun <
     style.typography.change(color = placeholderColor)
   }
   val validationTypography = (style as QuackDefaultTextFieldStyle).validationTypography
-  val errorTypography = remember(validationTypography, style.colors.errorColor) {
-    validationTypography.change(color = style.colors.errorColor)
+  val errorTypography = remember(validationTypography, errorColor) {
+    validationTypography.change(color = errorColor)
   }
-  val successTypography = remember(validationTypography, style.colors.successColor) {
-    validationTypography.change(color = style.colors.successColor)
+  val successTypography = remember(validationTypography, successColor) {
+    validationTypography.change(color = successColor)
   }
 
   // TODO(2): InspectableModifier의 올바른 제공법 연구 필요
@@ -554,10 +634,6 @@ public fun <
         properties["interactionSource"] = interactionSource
         properties["isSizeSpecified"] = isSizeSpecified
         properties["backgroundColor"] = backgroundColor
-        properties["contentColor"] = contentColor
-        properties["placeholderColor"] = placeholderColor
-        properties["errorColor"] = errorColor
-        properties["successColor"] = successColor
         properties["contentPadding"] = currentContentPadding
         properties["contentSpacedBy"] = contentSpacedBy
         properties["typography"] = typography
@@ -565,6 +641,35 @@ public fun <
         properties["errorTypography"] = errorTypography
         properties["successTypography"] = successTypography
       }
+
+  QuackBaseTextField(
+    value = value,
+    onValueChange = onValueChange,
+    modifier = inspectableModifier,
+    enabled = enabled,
+    readOnly = readOnly,
+    iconDatas = iconDatas,
+    indicatorData = indicatorData,
+    countableData = countableData,
+    placeholderValue = placeholderValue,
+    placeholderStrategy = placeholderStrategy,
+    keyboardOptions = keyboardOptions,
+    keyboardActions = keyboardActions,
+    singleLine = singleLine,
+    minLines = minLines,
+    maxLines = maxLines,
+    visualTransformation = visualTransformation,
+    onTextLayout = onTextLayout,
+    validationState = validationState,
+    interactionSource = interactionSource,
+    backgroundColor = backgroundColor,
+    contentPadding = contentPadding,
+    contentSpacedBy = contentSpacedBy,
+    typography = typography,
+    placeholderTypography = placeholderTypography,
+    errorTypography = errorTypography,
+    successTypography = successTypography,
+  )
 }
 
 private const val LeadingIconLayoutId = "QuackBaseTextFieldLeadingIconLayoutId"
@@ -609,9 +714,8 @@ public fun QuackBaseTextField(
     onValueChange = onValueChange,
     modifier = modifier
       .testTag("BaseTextField")
-      .quackSurface(
-        backgroundColor = backgroundColor,
-      ),
+      .quackSurface(backgroundColor = backgroundColor)
+      .then(indicatorData?.toDrawModifier(text = value.text) ?: Modifier),
     enabled = enabled,
     readOnly = readOnly,
     textStyle = currentTextStyle,
@@ -624,7 +728,7 @@ public fun QuackBaseTextField(
     onTextLayout = onTextLayout,
     interactionSource = interactionSource,
     cursorBrush = currentCursorBrush,
-  ) {
+  ) { coreTextField ->
 
   }
 }
