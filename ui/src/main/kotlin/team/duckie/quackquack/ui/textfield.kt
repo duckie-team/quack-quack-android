@@ -106,7 +106,7 @@ public data class TextFieldCountableData(
   val baseColor: QuackColor,
   val highlightColor: QuackColor,
   val typography: QuackTypography,
-  val bodySpacedBy: Dp,
+  val baseAndHighlightGap: Dp,
   @IntRange(from = 1) val maxLength: Int,
 ) : QuackDataModifierModel
 
@@ -461,10 +461,11 @@ public fun TextFieldIndicatorData.toDrawModifier(text: String): Modifier =
 public fun TextFieldCountableData.toDrawModifier(
   @IntRange(from = 1) currentLength: Int,
   contentPadding: PaddingValues,
-): Modifier = composed {
+): Modifier = composed { // TODO(perf): nested-composed 제거
   val textMeasurer = rememberTextMeasurer(cacheSize = 5 + 2) // model datas + params
 
   Modifier.drawWithCache {
+    // TODO(3): baseAndHighlightGap 구현
     val textMeasurerResult = textMeasurer.measure(
       text = buildAnnotatedString {
         withStyle(SpanStyle(color = highlightColor.value)) {
@@ -485,8 +486,15 @@ public fun TextFieldCountableData.toDrawModifier(
       },
     )
 
+    // TODO(3): VerticalCenter 배치
     onDrawBehind {
-      drawText()
+      drawText(
+        textLayoutResult = textMeasurerResult,
+        topLeft = Offset(
+          x = 0f,
+          y = contentPadding.calculateTopPadding().toPx(),
+        ),
+      )
     }
   }
 }
