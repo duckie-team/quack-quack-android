@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:OptIn(ExperimentalTextApi::class)
+
 package team.duckie.quackquack.ui
 
 import android.annotation.SuppressLint
@@ -28,17 +30,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutModifier
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.platform.inspectable
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.casa.annotation.CasaValue
@@ -98,7 +107,7 @@ public data class TextFieldCountableData(
   val highlightColor: QuackColor,
   val typography: QuackTypography,
   val bodySpacedBy: Dp,
-  @IntRange(from = 1) val maxCount: Int,
+  @IntRange(from = 1) val maxLength: Int,
 ) : QuackDataModifierModel
 
 @QuackDsl
@@ -167,8 +176,8 @@ public interface QuackOutlinedTextFieldStyle : TextFieldStyleMarker
 @ExperimentalDesignToken
 @Immutable
 public interface QuackTextFieldStyle<
-  StyleMarker : TextFieldStyleMarker, ColorMarker : TextFieldColorMarker,
-  > {
+    StyleMarker : TextFieldStyleMarker, ColorMarker : TextFieldColorMarker,
+    > {
   /** 사용할 색상들 */
   public val colors: ColorMarker
 
@@ -192,26 +201,26 @@ public interface QuackTextFieldStyle<
   public companion object {
     @Stable
     public val Default: QuackTextFieldStyle<
-      QuackDefaultTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors,
-      >
+        QuackDefaultTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors,
+        >
       get() = QuackDefaultTextFieldDefaults()
 
     @Stable
     public val DefaultLarge: QuackTextFieldStyle<
-      QuackDefaultLargeTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors,
-      >
+        QuackDefaultLargeTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors,
+        >
       get() = QuackDefaultLargeTextFieldDefaults()
 
     @Stable
     public val FilledLarge: QuackTextFieldStyle<
-      QuackFilledLargeTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors,
-      >
+        QuackFilledLargeTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors,
+        >
       get() = QuackFilledLargeTextFieldDefaults()
 
     @Stable
     public val FilledFlat: QuackTextFieldStyle<
-      QuackFilledFlatTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors,
-      >
+        QuackFilledFlatTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors,
+        >
       get() = QuackFilledFlatTextFieldDefaults()
   }
 }
@@ -219,8 +228,8 @@ public interface QuackTextFieldStyle<
 @ExperimentalDesignToken
 public class QuackDefaultTextFieldDefaults internal constructor() :
   QuackTextFieldStyle<
-    QuackDefaultTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors,
-    >, QuackDefaultTextFieldStyle {
+      QuackDefaultTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors,
+      >, QuackDefaultTextFieldStyle {
 
   override var colors: QuackDefaultTextFieldStyle.TextFieldColors =
     textFieldColors(
@@ -260,8 +269,8 @@ public class QuackDefaultTextFieldDefaults internal constructor() :
 @ExperimentalDesignToken
 public class QuackDefaultLargeTextFieldDefaults :
   QuackTextFieldStyle<
-    QuackDefaultLargeTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors,
-    >, QuackDefaultTextFieldStyle {
+      QuackDefaultLargeTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors,
+      >, QuackDefaultTextFieldStyle {
 
   override var colors: QuackDefaultTextFieldStyle.TextFieldColors =
     textFieldColors(
@@ -297,9 +306,9 @@ public class QuackDefaultLargeTextFieldDefaults :
 @ExperimentalDesignToken
 public class QuackFilledLargeTextFieldDefaults :
   QuackTextFieldStyle<
-    QuackFilledLargeTextFieldDefaults,
-    QuackFilledTextFieldStyle.TextFieldColors,
-    >,
+      QuackFilledLargeTextFieldDefaults,
+      QuackFilledTextFieldStyle.TextFieldColors,
+      >,
   QuackFilledTextFieldStyle {
 
   override var radius: Dp = 8.dp
@@ -342,9 +351,9 @@ public class QuackFilledLargeTextFieldDefaults :
 @ExperimentalDesignToken
 public class QuackFilledFlatTextFieldDefaults :
   QuackTextFieldStyle<
-    QuackFilledFlatTextFieldDefaults,
-    QuackFilledTextFieldStyle.TextFieldColors,
-    >,
+      QuackFilledFlatTextFieldDefaults,
+      QuackFilledTextFieldStyle.TextFieldColors,
+      >,
   QuackFilledTextFieldStyle {
 
   override var radius: Dp = 8.dp
@@ -426,7 +435,8 @@ public fun Modifier.showIcon(
 @Stable
 public fun TextFieldIndicatorData.toDrawModifier(text: String): Modifier =
   Modifier.drawWithCache {
-    val currentBorderColor = (colorGetter?.invoke(text) ?: color)?.value
+    val currentBorderColor = (colorGetter?.invoke(text) ?: color)?.value ?: return@drawWithCache onDrawBehind {}
+
     val startOffset = when (direction) {
       VerticalDirection.Top -> Offset(x = 0f, y = 0f)
       VerticalDirection.Down -> Offset(x = 0f, y = size.height)
@@ -436,27 +446,50 @@ public fun TextFieldIndicatorData.toDrawModifier(text: String): Modifier =
       VerticalDirection.Down -> Offset(x = size.width, y = size.height)
     }
 
-    onDrawWithContent {
-      drawContent()
-      if (currentBorderColor != null) {
-        drawLine(
-          color = currentBorderColor,
-          start = startOffset,
-          end = endOffset,
-          strokeWidth = thickness.value,
-        )
-      }
+    onDrawBehind {
+      drawLine(
+        color = currentBorderColor,
+        start = startOffset,
+        end = endOffset,
+        strokeWidth = thickness.value,
+      )
     }
   }
 
+@SuppressLint("ModifierFactoryExtensionFunction")
 @Stable
-public fun TextFieldCountableData.toDrawModifier(): Modifier =
+public fun TextFieldCountableData.toDrawModifier(
+  @IntRange(from = 1) currentLength: Int,
+  contentPadding: PaddingValues,
+): Modifier = composed {
+  val textMeasurer = rememberTextMeasurer(cacheSize = 5 + 2) // model datas + params
+
   Modifier.drawWithCache {
+    val textMeasurerResult = textMeasurer.measure(
+      text = buildAnnotatedString {
+        withStyle(SpanStyle(color = highlightColor.value)) {
+          append(currentLength.toString())
+        }
+        withStyle(SpanStyle(color = baseColor.value)) {
+          append("/$maxLength")
+        }
+      },
+      style = typography.asComposeStyle(),
+      overflow = TextOverflow.Visible,
+      softWrap = false,
+      maxLines = 1,
+      layoutDirection = layoutDirection,
+      density = object : Density {
+        override val density = this@drawWithCache.density
+        override val fontScale = this@drawWithCache.fontScale
+      },
+    )
+
     onDrawBehind {
-      drawContent()
       drawText()
     }
   }
+}
 
 @Stable
 public val TextFieldIconData.isButtonRole: Boolean
@@ -467,8 +500,8 @@ public val TextFieldIconData.isButtonRole: Boolean
 @NonRestartableComposable
 @Composable
 public fun <
-  TextFieldStyle : QuackTextFieldStyle<QuackDefaultTextFieldStyle, QuackDefaultTextFieldStyle.TextFieldColors>,
-  > QuackTextField(
+    TextFieldStyle : QuackTextFieldStyle<QuackDefaultTextFieldStyle, QuackDefaultTextFieldStyle.TextFieldColors>,
+    > QuackTextField(
   @CasaValue("\"QuackTextFieldPreview\"") value: String,
   @CasaValue("{}") onValueChange: (value: String) -> Unit,
   @CasaValue("QuackTextFieldStyle.Default") style: TextFieldStyle,
@@ -546,8 +579,8 @@ public fun <
 @NonRestartableComposable
 @Composable
 public fun <
-  TextFieldStyle : QuackTextFieldStyle<QuackDefaultTextFieldStyle, QuackDefaultTextFieldStyle.TextFieldColors>,
-  > QuackTextField(
+    TextFieldStyle : QuackTextFieldStyle<QuackDefaultTextFieldStyle, QuackDefaultTextFieldStyle.TextFieldColors>,
+    > QuackTextField(
   @CasaValue("\"QuackTextFieldPreview\"") value: TextFieldValue,
   @CasaValue("{}") onValueChange: (value: TextFieldValue) -> Unit,
   @CasaValue("QuackTextFieldStyle.Default") style: TextFieldStyle,
@@ -559,8 +592,8 @@ public fun <
   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
   keyboardActions: KeyboardActions = KeyboardActions.Default,
   singleLine: Boolean = false,
-  minLines: Int = 1,
-  maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+  @IntRange(from = 1) minLines: Int = 1,
+  @IntRange(from = 1) maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
   visualTransformation: VisualTransformation = VisualTransformation.None,
   onTextLayout: (layoutResult: TextLayoutResult) -> Unit = {},
   validationState: TextFieldValidationState = TextFieldValidationState.Default,
@@ -751,6 +784,6 @@ public fun QuackFilledTextField() {
 public fun QuackOutlinedTextField(): Nothing {
   throw NotImplementedError(
     "The design that this component is used for is not in development scope, " +
-      "so it this component is not yet developed.",
+        "so it this component is not yet developed.",
   )
 }
