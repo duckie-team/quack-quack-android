@@ -59,6 +59,7 @@ import team.duckie.quackquack.material.theme.LocalQuackTextFieldTheme
 import team.duckie.quackquack.runtime.QuackDataModifierModel
 import team.duckie.quackquack.runtime.quackMaterializeOf
 import team.duckie.quackquack.sugar.material.NoSugar
+import team.duckie.quackquack.sugar.material.SugarToken
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
 import team.duckie.quackquack.ui.token.HorizontalDirection
 import team.duckie.quackquack.ui.token.IconRole
@@ -70,13 +71,20 @@ import team.duckie.quackquack.util.fastFilterIsInstanceOrNull
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 
 @Immutable
-public enum class TextFieldValidationState {
-  Error, Success, Default,
+public sealed class TextFieldValidationState {
+  public class Error(public val label: String? = null) : TextFieldValidationState()
+  public class Success(public val label: String? = null) : TextFieldValidationState()
+  public object Default : TextFieldValidationState()
 }
 
 @Immutable
-public enum class PlaceholderStrategy {
+public enum class TextFieldPlaceholderStrategy {
   Always, Hidable,
+}
+
+@Immutable
+public enum class TextFieldValidationLabelVisibilityStrategy {
+  Invisible, Gone,
 }
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
@@ -436,14 +444,15 @@ public fun Modifier.showIcon(
 public fun TextFieldIndicatorData.toDrawModifier(text: String): Modifier =
   Modifier.drawWithCache {
     val currentBorderColor = (colorGetter?.invoke(text) ?: color)?.value ?: return@drawWithCache onDrawBehind {}
+    val yOffset = size.height - thickness.toPx()
 
     val startOffset = when (direction) {
       VerticalDirection.Top -> Offset(x = 0f, y = 0f)
-      VerticalDirection.Down -> Offset(x = 0f, y = size.height)
+      VerticalDirection.Down -> Offset(x = 0f, y = yOffset)
     }
     val endOffset = when (direction) {
       VerticalDirection.Top -> Offset(x = size.width, y = 0f)
-      VerticalDirection.Down -> Offset(x = size.width, y = size.height)
+      VerticalDirection.Down -> Offset(x = size.width, y = yOffset)
     }
 
     onDrawBehind {
@@ -456,12 +465,17 @@ public fun TextFieldIndicatorData.toDrawModifier(text: String): Modifier =
     }
   }
 
+// TODO(impl): 텍스트를 그릴 X 좌표를 구할 수 있어야 하고,
+//             BaseTextField의 입장에선 텍스트가 그려진 X 좌표를 알아야 함.
+@Suppress("UNUSED_PARAMETER", "UNREACHABLE_CODE")
 @SuppressLint("ModifierFactoryExtensionFunction")
 @Stable
 public fun TextFieldCountableData.toDrawModifier(
   @IntRange(from = 1) currentLength: Int,
   contentPadding: PaddingValues,
 ): Modifier = composed { // TODO(perf): nested-composed 제거
+  throw NotImplementedError()
+
   val textMeasurer = rememberTextMeasurer(cacheSize = 5 + 2) // model datas + params
 
   Modifier.drawWithCache {
@@ -491,7 +505,7 @@ public fun TextFieldCountableData.toDrawModifier(
       drawText(
         textLayoutResult = textMeasurerResult,
         topLeft = Offset(
-          x = 0f,
+          x = 0f, // TODO: how to get?
           y = contentPadding.calculateTopPadding().toPx(),
         ),
       )
@@ -507,17 +521,15 @@ public val TextFieldIconData.isButtonRole: Boolean
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
 @Composable
-public fun <
-    TextFieldStyle : QuackTextFieldStyle<QuackDefaultTextFieldStyle, QuackDefaultTextFieldStyle.TextFieldColors>,
-    > QuackTextField(
+public fun <Style : TextFieldStyleMarker, Color : TextFieldColorMarker> QuackTextField(
   @CasaValue("\"QuackTextFieldPreview\"") value: String,
   @CasaValue("{}") onValueChange: (value: String) -> Unit,
-  @CasaValue("QuackTextFieldStyle.Default") style: TextFieldStyle,
+  @SugarToken @CasaValue("QuackTextFieldStyle.Default") style: QuackTextFieldStyle<Style, Color>,
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
   placeholderValue: String? = null,
-  placeholderStrategy: PlaceholderStrategy = PlaceholderStrategy.Hidable,
+  placeholderStrategy: TextFieldPlaceholderStrategy = TextFieldPlaceholderStrategy.Hidable,
   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
   keyboardActions: KeyboardActions = KeyboardActions.Default,
   singleLine: Boolean = false,
@@ -526,6 +538,7 @@ public fun <
   visualTransformation: VisualTransformation = VisualTransformation.None,
   onTextLayout: (layoutResult: TextLayoutResult) -> Unit = {},
   validationState: TextFieldValidationState = TextFieldValidationState.Default,
+  validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy = TextFieldValidationLabelVisibilityStrategy.Invisible,
   interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
   // start --- COPIED FROM BasicTextField (string value version)
@@ -577,6 +590,7 @@ public fun <
     visualTransformation = visualTransformation,
     onTextLayout = onTextLayout,
     validationState = validationState,
+    validationLabelVisibilityStrategy = validationLabelVisibilityStrategy,
     interactionSource = interactionSource,
   )
 }
@@ -586,17 +600,15 @@ public fun <
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
 @Composable
-public fun <
-    TextFieldStyle : QuackTextFieldStyle<QuackDefaultTextFieldStyle, QuackDefaultTextFieldStyle.TextFieldColors>,
-    > QuackTextField(
+public fun <Style : TextFieldStyleMarker, Color : TextFieldColorMarker> QuackTextField(
   @CasaValue("\"QuackTextFieldPreview\"") value: TextFieldValue,
   @CasaValue("{}") onValueChange: (value: TextFieldValue) -> Unit,
-  @CasaValue("QuackTextFieldStyle.Default") style: TextFieldStyle,
+  @SugarToken @CasaValue("QuackTextFieldStyle.Default") style: QuackTextFieldStyle<Style, Color>,
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
   placeholderValue: String? = null,
-  placeholderStrategy: PlaceholderStrategy = PlaceholderStrategy.Hidable,
+  placeholderStrategy: TextFieldPlaceholderStrategy = TextFieldPlaceholderStrategy.Hidable,
   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
   keyboardActions: KeyboardActions = KeyboardActions.Default,
   singleLine: Boolean = false,
@@ -605,8 +617,12 @@ public fun <
   visualTransformation: VisualTransformation = VisualTransformation.None,
   onTextLayout: (layoutResult: TextLayoutResult) -> Unit = {},
   validationState: TextFieldValidationState = TextFieldValidationState.Default,
+  validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy = TextFieldValidationLabelVisibilityStrategy.Invisible,
   interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
+  require(style is QuackDefaultTextFieldStyle)
+  require(style.colors is QuackDefaultTextFieldStyle.TextFieldColors)
+
   var isSizeSpecified = false
   val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier) { currentModifier ->
     if (!isSizeSpecified) {
@@ -623,11 +639,20 @@ public fun <
     quackDataModels.fastFirstIsInstanceOrNull<TextFieldCountableData>()
   }
 
-  val backgroundColor = style.colors.backgroundColor
-  val contentColor = style.colors.contentColor
-  val placeholderColor = style.colors.placeholderColor
-  val errorColor = style.colors.errorColor
-  val successColor = style.colors.successColor
+  val backgroundColor: QuackColor
+  val contentColor: QuackColor
+  val placeholderColor: QuackColor
+  val errorColor: QuackColor
+  val successColor: QuackColor
+
+  // [SMARTCAST_IMPOSSIBLE] 'style.colors' is a property that has open or custom getter
+  with(style.colors as QuackDefaultTextFieldStyle.TextFieldColors) {
+    backgroundColor = this.backgroundColor
+    contentColor = this.contentColor
+    placeholderColor = this.placeholderColor
+    errorColor = this.errorColor
+    successColor = this.successColor
+  }
 
   val contentPadding = style.contentPadding
   val currentContentPadding = if (isSizeSpecified) null else contentPadding
@@ -640,7 +665,7 @@ public fun <
   val placeholderTypography = remember(style.typography, placeholderColor) {
     style.typography.change(color = placeholderColor)
   }
-  val validationTypography = (style as QuackDefaultTextFieldStyle).validationTypography
+  val validationTypography = style.validationTypography
   val errorTypography = remember(validationTypography, errorColor) {
     validationTypography.change(color = errorColor)
   }
@@ -672,6 +697,7 @@ public fun <
         properties["visualTransformation"] = visualTransformation
         properties["onTextLayout"] = onTextLayout
         properties["validationState"] = validationState
+        properties["validationLabelVisibilityStrategy"] = validationLabelVisibilityStrategy
         properties["interactionSource"] = interactionSource
         properties["isSizeSpecified"] = isSizeSpecified
         properties["backgroundColor"] = backgroundColor
@@ -702,6 +728,7 @@ public fun <
     visualTransformation = visualTransformation,
     onTextLayout = onTextLayout,
     validationState = validationState,
+    validationLabelVisibilityStrategy = validationLabelVisibilityStrategy,
     interactionSource = interactionSource,
     backgroundColor = backgroundColor,
     contentPadding = contentPadding,
@@ -716,6 +743,7 @@ public fun <
 private const val LeadingIconLayoutId = "QuackBaseTextFieldLeadingIconLayoutId"
 private const val TrailingContentLayoutId = "QuackBaseTextFieldTrailingContentLayoutId"
 
+@NoSugar
 @ExperimentalQuackQuackApi
 @Composable
 public fun QuackBaseTextField(
@@ -728,7 +756,7 @@ public fun QuackBaseTextField(
   indicatorData: TextFieldIndicatorData?,
   countableData: TextFieldCountableData?,
   placeholderValue: String?,
-  placeholderStrategy: PlaceholderStrategy,
+  placeholderStrategy: TextFieldPlaceholderStrategy,
   keyboardOptions: KeyboardOptions,
   keyboardActions: KeyboardActions,
   singleLine: Boolean,
@@ -737,6 +765,7 @@ public fun QuackBaseTextField(
   visualTransformation: VisualTransformation,
   onTextLayout: (layoutResult: TextLayoutResult) -> Unit,
   validationState: TextFieldValidationState,
+  validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy,
   interactionSource: MutableInteractionSource,
   backgroundColor: QuackColor,
   contentPadding: PaddingValues?,
