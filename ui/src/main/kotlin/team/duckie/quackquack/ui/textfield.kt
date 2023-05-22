@@ -651,8 +651,8 @@ private fun TextFieldCounterData.toDrawModifier(
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
 @Composable
-public fun <Style : QuackDefaultTextFieldStyle> QuackTextField(
-  @CasaValue("\"QuackTextFieldPreview\"") value: String,
+public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
+  @CasaValue("\"QuackDefaultTextFieldPreview\"") value: String,
   @CasaValue("{}") onValueChange: (value: String) -> Unit,
   @SugarToken @CasaValue("QuackTextFieldStyle.Default") style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors>,
   modifier: Modifier = Modifier,
@@ -663,8 +663,8 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackTextField(
   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
   keyboardActions: KeyboardActions = KeyboardActions.Default,
   singleLine: Boolean = false,
-  minLines: Int = 1,
-  maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+  @IntRange(from = 1) minLines: Int = 1,
+  @IntRange(from = 1) maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
   visualTransformation: VisualTransformation = VisualTransformation.None,
   onTextLayout: (layoutResult: TextLayoutResult) -> Unit = {},
   validationState: TextFieldValidationState = TextFieldValidationState.Default,
@@ -693,7 +693,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackTextField(
   // CoreTextField의 onValueChange가 중간에 재구성되지 않고 여러 번 호출되는 것을 방지합니다.
   var lastTextValue by remember(value) { mutableStateOf(value) }
 
-  QuackTextField(
+  QuackDefaultTextField(
     value = textFieldValue,
     onValueChange = { newTextFieldValueState ->
       textFieldValueState = newTextFieldValueState
@@ -726,14 +726,15 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackTextField(
 }
 
 // TODO(casa): support for state parameter
+@NoSugar
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
 @Composable
-public fun <Style : QuackDefaultTextFieldStyle> QuackTextField(
-  @CasaValue("\"QuackTextFieldPreview\"") value: TextFieldValue,
-  @CasaValue("{}") onValueChange: (value: TextFieldValue) -> Unit,
-  @SugarToken @CasaValue("QuackTextFieldStyle.Default") style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors>,
+public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
+  value: TextFieldValue,
+  onValueChange: (value: TextFieldValue) -> Unit,
+  style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors>,
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
@@ -821,7 +822,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackTextField(
 
   val inspectableModifier = with(style) { composeModifier.wrappedDebugInspectable() }
 
-  QuackBaseTextField(
+  QuackBaseDefaultTextField(
     value = value,
     onValueChange = onValueChange,
     modifier = inspectableModifier,
@@ -874,7 +875,7 @@ private const val TrailingContentLayoutId = "QuackBaseTextFieldTrailingContentLa
 @NoSugar
 @ExperimentalQuackQuackApi
 @Composable
-public fun QuackBaseTextField(
+public fun QuackBaseDefaultTextField(
   value: TextFieldValue,
   onValueChange: (value: TextFieldValue) -> Unit,
   modifier: Modifier,
