@@ -57,11 +57,11 @@ public interface QuackTextFieldTheme {
    *
    * 기본값으로 [QuackColor.Black]를 사용합니다.
    */
-  public val cursor: QuackColor
+  public val cursorColor: QuackColor
 }
 
 /** [QuackTextFieldTheme]의 덕키 기본값 */
 @Immutable
 public object DefaultTextFieldTheme : QuackTextFieldTheme {
-  override val cursor: QuackColor = QuackColor.DuckieOrange
+  override val cursorColor: QuackColor = QuackColor.DuckieOrange
 }

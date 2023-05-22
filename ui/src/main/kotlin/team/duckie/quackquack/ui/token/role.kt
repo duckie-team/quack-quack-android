@@ -11,5 +11,5 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 public enum class IconRole {
-  Button, Default,
+  Button, Icon,
 }
