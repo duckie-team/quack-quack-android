@@ -69,6 +69,7 @@ import team.duckie.quackquack.ui.token.IconRole
 import team.duckie.quackquack.ui.token.VerticalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
+import team.duckie.quackquack.ui.util.reflectivelyFillMaxSizeOperationHashCode
 import team.duckie.quackquack.ui.util.wrappedDebugInspectable
 import team.duckie.quackquack.util.MustBeTested
 import team.duckie.quackquack.util.cast
@@ -764,7 +765,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   )
 }
 
-@NoSugar
+// TODO(casa): @NoCasa
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
@@ -772,7 +773,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
 public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   value: TextFieldValue,
   onValueChange: (value: TextFieldValue) -> Unit,
-  style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors>,
+  @SugarToken style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors>,
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
@@ -791,8 +792,8 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
 ) {
   var isSizeSpecified = false
   val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier) { currentModifier ->
-    if (!isSizeSpecified) {
-      isSizeSpecified = currentModifier is LayoutModifier
+    if (!isSizeSpecified && currentModifier is LayoutModifier) {
+      isSizeSpecified = currentModifier.hashCode() != reflectivelyFillMaxSizeOperationHashCode
     }
   }
   val (leadingIconData, trailingIconData) = remember(quackDataModels) {
@@ -839,6 +840,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   val placeholderTypography = remember(style.typography, placeholderColor) {
     style.typography.change(color = placeholderColor)
   }
+  // why need casting?
   val validationTypography = style.cast<QuackDefaultTextFieldStyle>().validationTypography
   val errorTypography = remember(validationTypography, errorColor) {
     validationTypography.change(color = errorColor)
