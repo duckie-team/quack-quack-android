@@ -11,9 +11,8 @@ package team.duckie.quackquack.ui
 
 import android.annotation.SuppressLint
 import androidx.annotation.IntRange
-import androidx.annotation.RestrictTo
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.interaction.FocusInteraction
-import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.text.BasicTextField
@@ -40,6 +39,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.input.TextFieldValue
@@ -50,6 +50,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEach
+import team.duckie.quackquack.aide.annotation.DecorateModifier
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackIcon
@@ -67,13 +69,21 @@ import team.duckie.quackquack.ui.token.VerticalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
 import team.duckie.quackquack.ui.util.wrappedDebugInspectable
+import team.duckie.quackquack.util.MustBeTested
+import team.duckie.quackquack.util.cast
 import team.duckie.quackquack.util.fastFilterIsInstanceOrNull
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
+import team.duckie.quackquack.util.requireNull
 
 @Immutable
 public sealed class TextFieldValidationState {
-  public class Error(public val label: String? = null) : TextFieldValidationState()
-  public class Success(public val label: String? = null) : TextFieldValidationState()
+  public sealed interface WithLabel {
+    public val label: String?
+  }
+
+  public class Error(override val label: String? = null) : TextFieldValidationState(), WithLabel
+  public class Success(override val label: String? = null) : TextFieldValidationState(), WithLabel
+
   public object Default : TextFieldValidationState()
 }
 
@@ -87,35 +97,49 @@ public enum class TextFieldValidationLabelVisibilityStrategy {
   Invisible, Gone,
 }
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 @Stable
-public data class TextFieldIconData(
+private data class TextFieldIconData(
   val icon: QuackIcon,
   val iconSize: Dp,
   val tint: QuackColor?,
-  val tintGetter: ((text: String) -> QuackColor)?,
+  val tintGetter: ((text: String, validationState: TextFieldValidationState) -> QuackColor)?,
   val role: IconRole,
   val direction: HorizontalDirection,
   val onClick: ((text: String) -> Unit)?,
-) : QuackDataModifierModel
+) : QuackDataModifierModel {
+  init {
+    if (isButtonRole) {
+      requireNotNull(onClick, lazyMessage = TextFieldErrors::ButtonIconRuleButNoOnClick)
+    }
+  }
+}
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 @Stable
-public data class TextFieldIndicatorData(
+private val TextFieldIconData.isButtonRole: Boolean
+  inline get() = role == IconRole.Button
+
+@Stable
+private data class TextFieldIndicatorData(
   val thickness: Dp,
   val color: QuackColor?,
-  val colorGetter: ((text: String) -> QuackColor)?,
+  val colorGetter: ((text: String, validationState: TextFieldValidationState) -> QuackColor)?,
   val direction: VerticalDirection,
-) : QuackDataModifierModel
+) : QuackDataModifierModel {
+  init {
+    require(
+      color != null || colorGetter != null,
+      lazyMessage = TextFieldErrors::IndicatorRequestedButNoColor,
+    )
+  }
+}
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 @Stable
-public data class TextFieldCountableData(
+private data class TextFieldCounterData(
   val baseColor: QuackColor,
   val highlightColor: QuackColor,
   val typography: QuackTypography,
   val baseAndHighlightGap: Dp,
-  @IntRange(from = 1) val maxLength: Int,
+  val maxLength: Int,
 ) : QuackDataModifierModel
 
 @QuackDsl
@@ -156,7 +180,7 @@ public interface QuackDefaultTextFieldStyle : TextFieldStyleMarker {
 public interface QuackFilledTextFieldStyle : TextFieldStyleMarker {
   public data class TextFieldColors internal constructor(
     internal val backgroundColor: QuackColor?,
-    internal val backgroundColorGetter: ((interaction: Interaction, text: String) -> QuackColor)?,
+    internal val backgroundColorGetter: ((focusInteraction: FocusInteraction, text: String) -> QuackColor)?,
     internal val contentColor: QuackColor,
     internal val placeholderColor: QuackColor,
   ) : TextFieldColorMarker
@@ -166,7 +190,7 @@ public interface QuackFilledTextFieldStyle : TextFieldStyleMarker {
   @Stable
   public fun textFieldColors(
     backgroundColor: QuackColor?,
-    backgroundColorGetter: ((interaction: Interaction, text: String) -> QuackColor)?,
+    backgroundColorGetter: ((focusInteraction: FocusInteraction, text: String) -> QuackColor)?,
     contentColor: QuackColor,
     placeholderColor: QuackColor,
   ): TextFieldColors =
@@ -183,11 +207,9 @@ public interface QuackOutlinedTextFieldStyle : TextFieldStyleMarker
 
 @ExperimentalDesignToken
 @Immutable
-public interface QuackTextFieldStyle<
-    StyleMarker : TextFieldStyleMarker, ColorMarker : TextFieldColorMarker,
-    > {
+public interface QuackTextFieldStyle<Style : TextFieldStyleMarker, Color : TextFieldColorMarker> {
   /** 사용할 색상들 */
-  public val colors: ColorMarker
+  public val colors: Color
 
   /** 컨텐츠 주변에 들어갈 패딩 */
   public val contentPadding: PaddingValues
@@ -200,44 +222,31 @@ public interface QuackTextFieldStyle<
 
   /** 디자인 스펙을 변경하는 람다 */
   @Stable
-  public operator fun invoke(styleBuilder: StyleMarker.() -> Unit): StyleMarker
+  public operator fun invoke(styleBuilder: Style.() -> Unit): Style
 
   @Stable
   public fun Modifier.wrappedDebugInspectable(): Modifier
 
-  // TODO(3): 싱글톤으로 관리해도 되지 않을까?
+  @Immutable
   public companion object {
-    @Stable
-    public val Default: QuackTextFieldStyle<
-        QuackDefaultTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors,
-        >
+    public val Default: QuackTextFieldStyle<QuackDefaultTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors>
       get() = QuackDefaultTextFieldDefaults()
 
-    @Stable
-    public val DefaultLarge: QuackTextFieldStyle<
-        QuackDefaultLargeTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors,
-        >
+    public val DefaultLarge: QuackTextFieldStyle<QuackDefaultLargeTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors>
       get() = QuackDefaultLargeTextFieldDefaults()
 
-    @Stable
-    public val FilledLarge: QuackTextFieldStyle<
-        QuackFilledLargeTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors,
-        >
+    public val FilledLarge: QuackTextFieldStyle<QuackFilledLargeTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>
       get() = QuackFilledLargeTextFieldDefaults()
 
-    @Stable
-    public val FilledFlat: QuackTextFieldStyle<
-        QuackFilledFlatTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors,
-        >
+    public val FilledFlat: QuackTextFieldStyle<QuackFilledFlatTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>
       get() = QuackFilledFlatTextFieldDefaults()
   }
 }
 
 @ExperimentalDesignToken
 public class QuackDefaultTextFieldDefaults internal constructor() :
-  QuackTextFieldStyle<
-      QuackDefaultTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors,
-      >, QuackDefaultTextFieldStyle {
+  QuackTextFieldStyle<QuackDefaultTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors>,
+  QuackDefaultTextFieldStyle {
 
   override var colors: QuackDefaultTextFieldStyle.TextFieldColors =
     textFieldColors(
@@ -276,9 +285,8 @@ public class QuackDefaultTextFieldDefaults internal constructor() :
 
 @ExperimentalDesignToken
 public class QuackDefaultLargeTextFieldDefaults :
-  QuackTextFieldStyle<
-      QuackDefaultLargeTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors,
-      >, QuackDefaultTextFieldStyle {
+  QuackTextFieldStyle<QuackDefaultLargeTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors>,
+  QuackDefaultTextFieldStyle {
 
   override var colors: QuackDefaultTextFieldStyle.TextFieldColors =
     textFieldColors(
@@ -313,10 +321,7 @@ public class QuackDefaultLargeTextFieldDefaults :
 
 @ExperimentalDesignToken
 public class QuackFilledLargeTextFieldDefaults :
-  QuackTextFieldStyle<
-      QuackFilledLargeTextFieldDefaults,
-      QuackFilledTextFieldStyle.TextFieldColors,
-      >,
+  QuackTextFieldStyle<QuackFilledLargeTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>,
   QuackFilledTextFieldStyle {
 
   override var radius: Dp = 8.dp
@@ -358,10 +363,7 @@ public class QuackFilledLargeTextFieldDefaults :
 
 @ExperimentalDesignToken
 public class QuackFilledFlatTextFieldDefaults :
-  QuackTextFieldStyle<
-      QuackFilledFlatTextFieldDefaults,
-      QuackFilledTextFieldStyle.TextFieldColors,
-      >,
+  QuackTextFieldStyle<QuackFilledFlatTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>,
   QuackFilledTextFieldStyle {
 
   override var radius: Dp = 8.dp
@@ -369,11 +371,12 @@ public class QuackFilledFlatTextFieldDefaults :
   override var colors: QuackFilledTextFieldStyle.TextFieldColors =
     textFieldColors(
       backgroundColor = null,
-      backgroundColorGetter = { interaction, text ->
+      backgroundColorGetter = { focusInteraction, text ->
         if (text.isNotEmpty()) QuackColor.White
-        else when (interaction) {
+        else when (focusInteraction) {
           is FocusInteraction.Focus -> QuackColor.White
-          else -> QuackColor.Gray4
+          is FocusInteraction.Unfocus -> QuackColor.Gray4
+          else -> error(TextFieldErrors.unhandledFocusInteraction(focusInteraction))
         }
       },
       contentColor = QuackColor.Black,
@@ -406,19 +409,42 @@ public class QuackFilledFlatTextFieldDefaults :
   override fun toString(): String = this::class.java.simpleName
 }
 
+@VisibleForTesting
+internal object TextFieldErrors {
+  fun sameDirectionIcon(direction: String) = "The icon was provided more than once in the same direction. " +
+      "Only one icon can be displayed per direction. (Direction offered twice: $direction)"
+
+  fun unhandledFocusInteraction(interaction: FocusInteraction) = "An unhandled focus interaction was provided. " +
+      "($interaction)"
+
+  const val IndicatorRequestedButNoColor = "Show indicator was requested, but no indicator color was provided. " +
+      "Please provide a non-null value for one of the color or colorGetter fields."
+
+  const val ButtonIconRuleButNoOnClick = "The icon's rule was provided as Button, but no onClick event was provided. " +
+      "Please set the icon's rule to Icon or provide an onClick event."
+
+  const val ValidationLabelProvidedButNoDownDirectionIndicator =
+    "A label was provided as a TextFieldValidationState, " +
+        "but the indicator must have a direction of VerticalDirection.Down in order to display the label. " +
+        "The current direction is VerticalDirection.Top."
+}
+
+private val DefaultIconSize = 16.dp
+
+@DecorateModifier
 @Stable
-public fun Modifier.showIcon(
+public fun Modifier.icon(
   icon: QuackIcon,
-  iconSize: Dp,
-  tint: QuackColor?,
-  tintGetter: ((text: String) -> QuackColor)?,
-  role: IconRole,
-  direction: HorizontalDirection,
-  onClick: ((text: String) -> Unit)?,
+  iconSize: Dp = DefaultIconSize,
+  tint: QuackColor? = QuackColor.Gray2,
+  tintGetter: ((text: String, validationState: TextFieldValidationState) -> QuackColor)? = null,
+  role: IconRole = if (iconSize == DefaultIconSize) IconRole.Icon else IconRole.Button,
+  direction: HorizontalDirection = if (iconSize == DefaultIconSize) HorizontalDirection.Left else HorizontalDirection.Right,
+  onClick: ((text: String) -> Unit)? = null,
 ): Modifier =
   inspectable(
     inspectorInfo = debugInspectorInfo {
-      name = "showIcon"
+      name = "icon"
       properties["icon"] = icon
       properties["iconSize"] = iconSize
       properties["tint"] = tint
@@ -439,92 +465,196 @@ public fun Modifier.showIcon(
     )
   }
 
-@Suppress("ModifierFactoryExtensionFunction")
+@DecorateModifier
 @Stable
-public fun TextFieldIndicatorData.toDrawModifier(text: String): Modifier =
-  Modifier.drawWithCache {
-    val currentBorderColor = (colorGetter?.invoke(text) ?: color)?.value ?: return@drawWithCache onDrawBehind {}
-    val yOffset = size.height - thickness.toPx()
-
-    val startOffset = when (direction) {
-      VerticalDirection.Top -> Offset(x = 0f, y = 0f)
-      VerticalDirection.Down -> Offset(x = 0f, y = yOffset)
-    }
-    val endOffset = when (direction) {
-      VerticalDirection.Top -> Offset(x = size.width, y = 0f)
-      VerticalDirection.Down -> Offset(x = size.width, y = yOffset)
-    }
-
-    onDrawBehind {
-      drawLine(
-        color = currentBorderColor,
-        start = startOffset,
-        end = endOffset,
-        strokeWidth = thickness.value,
-      )
-    }
+public fun Modifier.indicator(
+  direction: VerticalDirection = VerticalDirection.Down,
+  thickness: Dp = 1.dp,
+  color: QuackColor? = QuackColor.Gray3,
+  colorGetter: ((text: String, validationState: TextFieldValidationState) -> QuackColor)? = null,
+): Modifier =
+  inspectable(
+    inspectorInfo = debugInspectorInfo {
+      name = "indicator"
+      properties["thickness"] = thickness
+      properties["color"] = color
+      properties["colorGetter"] = colorGetter
+      properties["direction"] = direction
+    },
+  ) {
+    TextFieldIndicatorData(
+      thickness = thickness,
+      color = color,
+      colorGetter = colorGetter,
+      direction = direction,
+    )
   }
+
+@DecorateModifier
+@Stable
+public fun Modifier.counter(
+  @IntRange(from = 1) maxLength: Int,
+  baseColor: QuackColor = QuackColor.Gray2,
+  highlightColor: QuackColor = QuackColor.Black,
+  typography: QuackTypography = QuackTypography.Body1,
+  baseAndHighlightGap: Dp = 1.dp,
+): Modifier =
+  inspectable(
+    inspectorInfo = debugInspectorInfo {
+      name = "counter"
+      properties["baseColor"] = baseColor
+      properties["highlightColor"] = highlightColor
+      properties["typography"] = typography
+      properties["baseAndHighlightGap"] = baseAndHighlightGap
+      properties["maxLength"] = maxLength
+    },
+  ) {
+    TextFieldCounterData(
+      baseColor = baseColor,
+      highlightColor = highlightColor,
+      typography = typography,
+      baseAndHighlightGap = baseAndHighlightGap,
+      maxLength = maxLength,
+    )
+  }
+
+// TODO: 인자로 이동?
+private val DefaultIndicatorAndLabelGap = 4.dp
+
+@Stable
+private fun Modifier.drawIndicator(
+  thickness: Dp,
+  color: QuackColor,
+  direction: VerticalDirection,
+  validationState: TextFieldValidationState,
+  errorTypography: QuackTypography,
+  successTypography: QuackTypography,
+  textMeasurer: TextMeasurer,
+): Modifier =
+  this
+    .also {
+      if (
+        validationState is TextFieldValidationState.WithLabel &&
+        validationState.label != null
+      ) {
+        require(
+          direction == VerticalDirection.Down,
+          lazyMessage = TextFieldErrors::ValidationLabelProvidedButNoDownDirectionIndicator,
+        )
+      }
+    }
+    .drawWithCache {
+      val borderColor = color.value
+      val yOffset = size.height - thickness.toPx()
+      val indicatorAndLabelGap = DefaultIndicatorAndLabelGap.toPx()
+
+      val startOffset = when (direction) {
+        VerticalDirection.Top -> Offset(x = 0f, y = 0f)
+        VerticalDirection.Down -> Offset(x = 0f, y = yOffset)
+      }
+      val endOffset = when (direction) {
+        VerticalDirection.Top -> Offset(x = size.width, y = 0f)
+        VerticalDirection.Down -> Offset(x = size.width, y = yOffset)
+      }
+
+      val density = object : Density {
+        override val density = this@drawWithCache.density
+        override val fontScale = this@drawWithCache.fontScale
+      }
+
+      val textMeasurerResult =
+        if (validationState is TextFieldValidationState.WithLabel && validationState.label != null) {
+          val typography =
+            if (validationState is TextFieldValidationState.Success) successTypography
+            else errorTypography
+
+          textMeasurer.measure(
+            // [SMARTCAST_IMPOSSIBLE] Smart cast to 'String' is impossible, because a property that has open or custom getter
+            text = validationState.label!!,
+            style = typography.asComposeStyle(),
+            overflow = TextOverflow.Visible,
+            layoutDirection = layoutDirection,
+            density = density,
+          )
+        } else {
+          null
+        }
+
+      onDrawBehind {
+        drawLine(
+          color = borderColor,
+          start = startOffset,
+          end = endOffset,
+          strokeWidth = thickness.toPx(),
+        )
+        if (textMeasurerResult != null) {
+          drawText(
+            textLayoutResult = textMeasurerResult,
+            topLeft = Offset(
+              x = 0f,
+              y = size.height + indicatorAndLabelGap,
+            ),
+          )
+        }
+      }
+    }
 
 // TODO(impl): 텍스트를 그릴 X 좌표를 구할 수 있어야 하고,
 //             BaseTextField의 입장에선 텍스트가 그려진 X 좌표를 알아야 함.
-@Suppress("UNUSED_PARAMETER", "UNREACHABLE_CODE")
-@SuppressLint("ModifierFactoryExtensionFunction")
+@Suppress("UNUSED_PARAMETER", "UNREACHABLE_CODE", "unused", "ModifierFactoryExtensionFunction")
 @Stable
-public fun TextFieldCountableData.toDrawModifier(
+private fun TextFieldCounterData.toDrawModifier(
   @IntRange(from = 1) currentLength: Int,
   contentPadding: PaddingValues,
-): Modifier = composed { // TODO(perf): nested-composed 제거
-  throw NotImplementedError()
+): Modifier =
+  composed { // TODO(perf): nested-composed 제거 (Modifier.drawWithCache is ComposedModifier)
+    throw NotImplementedError()
 
-  val textMeasurer = rememberTextMeasurer(cacheSize = 5 + 2) // model datas + params
+    val textMeasurer = rememberTextMeasurer(cacheSize = 5 + 2) // model datas + params
 
-  Modifier.drawWithCache {
-    // TODO(3): baseAndHighlightGap 구현
-    val textMeasurerResult = textMeasurer.measure(
-      text = buildAnnotatedString {
-        withStyle(SpanStyle(color = highlightColor.value)) {
-          append(currentLength.toString())
-        }
-        withStyle(SpanStyle(color = baseColor.value)) {
-          append("/$maxLength")
-        }
-      },
-      style = typography.asComposeStyle(),
-      overflow = TextOverflow.Visible,
-      softWrap = false,
-      maxLines = 1,
-      layoutDirection = layoutDirection,
-      density = object : Density {
-        override val density = this@drawWithCache.density
-        override val fontScale = this@drawWithCache.fontScale
-      },
-    )
-
-    // TODO(3): VerticalCenter 배치
-    onDrawBehind {
-      drawText(
-        textLayoutResult = textMeasurerResult,
-        topLeft = Offset(
-          x = 0f, // TODO: how to get?
-          y = contentPadding.calculateTopPadding().toPx(),
-        ),
+    Modifier.drawWithCache {
+      // TODO(3): baseAndHighlightGap 구현
+      val textMeasurerResult = textMeasurer.measure(
+        text = buildAnnotatedString {
+          withStyle(SpanStyle(color = highlightColor.value)) {
+            append(currentLength.toString())
+          }
+          withStyle(SpanStyle(color = baseColor.value)) {
+            append("/$maxLength")
+          }
+        },
+        style = typography.asComposeStyle(),
+        overflow = TextOverflow.Visible,
+        softWrap = false,
+        maxLines = 1,
+        layoutDirection = layoutDirection,
+        density = object : Density {
+          override val density = this@drawWithCache.density
+          override val fontScale = this@drawWithCache.fontScale
+        },
       )
+
+      // TODO(3): VerticalCenter 배치
+      onDrawBehind {
+        drawText(
+          textLayoutResult = textMeasurerResult,
+          topLeft = Offset(
+            x = 0f, // TODO: how to get?
+            y = contentPadding.calculateTopPadding().toPx(),
+          ),
+        )
+      }
     }
   }
-}
-
-@Stable
-public val TextFieldIconData.isButtonRole: Boolean
-  inline get() = role == IconRole.Button
 
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
 @Composable
-public fun <Style : TextFieldStyleMarker, Color : TextFieldColorMarker> QuackTextField(
+public fun <Style : QuackDefaultTextFieldStyle> QuackTextField(
   @CasaValue("\"QuackTextFieldPreview\"") value: String,
   @CasaValue("{}") onValueChange: (value: String) -> Unit,
-  @SugarToken @CasaValue("QuackTextFieldStyle.Default") style: QuackTextFieldStyle<Style, Color>,
+  @SugarToken @CasaValue("QuackTextFieldStyle.Default") style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors>,
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
@@ -541,7 +671,7 @@ public fun <Style : TextFieldStyleMarker, Color : TextFieldColorMarker> QuackTex
   validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy = TextFieldValidationLabelVisibilityStrategy.Invisible,
   interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
-  // start --- COPIED FROM BasicTextField (string value version)
+  // start --- COPIED FROM BasicTextField (string value variant)
 
   // 최신 내부 텍스트 필드 값 상태를 보유합니다. 컴포지션의 올바른 값을 갖기 위해 이 값을 유지해야 합니다.
   var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
@@ -575,7 +705,7 @@ public fun <Style : TextFieldStyleMarker, Color : TextFieldColorMarker> QuackTex
         onValueChange(newTextFieldValueState.text)
       }
     },
-    // end --- COPIED FROM BasicTextField (string value version)
+    // end --- COPIED FROM BasicTextField (string value variant)
     style = style,
     modifier = modifier,
     enabled = enabled,
@@ -595,15 +725,15 @@ public fun <Style : TextFieldStyleMarker, Color : TextFieldColorMarker> QuackTex
   )
 }
 
-// TODO(2): casa support for value state
+// TODO(casa): support for state parameter
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
 @Composable
-public fun <Style : TextFieldStyleMarker, Color : TextFieldColorMarker> QuackTextField(
+public fun <Style : QuackDefaultTextFieldStyle> QuackTextField(
   @CasaValue("\"QuackTextFieldPreview\"") value: TextFieldValue,
   @CasaValue("{}") onValueChange: (value: TextFieldValue) -> Unit,
-  @SugarToken @CasaValue("QuackTextFieldStyle.Default") style: QuackTextFieldStyle<Style, Color>,
+  @SugarToken @CasaValue("QuackTextFieldStyle.Default") style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors>,
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
@@ -620,39 +750,44 @@ public fun <Style : TextFieldStyleMarker, Color : TextFieldColorMarker> QuackTex
   validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy = TextFieldValidationLabelVisibilityStrategy.Invisible,
   interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
-  require(style is QuackDefaultTextFieldStyle)
-  require(style.colors is QuackDefaultTextFieldStyle.TextFieldColors)
-
   var isSizeSpecified = false
   val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier) { currentModifier ->
     if (!isSizeSpecified) {
       isSizeSpecified = currentModifier is LayoutModifier
     }
   }
-  val iconDatas = remember(quackDataModels) {
-    quackDataModels.fastFilterIsInstanceOrNull<TextFieldIconData>()
+  val (leadingIconData, trailingIconData) = remember(quackDataModels) {
+    val icons = quackDataModels.fastFilterIsInstanceOrNull<TextFieldIconData>()
+    var leadingIconData: TextFieldIconData? = null
+    var trailingIconData: TextFieldIconData? = null
+
+    icons?.fastForEach { icon ->
+      when (icon.direction) {
+        HorizontalDirection.Left -> {
+          requireNull(leadingIconData) { TextFieldErrors.sameDirectionIcon("leading") }
+          leadingIconData = icon
+        }
+        HorizontalDirection.Right -> {
+          requireNull(trailingIconData) { TextFieldErrors.sameDirectionIcon("trailing") }
+          trailingIconData = icon
+        }
+      }
+    }
+
+    leadingIconData to trailingIconData
   }
   val indicatorData = remember(quackDataModels) {
     quackDataModels.fastFirstIsInstanceOrNull<TextFieldIndicatorData>()
   }
-  val countableData = remember(quackDataModels) {
-    quackDataModels.fastFirstIsInstanceOrNull<TextFieldCountableData>()
+  val counterData = remember(quackDataModels) {
+    quackDataModels.fastFirstIsInstanceOrNull<TextFieldCounterData>()
   }
 
-  val backgroundColor: QuackColor
-  val contentColor: QuackColor
-  val placeholderColor: QuackColor
-  val errorColor: QuackColor
-  val successColor: QuackColor
-
-  // [SMARTCAST_IMPOSSIBLE] 'style.colors' is a property that has open or custom getter
-  with(style.colors as QuackDefaultTextFieldStyle.TextFieldColors) {
-    backgroundColor = this.backgroundColor
-    contentColor = this.contentColor
-    placeholderColor = this.placeholderColor
-    errorColor = this.errorColor
-    successColor = this.successColor
-  }
+  val backgroundColor = style.colors.backgroundColor
+  val contentColor = style.colors.contentColor
+  val placeholderColor = style.colors.placeholderColor
+  val errorColor = style.colors.errorColor
+  val successColor = style.colors.successColor
 
   val contentPadding = style.contentPadding
   val currentContentPadding = if (isSizeSpecified) null else contentPadding
@@ -665,7 +800,7 @@ public fun <Style : TextFieldStyleMarker, Color : TextFieldColorMarker> QuackTex
   val placeholderTypography = remember(style.typography, placeholderColor) {
     style.typography.change(color = placeholderColor)
   }
-  val validationTypography = style.validationTypography
+  val validationTypography = style.cast<QuackDefaultTextFieldStyle>().validationTypography
   val errorTypography = remember(validationTypography, errorColor) {
     validationTypography.change(color = errorColor)
   }
@@ -673,41 +808,18 @@ public fun <Style : TextFieldStyleMarker, Color : TextFieldColorMarker> QuackTex
     validationTypography.change(color = successColor)
   }
 
-  // TODO(2): InspectableModifier의 올바른 제공법 연구 필요
-  //          지금은 너무 많은 정보를 보내는 거 같음
-  val inspectableModifier =
-    with(style) { composeModifier.wrappedDebugInspectable() }
-      .wrappedDebugInspectable {
-        name = "QuackTextField"
-        properties["value"] = value
-        properties["onValueChange"] = onValueChange
-        properties["composeModifier"] = composeModifier
-        properties["enabled"] = enabled
-        properties["readOnly"] = readOnly
-        properties["iconDatas"] = iconDatas
-        properties["indicatorData"] = indicatorData
-        properties["countableData"] = countableData
-        properties["placeholderValue"] = placeholderValue
-        properties["placeholderStrategy"] = placeholderStrategy
-        properties["keyboardOptions"] = keyboardOptions
-        properties["keyboardActions"] = keyboardActions
-        properties["singleLine"] = singleLine
-        properties["minLines"] = minLines
-        properties["maxLines"] = maxLines
-        properties["visualTransformation"] = visualTransformation
-        properties["onTextLayout"] = onTextLayout
-        properties["validationState"] = validationState
-        properties["validationLabelVisibilityStrategy"] = validationLabelVisibilityStrategy
-        properties["interactionSource"] = interactionSource
-        properties["isSizeSpecified"] = isSizeSpecified
-        properties["backgroundColor"] = backgroundColor
-        properties["contentPadding"] = currentContentPadding
-        properties["contentSpacedBy"] = contentSpacedBy
-        properties["typography"] = typography
-        properties["placeholderTypography"] = placeholderTypography
-        properties["errorTypography"] = errorTypography
-        properties["successTypography"] = successTypography
-      }
+  val currentLeadingIconTint = leadingIconData?.run {
+    checkNotNull(tintGetter?.invoke(value.text, validationState) ?: tint)
+  }
+  val currentTrailingIconTint = trailingIconData?.run {
+    checkNotNull(tintGetter?.invoke(value.text, validationState) ?: tint)
+  }
+
+  val currentIndicatorColor = indicatorData?.run {
+    checkNotNull(colorGetter?.invoke(value.text, validationState) ?: color)
+  }
+
+  val inspectableModifier = with(style) { composeModifier.wrappedDebugInspectable() }
 
   QuackBaseTextField(
     value = value,
@@ -715,9 +827,6 @@ public fun <Style : TextFieldStyleMarker, Color : TextFieldColorMarker> QuackTex
     modifier = inspectableModifier,
     enabled = enabled,
     readOnly = readOnly,
-    iconDatas = iconDatas,
-    indicatorData = indicatorData,
-    countableData = countableData,
     placeholderValue = placeholderValue,
     placeholderStrategy = placeholderStrategy,
     keyboardOptions = keyboardOptions,
@@ -731,18 +840,37 @@ public fun <Style : TextFieldStyleMarker, Color : TextFieldColorMarker> QuackTex
     validationLabelVisibilityStrategy = validationLabelVisibilityStrategy,
     interactionSource = interactionSource,
     backgroundColor = backgroundColor,
-    contentPadding = contentPadding,
+    contentPadding = currentContentPadding,
     contentSpacedBy = contentSpacedBy,
     typography = typography,
     placeholderTypography = placeholderTypography,
     errorTypography = errorTypography,
     successTypography = successTypography,
+    leadingIcon = leadingIconData?.icon,
+    leadingIconSize = leadingIconData?.iconSize,
+    leadingIconTint = currentLeadingIconTint,
+    leadingIconRole = leadingIconData?.role,
+    leadingIconOnClick = leadingIconData?.onClick,
+    trailingIcon = trailingIconData?.icon,
+    trailingIconSize = trailingIconData?.iconSize,
+    trailingIconTint = currentTrailingIconTint,
+    trailingIconRole = trailingIconData?.role,
+    trailingIconOnClick = trailingIconData?.onClick,
+    indicatorThickness = indicatorData?.thickness,
+    indicatorColor = currentIndicatorColor,
+    indicatorDirection = indicatorData?.direction,
+    counterBaseColor = counterData?.baseColor,
+    counterHighlightColor = counterData?.highlightColor,
+    counterTypography = counterData?.typography,
+    counterBaseAndHighlightGap = counterData?.baseAndHighlightGap,
+    counterMaxLength = counterData?.maxLength,
   )
 }
 
 private const val LeadingIconLayoutId = "QuackBaseTextFieldLeadingIconLayoutId"
 private const val TrailingContentLayoutId = "QuackBaseTextFieldTrailingContentLayoutId"
 
+@MustBeTested(passed = false)
 @NoSugar
 @ExperimentalQuackQuackApi
 @Composable
@@ -752,9 +880,6 @@ public fun QuackBaseTextField(
   modifier: Modifier,
   enabled: Boolean,
   readOnly: Boolean,
-  iconDatas: List<TextFieldIconData>?,
-  indicatorData: TextFieldIndicatorData?,
-  countableData: TextFieldCountableData?,
   placeholderValue: String?,
   placeholderStrategy: TextFieldPlaceholderStrategy,
   keyboardOptions: KeyboardOptions,
@@ -774,8 +899,26 @@ public fun QuackBaseTextField(
   placeholderTypography: QuackTypography,
   errorTypography: QuackTypography,
   successTypography: QuackTypography,
+  leadingIcon: QuackIcon?,
+  leadingIconSize: Dp?,
+  leadingIconTint: QuackColor?,
+  leadingIconRole: IconRole?,
+  leadingIconOnClick: ((text: String) -> Unit)?,
+  trailingIcon: QuackIcon?,
+  trailingIconSize: Dp?,
+  trailingIconTint: QuackColor?,
+  trailingIconRole: IconRole?,
+  trailingIconOnClick: ((text: String) -> Unit)?,
+  indicatorThickness: Dp?,
+  indicatorColor: QuackColor?,
+  indicatorDirection: VerticalDirection?,
+  counterBaseColor: QuackColor?,
+  counterHighlightColor: QuackColor?,
+  counterTypography: QuackTypography?,
+  counterBaseAndHighlightGap: Dp?,
+  counterMaxLength: Int?,
 ) {
-  val currentCursorColor = LocalQuackTextFieldTheme.current.cursor
+  val currentCursorColor = LocalQuackTextFieldTheme.current.cursorColor
   val currentCursorBrush = remember(currentCursorColor, calculation = currentCursorColor::toBrush)
   val currentTextStyle = remember(typography, calculation = typography::asComposeStyle)
 
@@ -784,8 +927,7 @@ public fun QuackBaseTextField(
     onValueChange = onValueChange,
     modifier = modifier
       .testTag("BaseTextField")
-      .quackSurface(backgroundColor = backgroundColor)
-      .then(indicatorData?.toDrawModifier(text = value.text) ?: Modifier),
+      .quackSurface(backgroundColor = backgroundColor),
     enabled = enabled,
     readOnly = readOnly,
     textStyle = currentTextStyle,
