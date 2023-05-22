@@ -14,6 +14,7 @@ import androidx.annotation.IntRange
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -33,7 +34,9 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.platform.inspectable
 import androidx.compose.ui.platform.testTag
@@ -51,6 +54,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastFirstOrNull
 import androidx.compose.ui.util.fastForEach
 import team.duckie.quackquack.aide.annotation.DecorateModifier
 import team.duckie.quackquack.casa.annotation.CasaValue
@@ -72,6 +76,7 @@ import team.duckie.quackquack.ui.util.QuackDsl
 import team.duckie.quackquack.ui.util.reflectivelyFillMaxSizeOperationHashCode
 import team.duckie.quackquack.ui.util.wrappedDebugInspectable
 import team.duckie.quackquack.util.MustBeTested
+import team.duckie.quackquack.util.applyIf
 import team.duckie.quackquack.util.cast
 import team.duckie.quackquack.util.fastFilterIsInstanceOrNull
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
@@ -527,7 +532,7 @@ private fun Modifier.drawPlaceholder(
   placeholderStrategy: TextFieldPlaceholderStrategy,
   typography: QuackTypography,
   textMeasurer: TextMeasurer,
-  topLeft: Offset,
+  topLeftOffset: Offset,
 ): Modifier =
   drawWithCache {
     val density = object : Density {
@@ -547,7 +552,7 @@ private fun Modifier.drawPlaceholder(
     fun DrawScope.drawPlaceholder() {
       drawText(
         textLayoutResult = textMeasurerResult,
-        topLeft = topLeft,
+        topLeft = topLeftOffset,
       )
     }
 
@@ -908,8 +913,9 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   )
 }
 
-private const val LeadingIconLayoutId = "QuackBaseTextFieldLeadingIconLayoutId"
-private const val TrailingContentLayoutId = "QuackBaseTextFieldTrailingContentLayoutId"
+private const val DefaultCoreTextFieldLayoutId = "QuackBaseDefaultTextFieldCoreTextFieldLayoutId"
+private const val DefaultLeadingIconLayoutId = "QuackBaseDefaultTextFieldLeadingIconLayoutId"
+private const val DefaultTrailingContentLayoutId = "QuackBaseDefaultTextFieldTrailingContentLayoutId"
 
 @MustBeTested(passed = false)
 @NoSugar
@@ -940,6 +946,7 @@ public fun QuackBaseDefaultTextField(
   placeholderTypography: QuackTypography,
   errorTypography: QuackTypography,
   successTypography: QuackTypography,
+  // decorators
   leadingIcon: QuackIcon?,
   leadingIconSize: Dp?,
   leadingIconTint: QuackColor?,
@@ -966,9 +973,6 @@ public fun QuackBaseDefaultTextField(
   BasicTextField(
     value = value,
     onValueChange = onValueChange,
-    modifier = modifier
-      .testTag("BaseTextField")
-      .quackSurface(backgroundColor = backgroundColor),
     enabled = enabled,
     readOnly = readOnly,
     textStyle = currentTextStyle,
@@ -982,7 +986,53 @@ public fun QuackBaseDefaultTextField(
     interactionSource = interactionSource,
     cursorBrush = currentCursorBrush,
   ) { coreTextField ->
+    Layout(
+      modifier = modifier
+        .testTag("BaseDefaultTextField")
+        .quackSurface(backgroundColor = backgroundColor)
+        .applyIf(indicatorThickness != null) {
+          drawIndicator(
+            thickness = indicatorThickness!!,
+            color = indicatorColor!!,
+            direction = indicatorDirection!!,
+            validationState = validationState,
+            errorTypography = errorTypography,
+            successTypography = successTypography,
+            textMeasurer = rememberTextMeasurer(/*cacheSize = 6*/), // TODO(pref): param size?
+          )
+        },
+      content = {
+        Box(
+          modifier = Modifier
+            .layoutId(DefaultCoreTextFieldLayoutId)
+            .applyIf(placeholderValue != null) {
+              drawPlaceholder(
+                text = value.text,
+                placeholderText = placeholderValue!!,
+                placeholderStrategy = placeholderStrategy,
+                typography = placeholderTypography,
+                textMeasurer = rememberTextMeasurer(/*cacheSize = 5*/), // TODO(pref): param size?
+                topLeftOffset = Offset.Zero,
+              )
+            },
+          propagateMinConstraints = true,
+        ) {
+          coreTextField()
+        }
+      },
+    ) { measurables, constraints ->
+      val coreTextFieldMeasurable = measurables.fastFirstOrNull { measurable ->
+        measurable.layoutId == DefaultCoreTextFieldLayoutId
+      }!!
+      val leadingIconMeasurable = measurables.fastFirstOrNull { measurable ->
+        measurable.layoutId == DefaultLeadingIconLayoutId
+      }
+      val trailingIconMeasurable = measurables.fastFirstOrNull { measurable ->
+        measurable.layoutId == DefaultTrailingContentLayoutId
+      }
 
+      layout()
+    }
   }
 }
 
