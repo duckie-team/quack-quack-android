@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.LayoutModifier
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.platform.inspectable
@@ -202,7 +203,7 @@ public interface QuackFilledTextFieldStyle : TextFieldStyleMarker {
     )
 }
 
-// TODO(1): 이 컴포넌트가 사용되는 디자인은 아직 개발 범위가 아니므로 TODO 처리
+// TODO: 이 컴포넌트가 사용되는 디자인은 아직 개발 범위가 아니므로 TODO 처리
 public interface QuackOutlinedTextFieldStyle : TextFieldStyleMarker
 
 @ExperimentalDesignToken
@@ -518,6 +519,43 @@ public fun Modifier.counter(
     )
   }
 
+@Stable
+private fun Modifier.drawPlaceholder(
+  text: String,
+  placeholderText: String,
+  placeholderStrategy: TextFieldPlaceholderStrategy,
+  typography: QuackTypography,
+  textMeasurer: TextMeasurer,
+  topLeft: Offset,
+): Modifier =
+  drawWithCache {
+    val density = object : Density {
+      override val density = this@drawWithCache.density
+      override val fontScale = this@drawWithCache.fontScale
+    }
+
+    val textMeasurerResult =
+      textMeasurer.measure(
+        text = placeholderText,
+        style = typography.asComposeStyle(),
+        overflow = TextOverflow.Ellipsis,
+        layoutDirection = layoutDirection,
+        density = density,
+      )
+
+    fun DrawScope.drawPlaceholder() {
+      drawText(
+        textLayoutResult = textMeasurerResult,
+        topLeft = topLeft,
+      )
+    }
+
+    onDrawBehind {
+      if (placeholderStrategy == TextFieldPlaceholderStrategy.Always) drawPlaceholder()
+      else if (text.isEmpty()) drawPlaceholder()
+    }
+  }
+
 // TODO: 인자로 이동?
 private val DefaultIndicatorAndLabelGap = 4.dp
 
@@ -613,7 +651,7 @@ private fun TextFieldCounterData.toDrawModifier(
     val textMeasurer = rememberTextMeasurer(cacheSize = 5 + 2) // model datas + params
 
     Modifier.drawWithCache {
-      // TODO(3): baseAndHighlightGap 구현
+      // TODO(impl): baseAndHighlightGap
       val textMeasurerResult = textMeasurer.measure(
         text = buildAnnotatedString {
           withStyle(SpanStyle(color = highlightColor.value)) {
@@ -647,6 +685,7 @@ private fun TextFieldCounterData.toDrawModifier(
     }
   }
 
+// TODO(casa): support for state parameter. but how?
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
@@ -725,7 +764,6 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   )
 }
 
-// TODO(casa): support for state parameter
 @NoSugar
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
