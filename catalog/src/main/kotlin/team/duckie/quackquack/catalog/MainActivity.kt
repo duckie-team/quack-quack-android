@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
             .indicator(colorGetter = indicatorColorGetterFromStyle(QuackTextFieldStyle.Default)),
           value = value,
           onValueChange = { value = it },
-          placeholderText = "Hello!",
+          placeholderText = "사랑의 주며, 청춘을 것은 이상은 되는 불러 바이며, 귀는 듣는다. 내는 힘차게 있는 황금시대다. 우리는 공자는 노년에게서 그들을 있는 수 얼음과 피다.",
           validationState = TextFieldValidationState.Success("성\n공\n!\n!"),
           style = QuackTextFieldStyle.Default,
         )

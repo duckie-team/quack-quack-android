@@ -35,11 +35,11 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFontFamilyResolver
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.platform.inspectable
 import androidx.compose.ui.platform.testTag
@@ -550,43 +550,6 @@ public fun Modifier.counter(
   }
 
 @Stable
-private fun Modifier.drawPlaceholder(
-  text: String,
-  placeholderText: String,
-  placeholderStrategy: TextFieldPlaceholderStrategy,
-  typography: QuackTypography,
-  textMeasurer: TextMeasurer,
-  topLeftOffset: Offset,
-): Modifier =
-  drawWithCache {
-    val density = object : Density {
-      override val density = this@drawWithCache.density
-      override val fontScale = this@drawWithCache.fontScale
-    }
-
-    val textMeasurerResult =
-      textMeasurer.measure(
-        text = placeholderText,
-        style = typography.asComposeStyle(),
-        overflow = TextOverflow.Ellipsis,
-        layoutDirection = layoutDirection,
-        density = density,
-      )
-
-    fun DrawScope.drawPlaceholder() {
-      drawText(
-        textLayoutResult = textMeasurerResult,
-        topLeft = topLeftOffset,
-      )
-    }
-
-    onDrawBehind {
-      if (placeholderStrategy == TextFieldPlaceholderStrategy.Always) drawPlaceholder()
-      else if (text.isEmpty()) drawPlaceholder()
-    }
-  }
-
-@Stable
 private fun Modifier.drawIndicator(
   thickness: Dp,
   color: QuackColor,
@@ -910,7 +873,22 @@ private const val DefaultLeadingIconLayoutId = "QuackBaseDefaultTextFieldLeading
 private const val DefaultTrailingContentLayoutId = "QuackBaseDefaultTextFieldTrailingContentLayoutId"
 
 @Stable
-private class LazyWidth(var width: Int? = null)
+private class LazyValue<T>(var value: T? = null)
+
+@Composable
+private fun rememberTextMeasurerSimple(cacheSize: Int = /*DefaultCacheSize*/ 8): TextMeasurer {
+  val fontFamilyResolver = LocalFontFamilyResolver.current
+  val density = LocalDensity.current
+
+  return remember(fontFamilyResolver, density, cacheSize) {
+    TextMeasurer(
+      fallbackFontFamilyResolver = fontFamilyResolver,
+      fallbackDensity = density,
+      fallbackLayoutDirection = LayoutDirection.Ltr,
+      cacheSize = cacheSize,
+    )
+  }
+}
 
 @MustBeTested(passed = false)
 @NoSugar
@@ -968,30 +946,44 @@ public fun QuackBaseDefaultTextField(
   val currentTextStyle = remember(typography, calculation = typography::asComposeStyle)
   val currentRecomposeScope = currentRecomposeScope
 
-  val layoutDirection = LayoutDirection.Ltr
-  val density = LocalDensity.current
+  val lazyCoreTextFieldContainerWidth = remember { LazyValue<Int>() }
+  val lazyCoreTextFieldWidth = remember { LazyValue<Int>() }
 
-  val lazyWidth = remember { LazyWidth() }
-
-  val indicatorTextMeasurer = rememberTextMeasurer(/*cacheSize = 6*/) // TODO(pref): param size?
-  val indicatorTextMeasureResult =
-    remember(validationState, successTypography, errorTypography, density, lazyWidth.width) {
+  val indicatorLabelMeasurer = rememberTextMeasurerSimple(/*cacheSize = 6*/) // TODO(pref): param size?
+  val indicatorLabelMeasureResult =
+    remember(validationState, successTypography, errorTypography, lazyCoreTextFieldContainerWidth.value) {
       if (validationState is TextFieldValidationState.WithLabel && validationState.label != null) {
         val indicatorTypography =
           if (validationState is TextFieldValidationState.Success) successTypography
           else errorTypography
 
-        indicatorTextMeasurer.measure(
+        indicatorLabelMeasurer.measure(
           // [SMARTCAST_IMPOSSIBLE] Smart cast to 'String' is impossible, because a property that has open or custom getter
           text = validationState.label!!,
           style = indicatorTypography.asComposeStyle(),
-          overflow = TextOverflow.Visible,
           constraints = Constraints().let { constraints ->
-            if (lazyWidth.width != null) constraints.copy(maxWidth = lazyWidth.width!!)
+            if (lazyCoreTextFieldContainerWidth.value != null) constraints.copy(maxWidth = lazyCoreTextFieldContainerWidth.value!!)
             else constraints
           },
-          layoutDirection = layoutDirection,
-          density = density,
+        )
+      } else {
+        null
+      }
+    }
+
+  val placeholderTextMeasurer = rememberTextMeasurer(/*cacheSize = 5*/) // TODO(pref): param size?
+  val placeholderTextMeasureResult =
+    remember(placeholderText, placeholderTypography, placeholderStrategy, maxLines, lazyCoreTextFieldWidth.value) {
+      if (placeholderText != null) {
+        placeholderTextMeasurer.measure(
+          text = placeholderText,
+          style = placeholderTypography.asComposeStyle(),
+          overflow = TextOverflow.Ellipsis,
+          maxLines = 1, // force single-line for placeholder
+          constraints = Constraints().let { constraints ->
+            if (lazyCoreTextFieldWidth.value != null) constraints.copy(maxWidth = lazyCoreTextFieldWidth.value!!)
+            else constraints
+          },
         )
       } else {
         null
@@ -1017,13 +1009,13 @@ public fun QuackBaseDefaultTextField(
     Layout(
       modifier = modifier
         .testTag("BaseDefaultTextField")
-        .applyIf(indicatorTextMeasureResult != null) {
+        .applyIf(indicatorLabelMeasureResult != null) {
           drawBehind {
             drawText(
-              textLayoutResult = indicatorTextMeasureResult!!,
+              textLayoutResult = indicatorLabelMeasureResult!!,
               topLeft = Offset(
                 x = 0f,
-                y = size.height - indicatorTextMeasureResult.size.height,
+                y = size.height - indicatorLabelMeasureResult.size.height,
               ),
             )
           }
@@ -1045,15 +1037,11 @@ public fun QuackBaseDefaultTextField(
         Box(
           modifier = Modifier
             .layoutId(DefaultCoreTextFieldLayoutId)
-            .applyIf(placeholderText != null) {
-              drawPlaceholder(
-                text = value.text,
-                placeholderText = placeholderText!!,
-                placeholderStrategy = placeholderStrategy,
-                typography = placeholderTypography,
-                textMeasurer = rememberTextMeasurer(/*cacheSize = 5*/), // TODO(pref): param size?
-                topLeftOffset = Offset.Zero,
-              )
+            .applyIf(placeholderTextMeasureResult != null) {
+              drawBehind {
+                if (placeholderStrategy == TextFieldPlaceholderStrategy.Always) drawText(placeholderTextMeasureResult!!)
+                else if (value.text.isEmpty()) drawText(placeholderTextMeasureResult!!)
+              }
             },
           propagateMinConstraints = true,
         ) {
@@ -1085,7 +1073,6 @@ public fun QuackBaseDefaultTextField(
       val indicatorAndLabelGap = DefaultIndicatorAndLabelGap.roundToPx()
 
       val minWidth = constraints.minWidth
-      val minHeight = constraints.minHeight
 
       val coreTextFieldWidth =
         buildInt {
@@ -1115,11 +1102,12 @@ public fun QuackBaseDefaultTextField(
       val coreTextFieldContainerConstraints = Constraints.fixed(width = width, height = height)
       val coreTextFieldContainerPlaceable = coreTextFieldContainerMeasurable.measure(coreTextFieldContainerConstraints)
 
-      if (indicatorTextMeasureResult != null) {
-        height = constraints.constrainHeight(height + indicatorAndLabelGap + indicatorTextMeasureResult.size.height)
+      if (indicatorLabelMeasureResult != null) {
+        height = constraints.constrainHeight(height + indicatorAndLabelGap + indicatorLabelMeasureResult.size.height)
       }
-      if (lazyWidth.width == null) {
-        lazyWidth.width = width
+      if (lazyCoreTextFieldContainerWidth.value == null || lazyCoreTextFieldWidth.value == null) {
+        lazyCoreTextFieldContainerWidth.value = width
+        lazyCoreTextFieldWidth.value = coreTextFieldWidth
         currentRecomposeScope.invalidate()
       }
 
