@@ -29,9 +29,11 @@ import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.ui.QuackDefaultTextField
 import team.duckie.quackquack.ui.QuackTextFieldStyle
 import team.duckie.quackquack.ui.TextFieldPlaceholderStrategy
+import team.duckie.quackquack.ui.TextFieldValidationLabelVisibilityStrategy
+import team.duckie.quackquack.ui.TextFieldValidationState
 import team.duckie.quackquack.ui.indicator
+import team.duckie.quackquack.ui.indicatorColorGetterFromStyle
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
-import team.duckie.quackquack.ui.token.VerticalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 
 class MainActivity : ComponentActivity() {
@@ -46,20 +48,23 @@ class MainActivity : ComponentActivity() {
         QuackDefaultTextField(
           modifier = Modifier
             .fillMaxWidth()
-            .indicator(),
+            .indicator(colorGetter = indicatorColorGetterFromStyle(QuackTextFieldStyle.Default)),
           value = value,
           onValueChange = { value = it },
           placeholderText = "Hello!",
+          validationState = TextFieldValidationState.Success("성\n공\n!\n!"),
           style = QuackTextFieldStyle.Default,
         )
         QuackDefaultTextField(
           modifier = Modifier
             .fillMaxWidth()
-            .indicator(direction = VerticalDirection.Top),
+            .indicator(colorGetter = indicatorColorGetterFromStyle(QuackTextFieldStyle.Default)),
           value = value,
           onValueChange = { value = it },
           placeholderText = "Hello!",
           placeholderStrategy = TextFieldPlaceholderStrategy.Always,
+          validationState = TextFieldValidationState.Error("방황하였으며, 실현에 관현악이며, 그들의 위하여 말이다. 대고, 못하다 청춘은 않는 많이 있다."),
+          validationLabelVisibilityStrategy = TextFieldValidationLabelVisibilityStrategy.Gone,
           style = QuackTextFieldStyle.Default,
         )
       }

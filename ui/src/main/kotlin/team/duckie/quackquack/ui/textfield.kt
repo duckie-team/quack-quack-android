@@ -25,18 +25,21 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.currentComposer
+import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.platform.inspectable
 import androidx.compose.ui.platform.testTag
@@ -51,8 +54,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
@@ -119,15 +124,11 @@ private data class TextFieldIconData(
   val onClick: ((text: String) -> Unit)?,
 ) : QuackDataModifierModel {
   init {
-    if (isButtonRole) {
+    if (role == IconRole.Button) {
       requireNotNull(onClick, lazyMessage = TextFieldErrors::ButtonIconRuleButNoOnClick)
     }
   }
 }
-
-@Stable
-private val TextFieldIconData.isButtonRole: Boolean
-  inline get() = role == IconRole.Button
 
 @Stable
 private data class TextFieldIndicatorData(
@@ -479,6 +480,22 @@ public fun Modifier.icon(
     )
   }
 
+@OptIn(ExperimentalDesignToken::class)
+public fun <Style : QuackDefaultTextFieldStyle> indicatorColorGetterFromStyle(
+  style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors>,
+): (text: String, validationState: TextFieldValidationState) -> QuackColor =
+  { _, validationState ->
+    val defaultColor = style.colors.contentColor
+    val successColor = style.colors.successColor
+    val errorColor = style.colors.errorColor
+
+    when (validationState) {
+      is TextFieldValidationState.Default -> defaultColor
+      is TextFieldValidationState.Success -> successColor
+      is TextFieldValidationState.Error -> errorColor
+    }
+  }
+
 @DecorateModifier
 @Stable
 public fun Modifier.indicator(
@@ -569,18 +586,12 @@ private fun Modifier.drawPlaceholder(
     }
   }
 
-// TODO: 인자로 이동?
-private val DefaultIndicatorAndLabelGap = 4.dp
-
 @Stable
 private fun Modifier.drawIndicator(
   thickness: Dp,
   color: QuackColor,
   direction: VerticalDirection,
   validationState: TextFieldValidationState,
-  errorTypography: QuackTypography,
-  successTypography: QuackTypography,
-  textMeasurer: TextMeasurer,
 ): Modifier =
   this
     .also {
@@ -597,7 +608,6 @@ private fun Modifier.drawIndicator(
     .drawWithCache {
       val borderColor = color.value
       val yOffset = size.height - thickness.toPx()
-      val indicatorAndLabelGap = DefaultIndicatorAndLabelGap.toPx()
 
       // TODO: The y offset must be 1 to be visible without being clipped. But why?
       val startOffset = when (direction) {
@@ -609,29 +619,6 @@ private fun Modifier.drawIndicator(
         VerticalDirection.Bottom -> Offset(x = size.width, y = yOffset)
       }
 
-      val density = object : Density {
-        override val density = this@drawWithCache.density
-        override val fontScale = this@drawWithCache.fontScale
-      }
-
-      val textMeasurerResult =
-        if (validationState is TextFieldValidationState.WithLabel && validationState.label != null) {
-          val typography =
-            if (validationState is TextFieldValidationState.Success) successTypography
-            else errorTypography
-
-          textMeasurer.measure(
-            // [SMARTCAST_IMPOSSIBLE] Smart cast to 'String' is impossible, because a property that has open or custom getter
-            text = validationState.label!!,
-            style = typography.asComposeStyle(),
-            overflow = TextOverflow.Visible,
-            layoutDirection = layoutDirection,
-            density = density,
-          )
-        } else {
-          null
-        }
-
       onDrawBehind {
         drawLine(
           color = borderColor,
@@ -639,15 +626,6 @@ private fun Modifier.drawIndicator(
           end = endOffset,
           strokeWidth = thickness.toPx(),
         )
-        if (textMeasurerResult != null) {
-          drawText(
-            textLayoutResult = textMeasurerResult,
-            topLeft = Offset(
-              x = 0f,
-              y = size.height + indicatorAndLabelGap,
-            ),
-          )
-        }
       }
     }
 
@@ -665,7 +643,7 @@ private fun TextFieldCounterData.toDrawModifier(
     val textMeasurer = rememberTextMeasurer(cacheSize = 5 + 2) // model datas + params
 
     Modifier.drawWithCache {
-      // TODO(impl): baseAndHighlightGap
+      // TODO(impl): baseAndHighlightGap (textMeasurer.measure 인자에 placeholders 제공으로 가능)
       val textMeasurerResult = textMeasurer.measure(
         text = buildAnnotatedString {
           withStyle(SpanStyle(color = highlightColor.value)) {
@@ -923,9 +901,16 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   )
 }
 
+// TODO: 인자로 이동?
+private val DefaultIndicatorAndLabelGap = 4.dp
+
+private const val DefaultCoreTextFieldContainerLayoutId = "QuackBaseDefaultTextFieldCoreTextFieldContainerLayoutId"
 private const val DefaultCoreTextFieldLayoutId = "QuackBaseDefaultTextFieldCoreTextFieldLayoutId"
 private const val DefaultLeadingIconLayoutId = "QuackBaseDefaultTextFieldLeadingIconLayoutId"
 private const val DefaultTrailingContentLayoutId = "QuackBaseDefaultTextFieldTrailingContentLayoutId"
+
+@Stable
+private class LazyWidth(var width: Int? = null)
 
 @MustBeTested(passed = false)
 @NoSugar
@@ -981,6 +966,37 @@ public fun QuackBaseDefaultTextField(
   val currentCursorColor = LocalQuackTextFieldTheme.current.cursorColor
   val currentCursorBrush = remember(currentCursorColor, calculation = currentCursorColor::toBrush)
   val currentTextStyle = remember(typography, calculation = typography::asComposeStyle)
+  val currentRecomposeScope = currentRecomposeScope
+
+  val layoutDirection = LayoutDirection.Ltr
+  val density = LocalDensity.current
+
+  val lazyWidth = remember { LazyWidth() }
+
+  val indicatorTextMeasurer = rememberTextMeasurer(/*cacheSize = 6*/) // TODO(pref): param size?
+  val indicatorTextMeasureResult =
+    remember(validationState, successTypography, errorTypography, density, lazyWidth.width) {
+      if (validationState is TextFieldValidationState.WithLabel && validationState.label != null) {
+        val indicatorTypography =
+          if (validationState is TextFieldValidationState.Success) successTypography
+          else errorTypography
+
+        indicatorTextMeasurer.measure(
+          // [SMARTCAST_IMPOSSIBLE] Smart cast to 'String' is impossible, because a property that has open or custom getter
+          text = validationState.label!!,
+          style = indicatorTypography.asComposeStyle(),
+          overflow = TextOverflow.Visible,
+          constraints = Constraints().let { constraints ->
+            if (lazyWidth.width != null) constraints.copy(maxWidth = lazyWidth.width!!)
+            else constraints
+          },
+          layoutDirection = layoutDirection,
+          density = density,
+        )
+      } else {
+        null
+      }
+    }
 
   BasicTextField(
     value = value,
@@ -1001,19 +1017,31 @@ public fun QuackBaseDefaultTextField(
     Layout(
       modifier = modifier
         .testTag("BaseDefaultTextField")
-        .quackSurface(backgroundColor = backgroundColor)
-        .applyIf(indicatorThickness != null) {
-          drawIndicator(
-            thickness = indicatorThickness!!,
-            color = indicatorColor!!,
-            direction = indicatorDirection!!,
-            validationState = validationState,
-            errorTypography = errorTypography,
-            successTypography = successTypography,
-            textMeasurer = rememberTextMeasurer(/*cacheSize = 6*/), // TODO(pref): param size?
-          )
+        .applyIf(indicatorTextMeasureResult != null) {
+          drawBehind {
+            drawText(
+              textLayoutResult = indicatorTextMeasureResult!!,
+              topLeft = Offset(
+                x = 0f,
+                y = size.height - indicatorTextMeasureResult.size.height,
+              ),
+            )
+          }
         },
       content = {
+        Box(
+          Modifier
+            .layoutId(DefaultCoreTextFieldContainerLayoutId)
+            .quackSurface(backgroundColor = backgroundColor)
+            .applyIf(indicatorThickness != null) {
+              drawIndicator(
+                thickness = indicatorThickness!!,
+                color = indicatorColor!!,
+                direction = indicatorDirection!!,
+                validationState = validationState,
+              )
+            },
+        )
         Box(
           modifier = Modifier
             .layoutId(DefaultCoreTextFieldLayoutId)
@@ -1033,6 +1061,9 @@ public fun QuackBaseDefaultTextField(
         }
       },
     ) { measurables, constraints ->
+      val coreTextFieldContainerMeasurable = measurables.fastFirstOrNull { measurable ->
+        measurable.layoutId == DefaultCoreTextFieldContainerLayoutId
+      }!!
       val coreTextFieldMeasurable = measurables.fastFirstOrNull { measurable ->
         measurable.layoutId == DefaultCoreTextFieldLayoutId
       }!!
@@ -1051,6 +1082,7 @@ public fun QuackBaseDefaultTextField(
       val verticalPadding = topPadding + bottomPadding
 
       val contentSpacedByPx = contentSpacedBy.roundToPx()
+      val indicatorAndLabelGap = DefaultIndicatorAndLabelGap.roundToPx()
 
       val minWidth = constraints.minWidth
       val minHeight = constraints.minHeight
@@ -1078,10 +1110,22 @@ public fun QuackBaseDefaultTextField(
       val coreTextFieldPlaceable = coreTextFieldMeasurable.measure(coreTextFieldConstraints)
 
       val width = constraints.constrainWidth(minWidth + horizontalPadding)
-      val height = constraints.constrainHeight(coreTextFieldPlaceable.height + verticalPadding)
+      var height = constraints.constrainHeight(coreTextFieldPlaceable.height + verticalPadding)
+
+      val coreTextFieldContainerConstraints = Constraints.fixed(width = width, height = height)
+      val coreTextFieldContainerPlaceable = coreTextFieldContainerMeasurable.measure(coreTextFieldContainerConstraints)
+
+      if (indicatorTextMeasureResult != null) {
+        height = constraints.constrainHeight(height + indicatorAndLabelGap + indicatorTextMeasureResult.size.height)
+      }
+      if (lazyWidth.width == null) {
+        lazyWidth.width = width
+        currentRecomposeScope.invalidate()
+      }
 
       layout(width = width, height = height) {
-        coreTextFieldPlaceable.place(x = leftPadding, y = topPadding)
+        coreTextFieldContainerPlaceable.place(x = 0, y = 0, zIndex = 0f)
+        coreTextFieldPlaceable.place(x = leftPadding, y = topPadding, zIndex = 1f)
       }
     }
   }
