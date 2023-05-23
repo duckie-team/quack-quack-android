@@ -120,11 +120,11 @@ public sealed class TextFieldValidationLabelVisibilityStrategy {
 }
 
 @Stable
-private data class TextFieldIconData(
+private data class TextFieldIconData<ColorSet : TextFieldColorMarker>(
   val icon: QuackIcon,
   val iconSize: Dp,
   val tint: QuackColor?,
-  val tintGetter: ((text: String, validationState: TextFieldValidationState) -> QuackColor)?,
+  val tintGetter: ((text: String, validationState: TextFieldValidationState, colorSet: ColorSet) -> QuackColor)?,
   val role: IconRole,
   val direction: HorizontalDirection,
   val contentDescription: String?,
@@ -138,10 +138,10 @@ private data class TextFieldIconData(
 }
 
 @Stable
-private data class TextFieldIndicatorData(
+private data class TextFieldIndicatorData<ColorSet : TextFieldColorMarker>(
   val thickness: Dp,
   val color: QuackColor?,
-  val colorGetter: ((text: String, validationState: TextFieldValidationState) -> QuackColor)?,
+  val colorGetter: ((text: String, validationState: TextFieldValidationState, colorSet: ColorSet) -> QuackColor)?,
   val direction: VerticalDirection,
 ) : QuackDataModifierModel {
   init {
@@ -170,11 +170,11 @@ public interface TextFieldColorMarker
 
 public interface QuackDefaultTextFieldStyle : TextFieldStyleMarker {
   public data class TextFieldColors internal constructor(
-    internal val backgroundColor: QuackColor,
-    internal val contentColor: QuackColor,
-    internal val placeholderColor: QuackColor,
-    internal val errorColor: QuackColor,
-    internal val successColor: QuackColor,
+    public val backgroundColor: QuackColor,
+    public val contentColor: QuackColor,
+    public val placeholderColor: QuackColor,
+    public val errorColor: QuackColor,
+    public val successColor: QuackColor,
   ) : TextFieldColorMarker
 
   public val validationTypography: QuackTypography
@@ -198,10 +198,10 @@ public interface QuackDefaultTextFieldStyle : TextFieldStyleMarker {
 
 public interface QuackFilledTextFieldStyle : TextFieldStyleMarker {
   public data class TextFieldColors internal constructor(
-    internal val backgroundColor: QuackColor?,
-    internal val backgroundColorGetter: ((focusInteraction: FocusInteraction, text: String) -> QuackColor)?,
-    internal val contentColor: QuackColor,
-    internal val placeholderColor: QuackColor,
+    public val backgroundColor: QuackColor?,
+    public val backgroundColorGetter: ((focusInteraction: FocusInteraction, text: String) -> QuackColor)?,
+    public val contentColor: QuackColor,
+    public val placeholderColor: QuackColor,
   ) : TextFieldColorMarker
 
   public val radius: Dp
@@ -452,11 +452,11 @@ private val DefaultIconSize = 16.dp
 
 @DecorateModifier
 @Stable
-public fun Modifier.icon(
+public fun Modifier.defaultTextFieldIcon(
   icon: QuackIcon,
   iconSize: Dp = DefaultIconSize,
   tint: QuackColor? = QuackColor.Gray2,
-  tintGetter: ((text: String, validationState: TextFieldValidationState) -> QuackColor)? = null,
+  tintGetter: ((text: String, validationState: TextFieldValidationState, colorSet: QuackDefaultTextFieldStyle.TextFieldColors) -> QuackColor)? = null,
   role: IconRole = if (iconSize == DefaultIconSize) IconRole.Icon else IconRole.Button,
   direction: HorizontalDirection = if (iconSize == DefaultIconSize) HorizontalDirection.Left else HorizontalDirection.Right,
   contentDescription: String? = null,
@@ -487,14 +487,49 @@ public fun Modifier.icon(
     )
   }
 
-@OptIn(ExperimentalDesignToken::class)
-public fun <Style : QuackDefaultTextFieldStyle> indicatorColorGetterFromStyle(
-  style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors>,
-): (text: String, validationState: TextFieldValidationState) -> QuackColor =
-  { _, validationState ->
-    val defaultColor = style.colors.contentColor
-    val successColor = style.colors.successColor
-    val errorColor = style.colors.errorColor
+@DecorateModifier
+@Stable
+public fun Modifier.filledTextFieldIcon(
+  icon: QuackIcon,
+  iconSize: Dp = DefaultIconSize,
+  tint: QuackColor? = QuackColor.Gray2,
+  tintGetter: ((text: String, validationState: TextFieldValidationState, colorSet: QuackFilledTextFieldStyle.TextFieldColors) -> QuackColor)? = null,
+  role: IconRole = if (iconSize == DefaultIconSize) IconRole.Icon else IconRole.Button,
+  direction: HorizontalDirection = if (iconSize == DefaultIconSize) HorizontalDirection.Left else HorizontalDirection.Right,
+  contentDescription: String? = null,
+  onClick: (() -> Unit)? = null,
+): Modifier =
+  inspectable(
+    inspectorInfo = debugInspectorInfo {
+      name = "icon"
+      properties["icon"] = icon
+      properties["iconSize"] = iconSize
+      properties["tint"] = tint
+      properties["tintGetter"] = tintGetter
+      properties["role"] = role
+      properties["direction"] = direction
+      properties["contentDescription"] = contentDescription
+      properties["onClick"] = onClick
+    },
+  ) {
+    TextFieldIconData(
+      icon = icon,
+      iconSize = iconSize,
+      tint = tint,
+      tintGetter = tintGetter,
+      role = role,
+      direction = direction,
+      contentDescription = contentDescription,
+      onClick = onClick,
+    )
+  }
+
+@Stable
+public val DefaultIndicatorColorGetterForDefaultTextField: (text: String, validationState: TextFieldValidationState, colorSet: QuackDefaultTextFieldStyle.TextFieldColors) -> QuackColor =
+  { _, validationState, colorSet ->
+    val defaultColor = colorSet.contentColor
+    val successColor = colorSet.successColor
+    val errorColor = colorSet.errorColor
 
     when (validationState) {
       is TextFieldValidationState.Default -> defaultColor
@@ -505,11 +540,11 @@ public fun <Style : QuackDefaultTextFieldStyle> indicatorColorGetterFromStyle(
 
 @DecorateModifier
 @Stable
-public fun Modifier.indicator(
+public fun Modifier.defaultTextFieldIndicator(
   direction: VerticalDirection = VerticalDirection.Bottom,
   thickness: Dp = 1.dp,
-  color: QuackColor? = QuackColor.Gray3,
-  colorGetter: ((text: String, validationState: TextFieldValidationState) -> QuackColor)? = null,
+  color: QuackColor? = null,
+  colorGetter: ((text: String, validationState: TextFieldValidationState, colorSet: QuackDefaultTextFieldStyle.TextFieldColors) -> QuackColor)? = DefaultIndicatorColorGetterForDefaultTextField,
 ): Modifier =
   inspectable(
     inspectorInfo = debugInspectorInfo {
@@ -758,9 +793,10 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
     }
   }
   val (leadingIconData, trailingIconData) = remember(quackDataModels) {
-    val icons = quackDataModels.fastFilterIsInstanceOrNull<TextFieldIconData>()
-    var leadingIconData: TextFieldIconData? = null
-    var trailingIconData: TextFieldIconData? = null
+    val icons =
+      quackDataModels.fastFilterIsInstanceOrNull<TextFieldIconData<QuackDefaultTextFieldStyle.TextFieldColors>>()
+    var leadingIconData: TextFieldIconData<QuackDefaultTextFieldStyle.TextFieldColors>? = null
+    var trailingIconData: TextFieldIconData<QuackDefaultTextFieldStyle.TextFieldColors>? = null
 
     icons?.fastForEach { icon ->
       when (icon.direction) {
@@ -778,7 +814,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
     leadingIconData to trailingIconData
   }
   val indicatorData = remember(quackDataModels) {
-    quackDataModels.fastFirstIsInstanceOrNull<TextFieldIndicatorData>()
+    quackDataModels.fastFirstIsInstanceOrNull<TextFieldIndicatorData<QuackDefaultTextFieldStyle.TextFieldColors>>()
   }
   val counterData = remember(quackDataModels) {
     quackDataModels.fastFirstIsInstanceOrNull<TextFieldCounterData>()
@@ -811,14 +847,14 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   }
 
   val currentLeadingIconTint = leadingIconData?.run {
-    checkNotNull(tintGetter?.invoke(value.text, validationState) ?: tint)
+    checkNotNull(tintGetter?.invoke(value.text, validationState, style.colors) ?: tint)
   }
   val currentTrailingIconTint = trailingIconData?.run {
-    checkNotNull(tintGetter?.invoke(value.text, validationState) ?: tint)
+    checkNotNull(tintGetter?.invoke(value.text, validationState, style.colors) ?: tint)
   }
 
   val currentIndicatorColor = indicatorData?.run {
-    checkNotNull(colorGetter?.invoke(value.text, validationState) ?: color)
+    checkNotNull(colorGetter?.invoke(value.text, validationState, style.colors) ?: color)
   }
 
   val inspectableModifier = with(style) { composeModifier.wrappedDebugInspectable() }
@@ -1194,13 +1230,17 @@ public fun QuackBaseDefaultTextField(
       var height = constraints.constrainHeight(coreTextFieldPlaceable.height + verticalPadding)
 
       val extraLooseConstraints = constraints.asLoose(width = true, height = true)
-      var leadingIconConstraints: Constraints? = null
+      var leadingIconContainerConstraints: Constraints? = null
+      var trailingIconContainerConstraints: Constraints? = null
 
       if (leadingIconMeasurable != null) {
-        if (leadingIconRole == IconRole.Icon) {
-          leadingIconConstraints = extraLooseConstraints
-        } else { // button
+        when (leadingIconRole!!) {
+          IconRole.Icon -> {
 
+          }
+          IconRole.Button -> {
+
+          }
         }
       }
 
