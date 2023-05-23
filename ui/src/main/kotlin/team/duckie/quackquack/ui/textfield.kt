@@ -108,8 +108,13 @@ public enum class TextFieldPlaceholderStrategy {
 }
 
 @Immutable
-public enum class TextFieldValidationLabelVisibilityStrategy {
-  Invisible, Gone,
+public sealed class TextFieldValidationLabelVisibilityStrategy {
+  public class Invisible(
+    internal val baselineLabel: String,
+    internal val baselineTypography: QuackTypography? = null,
+  ) : TextFieldValidationLabelVisibilityStrategy()
+
+  public object Gone : TextFieldValidationLabelVisibilityStrategy()
 }
 
 @Stable
@@ -662,7 +667,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   visualTransformation: VisualTransformation = VisualTransformation.None,
   onTextLayout: (layoutResult: TextLayoutResult) -> Unit = {},
   validationState: TextFieldValidationState = TextFieldValidationState.Default,
-  validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy = TextFieldValidationLabelVisibilityStrategy.Invisible,
+  validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy = TextFieldValidationLabelVisibilityStrategy.Gone,
   interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
   // start --- COPIED FROM BasicTextField (string value variant)
@@ -741,7 +746,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   visualTransformation: VisualTransformation = VisualTransformation.None,
   onTextLayout: (layoutResult: TextLayoutResult) -> Unit = {},
   validationState: TextFieldValidationState = TextFieldValidationState.Default,
-  validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy = TextFieldValidationLabelVisibilityStrategy.Invisible,
+  validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy = TextFieldValidationLabelVisibilityStrategy.Gone,
   interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
   var isSizeSpecified = false
@@ -951,7 +956,13 @@ public fun QuackBaseDefaultTextField(
 
   val indicatorLabelMeasurer = rememberTextMeasurerSimple(/*cacheSize = 6*/) // TODO(pref): param size?
   val indicatorLabelMeasureResult =
-    remember(validationState, successTypography, errorTypography, lazyCoreTextFieldContainerWidth.value) {
+    remember(
+      indicatorLabelMeasurer,
+      validationState,
+      successTypography,
+      errorTypography,
+      lazyCoreTextFieldContainerWidth.value,
+    ) {
       if (validationState is TextFieldValidationState.WithLabel && validationState.label != null) {
         val indicatorTypography =
           if (validationState is TextFieldValidationState.Success) successTypography
@@ -970,10 +981,39 @@ public fun QuackBaseDefaultTextField(
         null
       }
     }
+  val indicatorLabelBaselineHeightOrNull =
+    remember(
+      indicatorLabelMeasurer,
+      validationLabelVisibilityStrategy,
+      successTypography,
+      lazyCoreTextFieldContainerWidth.value,
+    ) {
+      if (validationLabelVisibilityStrategy is TextFieldValidationLabelVisibilityStrategy.Invisible) {
+        indicatorLabelMeasurer
+          .measure(
+            text = validationLabelVisibilityStrategy.baselineLabel,
+            style = (validationLabelVisibilityStrategy.baselineTypography ?: successTypography).asComposeStyle(),
+            constraints = Constraints().let { constraints ->
+              if (lazyCoreTextFieldContainerWidth.value != null) constraints.copy(maxWidth = lazyCoreTextFieldContainerWidth.value!!)
+              else constraints
+            },
+          )
+          .size
+          .height
+      } else {
+        null
+      }
+    }
 
   val placeholderTextMeasurer = rememberTextMeasurer(/*cacheSize = 5*/) // TODO(pref): param size?
   val placeholderTextMeasureResult =
-    remember(placeholderText, placeholderTypography, placeholderStrategy, maxLines, lazyCoreTextFieldWidth.value) {
+    remember(
+      placeholderTextMeasurer,
+      placeholderText,
+      placeholderTypography,
+      placeholderStrategy,
+      lazyCoreTextFieldWidth.value,
+    ) {
       if (placeholderText != null) {
         placeholderTextMeasurer.measure(
           text = placeholderText,
@@ -1102,9 +1142,14 @@ public fun QuackBaseDefaultTextField(
       val coreTextFieldContainerConstraints = Constraints.fixed(width = width, height = height)
       val coreTextFieldContainerPlaceable = coreTextFieldContainerMeasurable.measure(coreTextFieldContainerConstraints)
 
-      if (indicatorLabelMeasureResult != null) {
-        height = constraints.constrainHeight(height + indicatorAndLabelGap + indicatorLabelMeasureResult.size.height)
+      height = if (indicatorLabelMeasureResult != null) {
+        constraints.constrainHeight(height + indicatorAndLabelGap + indicatorLabelMeasureResult.size.height)
+      } else if (indicatorLabelBaselineHeightOrNull != null) {
+        constraints.constrainHeight(height + indicatorAndLabelGap + indicatorLabelBaselineHeightOrNull)
+      } else {
+        height
       }
+
       if (lazyCoreTextFieldContainerWidth.value == null || lazyCoreTextFieldWidth.value == null) {
         lazyCoreTextFieldContainerWidth.value = width
         lazyCoreTextFieldWidth.value = coreTextFieldWidth

@@ -63,8 +63,8 @@ class MainActivity : ComponentActivity() {
           onValueChange = { value = it },
           placeholderText = "Hello!",
           placeholderStrategy = TextFieldPlaceholderStrategy.Always,
-          validationState = TextFieldValidationState.Error("방황하였으며, 실현에 관현악이며, 그들의 위하여 말이다. 대고, 못하다 청춘은 않는 많이 있다."),
-          validationLabelVisibilityStrategy = TextFieldValidationLabelVisibilityStrategy.Gone,
+          // validationState = TextFieldValidationState.Error("방황하였으며, 실현에 관현악이며, 그들의 위하여 말이다. 대고, 못하다 청춘은 않는 많이 있다."),
+          validationLabelVisibilityStrategy = TextFieldValidationLabelVisibilityStrategy.Invisible("방황하였으며, 실현에 관현악이며, 그들의 위하여 말이다. 대고, 못하다 청춘은 않는 많이 있다."),
           style = QuackTextFieldStyle.Default,
         )
       }
