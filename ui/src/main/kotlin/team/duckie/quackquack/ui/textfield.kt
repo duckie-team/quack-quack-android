@@ -53,6 +53,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.constrainHeight
+import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastFirstOrNull
 import androidx.compose.ui.util.fastForEach
@@ -1040,26 +1042,24 @@ public fun QuackBaseDefaultTextField(
         measurable.layoutId == DefaultTrailingContentLayoutId
       }
 
-      val horizontalPadding = contentPadding?.let { padding ->
-        padding.calculateTopPadding()
-          .plus(padding.calculateBottomPadding())
-          .roundToPx()
-      } ?: 0
-      val verticalPadding = contentPadding?.let { padding ->
-        padding.calculateLeftPadding(layoutDirection)
-          .plus(padding.calculateRightPadding(layoutDirection))
-          .roundToPx()
-      } ?: 0
+      val topPadding = contentPadding?.calculateTopPadding()?.roundToPx() ?: 0
+      val bottomPadding = contentPadding?.calculateBottomPadding()?.roundToPx() ?: 0
+      val leftPadding = contentPadding?.calculateLeftPadding(layoutDirection)?.roundToPx() ?: 0
+      val rightPadding = contentPadding?.calculateRightPadding(layoutDirection)?.roundToPx() ?: 0
+      val horizontalPadding = leftPadding + rightPadding
+      val verticalPadding = topPadding + bottomPadding
+
+      val contentSpacedByPx = contentSpacedBy.roundToPx()
 
       val minWidth = constraints.minWidth
       val minHeight = constraints.minHeight
 
-      val contentSpacedByPx = contentSpacedBy.roundToPx()
+      val width = constraints.constrainWidth(minWidth + horizontalPadding)
+      val height = constraints.constrainHeight(minHeight + verticalPadding)
 
-      val width =
+      val coreTextFieldWidth =
         buildInt {
           plus(minWidth)
-          plus(horizontalPadding)
           if (leadingIcon != null) {
             minus(leadingIconSize!!.roundToPx())
             minus(contentSpacedByPx)
@@ -1069,13 +1069,24 @@ public fun QuackBaseDefaultTextField(
             minus(contentSpacedByPx)
           }
         }
-      val height = minHeight + verticalPadding
+
+      val coreTextFieldConstraints =
+        constraints.copy(
+          minWidth = coreTextFieldWidth,
+          maxWidth = coreTextFieldWidth,
+          minHeight = 0,
+        )
+
+      val coreTextFieldPlaceable = coreTextFieldMeasurable.measure(coreTextFieldConstraints)
 
       layout(
         width = width,
         height = height,
       ) {
-
+        coreTextFieldPlaceable.place(
+          x = topPadding,
+          y = leftPadding,
+        )
       }
     }
   }
