@@ -20,5 +20,5 @@ public enum class HorizontalDirection : Direction {
 
 @Immutable
 public enum class VerticalDirection : Direction {
-  Top, Down,
+  Top, Bottom,
 }

@@ -482,7 +482,7 @@ public fun Modifier.icon(
 @DecorateModifier
 @Stable
 public fun Modifier.indicator(
-  direction: VerticalDirection = VerticalDirection.Down,
+  direction: VerticalDirection = VerticalDirection.Bottom,
   thickness: Dp = 1.dp,
   color: QuackColor? = QuackColor.Gray3,
   colorGetter: ((text: String, validationState: TextFieldValidationState) -> QuackColor)? = null,
@@ -589,7 +589,7 @@ private fun Modifier.drawIndicator(
         validationState.label != null
       ) {
         require(
-          direction == VerticalDirection.Down,
+          direction == VerticalDirection.Bottom,
           lazyMessage = TextFieldErrors::ValidationLabelProvidedButNoDownDirectionIndicator,
         )
       }
@@ -599,13 +599,14 @@ private fun Modifier.drawIndicator(
       val yOffset = size.height - thickness.toPx()
       val indicatorAndLabelGap = DefaultIndicatorAndLabelGap.toPx()
 
+      // TODO: The y offset must be 1 to be visible without being clipped. But why?
       val startOffset = when (direction) {
-        VerticalDirection.Top -> Offset(x = 0f, y = 0f)
-        VerticalDirection.Down -> Offset(x = 0f, y = yOffset)
+        VerticalDirection.Top -> Offset(x = 0f, y = 1f)
+        VerticalDirection.Bottom -> Offset(x = 0f, y = yOffset)
       }
       val endOffset = when (direction) {
-        VerticalDirection.Top -> Offset(x = size.width, y = 0f)
-        VerticalDirection.Down -> Offset(x = size.width, y = yOffset)
+        VerticalDirection.Top -> Offset(x = size.width, y = 1f)
+        VerticalDirection.Bottom -> Offset(x = size.width, y = yOffset)
       }
 
       val density = object : Density {
@@ -1054,12 +1055,10 @@ public fun QuackBaseDefaultTextField(
       val minWidth = constraints.minWidth
       val minHeight = constraints.minHeight
 
-      val width = constraints.constrainWidth(minWidth + horizontalPadding)
-      val height = constraints.constrainHeight(minHeight + verticalPadding)
-
       val coreTextFieldWidth =
         buildInt {
           plus(minWidth)
+          minus(horizontalPadding)
           if (leadingIcon != null) {
             minus(leadingIconSize!!.roundToPx())
             minus(contentSpacedByPx)
@@ -1076,17 +1075,13 @@ public fun QuackBaseDefaultTextField(
           maxWidth = coreTextFieldWidth,
           minHeight = 0,
         )
-
       val coreTextFieldPlaceable = coreTextFieldMeasurable.measure(coreTextFieldConstraints)
 
-      layout(
-        width = width,
-        height = height,
-      ) {
-        coreTextFieldPlaceable.place(
-          x = topPadding,
-          y = leftPadding,
-        )
+      val width = constraints.constrainWidth(minWidth + horizontalPadding)
+      val height = constraints.constrainHeight(coreTextFieldPlaceable.height + verticalPadding)
+
+      layout(width = width, height = height) {
+        coreTextFieldPlaceable.place(x = leftPadding, y = topPadding)
       }
     }
   }
