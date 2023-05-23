@@ -68,6 +68,7 @@ import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackIcon
 import team.duckie.quackquack.material.QuackTypography
+import team.duckie.quackquack.material.quackClickable
 import team.duckie.quackquack.material.quackSurface
 import team.duckie.quackquack.material.theme.LocalQuackTextFieldTheme
 import team.duckie.quackquack.runtime.QuackDataModifierModel
@@ -80,6 +81,7 @@ import team.duckie.quackquack.ui.token.IconRole
 import team.duckie.quackquack.ui.token.VerticalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
+import team.duckie.quackquack.ui.util.asLoose
 import team.duckie.quackquack.ui.util.buildInt
 import team.duckie.quackquack.ui.util.reflectivelyFillMaxSizeOperationHashCode
 import team.duckie.quackquack.ui.util.wrappedDebugInspectable
@@ -126,7 +128,7 @@ private data class TextFieldIconData(
   val role: IconRole,
   val direction: HorizontalDirection,
   val contentDescription: String?,
-  val onClick: ((text: String) -> Unit)?,
+  val onClick: (() -> Unit)?,
 ) : QuackDataModifierModel {
   init {
     if (role == IconRole.Button) {
@@ -458,7 +460,7 @@ public fun Modifier.icon(
   role: IconRole = if (iconSize == DefaultIconSize) IconRole.Icon else IconRole.Button,
   direction: HorizontalDirection = if (iconSize == DefaultIconSize) HorizontalDirection.Left else HorizontalDirection.Right,
   contentDescription: String? = null,
-  onClick: ((text: String) -> Unit)? = null,
+  onClick: (() -> Unit)? = null,
 ): Modifier =
   inspectable(
     inspectorInfo = debugInspectorInfo {
@@ -872,10 +874,13 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
 // TODO: 인자로 이동?
 private val DefaultIndicatorAndLabelGap = 4.dp
 
-private const val DefaultCoreTextFieldContainerLayoutId = "QuackBaseDefaultTextFieldCoreTextFieldContainerLayoutId"
 private const val DefaultCoreTextFieldLayoutId = "QuackBaseDefaultTextFieldCoreTextFieldLayoutId"
+private const val DefaultCoreTextFieldContainerLayoutId = "QuackBaseDefaultTextFieldCoreTextFieldContainerLayoutId"
 private const val DefaultLeadingIconLayoutId = "QuackBaseDefaultTextFieldLeadingIconLayoutId"
-private const val DefaultTrailingContentLayoutId = "QuackBaseDefaultTextFieldTrailingContentLayoutId"
+private const val DefaultLeadingIconContainerLayoutId = "QuackBaseDefaultTextFieldLeadingIconContainerLayoutId"
+private const val DefaultTrailingIconLayoutId = "QuackBaseDefaultTextFieldTrailingIconLayoutId"
+private const val DefaultTrailingIconContainerLayoutId = "QuackBaseDefaultTextFieldTrailingIconContainerLayoutId"
+private const val DefaultCounterLayoutId = "QuackBaseDefaultTextFieldCounterLayoutId"
 
 @Stable
 private class LazyValue<T>(var value: T? = null)
@@ -930,13 +935,13 @@ public fun QuackBaseDefaultTextField(
   leadingIconTint: QuackColor?,
   leadingIconRole: IconRole?,
   leadingIconContentDescription: String?,
-  leadingIconOnClick: ((text: String) -> Unit)?,
+  leadingIconOnClick: (() -> Unit)?,
   trailingIcon: QuackIcon?,
   trailingIconSize: Dp?,
   trailingIconTint: QuackColor?,
   trailingIconRole: IconRole?,
   trailingIconContentDescription: String?,
-  trailingIconOnClick: ((text: String) -> Unit)?,
+  trailingIconOnClick: (() -> Unit)?,
   indicatorThickness: Dp?,
   indicatorColor: QuackColor?,
   indicatorDirection: VerticalDirection?,
@@ -1079,27 +1084,76 @@ public fun QuackBaseDefaultTextField(
             .layoutId(DefaultCoreTextFieldLayoutId)
             .applyIf(placeholderTextMeasureResult != null) {
               drawBehind {
-                if (placeholderStrategy == TextFieldPlaceholderStrategy.Always) drawText(placeholderTextMeasureResult!!)
-                else if (value.text.isEmpty()) drawText(placeholderTextMeasureResult!!)
+                @Suppress("NAME_SHADOWING")
+                val placeholderTextMeasureResult = placeholderTextMeasureResult!!
+                if (placeholderStrategy == TextFieldPlaceholderStrategy.Always) drawText(placeholderTextMeasureResult)
+                else if (value.text.isEmpty()) drawText(placeholderTextMeasureResult)
               }
             },
           propagateMinConstraints = true,
         ) {
           coreTextField()
         }
+        if (leadingIcon != null) {
+          QuackIcon(
+            modifier = Modifier.layoutId(DefaultLeadingIconLayoutId),
+            icon = leadingIcon,
+            size = leadingIconSize!!,
+            tint = leadingIconTint!!,
+          )
+        }
+        if (trailingIcon != null) {
+          QuackIcon(
+            modifier = Modifier.layoutId(DefaultTrailingIconLayoutId),
+            icon = trailingIcon,
+            size = trailingIconSize!!,
+            tint = trailingIconTint!!,
+          )
+        }
+        if (leadingIconOnClick != null) {
+          Box(
+            Modifier
+              .layoutId(DefaultLeadingIconContainerLayoutId)
+              .quackClickable(
+                role = leadingIconRole!!.asSemanticOrNull(),
+                rippleEnabled = false,
+                onClick = leadingIconOnClick,
+              )
+          )
+        }
+        if (trailingIconOnClick != null) {
+          Box(
+            Modifier
+              .layoutId(DefaultTrailingIconContainerLayoutId)
+              .quackClickable(
+                role = trailingIconRole!!.asSemanticOrNull(),
+                rippleEnabled = false,
+                onClick = trailingIconOnClick,
+              )
+          )
+        }
       },
     ) { measurables, constraints ->
-      val coreTextFieldContainerMeasurable = measurables.fastFirstOrNull { measurable ->
-        measurable.layoutId == DefaultCoreTextFieldContainerLayoutId
-      }!!
       val coreTextFieldMeasurable = measurables.fastFirstOrNull { measurable ->
         measurable.layoutId == DefaultCoreTextFieldLayoutId
+      }!!
+      val coreTextFieldContainerMeasurable = measurables.fastFirstOrNull { measurable ->
+        measurable.layoutId == DefaultCoreTextFieldContainerLayoutId
       }!!
       val leadingIconMeasurable = measurables.fastFirstOrNull { measurable ->
         measurable.layoutId == DefaultLeadingIconLayoutId
       }
+      val leadingIconContainerMeasurable = measurables.fastFirstOrNull { measurable ->
+        measurable.layoutId == DefaultLeadingIconContainerLayoutId
+      }
       val trailingIconMeasurable = measurables.fastFirstOrNull { measurable ->
-        measurable.layoutId == DefaultTrailingContentLayoutId
+        measurable.layoutId == DefaultTrailingIconLayoutId
+      }
+      val trailingIconContainerMeasurable = measurables.fastFirstOrNull { measurable ->
+        measurable.layoutId == DefaultTrailingIconContainerLayoutId
+      }
+      val counterMeasurable = measurables.fastFirstOrNull { measurable ->
+        measurable.layoutId == DefaultCounterLayoutId
       }
 
       val topPadding = contentPadding?.calculateTopPadding()?.roundToPx() ?: 0
@@ -1136,8 +1190,19 @@ public fun QuackBaseDefaultTextField(
         )
       val coreTextFieldPlaceable = coreTextFieldMeasurable.measure(coreTextFieldConstraints)
 
-      val width = constraints.constrainWidth(minWidth + horizontalPadding)
+      var width = constraints.constrainWidth(minWidth + horizontalPadding)
       var height = constraints.constrainHeight(coreTextFieldPlaceable.height + verticalPadding)
+
+      val extraLooseConstraints = constraints.asLoose(width = true, height = true)
+      var leadingIconConstraints: Constraints? = null
+
+      if (leadingIconMeasurable != null) {
+        if (leadingIconRole == IconRole.Icon) {
+          leadingIconConstraints = extraLooseConstraints
+        } else { // button
+
+        }
+      }
 
       val coreTextFieldContainerConstraints = Constraints.fixed(width = width, height = height)
       val coreTextFieldContainerPlaceable = coreTextFieldContainerMeasurable.measure(coreTextFieldContainerConstraints)
