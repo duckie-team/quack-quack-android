@@ -87,6 +87,7 @@ dependencies {
   testImplementations(
     libs.test.robolectric,
     libs.test.junit.compose,
+    libs.test.kotest.assertion.core,
     libs.bundles.test.roborazzi,
   )
 

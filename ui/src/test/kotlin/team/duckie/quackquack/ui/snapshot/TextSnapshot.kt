@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.ui
+package team.duckie.quackquack.ui.snapshot
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +23,9 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackTypography
-import team.duckie.quackquack.ui.util.snapshotPath
+import team.duckie.quackquack.ui.QuackText
+import team.duckie.quackquack.ui.snapshot.util.snapshotPath
+import team.duckie.quackquack.ui.span
 
 @RunWith(AndroidJUnit4::class)
 @Config(manifest = Config.NONE)

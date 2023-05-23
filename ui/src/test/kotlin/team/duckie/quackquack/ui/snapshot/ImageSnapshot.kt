@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.ui
+package team.duckie.quackquack.ui.snapshot
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.captureRoboImage
@@ -15,7 +15,8 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import team.duckie.quackquack.material.QuackIcon
-import team.duckie.quackquack.ui.util.snapshotPath
+import team.duckie.quackquack.ui.QuackImage
+import team.duckie.quackquack.ui.snapshot.util.snapshotPath
 
 @RunWith(AndroidJUnit4::class)
 @Config(manifest = Config.NONE)

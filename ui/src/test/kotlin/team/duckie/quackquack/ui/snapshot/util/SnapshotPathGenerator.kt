@@ -7,7 +7,7 @@
 
 @file:Suppress("NOTHING_TO_INLINE")
 
-package team.duckie.quackquack.ui.util
+package team.duckie.quackquack.ui.snapshot.util
 
 import java.io.File
 

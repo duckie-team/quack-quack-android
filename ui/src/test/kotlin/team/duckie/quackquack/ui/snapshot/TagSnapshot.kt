@@ -7,7 +7,7 @@
 
 @file:OptIn(ExperimentalQuackQuackApi::class)
 
-package team.duckie.quackquack.ui
+package team.duckie.quackquack.ui.snapshot
 
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.getValue
@@ -29,14 +29,15 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import team.duckie.quackquack.material.QuackIcon
+import team.duckie.quackquack.ui.snapshot.util.BaseSnapshotPath
+import team.duckie.quackquack.ui.snapshot.util.setQuackContent
+import team.duckie.quackquack.ui.snapshot.util.withIncreaseFontScale
 import team.duckie.quackquack.ui.sugar.QuackFilledTag
 import team.duckie.quackquack.ui.sugar.QuackGrayscaleFlatTag
 import team.duckie.quackquack.ui.sugar.QuackGrayscaleOutlinedTag
 import team.duckie.quackquack.ui.sugar.QuackOutlinedTag
-import team.duckie.quackquack.ui.util.BaseSnapshotPath
+import team.duckie.quackquack.ui.trailingIcon
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
-import team.duckie.quackquack.ui.util.setQuackContent
-import team.duckie.quackquack.ui.util.withIncreaseFontScale
 
 @RunWith(AndroidJUnit4::class)
 @Config(manifest = Config.NONE)

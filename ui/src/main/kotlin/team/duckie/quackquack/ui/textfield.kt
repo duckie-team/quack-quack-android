@@ -73,6 +73,7 @@ import team.duckie.quackquack.ui.token.IconRole
 import team.duckie.quackquack.ui.token.VerticalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
+import team.duckie.quackquack.ui.util.buildInt
 import team.duckie.quackquack.ui.util.reflectivelyFillMaxSizeOperationHashCode
 import team.duckie.quackquack.ui.util.wrappedDebugInspectable
 import team.duckie.quackquack.util.MustBeTested
@@ -112,6 +113,7 @@ private data class TextFieldIconData(
   val tintGetter: ((text: String, validationState: TextFieldValidationState) -> QuackColor)?,
   val role: IconRole,
   val direction: HorizontalDirection,
+  val contentDescription: String?,
   val onClick: ((text: String) -> Unit)?,
 ) : QuackDataModifierModel {
   init {
@@ -242,11 +244,11 @@ public interface QuackTextFieldStyle<Style : TextFieldStyleMarker, Color : TextF
     public val DefaultLarge: QuackTextFieldStyle<QuackDefaultLargeTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors>
       get() = QuackDefaultLargeTextFieldDefaults()
 
-    public val FilledLarge: QuackTextFieldStyle<QuackFilledLargeTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>
-      get() = QuackFilledLargeTextFieldDefaults()
+    // public val FilledLarge: QuackTextFieldStyle<QuackFilledLargeTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>
+    //   get() = QuackFilledLargeTextFieldDefaults()
 
-    public val FilledFlat: QuackTextFieldStyle<QuackFilledFlatTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>
-      get() = QuackFilledFlatTextFieldDefaults()
+    // public val FilledFlat: QuackTextFieldStyle<QuackFilledFlatTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>
+    //   get() = QuackFilledFlatTextFieldDefaults()
   }
 }
 
@@ -447,6 +449,7 @@ public fun Modifier.icon(
   tintGetter: ((text: String, validationState: TextFieldValidationState) -> QuackColor)? = null,
   role: IconRole = if (iconSize == DefaultIconSize) IconRole.Icon else IconRole.Button,
   direction: HorizontalDirection = if (iconSize == DefaultIconSize) HorizontalDirection.Left else HorizontalDirection.Right,
+  contentDescription: String? = null,
   onClick: ((text: String) -> Unit)? = null,
 ): Modifier =
   inspectable(
@@ -458,6 +461,7 @@ public fun Modifier.icon(
       properties["tintGetter"] = tintGetter
       properties["role"] = role
       properties["direction"] = direction
+      properties["contentDescription"] = contentDescription
       properties["onClick"] = onClick
     },
   ) {
@@ -468,6 +472,7 @@ public fun Modifier.icon(
       tintGetter = tintGetter,
       role = role,
       direction = direction,
+      contentDescription = contentDescription,
       onClick = onClick,
     )
   }
@@ -703,7 +708,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
-  placeholderValue: String? = null,
+  placeholderText: String? = null,
   placeholderStrategy: TextFieldPlaceholderStrategy = TextFieldPlaceholderStrategy.Hidable,
   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
   keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -755,7 +760,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
     modifier = modifier,
     enabled = enabled,
     readOnly = readOnly,
-    placeholderValue = placeholderValue,
+    placeholderText = placeholderText,
     placeholderStrategy = placeholderStrategy,
     keyboardOptions = keyboardOptions,
     keyboardActions = keyboardActions,
@@ -782,7 +787,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
-  placeholderValue: String? = null,
+  placeholderText: String? = null,
   placeholderStrategy: TextFieldPlaceholderStrategy = TextFieldPlaceholderStrategy.Hidable,
   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
   keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -873,7 +878,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
     modifier = inspectableModifier,
     enabled = enabled,
     readOnly = readOnly,
-    placeholderValue = placeholderValue,
+    placeholderText = placeholderText,
     placeholderStrategy = placeholderStrategy,
     keyboardOptions = keyboardOptions,
     keyboardActions = keyboardActions,
@@ -896,11 +901,13 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
     leadingIconSize = leadingIconData?.iconSize,
     leadingIconTint = currentLeadingIconTint,
     leadingIconRole = leadingIconData?.role,
+    leadingIconContentDescription = leadingIconData?.contentDescription,
     leadingIconOnClick = leadingIconData?.onClick,
     trailingIcon = trailingIconData?.icon,
     trailingIconSize = trailingIconData?.iconSize,
     trailingIconTint = currentTrailingIconTint,
     trailingIconRole = trailingIconData?.role,
+    trailingIconContentDescription = trailingIconData?.contentDescription,
     trailingIconOnClick = trailingIconData?.onClick,
     indicatorThickness = indicatorData?.thickness,
     indicatorColor = currentIndicatorColor,
@@ -927,7 +934,7 @@ public fun QuackBaseDefaultTextField(
   modifier: Modifier,
   enabled: Boolean,
   readOnly: Boolean,
-  placeholderValue: String?,
+  placeholderText: String?,
   placeholderStrategy: TextFieldPlaceholderStrategy,
   keyboardOptions: KeyboardOptions,
   keyboardActions: KeyboardActions,
@@ -951,11 +958,13 @@ public fun QuackBaseDefaultTextField(
   leadingIconSize: Dp?,
   leadingIconTint: QuackColor?,
   leadingIconRole: IconRole?,
+  leadingIconContentDescription: String?,
   leadingIconOnClick: ((text: String) -> Unit)?,
   trailingIcon: QuackIcon?,
   trailingIconSize: Dp?,
   trailingIconTint: QuackColor?,
   trailingIconRole: IconRole?,
+  trailingIconContentDescription: String?,
   trailingIconOnClick: ((text: String) -> Unit)?,
   indicatorThickness: Dp?,
   indicatorColor: QuackColor?,
@@ -1005,10 +1014,10 @@ public fun QuackBaseDefaultTextField(
         Box(
           modifier = Modifier
             .layoutId(DefaultCoreTextFieldLayoutId)
-            .applyIf(placeholderValue != null) {
+            .applyIf(placeholderText != null) {
               drawPlaceholder(
                 text = value.text,
-                placeholderText = placeholderValue!!,
+                placeholderText = placeholderText!!,
                 placeholderStrategy = placeholderStrategy,
                 typography = placeholderTypography,
                 textMeasurer = rememberTextMeasurer(/*cacheSize = 5*/), // TODO(pref): param size?
@@ -1031,11 +1040,48 @@ public fun QuackBaseDefaultTextField(
         measurable.layoutId == DefaultTrailingContentLayoutId
       }
 
-      layout()
+      val horizontalPadding = contentPadding?.let { padding ->
+        padding.calculateTopPadding()
+          .plus(padding.calculateBottomPadding())
+          .roundToPx()
+      } ?: 0
+      val verticalPadding = contentPadding?.let { padding ->
+        padding.calculateLeftPadding(layoutDirection)
+          .plus(padding.calculateRightPadding(layoutDirection))
+          .roundToPx()
+      } ?: 0
+
+      val minWidth = constraints.minWidth
+      val minHeight = constraints.minHeight
+
+      val contentSpacedByPx = contentSpacedBy.roundToPx()
+
+      val width =
+        buildInt {
+          plus(minWidth)
+          plus(horizontalPadding)
+          if (leadingIcon != null) {
+            minus(leadingIconSize!!.roundToPx())
+            minus(contentSpacedByPx)
+          }
+          if (trailingIcon != null) {
+            minus(trailingIconSize!!.roundToPx())
+            minus(contentSpacedByPx)
+          }
+        }
+      val height = minHeight + verticalPadding
+
+      layout(
+        width = width,
+        height = height,
+      ) {
+
+      }
     }
   }
 }
 
+@NoSugar
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
 @Composable

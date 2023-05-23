@@ -7,7 +7,7 @@
 
 @file:OptIn(ExperimentalQuackQuackApi::class)
 
-package team.duckie.quackquack.ui
+package team.duckie.quackquack.ui.snapshot
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -17,9 +17,10 @@ import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import team.duckie.quackquack.ui.QuackTagErrors
+import team.duckie.quackquack.ui.snapshot.util.setQuackContent
 import team.duckie.quackquack.ui.sugar.QuackGrayscaleFlatTag
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
-import team.duckie.quackquack.ui.util.setQuackContent
 
 @RunWith(AndroidJUnit4::class)
 class TagTest {
