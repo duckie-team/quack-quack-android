@@ -9,18 +9,12 @@
 
 package team.duckie.quackquack.ui.util
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
-
-@QuackDsl
-@Immutable
 internal interface NumberBuilder<T : Number> {
   var value: T
   operator fun plus(number: T): T
   operator fun minus(number: T): T
 }
 
-@Stable
 internal fun buildFloat(builder: NumberBuilder<Float>.() -> Unit): Float {
   val scope = object : NumberBuilder<Float> {
     override var value = 0f
@@ -40,7 +34,6 @@ internal fun buildFloat(builder: NumberBuilder<Float>.() -> Unit): Float {
   return scope.value
 }
 
-@Stable
 internal fun buildInt(builder: NumberBuilder<Int>.() -> Unit): Int {
   val scope = object : NumberBuilder<Int> {
     override var value = 0
