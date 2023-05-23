@@ -82,7 +82,7 @@ public fun Modifier.quackClickable(
       val ripple = rememberRipple(color = rippleColor?.value ?: Color.Unspecified)
 
       combinedClickable(
-        indication = ripple,
+        indication = ripple.takeIf { QuackAlwaysShowRipple || rippleEnabled },
         interactionSource = remember { MutableInteractionSource() },
         role = role,
         onClick = onClick ?: {},
