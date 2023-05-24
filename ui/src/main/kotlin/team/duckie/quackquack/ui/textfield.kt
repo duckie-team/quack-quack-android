@@ -32,11 +32,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
@@ -57,11 +57,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.constrainHeight
@@ -88,8 +87,11 @@ import team.duckie.quackquack.ui.token.VerticalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
 import team.duckie.quackquack.ui.util.asLoose
+import team.duckie.quackquack.ui.util.buildFloat
 import team.duckie.quackquack.ui.util.buildInt
 import team.duckie.quackquack.ui.util.currentFontScale
+import team.duckie.quackquack.ui.util.minus
+import team.duckie.quackquack.ui.util.plus
 import team.duckie.quackquack.ui.util.reflectivelyFillMaxSizeOperationHashCode
 import team.duckie.quackquack.ui.util.wrappedDebugInspectable
 import team.duckie.quackquack.util.MustBeTested
@@ -651,54 +653,6 @@ private fun Modifier.drawIndicator(
       }
     }
 
-// TODO(impl): 텍스트를 그릴 X 좌표를 구할 수 있어야 하고,
-//             BaseTextField의 입장에선 텍스트가 그려진 X 좌표를 알아야 함.
-@Suppress("UNUSED_PARAMETER", "UNREACHABLE_CODE", "unused", "ModifierFactoryExtensionFunction")
-@Stable
-private fun TextFieldCounterData.toDrawModifier(
-  @IntRange(from = 1) currentLength: Int,
-  contentPadding: PaddingValues,
-): Modifier =
-  composed { // TODO(perf): nested-composed 제거 (Modifier.drawWithCache is ComposedModifier)
-    throw NotImplementedError()
-
-    val textMeasurer = rememberTextMeasurer(cacheSize = 5 + 2) // model datas + params
-
-    Modifier.drawWithCache {
-      // TODO(impl): baseAndHighlightGap (textMeasurer.measure 인자에 placeholders 제공으로 가능)
-      val textMeasurerResult = textMeasurer.measure(
-        text = buildAnnotatedString {
-          withStyle(SpanStyle(color = highlightColor.value)) {
-            append(currentLength.toString())
-          }
-          withStyle(SpanStyle(color = baseColor.value)) {
-            append("/$maxLength")
-          }
-        },
-        style = typography.asComposeStyle(),
-        overflow = TextOverflow.Visible,
-        softWrap = false,
-        maxLines = 1,
-        layoutDirection = layoutDirection,
-        density = object : Density {
-          override val density = this@drawWithCache.density
-          override val fontScale = this@drawWithCache.fontScale
-        },
-      )
-
-      // TODO(3): VerticalCenter 배치
-      onDrawBehind {
-        drawText(
-          textLayoutResult = textMeasurerResult,
-          topLeft = Offset(
-            x = 0f, // TODO: how to get?
-            y = contentPadding.calculateTopPadding().toPx(),
-          ),
-        )
-      }
-    }
-  }
-
 // TODO(casa): support for state parameter. but how?
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
@@ -1017,9 +971,13 @@ public fun QuackBaseDefaultTextField(
   }
 
   val currentCursorColor = LocalQuackTextFieldTheme.current.cursorColor
+  val currentDensity = LocalDensity.current
   val currentCursorBrush = remember(currentCursorColor, calculation = currentCursorColor::toBrush)
   val currentTextStyle = remember(typography, calculation = typography::asComposeStyle)
   val currentRecomposeScope = currentRecomposeScope
+
+  val topPaddingPx = with(currentDensity) { contentPadding?.calculateTopPadding()?.roundToPx() ?: 0 }
+  val bottomPaddingPx = with(currentDensity) { contentPadding?.calculateBottomPadding()?.roundToPx() ?: 0 }
 
   val lazyCoreTextFieldContainerWidth = remember { LazyValue<Int>() }
   val lazyCoreTextFieldWidth = remember { LazyValue<Int>() }
@@ -1075,7 +1033,7 @@ public fun QuackBaseDefaultTextField(
       }
     }
 
-  val placeholderTextMeasurer = rememberTextMeasurer(/*cacheSize = 5*/) // TODO(pref): param size?
+  val placeholderTextMeasurer = rememberTextMeasurerSimple(/*cacheSize = 5*/) // TODO(pref): param size?
   val placeholderTextMeasureResult =
     remember(
       placeholderTextMeasurer,
@@ -1094,6 +1052,57 @@ public fun QuackBaseDefaultTextField(
             if (lazyCoreTextFieldWidth.value != null) constraints.copy(maxWidth = lazyCoreTextFieldWidth.value!!)
             else constraints
           },
+        )
+      } else {
+        null
+      }
+    }
+
+  val counterTextMeasurer = rememberTextMeasurerSimple(/*cacheSize = 7*/) // TODO(pref): param size?
+  val counterTextMeasureResult =
+    remember(
+      currentDensity,
+      counterTextMeasurer,
+      value.text,
+      counterMaxLength,
+      counterHighlightColor,
+      counterBaseColor,
+      counterTypography,
+      counterBaseAndHighlightGap,
+    ) {
+      if (counterMaxLength != null) {
+        val currentLenght = value.text.length
+
+        counterTextMeasurer.measure(
+          text = buildAnnotatedString {
+            withStyle(SpanStyle(color = counterHighlightColor!!.value)) {
+              append(currentLenght.toString())
+            }
+            withStyle(
+              SpanStyle(
+                fontSize = with(currentDensity) { counterBaseAndHighlightGap!!.toSp() },
+                color = Color.Transparent,
+              )
+            ) {
+              append("_") // TODO(impl): correctly?
+            }
+            withStyle(SpanStyle(color = counterBaseColor!!.value)) {
+              append("/$counterMaxLength")
+            }
+          },
+          // placeholders = listOf(
+          //   AnnotatedString.Range(
+          //     item = Placeholder(
+          //       width = with(currentDensity) { counterBaseAndHighlightGap!!.toSp() },
+          //       height = 1.sp,
+          //       placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter,
+          //     ),
+          //     start = currentLenght,
+          //     end = currentLenght + 1,
+          //   )
+          // ),
+          style = counterTypography!!.change(textAlign = TextAlign.End).asComposeStyle(),
+          maxLines = 1,
         )
       } else {
         null
@@ -1142,6 +1151,28 @@ public fun QuackBaseDefaultTextField(
                 direction = indicatorDirection!!,
                 validationState = validationState,
               )
+            }
+            .applyIf(counterTextMeasureResult != null) {
+              drawBehind {
+                drawText(
+                  textLayoutResult = counterTextMeasureResult!!,
+                  topLeft = Offset(
+                    x = buildFloat {
+                      plus(size.width)
+                      if (fontScaleAwareLeadingIconSize != null) {
+                        minus(with(currentDensity) { (fontScaleAwareLeadingIconSize + contentSpacedBy).toPx() })
+                      }
+                      minus(counterTextMeasureResult.size.width)
+                    },
+                    y = buildFloat {
+                      plus(topPaddingPx)
+                      val coreTextFieldHeight = size.height - topPaddingPx - bottomPaddingPx
+                      plus(coreTextFieldHeight / 2)
+                      minus(counterTextMeasureResult.size.height / 2)
+                    },
+                  ),
+                )
+              }
             },
         )
         Box(
@@ -1237,12 +1268,10 @@ public fun QuackBaseDefaultTextField(
       }
 
       // TODO: 패딩 생성 시점에 0 이상이 주어졌는지 검사하는 assertion 추가
-      val topPadding = contentPadding?.calculateTopPadding()?.roundToPx() ?: 0
-      val bottomPadding = contentPadding?.calculateBottomPadding()?.roundToPx() ?: 0
-      val leftPadding = contentPadding?.calculateLeftPadding(layoutDirection)?.roundToPx() ?: 0
-      val rightPadding = contentPadding?.calculateRightPadding(layoutDirection)?.roundToPx() ?: 0
-      val horizontalPadding = leftPadding + rightPadding
-      val verticalPadding = topPadding + bottomPadding
+      val leftPaddingPx = contentPadding?.calculateLeftPadding(layoutDirection)?.roundToPx() ?: 0
+      val rightPaddingPx = contentPadding?.calculateRightPadding(layoutDirection)?.roundToPx() ?: 0
+      val horizontalPaddingPx = leftPaddingPx + rightPaddingPx
+      val verticalPaddingPx = topPaddingPx + bottomPaddingPx
 
       val contentSpacedByPx = contentSpacedBy.roundToPx()
       val halfContentSpacedByPx = contentSpacedByPx / 2
@@ -1257,13 +1286,17 @@ public fun QuackBaseDefaultTextField(
       val coreTextFieldWidth =
         buildInt {
           plus(minWidth)
-          minus(horizontalPadding)
+          minus(horizontalPaddingPx)
           if (leadingIcon != null) {
             minus(fontScaleAwareLeadingIconSizePx!!)
             minus(contentSpacedByPx)
           }
           if (trailingIcon != null) {
             minus(fontScaleAwareTrailingIconSizePx!!)
+            minus(contentSpacedByPx)
+          }
+          if (counterTextMeasureResult != null) {
+            minus(counterTextMeasureResult.size.width)
             minus(contentSpacedByPx)
           }
         }
@@ -1276,8 +1309,8 @@ public fun QuackBaseDefaultTextField(
         )
       val coreTextFieldPlaceable = coreTextFieldMeasurable.measure(coreTextFieldConstraints)
 
-      val width = constraints.constrainWidth(minWidth + horizontalPadding)
-      var height = constraints.constrainHeight(coreTextFieldPlaceable.height + verticalPadding)
+      val width = constraints.constrainWidth(minWidth + horizontalPaddingPx)
+      var height = constraints.constrainHeight(coreTextFieldPlaceable.height + verticalPaddingPx)
 
       val extraLooseConstraints = constraints.asLoose(width = true, height = true)
       var leadingIconContainerConstraints: Constraints? = null
@@ -1324,14 +1357,14 @@ public fun QuackBaseDefaultTextField(
       layout(width = width, height = height) {
         coreTextFieldContainerPlaceable.place(x = 0, y = 0, zIndex = 0f)
         coreTextFieldPlaceable.place(
-          x = leftPadding + (fontScaleAwareLeadingIconSizePx?.plus(contentSpacedByPx) ?: 0),
-          y = topPadding,
+          x = leftPaddingPx + (fontScaleAwareLeadingIconSizePx?.plus(contentSpacedByPx) ?: 0),
+          y = topPaddingPx,
           zIndex = 1f,
         )
 
         leadingIconPlaceable?.place(
           x = 0,
-          y = topPadding + (coreTextFieldPlaceable.height / 2) - (leadingIconPlaceable.height / 2),
+          y = topPaddingPx + (coreTextFieldPlaceable.height / 2) - (leadingIconPlaceable.height / 2),
           zIndex = 0f,
         )
         leadingIconContainerPlaceable?.place(
@@ -1342,7 +1375,7 @@ public fun QuackBaseDefaultTextField(
 
         trailingIconPlaceable?.place(
           x = width - trailingIconPlaceable.width,
-          y = topPadding + (coreTextFieldPlaceable.height / 2) - (trailingIconPlaceable.height / 2),
+          y = topPaddingPx + (coreTextFieldPlaceable.height / 2) - (trailingIconPlaceable.height / 2),
           zIndex = 0f,
         )
         trailingIconContainerPlaceable?.place(

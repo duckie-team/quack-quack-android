@@ -31,6 +31,7 @@ import team.duckie.quackquack.material.QuackIcon
 import team.duckie.quackquack.ui.QuackDefaultTextField
 import team.duckie.quackquack.ui.QuackTextFieldStyle
 import team.duckie.quackquack.ui.TextFieldPlaceholderStrategy
+import team.duckie.quackquack.ui.counter
 import team.duckie.quackquack.ui.defaultTextFieldIcon
 import team.duckie.quackquack.ui.defaultTextFieldIndicator
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
@@ -65,7 +66,8 @@ class MainActivity : ComponentActivity() {
               tint = QuackColor.Unspecified,
             ) {
               toast("right heart!")
-            },
+            }
+            .counter(maxLength = 10),
           value = value,
           onValueChange = { value = it },
           // placeholderText = "사랑의 주며, 청춘을 것은 이상은 되는 불러 바이며, 귀는 듣는다. 내는 힘차게 있는 황금시대다. 우리는 공자는 노년에게서 그들을 있는 수 얼음과 피다.",

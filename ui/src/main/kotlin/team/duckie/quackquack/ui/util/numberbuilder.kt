@@ -34,6 +34,16 @@ internal fun buildFloat(builder: NumberBuilder<Float>.() -> Unit): Float {
   return scope.value
 }
 
+internal operator fun NumberBuilder<Float>.plus(number: Int): Float {
+  value += number
+  return value
+}
+
+internal operator fun NumberBuilder<Float>.minus(number: Int): Float {
+  value -= number
+  return value
+}
+
 internal fun buildInt(builder: NumberBuilder<Int>.() -> Unit): Int {
   val scope = object : NumberBuilder<Int> {
     override var value = 0
