@@ -775,10 +775,10 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   }
 
   val currentLeadingIconTint = leadingIconData?.run {
-    checkNotNull(tintGetter?.invoke(value.text, validationState, style.colors) ?: tint)
+    (tintGetter?.invoke(value.text, validationState, style.colors) ?: tint) ?: QuackColor.Unspecified
   }
   val currentTrailingIconTint = trailingIconData?.run {
-    checkNotNull(tintGetter?.invoke(value.text, validationState, style.colors) ?: tint)
+    (tintGetter?.invoke(value.text, validationState, style.colors) ?: tint) ?: QuackColor.Unspecified
   }
 
   val currentIndicatorColor = indicatorData?.run {
