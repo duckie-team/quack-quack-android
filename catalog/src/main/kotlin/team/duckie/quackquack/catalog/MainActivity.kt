@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackIcon
+import team.duckie.quackquack.ui.DefaultIconButtonSize
 import team.duckie.quackquack.ui.QuackDefaultTextField
 import team.duckie.quackquack.ui.QuackTextFieldStyle
 import team.duckie.quackquack.ui.TextFieldPlaceholderStrategy
@@ -37,7 +38,6 @@ import team.duckie.quackquack.ui.defaultTextFieldIcon
 import team.duckie.quackquack.ui.defaultTextFieldIndicator
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
 import team.duckie.quackquack.ui.token.HorizontalDirection
-import team.duckie.quackquack.ui.token.IconRole
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 
 class MainActivity : ComponentActivity() {
@@ -55,16 +55,17 @@ class MainActivity : ComponentActivity() {
             .defaultTextFieldIndicator()
             .defaultTextFieldIcon(
               icon = QuackIcon.FilledHeart,
-              role = IconRole.Button,
               tint = QuackColor.Unspecified,
+              iconSize = DefaultIconButtonSize,
               direction = HorizontalDirection.Left,
             ) {
               toast("left heart!")
             }
             .defaultTextFieldIcon(
               icon = QuackIcon.FilledHeart,
-              role = IconRole.Button,
+              iconSize = DefaultIconButtonSize,
               tint = QuackColor.Unspecified,
+              direction = HorizontalDirection.Right,
             ) {
               toast("right heart!")
             }
@@ -83,7 +84,6 @@ class MainActivity : ComponentActivity() {
             .defaultTextFieldIndicator()
             .defaultTextFieldIcon(
               icon = QuackIcon.FilledHeart,
-              role = IconRole.Button,
               tint = QuackColor.Unspecified,
               direction = HorizontalDirection.Left,
             ) {
@@ -91,8 +91,8 @@ class MainActivity : ComponentActivity() {
             }
             .defaultTextFieldIcon(
               icon = QuackIcon.FilledHeart,
-              role = IconRole.Button,
               tint = QuackColor.Unspecified,
+              direction = HorizontalDirection.Right,
             ) {
               toast("right heart!")
             }

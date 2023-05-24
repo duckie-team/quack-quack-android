@@ -82,7 +82,6 @@ import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.sugar.material.SugarToken
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
 import team.duckie.quackquack.ui.token.HorizontalDirection
-import team.duckie.quackquack.ui.token.IconRole
 import team.duckie.quackquack.ui.token.VerticalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
@@ -133,18 +132,11 @@ private data class TextFieldIconData<ColorSet : TextFieldColorMarker>(
   val iconSize: Dp,
   val tint: QuackColor?,
   val tintGetter: ((text: String, validationState: TextFieldValidationState, colorSet: ColorSet) -> QuackColor)?,
-  val role: IconRole,
   val direction: HorizontalDirection,
   val contentScale: ContentScale,
   val contentDescription: String?,
   val onClick: (() -> Unit)?,
-) : QuackDataModifierModel {
-  init {
-    if (role == IconRole.Button) {
-      requireNotNull(onClick, lazyMessage = TextFieldErrors::ButtonIconRuleButNoOnClick)
-    }
-  }
-}
+) : QuackDataModifierModel
 
 @Stable
 private data class TextFieldIndicatorData<ColorSet : TextFieldColorMarker>(
@@ -451,31 +443,27 @@ internal object TextFieldErrors {
   const val IndicatorRequestedButNoColor = "Show indicator was requested, but no indicator color was provided. " +
     "Please provide a non-null value for one of the color or colorGetter fields."
 
-  const val ButtonIconRuleButNoOnClick = "The icon's rule was provided as Button, but no onClick event was provided. " +
-    "Please set the icon's rule to Icon or provide an onClick event."
-
   const val ValidationLabelProvidedButNoDownDirectionIndicator =
     "A label was provided as a TextFieldValidationState, " +
       "but the indicator must have a direction of VerticalDirection.Down in order to display the label. " +
       "The current direction is VerticalDirection.Top."
 }
 
-private val DefaultIconSize = 16.dp
-private val DefaultButtonIconSize = 24.dp
+public val DefaultIconSize: Dp = 16.dp
+public val DefaultIconButtonSize: Dp = 24.dp
 
 @DecorateModifier
 @Stable
 public fun Modifier.defaultTextFieldIcon(
   icon: QuackIcon,
-  role: IconRole = IconRole.Icon,
-  iconSize: Dp = if (role == IconRole.Icon) DefaultIconSize else DefaultButtonIconSize,
+  iconSize: Dp = DefaultIconSize,
   tint: QuackColor? = QuackColor.Gray2,
   tintGetter: ((
     text: String,
     validationState: TextFieldValidationState,
     colorSet: QuackDefaultTextFieldStyle.TextFieldColors,
   ) -> QuackColor)? = null,
-  direction: HorizontalDirection = if (role == IconRole.Icon) HorizontalDirection.Left else HorizontalDirection.Right,
+  direction: HorizontalDirection = if (iconSize == DefaultIconSize) HorizontalDirection.Left else HorizontalDirection.Right,
   contentScale: ContentScale = ContentScale.Fit,
   contentDescription: String? = null,
   onClick: (() -> Unit)? = null,
@@ -487,7 +475,6 @@ public fun Modifier.defaultTextFieldIcon(
       properties["iconSize"] = iconSize
       properties["tint"] = tint
       properties["tintGetter"] = tintGetter
-      properties["role"] = role
       properties["direction"] = direction
       properties["contentScale"] = contentScale
       properties["contentDescription"] = contentDescription
@@ -499,7 +486,6 @@ public fun Modifier.defaultTextFieldIcon(
       iconSize = iconSize,
       tint = tint,
       tintGetter = tintGetter,
-      role = role,
       direction = direction,
       contentScale = contentScale,
       contentDescription = contentDescription,
@@ -518,7 +504,6 @@ public fun Modifier.filledTextFieldIcon(
     validationState: TextFieldValidationState,
     colorSet: QuackFilledTextFieldStyle.TextFieldColors,
   ) -> QuackColor)? = null,
-  role: IconRole = if (iconSize == DefaultIconSize) IconRole.Icon else IconRole.Button,
   direction: HorizontalDirection = if (iconSize == DefaultIconSize) HorizontalDirection.Left else HorizontalDirection.Right,
   contentScale: ContentScale = ContentScale.Fit,
   contentDescription: String? = null,
@@ -531,7 +516,6 @@ public fun Modifier.filledTextFieldIcon(
       properties["iconSize"] = iconSize
       properties["tint"] = tint
       properties["tintGetter"] = tintGetter
-      properties["role"] = role
       properties["direction"] = direction
       properties["contentScale"] = contentScale
       properties["contentDescription"] = contentDescription
@@ -543,7 +527,6 @@ public fun Modifier.filledTextFieldIcon(
       iconSize = iconSize,
       tint = tint,
       tintGetter = tintGetter,
-      role = role,
       direction = direction,
       contentScale = contentScale,
       contentDescription = contentDescription,
@@ -834,14 +817,12 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
     leadingIcon = leadingIconData?.icon,
     leadingIconSize = leadingIconData?.iconSize,
     leadingIconTint = currentLeadingIconTint,
-    leadingIconRole = leadingIconData?.role,
     leadingIconContentScale = leadingIconData?.contentScale,
     leadingIconContentDescription = leadingIconData?.contentDescription,
     leadingIconOnClick = leadingIconData?.onClick,
     trailingIcon = trailingIconData?.icon,
     trailingIconSize = trailingIconData?.iconSize,
     trailingIconTint = currentTrailingIconTint,
-    trailingIconRole = trailingIconData?.role,
     trailingIconContentScale = trailingIconData?.contentScale,
     trailingIconContentDescription = trailingIconData?.contentDescription,
     trailingIconOnClick = trailingIconData?.onClick,
@@ -915,14 +896,12 @@ public fun QuackBaseDefaultTextField(
   leadingIcon: QuackIcon?,
   leadingIconSize: Dp?,
   leadingIconTint: QuackColor?,
-  leadingIconRole: IconRole?,
   leadingIconContentScale: ContentScale?,
   leadingIconContentDescription: String?,
   leadingIconOnClick: (() -> Unit)?,
   trailingIcon: QuackIcon?,
   trailingIconSize: Dp?,
   trailingIconTint: QuackColor?,
-  trailingIconRole: IconRole?,
   trailingIconContentScale: ContentScale?,
   trailingIconContentDescription: String?,
   trailingIconOnClick: (() -> Unit)?,
@@ -940,12 +919,10 @@ public fun QuackBaseDefaultTextField(
     leadingIcon = leadingIcon,
     leadingIconSize = leadingIconSize,
     leadingIconTint = leadingIconTint,
-    leadingIconRole = leadingIconRole,
     leadingIconContentScale = leadingIconContentScale,
     trailingIcon = trailingIcon,
     trailingIconSize = trailingIconSize,
     trailingIconTint = trailingIconTint,
-    trailingIconRole = trailingIconRole,
     trailingIconContentScale = trailingIconContentScale,
     indicatorThickness = indicatorThickness,
     indicatorColor = indicatorColor,
@@ -1237,25 +1214,25 @@ public fun QuackBaseDefaultTextField(
               },
           )
         }
-        if (leadingIconRole == IconRole.Button) {
+        if (leadingIconOnClick != null) {
           Box(
             Modifier
               .layoutId(DefaultLeadingIconContainerLayoutId)
               .quackClickable(
                 role = Role.Button,
                 rippleEnabled = false,
-                onClick = leadingIconOnClick!!,
+                onClick = leadingIconOnClick,
               ),
           )
         }
-        if (trailingIconRole == IconRole.Button) {
+        if (trailingIconOnClick != null) {
           Box(
             Modifier
               .layoutId(DefaultTrailingIconContainerLayoutId)
               .quackClickable(
                 role = Role.Button,
                 rippleEnabled = false,
-                onClick = trailingIconOnClick!!,
+                onClick = trailingIconOnClick,
               ),
           )
         }
@@ -1328,14 +1305,14 @@ public fun QuackBaseDefaultTextField(
       var leadingIconContainerConstraints: Constraints? = null
       var trailingIconContainerConstraints: Constraints? = null
 
-      if (leadingIconRole == IconRole.Button) {
+      if (leadingIconOnClick != null) {
         leadingIconContainerConstraints =
           Constraints.fixed(
             width = (fontScaleAwareLeadingIconSizePx!! + halfContentSpacedByPx).coerceAtMost(width),
             height = height,
           )
       }
-      if (trailingIconRole == IconRole.Button) {
+      if (trailingIconOnClick != null) {
         trailingIconContainerConstraints =
           Constraints.fixed(
             width = (halfContentSpacedByPx + fontScaleAwareTrailingIconSizePx!!).coerceAtMost(width),
@@ -1405,12 +1382,10 @@ private fun assertDefaultTextFieldValidState(
   leadingIcon: QuackIcon?,
   leadingIconSize: Dp?,
   leadingIconTint: QuackColor?,
-  leadingIconRole: IconRole?,
   leadingIconContentScale: ContentScale?,
   trailingIcon: QuackIcon?,
   trailingIconSize: Dp?,
   trailingIconTint: QuackColor?,
-  trailingIconRole: IconRole?,
   trailingIconContentScale: ContentScale?,
   indicatorThickness: Dp?,
   indicatorColor: QuackColor?,
@@ -1434,14 +1409,12 @@ private fun assertDefaultTextFieldValidState(
   if (leadingIcon != null) {
     requireNotNull(leadingIconSize)
     requireNotNull(leadingIconTint)
-    requireNotNull(leadingIconRole)
     requireNotNull(leadingIconContentScale)
   }
 
   if (trailingIcon != null) {
     requireNotNull(trailingIconSize)
     requireNotNull(trailingIconTint)
-    requireNotNull(trailingIconRole)
     requireNotNull(trailingIconContentScale)
   }
 
