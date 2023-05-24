@@ -69,7 +69,7 @@ private interface ModifierIterator : Iterator<Modifier> {
 
   @Suppress("ModifierFactoryExtensionFunction")
   override fun next() =
-    if (hasNext()) modifiers[currentIndex++] else throw IndexOutOfBoundsException()
+    if (hasNext()) modifiers[currentIndex++] else throw NoSuchElementException()
 }
 
 private fun Modifier.splitToList(): List<Modifier> =
