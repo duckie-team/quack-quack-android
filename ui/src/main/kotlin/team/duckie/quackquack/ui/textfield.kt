@@ -851,7 +851,7 @@ private const val DefaultTrailingIconContainerLayoutId = "QuackBaseDefaultTextFi
 private class LazyValue<T>(var value: T? = null)
 
 @Composable
-private fun rememberTextMeasurerSimple(cacheSize: Int = /*DefaultCacheSize*/ 8): TextMeasurer {
+private fun rememberLtrTextMeasurer(cacheSize: Int = /*DefaultCacheSize*/ 8): TextMeasurer {
   val fontFamilyResolver = LocalFontFamilyResolver.current
   val density = LocalDensity.current
 
@@ -919,15 +919,27 @@ public fun QuackBaseDefaultTextField(
   counterBaseAndHighlightGap: Dp?,
   counterMaxLength: Int?,
 ) {
-  if (
-    validationState is TextFieldValidationState.WithLabel &&
-    validationState.label != null
-  ) {
-    require(
-      indicatorDirection == VerticalDirection.Bottom,
-      lazyMessage = TextFieldErrors::ValidationLabelProvidedButNoDownDirectionIndicator,
-    )
-  }
+  assertDefaultTextFieldValidState(
+    validationState = validationState,
+    leadingIcon = leadingIcon,
+    leadingIconSize = leadingIconSize,
+    leadingIconTint = leadingIconTint,
+    leadingIconRole = leadingIconRole,
+    leadingIconContentScale = leadingIconContentScale,
+    trailingIcon = trailingIcon,
+    trailingIconSize = trailingIconSize,
+    trailingIconTint = trailingIconTint,
+    trailingIconRole = trailingIconRole,
+    trailingIconContentScale = trailingIconContentScale,
+    indicatorThickness = indicatorThickness,
+    indicatorColor = indicatorColor,
+    indicatorDirection = indicatorDirection,
+    counterBaseColor = counterBaseColor,
+    counterHighlightColor = counterHighlightColor,
+    counterTypography = counterTypography,
+    counterBaseAndHighlightGap = counterBaseAndHighlightGap,
+    counterMaxLength = counterMaxLength,
+  )
 
   val fontScaleAwareLeadingIconSize: Dp?
   val fontScaleAwareTrailingIconSize: Dp?
@@ -949,7 +961,7 @@ public fun QuackBaseDefaultTextField(
   val lazyCoreTextFieldContainerWidth = remember { LazyValue<Int>() }
   val lazyCoreTextFieldWidth = remember { LazyValue<Int>() }
 
-  val indicatorLabelMeasurer = rememberTextMeasurerSimple(/*cacheSize = 6*/) // TODO(pref): param size?
+  val indicatorLabelMeasurer = rememberLtrTextMeasurer(/*cacheSize = 6*/) // TODO(pref): param size?
   val indicatorLabelMeasureResult =
     remember(
       indicatorLabelMeasurer,
@@ -1000,7 +1012,7 @@ public fun QuackBaseDefaultTextField(
       }
     }
 
-  val placeholderTextMeasurer = rememberTextMeasurerSimple(/*cacheSize = 5*/) // TODO(pref): param size?
+  val placeholderTextMeasurer = rememberLtrTextMeasurer(/*cacheSize = 5*/) // TODO(pref): param size?
   val placeholderTextMeasureResult =
     remember(
       placeholderTextMeasurer,
@@ -1025,7 +1037,7 @@ public fun QuackBaseDefaultTextField(
       }
     }
 
-  val counterTextMeasurer = rememberTextMeasurerSimple(/*cacheSize = 7*/) // TODO(pref): param size?
+  val counterTextMeasurer = rememberLtrTextMeasurer(/*cacheSize = 7*/) // TODO(pref): param size?
   val counterTextMeasureResult =
     remember(
       currentDensity,
@@ -1252,7 +1264,6 @@ public fun QuackBaseDefaultTextField(
         measurable.layoutId == DefaultTrailingIconContainerLayoutId
       }
 
-      // TODO: 패딩 생성 시점에 0 이상이 주어졌는지 검사하는 assertion 추가
       val leftPaddingPx = contentPadding?.calculateLeftPadding(layoutDirection)?.roundToPx() ?: 0
       val rightPaddingPx = contentPadding?.calculateRightPadding(layoutDirection)?.roundToPx() ?: 0
       val horizontalPaddingPx = leftPaddingPx + rightPaddingPx
@@ -1370,6 +1381,64 @@ public fun QuackBaseDefaultTextField(
         )
       }
     }
+  }
+}
+
+private fun assertDefaultTextFieldValidState(
+  validationState: TextFieldValidationState,
+  leadingIcon: QuackIcon?,
+  leadingIconSize: Dp?,
+  leadingIconTint: QuackColor?,
+  leadingIconRole: IconRole?,
+  leadingIconContentScale: ContentScale?,
+  trailingIcon: QuackIcon?,
+  trailingIconSize: Dp?,
+  trailingIconTint: QuackColor?,
+  trailingIconRole: IconRole?,
+  trailingIconContentScale: ContentScale?,
+  indicatorThickness: Dp?,
+  indicatorColor: QuackColor?,
+  indicatorDirection: VerticalDirection?,
+  counterBaseColor: QuackColor?,
+  counterHighlightColor: QuackColor?,
+  counterTypography: QuackTypography?,
+  counterBaseAndHighlightGap: Dp?,
+  counterMaxLength: Int?,
+) {
+  if (
+    validationState is TextFieldValidationState.WithLabel &&
+    validationState.label != null
+  ) {
+    require(
+      indicatorDirection == VerticalDirection.Bottom,
+      lazyMessage = TextFieldErrors::ValidationLabelProvidedButNoDownDirectionIndicator,
+    )
+  }
+
+  if (leadingIcon != null) {
+    requireNotNull(leadingIconSize)
+    requireNotNull(leadingIconTint)
+    requireNotNull(leadingIconRole)
+    requireNotNull(leadingIconContentScale)
+  }
+
+  if (trailingIcon != null) {
+    requireNotNull(trailingIconSize)
+    requireNotNull(trailingIconTint)
+    requireNotNull(trailingIconRole)
+    requireNotNull(trailingIconContentScale)
+  }
+
+  if (indicatorThickness != null) {
+    requireNotNull(indicatorColor)
+    requireNotNull(indicatorDirection)
+  }
+
+  if (counterMaxLength != null) {
+    requireNotNull(counterBaseColor)
+    requireNotNull(counterHighlightColor)
+    requireNotNull(counterTypography)
+    requireNotNull(counterBaseAndHighlightGap)
   }
 }
 
