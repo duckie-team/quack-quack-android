@@ -7,7 +7,7 @@
 
 @file:Suppress("UnstableApiUsage", "INLINE_FROM_HIGHER_PLATFORM")
 
-// import org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME as kotlinCompilerPlugin
+import org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME as kotlinCompilerPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -93,7 +93,7 @@ dependencies {
     libs.bundles.test.roborazzi,
   )
 
-  // kotlinCompilerPlugin(projects.sugarProcessor.orArtifact())
+  kotlinCompilerPlugin(projects.sugarProcessor.orArtifact())
 
   // Found more than one jar in the 'lintPublish' configuration. (compose lint)
   // lintPublish(projects.aide.orArtifact())

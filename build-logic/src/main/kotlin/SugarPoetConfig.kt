@@ -6,4 +6,4 @@
  */
 
 // TODO: 작동 방식 변경 (gradle task)
-const val sugarPoet = true
+const val sugarPoet = false
