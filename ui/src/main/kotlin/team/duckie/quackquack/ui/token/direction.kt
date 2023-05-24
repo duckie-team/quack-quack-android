@@ -10,15 +10,14 @@ package team.duckie.quackquack.ui.token
 import androidx.annotation.RestrictTo
 import androidx.compose.runtime.Immutable
 
+@Immutable
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public interface Direction
 
-@Immutable
 public enum class HorizontalDirection : Direction {
   Left, Right,
 }
 
-@Immutable
 public enum class VerticalDirection : Direction {
   Top, Bottom,
 }

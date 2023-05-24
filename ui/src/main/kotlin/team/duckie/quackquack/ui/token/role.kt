@@ -8,14 +8,8 @@
 package team.duckie.quackquack.ui.token
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
-import androidx.compose.ui.semantics.Role
 
 @Immutable
 public enum class IconRole {
-  Button, Icon;
-
-  @Stable
-  public fun asSemanticOrNull(): Role? =
-    if (this == Button) Role.Button else null
+  Button, Icon,
 }
