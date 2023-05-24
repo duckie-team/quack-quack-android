@@ -23,7 +23,6 @@ class HashCodeTest {
     val modifiers = Modifier
       .fillMaxSize()
       .fillMaxHeight()
-      .splitToList()
     var containsFillMaxWidthModifier = false
 
     for (modifier in modifiers) {
@@ -42,7 +41,6 @@ class HashCodeTest {
       .fillMaxSize()
       .fillMaxWidth()
       .fillMaxHeight()
-      .splitToList()
     var containsFillMaxWidthModifier = false
 
     for (modifier in modifiers) {
@@ -53,6 +51,25 @@ class HashCodeTest {
 
     containsFillMaxWidthModifier.shouldBeTrue()
   }
+}
+
+private operator fun Modifier.iterator() =
+  object : ModifierIterator {
+    override val modifiers = splitToList()
+    override var currentIndex = 0
+    override val maxIndex = modifiers.lastIndex
+  }
+
+private interface ModifierIterator : Iterator<Modifier> {
+  val modifiers: List<Modifier>
+  var currentIndex: Int
+  val maxIndex: Int
+
+  override fun hasNext() = currentIndex + 1 <= maxIndex
+
+  @Suppress("ModifierFactoryExtensionFunction")
+  override fun next() =
+    if (hasNext()) modifiers[currentIndex++] else throw IndexOutOfBoundsException()
 }
 
 private fun Modifier.splitToList(): List<Modifier> =
