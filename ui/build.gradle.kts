@@ -70,6 +70,8 @@ dependencies {
   )
   implementations(
     libs.compose.coil,
+    libs.compose.ui,
+    libs.compose.foundation,
     libs.androidx.annotation,
     projects.runtime.orArtifact(),
     projects.material.orArtifact(),
@@ -91,7 +93,7 @@ dependencies {
     libs.bundles.test.roborazzi,
   )
 
-  kotlinCompilerPlugin(projects.sugarProcessor.orArtifact())
+  // kotlinCompilerPlugin(projects.sugarProcessor.orArtifact())
 
   // Found more than one jar in the 'lintPublish' configuration. (compose lint)
   // lintPublish(projects.aide.orArtifact())
