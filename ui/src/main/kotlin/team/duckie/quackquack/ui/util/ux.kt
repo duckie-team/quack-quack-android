@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:OptIn(ExperimentalContracts::class)
+
 package team.duckie.quackquack.ui.util
 
 import android.annotation.SuppressLint
@@ -17,6 +19,9 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 import team.duckie.quackquack.util.DpSize
 
 /** 현재 font scale을 람다로 제공합니다. */
@@ -24,6 +29,8 @@ import team.duckie.quackquack.util.DpSize
 @Composable
 @ReadOnlyComposable
 public inline fun <T> currentFontScale(content: (fontScale: Float) -> T): T {
+  contract { callsInPlace(content, InvocationKind.EXACTLY_ONCE) }
+
   val configration = LocalConfiguration.current
   return content(configration.fontScale)
 }
