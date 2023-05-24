@@ -9,7 +9,6 @@
 
 package team.duckie.quackquack.ui
 
-import android.annotation.SuppressLint
 import androidx.annotation.IntRange
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.interaction.FocusInteraction
@@ -1355,7 +1354,11 @@ public fun QuackBaseDefaultTextField(
       }
 
       layout(width = width, height = height) {
-        coreTextFieldContainerPlaceable.place(x = 0, y = 0, zIndex = 0f)
+        coreTextFieldContainerPlaceable.place(
+          x = 0,
+          y = 0,
+          zIndex = 0f,
+        )
         coreTextFieldPlaceable.place(
           x = leftPaddingPx + (fontScaleAwareLeadingIconSizePx?.plus(contentSpacedByPx) ?: 0),
           y = topPaddingPx,
@@ -1454,7 +1457,7 @@ public fun QuackFilledTextField() {
   // }
 }
 
-@SuppressLint("ComposableNaming")
+@Suppress("ComposableNaming")
 @NoSugar
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
