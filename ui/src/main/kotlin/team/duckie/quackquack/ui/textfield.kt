@@ -58,7 +58,6 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
@@ -1020,8 +1019,6 @@ public fun QuackBaseDefaultTextField(
         placeholderTextMeasurer.measure(
           text = placeholderText,
           style = placeholderTypography.asComposeStyle(),
-          overflow = TextOverflow.Ellipsis,
-          maxLines = 1, // force single-line for placeholder
           constraints = Constraints().let { constraints ->
             if (lazyCoreTextFieldWidth.value != null) constraints.copy(maxWidth = lazyCoreTextFieldWidth.value!!)
             else constraints
@@ -1294,12 +1291,21 @@ public fun QuackBaseDefaultTextField(
             minus(contentSpacedByPx)
           }
         }
+      val coreTextFieldMinHeight =
+        if (
+          placeholderStrategy == TextFieldPlaceholderStrategy.Always &&
+          placeholderTextMeasureResult != null
+        ) {
+          placeholderTextMeasureResult.size.height
+        } else {
+          0
+        }
 
       val coreTextFieldConstraints =
         constraints.copy(
           minWidth = coreTextFieldWidth,
           maxWidth = coreTextFieldWidth,
-          minHeight = 0,
+          minHeight = coreTextFieldMinHeight,
         )
       val coreTextFieldPlaceable = coreTextFieldMeasurable.measure(coreTextFieldConstraints)
 
@@ -1403,7 +1409,8 @@ private fun assertDefaultTextFieldValidState(
 ) {
   if (
     validationState is TextFieldValidationState.WithLabel &&
-    validationState.label != null
+    validationState.label != null &&
+    indicatorDirection != null
   ) {
     require(
       indicatorDirection == VerticalDirection.Bottom,
