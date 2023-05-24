@@ -12,11 +12,11 @@ package team.duckie.quackquack.ui
 import android.annotation.SuppressLint
 import androidx.annotation.IntRange
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -35,8 +35,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
@@ -47,6 +47,8 @@ import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.platform.inspectable
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
@@ -87,6 +89,7 @@ import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
 import team.duckie.quackquack.ui.util.asLoose
 import team.duckie.quackquack.ui.util.buildInt
+import team.duckie.quackquack.ui.util.currentFontScale
 import team.duckie.quackquack.ui.util.reflectivelyFillMaxSizeOperationHashCode
 import team.duckie.quackquack.ui.util.wrappedDebugInspectable
 import team.duckie.quackquack.util.MustBeTested
@@ -1005,6 +1008,14 @@ public fun QuackBaseDefaultTextField(
   counterBaseAndHighlightGap: Dp?,
   counterMaxLength: Int?,
 ) {
+  val fontScaleAwareLeadingIconSize: Dp?
+  val fontScaleAwareTrailingIconSize: Dp?
+
+  currentFontScale { fontScale ->
+    fontScaleAwareLeadingIconSize = leadingIconSize?.times(fontScale)
+    fontScaleAwareTrailingIconSize = trailingIconSize?.times(fontScale)
+  }
+
   val currentCursorColor = LocalQuackTextFieldTheme.current.cursorColor
   val currentCursorBrush = remember(currentCursorColor, calculation = currentCursorColor::toBrush)
   val currentTextStyle = remember(typography, calculation = typography::asComposeStyle)
@@ -1149,25 +1160,37 @@ public fun QuackBaseDefaultTextField(
           coreTextField()
         }
         if (leadingIcon != null) {
-          QuackIcon(
-            modifier = Modifier.layoutId(DefaultLeadingIconLayoutId),
-            icon = leadingIcon,
-            size = leadingIconSize!!,
-            tint = leadingIconTint!!,
-            contentScale = leadingIconContentScale!!,
-            contentDescription = leadingIconContentDescription,
+          Box(
+            Modifier
+              .layoutId(DefaultLeadingIconLayoutId)
+              .size(fontScaleAwareLeadingIconSize!!)
+              .paint(
+                painter = leadingIcon.asPainter(),
+                contentScale = leadingIconContentScale!!,
+                colorFilter = remember(leadingIconTint!!) { leadingIconTint.toColorFilterOrNull() },
+              )
+              .applyIf(leadingIconContentDescription != null) {
+                semantics {
+                  contentDescription = leadingIconContentDescription!!
+                }
+              },
           )
         }
         if (trailingIcon != null) {
-          QuackIcon(
-            modifier = Modifier
+          Box(
+            Modifier
               .layoutId(DefaultTrailingIconLayoutId)
-              .background(color = Color.Cyan.copy(alpha = .7f)),
-            icon = trailingIcon,
-            size = trailingIconSize!!,
-            tint = trailingIconTint!!,
-            contentScale = trailingIconContentScale!!,
-            contentDescription = trailingIconContentDescription,
+              .size(fontScaleAwareTrailingIconSize!!)
+              .paint(
+                painter = trailingIcon.asPainter(),
+                contentScale = trailingIconContentScale!!,
+                colorFilter = remember(trailingIconTint!!) { trailingIconTint.toColorFilterOrNull() },
+              )
+              .applyIf(trailingIconContentDescription != null) {
+                semantics {
+                  contentDescription = trailingIconContentDescription!!
+                }
+              },
           )
         }
         if (leadingIconRole == IconRole.Button) {
@@ -1185,7 +1208,6 @@ public fun QuackBaseDefaultTextField(
           Box(
             Modifier
               .layoutId(DefaultTrailingIconContainerLayoutId)
-              .background(color = Color.Red.copy(alpha = .7f))
               .quackClickable(
                 role = Role.Button,
                 rippleEnabled = false,
@@ -1227,8 +1249,8 @@ public fun QuackBaseDefaultTextField(
 
       val labelAndIndicatorSpacedByPx = validationLabelAndIndicatorSpacedBy.roundToPx()
 
-      val leadingIconSizePx = leadingIconSize?.roundToPx()
-      val trailingIconSizePx = trailingIconSize?.roundToPx()
+      val fontScaleAwareLeadingIconSizePx = fontScaleAwareLeadingIconSize?.roundToPx()
+      val fontScaleAwareTrailingIconSizePx = fontScaleAwareTrailingIconSize?.roundToPx()
 
       val minWidth = constraints.minWidth
 
@@ -1237,11 +1259,11 @@ public fun QuackBaseDefaultTextField(
           plus(minWidth)
           minus(horizontalPadding)
           if (leadingIcon != null) {
-            minus(leadingIconSizePx!!)
+            minus(fontScaleAwareLeadingIconSizePx!!)
             minus(contentSpacedByPx)
           }
           if (trailingIcon != null) {
-            minus(trailingIconSizePx!!)
+            minus(fontScaleAwareTrailingIconSizePx!!)
             minus(contentSpacedByPx)
           }
         }
@@ -1264,14 +1286,14 @@ public fun QuackBaseDefaultTextField(
       if (leadingIconRole == IconRole.Button) {
         leadingIconContainerConstraints =
           Constraints.fixed(
-            width = (leadingIconSizePx!! + halfContentSpacedByPx).coerceAtMost(width),
+            width = (fontScaleAwareLeadingIconSizePx!! + halfContentSpacedByPx).coerceAtMost(width),
             height = height,
           )
       }
       if (trailingIconRole == IconRole.Button) {
         trailingIconContainerConstraints =
           Constraints.fixed(
-            width = (halfContentSpacedByPx + trailingIconSizePx!!).coerceAtMost(width),
+            width = (halfContentSpacedByPx + fontScaleAwareTrailingIconSizePx!!).coerceAtMost(width),
             height = height,
           )
       }
@@ -1302,7 +1324,7 @@ public fun QuackBaseDefaultTextField(
       layout(width = width, height = height) {
         coreTextFieldContainerPlaceable.place(x = 0, y = 0, zIndex = 0f)
         coreTextFieldPlaceable.place(
-          x = leftPadding + (leadingIconSizePx?.plus(contentSpacedByPx) ?: 0),
+          x = leftPadding + (fontScaleAwareLeadingIconSizePx?.plus(contentSpacedByPx) ?: 0),
           y = topPadding,
           zIndex = 1f,
         )
