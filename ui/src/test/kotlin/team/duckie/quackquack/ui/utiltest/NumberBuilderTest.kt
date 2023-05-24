@@ -9,18 +9,28 @@ package team.duckie.quackquack.ui.utiltest
 
 import io.kotest.matchers.shouldBe
 import org.junit.Test
-import team.duckie.quackquack.ui.util.buildFloat
+import team.duckie.quackquack.ui.util.buildInt
 
 class NumberBuilderTest {
   @Test
-  fun buildFloat() {
-    val actual = buildFloat {
-      plus(Float.MAX_VALUE)
-      minus(Float.MAX_VALUE)
-      plus(1_000f)
-      plus(2_000f)
+  fun buildInt() {
+    val condition1 = true
+    val condition2 = false
+
+    val actual = buildInt {
+      plus(1)
+      if (condition1) {
+        plus(2)
+        plus(2)
+      }
+      if (condition2) {
+        plus(3)
+        plus(3)
+      }
+      plus(1)
+      plus(1)
     }
-    val expect = 3_000f
+    val expect = 7
 
     actual shouldBe expect
   }
