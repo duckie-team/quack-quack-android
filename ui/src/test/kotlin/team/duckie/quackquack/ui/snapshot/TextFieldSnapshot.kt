@@ -9,9 +9,11 @@
 
 package team.duckie.quackquack.ui.snapshot
 
+import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.captureRoboImage
 import org.junit.Rule
 import org.junit.Test
@@ -28,6 +30,8 @@ import team.duckie.quackquack.ui.counter
 import team.duckie.quackquack.ui.defaultTextFieldIcon
 import team.duckie.quackquack.ui.defaultTextFieldIndicator
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
+import team.duckie.quackquack.ui.snapshot.util.LargestDeviceQualifier
+import team.duckie.quackquack.ui.snapshot.util.LargestFontScale
 import team.duckie.quackquack.ui.snapshot.util.SnapshotPathGeneratorRule
 import team.duckie.quackquack.ui.snapshot.util.TestColumn
 import team.duckie.quackquack.ui.snapshot.util.WithLabel
@@ -236,13 +240,28 @@ class TextFieldSnapshot {
     }
   }
 
-  @Config(qualifiers = RobolectricDeviceQualifiers.Pixel7)
+  @Config(qualifiers = LargestDeviceQualifier)
   @Test
   fun QuackDefaultTextField_default_multilines() {
+    QuackDefaultTextField_default_multilines_catpurer()
+  }
+
+  @Config(
+    fontScale = LargestFontScale,
+    qualifiers = LargestDeviceQualifier,
+  )
+  @Test
+  fun QuackDefaultTextField_default_multilines_x2() {
+    QuackDefaultTextField_default_multilines_catpurer(width = 400.dp)
+  }
+
+  private fun QuackDefaultTextField_default_multilines_catpurer(width: Dp? = null) {
+    val widthModifier = if (width != null) Modifier.width(width) else Modifier
     captureRoboImage(snapshotPath()) {
       TestColumn {
         WithLabel("default") {
           QuackDefaultTextField(
+            modifier = Modifier.then(widthModifier),
             value = MultilineText,
             onValueChange = {},
             style = QuackTextFieldStyle.Default,
@@ -250,6 +269,7 @@ class TextFieldSnapshot {
         }
         WithLabel("placeholder") {
           QuackDefaultTextField(
+            modifier = Modifier.then(widthModifier),
             value = MediumText,
             onValueChange = {},
             style = QuackTextFieldStyle.Default,
@@ -259,7 +279,9 @@ class TextFieldSnapshot {
         }
         WithLabel("indicator") {
           QuackDefaultTextField(
-            modifier = Modifier.defaultTextFieldIndicator(),
+            modifier = Modifier
+              .then(widthModifier)
+              .defaultTextFieldIndicator(),
             value = MultilineText,
             onValueChange = {},
             style = QuackTextFieldStyle.Default,
@@ -270,6 +292,7 @@ class TextFieldSnapshot {
         WithLabel("icons") {
           QuackDefaultTextField(
             modifier = Modifier
+              .then(widthModifier)
               .defaultTextFieldIcon(
                 icon = QuackIcon.FilledHeart,
                 tint = QuackColor.Unspecified,
@@ -287,7 +310,9 @@ class TextFieldSnapshot {
         }
         WithLabel("counter") {
           QuackDefaultTextField(
-            modifier = Modifier.counter(maxLength = 10),
+            modifier = Modifier
+              .then(widthModifier)
+              .counter(maxLength = 10),
             value = MultilineText,
             onValueChange = {},
             style = QuackTextFieldStyle.Default,
