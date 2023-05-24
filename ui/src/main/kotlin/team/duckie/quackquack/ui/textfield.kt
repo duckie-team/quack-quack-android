@@ -12,6 +12,7 @@ package team.duckie.quackquack.ui
 import android.annotation.SuppressLint
 import androidx.annotation.IntRange
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -35,6 +36,8 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
 import androidx.compose.ui.layout.layoutId
@@ -43,6 +46,7 @@ import androidx.compose.ui.platform.LocalFontFamilyResolver
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.platform.inspectable
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
@@ -87,7 +91,6 @@ import team.duckie.quackquack.ui.util.reflectivelyFillMaxSizeOperationHashCode
 import team.duckie.quackquack.ui.util.wrappedDebugInspectable
 import team.duckie.quackquack.util.MustBeTested
 import team.duckie.quackquack.util.applyIf
-import team.duckie.quackquack.util.cast
 import team.duckie.quackquack.util.fastFilterIsInstanceOrNull
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 import team.duckie.quackquack.util.requireNull
@@ -127,6 +130,7 @@ private data class TextFieldIconData<ColorSet : TextFieldColorMarker>(
   val tintGetter: ((text: String, validationState: TextFieldValidationState, colorSet: ColorSet) -> QuackColor)?,
   val role: IconRole,
   val direction: HorizontalDirection,
+  val contentScale: ContentScale,
   val contentDescription: String?,
   val onClick: (() -> Unit)?,
 ) : QuackDataModifierModel {
@@ -177,7 +181,8 @@ public interface QuackDefaultTextFieldStyle : TextFieldStyleMarker {
     public val successColor: QuackColor,
   ) : TextFieldColorMarker
 
-  public val validationTypography: QuackTypography
+  public val validationLabelAndIndicatorSpacedBy: Dp
+  public val validationLabelTypography: QuackTypography
 
   @Stable
   public fun textFieldColors(
@@ -283,9 +288,10 @@ public class QuackDefaultTextFieldDefaults internal constructor() :
     )
 
   override var contentSpacedBy: Dp = 8.dp
+  override var validationLabelAndIndicatorSpacedBy: Dp = 4.dp
 
   override var typography: QuackTypography = QuackTypography.Body1
-  override val validationTypography: QuackTypography = QuackTypography.Body1
+  override val validationLabelTypography: QuackTypography = QuackTypography.Body1
 
   override fun invoke(styleBuilder: QuackDefaultTextFieldDefaults.() -> Unit): QuackDefaultTextFieldDefaults =
     apply(styleBuilder)
@@ -319,9 +325,10 @@ public class QuackDefaultLargeTextFieldDefaults :
   override var contentPadding: PaddingValues = PaddingValues(all = 16.dp)
 
   override var contentSpacedBy: Dp = 8.dp
+  override var validationLabelAndIndicatorSpacedBy: Dp = 4.dp
 
   override var typography: QuackTypography = QuackTypography.Body1
-  override val validationTypography: QuackTypography = QuackTypography.Body1
+  override val validationLabelTypography: QuackTypography = QuackTypography.Body1
 
   override fun invoke(styleBuilder: QuackDefaultLargeTextFieldDefaults.() -> Unit): QuackDefaultLargeTextFieldDefaults =
     apply(styleBuilder)
@@ -449,16 +456,18 @@ internal object TextFieldErrors {
 }
 
 private val DefaultIconSize = 16.dp
+private val DefaultButtonIconSize = 24.dp
 
 @DecorateModifier
 @Stable
 public fun Modifier.defaultTextFieldIcon(
   icon: QuackIcon,
-  iconSize: Dp = DefaultIconSize,
+  role: IconRole = IconRole.Icon,
+  iconSize: Dp = if (role == IconRole.Icon) DefaultIconSize else DefaultButtonIconSize,
   tint: QuackColor? = QuackColor.Gray2,
   tintGetter: ((text: String, validationState: TextFieldValidationState, colorSet: QuackDefaultTextFieldStyle.TextFieldColors) -> QuackColor)? = null,
-  role: IconRole = if (iconSize == DefaultIconSize) IconRole.Icon else IconRole.Button,
-  direction: HorizontalDirection = if (iconSize == DefaultIconSize) HorizontalDirection.Left else HorizontalDirection.Right,
+  direction: HorizontalDirection = if (role == IconRole.Icon) HorizontalDirection.Left else HorizontalDirection.Right,
+  contentScale: ContentScale = ContentScale.Fit,
   contentDescription: String? = null,
   onClick: (() -> Unit)? = null,
 ): Modifier =
@@ -471,6 +480,7 @@ public fun Modifier.defaultTextFieldIcon(
       properties["tintGetter"] = tintGetter
       properties["role"] = role
       properties["direction"] = direction
+      properties["contentScale"] = contentScale
       properties["contentDescription"] = contentDescription
       properties["onClick"] = onClick
     },
@@ -482,6 +492,7 @@ public fun Modifier.defaultTextFieldIcon(
       tintGetter = tintGetter,
       role = role,
       direction = direction,
+      contentScale = contentScale,
       contentDescription = contentDescription,
       onClick = onClick,
     )
@@ -496,6 +507,7 @@ public fun Modifier.filledTextFieldIcon(
   tintGetter: ((text: String, validationState: TextFieldValidationState, colorSet: QuackFilledTextFieldStyle.TextFieldColors) -> QuackColor)? = null,
   role: IconRole = if (iconSize == DefaultIconSize) IconRole.Icon else IconRole.Button,
   direction: HorizontalDirection = if (iconSize == DefaultIconSize) HorizontalDirection.Left else HorizontalDirection.Right,
+  contentScale: ContentScale = ContentScale.Fit,
   contentDescription: String? = null,
   onClick: (() -> Unit)? = null,
 ): Modifier =
@@ -508,6 +520,7 @@ public fun Modifier.filledTextFieldIcon(
       properties["tintGetter"] = tintGetter
       properties["role"] = role
       properties["direction"] = direction
+      properties["contentScale"] = contentScale
       properties["contentDescription"] = contentDescription
       properties["onClick"] = onClick
     },
@@ -519,6 +532,7 @@ public fun Modifier.filledTextFieldIcon(
       tintGetter = tintGetter,
       role = role,
       direction = direction,
+      contentScale = contentScale,
       contentDescription = contentDescription,
       onClick = onClick,
     )
@@ -786,6 +800,8 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy = TextFieldValidationLabelVisibilityStrategy.Gone,
   interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
+  require(style is QuackDefaultTextFieldStyle)
+
   var isSizeSpecified = false
   val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier) { currentModifier ->
     if (!isSizeSpecified && currentModifier is LayoutModifier) {
@@ -830,6 +846,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   val currentContentPadding = if (isSizeSpecified) null else contentPadding
 
   val contentSpacedBy = style.contentSpacedBy
+  val validationLabelAndIndicatorSpacedBy = style.validationLabelAndIndicatorSpacedBy
 
   val typography = remember(style.typography, contentColor) {
     style.typography.change(color = contentColor)
@@ -837,13 +854,12 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   val placeholderTypography = remember(style.typography, placeholderColor) {
     style.typography.change(color = placeholderColor)
   }
-  // why need casting?
-  val validationTypography = style.cast<QuackDefaultTextFieldStyle>().validationTypography
-  val errorTypography = remember(validationTypography, errorColor) {
-    validationTypography.change(color = errorColor)
+  val validationLabelTypography = style.validationLabelTypography
+  val errorTypography = remember(validationLabelTypography, errorColor) {
+    validationLabelTypography.change(color = errorColor)
   }
-  val successTypography = remember(validationTypography, successColor) {
-    validationTypography.change(color = successColor)
+  val successTypography = remember(validationLabelTypography, successColor) {
+    validationLabelTypography.change(color = successColor)
   }
 
   val currentLeadingIconTint = leadingIconData?.run {
@@ -880,6 +896,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
     backgroundColor = backgroundColor,
     contentPadding = currentContentPadding,
     contentSpacedBy = contentSpacedBy,
+    validationLabelAndIndicatorSpacedBy = validationLabelAndIndicatorSpacedBy,
     typography = typography,
     placeholderTypography = placeholderTypography,
     errorTypography = errorTypography,
@@ -888,12 +905,14 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
     leadingIconSize = leadingIconData?.iconSize,
     leadingIconTint = currentLeadingIconTint,
     leadingIconRole = leadingIconData?.role,
+    leadingIconContentScale = leadingIconData?.contentScale,
     leadingIconContentDescription = leadingIconData?.contentDescription,
     leadingIconOnClick = leadingIconData?.onClick,
     trailingIcon = trailingIconData?.icon,
     trailingIconSize = trailingIconData?.iconSize,
     trailingIconTint = currentTrailingIconTint,
     trailingIconRole = trailingIconData?.role,
+    trailingIconContentScale = trailingIconData?.contentScale,
     trailingIconContentDescription = trailingIconData?.contentDescription,
     trailingIconOnClick = trailingIconData?.onClick,
     indicatorThickness = indicatorData?.thickness,
@@ -907,16 +926,12 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   )
 }
 
-// TODO: 인자로 이동?
-private val DefaultIndicatorAndLabelGap = 4.dp
-
 private const val DefaultCoreTextFieldLayoutId = "QuackBaseDefaultTextFieldCoreTextFieldLayoutId"
 private const val DefaultCoreTextFieldContainerLayoutId = "QuackBaseDefaultTextFieldCoreTextFieldContainerLayoutId"
 private const val DefaultLeadingIconLayoutId = "QuackBaseDefaultTextFieldLeadingIconLayoutId"
 private const val DefaultLeadingIconContainerLayoutId = "QuackBaseDefaultTextFieldLeadingIconContainerLayoutId"
 private const val DefaultTrailingIconLayoutId = "QuackBaseDefaultTextFieldTrailingIconLayoutId"
 private const val DefaultTrailingIconContainerLayoutId = "QuackBaseDefaultTextFieldTrailingIconContainerLayoutId"
-private const val DefaultCounterLayoutId = "QuackBaseDefaultTextFieldCounterLayoutId"
 
 @Stable
 private class LazyValue<T>(var value: T? = null)
@@ -961,6 +976,7 @@ public fun QuackBaseDefaultTextField(
   backgroundColor: QuackColor,
   contentPadding: PaddingValues?,
   contentSpacedBy: Dp,
+  validationLabelAndIndicatorSpacedBy: Dp,
   typography: QuackTypography,
   placeholderTypography: QuackTypography,
   errorTypography: QuackTypography,
@@ -970,12 +986,14 @@ public fun QuackBaseDefaultTextField(
   leadingIconSize: Dp?,
   leadingIconTint: QuackColor?,
   leadingIconRole: IconRole?,
+  leadingIconContentScale: ContentScale?,
   leadingIconContentDescription: String?,
   leadingIconOnClick: (() -> Unit)?,
   trailingIcon: QuackIcon?,
   trailingIconSize: Dp?,
   trailingIconTint: QuackColor?,
   trailingIconRole: IconRole?,
+  trailingIconContentScale: ContentScale?,
   trailingIconContentDescription: String?,
   trailingIconOnClick: (() -> Unit)?,
   indicatorThickness: Dp?,
@@ -1136,35 +1154,42 @@ public fun QuackBaseDefaultTextField(
             icon = leadingIcon,
             size = leadingIconSize!!,
             tint = leadingIconTint!!,
+            contentScale = leadingIconContentScale!!,
+            contentDescription = leadingIconContentDescription,
           )
         }
         if (trailingIcon != null) {
           QuackIcon(
-            modifier = Modifier.layoutId(DefaultTrailingIconLayoutId),
+            modifier = Modifier
+              .layoutId(DefaultTrailingIconLayoutId)
+              .background(color = Color.Cyan.copy(alpha = .7f)),
             icon = trailingIcon,
             size = trailingIconSize!!,
             tint = trailingIconTint!!,
+            contentScale = trailingIconContentScale!!,
+            contentDescription = trailingIconContentDescription,
           )
         }
-        if (leadingIconOnClick != null) {
+        if (leadingIconRole == IconRole.Button) {
           Box(
             Modifier
               .layoutId(DefaultLeadingIconContainerLayoutId)
               .quackClickable(
-                role = leadingIconRole!!.asSemanticOrNull(),
+                role = Role.Button,
                 rippleEnabled = false,
-                onClick = leadingIconOnClick,
+                onClick = leadingIconOnClick!!,
               )
           )
         }
-        if (trailingIconOnClick != null) {
+        if (trailingIconRole == IconRole.Button) {
           Box(
             Modifier
               .layoutId(DefaultTrailingIconContainerLayoutId)
+              .background(color = Color.Red.copy(alpha = .7f))
               .quackClickable(
-                role = trailingIconRole!!.asSemanticOrNull(),
+                role = Role.Button,
                 rippleEnabled = false,
-                onClick = trailingIconOnClick,
+                onClick = trailingIconOnClick!!,
               )
           )
         }
@@ -1188,10 +1213,8 @@ public fun QuackBaseDefaultTextField(
       val trailingIconContainerMeasurable = measurables.fastFirstOrNull { measurable ->
         measurable.layoutId == DefaultTrailingIconContainerLayoutId
       }
-      val counterMeasurable = measurables.fastFirstOrNull { measurable ->
-        measurable.layoutId == DefaultCounterLayoutId
-      }
 
+      // TODO: 패딩 생성 시점에 0 이상이 주어졌는지 검사하는 assertion 추가
       val topPadding = contentPadding?.calculateTopPadding()?.roundToPx() ?: 0
       val bottomPadding = contentPadding?.calculateBottomPadding()?.roundToPx() ?: 0
       val leftPadding = contentPadding?.calculateLeftPadding(layoutDirection)?.roundToPx() ?: 0
@@ -1200,7 +1223,12 @@ public fun QuackBaseDefaultTextField(
       val verticalPadding = topPadding + bottomPadding
 
       val contentSpacedByPx = contentSpacedBy.roundToPx()
-      val indicatorAndLabelGap = DefaultIndicatorAndLabelGap.roundToPx()
+      val halfContentSpacedByPx = contentSpacedByPx / 2
+
+      val labelAndIndicatorSpacedByPx = validationLabelAndIndicatorSpacedBy.roundToPx()
+
+      val leadingIconSizePx = leadingIconSize?.roundToPx()
+      val trailingIconSizePx = trailingIconSize?.roundToPx()
 
       val minWidth = constraints.minWidth
 
@@ -1209,11 +1237,11 @@ public fun QuackBaseDefaultTextField(
           plus(minWidth)
           minus(horizontalPadding)
           if (leadingIcon != null) {
-            minus(leadingIconSize!!.roundToPx())
+            minus(leadingIconSizePx!!)
             minus(contentSpacedByPx)
           }
           if (trailingIcon != null) {
-            minus(trailingIconSize!!.roundToPx())
+            minus(trailingIconSizePx!!)
             minus(contentSpacedByPx)
           }
         }
@@ -1226,31 +1254,41 @@ public fun QuackBaseDefaultTextField(
         )
       val coreTextFieldPlaceable = coreTextFieldMeasurable.measure(coreTextFieldConstraints)
 
-      var width = constraints.constrainWidth(minWidth + horizontalPadding)
+      val width = constraints.constrainWidth(minWidth + horizontalPadding)
       var height = constraints.constrainHeight(coreTextFieldPlaceable.height + verticalPadding)
 
       val extraLooseConstraints = constraints.asLoose(width = true, height = true)
       var leadingIconContainerConstraints: Constraints? = null
       var trailingIconContainerConstraints: Constraints? = null
 
-      if (leadingIconMeasurable != null) {
-        when (leadingIconRole!!) {
-          IconRole.Icon -> {
-
-          }
-          IconRole.Button -> {
-
-          }
-        }
+      if (leadingIconRole == IconRole.Button) {
+        leadingIconContainerConstraints =
+          Constraints.fixed(
+            width = (leadingIconSizePx!! + halfContentSpacedByPx).coerceAtMost(width),
+            height = height,
+          )
       }
+      if (trailingIconRole == IconRole.Button) {
+        trailingIconContainerConstraints =
+          Constraints.fixed(
+            width = (halfContentSpacedByPx + trailingIconSizePx!!).coerceAtMost(width),
+            height = height,
+          )
+      }
+
+      val leadingIconPlaceable = leadingIconMeasurable?.measure(extraLooseConstraints)
+      val leadingIconContainerPlaceable = leadingIconContainerMeasurable?.measure(leadingIconContainerConstraints!!)
+
+      val trailingIconPlaceable = trailingIconMeasurable?.measure(extraLooseConstraints)
+      val trailingIconContainerPlaceable = trailingIconContainerMeasurable?.measure(trailingIconContainerConstraints!!)
 
       val coreTextFieldContainerConstraints = Constraints.fixed(width = width, height = height)
       val coreTextFieldContainerPlaceable = coreTextFieldContainerMeasurable.measure(coreTextFieldContainerConstraints)
 
       height = if (indicatorLabelMeasureResult != null) {
-        constraints.constrainHeight(height + indicatorAndLabelGap + indicatorLabelMeasureResult.size.height)
+        constraints.constrainHeight(height + labelAndIndicatorSpacedByPx + indicatorLabelMeasureResult.size.height)
       } else if (indicatorLabelBaselineHeightOrNull != null) {
-        constraints.constrainHeight(height + indicatorAndLabelGap + indicatorLabelBaselineHeightOrNull)
+        constraints.constrainHeight(height + labelAndIndicatorSpacedByPx + indicatorLabelBaselineHeightOrNull)
       } else {
         height
       }
@@ -1263,7 +1301,33 @@ public fun QuackBaseDefaultTextField(
 
       layout(width = width, height = height) {
         coreTextFieldContainerPlaceable.place(x = 0, y = 0, zIndex = 0f)
-        coreTextFieldPlaceable.place(x = leftPadding, y = topPadding, zIndex = 1f)
+        coreTextFieldPlaceable.place(
+          x = leftPadding + (leadingIconSizePx?.plus(contentSpacedByPx) ?: 0),
+          y = topPadding,
+          zIndex = 1f,
+        )
+
+        leadingIconPlaceable?.place(
+          x = 0,
+          y = topPadding + (coreTextFieldPlaceable.height / 2) - (leadingIconPlaceable.height / 2),
+          zIndex = 0f,
+        )
+        leadingIconContainerPlaceable?.place(
+          x = 0,
+          y = coreTextFieldContainerPlaceable.height - leadingIconContainerPlaceable.height,
+          zIndex = 1f,
+        )
+
+        trailingIconPlaceable?.place(
+          x = width - trailingIconPlaceable.width,
+          y = topPadding + (coreTextFieldPlaceable.height / 2) - (trailingIconPlaceable.height / 2),
+          zIndex = 0f,
+        )
+        trailingIconContainerPlaceable?.place(
+          x = width - trailingIconContainerPlaceable.width,
+          y = coreTextFieldContainerPlaceable.height - trailingIconContainerPlaceable.height,
+          zIndex = 1f,
+        )
       }
     }
   }
