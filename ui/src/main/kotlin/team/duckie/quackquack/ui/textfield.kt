@@ -610,49 +610,6 @@ public fun Modifier.counter(
     )
   }
 
-@Stable
-private fun Modifier.drawIndicator(
-  thickness: Dp,
-  color: QuackColor,
-  direction: VerticalDirection,
-  validationState: TextFieldValidationState,
-): Modifier =
-  this
-    .also {
-      if (
-        validationState is TextFieldValidationState.WithLabel &&
-        validationState.label != null
-      ) {
-        require(
-          direction == VerticalDirection.Bottom,
-          lazyMessage = TextFieldErrors::ValidationLabelProvidedButNoDownDirectionIndicator,
-        )
-      }
-    }
-    .drawWithCache {
-      val borderColor = color.value
-      val yOffset = size.height - thickness.toPx()
-
-      // TODO: The y offset must be 1 to be visible without being clipped. But why?
-      val startOffset = when (direction) {
-        VerticalDirection.Top -> Offset(x = 0f, y = 1f)
-        VerticalDirection.Bottom -> Offset(x = 0f, y = yOffset)
-      }
-      val endOffset = when (direction) {
-        VerticalDirection.Top -> Offset(x = size.width, y = 1f)
-        VerticalDirection.Bottom -> Offset(x = size.width, y = yOffset)
-      }
-
-      onDrawBehind {
-        drawLine(
-          color = borderColor,
-          start = startOffset,
-          end = endOffset,
-          strokeWidth = thickness.toPx(),
-        )
-      }
-    }
-
 // TODO(casa): support for state parameter. but how?
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
@@ -962,6 +919,16 @@ public fun QuackBaseDefaultTextField(
   counterBaseAndHighlightGap: Dp?,
   counterMaxLength: Int?,
 ) {
+  if (
+    validationState is TextFieldValidationState.WithLabel &&
+    validationState.label != null
+  ) {
+    require(
+      indicatorDirection == VerticalDirection.Bottom,
+      lazyMessage = TextFieldErrors::ValidationLabelProvidedButNoDownDirectionIndicator,
+    )
+  }
+
   val fontScaleAwareLeadingIconSize: Dp?
   val fontScaleAwareTrailingIconSize: Dp?
 
@@ -1145,12 +1112,30 @@ public fun QuackBaseDefaultTextField(
             .layoutId(DefaultCoreTextFieldContainerLayoutId)
             .quackSurface(backgroundColor = backgroundColor)
             .applyIf(indicatorThickness != null) {
-              drawIndicator(
-                thickness = indicatorThickness!!,
-                color = indicatorColor!!,
-                direction = indicatorDirection!!,
-                validationState = validationState,
-              )
+              drawWithCache {
+                val indicatorThicknessPx = indicatorThickness!!.toPx()
+                val borderColor = indicatorColor!!.value
+                val yOffset = size.height - indicatorThicknessPx
+
+                // TODO: The y offset must be 1 to be visible without being clipped. But why?
+                val startOffset = when (indicatorDirection!!) {
+                  VerticalDirection.Top -> Offset(x = 0f, y = 1f)
+                  VerticalDirection.Bottom -> Offset(x = 0f, y = yOffset)
+                }
+                val endOffset = when (indicatorDirection) {
+                  VerticalDirection.Top -> Offset(x = size.width, y = 1f)
+                  VerticalDirection.Bottom -> Offset(x = size.width, y = yOffset)
+                }
+
+                onDrawBehind {
+                  drawLine(
+                    color = borderColor,
+                    start = startOffset,
+                    end = endOffset,
+                    strokeWidth = indicatorThicknessPx,
+                  )
+                }
+              }
             }
             .applyIf(counterTextMeasureResult != null) {
               drawBehind {
@@ -1160,7 +1145,7 @@ public fun QuackBaseDefaultTextField(
                     x = buildFloat {
                       plus(size.width)
                       if (fontScaleAwareLeadingIconSize != null) {
-                        minus(with(currentDensity) { (fontScaleAwareLeadingIconSize + contentSpacedBy).toPx() })
+                        minus((fontScaleAwareLeadingIconSize + contentSpacedBy).toPx())
                       }
                       minus(counterTextMeasureResult.size.width)
                     },
