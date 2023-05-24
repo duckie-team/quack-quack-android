@@ -47,6 +47,7 @@ android {
   testOptions {
     unitTests {
       isIncludeAndroidResources = true
+      isReturnDefaultValues = true
     }
   }
 }
@@ -90,6 +91,7 @@ dependencies {
     libs.test.robolectric,
     libs.test.junit.compose,
     libs.test.kotest.assertion.core,
+    libs.test.kotlin.coroutines, // needed for compose-ui-test
     libs.bundles.test.roborazzi,
   )
 
