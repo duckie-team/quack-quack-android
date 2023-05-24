@@ -127,3 +127,75 @@ stable class QuackGrayscaleOutlinedTagDefaults {
   stable var typography: QuackTypography
   stable var unselectedTypography: QuackTypography
 }
+stable class Error {
+  stable val label: String?
+  <runtime stability> = Stable
+}
+stable class Success {
+  stable val label: String?
+  <runtime stability> = Stable
+}
+stable class Default {
+  <runtime stability> = Stable
+}
+stable class TextFieldValidationState {
+}
+stable class Invisible {
+  stable val baselineLabel: String
+  stable val baselineTypography: QuackTypography?
+  <runtime stability> = Stable
+}
+stable class Gone {
+  <runtime stability> = Stable
+}
+stable class TextFieldValidationLabelVisibilityStrategy {
+}
+stable class TextFieldColors {
+  stable val backgroundColor: QuackColor
+  stable val contentColor: QuackColor
+  stable val placeholderColor: QuackColor
+  stable val errorColor: QuackColor
+  stable val successColor: QuackColor
+  <runtime stability> = Stable
+}
+stable class TextFieldColors {
+  stable val backgroundColor: QuackColor?
+  stable val backgroundColorGetter: Function2<@[ParameterName(name = 'focusInteraction')] FocusInteraction, @[ParameterName(name = 'text')] String, QuackColor>?
+  stable val contentColor: QuackColor
+  stable val placeholderColor: QuackColor
+  <runtime stability> = Stable
+}
+stable class QuackDefaultTextFieldDefaults {
+  stable var colors: TextFieldColors
+  stable var contentPadding: PaddingValues
+  stable var contentSpacedBy: Dp
+  stable var validationLabelAndIndicatorSpacedBy: Dp
+  stable var typography: QuackTypography
+  stable val validationLabelTypography: QuackTypography
+  <runtime stability> = Stable
+}
+stable class QuackDefaultLargeTextFieldDefaults {
+  stable var colors: TextFieldColors
+  stable var contentPadding: PaddingValues
+  stable var contentSpacedBy: Dp
+  stable var validationLabelAndIndicatorSpacedBy: Dp
+  stable var typography: QuackTypography
+  stable val validationLabelTypography: QuackTypography
+  <runtime stability> = Stable
+}
+stable class QuackFilledLargeTextFieldDefaults {
+  stable var radius: Dp
+  stable var colors: TextFieldColors
+  stable var contentPadding: PaddingValues
+  stable var contentSpacedBy: Dp
+  stable var typography: QuackTypography
+  <runtime stability> = Stable
+}
+stable class QuackFilledFlatTextFieldDefaults {
+  stable var radius: Dp
+  stable var colors: TextFieldColors
+  stable var contentPadding: PaddingValues
+  stable var contentSpacedBy: Dp
+  stable var typography: QuackTypography
+  <runtime stability> = Stable
+}

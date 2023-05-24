@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import kotlin.OptIn
+import kotlin.String
 import kotlin.Suppress
 import kotlin.Unit
 import team.duckie.quackquack.casa.`annotation`.Casa
@@ -51,6 +52,7 @@ public fun QuackAreaIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Area,
@@ -58,6 +60,7 @@ public fun QuackAreaIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -83,6 +86,7 @@ public fun QuackArrowBackIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.ArrowBack,
@@ -90,6 +94,7 @@ public fun QuackArrowBackIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -115,6 +120,7 @@ public fun QuackArrowDownIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.ArrowDown,
@@ -122,6 +128,7 @@ public fun QuackArrowDownIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -147,6 +154,7 @@ public fun QuackArrowRightIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.ArrowRight,
@@ -154,6 +162,7 @@ public fun QuackArrowRightIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -179,6 +188,7 @@ public fun QuackArrowSendIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.ArrowSend,
@@ -186,6 +196,7 @@ public fun QuackArrowSendIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -211,6 +222,7 @@ public fun QuackBadgeIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Badge,
@@ -218,6 +230,7 @@ public fun QuackBadgeIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -243,6 +256,7 @@ public fun QuackBookmarkIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Bookmark,
@@ -250,6 +264,7 @@ public fun QuackBookmarkIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -275,6 +290,7 @@ public fun QuackBuyIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Buy,
@@ -282,6 +298,7 @@ public fun QuackBuyIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -307,6 +324,7 @@ public fun QuackCameraIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Camera,
@@ -314,6 +332,7 @@ public fun QuackCameraIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -339,6 +358,7 @@ public fun QuackCheckIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Check,
@@ -346,6 +366,7 @@ public fun QuackCheckIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -371,6 +392,7 @@ public fun QuackCloseIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Close,
@@ -378,6 +400,7 @@ public fun QuackCloseIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -403,6 +426,7 @@ public fun QuackCommentIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Comment,
@@ -410,6 +434,7 @@ public fun QuackCommentIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -435,6 +460,7 @@ public fun QuackDeleteIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Delete,
@@ -442,6 +468,7 @@ public fun QuackDeleteIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -467,6 +494,7 @@ public fun QuackDeleteBgIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.DeleteBg,
@@ -474,6 +502,7 @@ public fun QuackDeleteBgIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -499,6 +528,7 @@ public fun QuackDmIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Dm,
@@ -506,6 +536,7 @@ public fun QuackDmIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -531,6 +562,7 @@ public fun QuackFeedIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Feed,
@@ -538,6 +570,7 @@ public fun QuackFeedIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -563,6 +596,7 @@ public fun QuackFilledBookmarkIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.FilledBookmark,
@@ -570,6 +604,7 @@ public fun QuackFilledBookmarkIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -595,6 +630,7 @@ public fun QuackFilledHeartIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.FilledHeart,
@@ -602,6 +638,7 @@ public fun QuackFilledHeartIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -627,6 +664,7 @@ public fun QuackFilledProfileIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.FilledProfile,
@@ -634,6 +672,7 @@ public fun QuackFilledProfileIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -659,6 +698,7 @@ public fun QuackFilterIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Filter,
@@ -666,6 +706,7 @@ public fun QuackFilterIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -691,6 +732,7 @@ public fun QuackGalleryIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Gallery,
@@ -698,6 +740,7 @@ public fun QuackGalleryIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -723,6 +766,7 @@ public fun QuackHeartIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Heart,
@@ -730,6 +774,7 @@ public fun QuackHeartIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -755,6 +800,7 @@ public fun QuackImageIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Image,
@@ -762,6 +808,7 @@ public fun QuackImageIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -787,6 +834,7 @@ public fun QuackImageEditIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.ImageEdit,
@@ -794,6 +842,7 @@ public fun QuackImageEditIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -819,6 +868,7 @@ public fun QuackImageEditBgIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.ImageEditBg,
@@ -826,6 +876,7 @@ public fun QuackImageEditBgIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -851,6 +902,7 @@ public fun QuackMarketPriceIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.MarketPrice,
@@ -858,6 +910,7 @@ public fun QuackMarketPriceIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -883,6 +936,7 @@ public fun QuackMoreIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.More,
@@ -890,6 +944,7 @@ public fun QuackMoreIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -915,6 +970,7 @@ public fun QuackNoticeAddIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.NoticeAdd,
@@ -922,6 +978,7 @@ public fun QuackNoticeAddIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -947,6 +1004,7 @@ public fun QuackPlaceIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Place,
@@ -954,6 +1012,7 @@ public fun QuackPlaceIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -979,6 +1038,7 @@ public fun QuackPlusIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Plus,
@@ -986,6 +1046,7 @@ public fun QuackPlusIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -1011,6 +1072,7 @@ public fun QuackProfileIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Profile,
@@ -1018,6 +1080,7 @@ public fun QuackProfileIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -1043,6 +1106,7 @@ public fun QuackSearchIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Search,
@@ -1050,6 +1114,7 @@ public fun QuackSearchIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -1075,6 +1140,7 @@ public fun QuackSellIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Sell,
@@ -1082,6 +1148,7 @@ public fun QuackSellIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -1107,6 +1174,7 @@ public fun QuackSettingIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Setting,
@@ -1114,6 +1182,7 @@ public fun QuackSettingIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -1139,6 +1208,7 @@ public fun QuackShareIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Share,
@@ -1146,6 +1216,7 @@ public fun QuackShareIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -1171,6 +1242,7 @@ public fun QuackTagIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Tag,
@@ -1178,6 +1250,7 @@ public fun QuackTagIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -1203,6 +1276,7 @@ public fun QuackTextLogoIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.TextLogo,
@@ -1210,6 +1284,7 @@ public fun QuackTextLogoIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -1235,6 +1310,7 @@ public fun QuackWhiteHeartIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.WhiteHeart,
@@ -1242,6 +1318,7 @@ public fun QuackWhiteHeartIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }
 
@@ -1267,6 +1344,7 @@ public fun QuackWonIcon(
   size: Dp = sugar(),
   tint: QuackColor = sugar(),
   contentScale: ContentScale = sugar(),
+  contentDescription: String? = sugar(),
 ): Unit {
   QuackIcon(
     icon = QuackIcon.Won,
@@ -1274,5 +1352,6 @@ public fun QuackWonIcon(
     size = size,
     tint = tint,
     contentScale = contentScale,
+    contentDescription = contentDescription,
   )
 }

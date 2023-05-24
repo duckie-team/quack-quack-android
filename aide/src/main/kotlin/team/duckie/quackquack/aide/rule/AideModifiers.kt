@@ -25,6 +25,13 @@ internal val aideModifiers: Map<String, List<String>> = run {
   aide["_span"] = emptyList()
   aide["_highlight"] = emptyList()
 
+  aide["textfield"] = listOf("defaultTextFieldIcon", "filledTextFieldIcon",
+      "defaultTextFieldIndicator", "counter")
+  aide["_defaultTextFieldIcon"] = emptyList()
+  aide["_filledTextFieldIcon"] = emptyList()
+  aide["_defaultTextFieldIndicator"] = emptyList()
+  aide["_counter"] = emptyList()
+
   aide
 }
 
