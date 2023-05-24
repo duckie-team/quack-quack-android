@@ -29,9 +29,9 @@ public fun QuackPadding.assertOnlyPositiveNotZero() {
 public fun PaddingValues.assertOnlyPositiveNotZero() {
   require(
     calculateTopPadding() > Dp.Hairline &&
-        calculateBottomPadding() > Dp.Hairline &&
-        calculateLeftPadding(LayoutDirection.Ltr) > Dp.Hairline &&
-        calculateRightPadding(LayoutDirection.Ltr) > Dp.Hairline,
+      calculateBottomPadding() > Dp.Hairline &&
+      calculateLeftPadding(LayoutDirection.Ltr) > Dp.Hairline &&
+      calculateRightPadding(LayoutDirection.Ltr) > Dp.Hairline,
     lazyMessage = AssertionFail::NotAllowZeroOrNegativePadding,
   )
 }

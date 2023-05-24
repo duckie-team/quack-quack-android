@@ -443,21 +443,21 @@ public class QuackFilledFlatTextFieldDefaults :
 @VisibleForTesting
 internal object TextFieldErrors {
   fun sameDirectionIcon(direction: String) = "The icon was provided more than once in the same direction. " +
-      "Only one icon can be displayed per direction. (Direction offered twice: $direction)"
+    "Only one icon can be displayed per direction. (Direction offered twice: $direction)"
 
   fun unhandledFocusInteraction(interaction: FocusInteraction) = "An unhandled focus interaction was provided. " +
-      "($interaction)"
+    "($interaction)"
 
   const val IndicatorRequestedButNoColor = "Show indicator was requested, but no indicator color was provided. " +
-      "Please provide a non-null value for one of the color or colorGetter fields."
+    "Please provide a non-null value for one of the color or colorGetter fields."
 
   const val ButtonIconRuleButNoOnClick = "The icon's rule was provided as Button, but no onClick event was provided. " +
-      "Please set the icon's rule to Icon or provide an onClick event."
+    "Please set the icon's rule to Icon or provide an onClick event."
 
   const val ValidationLabelProvidedButNoDownDirectionIndicator =
     "A label was provided as a TextFieldValidationState, " +
-        "but the indicator must have a direction of VerticalDirection.Down in order to display the label. " +
-        "The current direction is VerticalDirection.Top."
+      "but the indicator must have a direction of VerticalDirection.Down in order to display the label. " +
+      "The current direction is VerticalDirection.Top."
 }
 
 private val DefaultIconSize = 16.dp
@@ -544,7 +544,11 @@ public fun Modifier.filledTextFieldIcon(
   }
 
 @Stable
-public val DefaultIndicatorColorGetterForDefaultTextField: (text: String, validationState: TextFieldValidationState, colorSet: QuackDefaultTextFieldStyle.TextFieldColors) -> QuackColor =
+public val DefaultIndicatorColorGetterForDefaultTextField: (
+  text: String,
+  validationState: TextFieldValidationState,
+  colorSet: QuackDefaultTextFieldStyle.TextFieldColors,
+) -> QuackColor =
   { _, validationState, colorSet ->
     val defaultColor = colorSet.contentColor
     val successColor = colorSet.successColor
@@ -563,7 +567,11 @@ public fun Modifier.defaultTextFieldIndicator(
   direction: VerticalDirection = VerticalDirection.Bottom,
   thickness: Dp = 1.dp,
   color: QuackColor? = null,
-  colorGetter: ((text: String, validationState: TextFieldValidationState, colorSet: QuackDefaultTextFieldStyle.TextFieldColors) -> QuackColor)? = DefaultIndicatorColorGetterForDefaultTextField,
+  colorGetter: ((
+    text: String,
+    validationState: TextFieldValidationState,
+    colorSet: QuackDefaultTextFieldStyle.TextFieldColors,
+  ) -> QuackColor)? = DefaultIndicatorColorGetterForDefaultTextField,
 ): Modifier =
   inspectable(
     inspectorInfo = debugInspectorInfo {
@@ -1061,7 +1069,7 @@ public fun QuackBaseDefaultTextField(
               SpanStyle(
                 fontSize = with(currentDensity) { counterBaseAndHighlightGap!!.toSp() },
                 color = Color.Transparent,
-              )
+              ),
             ) {
               append("_") // TODO(impl): correctly?
             }
@@ -1229,7 +1237,7 @@ public fun QuackBaseDefaultTextField(
                 role = Role.Button,
                 rippleEnabled = false,
                 onClick = leadingIconOnClick!!,
-              )
+              ),
           )
         }
         if (trailingIconRole == IconRole.Button) {
@@ -1240,7 +1248,7 @@ public fun QuackBaseDefaultTextField(
                 role = Role.Button,
                 rippleEnabled = false,
                 onClick = trailingIconOnClick!!,
-              )
+              ),
           )
         }
       },
@@ -1461,6 +1469,6 @@ public fun QuackFilledTextField() {
 public fun QuackOutlinedTextField(): Nothing {
   throw NotImplementedError(
     "The design that this component is used for is not in development scope, " +
-        "so it this component is not yet developed.",
+      "so it this component is not yet developed.",
   )
 }

@@ -26,17 +26,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.material.QuackColor
-import team.duckie.quackquack.material.QuackIcon
 import team.duckie.quackquack.ui.QuackDefaultTextField
 import team.duckie.quackquack.ui.QuackTextFieldStyle
 import team.duckie.quackquack.ui.TextFieldPlaceholderStrategy
-import team.duckie.quackquack.ui.counter
-import team.duckie.quackquack.ui.defaultTextFieldIcon
-import team.duckie.quackquack.ui.defaultTextFieldIndicator
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
-import team.duckie.quackquack.ui.token.HorizontalDirection
-import team.duckie.quackquack.ui.token.IconRole
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 
 class MainActivity : ComponentActivity() {
@@ -50,24 +43,24 @@ class MainActivity : ComponentActivity() {
         var value by rememberSaveable { mutableStateOf("") }
         QuackDefaultTextField(
           modifier = Modifier
-            .fillMaxWidth()
-            /*.defaultTextFieldIndicator()
-            .defaultTextFieldIcon(
-              icon = QuackIcon.FilledHeart,
-              role = IconRole.Button,
-              tint = QuackColor.Unspecified,
-              direction = HorizontalDirection.Left,
-            ) {
-              toast("left heart!")
-            }
-            .defaultTextFieldIcon(
-              icon = QuackIcon.FilledHeart,
-              role = IconRole.Button,
-              tint = QuackColor.Unspecified,
-            ) {
-              toast("right heart!")
-            }
-            .counter(maxLength = 10)*/,
+            .fillMaxWidth(),
+          /*.defaultTextFieldIndicator()
+          .defaultTextFieldIcon(
+            icon = QuackIcon.FilledHeart,
+            role = IconRole.Button,
+            tint = QuackColor.Unspecified,
+            direction = HorizontalDirection.Left,
+          ) {
+            toast("left heart!")
+          }
+          .defaultTextFieldIcon(
+            icon = QuackIcon.FilledHeart,
+            role = IconRole.Button,
+            tint = QuackColor.Unspecified,
+          ) {
+            toast("right heart!")
+          }
+          .counter(maxLength = 10)*/
           value = value,
           onValueChange = { value = it },
           // placeholderText = "사랑의 주며, 청춘을 것은 이상은 되는 불러 바이며, 귀는 듣는다. 내는 힘차게 있는 황금시대다. 우리는 공자는 노년에게서 그들을 있는 수 얼음과 피다.",
