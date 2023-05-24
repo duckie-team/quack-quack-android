@@ -7,7 +7,7 @@
 
 @file:OptIn(ExperimentalQuackQuackApi::class)
 
-package team.duckie.quackquack.ui.snapshot
+package team.duckie.quackquack.ui.uitest
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
