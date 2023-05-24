@@ -862,6 +862,8 @@ private fun rememberLtrTextMeasurer(cacheSize: Int = /*DefaultCacheSize*/ 8): Te
   }
 }
 
+private val DefaultMinWidth = 200.dp
+
 @MustBeTested(passed = false)
 @NoSugar
 @ExperimentalQuackQuackApi
@@ -1270,7 +1272,10 @@ public fun QuackBaseDefaultTextField(
       val fontScaleAwareLeadingIconSizePx = fontScaleAwareLeadingIconSize?.roundToPx()
       val fontScaleAwareTrailingIconSizePx = fontScaleAwareTrailingIconSize?.roundToPx()
 
-      val minWidth = constraints.minWidth
+      val minWidth = constraints.minWidth.let { minWidth ->
+        if (minWidth == 0) DefaultMinWidth.roundToPx()
+        else minWidth
+      }
 
       val coreTextFieldWidth =
         buildInt {
