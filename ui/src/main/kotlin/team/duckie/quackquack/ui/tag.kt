@@ -506,8 +506,8 @@ internal object QuackTagErrors {
  * 후행 아이콘을 추가할 수 있고, 후행 아이콘 여부에 따라 패딩 정책이 결정됩니다. 후행 아이콘이 있다면 세로와
  * 가로에 따라 패딩을 적용하는 방식이 달라집니다. 세로의 경우는 태그 텍스트를 기준으로 적용되고, 가로의 경우는
  * 후행 아이콘의 터치 영역을 증가시키는 식으로 적용됩니다. 기본적으로 후행 아이콘은 16px의 사이즈를 갖습니다.
- * 유저 입장에서 16px의 터치 영역은 좋은 경험을 제공하지 못할 것으로 예상하여, [전체 가로 패딩][QuackPadding.vertical]의
- * 오른쪽 영역을 후행 아이콘의 오른쪽 패딩으로 적용합니다. 이때, [전체 가로 패딩][QuackPadding.vertical]의 오른쪽
+ * 유저 입장에서 16px의 터치 영역은 좋은 경험을 제공하지 못할 것으로 예상하여, [전체 가로 패딩][QuackPadding.horizontal]의
+ * 오른쪽 영역을 후행 아이콘의 오른쪽 패딩으로 적용합니다. 이때, [전체 가로 패딩][QuackPadding.horizontal]의 오른쪽
  * 영역을 그대로 적용하는 게 아니라 해당 값에서 [텍스트와 후행 아이콘 사이 공간][QuackTagStyle.iconSpacedBy]을 뺀
  * 값을 적용합니다. 이는 디자인 가이드라인에 의거합니다. 그리고 [텍스트와 후행 아이콘 사이 공간][QuackTagStyle.iconSpacedBy]의
  * 반을 후행 아이콘의 왼쪽 패딩으로 적용합니다. [텍스트와 후행 아이콘 사이 공간][QuackTagStyle.iconSpacedBy] 반의
@@ -517,7 +517,7 @@ internal object QuackTagErrors {
  * 옵션은 무시됩니다. [contentPadding][QuackTagStyle.contentPadding]은 컴포넌트 사이즈 하드코딩을
  * 대체하는 용도로 제공됩니다. 하지만 컴포넌트 사이즈가 하드코딩됐다면 [contentPadding][QuackTagStyle.contentPadding]을
  * 제공하는 의미가 없어집니다. 따라서 컴포넌트의 사이즈가 하드코딩됐다면 개발자의 의도를 존중한다는 원칙하에
- * 컴포넌트의 사이즈가 중첩으로 확장되는 일을 예방하고자 [contentPadding][QuackTagStyle.contentPadding]
+ * 컴포넌트의 사이즈가 중복으로 확장되는 일을 예방하고자 [contentPadding][QuackTagStyle.contentPadding]
  * 옵션을 무시합니다. 예를 들어 `Modifier.height(10.dp)`로 컴포넌트 높이를 명시했고, [contentPadding][QuackTagStyle.contentPadding]으로
  * `QuackPadding(vertical=10.dp)`을 제공했다고 해봅시다. 이런 경우에는 [contentPadding][QuackTagStyle.contentPadding]이
  * 무시되고 태그의 높이가 10dp로 적용됩니다. 컴포넌트 사이즈를 명시하면서 패딩을 적용하고 싶다면

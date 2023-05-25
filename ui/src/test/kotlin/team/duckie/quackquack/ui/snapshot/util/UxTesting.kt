@@ -5,12 +5,14 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.ui.util
+package team.duckie.quackquack.ui.snapshot.util
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalConfiguration
+
+const val LargestFontScale = 2f // Maximum font scale based on Galaxy A31
 
 @SuppressLint("ComposableNaming")
 @Composable

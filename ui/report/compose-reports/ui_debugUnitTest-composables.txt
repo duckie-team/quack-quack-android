@@ -1,0 +1,11 @@
+restartable skippable scheme("[androidx.compose.ui.UiComposable, [androidx.compose.ui.UiComposable]]") fun TestColumn(
+  stable content: Function2<Composer, Int, Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable, [androidx.compose.ui.UiComposable]]") fun WithLabel(
+  stable label: String
+  stable content: Function2<Composer, Int, Unit>
+)
+restartable skippable scheme("[0, [0]]") fun withIncreaseFontScale(
+  stable fontScale: Float
+  stable content: Function2<Composer, Int, Unit>
+)

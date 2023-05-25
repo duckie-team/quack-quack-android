@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/master/LICENSE
  */
 
-@file:OptIn(ExperimentalQuackQuackApi::class)
+@file:OptIn(ExperimentalQuackQuackApi::class, ExperimentalDesignToken::class)
 @file:Suppress("UnnecessaryOptInAnnotation")
 
 package team.duckie.quackquack.catalog
@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import casaModels
 import team.duckie.quackquack.casa.ui.CasaScreen
 import team.duckie.quackquack.casa.ui.theme.CasaTheme
+import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 
 class MainActivity : ComponentActivity() {
@@ -34,18 +35,69 @@ class MainActivity : ComponentActivity() {
         CasaScreen(models = casaModels)
       }
       /*Preview {
-        // var showTrailingIcon by remember { mutableStateOf(true) }
-        var selected by remember { mutableStateOf(true) }
-        QuackTag(
+        var value by rememberSaveable { mutableStateOf("") }
+        QuackDefaultTextField(
+          value = "ShortText",
+          onValueChange = {},
+          style = QuackTextFieldStyle.Default,
+          validationState = TextFieldValidationState.Default,
+        )
+        QuackDefaultTextField(
           modifier = Modifier
-            .then(Modifier)
-            .trailingIcon(QuackIcon.Heart) { toast("HI: $selected") },
-          text = "QuackTagPreview",
-          style = QuackTagStyle.Filled,
-          selected = selected,
-        ) {
-          selected = !selected
-        }
+            .fillMaxWidth()
+            .defaultTextFieldIndicator()
+            .defaultTextFieldIcon(
+              icon = QuackIcon.FilledHeart,
+              tint = QuackColor.Unspecified,
+              iconSize = 24.dp,
+              direction = HorizontalDirection.Left,
+            ) {
+              toast("left heart!")
+            }
+            .defaultTextFieldIcon(
+              icon = QuackIcon.FilledHeart,
+              iconSize = 24.dp,
+              tint = QuackColor.Unspecified,
+              direction = HorizontalDirection.Right,
+            ) {
+              toast("right heart!")
+            }
+            .counter(maxLength = 10),
+          value = value,
+          onValueChange = { value = it },
+          // placeholderText = "사랑의 주며, 청춘을 것은 이상은 되는 불러 바이며, 귀는 듣는다. 내는 힘차게 있는 황금시대다. 우리는 공자는 노년에게서 그들을 있는 수 얼음과 피다.",
+          validationState = TextFieldValidationState.Error(),
+          placeholderText = "Hello!",
+          placeholderStrategy = TextFieldPlaceholderStrategy.Always,
+          style = QuackTextFieldStyle.Default,
+        )
+        QuackDefaultTextField(
+          modifier = Modifier
+            .fillMaxWidth()
+            .defaultTextFieldIndicator()
+            .defaultTextFieldIcon(
+              icon = QuackIcon.FilledHeart,
+              tint = QuackColor.Unspecified,
+              direction = HorizontalDirection.Left,
+            ) {
+              toast("left heart!")
+            }
+            .defaultTextFieldIcon(
+              icon = QuackIcon.FilledHeart,
+              tint = QuackColor.Unspecified,
+              direction = HorizontalDirection.Right,
+            ) {
+              toast("right heart!")
+            }
+            .counter(maxLength = 10),
+          value = value,
+          onValueChange = { value = it },
+          // placeholderText = "사랑의 주며, 청춘을 것은 이상은 되는 불러 바이며, 귀는 듣는다. 내는 힘차게 있는 황금시대다. 우리는 공자는 노년에게서 그들을 있는 수 얼음과 피다.",
+          validationState = TextFieldValidationState.Success(),
+          placeholderText = "Hello!",
+          placeholderStrategy = TextFieldPlaceholderStrategy.Always,
+          style = QuackTextFieldStyle.DefaultLarge,
+        )
       }*/
     }
   }
@@ -57,7 +109,7 @@ private fun Preview(content: @Composable ColumnScope.() -> Unit) {
   Column(
     modifier = Modifier.fillMaxSize(),
     verticalArrangement = Arrangement.spacedBy(
-      space = 8.dp,
+      space = 15.dp,
       alignment = Alignment.CenterVertically,
     ),
     horizontalAlignment = Alignment.CenterHorizontally,

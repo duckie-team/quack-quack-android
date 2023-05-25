@@ -87,6 +87,10 @@ internal val quackComponents: Map<String, String> = run {
   aide["QuackTitle2"] = "text"
   aide["QuackText"] = "text"
 
+  aide["QuackDefaultTextField"] = "textfield"
+  aide["QuackBaseDefaultTextField"] = "textfield"
+  aide["QuackFilledTextField"] = "textfield"
+
   aide
 }
 

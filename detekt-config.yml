@@ -24,8 +24,12 @@ formatting:
     active: false
   MaximumLineLength:
     active: false
+  MultiLineIfElse:
+    active: false
   Indentation:
     indentSize: 2
+  ParameterListWrapping:
+    active: false
   ArgumentListWrapping:
     indentSize: 2
     maxLineLength: 150
@@ -34,9 +38,9 @@ formatting:
     indentSize: 2
   Wrapping:
     indentSize: 2
+    active: false
   CommentWrapping:
-    active: true
-    indentSize: 2
+    active: false
   Filename:
     active: false
   PackageName:
@@ -61,8 +65,7 @@ style:
   DestructuringDeclarationWithTooManyEntries:
     active: false
   MaxLineLength:
-    maxLineLength: 150
-    excludeCommentStatements: true
+    active: false
 
 naming:
   TopLevelPropertyNaming:

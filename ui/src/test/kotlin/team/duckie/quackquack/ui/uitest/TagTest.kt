@@ -7,19 +7,20 @@
 
 @file:OptIn(ExperimentalQuackQuackApi::class)
 
-package team.duckie.quackquack.ui
+package team.duckie.quackquack.ui.uitest
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import io.kotest.assertions.throwables.shouldThrowWithMessage
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import team.duckie.quackquack.ui.QuackTagErrors.GrayscaleFlatStyleUnselectedState
+import team.duckie.quackquack.ui.snapshot.util.setQuackContent
 import team.duckie.quackquack.ui.sugar.QuackGrayscaleFlatTag
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
-import team.duckie.quackquack.ui.util.setQuackContent
+import team.duckie.quackquack.util.Empty
 
 @RunWith(AndroidJUnit4::class)
 class TagTest {
@@ -28,14 +29,10 @@ class TagTest {
 
   @Test
   fun GrayscaleFlatStyleDotAllowUnselectedState() {
-    val result = runCatching {
+    shouldThrowWithMessage<IllegalStateException>(GrayscaleFlatStyleUnselectedState) {
       compose.setQuackContent {
-        QuackGrayscaleFlatTag("", selected = false) {}
+        QuackGrayscaleFlatTag(String.Empty, selected = false) {}
       }
     }
-    val exception = result.exceptionOrNull()
-
-    assertTrue(exception is IllegalStateException)
-    assertEquals(QuackTagErrors.GrayscaleFlatStyleUnselectedState, exception?.message)
   }
 }

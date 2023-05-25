@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:OptIn(ExperimentalContracts::class)
+
 package team.duckie.quackquack.ui.util
 
 import android.annotation.SuppressLint
@@ -17,6 +19,9 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 import team.duckie.quackquack.util.DpSize
 
 /** 현재 font scale을 람다로 제공합니다. */
@@ -24,12 +29,14 @@ import team.duckie.quackquack.util.DpSize
 @Composable
 @ReadOnlyComposable
 public inline fun <T> currentFontScale(content: (fontScale: Float) -> T): T {
+  contract { callsInPlace(content, InvocationKind.EXACTLY_ONCE) }
+
   val configration = LocalConfiguration.current
   return content(configration.fontScale)
 }
 
 /**
- * [Modifier]를 이용하여 컴포저블의 사이즈를 fontscale-aware 하게 설정합니다.
+ * [Modifier]를 이용하여 컴포저블의 사이즈를 font scale aware 하게 설정합니다.
  *
  * 모든 컴포저블에 사용할 수 있지만 아이콘 컴포저블에 사용함을 권장합니다.
  *

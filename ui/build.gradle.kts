@@ -47,6 +47,10 @@ android {
   testOptions {
     unitTests {
       isIncludeAndroidResources = true
+      isReturnDefaultValues = true
+      all { test ->
+        test.maxHeapSize = "4G"
+      }
     }
   }
 }
@@ -70,6 +74,8 @@ dependencies {
   )
   implementations(
     libs.compose.coil,
+    libs.compose.ui,
+    libs.compose.foundation,
     libs.androidx.annotation,
     projects.runtime.orArtifact(),
     projects.material.orArtifact(),
@@ -87,6 +93,8 @@ dependencies {
   testImplementations(
     libs.test.robolectric,
     libs.test.junit.compose,
+    libs.test.kotest.assertion.core,
+    libs.test.kotlin.coroutines, // needed for compose-ui-test
     libs.bundles.test.roborazzi,
   )
 

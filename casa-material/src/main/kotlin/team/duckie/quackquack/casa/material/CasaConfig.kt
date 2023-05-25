@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:Suppress("MaximumLineLength", "MaxLineLength")
+@file:Suppress("MaximumLineLength", "MaxLineLength", "ktlint:max-line-length")
 
 package team.duckie.quackquack.casa.material
 
