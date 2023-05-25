@@ -7,6 +7,56 @@ sidebar_label: Releases
 
 Every release includes a bill of materials updates. Check the [GitHub release](https://github.com/duckie-team/quack-quack-android/releases) page for the BOM version.
 
+## 2.0.0-alpha05
+
+*2023-05-25*
+
+*Target: ui*
+
+This release does not include sugar component updates.
+
+### New
+
+- Add `QuackDefaultTextField` component.
+- Added design tokens and decorators related to `QuackDefaultTextField`. Please see the `QuackDefaultTextField` documentation for the added items.
+- Add `ExperimentalDesignToken` opt-in.
+- `QuackIcon` documentation improvements.
+- Add `contentDescription` argument to `QuackIcon`.
+- Add `Direction` design token.
+- Add padding assertion utility.
+
+### Fixed
+
+- Add contract information to `currentFontScale`.
+- Correct typo in `QuackTag` document.
+
+## 2.0.0-alpha04
+
+*2023-05-25*
+
+*Target: material*
+
+### New
+
+- Add `Success` color to `QuackColor`.
+
+### Changed
+
+- `LocalQuackTextFieldColors` renamed to `LocalQuackTextFieldTheme`.
+- `LocalQuackTextFieldColors#cursor` renamed to `LocalQuackTextFieldTheme#cursorColor`.
+
+## 2.0.0-alpha03
+
+*2023-05-25*
+
+*Target: util*
+
+### New
+
+- Add `Any?.cast(): T` extension.
+- Add `List<*>.fastFilterIsInstanceOrNull(): List<T>?` extension.
+- Add `requireNull(value: T?, lazyMessage: () -> Any): T?` assertion.
+
 ## 2.0.0-alpha04
 
 *2023-05-18*
@@ -15,8 +65,8 @@ Every release includes a bill of materials updates. Check the [GitHub release](h
 
 ### New
 
-- Add a `QuackIcon` component.
-- Add a `QuackImage` component.
+- Add `QuackIcon` component.
+- Add `QuackImage` component.
 
 ## 2.0.0-alpha03
 
@@ -26,19 +76,19 @@ Every release includes a bill of materials updates. Check the [GitHub release](h
 
 ### Fixed
 
-The image no longer breaks when `QuackColor.Unspecified` is provided as `ColorFilter.tint`.
+- The image no longer breaks when `QuackColor.Unspecified` is provided as `ColorFilter.tint`.
 
 ## 2.0.0-alpha03
 
 *2023-05-17*
 
-*Target: ui*
+*Target: ui, bom*
 
 ### New
 
 **ui**
 
-- Add a `QuackTag` component.
+- Add `QuackTag` component.
 
 **BOM**
 
@@ -60,7 +110,7 @@ util, util-backend, util-backend-kotlinc*
 
 **ui**
 
-- Add a `QuackButton` component.
+- Add `QuackButton` component.
 
 **sugar-processor**
 
@@ -80,4 +130,8 @@ util, util-backend, util-backend-kotlinc*
 
 *Target: runtime, material, animation, ui, util*
 
-Initial releases.
+### New
+
+**runtime, material, animation, ui, util**
+
+- Initial releases.
