@@ -21,7 +21,7 @@ import team.duckie.quackquack.material.QuackIcon
 import team.duckie.quackquack.ui.QuackDefaultTextField
 import team.duckie.quackquack.ui.QuackTextFieldStyle
 import team.duckie.quackquack.ui.TextFieldErrors.IndicatorRequestedButNoColor
-import team.duckie.quackquack.ui.TextFieldErrors.ValidationLabelProvidedButNoDownDirectionIndicator
+import team.duckie.quackquack.ui.TextFieldErrors.ValidationLabelProvidedButNoBottomDirectionIndicator
 import team.duckie.quackquack.ui.TextFieldErrors.sameDirectionIcon
 import team.duckie.quackquack.ui.TextFieldValidationState
 import team.duckie.quackquack.ui.defaultTextFieldIcon
@@ -76,7 +76,7 @@ class TextFieldTest {
 
   @Test
   fun ValidationLabelProvidedButNoDownDirectionIndicator() {
-    shouldThrowWithMessage<IllegalArgumentException>(ValidationLabelProvidedButNoDownDirectionIndicator) {
+    shouldThrowWithMessage<IllegalArgumentException>(ValidationLabelProvidedButNoBottomDirectionIndicator) {
       compose.setQuackContent {
         QuackDefaultTextField(
           modifier = Modifier.defaultTextFieldIndicator(direction = VerticalDirection.Top),

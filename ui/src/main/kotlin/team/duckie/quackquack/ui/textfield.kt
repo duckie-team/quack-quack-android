@@ -546,9 +546,9 @@ internal object TextFieldErrors {
   const val IndicatorRequestedButNoColor = "Show indicator was requested, but no indicator color was provided. " +
     "Please provide a non-null value for one of the color or colorGetter fields."
 
-  const val ValidationLabelProvidedButNoDownDirectionIndicator =
+  const val ValidationLabelProvidedButNoBottomDirectionIndicator =
     "A label was provided as a TextFieldValidationState, " +
-      "but the indicator must have a direction of VerticalDirection.Down in order to display the label. " +
+      "but the indicator must have a direction of VerticalDirection.Bottom in order to display the label. " +
       "The current direction is VerticalDirection.Top."
 }
 
@@ -568,13 +568,15 @@ private val DefaultIconButtonSize = 24.dp
  * [tint]와 [tintGetter]가 모두 제공됐다면 [tintGetter]를 사용합니다.
  * 만약 두 개의 값이 모두 제공되지 않았다면 틴트를 적용하지 않습니다.
  *
+ * 각각 [direction]간 최대 한 가지의 아이콘만 표시할 수 있습니다.
+ *
  * @param icon 표시할 아이콘
  * @param iconSize 표시할 사이즈
  * @param tint [icon]에 적용할 정적 틴트
  * @param tintGetter [icon]에 적용할 동적 틴트. 값을 계산하기 위해 [현재 입력된 문구][String],
  * [현재 텍스트 필드의 검증 상태][TextFieldValidationState], [현재 텍스트 필드의 스타일로 주어진 색상][QuackDefaultTextFieldStyle.TextFieldColors]이 인자로 제공되는
  * 람다가 제공됩니다.
- * @param direction [icon]을 배치할 위치
+ * @param direction [icon]을 배치할 방향
  * @param contentScale [icon]에 적용할 [ContentScale]
  * @param contentDescription [icon]을 설명하는 문구. 접근성 서비스에 사용됩니다.
  * @param onClick [icon]이 클릭됐을 때 호출할 람다. 값이 제공되면 터치 영역이
@@ -627,13 +629,15 @@ public fun Modifier.defaultTextFieldIcon(
  * [tint]와 [tintGetter]가 모두 제공됐다면 [tintGetter]를 사용합니다.
  * 만약 두 개의 값이 모두 제공되지 않았다면 틴트를 적용하지 않습니다.
  *
+ * 각각 [direction]간 최대 한 가지의 아이콘만 표시할 수 있습니다.
+ *
  * @param icon 표시할 아이콘
  * @param iconSize 표시할 사이즈
  * @param tint [icon]에 적용할 정적 틴트
  * @param tintGetter [icon]에 적용할 동적 틴트. 값을 계산하기 위해 [현재 입력된 문구][String],
  * [현재 텍스트 필드의 검증 상태][TextFieldValidationState], [현재 텍스트 필드의 스타일로 주어진 색상][QuackFilledTextFieldStyle.TextFieldColors]이 인자로 제공되는
  * 람다가 제공됩니다.
- * @param direction [icon]을 배치할 위치
+ * @param direction [icon]을 배치할 방향
  * @param contentScale [icon]에 적용할 [ContentScale]
  * @param contentDescription [icon]을 설명하는 문구. 접근성 서비스에 사용됩니다.
  * @param onClick [icon]이 클릭됐을 때 호출할 람다. 값이 제공되면 터치 영역이
@@ -710,7 +714,7 @@ public val DefaultIndicatorColorGetterForDefaultTextField: (
  * [color]와 [colorGetter]가 모두 제공됐다면 [colorGetter]를 사용합니다.
  * 둘 중 하나는 무조건 제공해야 합니다.
  *
- * @param direction 인디케이터를 그릴 위치
+ * @param direction 인디케이터를 그릴 방향
  * @param thickness 인디케이터의 굵기
  * @param color 인디케이터의 정적 색상
  * @param colorGetter 인디케이터의 동적 색상. 값을 계산하기 위해 [현재 입력된 문구][String],
@@ -857,6 +861,8 @@ public fun Modifier.counter(
  * 텍스트의 크기, 기준선 및 기타 세부 정보가 포함됩니다. 콜백은 텍스트에 장식이나 기능을 추가하는 데 사용할 수 있습니다.
  * 예를 들어 텍스트 주위에 커서나 선택 영역을 그리는 데 사용할 수 있습니다.
  * @param validationState 텍스트 필드의 검증 결과. 자세한 정보는 [TextFieldValidationState] 문서를 참고하세요.
+ * 만약 [검증 결과 문구][TextFieldValidationState.WithLabel]를 제공하고 [defaultTextFieldIndicator] 데코레이터가 사용됐을 경우,
+ * 인디케이터의 방향이 [Bottom][VerticalDirection.Bottom]이여야 합니다.
  * @Param validationLabelVisibilityStrategy [validationState]를 설명할 문구가 제공됐다면 해당 문구의 시각적 정책.
  * 자세한 내용은 [TextFieldValidationLabelVisibilityStrategy] 문서를 참고하세요.
  * @param interactionSource 이 텍스트 필드의 인터랙션 스트림을 나타내는 변경 가능한 인터랙션 소스입니다. 인터랙션을 관찰하고
@@ -1002,6 +1008,8 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
  * 텍스트의 크기, 기준선 및 기타 세부 정보가 포함됩니다. 콜백은 텍스트에 장식이나 기능을 추가하는 데 사용할 수 있습니다.
  * 예를 들어 텍스트 주위에 커서나 선택 영역을 그리는 데 사용할 수 있습니다.
  * @param validationState 텍스트 필드의 검증 결과. 자세한 정보는 [TextFieldValidationState] 문서를 참고하세요.
+ * 만약 [검증 결과 문구][TextFieldValidationState.WithLabel]를 제공하고 [defaultTextFieldIndicator] 데코레이터가 사용됐을 경우,
+ * 인디케이터의 방향이 [Bottom][VerticalDirection.Bottom]이여야 합니다.
  * @Param validationLabelVisibilityStrategy [validationState]를 설명할 문구가 제공됐다면 해당 문구의 시각적 정책.
  * 자세한 내용은 [TextFieldValidationLabelVisibilityStrategy] 문서를 참고하세요.
  * @param interactionSource 이 텍스트 필드의 인터랙션 스트림을 나타내는 변경 가능한 인터랙션 소스입니다. 인터랙션을 관찰하고
@@ -1775,7 +1783,7 @@ private fun assertDefaultTextFieldValidState(
   ) {
     require(
       indicatorDirection == VerticalDirection.Bottom,
-      lazyMessage = TextFieldErrors::ValidationLabelProvidedButNoDownDirectionIndicator,
+      lazyMessage = TextFieldErrors::ValidationLabelProvidedButNoBottomDirectionIndicator,
     )
   }
 
