@@ -1306,7 +1306,6 @@ public fun QuackBaseDefaultTextField(
       indicatorErrorComposeTypography,
       indicatorLabelConstraints,
       indicatorLabelMeasurer,
-      lazyCoreTextFieldContainerWidth.value,
       validationState,
     ) {
       if (validationState is TextFieldValidationState.WithLabel && validationState.label != null) {
@@ -1383,11 +1382,13 @@ public fun QuackBaseDefaultTextField(
     counterTypography?.change(textAlign = TextAlign.End)?.asComposeStyle()
   }
   val counterPlaceholders = remember(currentDensity, counterBaseAndHighlightGap, value.text.length) {
+    if (counterBaseAndHighlightGap == null) return@remember emptyList<AnnotatedString.Range<Placeholder>>()
+
     val currentLength = value.text.length
     listOf(
       AnnotatedString.Range(
         item = Placeholder(
-          width = with(currentDensity) { counterBaseAndHighlightGap!!.toSp() },
+          width = with(currentDensity) { counterBaseAndHighlightGap.toSp() },
           height = 1.sp,
           placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter,
         ),
