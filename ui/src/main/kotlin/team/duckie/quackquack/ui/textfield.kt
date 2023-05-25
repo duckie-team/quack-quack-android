@@ -9,7 +9,6 @@
 
 package team.duckie.quackquack.ui
 
-import androidx.compose.ui.text.input.ImeAction
 import android.view.View
 import androidx.annotation.IntRange
 import androidx.annotation.VisibleForTesting
@@ -41,7 +40,6 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
@@ -56,12 +54,16 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.Placeholder
+import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -72,6 +74,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastFirstOrNull
 import androidx.compose.ui.util.fastForEach
 import team.duckie.quackquack.aide.annotation.DecorateModifier
@@ -158,7 +161,8 @@ public sealed class TextFieldValidationLabelVisibilityStrategy {
    * 이는 [View.INVISIBLE]과 동일합니다.
    *
    * @param baselineLabel 검증 결과 문구가 표시되지 않을 때 차지할 공간을 계산할 기준점이 되는 문구
-   * @param baselineTypography 검증 결과 문구가 표시되지 않을 때 차지할 공간을 계산할 기준점이 되는 타이포그래피
+   * @param baselineTypography 검증 결과 문구가 표시되지 않을 때 차지할 공간을 계산할 기준점이 되는 타이포그래피.
+   * 만약 null이 제공되면 검증 결과 문구를 그릴 때 사용하는 타이포그래피를 대신 사용합니다.
    */
   public class Invisible(
     internal val baselineLabel: String,
@@ -1287,49 +1291,59 @@ public fun QuackBaseDefaultTextField(
   val lazyCoreTextFieldContainerWidth = remember { LazyValue<Int>() }
   val lazyCoreTextFieldWidth = remember { LazyValue<Int>() }
 
+  val indicatorSuccessComposeTypography = remember(successTypography, calculation = successTypography::asComposeStyle)
+  val indicatorErrorComposeTypography = remember(errorTypography, calculation = errorTypography::asComposeStyle)
+  val indicatorLabelConstraints = remember(lazyCoreTextFieldContainerWidth.value) {
+    Constraints().let { constraints ->
+      if (lazyCoreTextFieldContainerWidth.value != null) constraints.copy(maxWidth = lazyCoreTextFieldContainerWidth.value!!)
+      else constraints
+    }
+  }
   val indicatorLabelMeasurer = rememberLtrTextMeasurer(/*cacheSize = 6*/) // TODO(pref): param size?
   val indicatorLabelMeasureResult =
     remember(
+      indicatorSuccessComposeTypography,
+      indicatorErrorComposeTypography,
+      indicatorLabelConstraints,
       indicatorLabelMeasurer,
-      validationState,
-      successTypography,
-      errorTypography,
       lazyCoreTextFieldContainerWidth.value,
+      validationState,
     ) {
       if (validationState is TextFieldValidationState.WithLabel && validationState.label != null) {
         val indicatorTypography =
-          if (validationState is TextFieldValidationState.Success) successTypography
-          else errorTypography
+          if (validationState is TextFieldValidationState.Success) indicatorSuccessComposeTypography
+          else indicatorErrorComposeTypography
 
         indicatorLabelMeasurer.measure(
-          // [SMARTCAST_IMPOSSIBLE] Smart cast to 'String' is impossible, because a property that has open or custom getter
           text = validationState.label!!,
-          style = indicatorTypography.asComposeStyle(),
-          constraints = Constraints().let { constraints ->
-            if (lazyCoreTextFieldContainerWidth.value != null) constraints.copy(maxWidth = lazyCoreTextFieldContainerWidth.value!!)
-            else constraints
-          },
+          style = indicatorTypography,
+          constraints = indicatorLabelConstraints,
         )
       } else {
         null
       }
     }
+
+  val indicatorLabelBaselineTypography =
+    remember(validationLabelVisibilityStrategy, indicatorSuccessComposeTypography) {
+      ((validationLabelVisibilityStrategy as? TextFieldValidationLabelVisibilityStrategy.Invisible)
+        ?.baselineTypography)
+        ?.asComposeStyle()
+        ?: indicatorSuccessComposeTypography
+    }
   val indicatorLabelBaselineHeightOrNull =
     remember(
       indicatorLabelMeasurer,
       validationLabelVisibilityStrategy,
-      successTypography,
-      lazyCoreTextFieldContainerWidth.value,
+      indicatorLabelBaselineTypography,
+      indicatorLabelConstraints,
     ) {
       if (validationLabelVisibilityStrategy is TextFieldValidationLabelVisibilityStrategy.Invisible) {
         indicatorLabelMeasurer
           .measure(
             text = validationLabelVisibilityStrategy.baselineLabel,
-            style = (validationLabelVisibilityStrategy.baselineTypography ?: successTypography).asComposeStyle(),
-            constraints = Constraints().let { constraints ->
-              if (lazyCoreTextFieldContainerWidth.value != null) constraints.copy(maxWidth = lazyCoreTextFieldContainerWidth.value!!)
-              else constraints
-            },
+            style = indicatorLabelBaselineTypography,
+            constraints = indicatorLabelConstraints,
           )
           .size
           .height
@@ -1338,73 +1352,73 @@ public fun QuackBaseDefaultTextField(
       }
     }
 
+  val placeholderComposeTypography =
+    remember(placeholderTypography, calculation = placeholderTypography::asComposeStyle)
+  val placeholderConstraints = remember(lazyCoreTextFieldWidth.value) {
+    Constraints().let { constraints ->
+      if (lazyCoreTextFieldWidth.value != null) constraints.copy(maxWidth = lazyCoreTextFieldWidth.value!!)
+      else constraints
+    }
+  }
   val placeholderTextMeasurer = rememberLtrTextMeasurer(/*cacheSize = 5*/) // TODO(pref): param size?
   val placeholderTextMeasureResult =
     remember(
+      placeholderComposeTypography,
+      placeholderConstraints,
       placeholderTextMeasurer,
       placeholderText,
-      placeholderTypography,
-      placeholderStrategy,
-      lazyCoreTextFieldWidth.value,
     ) {
       if (placeholderText != null) {
         placeholderTextMeasurer.measure(
           text = placeholderText,
-          style = placeholderTypography.asComposeStyle(),
-          constraints = Constraints().let { constraints ->
-            if (lazyCoreTextFieldWidth.value != null) constraints.copy(maxWidth = lazyCoreTextFieldWidth.value!!)
-            else constraints
-          },
+          style = placeholderComposeTypography,
+          constraints = placeholderConstraints,
         )
       } else {
         null
       }
     }
 
+  val counterComposeTypography = remember(counterTypography) {
+    counterTypography?.change(textAlign = TextAlign.End)?.asComposeStyle()
+  }
+  val counterPlaceholders = remember(currentDensity, counterBaseAndHighlightGap, value.text.length) {
+    val currentLength = value.text.length
+    listOf(
+      AnnotatedString.Range(
+        item = Placeholder(
+          width = with(currentDensity) { counterBaseAndHighlightGap!!.toSp() },
+          height = 1.sp,
+          placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter,
+        ),
+        start = "$currentLength".length,
+        end = "$currentLength".length + 1,
+      )
+    )
+  }
   val counterTextMeasurer = rememberLtrTextMeasurer(/*cacheSize = 7*/) // TODO(pref): param size?
   val counterTextMeasureResult =
     remember(
-      currentDensity,
+      counterPlaceholders,
+      counterComposeTypography,
       counterTextMeasurer,
       value.text,
       counterMaxLength,
       counterHighlightColor,
       counterBaseColor,
-      counterTypography,
-      counterBaseAndHighlightGap,
     ) {
       if (counterMaxLength != null) {
-        val currentLength = value.text.length
-
         counterTextMeasurer.measure(
           text = buildAnnotatedString {
             withStyle(SpanStyle(color = counterHighlightColor!!.value)) {
-              append(currentLength.toString())
-            }
-            withStyle(
-              SpanStyle(
-                fontSize = with(currentDensity) { counterBaseAndHighlightGap!!.toSp() },
-                color = Color.Transparent,
-              ),
-            ) {
-              append("_") // TODO(impl): correctly?
+              append(value.text.length.toString())
             }
             withStyle(SpanStyle(color = counterBaseColor!!.value)) {
-              append("/$counterMaxLength")
+              append(" /$counterMaxLength")
             }
           },
-          // placeholders = listOf(
-          //   AnnotatedString.Range(
-          //     item = Placeholder(
-          //       width = with(currentDensity) { counterBaseAndHighlightGap!!.toSp() },
-          //       height = 1.sp,
-          //       placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter,
-          //     ),
-          //     start = "$currentLength".length,
-          //     end = "$currentLength".length + 1,
-          //   )
-          // ),
-          style = counterTypography!!.change(textAlign = TextAlign.End).asComposeStyle(),
+          placeholders = counterPlaceholders,
+          style = counterComposeTypography!!,
           maxLines = 1,
         )
       } else {
