@@ -840,7 +840,7 @@ public fun Modifier.counter(
  *
  * @param value 텍스트 필드에 입력된 글자
  * @param onValueChange 입력 서비스가 글자를 업데이트할 때 호출되는 콜백입니다. 업데이트된 글자는 콜백의 매개변수로 제공됩니다.
- * @param style 텍스트 필드에 적용할 디자인 스펙
+ * @param style 텍스트 필드에 적용할 디자인 스펙. 사전 정의된 디자인 스펙은 [QuackTextFieldStyle.Companion]을 참고하세요.
  * @param enabled 텍스트 필드의 활성화 상태를 제어합니다. false면 텍스트 필드를 편집하거나 포커스를 맞출 수 없으며
  * 텍스트 필드에 글자를 입력할 수 없습니다.
  * @param readOnly 텍스트 필드의 편집 가능한 상태를 제어합니다. true면 텍스트 필드를 수정할 수 없지만 사용자가 포커스를 맞추고
@@ -987,7 +987,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
  *
  * @param value 텍스트 필드에 입력된 글자
  * @param onValueChange 입력 서비스가 글자를 업데이트할 때 호출되는 콜백입니다. 업데이트된 글자는 콜백의 매개변수로 제공됩니다.
- * @param style 텍스트 필드에 적용할 디자인 스펙
+ * @param style 텍스트 필드에 적용할 디자인 스펙. 사전 정의된 디자인 스펙은 [QuackTextFieldStyle.Companion]을 참고하세요.
  * @param enabled 텍스트 필드의 활성화 상태를 제어합니다. false면 텍스트 필드를 편집하거나 포커스를 맞출 수 없으며
  * 텍스트 필드에 글자를 입력할 수 없습니다.
  * @param readOnly 텍스트 필드의 편집 가능한 상태를 제어합니다. true면 텍스트 필드를 수정할 수 없지만 사용자가 포커스를 맞추고
