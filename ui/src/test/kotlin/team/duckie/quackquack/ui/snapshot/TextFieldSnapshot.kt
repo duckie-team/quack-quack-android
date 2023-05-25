@@ -9,10 +9,8 @@
 
 package team.duckie.quackquack.ui.snapshot
 
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.captureRoboImage
 import org.junit.Rule
@@ -30,7 +28,6 @@ import team.duckie.quackquack.ui.counter
 import team.duckie.quackquack.ui.defaultTextFieldIcon
 import team.duckie.quackquack.ui.defaultTextFieldIndicator
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
-import team.duckie.quackquack.ui.snapshot.util.LargestDeviceQualifier
 import team.duckie.quackquack.ui.snapshot.util.LargestFontScale
 import team.duckie.quackquack.ui.snapshot.util.SnapshotPathGeneratorRule
 import team.duckie.quackquack.ui.snapshot.util.TestColumn
@@ -240,23 +237,20 @@ class TextFieldSnapshot {
     }
   }
 
-  @Config(qualifiers = LargestDeviceQualifier)
+  @Config(qualifiers = MultilinesSnapshotQualifier)
   @Test
   fun QuackDefaultTextField_default_multilines() {
-    QuackDefaultTextField_default_multilines_catpurer()
+    QuackDefaultTextField_default_multilines_catpurer(fillMaxWidth = false)
   }
 
-  @Config(
-    fontScale = LargestFontScale,
-    qualifiers = LargestDeviceQualifier,
-  )
+  @Config(fontScale = LargestFontScale, qualifiers = MultilinesSnapshotQualifier)
   @Test
   fun QuackDefaultTextField_default_multilines_x2() {
-    QuackDefaultTextField_default_multilines_catpurer(width = 400.dp)
+    QuackDefaultTextField_default_multilines_catpurer(fillMaxWidth = true)
   }
 
-  private fun QuackDefaultTextField_default_multilines_catpurer(width: Dp? = null) {
-    val widthModifier = if (width != null) Modifier.width(width) else Modifier
+  private fun QuackDefaultTextField_default_multilines_catpurer(fillMaxWidth: Boolean) {
+    val widthModifier = if (fillMaxWidth) Modifier.fillMaxWidth() else Modifier
     captureRoboImage(snapshotPath()) {
       TestColumn {
         WithLabel("default") {
@@ -320,5 +314,10 @@ class TextFieldSnapshot {
         }
       }
     }
+  }
+
+  private companion object {
+    // Copied form Pixel7 qualifier
+    const val MultilinesSnapshotQualifier = "w400dp-h8000dp-normal-long-notround-any-420dpi-keyshidden-nonav"
   }
 }
