@@ -9,15 +9,19 @@
 
 package team.duckie.quackquack.ui
 
+import androidx.compose.ui.text.input.ImeAction
 import android.view.View
-import androidx.compose.ui.platform.InspectableModifier
 import androidx.annotation.IntRange
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -42,6 +46,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.node.LayoutModifierNode
+import androidx.compose.ui.platform.InspectableModifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFontFamilyResolver
 import androidx.compose.ui.platform.debugInspectorInfo
@@ -99,14 +105,13 @@ import team.duckie.quackquack.util.fastFilterIsInstanceOrNull
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 import team.duckie.quackquack.util.requireNull
 
-/** 텍스트필드 검증 결과를 나타냅니다. */
+/** 텍스트 필드 검증 결과를 나타냅니다. */
 @Immutable
 public sealed class TextFieldValidationState {
   /** 검증 결과를 문구로 나타냅니다. */
   public sealed interface WithLabel {
     /**
      * 검증 결과를 설명하는 문구.
-     *
      * 값이 null이 아닐 때만 시각적으로 표시합니다.
      */
     public val label: String?
@@ -130,7 +135,7 @@ public sealed class TextFieldValidationState {
   public object Default : TextFieldValidationState()
 }
 
-/** 텍스트필드에 보여지는 placeholder의 시각적 정책을 정의합니다. */
+/** 텍스트 필드에 보여지는 placeholder의 시각적 정책을 정의합니다. */
 @Immutable
 public enum class TextFieldPlaceholderStrategy {
   /**
@@ -144,7 +149,7 @@ public enum class TextFieldPlaceholderStrategy {
 }
 
 /**
- * [텍스트필드 검증 결과 문구][TextFieldValidationState.WithLabel]의 시각적 정책을 정의합니다.
+ * [텍스트 필드 검증 결과 문구][TextFieldValidationState.WithLabel]의 시각적 정책을 정의합니다.
  */
 @Immutable
 public sealed class TextFieldValidationLabelVisibilityStrategy {
@@ -168,7 +173,7 @@ public sealed class TextFieldValidationLabelVisibilityStrategy {
 }
 
 /**
- * 텍스트필드에 표시할 아이콘 정보를 정의합니다.
+ * 텍스트 필드에 표시할 아이콘 정보를 정의합니다.
  *
  * @see Modifier.defaultTextFieldIcon
  * @see Modifier.filledTextFieldIcon
@@ -186,7 +191,7 @@ private data class TextFieldIconData<ColorSet : TextFieldColorMarker>(
 ) : QuackDataModifierModel
 
 /**
- * 텍스트필드에 그릴 인디케이터 정보를 정의합니다.
+ * 텍스트 필드에 그릴 인디케이터 정보를 정의합니다.
  *
  * @see Modifier.defaultTextFieldIndicator
  */
@@ -206,7 +211,7 @@ private data class TextFieldIndicatorData<ColorSet : TextFieldColorMarker>(
 }
 
 /**
- * 텍스트필드에 표시할 counter 정보를 정의합니다.
+ * 텍스트 필드에 표시할 counter 정보를 정의합니다.
  *
  * @see Modifier.counter
  */
@@ -219,19 +224,19 @@ private data class TextFieldCounterData(
   val maxLength: Int,
 ) : QuackDataModifierModel
 
-/** 텍스트필드의 스타일을 나타냅니다. */
+/** 텍스트 필드의 스타일을 나타냅니다. */
 @QuackDsl
 @Immutable
 public interface TextFieldStyleMarker
 
-/** 텍스트필드의 색상을 나타냅니다. */
+/** 텍스트 필드의 색상을 나타냅니다. */
 @Immutable
 public interface TextFieldColorMarker
 
-/** Default 텍스트필드의 스타일을 나타냅니다. */
+/** Default 텍스트 필드의 스타일을 나타냅니다. */
 public interface QuackDefaultTextFieldStyle : TextFieldStyleMarker {
   /**
-   * Default 텍스트필드에서 사용할 색상을 정의합니다.
+   * Default 텍스트 필드에서 사용할 색상을 정의합니다.
    *
    * @param backgroundColor 배경 색상
    * @param contentColor 메인 문구 색상
@@ -247,10 +252,10 @@ public interface QuackDefaultTextFieldStyle : TextFieldStyleMarker {
     public val successColor: QuackColor,
   ) : TextFieldColorMarker
 
-  /** [텍스트필드 검증 결과 문구][TextFieldValidationState.WithLabel]와 텍스트필드 인디케이터 사이의 간격  */
+  /** [텍스트 필드 검증 결과 문구][TextFieldValidationState.WithLabel]와 텍스트 필드 인디케이터 사이의 간격  */
   public val validationLabelAndIndicatorSpacedBy: Dp
 
-  /** [텍스트필드 검증 결과 문구][TextFieldValidationState.WithLabel]의 타이포그래피 */
+  /** [텍스트 필드 검증 결과 문구][TextFieldValidationState.WithLabel]의 타이포그래피 */
   public val validationLabelTypography: QuackTypography
 
   /** [TextFieldColors] 인스턴스를 만듭니다. */
@@ -271,14 +276,14 @@ public interface QuackDefaultTextFieldStyle : TextFieldStyleMarker {
     )
 }
 
-/** Filled 텍스트필드의 스타일을 나타냅니다. */
+/** Filled 텍스트 필드의 스타일을 나타냅니다. */
 public interface QuackFilledTextFieldStyle : TextFieldStyleMarker {
   /**
-   * Filled 텍스트필드에서 사용할 색상을 정의합니다.
+   * Filled 텍스트 필드에서 사용할 색상을 정의합니다.
    *
    * @param backgroundColor 정적 배경 색상
    * @param backgroundColorGetter 동적 배경 색상. 값을 계산하기 위해 [현재 입력된 문구][String],
-   * [현재 텍스트필드의 포커스 인터렉션 상태][FocusInteraction]가 인자로 제공되는 람다가 제공됩니다.
+   * [현재 텍스트 필드의 포커스 인터렉션 상태][FocusInteraction]가 인자로 제공되는 람다가 제공됩니다.
    * @param contentColor 메인 문구 색상
    * @param placeholderColor placeholder 문구 색상
    */
@@ -308,7 +313,7 @@ public interface QuackFilledTextFieldStyle : TextFieldStyleMarker {
     )
 }
 
-/** Outlined 텍스트필드의 스타일을 나타냅니다. */
+/** Outlined 텍스트 필드의 스타일을 나타냅니다. */
 // TODO: 이 컴포넌트가 사용되는 디자인은 아직 개발 범위가 아니므로 TODO 처리
 public interface QuackOutlinedTextFieldStyle : TextFieldStyleMarker
 
@@ -337,11 +342,11 @@ public interface QuackTextFieldStyle<Style : TextFieldStyleMarker, Color : TextF
   public fun Modifier.wrappedDebugInspectable(): Modifier
 
   public companion object {
-    /** 스타일 가이드에 정의된 Default 텍스트필드의 기본 스타일을 가져옵니다. */
+    /** 스타일 가이드에 정의된 Default 텍스트 필드의 기본 스타일을 가져옵니다. */
     public val Default: QuackTextFieldStyle<QuackDefaultTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors>
       get() = QuackDefaultTextFieldDefaults()
 
-    /** 스타일 가이드에 정의된 Default 텍스트필드의 Large 스타일을 가져옵니다. */
+    /** 스타일 가이드에 정의된 Default 텍스트 필드의 Large 스타일을 가져옵니다. */
     public val DefaultLarge: QuackTextFieldStyle<QuackDefaultLargeTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors>
       get() = QuackDefaultLargeTextFieldDefaults()
 
@@ -353,7 +358,7 @@ public interface QuackTextFieldStyle<Style : TextFieldStyleMarker, Color : TextF
   }
 }
 
-/** 스타일 가이드에 맞게 Default 텍스트필드의 기본 스타일을 정의합니다. */
+/** 스타일 가이드에 맞게 Default 텍스트 필드의 기본 스타일을 정의합니다. */
 @ExperimentalDesignToken
 public class QuackDefaultTextFieldDefaults internal constructor() :
   QuackTextFieldStyle<QuackDefaultTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors>,
@@ -395,7 +400,7 @@ public class QuackDefaultTextFieldDefaults internal constructor() :
   override fun toString(): String = this::class.java.simpleName
 }
 
-/** 스타일 가이드에 맞게 Default 텍스트필드의 Large 스타일을 정의합니다. */
+/** 스타일 가이드에 맞게 Default 텍스트 필드의 Large 스타일을 정의합니다. */
 @ExperimentalDesignToken
 public class QuackDefaultLargeTextFieldDefaults :
   QuackTextFieldStyle<QuackDefaultLargeTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors>,
@@ -433,7 +438,7 @@ public class QuackDefaultLargeTextFieldDefaults :
   override fun toString(): String = this::class.java.simpleName
 }
 
-/** 스타일 가이드에 맞게 Filled 텍스트필드의 Large 스타일을 정의합니다. */
+/** 스타일 가이드에 맞게 Filled 텍스트 필드의 Large 스타일을 정의합니다. */
 @ExperimentalDesignToken
 public class QuackFilledLargeTextFieldDefaults :
   QuackTextFieldStyle<QuackFilledLargeTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>,
@@ -476,7 +481,7 @@ public class QuackFilledLargeTextFieldDefaults :
   override fun toString(): String = this::class.java.simpleName
 }
 
-/** 스타일 가이드에 맞게 Filled 텍스트필드의 Flat 스타일을 정의합니다. */
+/** 스타일 가이드에 맞게 Filled 텍스트 필드의 Flat 스타일을 정의합니다. */
 @ExperimentalDesignToken
 public class QuackFilledFlatTextFieldDefaults :
   QuackTextFieldStyle<QuackFilledFlatTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>,
@@ -525,7 +530,7 @@ public class QuackFilledFlatTextFieldDefaults :
   override fun toString(): String = this::class.java.simpleName
 }
 
-/** 텍스트필드 내부에서 발생할 수 있는 오류를 정의합니다. */
+/** 텍스트 필드 내부에서 발생할 수 있는 오류를 정의합니다. */
 @VisibleForTesting
 internal object TextFieldErrors {
   fun sameDirectionIcon(direction: String) = "The icon was provided more than once in the same direction. " +
@@ -548,12 +553,13 @@ private val DefaultIconSize = 16.dp
 
 /**
  * 버튼으로 인식될 아이콘의 기본 사이즈.
- * 꽥꽥 텍스트필드의 기본 구현은 더 확장된 터치 영역을 보장합니다.
+ * 꽥꽥 텍스트 필드의 기본 구현은 더 확장된 터치 영역을 보장합니다.
  */
+@Suppress("unused")
 private val DefaultIconButtonSize = 24.dp
 
 /**
- * Default 텍스트필드에 아이콘을 표시합니다.
+ * Default 텍스트 필드에 아이콘을 표시합니다.
  *
  * [tint]와 [tintGetter]가 모두 제공됐다면 [tintGetter]를 사용합니다.
  * 만약 두 개의 값이 모두 제공되지 않았다면 틴트를 적용하지 않습니다.
@@ -562,13 +568,13 @@ private val DefaultIconButtonSize = 24.dp
  * @param iconSize 표시할 사이즈
  * @param tint [icon]에 적용할 정적 틴트
  * @param tintGetter [icon]에 적용할 동적 틴트. 값을 계산하기 위해 [현재 입력된 문구][String],
- * [현재 텍스트필드의 검증 상태][TextFieldValidationState], [현재 텍스트필드의 스타일로 주어진 색상][QuackDefaultTextFieldStyle.TextFieldColors]이 인자로 제공되는
+ * [현재 텍스트 필드의 검증 상태][TextFieldValidationState], [현재 텍스트 필드의 스타일로 주어진 색상][QuackDefaultTextFieldStyle.TextFieldColors]이 인자로 제공되는
  * 람다가 제공됩니다.
  * @param direction [icon]을 배치할 위치
  * @param contentScale [icon]에 적용할 [ContentScale]
  * @param contentDescription [icon]을 설명하는 문구. 접근성 서비스에 사용됩니다.
  * @param onClick [icon]이 클릭됐을 때 호출할 람다. 값이 제공되면 터치 영역이
- * 넓은 범위로 확장됩니다. 자세한 내용은 텍스트필드 컴포저블 문서를 참고하세요.
+ * 넓은 범위로 확장됩니다. 자세한 내용은 텍스트 필드 컴포저블 문서를 참고하세요.
  */
 @DecorateModifier
 @Stable
@@ -581,7 +587,7 @@ public fun Modifier.defaultTextFieldIcon(
     validationState: TextFieldValidationState,
     colorSet: QuackDefaultTextFieldStyle.TextFieldColors,
   ) -> QuackColor)? = null,
-  direction: HorizontalDirection = if (iconSize == DefaultIconSize) HorizontalDirection.Left else HorizontalDirection.Right,
+  direction: HorizontalDirection = HorizontalDirection.Right,
   contentScale: ContentScale = ContentScale.Fit,
   contentDescription: String? = null,
   onClick: (() -> Unit)? = null,
@@ -612,7 +618,7 @@ public fun Modifier.defaultTextFieldIcon(
   }
 
 /**
- * Filled 텍스트필드에 아이콘을 표시합니다.
+ * Filled 텍스트 필드에 아이콘을 표시합니다.
  *
  * [tint]와 [tintGetter]가 모두 제공됐다면 [tintGetter]를 사용합니다.
  * 만약 두 개의 값이 모두 제공되지 않았다면 틴트를 적용하지 않습니다.
@@ -621,13 +627,13 @@ public fun Modifier.defaultTextFieldIcon(
  * @param iconSize 표시할 사이즈
  * @param tint [icon]에 적용할 정적 틴트
  * @param tintGetter [icon]에 적용할 동적 틴트. 값을 계산하기 위해 [현재 입력된 문구][String],
- * [현재 텍스트필드의 검증 상태][TextFieldValidationState], [현재 텍스트필드의 스타일로 주어진 색상][QuackFilledTextFieldStyle.TextFieldColors]이 인자로 제공되는
+ * [현재 텍스트 필드의 검증 상태][TextFieldValidationState], [현재 텍스트 필드의 스타일로 주어진 색상][QuackFilledTextFieldStyle.TextFieldColors]이 인자로 제공되는
  * 람다가 제공됩니다.
  * @param direction [icon]을 배치할 위치
  * @param contentScale [icon]에 적용할 [ContentScale]
  * @param contentDescription [icon]을 설명하는 문구. 접근성 서비스에 사용됩니다.
  * @param onClick [icon]이 클릭됐을 때 호출할 람다. 값이 제공되면 터치 영역이
- * 넓은 범위로 확장됩니다. 자세한 내용은 텍스트필드 컴포저블 문서를 참고하세요.
+ * 넓은 범위로 확장됩니다. 자세한 내용은 텍스트 필드 컴포저블 문서를 참고하세요.
  */
 @DecorateModifier
 @Stable
@@ -640,7 +646,7 @@ public fun Modifier.filledTextFieldIcon(
     validationState: TextFieldValidationState,
     colorSet: QuackFilledTextFieldStyle.TextFieldColors,
   ) -> QuackColor)? = null,
-  direction: HorizontalDirection = if (iconSize == DefaultIconSize) HorizontalDirection.Left else HorizontalDirection.Right,
+  direction: HorizontalDirection = HorizontalDirection.Right,
   contentScale: ContentScale = ContentScale.Fit,
   contentDescription: String? = null,
   onClick: (() -> Unit)? = null,
@@ -671,7 +677,7 @@ public fun Modifier.filledTextFieldIcon(
   }
 
 /**
- * 인디케이터의 동적 색상을 Default 텍스트필드의 스타일 가이드에 맞게
+ * 인디케이터의 동적 색상을 Default 텍스트 필드의 스타일 가이드에 맞게
  * 제공할 수 있도록 사전 정의된 람다.
  *
  * [Modifier.defaultTextFieldIndicator]의 `colorGetter` 인자로 사용할 수 있습니다.
@@ -695,7 +701,7 @@ public val DefaultIndicatorColorGetterForDefaultTextField: (
   }
 
 /**
- * Default 텍스트필드에 인티케이터를 그립니다.
+ * Default 텍스트 필드에 인티케이터를 그립니다.
  *
  * [color]와 [colorGetter]가 모두 제공됐다면 [colorGetter]를 사용합니다.
  * 둘 중 하나는 무조건 제공해야 합니다.
@@ -704,7 +710,7 @@ public val DefaultIndicatorColorGetterForDefaultTextField: (
  * @param thickness 인디케이터의 굵기
  * @param color 인디케이터의 정적 색상
  * @param colorGetter 인디케이터의 동적 색상. 값을 계산하기 위해 [현재 입력된 문구][String],
- * [현재 텍스트필드의 검증 상태][TextFieldValidationState], [현재 텍스트필드의 스타일로 주어진 색상][QuackDefaultTextFieldStyle.TextFieldColors]이 인자로 제공되는
+ * [현재 텍스트 필드의 검증 상태][TextFieldValidationState], [현재 텍스트 필드의 스타일로 주어진 색상][QuackDefaultTextFieldStyle.TextFieldColors]이 인자로 제공되는
  * 람다가 제공됩니다.
  */
 @DecorateModifier
@@ -737,7 +743,7 @@ public fun Modifier.defaultTextFieldIndicator(
   }
 
 /**
- * 텍스트필드에 counter를 표시합니다.
+ * 텍스트 필드에 counter를 표시합니다.
  *
  * counter는 다음과 같은 구조를 갖습니다.
  *
@@ -785,6 +791,73 @@ public fun Modifier.counter(
   }
 
 // TODO(casa): support for state parameter. but how?
+/**
+ * Default 텍스트 필드를 그립니다.
+ *
+ * - 이 컴포넌트는 자체의 패딩 정책을 구현합니다.
+ * - 이 컴포넌트는 자체의 터치 영역 정책을 구현합니다.
+ *
+ * ### 패딩 정책
+ *
+ * 1. [텍스트 필드 스타일][QuackTextFieldStyle]에서 [QuackTextFieldStyle.contentPadding] 옵션을
+ * 별도로 제공하고 있습니다. 이는 [Modifier.padding]과 다른 패딩 정책을 사용합니다. [Modifier.padding]은
+ * 텍스트 필드의 루트 레이아웃을 기준으로 패딩이 적용되지만, [contentPadding][QuackTextFieldStyle.contentPadding]은 텍스트 필드의
+ * 메인 텍스트를 기준으로 적용됩니다.
+ * 2. [LayoutModifier]를 사용하여 컴포넌트의 사이즈가 명시됐다면 [QuackTextFieldStyle.contentPadding]
+ * 옵션은 무시됩니다. [contentPadding][QuackTextFieldStyle.contentPadding]은 컴포넌트 사이즈 하드코딩을
+ * 대체하는 용도로 제공됩니다. 하지만 컴포넌트 사이즈가 하드코딩됐다면 [contentPadding][QuackTextFieldStyle.contentPadding]을
+ * 제공하는 의미가 없어집니다. 따라서 컴포넌트의 사이즈가 하드코딩됐다면 개발자의 의도를 존중한다는 원칙하에
+ * 컴포넌트의 사이즈가 중복으로 확장되는 일을 예방하고자 [contentPadding][QuackTextFieldStyle.contentPadding] 옵션을 무시합니다.
+ * 예를 들어 `Modifier.height(10.dp)`로 컴포넌트 높이를 명시했고, [contentPadding][QuackTextFieldStyle.contentPadding]으로
+ * `QuackPadding(vertical=10.dp)`을 제공했다고 해봅시다. 이런 경우에는 [contentPadding][QuackTextFieldStyle.contentPadding]이
+ * 무시되고 태그의 높이가 10dp로 적용됩니다. 컴포넌트 사이즈를 명시하면서 패딩을 적용하고 싶다면
+ * [contentPadding][QuackTextFieldStyle.contentPadding] 대신에 [Modifier.padding]을 사용하세요.
+ * 단, [Modifier.fillMaxWidth]는 디자인을 지키기 위해 사용되는 경우가 많으므로 이 경우는 예외적으로 [contentPadding][QuackTextFieldStyle.contentPadding]이
+ * 보존됩니다. [LayoutModifier]를 사용하는 흔한 [Modifier]로는 [Modifier.size], [Modifier.height], [Modifier.width] 등이
+ * 있습니다. [LayoutModifierNode]를 사용하는 [Modifier]는 [contentPadding][QuackTextFieldStyle.contentPadding] 무시
+ * 옵션이 아직 지원되지 않습니다. ([#636](https://github.com/duckie-team/quack-quack-android/issues/636))
+ *
+ * ### 터치 영역
+ *
+ * 이 컴포넌트에는 [defaultTextFieldIcon][Modifier.defaultTextFieldIcon] 데코레이터로 아이콘을 추가할 수 있습니다.
+ * 아이콘에 [onClick][TextFieldIconData.onClick] 이벤트가 제공됐다면 [해당 아이콘의 위치][TextFieldIconData.direction]에 맞는
+ * 영역 전체을 터치 영역으로 지정합니다. 예를 들어 [오른쪽][HorizontalDirection.Right]에 클릭 가능한 아이콘이 제공됐다고 해봅시다.
+ * 그렇다면 텍스트 필드의 높이 전체와, 아이콘의 너비와 [QuackTextFieldStyle.contentSpacedBy]의 반을 더한 너비를 터치 영역으로 지정합니다.
+ *
+ * ### 사용 가능한 데코레이터
+ *
+ * - [Modifier.defaultTextFieldIcon]: 아이콘을 표시합니다.
+ * - [Modifier.defaultTextFieldIndicator]: 인티케이터를 그립니다.
+ * - [Modifier.counter]: counter를 표시합니다.
+ *
+ * @param value 텍스트 필드에 입력된 글자
+ * @param onValueChange 입력 서비스가 글자를 업데이트할 때 호출되는 콜백입니다. 업데이트된 글자는 콜백의 매개변수로 제공됩니다.
+ * @param style 텍스트 필드에 적용할 디자인 스펙
+ * @param enabled 텍스트 필드의 활성화 상태를 제어합니다. false면 텍스트 필드를 편집하거나 포커스를 맞출 수 없으며
+ * 텍스트 필드에 글자를 입력할 수 없습니다.
+ * @param readOnly 텍스트 필드의 편집 가능한 상태를 제어합니다. true면 텍스트 필드를 수정할 수 없지만 사용자가 포커스를 맞추고
+ * 텍스트를 복사할 수 있습니다. 읽기 전용 텍스트 필드는 일반적으로 사용자가 편집할 수 없는 미리 채워진 양식을 표시하는 데 사용됩니다.
+ * @param placeholderText 입력된 글자가 없을 때 표시할 대체 글자
+ * @param placeholderStrategy [placeholderText]의 시각적 정책. 자세한 정보는 [TextFieldPlaceholderStrategy] 문서를 참고하세요.
+ * @param keyboardOptions 키보드 유형 및 [ImeAction]과 같은 구성이 포함된 소프트웨어 키보드 옵션입니다.
+ * @param keyboardActions 입력 서비스가 IME 액션을 방출하면 해당 콜백이 호출됩니다. 이 IME 액션은 [KeyboardOptions.imeAction]에
+ * 지정한 것과 다를 수 있습니다.
+ * @param singleLine true로 설정하면 이 텍스트 필드가 여러 줄로 줄 바꿈되지 않고 가로로 스크롤되는 단일 텍스트 필드가 됩니다.
+ * 키보드에 [ImeAction]으로 return 키가 표시되지 않도록 알려줍니다. [maxLines] 및 [minLines]는 모두 자동으로 1로 설정되므로 무시됩니다.
+ * @param minLines 텍스트 필드에 표시하기 위한 최소 줄 수입니다. `1 <= minLines <= maxLines`가 요구됩니다. [singleLine]이 true면
+ * 이 옵션은 무시됩니다.
+ * @param maxLines 텍스트 필드에 표시될 수 있는 최대 줄 수입니다. `1 <= minLines <= maxLines`가 요구됩니다. [singleLine]이 true면
+ * 이 옵션은 무시됩니다.
+ * @param visualTransformation [value]의 시각적 표현을 변경할 수 있는 필터입니다. 기본적으로 적용되지 않습니다.
+ * @param onTextLayout 새 텍스트 레이아웃이 계산될 때 실행되는 콜백입니다. 콜백이 제공하는 [TextLayoutResult] 객체에는 단락 정보,
+ * 텍스트의 크기, 기준선 및 기타 세부 정보가 포함됩니다. 콜백은 텍스트에 장식이나 기능을 추가하는 데 사용할 수 있습니다.
+ * 예를 들어 텍스트 주위에 커서나 선택 영역을 그리는 데 사용할 수 있습니다.
+ * @param validationState 텍스트 필드의 검증 결과. 자세한 정보는 [TextFieldValidationState] 문서를 참고하세요.
+ * @Param validationLabelVisibilityStrategy [validationState]를 설명할 문구가 제공됐다면 해당 문구의 시각적 정책.
+ * 자세한 내용은 [TextFieldValidationLabelVisibilityStrategy] 문서를 참고하세요.
+ * @param interactionSource 이 텍스트 필드의 인터랙션 스트림을 나타내는 변경 가능한 인터랙션 소스입니다. 인터랙션을 관찰하고
+ * 다른 인터랙션에서 이 텍스트 필드의 모양/동작을 커스터마이징하려면 자신만의 변경 가능한 인터랙션 소스를 생성하여 전달할 수 있습니다.
+ */
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
@@ -863,6 +936,73 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   )
 }
 
+/**
+ * Default 텍스트 필드를 그립니다.
+ *
+ * - 이 컴포넌트는 자체의 패딩 정책을 구현합니다.
+ * - 이 컴포넌트는 자체의 터치 영역 정책을 구현합니다.
+ *
+ * ### 패딩 정책
+ *
+ * 1. [텍스트 필드 스타일][QuackTextFieldStyle]에서 [QuackTextFieldStyle.contentPadding] 옵션을
+ * 별도로 제공하고 있습니다. 이는 [Modifier.padding]과 다른 패딩 정책을 사용합니다. [Modifier.padding]은
+ * 텍스트 필드의 루트 레이아웃을 기준으로 패딩이 적용되지만, [contentPadding][QuackTextFieldStyle.contentPadding]은 텍스트 필드의
+ * 메인 텍스트를 기준으로 적용됩니다.
+ * 2. [LayoutModifier]를 사용하여 컴포넌트의 사이즈가 명시됐다면 [QuackTextFieldStyle.contentPadding]
+ * 옵션은 무시됩니다. [contentPadding][QuackTextFieldStyle.contentPadding]은 컴포넌트 사이즈 하드코딩을
+ * 대체하는 용도로 제공됩니다. 하지만 컴포넌트 사이즈가 하드코딩됐다면 [contentPadding][QuackTextFieldStyle.contentPadding]을
+ * 제공하는 의미가 없어집니다. 따라서 컴포넌트의 사이즈가 하드코딩됐다면 개발자의 의도를 존중한다는 원칙하에
+ * 컴포넌트의 사이즈가 중복으로 확장되는 일을 예방하고자 [contentPadding][QuackTextFieldStyle.contentPadding] 옵션을 무시합니다.
+ * 예를 들어 `Modifier.height(10.dp)`로 컴포넌트 높이를 명시했고, [contentPadding][QuackTextFieldStyle.contentPadding]으로
+ * `QuackPadding(vertical=10.dp)`을 제공했다고 해봅시다. 이런 경우에는 [contentPadding][QuackTextFieldStyle.contentPadding]이
+ * 무시되고 태그의 높이가 10dp로 적용됩니다. 컴포넌트 사이즈를 명시하면서 패딩을 적용하고 싶다면
+ * [contentPadding][QuackTextFieldStyle.contentPadding] 대신에 [Modifier.padding]을 사용하세요.
+ * 단, [Modifier.fillMaxWidth]는 디자인을 지키기 위해 사용되는 경우가 많으므로 이 경우는 예외적으로 [contentPadding][QuackTextFieldStyle.contentPadding]이
+ * 보존됩니다. [LayoutModifier]를 사용하는 흔한 [Modifier]로는 [Modifier.size], [Modifier.height], [Modifier.width] 등이
+ * 있습니다. [LayoutModifierNode]를 사용하는 [Modifier]는 [contentPadding][QuackTextFieldStyle.contentPadding] 무시
+ * 옵션이 아직 지원되지 않습니다. ([#636](https://github.com/duckie-team/quack-quack-android/issues/636))
+ *
+ * ### 터치 영역
+ *
+ * 이 컴포넌트에는 [defaultTextFieldIcon][Modifier.defaultTextFieldIcon] 데코레이터로 아이콘을 추가할 수 있습니다.
+ * 아이콘에 [onClick][TextFieldIconData.onClick] 이벤트가 제공됐다면 [해당 아이콘의 위치][TextFieldIconData.direction]에 맞는
+ * 영역 전체을 터치 영역으로 지정합니다. 예를 들어 [오른쪽][HorizontalDirection.Right]에 클릭 가능한 아이콘이 제공됐다고 해봅시다.
+ * 그렇다면 텍스트 필드의 높이 전체와, 아이콘의 너비와 [QuackTextFieldStyle.contentSpacedBy]의 반을 더한 너비를 터치 영역으로 지정합니다.
+ *
+ * ### 사용 가능한 데코레이터
+ *
+ * - [Modifier.defaultTextFieldIcon]: 아이콘을 표시합니다.
+ * - [Modifier.defaultTextFieldIndicator]: 인티케이터를 그립니다.
+ * - [Modifier.counter]: counter를 표시합니다.
+ *
+ * @param value 텍스트 필드에 입력된 글자
+ * @param onValueChange 입력 서비스가 글자를 업데이트할 때 호출되는 콜백입니다. 업데이트된 글자는 콜백의 매개변수로 제공됩니다.
+ * @param style 텍스트 필드에 적용할 디자인 스펙
+ * @param enabled 텍스트 필드의 활성화 상태를 제어합니다. false면 텍스트 필드를 편집하거나 포커스를 맞출 수 없으며
+ * 텍스트 필드에 글자를 입력할 수 없습니다.
+ * @param readOnly 텍스트 필드의 편집 가능한 상태를 제어합니다. true면 텍스트 필드를 수정할 수 없지만 사용자가 포커스를 맞추고
+ * 텍스트를 복사할 수 있습니다. 읽기 전용 텍스트 필드는 일반적으로 사용자가 편집할 수 없는 미리 채워진 양식을 표시하는 데 사용됩니다.
+ * @param placeholderText 입력된 글자가 없을 때 표시할 대체 글자
+ * @param placeholderStrategy [placeholderText]의 시각적 정책. 자세한 정보는 [TextFieldPlaceholderStrategy] 문서를 참고하세요.
+ * @param keyboardOptions 키보드 유형 및 [ImeAction]과 같은 구성이 포함된 소프트웨어 키보드 옵션입니다.
+ * @param keyboardActions 입력 서비스가 IME 액션을 방출하면 해당 콜백이 호출됩니다. 이 IME 액션은 [KeyboardOptions.imeAction]에
+ * 지정한 것과 다를 수 있습니다.
+ * @param singleLine true로 설정하면 이 텍스트 필드가 여러 줄로 줄 바꿈되지 않고 가로로 스크롤되는 단일 텍스트 필드가 됩니다.
+ * 키보드에 [ImeAction]으로 return 키가 표시되지 않도록 알려줍니다. [maxLines] 및 [minLines]는 모두 자동으로 1로 설정되므로 무시됩니다.
+ * @param minLines 텍스트 필드에 표시하기 위한 최소 줄 수입니다. `1 <= minLines <= maxLines`가 요구됩니다. [singleLine]이 true면
+ * 이 옵션은 무시됩니다.
+ * @param maxLines 텍스트 필드에 표시될 수 있는 최대 줄 수입니다. `1 <= minLines <= maxLines`가 요구됩니다. [singleLine]이 true면
+ * 이 옵션은 무시됩니다.
+ * @param visualTransformation [value]의 시각적 표현을 변경할 수 있는 필터입니다. 기본적으로 적용되지 않습니다.
+ * @param onTextLayout 새 텍스트 레이아웃이 계산될 때 실행되는 콜백입니다. 콜백이 제공하는 [TextLayoutResult] 객체에는 단락 정보,
+ * 텍스트의 크기, 기준선 및 기타 세부 정보가 포함됩니다. 콜백은 텍스트에 장식이나 기능을 추가하는 데 사용할 수 있습니다.
+ * 예를 들어 텍스트 주위에 커서나 선택 영역을 그리는 데 사용할 수 있습니다.
+ * @param validationState 텍스트 필드의 검증 결과. 자세한 정보는 [TextFieldValidationState] 문서를 참고하세요.
+ * @Param validationLabelVisibilityStrategy [validationState]를 설명할 문구가 제공됐다면 해당 문구의 시각적 정책.
+ * 자세한 내용은 [TextFieldValidationLabelVisibilityStrategy] 문서를 참고하세요.
+ * @param interactionSource 이 텍스트 필드의 인터랙션 스트림을 나타내는 변경 가능한 인터랙션 소스입니다. 인터랙션을 관찰하고
+ * 다른 인터랙션에서 이 텍스트 필드의 모양/동작을 커스터마이징하려면 자신만의 변경 가능한 인터랙션 소스를 생성하여 전달할 수 있습니다.
+ */
 // TODO(casa): @NoCasa
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
@@ -1045,11 +1185,11 @@ private fun rememberLtrTextMeasurer(cacheSize: Int = /*DefaultCacheSize*/ 8): Te
   }
 }
 
-/** 텍스트필드의 너비가 지정되지 않았을 떄 기본으로 사용할 너비 */
+/** 텍스트 필드의 너비가 지정되지 않았을 떄 기본으로 사용할 너비 */
 private val DefaultMinWidth = 200.dp
 
 /**
- * Default 텍스트필드를 그립니다.
+ * Default 텍스트 필드를 그립니다.
  *
  * 이 컴포저블은 자체의 배치 정책을 갖습니다. 자세한 내용은 [QuackDefaultTextField] 문서를 참고하세요.
  * 또한 [QuackDefaultTextFieldStyle]의 필드와 이 컴포넌트에 사용 가능한 데코레이터의 정보를 모두
@@ -1234,12 +1374,12 @@ public fun QuackBaseDefaultTextField(
       counterBaseAndHighlightGap,
     ) {
       if (counterMaxLength != null) {
-        val currentLenght = value.text.length
+        val currentLength = value.text.length
 
         counterTextMeasurer.measure(
           text = buildAnnotatedString {
             withStyle(SpanStyle(color = counterHighlightColor!!.value)) {
-              append(currentLenght.toString())
+              append(currentLength.toString())
             }
             withStyle(
               SpanStyle(
@@ -1260,8 +1400,8 @@ public fun QuackBaseDefaultTextField(
           //       height = 1.sp,
           //       placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter,
           //     ),
-          //     start = currentLenght,
-          //     end = currentLenght + 1,
+          //     start = "$currentLength".length,
+          //     end = "$currentLength".length + 1,
           //   )
           // ),
           style = counterTypography!!.change(textAlign = TextAlign.End).asComposeStyle(),
@@ -1272,6 +1412,15 @@ public fun QuackBaseDefaultTextField(
       }
     }
 
+  /*
+   * maintainer notes: BasicTextField는 CoreTextField의 레퍼 컴포저블임.
+   * CoreTextField는 내부에서 여러 가지 텍스트 필드 Modifier를 SimpleLayout 컴포저블로
+   * 구체화하고, 여기에 사용된 SimpleLayout 컴포저블이 decorationBox 인자로 제공됨.
+   * decorationBox 컴포저블은 CoreTextFieldRootBox 컴포저블 안에서 실행되는데,
+   * CoreTextFieldRootBox 컴포저블은 propagateMinConstraints = true 인 Box로
+   * 이어지고, Box의 content가 ContextMenuArea 컴포저블로 실행됨. ContextMenuArea 컴포저블은
+   * expect 함수로 desktop과 android 구현이 있고, android 환경에서는 단순히 content() 로 끝남.
+   */
   BasicTextField(
     value = value,
     onValueChange = onValueChange,
@@ -1584,7 +1733,7 @@ public fun QuackBaseDefaultTextField(
   }
 }
 
-/** [QuackBaseDefaultTextField]가 올바르게 그려지기 위한 상태인지를 검증합니다. */
+/** [QuackBaseDefaultTextField]가 올바르게 그려질 수 있는 상태인지 검증합니다. */
 private fun assertDefaultTextFieldValidState(
   validationState: TextFieldValidationState,
   leadingIcon: QuackIcon?,
