@@ -1402,7 +1402,7 @@ public fun QuackBaseDefaultTextField(
         ),
         start = "$currentLength".length,
         end = "$currentLength".length + 1,
-      )
+      ),
     )
   }
   val counterTextMeasurer = rememberLtrTextMeasurer(/*cacheSize = 7*/) // TODO(pref): param size?
