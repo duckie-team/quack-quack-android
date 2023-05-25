@@ -7,6 +7,13 @@
 
 package team.duckie.quackquack.ui.util
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.Modifier
+
+/**
+ * [Modifier.fillMaxWidth]를 기본 인자로 사용했을 때 위임되는 top-level 변수인
+ * `FillWholeMaxWidth`의 hashcode를 리플랙션을 이용하여 조회합니다.
+ */
 internal val reflectivelyFillMaxSizeOperationHashCode = run {
   val sizeKt = Class.forName("androidx.compose.foundation.layout.SizeKt")
   val fillWholeMaxWidthField = sizeKt.getDeclaredField("FillWholeMaxWidth")

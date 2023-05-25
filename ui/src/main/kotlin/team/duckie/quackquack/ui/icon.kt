@@ -31,9 +31,11 @@ import team.duckie.quackquack.util.applyIf
  * [size] 인자로 제공해야 합니다. [size] 기본값은 24dp로 제공됩니다.
  *
  * @param icon 그릴 [아이콘][QuackIcon]
- * @param size 아이콘 사이즈
- * @param tint 아이콘에 입힐 틴트
- * @param contentScale 아이콘에 적용할 [contentScale][ContentScale]
+ * @param size [icon]의 사이즈. 이 인자로 전달된 사이즈는 font scale에 맞게
+ * 자동 조정될 수 있습니다. 자세한 내용은 꽥꽥 플러그인을 참고하세요.
+ * @param tint [icon]에 적용할 틴트
+ * @param contentScale [icon]에 적용할 [contentScale][ContentScale]
+ * @param contentDescription [icon]을 설명하는 문구. 접근성 서비스에 사용됩니다.
  */
 // TODO: @SugarParameterizedTest
 @NonRestartableComposable

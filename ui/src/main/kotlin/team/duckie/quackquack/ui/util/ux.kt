@@ -36,7 +36,7 @@ public inline fun <T> currentFontScale(content: (fontScale: Float) -> T): T {
 }
 
 /**
- * [Modifier]를 이용하여 컴포저블의 사이즈를 fontscale-aware 하게 설정합니다.
+ * [Modifier]를 이용하여 컴포저블의 사이즈를 font scale aware 하게 설정합니다.
  *
  * 모든 컴포저블에 사용할 수 있지만 아이콘 컴포저블에 사용함을 권장합니다.
  *

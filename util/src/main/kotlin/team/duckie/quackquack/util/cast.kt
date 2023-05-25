@@ -7,4 +7,5 @@
 
 package team.duckie.quackquack.util
 
+/** 주어진 값을 [T]로 unsafe casting 합니다. */
 public inline fun <reified T : Any> Any?.cast(): T = this as T
