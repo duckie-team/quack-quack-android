@@ -17,38 +17,31 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import team.duckie.quackquack.material.QuackColor
-import team.duckie.quackquack.material.QuackIcon
-import team.duckie.quackquack.ui.DefaultIconButtonSize
-import team.duckie.quackquack.ui.QuackDefaultTextField
-import team.duckie.quackquack.ui.QuackTextFieldStyle
-import team.duckie.quackquack.ui.TextFieldPlaceholderStrategy
-import team.duckie.quackquack.ui.TextFieldValidationState
-import team.duckie.quackquack.ui.counter
-import team.duckie.quackquack.ui.defaultTextFieldIcon
-import team.duckie.quackquack.ui.defaultTextFieldIndicator
+import casaModels
+import team.duckie.quackquack.casa.ui.CasaScreen
+import team.duckie.quackquack.casa.ui.theme.CasaTheme
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
-import team.duckie.quackquack.ui.token.HorizontalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      // CasaTheme {
-      //   CasaScreen(models = casaModels)
-      // }
-      Preview {
+      CasaTheme {
+        CasaScreen(models = casaModels)
+      }
+      /*Preview {
         var value by rememberSaveable { mutableStateOf("") }
+        QuackDefaultTextField(
+          value = "ShortText",
+          onValueChange = {},
+          style = QuackTextFieldStyle.Default,
+          validationState = TextFieldValidationState.Default,
+        )
         QuackDefaultTextField(
           modifier = Modifier
             .fillMaxWidth()
@@ -56,14 +49,14 @@ class MainActivity : ComponentActivity() {
             .defaultTextFieldIcon(
               icon = QuackIcon.FilledHeart,
               tint = QuackColor.Unspecified,
-              iconSize = DefaultIconButtonSize,
+              iconSize = 24.dp,
               direction = HorizontalDirection.Left,
             ) {
               toast("left heart!")
             }
             .defaultTextFieldIcon(
               icon = QuackIcon.FilledHeart,
-              iconSize = DefaultIconButtonSize,
+              iconSize = 24.dp,
               tint = QuackColor.Unspecified,
               direction = HorizontalDirection.Right,
             ) {
@@ -105,7 +98,7 @@ class MainActivity : ComponentActivity() {
           placeholderStrategy = TextFieldPlaceholderStrategy.Always,
           style = QuackTextFieldStyle.DefaultLarge,
         )
-      }
+      }*/
     }
   }
 }
