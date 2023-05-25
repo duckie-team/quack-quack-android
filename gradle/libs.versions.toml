@@ -34,7 +34,7 @@ compose-ui = "1.4.3"
 compose-animation = "1.4.3"
 compose-material-ripple = "1.4.3"
 compose-material3 = "1.1.0" # for Playground
-compose-activity = "1.7.1"
+compose-activity = "1.7.2"
 compose-coil = "2.4.0"
 
 test-kotest = "5.6.2"
