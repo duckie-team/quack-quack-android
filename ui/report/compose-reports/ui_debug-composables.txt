@@ -477,66 +477,6 @@ scheme("[androidx.compose.ui.UiComposable]") fun QuackTitle2(
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
-fun QuackDefaultDefaultTextField(
-  stable value: String
-  stable onValueChange: Function1<@[ParameterName(name = 'P0')] String, Unit>
-  stable modifier: Modifier? = @static Companion
-  stable enabled: Boolean = @static true
-  stable readOnly: Boolean = @static false
-  stable placeholderText: String? = @static null
-  stable placeholderStrategy: TextFieldPlaceholderStrategy? = @static TextFieldPlaceholderStrategy.Hidable
-  stable keyboardOptions: KeyboardOptions? = @static Companion.Default
-  stable keyboardActions: KeyboardActions? = @static Companion.Default
-  stable singleLine: Boolean = @static false
-  stable minLines: Int = @static 1
-  stable maxLines: Int = @dynamic if (singleLine) {
-  1
-} else {
-  Companion  .  MAX_VALUE
-}
-
-  stable visualTransformation: VisualTransformation? = @static Companion.None
-  stable onTextLayout: Function1<@[ParameterName(name = 'P0')] TextLayoutResult, Unit>? = @static { it: TextLayoutResult ->
-
-}
-
-  stable validationState: TextFieldValidationState? = @static Default
-  stable validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy? = @static Gone
-  stable interactionSource: MutableInteractionSource? = @static remember({
-  MutableInteractionSource  (  )
-}
-, $composer, 0)
-)
-fun QuackDefaultLargeDefaultTextField(
-  stable value: String
-  stable onValueChange: Function1<@[ParameterName(name = 'P0')] String, Unit>
-  stable modifier: Modifier? = @static Companion
-  stable enabled: Boolean = @static true
-  stable readOnly: Boolean = @static false
-  stable placeholderText: String? = @static null
-  stable placeholderStrategy: TextFieldPlaceholderStrategy? = @static TextFieldPlaceholderStrategy.Hidable
-  stable keyboardOptions: KeyboardOptions? = @static Companion.Default
-  stable keyboardActions: KeyboardActions? = @static Companion.Default
-  stable singleLine: Boolean = @static false
-  stable minLines: Int = @static 1
-  stable maxLines: Int = @dynamic if (singleLine) {
-  1
-} else {
-  Companion  .  MAX_VALUE
-}
-
-  stable visualTransformation: VisualTransformation? = @static Companion.None
-  stable onTextLayout: Function1<@[ParameterName(name = 'P0')] TextLayoutResult, Unit>? = @static { it: TextLayoutResult ->
-
-}
-
-  stable validationState: TextFieldValidationState? = @static Default
-  stable validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy? = @static Gone
-  stable interactionSource: MutableInteractionSource? = @static remember({
-  MutableInteractionSource  (  )
-}
-, $composer, 0)
-)
 scheme("[androidx.compose.ui.UiComposable]") fun QuackTag(
   stable text: String
   stable style: QuackTagStyle<T>
@@ -679,14 +619,12 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBase
   stable leadingIcon: QuackIcon?
   stable leadingIconSize: Dp?
   stable leadingIconTint: QuackColor?
-  stable leadingIconRole: IconRole?
   stable leadingIconContentScale: ContentScale?
   stable leadingIconContentDescription: String?
   stable leadingIconOnClick: Function0<Unit>?
   stable trailingIcon: QuackIcon?
   stable trailingIconSize: Dp?
   stable trailingIconTint: QuackColor?
-  stable trailingIconRole: IconRole?
   stable trailingIconContentScale: ContentScale?
   stable trailingIconContentDescription: String?
   stable trailingIconOnClick: Function0<Unit>?

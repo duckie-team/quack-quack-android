@@ -127,11 +127,11 @@ stable class QuackGrayscaleOutlinedTagDefaults {
   stable var typography: QuackTypography
   stable var unselectedTypography: QuackTypography
 }
-stable class Error {
+stable class Success {
   stable val label: String?
   <runtime stability> = Stable
 }
-stable class Success {
+stable class Error {
   stable val label: String?
   <runtime stability> = Stable
 }
@@ -160,7 +160,7 @@ stable class TextFieldColors {
 }
 stable class TextFieldColors {
   stable val backgroundColor: QuackColor?
-  stable val backgroundColorGetter: Function2<@[ParameterName(name = 'focusInteraction')] FocusInteraction, @[ParameterName(name = 'text')] String, QuackColor>?
+  stable val backgroundColorGetter: Function2<@[ParameterName(name = 'text')] String, @[ParameterName(name = 'focusInteraction')] FocusInteraction, QuackColor>?
   stable val contentColor: QuackColor
   stable val placeholderColor: QuackColor
   <runtime stability> = Stable

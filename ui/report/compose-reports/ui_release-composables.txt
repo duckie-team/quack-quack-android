@@ -22,7 +22,42 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBase
   stable trailingIcon: QuackIcon?
   stable onClick: Function0<Unit>?
 )
-scheme("[androidx.compose.ui.UiComposable]") fun QuackLargeButton(
+scheme("[androidx.compose.ui.UiComposable]") fun QuackIcon(
+  stable icon: QuackIcon
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackImage(
+  stable src: QuackIcon
+  stable modifier: Modifier? = @static Companion
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackImage(
+  stable src: Int
+  stable modifier: Modifier? = @static Companion
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+fun QuackImage(
+  stable src: String
+  stable modifier: Modifier? = @static Companion
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackPrimaryLargeButton(
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable text: String
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackSecondaryLargeButton(
   stable modifier: Modifier? = @static Companion
   stable enabled: Boolean = @static true
   stable text: String
@@ -36,10 +71,339 @@ scheme("[androidx.compose.ui.UiComposable]") fun QuackMediumButton(
   stable rippleEnabled: Boolean = @static true
   stable onClick: Function0<Unit>
 )
-scheme("[androidx.compose.ui.UiComposable]") fun QuackSmallButton(
+scheme("[androidx.compose.ui.UiComposable]") fun QuackPrimaryFilledSmallButton(
   stable modifier: Modifier? = @static Companion
   stable enabled: Boolean = @static true
   stable text: String
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackPrimaryOutlinedSmallButton(
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable text: String
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackPrimaryOutlinedRoundSmallButton(
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable text: String
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackSecondarySmallButton(
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable text: String
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackSecondaryRoundSmallButton(
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable text: String
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackAreaIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackArrowBackIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackArrowDownIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackArrowRightIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackArrowSendIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackBadgeIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackBookmarkIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackBuyIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackCameraIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackCheckIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackCloseIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackCommentIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackDeleteIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackDeleteBgIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackDmIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackFeedIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackFilledBookmarkIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackFilledHeartIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackFilledProfileIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackFilterIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackGalleryIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackHeartIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackImageIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackImageEditIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackImageEditBgIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackMarketPriceIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackMoreIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackNoticeAddIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackPlaceIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackPlusIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackProfileIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackSearchIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackSellIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackSettingIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackShareIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackTagIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackTextLogoIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackWhiteHeartIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackWonIcon(
+  stable modifier: Modifier? = @static Companion
+  stable size: Dp = @static 24.dp
+  stable tint: QuackColor = @static Companion.Unspecified
+  stable contentScale: ContentScale? = @static Companion.Fit
+  stable contentDescription: String? = @static null
+)
+fun QuackOutlinedTag(
+  stable text: String
+  stable modifier: Modifier? = @static Companion
+  stable selected: Boolean = @static true
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+fun QuackFilledTag(
+  stable text: String
+  stable modifier: Modifier? = @static Companion
+  stable selected: Boolean = @static true
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+fun QuackGrayscaleFlatTag(
+  stable text: String
+  stable modifier: Modifier? = @static Companion
+  stable selected: Boolean = @static true
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+fun QuackGrayscaleOutlinedTag(
+  stable text: String
+  stable modifier: Modifier? = @static Companion
+  stable selected: Boolean = @static true
   stable rippleEnabled: Boolean = @static true
   stable onClick: Function0<Unit>
 )
@@ -113,6 +477,31 @@ scheme("[androidx.compose.ui.UiComposable]") fun QuackTitle2(
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
+scheme("[androidx.compose.ui.UiComposable]") fun QuackTag(
+  stable text: String
+  stable style: QuackTagStyle<T>
+  stable modifier: Modifier? = @static Companion
+  stable selected: Boolean = @static true
+  stable rippleEnabled: Boolean = @static true
+  stable onClick: Function0<Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBaseTag(
+  stable modifier: Modifier
+  stable text: String
+  stable backgroundColor: QuackColor
+  stable rippleColor: QuackColor
+  stable rippleEnabled: Boolean
+  stable shape: Shape
+  stable border: QuackBorder
+  stable typography: QuackTypography
+  stable contentPadding: QuackPadding?
+  stable iconSpacedBy: Dp
+  stable iconColor: QuackColor?
+  stable trailingIcon: QuackIcon?
+  stable trailingIconSize: Dp?
+  stable trailingIconOnClick: Function0<Unit>?
+  stable onClick: Function0<Unit>?
+)
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackText(
   stable modifier: Modifier? = @static Companion
   stable text: String
@@ -136,6 +525,120 @@ fun rememberSpanAnnotatedString(
   stable spanStyle: SpanStyle
   unstable annotationTexts: List<String>
 ): AnnotatedString
+fun QuackDefaultTextField(
+  stable value: String
+  stable onValueChange: Function1<@[ParameterName(name = 'value')] String, Unit>
+  stable style: QuackTextFieldStyle<Style, TextFieldColors>
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable readOnly: Boolean = @static false
+  stable placeholderText: String? = @static null
+  stable placeholderStrategy: TextFieldPlaceholderStrategy? = @static TextFieldPlaceholderStrategy.Hidable
+  stable keyboardOptions: KeyboardOptions? = @static Companion.Default
+  stable keyboardActions: KeyboardActions? = @static Companion.Default
+  stable singleLine: Boolean = @static false
+  stable minLines: Int = @static 1
+  stable maxLines: Int = @dynamic if (singleLine) {
+  1
+} else {
+  Companion  .  MAX_VALUE
+}
+
+  stable visualTransformation: VisualTransformation? = @static Companion.None
+  stable onTextLayout: Function1<@[ParameterName(name = 'layoutResult')] TextLayoutResult, Unit>? = @static { it: TextLayoutResult ->
+
+}
+
+  stable validationState: TextFieldValidationState? = @static Default
+  stable validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy? = @static Gone
+  stable interactionSource: MutableInteractionSource? = @static remember({
+  MutableInteractionSource  (  )
+}
+, $composer, 0)
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackDefaultTextField(
+  stable value: TextFieldValue
+  stable onValueChange: Function1<@[ParameterName(name = 'value')] TextFieldValue, Unit>
+  stable style: QuackTextFieldStyle<Style, TextFieldColors>
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable readOnly: Boolean = @static false
+  stable placeholderText: String? = @static null
+  stable placeholderStrategy: TextFieldPlaceholderStrategy? = @static TextFieldPlaceholderStrategy.Hidable
+  stable keyboardOptions: KeyboardOptions? = @static Companion.Default
+  stable keyboardActions: KeyboardActions? = @static Companion.Default
+  stable singleLine: Boolean = @static false
+  stable minLines: Int = @static 1
+  stable maxLines: Int = @dynamic if (singleLine) {
+  1
+} else {
+  Companion  .  MAX_VALUE
+}
+
+  stable visualTransformation: VisualTransformation? = @static Companion.None
+  stable onTextLayout: Function1<@[ParameterName(name = 'layoutResult')] TextLayoutResult, Unit>? = @static { it: TextLayoutResult ->
+
+}
+
+  stable validationState: TextFieldValidationState? = @static Default
+  stable validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy? = @static Gone
+  stable interactionSource: MutableInteractionSource? = @static remember({
+  MutableInteractionSource  (  )
+}
+, $composer, 0)
+)
+fun rememberLtrTextMeasurer(
+  stable cacheSize: Int = @static 8
+): TextMeasurer
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBaseDefaultTextField(
+  stable value: TextFieldValue
+  stable onValueChange: Function1<@[ParameterName(name = 'value')] TextFieldValue, Unit>
+  stable modifier: Modifier
+  stable enabled: Boolean
+  stable readOnly: Boolean
+  stable placeholderText: String?
+  stable placeholderStrategy: TextFieldPlaceholderStrategy
+  stable keyboardOptions: KeyboardOptions
+  stable keyboardActions: KeyboardActions
+  stable singleLine: Boolean
+  stable minLines: Int
+  stable maxLines: Int
+  stable visualTransformation: VisualTransformation
+  stable onTextLayout: Function1<@[ParameterName(name = 'layoutResult')] TextLayoutResult, Unit>
+  stable validationState: TextFieldValidationState
+  stable validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy
+  stable interactionSource: MutableInteractionSource
+  stable backgroundColor: QuackColor
+  stable contentPadding: PaddingValues?
+  stable contentSpacedBy: Dp
+  stable validationLabelAndIndicatorSpacedBy: Dp
+  stable typography: QuackTypography
+  stable placeholderTypography: QuackTypography
+  stable errorTypography: QuackTypography
+  stable successTypography: QuackTypography
+  stable leadingIcon: QuackIcon?
+  stable leadingIconSize: Dp?
+  stable leadingIconTint: QuackColor?
+  stable leadingIconContentScale: ContentScale?
+  stable leadingIconContentDescription: String?
+  stable leadingIconOnClick: Function0<Unit>?
+  stable trailingIcon: QuackIcon?
+  stable trailingIconSize: Dp?
+  stable trailingIconTint: QuackColor?
+  stable trailingIconContentScale: ContentScale?
+  stable trailingIconContentDescription: String?
+  stable trailingIconOnClick: Function0<Unit>?
+  stable indicatorThickness: Dp?
+  stable indicatorColor: QuackColor?
+  stable indicatorDirection: VerticalDirection?
+  stable counterBaseColor: QuackColor?
+  stable counterHighlightColor: QuackColor?
+  stable counterTypography: QuackTypography?
+  stable counterBaseAndHighlightGap: Dp?
+  stable counterMaxLength: Int?
+)
+fun QuackFilledTextField()
+fun QuackOutlinedTextField()
 readonly inline fun currentFontScale(
   stable content: Function1<@[ParameterName(name = 'fontScale')] Float, T>
 ): T
