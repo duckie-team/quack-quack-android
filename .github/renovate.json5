@@ -13,7 +13,6 @@
     {
       "groupName": "Kotlin, KSP and Compose Compiler",
       "groupSlug": "kotlin",
-      "ignoreUnstable": false,
       "matchPackagePrefixes": [
         "com.google.devtools.ksp",
         "androidx.compose.compiler",
