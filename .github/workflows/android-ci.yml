@@ -46,10 +46,6 @@ jobs:
       - name: Verify components snapshot
         run: ./gradlew :ui:verifyRoborazziDebug
 
-      - name: Run ui test on ui module via gmd
-        if: contains(github.event.pull_request.labels.*.name, 'ui')
-        run: ./gradlew :ui:pixel4api30aospatdDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
-
       - name: Run ui test on casa-ui module via gmd
         if: contains(github.event.pull_request.labels.*.name, 'casa-ui')
         run: ./gradlew :casa-ui:pixel4api30aospatdDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"

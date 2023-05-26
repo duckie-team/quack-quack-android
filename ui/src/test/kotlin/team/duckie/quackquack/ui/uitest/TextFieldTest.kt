@@ -24,10 +24,10 @@ import team.duckie.quackquack.ui.TextFieldErrors.IndicatorRequestedButNoColor
 import team.duckie.quackquack.ui.TextFieldErrors.ValidationLabelProvidedButNoBottomDirectionIndicator
 import team.duckie.quackquack.ui.TextFieldErrors.sameDirectionIcon
 import team.duckie.quackquack.ui.TextFieldValidationState
+import team.duckie.quackquack.ui.commonutil.setQuackContent
 import team.duckie.quackquack.ui.defaultTextFieldIcon
 import team.duckie.quackquack.ui.defaultTextFieldIndicator
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
-import team.duckie.quackquack.ui.snapshot.util.setQuackContent
 import team.duckie.quackquack.ui.token.HorizontalDirection
 import team.duckie.quackquack.ui.token.VerticalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
