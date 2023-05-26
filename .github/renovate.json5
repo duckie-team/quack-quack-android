@@ -32,11 +32,6 @@
     {
       "description": "Automatically merge minor and patch-level updates",
       "ignoreUnstable": false,
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest",
-      ],
       "automerge": true,
       "automergeStrategy": "rebase",
       "platformAutomerge": true,
