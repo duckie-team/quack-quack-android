@@ -14,7 +14,6 @@ plugins {
   quackquack("android-library")
   quackquack("android-compose")
   quackquack("android-compose-metrics")
-  quackquack("android-gmd")
   quackquack("kotlin-explicit-api")
   quackquack("quack-publishing")
   quackquack("test-junit")
@@ -50,6 +49,7 @@ android {
       isReturnDefaultValues = true
       all { test ->
         test.maxHeapSize = "4G"
+        test.systemProperty("robolectric.graphicsMode", "NATIVE")
       }
     }
   }
@@ -84,12 +84,6 @@ dependencies {
     projects.aideAnnotation.orArtifact(),
   )
 
-  androidTestImplementations(
-    libs.test.junit.compose,
-    libs.test.kotest.assertion.core,
-    libs.bundles.test.mockito,
-    projects.screenshotMatcher,
-  )
   testImplementations(
     libs.test.robolectric,
     libs.test.junit.compose,

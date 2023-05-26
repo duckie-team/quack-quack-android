@@ -45,7 +45,6 @@ test-roborazzi = "1.3.0-alpha-1"
 test-robolectric = "4.10.3"
 test-injector-parameter = "1.12"
 test-mockito-core = "5.3.1"
-test-mockito-android = "5.3.1"
 test-mockito-kotlin = "4.1.0"
 test-kotlin-compilation-ksp = "1.5.0"
 
@@ -117,7 +116,6 @@ test-roborazzi-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-
 test-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-robolectric" }
 test-injector-parameter = { module = "com.google.testparameterinjector:test-parameter-injector", version.ref = "test-injector-parameter" }
 test-mockito-core = { module = "org.mockito:mockito-core", version.ref = "test-mockito-core" }
-test-mockito-android = { module = "org.mockito:mockito-android", version.ref = "test-mockito-android" }
 test-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "test-mockito-kotlin" }
 test-kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 test-kotlin-compilation-core = { module = "com.github.tschuchortdev:kotlin-compile-testing", version.ref = "test-kotlin-compilation-ksp" }
@@ -128,5 +126,4 @@ detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-format
 [bundles]
 android-lint = ["android-lint-api", "android-lint-checks"]
 test-roborazzi = ["test-roborazzi-core", "test-roborazzi-rule"]
-test-mockito = ["test-mockito-core", "test-mockito-android", "test-mockito-kotlin"]
 test-android-lint = ["android-lint-core", "test-android-lint"]

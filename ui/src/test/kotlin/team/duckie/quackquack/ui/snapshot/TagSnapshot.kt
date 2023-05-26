@@ -30,7 +30,7 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import team.duckie.quackquack.material.QuackIcon
 import team.duckie.quackquack.ui.snapshot.util.BaseSnapshotPath
-import team.duckie.quackquack.ui.snapshot.util.setQuackContent
+import team.duckie.quackquack.ui.commonutil.setQuackContent
 import team.duckie.quackquack.ui.snapshot.util.withIncreaseFontScale
 import team.duckie.quackquack.ui.sugar.QuackFilledTag
 import team.duckie.quackquack.ui.sugar.QuackGrayscaleFlatTag

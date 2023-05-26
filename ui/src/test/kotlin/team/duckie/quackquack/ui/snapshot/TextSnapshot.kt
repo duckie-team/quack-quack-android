@@ -7,48 +7,42 @@
 
 package team.duckie.quackquack.ui.snapshot
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.captureRoboImage
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
-import org.robolectric.annotation.GraphicsMode
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.ui.QuackText
-import team.duckie.quackquack.ui.snapshot.util.snapshotPath
+import team.duckie.quackquack.ui.snapshot.util.SnapshotPathGeneratorRule
+import team.duckie.quackquack.ui.snapshot.util.TestColumn
 import team.duckie.quackquack.ui.span
 
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
-@GraphicsMode(GraphicsMode.Mode.NATIVE)
 class TextSnapshot {
+  @get:Rule
+  val snapshotPath = SnapshotPathGeneratorRule("text")
+
   @Test
-  fun ModifierSpan() {
-    captureRoboImage(snapshotPath("text")) {
-      QuackText(
-        modifier = Modifier
-          .fillMaxWidth()
-          .background(color = Color.White)
-          .padding(30.dp)
-          .span(
-            texts = listOf("QuackQuack", "Duckie"),
+  fun QuackText_span() {
+    captureRoboImage(snapshotPath()) {
+      TestColumn {
+        QuackText(
+          modifier = Modifier.span(
+            texts = listOf("Hello"),
             style = SpanStyle(
               color = QuackColor.DuckieOrange.value,
-              fontWeight = FontWeight.Bold,
+              fontWeight = FontWeight.SemiBold,
             ),
           ),
-        text = "QuackQuack is an awesome ui kit created by the Duckie team.",
-        typography = QuackTypography.Large1,
-      )
+          text = "Hello, World!",
+          typography = QuackTypography.Body1,
+        )
+      }
     }
   }
 }

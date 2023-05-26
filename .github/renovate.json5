@@ -3,11 +3,11 @@
   "extends": [
     ":timezone(Asia/Seoul)",
     "config:base",
-    "schedule:daily"
+    "schedule:daily",
   ],
   "labels": [
     "dependencies",
-    "gradle"
+    "gradle",
   ],
   "packageRules": [
     {
@@ -15,33 +15,34 @@
       "groupSlug": "kotlin",
       "matchPackagePrefixes": [
         "com.google.devtools.ksp",
-        "androidx.compose.compiler"
+        "androidx.compose.compiler",
       ],
       "matchPackagePatterns": [
-        "org.jetbrains.kotlin.*"
-      ]
+        "org.jetbrains.kotlin.*",
+      ],
     },
     {
       "groupName": "AGP and AS Lint",
       "groupSlug": "android-tool",
       "matchPackagePrefixes": [
         "com.android.tools.build",
-        "com.android.tools.lint"
-      ]
+        "com.android.tools.lint",
+      ],
     },
     {
       "description": "Automatically merge minor and patch-level updates",
+      "ignoreUnstable": false,
       "matchUpdateTypes": [
         "minor",
         "patch",
-        "digest"
+        "digest",
       ],
       "automerge": true,
       "automergeStrategy": "rebase",
-      "platformAutomerge": true
-    }
+      "platformAutomerge": true,
+    },
   ],
   "ignorePaths": [
-    "website/**"
-  ]
+    "website/**",
+  ],
 }
