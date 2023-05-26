@@ -13,12 +13,21 @@
     {
       "groupName": "Kotlin, KSP and Compose Compiler",
       "groupSlug": "kotlin",
+      "ignoreUnstable": false,
       "matchPackagePrefixes": [
         "com.google.devtools.ksp",
         "androidx.compose.compiler",
       ],
       "matchPackagePatterns": [
         "org.jetbrains.kotlin.*",
+      ],
+    },
+    {
+      "groupName": "Compose Compiler unstable updates",
+      "groupSlug": "kotlin",
+      "ignoreUnstable": false,
+      "matchPackagePrefixes": [
+        "androidx.compose.compiler",
       ],
     },
     {
@@ -31,7 +40,11 @@
     },
     {
       "description": "Automatically merge minor and patch-level updates",
-      "ignoreUnstable": false,
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest",
+      ],
       "automerge": true,
       "automergeStrategy": "rebase",
       "platformAutomerge": true,
