@@ -4,7 +4,7 @@ gradle-publish-maven = "0.25.2"
 gradle-dependency-handler-extensions = "1.1.0"
 gradle-dependency-graph = "1.1.0"
 
-google-autoservice-standard = "1.0.1"
+google-autoservice-standard = "1.1.0"
 google-autoservice-ksp = "1.0.0"
 
 kotlin-core = "1.8.21"
