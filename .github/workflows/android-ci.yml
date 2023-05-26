@@ -46,6 +46,14 @@ jobs:
       - name: Verify components snapshot
         run: ./gradlew :ui:verifyRoborazziDebug
 
+      - name: Cache GMD
+        if: contains(github.event.pull_request.labels.*.name, 'casa-ui')
+        uses: actions/cache@v3
+        with:
+          path: /Users/runner/Library/Android/sdk/system-images/android-30/aosp_atd/x86
+          key: ${{ runner.os }}-gmd-${{ hashFiles('**/gmd.kt') }}
+          restore-keys: ${{ runner.os }}-gmd-
+
       - name: Run ui test on casa-ui module via gmd
         if: contains(github.event.pull_request.labels.*.name, 'casa-ui')
         run: ./gradlew :casa-ui:pixel4api30aospatdDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
