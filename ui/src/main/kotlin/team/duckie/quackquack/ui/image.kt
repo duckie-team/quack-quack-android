@@ -105,11 +105,10 @@ public fun QuackImage(
 }
 
 /**
- * 주어진 링크로부터 이미지 리소스를 그립니다. 모든 이미지가 GIF일 확률은
- * 낮으므로 기본적으로 GIF 지원은 제공되지 않습니다. GIF 지원은 [QuackTheme]에
- * 이미지 플러그인을 등록하는 방식으로 지원될 예정입니다. [#693](https://github.com/duckie-team/quack-quack-android/issues/693)
+ * 주어진 소스로부터 이미지를 그립니다.
  *
  * 이 컴포저블은 내부적으로 [coil](https://coil-kt.github.io/coil/)을 사용합니다.
+ * [ImageLoader] 사용자화는 [CoilImageLoader 플러그인][QuackImagePlugin.CoilImageLoader]으로 가능합니다.
  *
  * @param src 이미지 리소스의 링크
  * @param tint 이미지 리소스에 입힐 틴트
