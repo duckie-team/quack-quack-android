@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/duckie-team/quack-quack-android/main/assets/logo-icon.svg" width="25%" alt="quackquack" />
 </p>
 <h1 align="center">QuackQuack</h1>
-<h4 align="center">Highly automated and Modifier-driven Jetpack Compose UI Kit.<br/>It's almost well-tested and adheres to the stability system.</h4>
+<h4 align="center">A highly automated, excellent stability, well-tested, flexibly pluggable, and Modifier-driven Jetpack Compose UI KIT.</h4>
 
 <img src="assets/QuackTextSnapshot_ModifierSpan.png" align="right"/>
 
