@@ -22,6 +22,7 @@ android {
 }
 
 dependencies {
+  api(projects.uiPlugin.orArtifact())
   implementations(
     libs.compose.uiutil,
     libs.compose.material.ripple,

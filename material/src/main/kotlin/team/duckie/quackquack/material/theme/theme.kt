@@ -19,6 +19,8 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.staticCompositionLocalOf
 import team.duckie.quackquack.material.QuackColor
+import team.duckie.quackquack.ui.plugin.LocalQuackPlugins
+import team.duckie.quackquack.ui.plugin.QuackPlugins
 
 /**
  * 꽥꽥 컴포넌트에서 사용할 커서 색상을 제공합니다.
@@ -45,6 +47,20 @@ public fun QuackTheme(content: @Composable () -> Unit) {
       backgroundColor = QuackColor.DuckieOrange.change(alpha = 0.2f).value,
     ),
     LocalQuackTextFieldTheme provides DefaultTextFieldTheme,
+    content = content,
+  )
+}
+
+@Composable
+public fun QuackTheme(plugins: QuackPlugins, content: @Composable () -> Unit) {
+  CompositionLocalProvider(
+    LocalOverscrollConfiguration provides null,
+    LocalTextSelectionColors provides TextSelectionColors(
+      handleColor = QuackColor.DuckieOrange.value,
+      backgroundColor = QuackColor.DuckieOrange.change(alpha = 0.2f).value,
+    ),
+    LocalQuackTextFieldTheme provides DefaultTextFieldTheme,
+    LocalQuackPlugins provides plugins,
     content = content,
   )
 }
