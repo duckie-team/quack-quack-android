@@ -11,19 +11,28 @@ unstable class TextFieldSnapshot {
   unstable val snapshotPath: SnapshotPathGeneratorRule
   <runtime stability> = Unstable
 }
-stable class TextSnapshot {
-  <runtime stability> = Stable
+unstable class TextSnapshot {
+  unstable val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Unstable
 }
 unstable class SnapshotPathGeneratorRule {
   stable val domain: String
   stable var realtimeTestMethodName: String?
   <runtime stability> = Unstable
 }
+runtime class ButtonTest {
+  runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
+  <runtime stability> = Runtime(AndroidComposeTestRule)
+}
 runtime class TagTest {
   runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
   <runtime stability> = Runtime(AndroidComposeTestRule)
 }
 runtime class TextFieldTest {
+  runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
+  <runtime stability> = Runtime(AndroidComposeTestRule)
+}
+runtime class TextTest {
   runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
   <runtime stability> = Runtime(AndroidComposeTestRule)
 }

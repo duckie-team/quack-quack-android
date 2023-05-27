@@ -44,7 +44,7 @@ scheme("[androidx.compose.ui.UiComposable]") fun QuackImage(
   stable contentDescription: String? = @static null
 )
 fun QuackImage(
-  stable src: String
+  unstable src: Any?
   stable modifier: Modifier? = @static Companion
   stable tint: QuackColor = @static Companion.Unspecified
   stable contentScale: ContentScale? = @static Companion.Fit
