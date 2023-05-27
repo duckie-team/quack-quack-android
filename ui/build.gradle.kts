@@ -70,6 +70,7 @@ dependencies {
 
   apis(
     projects.animation.orArtifact(),
+    projects.uiPlugin.orArtifact(),
     projects.sugarMaterial.orArtifact(),
   )
   implementations(
