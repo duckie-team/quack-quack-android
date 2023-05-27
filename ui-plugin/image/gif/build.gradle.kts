@@ -16,6 +16,13 @@ plugins {
   alias(libs.plugins.test.roborazzi)
 }
 
+// https://github.com/Kotlin/dokka/issues/2956
+tasks.matching { task ->
+  task.name.contains("javaDocReleaseGeneration", ignoreCase = true)
+}.configureEach {
+  enabled = false
+}
+
 android {
   namespace = "team.duckie.quackquack.ui.plugin.image.gif"
 

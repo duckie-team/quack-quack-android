@@ -7,12 +7,18 @@
 
 @file:Suppress("UnstableApiUsage")
 
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+
 plugins {
   quackquack("android-library")
   quackquack("android-compose")
   quackquack("kotlin-explicit-api")
   quackquack("test-kotest")
   quackquack("quack-publishing")
+}
+
+tasks.withType<DokkaMultiModuleTask> {
+  dependsOn(":dokkaHtmlMultiModule")
 }
 
 android {

@@ -7,6 +7,8 @@
 
 @file:Suppress("UnstableApiUsage")
 
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+
 plugins {
   quackquack("android-library")
   quackquack("android-compose")
@@ -14,6 +16,10 @@ plugins {
   quackquack("test-junit")
   quackquack("quack-publishing")
   alias(libs.plugins.test.roborazzi)
+}
+
+tasks.withType<DokkaMultiModuleTask> {
+  dependsOn(":ui-plugin:dokkaHtmlMultiModule")
 }
 
 android {
