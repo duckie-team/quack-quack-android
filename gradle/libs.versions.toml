@@ -35,7 +35,10 @@ compose-animation = "1.4.3"
 compose-material-ripple = "1.4.3"
 compose-material3 = "1.1.0" # for Playground
 compose-activity = "1.7.2"
-compose-coil = "2.4.0"
+
+coil-compose = "2.4.0"
+coil-gif = "2.4.0"
+coil-test = "2.4.0"
 
 test-kotest = "5.6.2"
 test-junit-core = "4.13.2"
@@ -103,7 +106,10 @@ compose-animation = { module = "androidx.compose.animation:animation", version.r
 compose-material-ripple = { module = "androidx.compose.material:material-ripple", version.ref = "compose-material-ripple" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
-compose-coil = { module = "io.coil-kt:coil-compose", version.ref = "compose-coil" }
+
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
+coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil-gif" }
+coil-test = { module = "io.coil-kt:coil-test", version.ref = "coil-test" }
 
 test-android-lint = { module = "com.android.tools.lint:lint-tests", version.ref = "android-lint" }
 test-kotest-framework = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "test-kotest" }

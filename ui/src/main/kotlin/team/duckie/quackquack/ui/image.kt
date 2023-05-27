@@ -15,18 +15,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.compose.LocalImageLoader
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackIcon
-import team.duckie.quackquack.material.theme.QuackTheme
 import team.duckie.quackquack.sugar.material.NoSugar
+import team.duckie.quackquack.ui.plugin.EmptyQuackPlugins
+import team.duckie.quackquack.ui.plugin.LocalQuackPlugins
+import team.duckie.quackquack.ui.plugin.QuackPluginLocal
+import team.duckie.quackquack.ui.plugin.image.QuackImagePlugin
+import team.duckie.quackquack.ui.plugin.lastByTypeOrNull
 import team.duckie.quackquack.util.applyIf
+import team.duckie.quackquack.util.modifier.getElementByTypeOrNull
 
 /**
  * 아이콘을 그립니다. 이 API는 꽥꽥 1.x.x 버전과 호환성을 위해 추가되었습니다.
@@ -96,11 +104,10 @@ public fun QuackImage(
 }
 
 /**
- * 주어진 링크로부터 이미지 리소스를 그립니다. 모든 이미지가 GIF일 확률은
- * 낮으므로 기본적으로 GIF 지원은 제공되지 않습니다. GIF 지원은 [QuackTheme]에
- * 이미지 플러그인을 등록하는 방식으로 지원될 예정입니다. [#693](https://github.com/duckie-team/quack-quack-android/issues/693)
+ * 주어진 소스로부터 이미지를 그립니다.
  *
  * 이 컴포저블은 내부적으로 [coil](https://coil-kt.github.io/coil/)을 사용합니다.
+ * [ImageLoader] 사용자화는 [CoilImageLoader 플러그인][QuackImagePlugin.CoilImageLoader]으로 가능합니다.
  *
  * @param src 이미지 리소스의 링크
  * @param tint 이미지 리소스에 입힐 틴트
@@ -111,17 +118,37 @@ public fun QuackImage(
 @NonRestartableComposable
 @Composable
 public fun QuackImage(
-  src: String,
+  src: Any?,
   modifier: Modifier = Modifier,
   tint: QuackColor = QuackColor.Unspecified,
   contentScale: ContentScale = ContentScale.Fit,
   contentDescription: String? = null,
 ) {
   val currentColorFilter = remember(tint) { tint.toColorFilterOrNull() }
+  val imageLoader =
+    LocalQuackPlugins.current.takeIf { it != EmptyQuackPlugins }?.let { plugins ->
+      val context = LocalContext.current
+      val quackPluginLocal = modifier.getElementByTypeOrNull<QuackPluginLocal>()
+      val imageLoaderPlugins = plugins.lastByTypeOrNull<QuackImagePlugin.CoilImageLoader>()
+
+      var builder = ImageLoader.Builder(context)
+      if (imageLoaderPlugins != null) {
+        with(imageLoaderPlugins) {
+          builder = builder.builder(
+            context = context,
+            src = src,
+            contentDescription = contentDescription,
+            quackPluginLocal = quackPluginLocal,
+          )
+        }
+      }
+      builder.build()
+    } ?: @Suppress("DEPRECATION") LocalImageLoader.current
 
   AsyncImage(
     model = src,
     modifier = modifier,
+    imageLoader = imageLoader,
     colorFilter = currentColorFilter,
     contentScale = contentScale,
     contentDescription = contentDescription,

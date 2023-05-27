@@ -19,6 +19,9 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.staticCompositionLocalOf
 import team.duckie.quackquack.material.QuackColor
+import team.duckie.quackquack.ui.plugin.LocalQuackPlugins
+import team.duckie.quackquack.ui.plugin.QuackPlugins
+import team.duckie.quackquack.ui.plugin.rememberQuackPlugins
 
 /**
  * 꽥꽥 컴포넌트에서 사용할 커서 색상을 제공합니다.
@@ -29,7 +32,8 @@ public val LocalQuackTextFieldTheme: ProvidableCompositionLocal<QuackTextFieldTh
   staticCompositionLocalOf { DefaultTextFieldTheme }
 
 /**
- * 꽥꽥에서 사용하는 컴포저블 테마를 제공합니다. 이 테마에서는 다음과 같을 작업을 진행합니다.
+ * 꽥꽥에서 사용하는 컴포저블 테마를 제공합니다.
+ * 이 테마에서는 다음과 같은 작업을 진행합니다.
  *
  * 1. OverscrollEffect 제거
  * 2. 꽥꽥 컴포넌트에서 사용할 커서(cursor) 테마 제공
@@ -49,13 +53,38 @@ public fun QuackTheme(content: @Composable () -> Unit) {
   )
 }
 
+/**
+ * 꽥꽥에서 사용하는 컴포저블 테마를 제공합니다.
+ * 이 테마에서는 다음과 같은 작업을 진행합니다.
+ *
+ * 1. OverscrollEffect 제거
+ * 2. 꽥꽥 컴포넌트에서 사용할 TextField 관련 테마 제공
+ *
+ * @param plugins 꽥꽥 컴포넌트에 적용할 플러그인. 플러그인을 등록하려면
+ * [rememberQuackPlugins]를 사용하세요.
+ * @param content 꽥꽥 디자인에 맞게 표시할 컴포저블 컨텐츠
+ */
+@Composable
+public fun QuackTheme(plugins: QuackPlugins, content: @Composable () -> Unit) {
+  CompositionLocalProvider(
+    LocalOverscrollConfiguration provides null,
+    LocalTextSelectionColors provides TextSelectionColors(
+      handleColor = QuackColor.DuckieOrange.value,
+      backgroundColor = QuackColor.DuckieOrange.change(alpha = 0.2f).value,
+    ),
+    LocalQuackTextFieldTheme provides DefaultTextFieldTheme,
+    LocalQuackPlugins provides plugins,
+    content = content,
+  )
+}
+
 /** 꽥꽥의 TextField 관련 컴포넌트에 사용할 테마를 지정합니다. */
 @Immutable
 public interface QuackTextFieldTheme {
   /**
    * 꽥꽥 컴포넌트에서 사용할 커서 색상
    *
-   * 기본값으로 [QuackColor.Black]를 사용합니다.
+   * 기본값으로 [QuackColor.DuckieOrange]를 사용합니다.
    */
   public val cursorColor: QuackColor
 }

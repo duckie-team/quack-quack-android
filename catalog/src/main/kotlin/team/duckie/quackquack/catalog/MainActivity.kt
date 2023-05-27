@@ -34,6 +34,15 @@ class MainActivity : ComponentActivity() {
       CasaTheme {
         CasaScreen(models = casaModels)
       }
+      /*QuackTheme(
+        plugins = rememberQuackPlugins {
+          +QuackImageGifPlugin
+        },
+      ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+          QuackImage(src = "https://media.tenor.com/K-Noz5k7X04AAAAi/colors-rainbow.gif")
+        }
+      }*/
       /*Preview {
         var value by rememberSaveable { mutableStateOf("") }
         QuackDefaultTextField(

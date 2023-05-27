@@ -70,16 +70,19 @@ dependencies {
 
   apis(
     projects.animation.orArtifact(),
+    projects.uiPlugin.orArtifact(),
     projects.sugarMaterial.orArtifact(),
   )
   implementations(
-    libs.compose.coil,
+    libs.coil.compose,
     libs.compose.ui,
     libs.compose.foundation,
     libs.androidx.annotation,
     projects.runtime.orArtifact(),
     projects.material.orArtifact(),
+    projects.uiPlugin.image.orArtifact(),
     projects.util.orArtifact(),
+    projects.utilModifier.orArtifact(),
     projects.casaAnnotation.orArtifact(),
     projects.aideAnnotation.orArtifact(),
   )
