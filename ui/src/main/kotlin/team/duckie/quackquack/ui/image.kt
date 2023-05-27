@@ -27,13 +27,12 @@ import coil.compose.AsyncImage
 import coil.compose.LocalImageLoader
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackIcon
-import team.duckie.quackquack.material.theme.QuackTheme
 import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.ui.plugin.EmptyQuackPlugins
 import team.duckie.quackquack.ui.plugin.LocalQuackPlugins
 import team.duckie.quackquack.ui.plugin.QuackPluginLocal
-import team.duckie.quackquack.ui.plugin.lastByTypeOrNull
 import team.duckie.quackquack.ui.plugin.image.QuackImagePlugin
+import team.duckie.quackquack.ui.plugin.lastByTypeOrNull
 import team.duckie.quackquack.util.applyIf
 import team.duckie.quackquack.util.modifier.getElementByTypeOrNull
 

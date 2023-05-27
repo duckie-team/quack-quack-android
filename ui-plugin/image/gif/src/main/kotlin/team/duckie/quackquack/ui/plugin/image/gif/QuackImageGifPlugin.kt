@@ -22,7 +22,7 @@ public val QuackImageGifPlugin: QuackImagePlugin.CoilImageLoader = QuackImagePlu
   components {
     add(
       if (Build.VERSION.SDK_INT >= 28) ImageDecoderDecoder.Factory()
-      else GifDecoder.Factory()
+      else GifDecoder.Factory(),
     )
   }
 }

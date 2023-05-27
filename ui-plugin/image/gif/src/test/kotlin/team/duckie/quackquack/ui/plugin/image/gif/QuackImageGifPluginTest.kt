@@ -36,7 +36,7 @@ class QuackImageGifPluginTest {
       captureType = RoborazziRule.CaptureType.Gif,
       outputFileProvider = { description, _, fileExtension ->
         val sdkLevel = description.methodName.split("sdk").last()
-        File("src/test/snapshots/QuackImageGifPlugin/rainbow-sdk${sdkLevel}.$fileExtension").also { file ->
+        File("src/test/snapshots/QuackImageGifPlugin/rainbow-sdk$sdkLevel.$fileExtension").also { file ->
           file.parentFile!!.mkdirs()
         }
       },
