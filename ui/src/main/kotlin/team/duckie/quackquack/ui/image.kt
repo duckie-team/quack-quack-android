@@ -32,7 +32,7 @@ import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.ui.plugin.EmptyQuackPlugins
 import team.duckie.quackquack.ui.plugin.LocalQuackPlugins
 import team.duckie.quackquack.ui.plugin.QuackPluginLocal
-import team.duckie.quackquack.ui.plugin.getByTypeOrNull
+import team.duckie.quackquack.ui.plugin.lastByTypeOrNull
 import team.duckie.quackquack.ui.plugin.image.QuackImagePlugin
 import team.duckie.quackquack.util.applyIf
 import team.duckie.quackquack.util.modifier.getElementByTypeOrNull
@@ -131,7 +131,7 @@ public fun QuackImage(
     LocalQuackPlugins.current.takeIf { it != EmptyQuackPlugins }?.let { plugins ->
       val context = LocalContext.current
       val quackPluginLocal = modifier.getElementByTypeOrNull<QuackPluginLocal>()
-      val imageLoaderPlugins = plugins.getByTypeOrNull<QuackImagePlugin.CoilImageLoader>()
+      val imageLoaderPlugins = plugins.lastByTypeOrNull<QuackImagePlugin.CoilImageLoader>()
 
       var builder = ImageLoader.Builder(context)
       if (imageLoaderPlugins != null) {

@@ -39,8 +39,8 @@ private class QuackPluginsScope : QuackPlugins {
 }
 
 @Stable
-public inline fun <reified T : QuackPlugin> QuackPlugins.getByTypeOrNull(): T? =
-  plugins.firstOrNull { it is T } as? T
+public inline fun <reified T : QuackPlugin> QuackPlugins.lastByTypeOrNull(): T? =
+  plugins.lastOrNull { it is T } as? T
 
 @Stable
 public inline fun <reified T : QuackPlugin> QuackPlugins.filterByTypeOrNull(): MutableVector<T>? =

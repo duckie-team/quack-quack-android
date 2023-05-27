@@ -37,15 +37,16 @@ class QuackPluginsTest : StringSpec() {
       quackPlugins.plugins.asMutableList() shouldContainExactly plugins
     }
 
-    "getByTypeOrNull으로 타입에 맞는 플러그인을 하나 조회할 수 있음" {
+    "lastByTypeOrNull으로 타입에 맞는 가장 마지막 플러그인을 하나 조회할 수 있음" {
       class LocalP1 : QuackPlugin
       class LocalP2 : QuackPlugin
       class LocalP3 : QuackPlugin
       class LocalP4 : QuackPlugin
+      class LocalP5 : QuackPlugin
 
-      val loalP3Instance = LocalP3()
+      val loalP4Instance = LocalP4()
 
-      val plugins = listOf(LocalP1(), LocalP2(), loalP3Instance)
+      val plugins = listOf(LocalP1(), LocalP2(), LocalP3(), loalP4Instance)
       val quackPlugins: QuackPlugins
 
       composed {
@@ -56,10 +57,10 @@ class QuackPluginsTest : StringSpec() {
         }
       }
 
-      var pluginOrNull: QuackPlugin? = quackPlugins.getByTypeOrNull<LocalP3>()
-      pluginOrNull shouldBeSameInstanceAs loalP3Instance
+      var pluginOrNull = quackPlugins.lastByTypeOrNull<QuackPlugin>()
+      pluginOrNull shouldBeSameInstanceAs loalP4Instance
 
-      pluginOrNull = quackPlugins.getByTypeOrNull<LocalP4>()
+      pluginOrNull = quackPlugins.lastByTypeOrNull<LocalP5>()
       pluginOrNull.shouldBeNull()
     }
 
