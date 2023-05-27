@@ -44,5 +44,6 @@ dependencies {
     projects.ui,
     projects.util,
     projects.casaUi,
+    projects.uiPlugin.image.gif,
   )
 }
