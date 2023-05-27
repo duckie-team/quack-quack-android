@@ -93,8 +93,21 @@ data class ArtifactConfig(
 ) {
   companion object {
     fun of(project: Project): ArtifactConfig {
-      val groupSuffix = project.name.split("-").first()
-      val module = project.name
+      val projects = buildList {
+        tailrec fun Project.addTailrecParentsToListIfNeeded() {
+          val parent = parent
+          if (parent != null && parent != parent.rootProject) {
+            add(parent)
+            parent.addTailrecParentsToListIfNeeded()
+          }
+        }
+        add(project)
+        project.addTailrecParentsToListIfNeeded()
+      }.asReversed()
+      val rootProject = projects.first()
+
+      val groupSuffix = rootProject.name.split("-").first()
+      val module = projects.joinToString("-", transform = Project::getName)
       val version = project.parseArtifactVersion()
 
       return ArtifactConfig(
@@ -105,7 +118,5 @@ data class ArtifactConfig(
     }
   }
 
-  override fun toString(): String {
-    return "$group:$module:$version"
-  }
+  override fun toString() = "$group:$module:$version"
 }

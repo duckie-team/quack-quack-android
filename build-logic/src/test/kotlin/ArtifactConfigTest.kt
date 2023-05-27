@@ -18,20 +18,51 @@ class ArtifactConfigTest : StringSpec() {
   }
 
   init {
-    "프로젝트의 아티팩트 주소를 정상적으로 파싱함" {
-      val buildLogicProject = ProjectBuilder
-        .builder()
-        .withName("buildlogic")
-        .build()
-      val artifactConfigProject = ProjectBuilder
-        .builder()
-        .withName("buildlogic-testing-artifactconfig")
-        .build()
+    "단일 프로젝트의 아티팩트 주소를 정상적으로 파싱함" {
+      val buildLogicProject =
+        ProjectBuilder
+          .builder()
+          .withName("buildlogic")
+          .build()
+      val artifactConfigProject =
+        ProjectBuilder
+          .builder()
+          .withName("buildlogic-testing-artifactconfig")
+          .build()
       val buildLogicArtifact = ArtifactConfig.of(buildLogicProject)
       val artifactConfigArtifact = ArtifactConfig.of(artifactConfigProject)
 
       buildLogicArtifact.toString() shouldBe "team.duckie.quackquack.buildlogic:buildlogic:TEST"
       artifactConfigArtifact.toString() shouldBe "team.duckie.quackquack.buildlogic:buildlogic-testing-artifactconfig:TEST"
+    }
+
+    "중첩 프로젝트의 아티팩트 주소를 정상적으로 파싱함" {
+      val rootProject =
+        ProjectBuilder
+          .builder()
+          .withName("root")
+          .build()
+      val subProject =
+        ProjectBuilder
+          .builder()
+          .withName("root-sub")
+          .withParent(rootProject)
+          .build()
+      val subNestedProject =
+        ProjectBuilder
+          .builder()
+          .withName("nested-project")
+          .withParent(subProject)
+          .build()
+      val subNestedLevel2Project =
+        ProjectBuilder
+          .builder()
+          .withName("level2")
+          .withParent(subNestedProject)
+          .build()
+
+      val config = ArtifactConfig.of(subNestedLevel2Project).toString()
+      config shouldBe "team.duckie.quackquack.root:root-sub-nested-project-level2:TEST"
     }
   }
 
