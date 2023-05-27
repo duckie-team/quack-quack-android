@@ -15,18 +15,27 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.compose.LocalImageLoader
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackIcon
 import team.duckie.quackquack.material.theme.QuackTheme
 import team.duckie.quackquack.sugar.material.NoSugar
+import team.duckie.quackquack.ui.plugin.EmptyQuackPlugins
+import team.duckie.quackquack.ui.plugin.LocalQuackPlugins
+import team.duckie.quackquack.ui.plugin.QuackPluginLocal
+import team.duckie.quackquack.ui.plugin.getByTypeOrNull
+import team.duckie.quackquack.ui.plugin.image.QuackImagePlugin
 import team.duckie.quackquack.util.applyIf
+import team.duckie.quackquack.util.modifier.getElementByTypeOrNull
 
 /**
  * 아이콘을 그립니다. 이 API는 꽥꽥 1.x.x 버전과 호환성을 위해 추가되었습니다.
@@ -111,17 +120,37 @@ public fun QuackImage(
 @NonRestartableComposable
 @Composable
 public fun QuackImage(
-  src: String,
+  src: Any?,
   modifier: Modifier = Modifier,
   tint: QuackColor = QuackColor.Unspecified,
   contentScale: ContentScale = ContentScale.Fit,
   contentDescription: String? = null,
 ) {
   val currentColorFilter = remember(tint) { tint.toColorFilterOrNull() }
+  val imageLoader =
+    LocalQuackPlugins.current.takeIf { it != EmptyQuackPlugins }?.let { plugins ->
+      val context = LocalContext.current
+      val quackPluginLocal = modifier.getElementByTypeOrNull<QuackPluginLocal>()
+      val imageLoaderPlugins = plugins.getByTypeOrNull<QuackImagePlugin.CoilImageLoader>()
+
+      var builder = ImageLoader.Builder(context)
+      if (imageLoaderPlugins != null) {
+        with(imageLoaderPlugins) {
+          builder = builder.builder(
+            context = context,
+            src = src,
+            contentDescription = contentDescription,
+            quackPluginLocal = quackPluginLocal,
+          )
+        }
+      }
+      builder.build()
+    } ?: @Suppress("DEPRECATION") LocalImageLoader.current
 
   AsyncImage(
     model = src,
     modifier = modifier,
+    imageLoader = imageLoader,
     colorFilter = currentColorFilter,
     contentScale = contentScale,
     contentDescription = contentDescription,
