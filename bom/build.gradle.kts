@@ -15,7 +15,7 @@ dependencies {
     projects.bom.dependencyProject,
     projects.uiSample.dependencyProject,
     projects.utilBackendTest.dependencyProject,
-    projects.docusaurusIntegration.dependencyProject,
+    projects.rubberdoc.dependencyProject,
   )
 
   constraints {

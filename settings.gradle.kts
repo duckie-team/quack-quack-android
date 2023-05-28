@@ -56,5 +56,5 @@ include(
   ":casa-processor",
   ":screenshot-matcher",
   ":bom",
-  ":docusaurus-integration",
+  ":rubberdoc",
 )
