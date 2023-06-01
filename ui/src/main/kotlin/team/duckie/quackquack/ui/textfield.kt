@@ -101,6 +101,7 @@ import team.duckie.quackquack.ui.util.currentFontScale
 import team.duckie.quackquack.ui.util.minus
 import team.duckie.quackquack.ui.util.plus
 import team.duckie.quackquack.ui.util.reflectivelyFillMaxSizeOperationHashCode
+import team.duckie.quackquack.ui.util.rememberLtrTextMeasurer
 import team.duckie.quackquack.ui.util.wrappedDebugInspectable
 import team.duckie.quackquack.util.MustBeTested
 import team.duckie.quackquack.util.applyIf
@@ -1174,28 +1175,6 @@ private const val DefaultTrailingIconContainerLayoutId = "QuackBaseDefaultTextFi
 /** 동적으로 계산되는 값의 인스턴스를 보관하는 래퍼 클래스 */
 @Stable
 private class LazyValue<T>(var value: T? = null)
-
-/**
- * [fallbackLayoutDirection][TextMeasurer.fallbackLayoutDirection]을 [LayoutDirection.Ltr]으로 고정하며
- * [TextMeasurer] 인스턴스를 생성 및 반환합니다. [LayoutDirection.Rtl]을 고려하지 않아도 되는 상황에서
- * 불필요한 컴포저블 참조를 줄여줍니다.
- *
- * @param cacheSize [TextMeasurer] 생성자에 [cacheSize][TextMeasurer.cacheSize]로 전달할 값
- */
-@Composable
-private fun rememberLtrTextMeasurer(cacheSize: Int = /*DefaultCacheSize*/ 8): TextMeasurer {
-  val fontFamilyResolver = LocalFontFamilyResolver.current
-  val density = LocalDensity.current
-
-  return remember(fontFamilyResolver, density, cacheSize) {
-    TextMeasurer(
-      fallbackFontFamilyResolver = fontFamilyResolver,
-      fallbackDensity = density,
-      fallbackLayoutDirection = LayoutDirection.Ltr,
-      cacheSize = cacheSize,
-    )
-  }
-}
 
 /** 텍스트 필드의 너비가 지정되지 않았을 떄 기본으로 사용할 너비 */
 private val DefaultMinWidth = 200.dp
