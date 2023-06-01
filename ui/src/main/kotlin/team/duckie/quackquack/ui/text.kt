@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:OptIn(ExperimentalTextApi::class)
+
 package team.duckie.quackquack.ui
 
 import androidx.annotation.VisibleForTesting
@@ -14,12 +16,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.currentComposer
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.platform.inspectable
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -34,13 +43,14 @@ import team.duckie.quackquack.runtime.quackComposed
 import team.duckie.quackquack.runtime.quackMaterializeOf
 import team.duckie.quackquack.sugar.material.SugarName
 import team.duckie.quackquack.sugar.material.SugarToken
-import team.duckie.quackquack.ui.util.wrappedDebugInspectable
+import team.duckie.quackquack.ui.util.asLoose
+import team.duckie.quackquack.ui.util.rememberLtrTextMeasurer
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
 
 /**
- * `Modifier.highlight`에 들어가는 하이라이트 아이템을 [Pair]로 나타냅니다.
+ * [Modifier.highlight]에 들어가는 하이라이트 아이템을 [Pair]로 나타냅니다.
  *
- * 하이라이트 대상 문자열을 나타내는 `String`과, 하이라이트 문자열을 눌렀을 때 실행될
+ * 하이라이트 대상 문자열을 나타내는 [String]과, 하이라이트 문자열을 눌렀을 때 실행될
  * `(text: String) -> Unit` 람다로 구성돼 있습니다. 람다 속 `text` 인자는 클릭된 문자열을
  * 반환합니다.
  */
@@ -142,6 +152,12 @@ internal object QuackTextErrors {
 /**
  * 텍스트를 그리는 기본적인 컴포저블입니다.
  *
+ * 만약 [typography]로 [QuackTypography.Quote]이 들어온다면 특수한 배치 정책을 가집니다.
+ * 이 컴포넌트가 차지할 수 있는 최대 너비로 컴포넌트의 너비가 지정되고, 컴포넌트 가운데로
+ * 텍스트가 정렬됩니다. 또한 컴포넌트 너비 양옆에 큰따옴표가 붙습니다.
+ *
+ * 사용 가능한 데코레이터: [Modifier.span], [Modifier.highlight]
+ *
  * @param text 그릴 텍스트
  * @param typography 텍스트를 그릴 때 사용할 타이포그래피
  * @param singleLine 텍스트가 한 줄로 그려질 지 여부. 텍스트가 주어진 줄 수를 초과하면
@@ -175,37 +191,99 @@ public fun QuackText(
     error(QuackTextErrors.CannotUseSpanAndHighlightAtSameTime)
   }
 
+  val currentTypography = remember(typography, calculation = typography::asComposeStyle)
+
   val maxLines = if (singleLine) 1 else Int.MAX_VALUE
+
+  val quoteMeasurer = rememberLtrTextMeasurer()
+  val quoteMeasurerResults = // left, right
+    remember(typography) {
+      if (typography == QuackTypography.Quote) {
+        listOf(
+          quoteMeasurer.measure(
+            text = "\"",
+            style = currentTypography,
+            softWrap = false,
+            maxLines = 1,
+          ),
+          quoteMeasurer.measure(
+            text = "\"",
+            style = currentTypography,
+            softWrap = false,
+            maxLines = 1,
+          )
+        )
+      } else {
+        null
+      }
+    }
+
+  var quoteableModifier = composeModifier
+  if (quoteMeasurerResults != null) {
+    quoteableModifier =
+      quoteableModifier
+        .drawBehind {
+          val (leftQuote, rightQuote) = quoteMeasurerResults
+          drawText(
+            textLayoutResult = leftQuote,
+            color = QuackColor.Black.value,
+            topLeft = Offset.Zero,
+          )
+          drawText(
+            textLayoutResult = rightQuote,
+            color = QuackColor.Black.value,
+            topLeft = Offset(
+              x = size.width - rightQuote.size.width,
+              y = 0f,
+            ),
+          )
+        }
+        .layout { measurable, constraints ->
+          val maxWidth = constraints.maxWidth
+          val quoteablePlaceable = measurable.measure(constraints.asLoose(width = true, height = true))
+
+          layout(width = maxWidth, height = constraints.minHeight) {
+            quoteablePlaceable.place(
+              x = Alignment.CenterHorizontally.align(
+                size = quoteablePlaceable.width,
+                space = maxWidth,
+                layoutDirection = layoutDirection,
+              ),
+              y = 0,
+            )
+          }
+        }
+  }
 
   if (spanData != null) {
     BasicText(
-      modifier = composeModifier,
+      modifier = quoteableModifier,
       text = rememberSpanAnnotatedString(
         text = text,
         spanTexts = spanData.texts,
         spanStyle = spanData.style,
         annotationTexts = emptyList(),
       ),
-      style = typography.asComposeStyle(),
+      style = currentTypography,
       overflow = overflow,
       softWrap = softWrap,
       maxLines = maxLines,
     )
   } else if (highlightData != null) {
-    QuackClickableText(
-      modifier = composeModifier,
+    ClickableText(
+      modifier = quoteableModifier,
       text = text,
       highlightData = highlightData,
-      style = typography,
+      style = currentTypography,
       overflow = overflow,
       softWrap = softWrap,
       maxLines = maxLines,
     )
   } else {
     BasicText(
-      modifier = composeModifier,
+      modifier = quoteableModifier,
       text = text,
-      style = typography.asComposeStyle(),
+      style = currentTypography,
       overflow = overflow,
       softWrap = softWrap,
       maxLines = maxLines,
@@ -214,16 +292,18 @@ public fun QuackText(
 }
 
 @Composable
-private fun QuackClickableText(
+private fun ClickableText(
   modifier: Modifier,
   text: String,
   highlightData: TextHighlightData,
-  style: QuackTypography,
+  style: TextStyle,
   softWrap: Boolean,
   overflow: TextOverflow,
   maxLines: Int,
 ) {
-  val highlightTexts = highlightData.highlights.fastMap(Pair<String, *>::first)
+  val highlightTexts = remember(highlightData.highlights) {
+    highlightData.highlights.fastMap(Pair<String, *>::first)
+  }
   val annotatedText = rememberSpanAnnotatedString(
     text = text,
     spanTexts = highlightTexts,
@@ -234,7 +314,7 @@ private fun QuackClickableText(
   ClickableText(
     modifier = modifier,
     text = annotatedText,
-    style = style.asComposeStyle(),
+    style = style,
     onClick = { offset ->
       highlightData.highlights.fastForEach { (text, onClick) ->
         val annotations = annotatedText.getStringAnnotations(
@@ -267,8 +347,8 @@ public fun rememberSpanAnnotatedString(
   spanTexts: List<String>,
   spanStyle: SpanStyle,
   annotationTexts: List<String>,
-): AnnotatedString {
-  return remember(text, spanTexts, spanStyle) {
+): AnnotatedString =
+  remember(text, spanTexts, spanStyle) {
     buildAnnotatedString {
       append(text)
       spanTexts.fastForEach { spanText ->
@@ -294,4 +374,3 @@ public fun rememberSpanAnnotatedString(
       }
     }
   }
-}
