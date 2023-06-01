@@ -177,19 +177,9 @@ public fun QuackText(
 
   val maxLines = if (singleLine) 1 else Int.MAX_VALUE
 
-  val inspectableModifier = composeModifier
-    .wrappedDebugInspectable {
-      name = "QuackText"
-      properties["text"] = text
-      properties["typography"] = typography
-      properties["singleLine"] = singleLine
-      properties["softWrap"] = softWrap
-      properties["overflow"] = overflow
-    }
-
   if (spanData != null) {
     BasicText(
-      modifier = inspectableModifier,
+      modifier = composeModifier,
       text = rememberSpanAnnotatedString(
         text = text,
         spanTexts = spanData.texts,
@@ -203,7 +193,7 @@ public fun QuackText(
     )
   } else if (highlightData != null) {
     QuackClickableText(
-      modifier = inspectableModifier,
+      modifier = composeModifier,
       text = text,
       highlightData = highlightData,
       style = typography,
@@ -213,7 +203,7 @@ public fun QuackText(
     )
   } else {
     BasicText(
-      modifier = inspectableModifier,
+      modifier = composeModifier,
       text = text,
       style = typography.asComposeStyle(),
       overflow = overflow,
