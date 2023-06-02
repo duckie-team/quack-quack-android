@@ -8,17 +8,16 @@
 package team.duckie.quackquack.material
 
 import androidx.compose.ui.unit.dp
-import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import org.junit.Test
 
-class PaddingTest : StringSpec() {
-  init {
-    "QuackPadding 값이 packedValue로 문제 없이 관리됨" {
-      val (horizontal, vertical) = Int.MAX_VALUE.dp to Int.MIN_VALUE.dp
-      val padding = QuackPadding(horizontal, vertical)
+class PaddingTest {
+  @Test
+  fun `QuackPadding with packedValue`() {
+    val (horizontal, vertical) = Int.MAX_VALUE.dp to Int.MIN_VALUE.dp
+    val padding = QuackPadding(horizontal, vertical)
 
-      padding.horizontal shouldBe horizontal
-      padding.vertical shouldBe vertical
-    }
+    padding.horizontal shouldBe horizontal
+    padding.vertical shouldBe vertical
   }
 }
