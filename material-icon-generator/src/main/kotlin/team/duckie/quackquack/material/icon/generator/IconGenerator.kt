@@ -27,12 +27,11 @@ fun main() {
       name
         .substringBefore(
           "24",
-          missingDelimiterValue =
-            name
-              .substringBefore(
-                "20",
-                missingDelimiterValue = name.substringBefore("16"),
-              ),
+          missingDelimiterValue = name
+            .substringBefore(
+              "20",
+              missingDelimiterValue = name.substringBefore("16"),
+            ),
         )
     },
     type = VectorType.SVG,
