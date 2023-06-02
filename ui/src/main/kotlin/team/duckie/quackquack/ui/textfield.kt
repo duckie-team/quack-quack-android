@@ -40,6 +40,8 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
@@ -80,7 +82,6 @@ import androidx.compose.ui.util.fastForEach
 import team.duckie.quackquack.aide.annotation.DecorateModifier
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackColor
-import team.duckie.quackquack.material.QuackIcon
 import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.material.quackClickable
 import team.duckie.quackquack.material.quackSurface
@@ -184,7 +185,7 @@ public sealed class TextFieldValidationLabelVisibilityStrategy {
  */
 @Stable
 private data class TextFieldIconData<ColorSet : TextFieldColorMarker>(
-  val icon: QuackIcon,
+  val icon: ImageVector,
   val iconSize: Dp,
   val tint: QuackColor?,
   val tintGetter: ((text: String, validationState: TextFieldValidationState, colorSet: ColorSet) -> QuackColor)?,
@@ -585,7 +586,7 @@ private val DefaultIconButtonSize = 24.dp
 @DecorateModifier
 @Stable
 public fun Modifier.defaultTextFieldIcon(
-  icon: QuackIcon,
+  icon: ImageVector,
   iconSize: Dp = DefaultIconSize,
   tint: QuackColor? = QuackColor.Gray2,
   tintGetter: ((
@@ -646,7 +647,7 @@ public fun Modifier.defaultTextFieldIcon(
 @DecorateModifier
 @Stable
 public fun Modifier.filledTextFieldIcon(
-  icon: QuackIcon,
+  icon: ImageVector,
   iconSize: Dp = DefaultIconSize,
   tint: QuackColor? = QuackColor.Gray2,
   tintGetter: ((
@@ -1238,13 +1239,13 @@ public fun QuackBaseDefaultTextField(
   errorTypography: QuackTypography,
   successTypography: QuackTypography,
   // decorators
-  leadingIcon: QuackIcon?,
+  leadingIcon: ImageVector?,
   leadingIconSize: Dp?,
   leadingIconTint: QuackColor?,
   leadingIconContentScale: ContentScale?,
   leadingIconContentDescription: String?,
   leadingIconOnClick: (() -> Unit)?,
-  trailingIcon: QuackIcon?,
+  trailingIcon: ImageVector?,
   trailingIconSize: Dp?,
   trailingIconTint: QuackColor?,
   trailingIconContentScale: ContentScale?,
@@ -1549,7 +1550,7 @@ public fun QuackBaseDefaultTextField(
               .layoutId(DefaultLeadingIconLayoutId)
               .size(fontScaleAwareLeadingIconSize!!)
               .paint(
-                painter = leadingIcon.asPainter(),
+                painter = rememberVectorPainter(leadingIcon),
                 contentScale = leadingIconContentScale!!,
                 colorFilter = remember(leadingIconTint!!) { leadingIconTint.toColorFilterOrNull() },
               )
@@ -1566,7 +1567,7 @@ public fun QuackBaseDefaultTextField(
               .layoutId(DefaultTrailingIconLayoutId)
               .size(fontScaleAwareTrailingIconSize!!)
               .paint(
-                painter = trailingIcon.asPainter(),
+                painter = rememberVectorPainter(trailingIcon),
                 contentScale = trailingIconContentScale!!,
                 colorFilter = remember(trailingIconTint!!) { trailingIconTint.toColorFilterOrNull() },
               )
@@ -1759,11 +1760,11 @@ public fun QuackBaseDefaultTextField(
 /** [QuackBaseDefaultTextField]가 올바르게 그려질 수 있는 상태인지 검증합니다. */
 private fun assertDefaultTextFieldValidState(
   validationState: TextFieldValidationState,
-  leadingIcon: QuackIcon?,
+  leadingIcon: ImageVector?,
   leadingIconSize: Dp?,
   leadingIconTint: QuackColor?,
   leadingIconContentScale: ContentScale?,
-  trailingIcon: QuackIcon?,
+  trailingIcon: ImageVector?,
   trailingIconSize: Dp?,
   trailingIconTint: QuackColor?,
   trailingIconContentScale: ContentScale?,

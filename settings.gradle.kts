@@ -39,6 +39,8 @@ include(
   ":util-compose-runtime-test",
   ":runtime",
   ":material",
+  ":material-icon",
+  ":material-icon-generator",
   ":animation",
   ":ui",
   ":ui-plugin",

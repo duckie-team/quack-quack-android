@@ -1,0 +1,11 @@
+<!--
+  - Designed and developed by Duckie Team 2023.
+  -
+  - Licensed under the MIT.
+  - Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
+  -->
+
+<svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M16 8L8.00098 15.999" stroke="#222222" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+  <path d="M8.00098 8L16 15.999" stroke="#222222" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+</svg>

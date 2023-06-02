@@ -1,0 +1,16 @@
+<!--
+  - Designed and developed by Duckie Team 2023.
+  -
+  - Licensed under the MIT.
+  - Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
+  -->
+
+<svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M17.647 8.957L19.239 4.885C19.334 4.64166 19.3559 4.37593 19.3022 4.1203C19.2486 3.86467 19.1215 3.63022 18.9367 3.44563C18.7519 3.26104 18.5173 3.1343 18.2617 3.08091C18.006 3.02751 17.7403 3.04979 17.497 3.145L3.19203 8.744C2.9499 8.83921 2.74061 9.00264 2.58956 9.21447C2.43851 9.4263 2.35219 9.67742 2.34107 9.93735C2.32995 10.1973 2.39452 10.4549 2.52693 10.6788C2.65935 10.9028 2.85392 11.0835 3.08703 11.199L8.08703 13.693C8.34636 13.8233 8.55677 14.0337 8.68703 14.293L11.192 19.299C11.3081 19.5316 11.4892 19.7256 11.7134 19.8574C11.9375 19.9892 12.195 20.0531 12.4548 20.0415C12.7145 20.0299 12.9653 19.9431 13.1768 19.7918C13.3882 19.6405 13.5512 19.4311 13.646 19.189"
+    stroke="#222222" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+  <path d="M8.48999 13.893L12.403 9.98" stroke="#222222" stroke-linecap="round" stroke-linejoin="round"
+    stroke-width="1.5" />
+  <path d="M18.1011 12.492V18.716" stroke="#222222" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+  <path d="M21.213 15.604H14.989" stroke="#222222" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+</svg>

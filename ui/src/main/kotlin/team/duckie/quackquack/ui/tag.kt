@@ -25,6 +25,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
@@ -45,7 +47,6 @@ import team.duckie.quackquack.aide.annotation.DecorateModifier
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackBorder
 import team.duckie.quackquack.material.QuackColor
-import team.duckie.quackquack.material.QuackIcon
 import team.duckie.quackquack.material.QuackPadding
 import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.material.quackClickable
@@ -449,7 +450,7 @@ public class QuackGrayscaleOutlinedTagDefaults internal constructor() :
 // TODO: leading도 지원해야 하나?
 @Stable
 private data class TagTrailingIconData(
-  val icon: QuackIcon,
+  val icon: ImageVector,
   val size: Dp,
   val onClick: () -> Unit,
 ) : QuackDataModifierModel
@@ -466,7 +467,7 @@ private data class TagTrailingIconData(
 @DecorateModifier
 @Stable
 public fun Modifier.trailingIcon(
-  icon: QuackIcon,
+  icon: ImageVector,
   iconSize: Dp = 16.dp,
   onClick: () -> Unit,
 ): Modifier =
@@ -688,7 +689,7 @@ public fun QuackBaseTag(
   contentPadding: QuackPadding?,
   iconSpacedBy: Dp,
   iconColor: QuackColor?,
-  trailingIcon: QuackIcon?,
+  trailingIcon: ImageVector?,
   trailingIconSize: Dp?,
   trailingIconOnClick: (() -> Unit)?,
   onClick: (() -> Unit)?,
@@ -737,7 +738,7 @@ public fun QuackBaseTag(
                 .testTag("trailingIcon")
                 .fontScaleAwareIconSize(baseline = trailingIconSize!!)
                 .paint(
-                  painter = trailingIcon.asPainter(),
+                  painter = rememberVectorPainter(trailingIcon),
                   colorFilter = currentIconColorFilter,
                   contentScale = ContentScale.Fit,
                 ),

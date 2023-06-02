@@ -44,7 +44,9 @@ internal fun Project.configureAndroid(extension: CommonExtension<*, *, *, *, *>)
       jvmToolchain(ApplicationConstants.JavaVersionAsInt)
     }
 
-    dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get())
+    if (pluginManager.hasPlugin(libs.findPlugin("kotlin-detekt").get().get().pluginId)) {
+      dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get())
+    }
   }
 }
 

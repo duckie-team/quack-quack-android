@@ -80,6 +80,7 @@ dependencies {
     libs.androidx.annotation,
     projects.runtime.orArtifact(),
     projects.material.orArtifact(),
+    projects.materialIcon.orArtifact(),
     projects.uiPlugin.image.orArtifact(),
     projects.util.orArtifact(),
     projects.utilModifier.orArtifact(),
