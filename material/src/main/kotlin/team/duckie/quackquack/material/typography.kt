@@ -201,7 +201,6 @@ public data class QuackTypography(
  *
  * [FontWeight.Normal]는 `FontWeight.Regular`와 동일합니다.
  */
-@Stable
 public inline val FontWeight.Companion.Regular: FontWeight get() = Normal
 
 /** [Float]를 [sp]로 변환합니다. */
