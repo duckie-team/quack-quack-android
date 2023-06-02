@@ -24,6 +24,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutModifier
@@ -44,7 +46,6 @@ import team.duckie.quackquack.aide.annotation.DecorateModifier
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackBorder
 import team.duckie.quackquack.material.QuackColor
-import team.duckie.quackquack.material.QuackIcon
 import team.duckie.quackquack.material.QuackPadding
 import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.material.quackSurface
@@ -673,8 +674,8 @@ public class QuackSecondaryRoundSmallButtonDefaults internal constructor() :
  */
 @Stable
 private data class ButtonIconData(
-  val leadingIcon: QuackIcon?,
-  val trailingIcon: QuackIcon?,
+  val leadingIcon: ImageVector?,
+  val trailingIcon: ImageVector?,
 ) : QuackDataModifierModel
 
 /**
@@ -686,8 +687,8 @@ private data class ButtonIconData(
 @DecorateModifier
 @Stable
 public fun Modifier.icons(
-  leadingIcon: QuackIcon? = null,
-  trailingIcon: QuackIcon? = null,
+  leadingIcon: ImageVector? = null,
+  trailingIcon: ImageVector? = null,
 ): Modifier = inspectable(
   inspectorInfo = debugInspectorInfo {
     name = "icons"
@@ -901,8 +902,8 @@ public fun QuackBaseButton(
   typography: QuackTypography,
   contentPadding: QuackPadding?,
   iconSpacedBy: Dp,
-  leadingIcon: QuackIcon?,
-  trailingIcon: QuackIcon?,
+  leadingIcon: ImageVector?,
+  trailingIcon: ImageVector?,
   onClick: (() -> Unit)?,
 ) {
   val currentColorFilter = remember(iconColor) { iconColor.toColorFilterOrNull() }
@@ -927,7 +928,7 @@ public fun QuackBaseButton(
             .layoutId(LeadingIconLayoutId)
             .fontScaleAwareIconSize()
             .paint(
-              painter = leadingIcon.asPainter(),
+              painter = rememberVectorPainter(leadingIcon),
               colorFilter = currentColorFilter,
               contentScale = ContentScale.Fit,
             ),
@@ -949,7 +950,7 @@ public fun QuackBaseButton(
             .layoutId(TrailingIconLayoutId)
             .fontScaleAwareIconSize()
             .paint(
-              painter = trailingIcon.asPainter(),
+              painter = rememberVectorPainter(trailingIcon),
               colorFilter = currentColorFilter,
               contentScale = ContentScale.Fit,
             ),

@@ -17,7 +17,9 @@ import io.kotest.assertions.throwables.shouldThrowWithMessage
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import team.duckie.quackquack.material.QuackIcon
+import team.duckie.quackquack.material.icon.QuackIcon
+import team.duckie.quackquack.material.icon.quackicon.Outlined
+import team.duckie.quackquack.material.icon.quackicon.outlined.Heart
 import team.duckie.quackquack.ui.QuackDefaultTextField
 import team.duckie.quackquack.ui.QuackTextFieldStyle
 import team.duckie.quackquack.ui.TextFieldErrors.IndicatorRequestedButNoColor
@@ -45,11 +47,11 @@ class TextFieldTest {
         QuackDefaultTextField(
           modifier = Modifier
             .defaultTextFieldIcon(
-              icon = QuackIcon.FilledHeart,
+              icon = QuackIcon.Outlined.Heart,
               direction = HorizontalDirection.Left,
             )
             .defaultTextFieldIcon(
-              icon = QuackIcon.FilledHeart,
+              icon = QuackIcon.Outlined.Heart,
               direction = HorizontalDirection.Left,
             ),
           value = String.Empty,

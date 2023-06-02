@@ -19,7 +19,9 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import team.duckie.quackquack.material.QuackColor
-import team.duckie.quackquack.material.QuackIcon
+import team.duckie.quackquack.material.icon.QuackIcon
+import team.duckie.quackquack.material.icon.quackicon.Outlined
+import team.duckie.quackquack.material.icon.quackicon.outlined.Heart
 import team.duckie.quackquack.ui.QuackDefaultTextField
 import team.duckie.quackquack.ui.QuackTextFieldStyle
 import team.duckie.quackquack.ui.TextFieldPlaceholderStrategy
@@ -170,12 +172,12 @@ class TextFieldSnapshot {
           QuackDefaultTextField(
             modifier = Modifier
               .defaultTextFieldIcon(
-                icon = QuackIcon.FilledHeart,
+                icon = QuackIcon.Outlined.Heart,
                 tint = QuackColor.Unspecified,
                 direction = HorizontalDirection.Left,
               )
               .defaultTextFieldIcon(
-                icon = QuackIcon.FilledHeart,
+                icon = QuackIcon.Outlined.Heart,
                 tint = QuackColor.Unspecified,
                 direction = HorizontalDirection.Right,
               ),
@@ -187,7 +189,7 @@ class TextFieldSnapshot {
         WithLabel("leading") {
           QuackDefaultTextField(
             modifier = Modifier.defaultTextFieldIcon(
-              icon = QuackIcon.FilledHeart,
+              icon = QuackIcon.Outlined.Heart,
               tint = QuackColor.Unspecified,
               direction = HorizontalDirection.Left,
             ),
@@ -199,7 +201,7 @@ class TextFieldSnapshot {
         WithLabel("trailing") {
           QuackDefaultTextField(
             modifier = Modifier.defaultTextFieldIcon(
-              icon = QuackIcon.FilledHeart,
+              icon = QuackIcon.Outlined.Heart,
               tint = QuackColor.Unspecified,
               direction = HorizontalDirection.Right,
             ),
@@ -288,12 +290,12 @@ class TextFieldSnapshot {
             modifier = Modifier
               .then(widthModifier)
               .defaultTextFieldIcon(
-                icon = QuackIcon.FilledHeart,
+                icon = QuackIcon.Outlined.Heart,
                 tint = QuackColor.Unspecified,
                 direction = HorizontalDirection.Left,
               )
               .defaultTextFieldIcon(
-                icon = QuackIcon.FilledHeart,
+                icon = QuackIcon.Outlined.Heart,
                 tint = QuackColor.Unspecified,
                 direction = HorizontalDirection.Right,
               ),

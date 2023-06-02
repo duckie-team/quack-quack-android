@@ -14,6 +14,7 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -26,7 +27,6 @@ import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.compose.LocalImageLoader
 import team.duckie.quackquack.material.QuackColor
-import team.duckie.quackquack.material.QuackIcon
 import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.ui.plugin.EmptyQuackPlugins
 import team.duckie.quackquack.ui.plugin.LocalQuackPlugins
@@ -53,7 +53,7 @@ import team.duckie.quackquack.util.modifier.getElementByTypeOrNull
 @NonRestartableComposable
 @Composable
 public fun QuackImage(
-  src: QuackIcon,
+  src: ImageVector,
   modifier: Modifier = Modifier,
   tint: QuackColor = QuackColor.Unspecified,
   contentScale: ContentScale = ContentScale.Fit,

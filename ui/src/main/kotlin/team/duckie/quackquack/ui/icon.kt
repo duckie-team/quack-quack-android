@@ -14,15 +14,16 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.material.QuackColor
-import team.duckie.quackquack.material.QuackIcon
-import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.material.icon.QuackIcon
+import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.ui.util.fontScaleAwareIconSize
 import team.duckie.quackquack.util.applyIf
 
@@ -37,11 +38,11 @@ import team.duckie.quackquack.util.applyIf
  * @param contentScale [icon]에 적용할 [contentScale][ContentScale]
  * @param contentDescription [icon]을 설명하는 문구. 접근성 서비스에 사용됩니다.
  */
-// TODO: @SugarParameterizedTest
+@NoSugar
 @NonRestartableComposable
 @Composable
 public fun QuackIcon(
-  @SugarToken icon: QuackIcon,
+  icon: ImageVector,
   modifier: Modifier = Modifier,
   size: Dp = 24.dp,
   tint: QuackColor = QuackColor.Unspecified,
@@ -52,10 +53,9 @@ public fun QuackIcon(
 
   Box(
     modifier
-      .testTag("icon")
       .fontScaleAwareIconSize(baseline = size)
       .paint(
-        painter = icon.asPainter(),
+        painter = rememberVectorPainter(icon),
         contentScale = contentScale,
         colorFilter = currentColorFilter,
       )
