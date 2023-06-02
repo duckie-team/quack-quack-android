@@ -199,19 +199,11 @@ public fun QuackText(
   val quoteMeasurerResults = // left, right
     remember(typography) {
       if (typography == QuackTypography.Quote) {
-        listOf(
-          quoteMeasurer.measure(
-            text = "\"",
-            style = currentTypography,
-            softWrap = false,
-            maxLines = 1,
-          ),
-          quoteMeasurer.measure(
-            text = "\"",
-            style = currentTypography,
-            softWrap = false,
-            maxLines = 1,
-          )
+        quoteMeasurer.measure(
+          text = "\"",
+          style = currentTypography,
+          softWrap = false,
+          maxLines = 1,
         )
       } else {
         null
@@ -223,17 +215,16 @@ public fun QuackText(
     quoteableModifier =
       quoteableModifier
         .drawBehind {
-          val (leftQuote, rightQuote) = quoteMeasurerResults
           drawText(
-            textLayoutResult = leftQuote,
+            textLayoutResult = quoteMeasurerResults,
             color = QuackColor.Black.value,
             topLeft = Offset.Zero,
           )
           drawText(
-            textLayoutResult = rightQuote,
+            textLayoutResult = quoteMeasurerResults,
             color = QuackColor.Black.value,
             topLeft = Offset(
-              x = size.width - rightQuote.size.width,
+              x = size.width - quoteMeasurerResults.size.width,
               y = 0f,
             ),
           )

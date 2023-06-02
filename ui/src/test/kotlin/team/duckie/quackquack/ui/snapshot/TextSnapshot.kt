@@ -52,7 +52,7 @@ class TextSnapshot {
     }
   }
 
-  @Ignore("NPE. But why?")
+  @Ignore("Using Quote typography results in an NPE. But why?")
   @Config(qualifiers = RobolectricDeviceQualifiers.Pixel7)
   @Test
   fun QuackText_Quote() {
