@@ -44,68 +44,19 @@ class MainActivity : ComponentActivity() {
         }
       }*/
       /*Preview {
-        var value by rememberSaveable { mutableStateOf("") }
-        QuackDefaultTextField(
-          value = "ShortText",
-          onValueChange = {},
-          style = QuackTextFieldStyle.Default,
-          validationState = TextFieldValidationState.Default,
-        )
-        QuackDefaultTextField(
+        QuackText(
           modifier = Modifier
+            .padding(horizontal = 30.dp)
             .fillMaxWidth()
-            .defaultTextFieldIndicator()
-            .defaultTextFieldIcon(
-              icon = QuackIcon.FilledHeart,
-              tint = QuackColor.Unspecified,
-              iconSize = 24.dp,
-              direction = HorizontalDirection.Left,
-            ) {
-              toast("left heart!")
-            }
-            .defaultTextFieldIcon(
-              icon = QuackIcon.FilledHeart,
-              iconSize = 24.dp,
-              tint = QuackColor.Unspecified,
-              direction = HorizontalDirection.Right,
-            ) {
-              toast("right heart!")
-            }
-            .counter(maxLength = 10),
-          value = value,
-          onValueChange = { value = it },
-          // placeholderText = "사랑의 주며, 청춘을 것은 이상은 되는 불러 바이며, 귀는 듣는다. 내는 힘차게 있는 황금시대다. 우리는 공자는 노년에게서 그들을 있는 수 얼음과 피다.",
-          validationState = TextFieldValidationState.Error(),
-          placeholderText = "Hello!",
-          placeholderStrategy = TextFieldPlaceholderStrategy.Always,
-          style = QuackTextFieldStyle.Default,
-        )
-        QuackDefaultTextField(
-          modifier = Modifier
-            .fillMaxWidth()
-            .defaultTextFieldIndicator()
-            .defaultTextFieldIcon(
-              icon = QuackIcon.FilledHeart,
-              tint = QuackColor.Unspecified,
-              direction = HorizontalDirection.Left,
-            ) {
-              toast("left heart!")
-            }
-            .defaultTextFieldIcon(
-              icon = QuackIcon.FilledHeart,
-              tint = QuackColor.Unspecified,
-              direction = HorizontalDirection.Right,
-            ) {
-              toast("right heart!")
-            }
-            .counter(maxLength = 10),
-          value = value,
-          onValueChange = { value = it },
-          // placeholderText = "사랑의 주며, 청춘을 것은 이상은 되는 불러 바이며, 귀는 듣는다. 내는 힘차게 있는 황금시대다. 우리는 공자는 노년에게서 그들을 있는 수 얼음과 피다.",
-          validationState = TextFieldValidationState.Success(),
-          placeholderText = "Hello!",
-          placeholderStrategy = TextFieldPlaceholderStrategy.Always,
-          style = QuackTextFieldStyle.DefaultLarge,
+            .span(
+              texts = listOf("Hello"),
+              style = SpanStyle(
+                color = QuackColor.DuckieOrange.value,
+                fontWeight = FontWeight.SemiBold,
+              ),
+            ),
+          text = "Hello, World!",
+          typography = QuackTypography.Quote,
         )
       }*/
     }

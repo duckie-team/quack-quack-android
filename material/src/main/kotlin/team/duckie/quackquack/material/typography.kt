@@ -19,6 +19,16 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
 import land.sungbin.kotlin.dataclass.nocopy.NoCopy
 
+private val suit = FontFamily(
+  Font(resId = R.font.quack_suit_bold, weight = FontWeight.Bold),
+  Font(resId = R.font.quack_suit_medium, weight = FontWeight.Medium),
+  Font(resId = R.font.quack_suit_regular, weight = FontWeight.Regular),
+)
+
+private val puradak = FontFamily(
+  Font(resId = R.font.puradak_gentle_gothic, weight = FontWeight.Regular),
+)
+
 /**
  * 덕키에서 사용할 텍스트 스타일을 정의합니다.
  *
@@ -30,7 +40,8 @@ import land.sungbin.kotlin.dataclass.nocopy.NoCopy
  * @param weight 텍스트 굵기
  * @param letterSpacing 텍스트 자간
  * @param lineHeight 픽셀 단위로 지정된 줄 높이로, 인접한 줄의 기준선 사이의 공간
- * @param textAlign 텍스트 align. 기본값은 Start 입니다.
+ * @param textAlign 텍스트 align. 기본값은 [TextAlign.Start] 입니다.
+ * @param fontFamily 사용할 폰트패밀리. 기본값은 SUIT 폰트를 사용합니다.
  */
 @NoCopy
 @Immutable
@@ -41,21 +52,15 @@ public data class QuackTypography(
   public val letterSpacing: TextUnit,
   public val lineHeight: TextUnit,
   public val textAlign: TextAlign = TextAlign.Start,
+  public val fontFamily: FontFamily = suit,
 ) {
-  @Stable
-  public val suit: FontFamily = FontFamily(
-    Font(resId = R.font.quack_suit_bold, weight = FontWeight.Bold),
-    Font(resId = R.font.quack_suit_medium, weight = FontWeight.Medium),
-    Font(resId = R.font.quack_suit_regular, weight = FontWeight.Regular),
-  )
-
   /** [QuackTypography]을 컴포즈 Text 컴포넌트에 사용하기 위해 [TextStyle]로 변환합니다. */
   @Stable
   public fun asComposeStyle(): TextStyle {
     return TextStyle(
       color = color.value,
       fontSize = size,
-      fontFamily = suit,
+      fontFamily = fontFamily,
       fontWeight = weight,
       letterSpacing = letterSpacing,
       textAlign = textAlign,
@@ -177,6 +182,17 @@ public data class QuackTypography(
       letterSpacing = 0.sp,
       lineHeight = 13.sp,
     )
+
+    /** 푸라닥 폰트 */
+    @Stable
+    public val Quote: QuackTypography = QuackTypography(
+      size = 20.sp,
+      weight = FontWeight.Regular,
+      letterSpacing = (0.4).sp,
+      lineHeight = 26.sp,
+      textAlign = TextAlign.Center,
+      fontFamily = puradak,
+    )
   }
 }
 
@@ -185,7 +201,6 @@ public data class QuackTypography(
  *
  * [FontWeight.Normal]는 `FontWeight.Regular`와 동일합니다.
  */
-@Stable
 public inline val FontWeight.Companion.Regular: FontWeight get() = Normal
 
 /** [Float]를 [sp]로 변환합니다. */
