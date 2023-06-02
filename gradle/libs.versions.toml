@@ -35,6 +35,7 @@ compose-animation = "1.4.3"
 compose-material-ripple = "1.4.3"
 compose-material3 = "1.1.0" # for Playground
 compose-activity = "1.7.2"
+compose-svg-converter = "0.8.1"
 
 coil-compose = "2.4.0"
 coil-gif = "2.4.0"
@@ -106,6 +107,7 @@ compose-animation = { module = "androidx.compose.animation:animation", version.r
 compose-material-ripple = { module = "androidx.compose.material:material-ripple", version.ref = "compose-material-ripple" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
+compose-svg-converter = { module = "com.github.DevSrSouza:svg-to-compose", version.ref = "compose-svg-converter" }
 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil-gif" }
