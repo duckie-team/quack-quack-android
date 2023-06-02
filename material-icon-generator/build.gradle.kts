@@ -18,7 +18,7 @@ dependencies {
     libs.compose.svg.converter,
     libs.kotlin.kotlinpoet.core,
     // required dependencies by compose-svg-converter
-    "com.google.guava:guava:23.0",
+    "com.google.guava:guava:23.6.1-jre",
     "com.android.tools:sdk-common:27.2.2",
     "com.android.tools:common:27.2.0-alpha16",
     "org.ogce:xpp3:1.1.6",
