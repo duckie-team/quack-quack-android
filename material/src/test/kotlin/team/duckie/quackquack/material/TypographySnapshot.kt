@@ -19,7 +19,7 @@ class TypographySnapshot {
   fun no_break_text() {
     captureRoboImage("src/test/snapshots/NoBreakText.png") {
       BasicText(
-        text = "퍠뜨로늄",
+        text = "퍠꿻땗뷃휉퉶뷟퍯 <- 잘 보이니?",
         style = QuackTypography.Body1.asComposeStyle(),
       )
     }
