@@ -26,7 +26,7 @@ private val suit = FontFamily(
 )
 
 private val puradak = FontFamily(
-  Font(resId = R.font.puradak_gentle_gothic, weight = FontWeight.Regular),
+  Font(resId = R.font.quack_puradak_gentle_gothic, weight = FontWeight.Regular),
 )
 
 /**
@@ -183,7 +183,6 @@ public data class QuackTypography(
       lineHeight = 13.sp,
     )
 
-    /** 푸라닥 폰트 */
     @Stable
     public val Quote: QuackTypography = QuackTypography(
       size = 20.sp,
