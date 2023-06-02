@@ -196,7 +196,7 @@ public fun QuackText(
   val maxLines = if (singleLine) 1 else Int.MAX_VALUE
 
   val quoteMeasurer = rememberLtrTextMeasurer()
-  val quoteMeasurerResults = // left, right
+  val quoteMeasurerResults = // TODO(양옆 큰따옴표 폰트 적용해야 함): https://duckie-team.slack.com/archives/C0579KEUJP9/p1685615876677619
     remember(typography) {
       if (typography == QuackTypography.Quote) {
         quoteMeasurer.measure(
