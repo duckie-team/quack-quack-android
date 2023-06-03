@@ -1,6 +1,6 @@
 ## Issue
 
-- close #ISSUE_NUMBER
+- Resolve #ISSUE_NUMBER
 
 ## Overview (Required)
 
@@ -8,6 +8,6 @@
 
 ## Screenshot
 
-| Before | After |
-| :--: | :--: |
+|           Before           |           After            |
+|:--------------------------:|:--------------------------:|
 | <img src="" width="300" /> | <img src="" width="300" /> |

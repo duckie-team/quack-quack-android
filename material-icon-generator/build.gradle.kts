@@ -14,13 +14,5 @@ repositories {
 }
 
 dependencies {
-  implementations(
-    libs.compose.svg.converter,
-    libs.kotlin.kotlinpoet.core,
-    // required dependencies by compose-svg-converter
-    "com.google.guava:guava:32.0.0-jre",
-    "com.android.tools:sdk-common:31.0.2",
-    "com.android.tools:common:31.0.2",
-    "org.ogce:xpp3:1.1.6",
-  )
+  implementation(libs.compose.svg.converter)
 }
