@@ -21,9 +21,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import casaModels
-import team.duckie.quackquack.casa.ui.CasaScreen
-import team.duckie.quackquack.casa.ui.theme.CasaTheme
+import team.duckie.quackquack.material.icon.QuackIcon
+import team.duckie.quackquack.material.icon.quackicon.Outlined
+import team.duckie.quackquack.material.icon.quackicon.outlined.Heart
+import team.duckie.quackquack.ui.QuackDefaultTextField
+import team.duckie.quackquack.ui.QuackTextFieldStyle
+import team.duckie.quackquack.ui.counter
+import team.duckie.quackquack.ui.defaultTextFieldIcon
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 
@@ -31,9 +35,9 @@ class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      CasaTheme {
+      /*CasaTheme {
         CasaScreen(models = casaModels)
-      }
+      }*/
       /*QuackTheme(
         plugins = rememberQuackPlugins {
           +QuackImageGifPlugin
@@ -43,22 +47,17 @@ class MainActivity : ComponentActivity() {
           QuackImage(src = "https://media.tenor.com/K-Noz5k7X04AAAAi/colors-rainbow.gif")
         }
       }*/
-      /*Preview {
-        QuackText(
+      Preview {
+        QuackDefaultTextField(
           modifier = Modifier
-            .padding(horizontal = 30.dp)
-            .fillMaxWidth()
-            .span(
-              texts = listOf("Hello"),
-              style = SpanStyle(
-                color = QuackColor.DuckieOrange.value,
-                fontWeight = FontWeight.SemiBold,
-              ),
-            ),
-          text = "Hello, World!",
-          typography = QuackTypography.Quote,
+            .counter(maxLength = 10)
+            .defaultTextFieldIcon(QuackIcon.Outlined.Heart),
+          value = "가나다라마바사아자차카타파하가나다라",
+          onValueChange = {},
+          singleLine = true,
+          style = QuackTextFieldStyle.DefaultLarge,
         )
-      }*/
+      }
     }
   }
 }
