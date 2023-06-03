@@ -36,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
@@ -52,7 +53,6 @@ import androidx.compose.ui.platform.InspectableModifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.platform.inspectable
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -71,12 +71,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastFirstOrNull
 import androidx.compose.ui.util.fastForEach
+import kotlin.math.roundToInt
 import team.duckie.quackquack.aide.annotation.DecorateModifier
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackColor
@@ -1520,6 +1522,8 @@ public fun QuackBaseDefaultTextField(
 
   val topPaddingPx = with(currentDensity) { contentPadding?.calculateTopPadding()?.roundToPx() ?: 0 }
   val bottomPaddingPx = with(currentDensity) { contentPadding?.calculateBottomPadding()?.roundToPx() ?: 0 }
+  val rightPaddingPx =
+    with(currentDensity) { contentPadding?.calculateRightPadding(LayoutDirection.Ltr)?.roundToPx() ?: 0 }
 
   val lazyCoreTextFieldContainerWidth = remember { LazyValue<Int>() }
   val lazyCoreTextFieldWidth = remember { LazyValue<Int>() }
@@ -1693,7 +1697,6 @@ public fun QuackBaseDefaultTextField(
   ) { coreTextField ->
     Layout(
       modifier = modifier
-        .testTag("BaseDefaultTextField")
         .applyIf(indicatorLabelMeasureResult != null) {
           drawBehind {
             drawText(
@@ -1743,16 +1746,24 @@ public fun QuackBaseDefaultTextField(
                   topLeft = Offset(
                     x = buildFloat {
                       plus(size.width)
+                      if (textFieldType != QuackTextFieldType.Default) minus(rightPaddingPx)
                       if (fontScaleAwareLeadingIconSize != null) {
                         minus((fontScaleAwareLeadingIconSize + contentSpacedBy).toPx())
                       }
                       minus(counterTextMeasureResult.size.width)
                     },
-                    y = buildFloat {
-                      plus(topPaddingPx)
-                      val coreTextFieldHeight = size.height - topPaddingPx - bottomPaddingPx
-                      plus(coreTextFieldHeight / 2)
-                      minus(counterTextMeasureResult.size.height / 2)
+                    y = if (textFieldType == QuackTextFieldType.Default) {
+                      buildFloat {
+                        plus(topPaddingPx)
+                        val coreTextFieldHeight = size.height - topPaddingPx - bottomPaddingPx
+                        plus(coreTextFieldHeight / 2)
+                        minus(counterTextMeasureResult.size.height / 2)
+                      }
+                    } else {
+                      Alignment.CenterVertically.align(
+                        size = counterTextMeasureResult.size.height,
+                        space = size.height.roundToInt(),
+                      ).toFloat()
                     },
                   ),
                 )
@@ -1852,7 +1863,6 @@ public fun QuackBaseDefaultTextField(
       }
 
       val leftPaddingPx = contentPadding?.calculateLeftPadding(layoutDirection)?.roundToPx() ?: 0
-      val rightPaddingPx = contentPadding?.calculateRightPadding(layoutDirection)?.roundToPx() ?: 0
       val horizontalPaddingPx = leftPaddingPx + rightPaddingPx
       val verticalPaddingPx = topPaddingPx + bottomPaddingPx
 
@@ -1914,14 +1924,22 @@ public fun QuackBaseDefaultTextField(
       if (leadingIconOnClick != null) {
         leadingIconContainerConstraints =
           Constraints.fixed(
-            width = (fontScaleAwareLeadingIconSizePx!! + halfContentSpacedByPx).coerceAtMost(width),
+            width = 0
+              .plus(if (textFieldType != QuackTextFieldType.Default) leftPaddingPx else 0)
+              .plus(fontScaleAwareLeadingIconSizePx!!)
+              .plus(halfContentSpacedByPx)
+              .coerceAtMost(width),
             height = height,
           )
       }
       if (trailingIconOnClick != null) {
         trailingIconContainerConstraints =
           Constraints.fixed(
-            width = (halfContentSpacedByPx + fontScaleAwareTrailingIconSizePx!!).coerceAtMost(width),
+            width = 0
+              .plus(halfContentSpacedByPx)
+              .plus(fontScaleAwareTrailingIconSizePx!!)
+              .plus(if (textFieldType != QuackTextFieldType.Default) rightPaddingPx else 0)
+              .coerceAtMost(width),
             height = height,
           )
       }
@@ -1957,29 +1975,59 @@ public fun QuackBaseDefaultTextField(
         )
         coreTextFieldPlaceable.place(
           x = leftPaddingPx + (fontScaleAwareLeadingIconSizePx?.plus(contentSpacedByPx) ?: 0),
-          y = topPaddingPx,
+          y = when (textFieldType) {
+            QuackTextFieldType.Default -> topPaddingPx
+            QuackTextFieldType.Filled ->
+              Alignment.CenterVertically.align(
+                size = coreTextFieldPlaceable.height,
+                space = height
+              )
+            QuackTextFieldType.Outlined -> TODO()
+          },
           zIndex = 1f,
         )
 
         leadingIconPlaceable?.place(
-          x = 0,
-          y = topPaddingPx + (coreTextFieldPlaceable.height / 2) - (leadingIconPlaceable.height / 2),
+          x = if (textFieldType == QuackTextFieldType.Default) 0 else leftPaddingPx,
+          y = when (textFieldType) {
+            QuackTextFieldType.Default -> topPaddingPx + (coreTextFieldPlaceable.height / 2) - (leadingIconPlaceable.height / 2)
+            else ->
+              Alignment.CenterVertically.align(
+                size = leadingIconPlaceable.height,
+                space = height
+              )
+          },
           zIndex = 0f,
         )
         leadingIconContainerPlaceable?.place(
           x = 0,
-          y = coreTextFieldContainerPlaceable.height - leadingIconContainerPlaceable.height,
+          y = when (textFieldType) {
+            QuackTextFieldType.Default -> coreTextFieldContainerPlaceable.height - leadingIconContainerPlaceable.height
+            else -> 0
+          },
           zIndex = 1f,
         )
 
         trailingIconPlaceable?.place(
-          x = width - trailingIconPlaceable.width,
-          y = topPaddingPx + (coreTextFieldPlaceable.height / 2) - (trailingIconPlaceable.height / 2),
+          x = (width - trailingIconPlaceable.width)
+            .applyIf(textFieldType != QuackTextFieldType.Default) { minus(rightPaddingPx) },
+          y = when (textFieldType) {
+            QuackTextFieldType.Default -> topPaddingPx + (coreTextFieldPlaceable.height / 2) - (trailingIconPlaceable.height / 2)
+            else ->
+              Alignment.CenterVertically.align(
+                size = trailingIconPlaceable.height,
+                space = height
+              )
+          },
           zIndex = 0f,
         )
         trailingIconContainerPlaceable?.place(
-          x = width - trailingIconContainerPlaceable.width,
-          y = coreTextFieldContainerPlaceable.height - trailingIconContainerPlaceable.height,
+          x = (width - trailingIconContainerPlaceable.width)
+            .applyIf(textFieldType != QuackTextFieldType.Default) { minus(rightPaddingPx) },
+          y = when (textFieldType) {
+            QuackTextFieldType.Default -> coreTextFieldContainerPlaceable.height - trailingIconContainerPlaceable.height
+            else -> 0
+          },
           zIndex = 1f,
         )
       }
