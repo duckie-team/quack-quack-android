@@ -12,6 +12,7 @@ package team.duckie.quackquack.ui
 import android.view.View
 import androidx.annotation.IntRange
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -42,6 +43,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -1773,6 +1775,7 @@ public fun QuackBaseDefaultTextField(
         Box(
           modifier = Modifier
             .layoutId(DefaultCoreTextFieldLayoutId)
+            .border(color = Color.Cyan, width = 1.dp)
             .applyIf(placeholderTextMeasureResult != null) {
               drawBehind {
                 @Suppress("NAME_SHADOWING")
