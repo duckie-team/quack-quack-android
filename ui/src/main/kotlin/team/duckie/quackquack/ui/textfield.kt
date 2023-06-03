@@ -26,6 +26,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
@@ -208,7 +209,7 @@ private data class TextFieldIndicatorData<ColorSet : TextFieldColorMarker>(
   init {
     require(
       color != null || colorGetter != null,
-      lazyMessage = TextFieldErrors::IndicatorRequestedButNoColor,
+      lazyMessage = TextFieldErrors::AllColorProvidedAsNull,
     )
   }
 }
@@ -292,10 +293,17 @@ public interface QuackFilledTextFieldStyle : TextFieldStyleMarker {
    */
   public data class TextFieldColors internal constructor(
     public val backgroundColor: QuackColor?,
-    public val backgroundColorGetter: ((text: String, focusInteraction: FocusInteraction) -> QuackColor)?,
+    public val backgroundColorGetter: ((text: String, focusInteraction: FocusInteraction?) -> QuackColor)?,
     public val contentColor: QuackColor,
     public val placeholderColor: QuackColor,
-  ) : TextFieldColorMarker
+  ) : TextFieldColorMarker {
+    init {
+      require(
+        backgroundColor != null || backgroundColorGetter != null,
+        lazyMessage = TextFieldErrors::AllColorProvidedAsNull,
+      )
+    }
+  }
 
   /** 테두리 둥글기 정도 */
   public val radius: Dp
@@ -304,7 +312,7 @@ public interface QuackFilledTextFieldStyle : TextFieldStyleMarker {
   @Stable
   public fun textFieldColors(
     backgroundColor: QuackColor?,
-    backgroundColorGetter: ((text: String, focusInteraction: FocusInteraction) -> QuackColor)?,
+    backgroundColorGetter: ((text: String, focusInteraction: FocusInteraction?) -> QuackColor)?,
     contentColor: QuackColor,
     placeholderColor: QuackColor,
   ): TextFieldColors =
@@ -353,11 +361,13 @@ public interface QuackTextFieldStyle<Style : TextFieldStyleMarker, Color : TextF
     public val DefaultLarge: QuackTextFieldStyle<QuackDefaultLargeTextFieldDefaults, QuackDefaultTextFieldStyle.TextFieldColors>
       get() = QuackDefaultLargeTextFieldDefaults()
 
-    // public val FilledLarge: QuackTextFieldStyle<QuackFilledLargeTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>
-    //   get() = QuackFilledLargeTextFieldDefaults()
+    /** 스타일 가이드에 정의된 Filled 텍스트 필드의 Large 스타일을 가져옵니다. */
+    public val FilledLarge: QuackTextFieldStyle<QuackFilledLargeTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>
+      get() = QuackFilledLargeTextFieldDefaults()
 
-    // public val FilledFlat: QuackTextFieldStyle<QuackFilledFlatTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>
-    //   get() = QuackFilledFlatTextFieldDefaults()
+    /** 스타일 가이드에 정의된 Filled 텍스트 필드의 Flat 스타일을 가져옵니다. */
+    public val FilledFlat: QuackTextFieldStyle<QuackFilledFlatTextFieldDefaults, QuackFilledTextFieldStyle.TextFieldColors>
+      get() = QuackFilledFlatTextFieldDefaults()
   }
 }
 
@@ -496,7 +506,7 @@ public class QuackFilledFlatTextFieldDefaults :
     textFieldColors(
       backgroundColor = null,
       backgroundColorGetter = { text, focusInteraction ->
-        if (text.isNotEmpty()) QuackColor.White
+        if (text.isNotEmpty() || focusInteraction == null) QuackColor.White
         else when (focusInteraction) {
           is FocusInteraction.Focus -> QuackColor.White
           is FocusInteraction.Unfocus -> QuackColor.Gray4
@@ -539,10 +549,10 @@ internal object TextFieldErrors {
   fun sameDirectionIcon(direction: String) = "The icon was provided more than once in the same direction. " +
     "Only one icon can be displayed per direction. (Direction offered twice: $direction)"
 
-  fun unhandledFocusInteraction(interaction: FocusInteraction) = "An unhandled focus interaction was provided. " +
+  fun unhandledFocusInteraction(interaction: FocusInteraction?) = "An unhandled focus interaction was provided. " +
     "($interaction)"
 
-  const val IndicatorRequestedButNoColor = "Show indicator was requested, but no indicator color was provided. " +
+  const val AllColorProvidedAsNull = "All colors provided in the style are null. " +
     "Please provide a non-null value for one of the color or colorGetter fields."
 
   const val ValidationLabelProvidedButNoBottomDirectionIndicator =
@@ -1140,6 +1150,8 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
     placeholderTypography = placeholderTypography,
     errorTypography = errorTypography,
     successTypography = successTypography,
+    textFieldType = QuackTextFieldType.Default,
+    // decorators
     leadingIcon = leadingIconData?.icon,
     leadingIconSize = leadingIconData?.iconSize,
     leadingIconTint = currentLeadingIconTint,
@@ -1163,6 +1175,221 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   )
 }
 
+@ExperimentalDesignToken
+@ExperimentalQuackQuackApi
+@NonRestartableComposable
+@Composable
+public fun <Style : QuackFilledTextFieldStyle> QuackFilledTextField(
+  @CasaValue("\"QuackFilledTextFieldPreview\"") value: String,
+  @CasaValue("{}") onValueChange: (value: String) -> Unit,
+  @SugarToken @CasaValue("QuackTextFieldStyle.FilledLarge") style: QuackTextFieldStyle<Style, QuackFilledTextFieldStyle.TextFieldColors>,
+  modifier: Modifier = Modifier,
+  enabled: Boolean = true,
+  readOnly: Boolean = false,
+  placeholderText: String? = null,
+  placeholderStrategy: TextFieldPlaceholderStrategy = TextFieldPlaceholderStrategy.Hidable,
+  keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+  keyboardActions: KeyboardActions = KeyboardActions.Default,
+  singleLine: Boolean = false,
+  @IntRange(from = 1) minLines: Int = 1,
+  @IntRange(from = 1) maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+  visualTransformation: VisualTransformation = VisualTransformation.None,
+  onTextLayout: (layoutResult: TextLayoutResult) -> Unit = {},
+  interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+) {
+  // start --- COPIED FROM BasicTextField (string value variant)
+
+  // 최신 내부 텍스트 필드 값 상태를 보유합니다. 컴포지션의 올바른 값을 갖기 위해 이 값을 유지해야 합니다.
+  var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
+
+  // 재구성된 최신 TextFieldValue를 보유합니다. 컴포지션을 보존해야 하기 때문에 `TextFieldValue(text = value)`를
+  // CoreTextField에 단순히 전달할 수 없었습니다.
+  val textFieldValue = textFieldValueState.copy(text = value)
+
+  SideEffect {
+    if (textFieldValue.selection != textFieldValueState.selection ||
+      textFieldValue.composition != textFieldValueState.composition
+    ) {
+      textFieldValueState = textFieldValue
+    }
+  }
+
+  // 텍스트 필드가 재구성되었거나 onValueChange 콜백에서 업데이트된 마지막 문자열 값입니다.
+  // 이 값을 추적하여 다음과 같은 경우 동일한 문자열에 대해 onValueChange(String)를 호출하지 않도록 합니다.
+  // CoreTextField의 onValueChange가 중간에 재구성되지 않고 여러 번 호출되는 것을 방지합니다.
+  var lastTextValue by remember(value) { mutableStateOf(value) }
+
+  QuackFilledTextField(
+    value = textFieldValue,
+    onValueChange = { newTextFieldValueState ->
+      textFieldValueState = newTextFieldValueState
+
+      val stringChangedSinceLastInvocation = lastTextValue != newTextFieldValueState.text
+      lastTextValue = newTextFieldValueState.text
+
+      if (stringChangedSinceLastInvocation) {
+        onValueChange(newTextFieldValueState.text)
+      }
+    },
+    // end --- COPIED FROM BasicTextField (string value variant)
+    style = style,
+    modifier = modifier,
+    enabled = enabled,
+    readOnly = readOnly,
+    placeholderText = placeholderText,
+    placeholderStrategy = placeholderStrategy,
+    keyboardOptions = keyboardOptions,
+    keyboardActions = keyboardActions,
+    singleLine = singleLine,
+    minLines = minLines,
+    maxLines = maxLines,
+    visualTransformation = visualTransformation,
+    onTextLayout = onTextLayout,
+    interactionSource = interactionSource,
+  )
+}
+
+// TODO(casa): @NoCasa
+@ExperimentalDesignToken
+@ExperimentalQuackQuackApi
+@NonRestartableComposable
+@Composable
+public fun <Style : QuackFilledTextFieldStyle> QuackFilledTextField(
+  value: TextFieldValue,
+  onValueChange: (value: TextFieldValue) -> Unit,
+  @SugarToken style: QuackTextFieldStyle<Style, QuackFilledTextFieldStyle.TextFieldColors>,
+  modifier: Modifier = Modifier,
+  enabled: Boolean = true,
+  readOnly: Boolean = false,
+  placeholderText: String? = null,
+  placeholderStrategy: TextFieldPlaceholderStrategy = TextFieldPlaceholderStrategy.Hidable,
+  keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+  keyboardActions: KeyboardActions = KeyboardActions.Default,
+  singleLine: Boolean = false,
+  @IntRange(from = 1) minLines: Int = 1,
+  @IntRange(from = 1) maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+  visualTransformation: VisualTransformation = VisualTransformation.None,
+  onTextLayout: (layoutResult: TextLayoutResult) -> Unit = {},
+  interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+) {
+  require(style is QuackFilledTextFieldStyle)
+
+  var focusInteraction by remember { mutableStateOf<FocusInteraction?>(null) }
+  LaunchedEffect(interactionSource) {
+    interactionSource.interactions.collect { interaction ->
+      if (interaction is FocusInteraction) focusInteraction = interaction
+    }
+  }
+
+  var isSizeSpecified = false
+  val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier) { currentModifier ->
+    if (!isSizeSpecified && currentModifier is LayoutModifier) {
+      isSizeSpecified = currentModifier.hashCode() != reflectivelyFillMaxSizeOperationHashCode
+    }
+  }
+  val (leadingIconData, trailingIconData) = remember(quackDataModels) {
+    val icons =
+      quackDataModels.fastFilterIsInstanceOrNull<TextFieldIconData<QuackFilledTextFieldStyle.TextFieldColors>>()
+    var leadingIconData: TextFieldIconData<QuackFilledTextFieldStyle.TextFieldColors>? = null
+    var trailingIconData: TextFieldIconData<QuackFilledTextFieldStyle.TextFieldColors>? = null
+
+    icons?.fastForEach { icon ->
+      when (icon.direction) {
+        HorizontalDirection.Left -> {
+          requireNull(leadingIconData) { TextFieldErrors.sameDirectionIcon("leading") }
+          leadingIconData = icon
+        }
+        HorizontalDirection.Right -> {
+          requireNull(trailingIconData) { TextFieldErrors.sameDirectionIcon("trailing") }
+          trailingIconData = icon
+        }
+      }
+    }
+
+    leadingIconData to trailingIconData
+  }
+  val counterData = remember(quackDataModels) {
+    quackDataModels.fastFirstIsInstanceOrNull<TextFieldCounterData>()
+  }
+
+  val currentBackgroundColor = with(style.colors) {
+    backgroundColorGetter?.invoke(value.text, focusInteraction) ?: backgroundColor
+  }!!
+  val contentColor = style.colors.contentColor
+  val placeholderColor = style.colors.placeholderColor
+
+  val contentPadding = style.contentPadding
+  val currentContentPadding = if (isSizeSpecified) null else contentPadding
+
+  val contentSpacedBy = style.contentSpacedBy
+
+  val typography = remember(style.typography, contentColor) {
+    style.typography.change(color = contentColor)
+  }
+  val placeholderTypography = remember(style.typography, placeholderColor) {
+    style.typography.change(color = placeholderColor)
+  }
+
+  val currentLeadingIconTint = leadingIconData?.run {
+    (tintGetter?.invoke(value.text, TextFieldValidationState.Default, style.colors) ?: tint) ?: QuackColor.Unspecified
+  }
+  val currentTrailingIconTint = trailingIconData?.run {
+    (tintGetter?.invoke(value.text, TextFieldValidationState.Default, style.colors) ?: tint) ?: QuackColor.Unspecified
+  }
+
+  val inspectableModifier = with(style) { composeModifier.wrappedDebugInspectable() }
+
+  QuackBaseDefaultTextField(
+    value = value,
+    onValueChange = onValueChange,
+    modifier = inspectableModifier,
+    enabled = enabled,
+    readOnly = readOnly,
+    placeholderText = placeholderText,
+    placeholderStrategy = placeholderStrategy,
+    keyboardOptions = keyboardOptions,
+    keyboardActions = keyboardActions,
+    singleLine = singleLine,
+    minLines = minLines,
+    maxLines = maxLines,
+    visualTransformation = visualTransformation,
+    onTextLayout = onTextLayout,
+    validationState = null,
+    validationLabelVisibilityStrategy = null,
+    interactionSource = interactionSource,
+    backgroundColor = currentBackgroundColor,
+    contentPadding = currentContentPadding,
+    contentSpacedBy = contentSpacedBy,
+    validationLabelAndIndicatorSpacedBy = null,
+    typography = typography,
+    placeholderTypography = placeholderTypography,
+    errorTypography = null,
+    successTypography = null,
+    textFieldType = QuackTextFieldType.Filled,
+    // decorators
+    leadingIcon = leadingIconData?.icon,
+    leadingIconSize = leadingIconData?.iconSize,
+    leadingIconTint = currentLeadingIconTint,
+    leadingIconContentScale = leadingIconData?.contentScale,
+    leadingIconContentDescription = leadingIconData?.contentDescription,
+    leadingIconOnClick = leadingIconData?.onClick,
+    trailingIcon = trailingIconData?.icon,
+    trailingIconSize = trailingIconData?.iconSize,
+    trailingIconTint = currentTrailingIconTint,
+    trailingIconContentScale = trailingIconData?.contentScale,
+    trailingIconContentDescription = trailingIconData?.contentDescription,
+    trailingIconOnClick = trailingIconData?.onClick,
+    indicatorThickness = null,
+    indicatorColor = null,
+    indicatorDirection = null,
+    counterBaseColor = counterData?.baseColor,
+    counterHighlightColor = counterData?.highlightColor,
+    counterTypography = counterData?.typography,
+    counterBaseAndHighlightGap = counterData?.baseAndHighlightGap,
+    counterMaxLength = counterData?.maxLength,
+  )
+}
+
 private const val DefaultCoreTextFieldLayoutId = "QuackBaseDefaultTextFieldCoreTextFieldLayoutId"
 private const val DefaultCoreTextFieldContainerLayoutId = "QuackBaseDefaultTextFieldCoreTextFieldContainerLayoutId"
 private const val DefaultLeadingIconLayoutId = "QuackBaseDefaultTextFieldLeadingIconLayoutId"
@@ -1176,6 +1403,21 @@ private class LazyValue<T>(var value: T? = null)
 
 /** 텍스트 필드의 너비가 지정되지 않았을 떄 기본으로 사용할 너비 */
 private val DefaultMinWidth = 200.dp
+
+/**
+ * [QuackBaseDefaultTextField]에서 레이아웃 배치에 사용할 스타일을 나타냅니다.
+ */
+@Immutable
+public enum class QuackTextFieldType {
+  /** [QuackDefaultTextFieldStyle]에 맞게 배치합니다. */
+  Default,
+
+  /** [QuackFilledTextFieldStyle]에 맞게 배치합니다. */
+  Filled,
+
+  /** [QuackOutlinedTextFieldStyle]에 맞게 배치합니다. */
+  Outlined,
+}
 
 /**
  * Default 텍스트 필드를 그립니다.
@@ -1203,17 +1445,18 @@ public fun QuackBaseDefaultTextField(
   maxLines: Int,
   visualTransformation: VisualTransformation,
   onTextLayout: (layoutResult: TextLayoutResult) -> Unit,
-  validationState: TextFieldValidationState,
-  validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy,
+  validationState: TextFieldValidationState?,
+  validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy?,
   interactionSource: MutableInteractionSource,
   backgroundColor: QuackColor,
   contentPadding: PaddingValues?,
   contentSpacedBy: Dp,
-  validationLabelAndIndicatorSpacedBy: Dp,
+  validationLabelAndIndicatorSpacedBy: Dp?,
   typography: QuackTypography,
   placeholderTypography: QuackTypography,
-  errorTypography: QuackTypography,
-  successTypography: QuackTypography,
+  errorTypography: QuackTypography?,
+  successTypography: QuackTypography?,
+  textFieldType: QuackTextFieldType,
   // decorators
   leadingIcon: ImageVector?,
   leadingIconSize: Dp?,
@@ -1237,7 +1480,12 @@ public fun QuackBaseDefaultTextField(
   counterMaxLength: Int?,
 ) {
   assertDefaultTextFieldValidState(
+    textFieldType = textFieldType,
     validationState = validationState,
+    validationLabelAndIndicatorSpacedBy = validationLabelAndIndicatorSpacedBy,
+    validationLabelVisibilityStrategy = validationLabelVisibilityStrategy,
+    errorTypography = errorTypography,
+    successTypography = successTypography,
     leadingIcon = leadingIcon,
     leadingIconSize = leadingIconSize,
     leadingIconTint = leadingIconTint,
@@ -1276,8 +1524,14 @@ public fun QuackBaseDefaultTextField(
   val lazyCoreTextFieldContainerWidth = remember { LazyValue<Int>() }
   val lazyCoreTextFieldWidth = remember { LazyValue<Int>() }
 
-  val indicatorSuccessComposeTypography = remember(successTypography, calculation = successTypography::asComposeStyle)
-  val indicatorErrorComposeTypography = remember(errorTypography, calculation = errorTypography::asComposeStyle)
+  val indicatorSuccessComposeTypography = remember(validationState, successTypography) {
+    if (validationState != null) successTypography!!.asComposeStyle()
+    else null
+  }
+  val indicatorErrorComposeTypography = remember(validationState, errorTypography) {
+    if (validationState != null) errorTypography!!.asComposeStyle()
+    else null
+  }
   val indicatorLabelConstraints = remember(lazyCoreTextFieldContainerWidth.value) {
     Constraints().let { constraints ->
       if (lazyCoreTextFieldContainerWidth.value != null) constraints.copy(maxWidth = lazyCoreTextFieldContainerWidth.value!!)
@@ -1300,7 +1554,7 @@ public fun QuackBaseDefaultTextField(
 
         indicatorLabelMeasurer.measure(
           text = validationState.label!!,
-          style = indicatorTypography,
+          style = indicatorTypography!!,
           constraints = indicatorLabelConstraints,
         )
       } else {
@@ -1326,7 +1580,7 @@ public fun QuackBaseDefaultTextField(
         indicatorLabelMeasurer
           .measure(
             text = validationLabelVisibilityStrategy.baselineLabel,
-            style = indicatorLabelBaselineTypography,
+            style = indicatorLabelBaselineTypography!!,
             constraints = indicatorLabelConstraints,
           )
           .size
@@ -1419,7 +1673,7 @@ public fun QuackBaseDefaultTextField(
    * decorationBox 컴포저블은 CoreTextFieldRootBox 컴포저블 안에서 실행되는데,
    * CoreTextFieldRootBox 컴포저블은 propagateMinConstraints = true 인 Box로
    * 이어지고, Box의 content가 ContextMenuArea 컴포저블로 실행됨. ContextMenuArea 컴포저블은
-   * expect 함수로 desktop과 android 구현이 있고, android 환경에서는 단순히 content() 로 끝남.
+   * expect 함수로 desktop과 android 구현이 있고, android 환경에서는 단순히 content()로 끝남.
    */
   BasicTextField(
     value = value,
@@ -1605,7 +1859,7 @@ public fun QuackBaseDefaultTextField(
       val contentSpacedByPx = contentSpacedBy.roundToPx()
       val halfContentSpacedByPx = contentSpacedByPx / 2
 
-      val labelAndIndicatorSpacedByPx = validationLabelAndIndicatorSpacedBy.roundToPx()
+      val labelAndIndicatorSpacedByPx = validationLabelAndIndicatorSpacedBy?.roundToPx() ?: 0
 
       val fontScaleAwareLeadingIconSizePx = fontScaleAwareLeadingIconSize?.roundToPx()
       val fontScaleAwareTrailingIconSizePx = fontScaleAwareTrailingIconSize?.roundToPx()
@@ -1735,7 +1989,12 @@ public fun QuackBaseDefaultTextField(
 
 /** [QuackBaseDefaultTextField]가 올바르게 그려질 수 있는 상태인지 검증합니다. */
 private fun assertDefaultTextFieldValidState(
-  validationState: TextFieldValidationState,
+  textFieldType: QuackTextFieldType,
+  validationState: TextFieldValidationState?,
+  validationLabelAndIndicatorSpacedBy: Dp?,
+  validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy?,
+  errorTypography: QuackTypography?,
+  successTypography: QuackTypography?,
   leadingIcon: ImageVector?,
   leadingIconSize: Dp?,
   leadingIconTint: QuackColor?,
@@ -1753,6 +2012,14 @@ private fun assertDefaultTextFieldValidState(
   counterBaseAndHighlightGap: Dp?,
   counterMaxLength: Int?,
 ) {
+  if (textFieldType == QuackTextFieldType.Default) {
+    requireNotNull(errorTypography)
+    requireNotNull(successTypography)
+    requireNotNull(validationState)
+    requireNotNull(validationLabelVisibilityStrategy)
+    requireNotNull(validationLabelAndIndicatorSpacedBy)
+  }
+
   if (
     validationState is TextFieldValidationState.WithLabel &&
     validationState.label != null &&
@@ -1787,17 +2054,6 @@ private fun assertDefaultTextFieldValidState(
     requireNotNull(counterTypography)
     requireNotNull(counterBaseAndHighlightGap)
   }
-}
-
-@NoSugar
-@ExperimentalQuackQuackApi
-@NonRestartableComposable
-@Composable
-public fun QuackFilledTextField() {
-  // LaunchedEffect(interactionSource) {
-  //   interactionSource.interactions.collect { interaction ->
-  //   }
-  // }
 }
 
 @Suppress("ComposableNaming")
