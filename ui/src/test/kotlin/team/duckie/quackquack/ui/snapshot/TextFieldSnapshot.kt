@@ -17,12 +17,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import org.robolectric.annotation.GraphicsMode
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.icon.QuackIcon
 import team.duckie.quackquack.material.icon.quackicon.Outlined
 import team.duckie.quackquack.material.icon.quackicon.outlined.Heart
 import team.duckie.quackquack.ui.QuackDefaultTextField
+import team.duckie.quackquack.ui.QuackFilledTextField
 import team.duckie.quackquack.ui.QuackTextFieldStyle
 import team.duckie.quackquack.ui.TextFieldPlaceholderStrategy
 import team.duckie.quackquack.ui.TextFieldValidationState
@@ -46,21 +46,31 @@ private const val MultilineText = "$ShortText\n$ShortText\n$ShortText\n$ShortTex
 private const val SuccessText = "성공!"
 private const val ErrorText = "실패!"
 
+// TODO: parameterized test
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
-@GraphicsMode(GraphicsMode.Mode.NATIVE)
 class TextFieldSnapshot {
   @get:Rule
   val snapshotPath = SnapshotPathGeneratorRule("textfield")
 
   @Test
-  fun QuackDefaultTextField_default() {
+  fun QuackDefaultTextFields() {
     captureRoboImage(snapshotPath()) {
-      QuackDefaultTextField(
-        value = ShortText,
-        onValueChange = {},
-        style = QuackTextFieldStyle.Default,
-      )
+      TestColumn {
+        WithLabel("Default") {
+          QuackDefaultTextField(
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+          )
+        }
+        WithLabel("DefaultLarge") {
+          QuackDefaultTextField(
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.DefaultLarge,
+          )
+        }
+      }
     }
   }
 
@@ -242,16 +252,292 @@ class TextFieldSnapshot {
   @Config(qualifiers = MultilinesSnapshotQualifier)
   @Test
   fun QuackDefaultTextField_default_multilines() {
-    QuackDefaultTextField_default_multilines_catpurer(fillMaxWidth = false)
+    QuackDefaultTextField_default_multilines_capturer(fillMaxWidth = false)
   }
 
   @Config(fontScale = LargestFontScale, qualifiers = MultilinesSnapshotQualifier)
   @Test
   fun QuackDefaultTextField_default_multilines_x2() {
-    QuackDefaultTextField_default_multilines_catpurer(fillMaxWidth = true)
+    QuackDefaultTextField_default_multilines_capturer(fillMaxWidth = true)
   }
 
-  private fun QuackDefaultTextField_default_multilines_catpurer(fillMaxWidth: Boolean) {
+  private fun QuackDefaultTextField_default_multilines_capturer(fillMaxWidth: Boolean) {
+    val widthModifier = if (fillMaxWidth) Modifier.fillMaxWidth() else Modifier
+    captureRoboImage(snapshotPath()) {
+      TestColumn {
+        WithLabel("default") {
+          QuackDefaultTextField(
+            modifier = Modifier.then(widthModifier),
+            value = MultilineText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+          )
+        }
+        WithLabel("placeholder") {
+          QuackDefaultTextField(
+            modifier = Modifier.then(widthModifier),
+            value = MediumText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+            placeholderText = MultilineText,
+            placeholderStrategy = TextFieldPlaceholderStrategy.Always,
+          )
+        }
+        WithLabel("indicator") {
+          QuackDefaultTextField(
+            modifier = Modifier
+              .then(widthModifier)
+              .defaultTextFieldIndicator(),
+            value = MultilineText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+            placeholderText = MultilineText,
+            validationState = TextFieldValidationState.Success(SuccessText),
+          )
+        }
+        WithLabel("icons") {
+          QuackDefaultTextField(
+            modifier = Modifier
+              .then(widthModifier)
+              .defaultTextFieldIcon(
+                icon = QuackIcon.Outlined.Heart,
+                tint = QuackColor.Unspecified,
+                direction = HorizontalDirection.Left,
+              )
+              .defaultTextFieldIcon(
+                icon = QuackIcon.Outlined.Heart,
+                tint = QuackColor.Unspecified,
+                direction = HorizontalDirection.Right,
+              ),
+            value = MultilineText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+          )
+        }
+        WithLabel("counter") {
+          QuackDefaultTextField(
+            modifier = Modifier
+              .then(widthModifier)
+              .counter(maxLength = 10),
+            value = MultilineText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+          )
+        }
+      }
+    }
+  }
+
+  @Test
+  fun QuackFilledTextFields() {
+    captureRoboImage(snapshotPath()) {
+      TestColumn {
+        WithLabel("FilledLarge") {
+          QuackFilledTextField(
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.FilledLarge,
+          )
+        }
+        WithLabel("FilledFlat") {
+          QuackFilledTextField(
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.FilledFlat,
+          )
+        }
+      }
+    }
+  }
+
+  @Test
+  fun QuackDefaultTextField_default_placeholders() {
+    captureRoboImage(snapshotPath()) {
+      TestColumn {
+        WithLabel("Hidable") {
+          QuackDefaultTextField(
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+            placeholderText = MediumText,
+            placeholderStrategy = TextFieldPlaceholderStrategy.Hidable,
+          )
+        }
+        WithLabel("Always") {
+          QuackDefaultTextField(
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+            placeholderText = MediumText,
+            placeholderStrategy = TextFieldPlaceholderStrategy.Always,
+          )
+        }
+      }
+    }
+  }
+
+  @Test
+  fun QuackDefaultTextField_default_validations() {
+    captureRoboImage(snapshotPath()) {
+      TestColumn {
+        WithLabel("default") {
+          QuackDefaultTextField(
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+            validationState = TextFieldValidationState.Default,
+          )
+        }
+        WithLabel("success") {
+          QuackDefaultTextField(
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+            validationState = TextFieldValidationState.Success(SuccessText),
+          )
+        }
+        WithLabel("error") {
+          QuackDefaultTextField(
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+            validationState = TextFieldValidationState.Error(ErrorText),
+          )
+        }
+      }
+    }
+  }
+
+  @Test
+  fun QuackDefaultTextField_default_indicators() {
+    captureRoboImage(snapshotPath()) {
+      TestColumn {
+        WithLabel("top-default") {
+          QuackDefaultTextField(
+            modifier = Modifier.defaultTextFieldIndicator(direction = VerticalDirection.Top),
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+          )
+        }
+        WithLabel("bottom-default") {
+          QuackDefaultTextField(
+            modifier = Modifier.defaultTextFieldIndicator(),
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+          )
+        }
+        WithLabel("bottom-success") {
+          QuackDefaultTextField(
+            modifier = Modifier.defaultTextFieldIndicator(),
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+            validationState = TextFieldValidationState.Success(SuccessText),
+          )
+        }
+        WithLabel("bottom-error") {
+          QuackDefaultTextField(
+            modifier = Modifier.defaultTextFieldIndicator(),
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+            validationState = TextFieldValidationState.Error(ErrorText),
+          )
+        }
+      }
+    }
+  }
+
+  @Test
+  fun QuackDefaultTextField_default_icons() {
+    captureRoboImage(snapshotPath()) {
+      TestColumn {
+        WithLabel("both") {
+          QuackDefaultTextField(
+            modifier = Modifier
+              .defaultTextFieldIcon(
+                icon = QuackIcon.Outlined.Heart,
+                tint = QuackColor.Unspecified,
+                direction = HorizontalDirection.Left,
+              )
+              .defaultTextFieldIcon(
+                icon = QuackIcon.Outlined.Heart,
+                tint = QuackColor.Unspecified,
+                direction = HorizontalDirection.Right,
+              ),
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+          )
+        }
+        WithLabel("leading") {
+          QuackDefaultTextField(
+            modifier = Modifier.defaultTextFieldIcon(
+              icon = QuackIcon.Outlined.Heart,
+              tint = QuackColor.Unspecified,
+              direction = HorizontalDirection.Left,
+            ),
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+          )
+        }
+        WithLabel("trailing") {
+          QuackDefaultTextField(
+            modifier = Modifier.defaultTextFieldIcon(
+              icon = QuackIcon.Outlined.Heart,
+              tint = QuackColor.Unspecified,
+              direction = HorizontalDirection.Right,
+            ),
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+          )
+        }
+      }
+    }
+  }
+
+  @Test
+  fun QuackDefaultTextField_default_counters() {
+    captureRoboImage(snapshotPath()) {
+      TestColumn {
+        WithLabel("default") {
+          QuackDefaultTextField(
+            modifier = Modifier.counter(maxLength = 10),
+            value = ShortText,
+            onValueChange = {},
+            style = QuackTextFieldStyle.Default,
+          )
+        }
+        WithLabel("over") {
+          QuackDefaultTextField(
+            modifier = Modifier.counter(maxLength = 10),
+            value = LongText,
+            onValueChange = {},
+            singleLine = true,
+            style = QuackTextFieldStyle.Default,
+          )
+        }
+      }
+    }
+  }
+
+  @Config(qualifiers = MultilinesSnapshotQualifier)
+  @Test
+  fun QuackDefaultTextField_default_multilines() {
+    QuackDefaultTextField_default_multilines_capturer(fillMaxWidth = false)
+  }
+
+  @Config(fontScale = LargestFontScale, qualifiers = MultilinesSnapshotQualifier)
+  @Test
+  fun QuackDefaultTextField_default_multilines_x2() {
+    QuackDefaultTextField_default_multilines_capturer(fillMaxWidth = true)
+  }
+
+  private fun QuackDefaultTextField_default_multilines_capturer(fillMaxWidth: Boolean) {
     val widthModifier = if (fillMaxWidth) Modifier.fillMaxWidth() else Modifier
     captureRoboImage(snapshotPath()) {
       TestColumn {
