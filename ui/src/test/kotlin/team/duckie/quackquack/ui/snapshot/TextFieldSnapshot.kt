@@ -41,10 +41,9 @@ import team.duckie.quackquack.ui.token.HorizontalDirection
 import team.duckie.quackquack.ui.token.VerticalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 
-private const val ShortText = "가나다라마"
 private const val MediumText = "가나다라마바사아자차카타파하"
 private const val LongText = "그러므로 주며, 없으면 우리 보라. 이것은 온갖 안고, 거선의 황금시대다."
-private const val MultilineText = "$ShortText\n$ShortText\n$ShortText\n$ShortText\n$ShortText"
+private const val MultilineText = "$MediumText\n$MediumText\n$MediumText\n$MediumText\n$MediumText"
 
 private const val SuccessText = "성공!"
 private const val ErrorText = "실패!"
@@ -62,14 +61,14 @@ class TextFieldSnapshot {
       TestColumn {
         WithLabel("[Default]", isTitle = true) {
           QuackDefaultTextField(
-            value = ShortText,
+            value = MediumText,
             onValueChange = {},
             style = QuackTextFieldStyle.Default,
           )
         }
         WithLabel("[DefaultLarge]", isTitle = true) {
           QuackDefaultTextField(
-            value = ShortText,
+            value = MediumText,
             onValueChange = {},
             style = QuackTextFieldStyle.DefaultLarge,
           )
@@ -85,7 +84,7 @@ class TextFieldSnapshot {
         WithLabel("[Default]", isTitle = true) {
           WithLabel("Hidable") {
             QuackDefaultTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.Default,
               placeholderText = MediumText,
@@ -94,7 +93,7 @@ class TextFieldSnapshot {
           }
           WithLabel("Always") {
             QuackDefaultTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.Default,
               placeholderText = MediumText,
@@ -105,7 +104,7 @@ class TextFieldSnapshot {
         WithLabel("[DefaultLarge]", isTitle = true) {
           WithLabel("Hidable") {
             QuackDefaultTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.DefaultLarge,
               placeholderText = MediumText,
@@ -114,7 +113,7 @@ class TextFieldSnapshot {
           }
           WithLabel("Always") {
             QuackDefaultTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.DefaultLarge,
               placeholderText = MediumText,
@@ -133,7 +132,7 @@ class TextFieldSnapshot {
         WithLabel("[Default]", isTitle = true) {
           WithLabel("default") {
             QuackDefaultTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.Default,
               validationState = TextFieldValidationState.Default,
@@ -141,7 +140,7 @@ class TextFieldSnapshot {
           }
           WithLabel("success") {
             QuackDefaultTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.Default,
               validationState = TextFieldValidationState.Success(SuccessText),
@@ -149,7 +148,7 @@ class TextFieldSnapshot {
           }
           WithLabel("error") {
             QuackDefaultTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.Default,
               validationState = TextFieldValidationState.Error(ErrorText),
@@ -159,7 +158,7 @@ class TextFieldSnapshot {
         WithLabel("[DefaultLarge]", isTitle = true) {
           WithLabel("default") {
             QuackDefaultTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.DefaultLarge,
               validationState = TextFieldValidationState.Default,
@@ -167,7 +166,7 @@ class TextFieldSnapshot {
           }
           WithLabel("success") {
             QuackDefaultTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.DefaultLarge,
               validationState = TextFieldValidationState.Success(SuccessText),
@@ -175,7 +174,7 @@ class TextFieldSnapshot {
           }
           WithLabel("error") {
             QuackDefaultTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.DefaultLarge,
               validationState = TextFieldValidationState.Error(ErrorText),
@@ -194,7 +193,7 @@ class TextFieldSnapshot {
           WithLabel("top / default") {
             QuackDefaultTextField(
               modifier = Modifier.defaultTextFieldIndicator(direction = VerticalDirection.Top),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.Default,
             )
@@ -202,7 +201,7 @@ class TextFieldSnapshot {
           WithLabel("bottom / default") {
             QuackDefaultTextField(
               modifier = Modifier.defaultTextFieldIndicator(),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.Default,
             )
@@ -210,7 +209,7 @@ class TextFieldSnapshot {
           WithLabel("bottom / success") {
             QuackDefaultTextField(
               modifier = Modifier.defaultTextFieldIndicator(),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.Default,
               validationState = TextFieldValidationState.Success(SuccessText),
@@ -219,7 +218,7 @@ class TextFieldSnapshot {
           WithLabel("bottom / error") {
             QuackDefaultTextField(
               modifier = Modifier.defaultTextFieldIndicator(),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.Default,
               validationState = TextFieldValidationState.Error(ErrorText),
@@ -230,7 +229,7 @@ class TextFieldSnapshot {
           WithLabel("top / default") {
             QuackDefaultTextField(
               modifier = Modifier.defaultTextFieldIndicator(direction = VerticalDirection.Top),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.DefaultLarge,
             )
@@ -238,7 +237,7 @@ class TextFieldSnapshot {
           WithLabel("bottom / default") {
             QuackDefaultTextField(
               modifier = Modifier.defaultTextFieldIndicator(),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.DefaultLarge,
             )
@@ -246,7 +245,7 @@ class TextFieldSnapshot {
           WithLabel("bottom / success") {
             QuackDefaultTextField(
               modifier = Modifier.defaultTextFieldIndicator(),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.DefaultLarge,
               validationState = TextFieldValidationState.Success(SuccessText),
@@ -255,7 +254,7 @@ class TextFieldSnapshot {
           WithLabel("bottom / error") {
             QuackDefaultTextField(
               modifier = Modifier.defaultTextFieldIndicator(),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.DefaultLarge,
               validationState = TextFieldValidationState.Error(ErrorText),
@@ -284,7 +283,7 @@ class TextFieldSnapshot {
                   tint = QuackColor.Unspecified,
                   direction = HorizontalDirection.Right,
                 ),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.Default,
             )
@@ -296,7 +295,7 @@ class TextFieldSnapshot {
                 tint = QuackColor.Unspecified,
                 direction = HorizontalDirection.Left,
               ),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.Default,
             )
@@ -308,7 +307,7 @@ class TextFieldSnapshot {
                 tint = QuackColor.Unspecified,
                 direction = HorizontalDirection.Right,
               ),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.Default,
             )
@@ -328,7 +327,7 @@ class TextFieldSnapshot {
                   tint = QuackColor.Unspecified,
                   direction = HorizontalDirection.Right,
                 ),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.DefaultLarge,
             )
@@ -340,7 +339,7 @@ class TextFieldSnapshot {
                 tint = QuackColor.Unspecified,
                 direction = HorizontalDirection.Left,
               ),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.DefaultLarge,
             )
@@ -352,7 +351,7 @@ class TextFieldSnapshot {
                 tint = QuackColor.Unspecified,
                 direction = HorizontalDirection.Right,
               ),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.DefaultLarge,
             )
@@ -370,7 +369,7 @@ class TextFieldSnapshot {
           WithLabel("default") {
             QuackDefaultTextField(
               modifier = Modifier.counter(maxLength = 10),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.Default,
             )
@@ -389,7 +388,7 @@ class TextFieldSnapshot {
           WithLabel("default") {
             QuackDefaultTextField(
               modifier = Modifier.counter(maxLength = 10),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.DefaultLarge,
             )
@@ -559,14 +558,14 @@ class TextFieldSnapshot {
       TestColumn {
         WithLabel("[FilledLarge]", isTitle = true) {
           QuackFilledTextField(
-            value = ShortText,
+            value = MediumText,
             onValueChange = {},
             style = QuackTextFieldStyle.FilledLarge,
           )
         }
         WithLabel("[FilledFlat]", isTitle = true) {
           QuackFilledTextField(
-            value = ShortText,
+            value = MediumText,
             onValueChange = {},
             style = QuackTextFieldStyle.FilledFlat,
           )
@@ -582,7 +581,7 @@ class TextFieldSnapshot {
         WithLabel("[FilledLarge]", isTitle = true) {
           WithLabel("Hidable") {
             QuackFilledTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.FilledLarge,
               placeholderText = MediumText,
@@ -591,7 +590,7 @@ class TextFieldSnapshot {
           }
           WithLabel("Always") {
             QuackFilledTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.FilledLarge,
               placeholderText = MediumText,
@@ -602,7 +601,7 @@ class TextFieldSnapshot {
         WithLabel("[FilledFlat]", isTitle = true) {
           WithLabel("Hidable") {
             QuackFilledTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.FilledFlat,
               placeholderText = MediumText,
@@ -611,7 +610,7 @@ class TextFieldSnapshot {
           }
           WithLabel("Always") {
             QuackFilledTextField(
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.FilledFlat,
               placeholderText = MediumText,
@@ -641,7 +640,7 @@ class TextFieldSnapshot {
                   tint = QuackColor.Unspecified,
                   direction = HorizontalDirection.Right,
                 ),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.FilledLarge,
             )
@@ -653,7 +652,7 @@ class TextFieldSnapshot {
                 tint = QuackColor.Unspecified,
                 direction = HorizontalDirection.Left,
               ),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.FilledLarge,
             )
@@ -665,7 +664,7 @@ class TextFieldSnapshot {
                 tint = QuackColor.Unspecified,
                 direction = HorizontalDirection.Right,
               ),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.FilledLarge,
             )
@@ -685,7 +684,7 @@ class TextFieldSnapshot {
                   tint = QuackColor.Unspecified,
                   direction = HorizontalDirection.Right,
                 ),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.FilledFlat,
             )
@@ -697,7 +696,7 @@ class TextFieldSnapshot {
                 tint = QuackColor.Unspecified,
                 direction = HorizontalDirection.Left,
               ),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.FilledFlat,
             )
@@ -709,7 +708,7 @@ class TextFieldSnapshot {
                 tint = QuackColor.Unspecified,
                 direction = HorizontalDirection.Right,
               ),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.FilledFlat,
             )
@@ -727,7 +726,7 @@ class TextFieldSnapshot {
           WithLabel("Filled") {
             QuackFilledTextField(
               modifier = Modifier.counter(maxLength = 10),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.FilledLarge,
             )
@@ -746,7 +745,7 @@ class TextFieldSnapshot {
           WithLabel("Filled") {
             QuackFilledTextField(
               modifier = Modifier.counter(maxLength = 10),
-              value = ShortText,
+              value = MediumText,
               onValueChange = {},
               style = QuackTextFieldStyle.FilledFlat,
             )
