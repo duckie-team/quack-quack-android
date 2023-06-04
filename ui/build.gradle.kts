@@ -61,6 +61,13 @@ ksp {
   arg("CasaPath", "$rootDir/catalog/src/main/kotlin/team/duckie/quackquack/catalog")
 }
 
+// https://github.com/Kotlin/dokka/issues/2956
+tasks.matching { task ->
+  task.name.contains("javaDocReleaseGeneration", ignoreCase = true)
+}.configureEach {
+  enabled = false
+}
+
 val sample: Configuration by configurations.creating {
   isCanBeResolved = false
   isCanBeConsumed = false
