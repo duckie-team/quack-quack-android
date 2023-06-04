@@ -44,34 +44,22 @@ class MainActivity : ComponentActivity() {
         }
       }*/
       /*Preview {
-        QuackDefaultTextField(
-          modifier = Modifier.counter(maxLength = 10),
-          value = "가나다라마바사아자차카타파하가나다라",
-          onValueChange = {},
-          singleLine = true,
-          style = QuackTextFieldStyle.Default,
-        )
-        QuackDefaultTextField(
-          modifier = Modifier.counter(maxLength = 10),
-          value = "가나다라마바사아자차카타파하가나다라",
-          onValueChange = {},
-          singleLine = true,
-          style = QuackTextFieldStyle.DefaultLarge,
-        )
         QuackFilledTextField(
-          modifier = Modifier.counter(maxLength = 10),
-          value = "가나다라마바사아자차카타파하가나다라",
+          value = String.Empty,
           onValueChange = {},
-          singleLine = true,
-          style = QuackTextFieldStyle.FilledLarge,
+          style = QuackTextFieldStyle.FilledLarge {
+            colors = colors.copy(
+              backgroundColorGetter = { _, focus ->
+                when (focus) {
+                  is FocusInteraction.Focus -> QuackColor.Success
+                  is FocusInteraction.Unfocus -> QuackColor.Alert
+                  else -> QuackColor.Dimmed
+                }
+              }
+            )
+          },
         )
-        QuackFilledTextField(
-          modifier = Modifier.counter(maxLength = 10),
-          value = "가나다라마바사아자차카타파하가나다라",
-          onValueChange = {},
-          singleLine = true,
-          style = QuackTextFieldStyle.FilledFlat,
-        )
+        BasicTextField(value = "aaaaa", onValueChange = {})
       }*/
     }
   }
