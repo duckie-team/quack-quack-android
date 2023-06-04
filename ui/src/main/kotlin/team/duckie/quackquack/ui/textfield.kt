@@ -12,7 +12,6 @@ package team.duckie.quackquack.ui
 import android.view.View
 import androidx.annotation.IntRange
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -43,7 +42,6 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -563,6 +561,10 @@ internal object TextFieldErrors {
     "A label was provided as a TextFieldValidationState, " +
       "but the indicator must have a direction of VerticalDirection.Bottom in order to display the label. " +
       "The current direction is VerticalDirection.Top."
+
+  const val CannotAppliedCounterAndTrailingIcon =
+    "Trailing icons and text counter cannot be applied at the same time. " +
+      "Please remove one or the other."
 }
 
 /** 기본 아이콘 사이즈 */
@@ -1522,6 +1524,7 @@ public fun QuackBaseDefaultTextField(
   val currentTextStyle = remember(typography, calculation = typography::asComposeStyle)
   val currentRecomposeScope = currentRecomposeScope
 
+  val contentSpacedByPx = with(currentDensity) { contentSpacedBy.roundToPx() }
   val topPaddingPx = with(currentDensity) { contentPadding?.calculateTopPadding()?.roundToPx() ?: 0 }
   val bottomPaddingPx = with(currentDensity) { contentPadding?.calculateBottomPadding()?.roundToPx() ?: 0 }
   val rightPaddingPx =
@@ -1746,14 +1749,7 @@ public fun QuackBaseDefaultTextField(
                 drawText(
                   textLayoutResult = counterTextMeasureResult!!,
                   topLeft = Offset(
-                    x = buildFloat {
-                      plus(size.width)
-                      if (textFieldType != QuackTextFieldType.Default) minus(rightPaddingPx)
-                      if (fontScaleAwareLeadingIconSize != null) {
-                        minus((fontScaleAwareLeadingIconSize + contentSpacedBy).toPx())
-                      }
-                      minus(counterTextMeasureResult.size.width)
-                    },
+                    x = size.width - rightPaddingPx - counterTextMeasureResult.size.width,
                     y = if (textFieldType == QuackTextFieldType.Default) {
                       buildFloat {
                         plus(topPaddingPx)
@@ -1775,7 +1771,6 @@ public fun QuackBaseDefaultTextField(
         Box(
           modifier = Modifier
             .layoutId(DefaultCoreTextFieldLayoutId)
-            .border(color = Color.Cyan, width = 1.dp)
             .applyIf(placeholderTextMeasureResult != null) {
               drawBehind {
                 @Suppress("NAME_SHADOWING")
@@ -1869,7 +1864,6 @@ public fun QuackBaseDefaultTextField(
       val horizontalPaddingPx = leftPaddingPx + rightPaddingPx
       val verticalPaddingPx = topPaddingPx + bottomPaddingPx
 
-      val contentSpacedByPx = contentSpacedBy.roundToPx()
       val halfContentSpacedByPx = contentSpacedByPx / 2
 
       val labelAndIndicatorSpacedByPx = validationLabelAndIndicatorSpacedBy?.roundToPx() ?: 0
@@ -1885,7 +1879,6 @@ public fun QuackBaseDefaultTextField(
       val coreTextFieldWidth =
         buildInt {
           plus(minWidth)
-          minus(horizontalPaddingPx)
           if (leadingIcon != null) {
             minus(fontScaleAwareLeadingIconSizePx!!)
             minus(contentSpacedByPx)
@@ -2104,6 +2097,10 @@ private fun assertDefaultTextFieldValidState(
     requireNotNull(counterHighlightColor)
     requireNotNull(counterTypography)
     requireNotNull(counterBaseAndHighlightGap)
+  }
+
+  if (trailingIcon != null && counterMaxLength != null) {
+    throw IllegalArgumentException(TextFieldErrors.CannotAppliedCounterAndTrailingIcon)
   }
 }
 
