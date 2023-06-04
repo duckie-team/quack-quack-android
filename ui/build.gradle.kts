@@ -14,6 +14,7 @@ plugins {
   quackquack("android-library")
   quackquack("android-compose")
   quackquack("android-compose-metrics")
+  quackquack("android-gmd")
   quackquack("kotlin-explicit-api")
   quackquack("quack-publishing")
   quackquack("test-junit")
@@ -94,6 +95,10 @@ dependencies {
     libs.test.kotest.assertion.core,
     libs.test.kotlin.coroutines, // needed for compose-ui-test
     libs.bundles.test.roborazzi,
+  )
+  androidTestImplementations(
+    libs.test.junit.compose,
+    libs.test.kotest.assertion.core,
   )
 
   kotlinCompilerPlugin(projects.sugarProcessor.orArtifact())

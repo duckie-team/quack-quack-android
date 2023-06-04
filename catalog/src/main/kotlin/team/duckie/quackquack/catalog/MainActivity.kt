@@ -44,20 +44,22 @@ class MainActivity : ComponentActivity() {
         }
       }*/
       /*Preview {
-        QuackText(
-          modifier = Modifier
-            .padding(horizontal = 30.dp)
-            .fillMaxWidth()
-            .span(
-              texts = listOf("Hello"),
-              style = SpanStyle(
-                color = QuackColor.DuckieOrange.value,
-                fontWeight = FontWeight.SemiBold,
-              ),
-            ),
-          text = "Hello, World!",
-          typography = QuackTypography.Quote,
+        QuackFilledTextField(
+          value = String.Empty,
+          onValueChange = {},
+          style = QuackTextFieldStyle.FilledLarge {
+            colors = colors.copy(
+              backgroundColorGetter = { _, focus ->
+                when (focus) {
+                  is FocusInteraction.Focus -> QuackColor.Success
+                  is FocusInteraction.Unfocus -> QuackColor.Alert
+                  else -> QuackColor.Dimmed
+                }
+              }
+            )
+          },
         )
+        BasicTextField(value = "aaaaa", onValueChange = {})
       }*/
     }
   }

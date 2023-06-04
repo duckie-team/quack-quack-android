@@ -22,11 +22,13 @@ import team.duckie.quackquack.material.icon.quackicon.Outlined
 import team.duckie.quackquack.material.icon.quackicon.outlined.Heart
 import team.duckie.quackquack.ui.QuackDefaultTextField
 import team.duckie.quackquack.ui.QuackTextFieldStyle
-import team.duckie.quackquack.ui.TextFieldErrors.IndicatorRequestedButNoColor
+import team.duckie.quackquack.ui.TextFieldErrors.AllColorProvidedAsNull
+import team.duckie.quackquack.ui.TextFieldErrors.CannotAppliedCounterAndTrailingIcon
 import team.duckie.quackquack.ui.TextFieldErrors.ValidationLabelProvidedButNoBottomDirectionIndicator
 import team.duckie.quackquack.ui.TextFieldErrors.sameDirectionIcon
 import team.duckie.quackquack.ui.TextFieldValidationState
 import team.duckie.quackquack.ui.commonutil.setQuackContent
+import team.duckie.quackquack.ui.counter
 import team.duckie.quackquack.ui.defaultTextFieldIcon
 import team.duckie.quackquack.ui.defaultTextFieldIndicator
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
@@ -64,7 +66,7 @@ class TextFieldTest {
 
   @Test
   fun IndicatorRequestedButNoColor() {
-    shouldThrowWithMessage<IllegalArgumentException>(IndicatorRequestedButNoColor) {
+    shouldThrowWithMessage<IllegalArgumentException>(AllColorProvidedAsNull) {
       compose.setQuackContent {
         QuackDefaultTextField(
           modifier = Modifier.defaultTextFieldIndicator(color = null, colorGetter = null),
@@ -86,6 +88,22 @@ class TextFieldTest {
           onValueChange = {},
           style = QuackTextFieldStyle.Default,
           validationState = TextFieldValidationState.Success(String.Empty),
+        )
+      }
+    }
+  }
+
+  @Test
+  fun CannotAppliedCounterAndTrailingIcon() {
+    shouldThrowWithMessage<IllegalArgumentException>(CannotAppliedCounterAndTrailingIcon) {
+      compose.setQuackContent {
+        QuackDefaultTextField(
+          modifier = Modifier
+            .counter(10)
+            .defaultTextFieldIcon(QuackIcon.Outlined.Heart),
+          value = String.Empty,
+          onValueChange = {},
+          style = QuackTextFieldStyle.Default,
         )
       }
     }
