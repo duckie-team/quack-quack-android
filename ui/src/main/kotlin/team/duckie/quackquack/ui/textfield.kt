@@ -1976,7 +1976,7 @@ public fun QuackBaseDefaultTextField(
             QuackTextFieldType.Filled ->
               Alignment.CenterVertically.align(
                 size = coreTextFieldPlaceable.height,
-                space = height
+                space = height,
               )
             QuackTextFieldType.Outlined -> TODO()
           },
@@ -1990,7 +1990,7 @@ public fun QuackBaseDefaultTextField(
             else ->
               Alignment.CenterVertically.align(
                 size = leadingIconPlaceable.height,
-                space = height
+                space = height,
               )
           },
           zIndex = 0f,
@@ -2012,7 +2012,7 @@ public fun QuackBaseDefaultTextField(
             else ->
               Alignment.CenterVertically.align(
                 size = trailingIconPlaceable.height,
-                space = height
+                space = height,
               )
           },
           zIndex = 0f,

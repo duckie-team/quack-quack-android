@@ -5,6 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:Suppress("LargeClass", "LongMethod")
 @file:OptIn(ExperimentalDesignToken::class, ExperimentalQuackQuackApi::class)
 
 package team.duckie.quackquack.ui.snapshot
