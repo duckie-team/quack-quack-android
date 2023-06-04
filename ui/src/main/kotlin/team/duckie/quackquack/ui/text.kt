@@ -196,14 +196,22 @@ public fun QuackText(
   val maxLines = if (singleLine) 1 else Int.MAX_VALUE
 
   val quoteMeasurer = rememberLtrTextMeasurer()
-  val quoteMeasurerResults = // TODO(양옆 큰따옴표 폰트 적용해야 함): https://duckie-team.slack.com/archives/C0579KEUJP9/p1685615876677619
-    remember(typography) {
+  val quoteMeasurerResults =
+    remember(currentTypography) {
       if (typography == QuackTypography.Quote) {
-        quoteMeasurer.measure(
-          text = "\"",
-          style = currentTypography,
-          softWrap = false,
-          maxLines = 1,
+        listOf(
+          quoteMeasurer.measure(
+            text = "“",
+            style = currentTypography,
+            softWrap = false,
+            maxLines = 1,
+          ),
+          quoteMeasurer.measure(
+            text = "”",
+            style = currentTypography,
+            softWrap = false,
+            maxLines = 1,
+          ),
         )
       } else {
         null
@@ -215,29 +223,29 @@ public fun QuackText(
     quoteableModifier =
       quoteableModifier
         .drawBehind {
+          val (leftQuote, rightQuote) = quoteMeasurerResults
           drawText(
-            textLayoutResult = quoteMeasurerResults,
+            textLayoutResult = leftQuote,
             color = QuackColor.Black.value,
             topLeft = Offset.Zero,
           )
           drawText(
-            textLayoutResult = quoteMeasurerResults,
+            textLayoutResult = rightQuote,
             color = QuackColor.Black.value,
             topLeft = Offset(
-              x = size.width - quoteMeasurerResults.size.width,
+              x = size.width - rightQuote.size.width,
               y = 0f,
             ),
           )
         }
         .layout { measurable, constraints ->
-          val maxWidth = constraints.maxWidth
           val quoteablePlaceable = measurable.measure(constraints.asLoose(width = true, height = true))
 
-          layout(width = maxWidth, height = constraints.minHeight) {
+          layout(width = constraints.maxWidth, height = constraints.minHeight) {
             quoteablePlaceable.place(
               x = Alignment.CenterHorizontally.align(
                 size = quoteablePlaceable.width,
-                space = maxWidth,
+                space = constraints.maxWidth,
                 layoutDirection = layoutDirection,
               ),
               y = 0,
