@@ -79,7 +79,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastFirstOrNull
 import androidx.compose.ui.util.fastForEach
 import kotlin.math.roundToInt
-import team.duckie.quackquack.aide.annotation.DecorateModifier
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackTypography
@@ -597,7 +596,6 @@ private val DefaultIconButtonSize = 24.dp
  * @param onClick [icon]이 클릭됐을 때 호출할 람다. 값이 제공되면 터치 영역이
  * 넓은 범위로 확장됩니다. 자세한 내용은 텍스트 필드 컴포저블 문서를 참고하세요.
  */
-@DecorateModifier
 @Stable
 public fun Modifier.defaultTextFieldIcon(
   icon: ImageVector,
@@ -658,7 +656,6 @@ public fun Modifier.defaultTextFieldIcon(
  * @param onClick [icon]이 클릭됐을 때 호출할 람다. 값이 제공되면 터치 영역이
  * 넓은 범위로 확장됩니다. 자세한 내용은 텍스트 필드 컴포저블 문서를 참고하세요.
  */
-@DecorateModifier
 @Stable
 public fun Modifier.filledTextFieldIcon(
   icon: ImageVector,
@@ -736,7 +733,6 @@ public val DefaultIndicatorColorGetterForDefaultTextField: (
  * [현재 텍스트 필드의 검증 상태][TextFieldValidationState], [현재 텍스트 필드의 스타일로 주어진 색상][QuackDefaultTextFieldStyle.TextFieldColors]이 인자로 제공되는
  * 람다가 제공됩니다.
  */
-@DecorateModifier
 @Stable
 public fun Modifier.defaultTextFieldIndicator(
   direction: VerticalDirection = VerticalDirection.Bottom,
@@ -785,7 +781,6 @@ public fun Modifier.defaultTextFieldIndicator(
  * @param typography base 영역과 highlight 영역 모두에 공통으로 사용할 타이포그래피
  * @param baseAndHighlightGap base 영역과 highlight 영역 사이 공간
  */
-@DecorateModifier
 @Stable
 public fun Modifier.counter(
   @IntRange(from = 1) maxLength: Int,

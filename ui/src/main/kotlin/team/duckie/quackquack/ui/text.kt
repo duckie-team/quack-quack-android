@@ -34,7 +34,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
-import team.duckie.quackquack.aide.annotation.DecorateModifier
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackTypography
@@ -74,7 +73,6 @@ private data class TextHighlightData(
  * @param texts [SpanStyle]을 적용할 텍스트 모음
  * @param style 적용할 [SpanStyle]
  */
-@DecorateModifier
 @Stable
 public fun Modifier.span(
   texts: List<String>,
@@ -95,7 +93,6 @@ public fun Modifier.span(
  * @param highlights 클릭 이벤트를 적용할 텍스트 모음
  * @param span 적용할 [SpanStyle]
  */
-@DecorateModifier
 @Stable
 public fun Modifier.highlight(
   highlights: List<HighlightText>,
@@ -120,7 +117,6 @@ public fun Modifier.highlight(
  * @param span 적용할 [SpanStyle]
  * @param globalOnClick [texts]에 전역으로 적용할 클릭 이벤트
  */
-@DecorateModifier
 @Stable
 public fun Modifier.highlight(
   texts: List<String>,

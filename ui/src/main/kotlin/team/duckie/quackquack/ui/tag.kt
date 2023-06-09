@@ -43,7 +43,6 @@ import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastFirstOrNull
-import team.duckie.quackquack.aide.annotation.DecorateModifier
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackBorder
 import team.duckie.quackquack.material.QuackColor
@@ -464,7 +463,6 @@ private data class TagTrailingIconData(
  * "후행 아이콘 영역"은 [iconSize] 사이즈의 영역이 아닙니다. 이는 자체 정책으로 결정됩니다.
  * 자세한 내용은 [QuackTag] 문서를 참고하세요.
  */
-@DecorateModifier
 @Stable
 public fun Modifier.trailingIcon(
   icon: ImageVector,
