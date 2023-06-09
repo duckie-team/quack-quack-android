@@ -49,18 +49,6 @@ const sidebars = {
         },
         {
           type: 'category',
-          label: 'aide',
-          link: {
-            type: 'doc',
-            id: 'guides/aide/overview',
-          },
-          items: [
-            'guides/aide/annotation',
-            'guides/aide/processor',
-          ],
-        },
-        {
-          type: 'category',
           label: 'casa',
           link: {
             type: 'doc',

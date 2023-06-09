@@ -17,7 +17,6 @@ import androidx.compose.animation.with
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
-// TODO(1): `animatedTargetState` 사용 린트 제공
 /**
  * 컴포저블의 상태에 변화가 있을 때 자동으로 해당 상태에 맞춰 애니메이션을 적용합니다.
  *

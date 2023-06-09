@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import androidx.compose.ui.util.fastFirstOrNull
-import team.duckie.quackquack.aide.annotation.DecorateModifier
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackBorder
 import team.duckie.quackquack.material.QuackColor
@@ -75,7 +74,6 @@ public interface QuackLargeButtonStyle : ButtonStyleMarker
 /** Medium Button 디자인 스펙을 나타냅니다.  */
 public interface QuackMediumButtonStyle : ButtonStyleMarker
 
-// TODO(3): 데코레이터 사용 불가능 린트 제공
 /** Small Button 디자인 스펙을 나타냅니다.  */
 public interface QuackSmallButtonStyle : ButtonStyleMarker
 
@@ -684,7 +682,6 @@ private data class ButtonIconData(
  * @param leadingIcon 왼쪽에 배치될 아이콘
  * @param trailingIcon 오른쪽에 배치될 아이콘
  */
-@DecorateModifier
 @Stable
 public fun Modifier.icons(
   leadingIcon: ImageVector? = null,

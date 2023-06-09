@@ -96,7 +96,6 @@ private class KeyedQuackComposedModifierN(
   }
 }
 
-// TODO(1): 반환 타입이 `Modifier.Element`일 경우 린트로 경고 표시
 /**
  * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
  *
