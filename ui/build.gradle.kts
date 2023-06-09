@@ -93,7 +93,6 @@ dependencies {
     projects.util.orArtifact(),
     projects.utilModifier.orArtifact(),
     projects.casaAnnotation.orArtifact(),
-    projects.aideAnnotation.orArtifact(),
   )
 
   testImplementations(
@@ -110,12 +109,8 @@ dependencies {
 
   kotlinCompilerPlugin(projects.sugarProcessor.orArtifact())
 
-  // Found more than one jar in the 'lintPublish' configuration. (compose lint)
-  // lintPublish(projects.aide.orArtifact())
-
   safeRunWithinDevelopmentMode {
     ksps(
-      projects.aideProcessor,
       // TODO: projects.casaProcessor,
     )
     // kotlinCompilerPlugin(projects.docusaurusIntegration)
