@@ -74,7 +74,6 @@ public interface QuackLargeButtonStyle : ButtonStyleMarker
 /** Medium Button 디자인 스펙을 나타냅니다.  */
 public interface QuackMediumButtonStyle : ButtonStyleMarker
 
-// TODO(3): 데코레이터 사용 불가능 린트 제공
 /** Small Button 디자인 스펙을 나타냅니다.  */
 public interface QuackSmallButtonStyle : ButtonStyleMarker
 

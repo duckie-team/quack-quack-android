@@ -336,7 +336,6 @@ public class QuackFilledTagDefaults internal constructor() :
   override fun toString(): String = this::class.simpleName!!
 }
 
-// TODO(3): 데코레이터 사용 불가능 린트 제공
 /** 태그 디자인 가이드의 `grayscale, flat` 디자인 스펙을 정의합니다. */
 @Immutable
 public class QuackGrayscaleFlatTagDefaults internal constructor() :
