@@ -19,11 +19,11 @@ QuackText(
 )
 ```
 
-QuackQuack is a highly automated, excellent stability, well-tested, flexibly pluggable, and Modifier-driven Jetpack Compose UI KIT.
+QuackQuack is a highly automated, excellent stability, well-tested, flexibly pluggable, and Modifier-driven Jetpack Compose design system.
 It makes the DUCKIE team's mobile products consistent and prioritizes user and developer experience.
 
 ---
 
 ## The full documentation is available on the project website: https://quackquack.duckie.team/android 
 
-## work-in-progress 🦆🦆🦆
+## work-in-progress ☕☕☕
