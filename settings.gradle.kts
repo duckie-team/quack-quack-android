@@ -56,4 +56,5 @@ include(
   ":screenshot-matcher",
   ":bom",
   ":rubberdoc",
+  ":rubberdoc-material",
 )
