@@ -15,7 +15,6 @@ dependencies {
     projects.bom.dependencyProject,
     projects.uiSample.dependencyProject,
     projects.utilBackendTest.dependencyProject,
-    projects.rubberdoc.dependencyProject,
     projects.catalog.dependencyProject,
     projects.materialIconGenerator.dependencyProject,
   )

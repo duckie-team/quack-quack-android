@@ -55,6 +55,4 @@ include(
   ":casa-processor",
   ":screenshot-matcher",
   ":bom",
-  ":rubberdoc",
-  ":rubberdoc-material",
 )
