@@ -8,35 +8,18 @@
 
 ```kotlin
 implementation(platform("team.duckie.quackquack.bom:bom:${version}"))
-
-implementation("team.duckie.quackquack.runtime:runtime")
-implementation("team.duckie.quackquack.material:material")
-implementation("team.duckie.quackquack.animation:animation")
-implementation("team.duckie.quackquack.ui:ui")
-
-// "kotlinCompilerPluginClasspath"("team.duckie.quackquack.sugar:sugar-processor:${version}")
-implementation("team.duckie.quackquack.sugar:sugar-material")
-
-lintChecks("team.duckie.quackquack.aide:aide:${version}")
-implementation("team.duckie.quackquack.aide:aide-annotation")
-ksp("team.duckie.quackquack.aide:aide-processor:${version}")
-
-implementation("team.duckie.quackquack.casa:casa-ui")
-implementation("team.duckie.quackquack.casa:casa-annotation")
-implementation("team.duckie.quackquack.casa:casa-material")
-// ksp("team.duckie.quackquack.casa:casa-processor:${version}")
-
-implementation("team.duckie.quackquack.util:util")
 ```
+
+이용 가능한 모든 아티팩트는 [maven central repository](https://central.sonatype.com/search?q=team.duckie.quackquack)에서 확인하실 수 있습니다.
 
 #### Snapshot
 
-개발 중 버전은 [Sonatype의 snapshot 저장소](https://s01.oss.sonatype.org/content/repositories/snapshots/team/duckie/quackquack/)에 배포됩니다.
+개발 중 버전은 [snapshot 저장소](https://s01.oss.sonatype.org/content/repositories/snapshots/team/duckie/quackquack/)에 배포됩니다.
 
 ```kotlin
 repositories {
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-        mavenContent { snapshotsOnly() }
-    }
+  maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+    mavenContent { snapshotsOnly() }
+  }
 }
 ```

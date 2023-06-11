@@ -1,1 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="41" height="20" aria-label="sugar" role="img"><title>sugar</title><g shape-rendering="crispEdges"><rect width="0" height="20" fill="#bfd4f2"/><rect width="41" height="20" x="0" fill="#bfd4f2"/></g><g fill="#fff" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="110" text-anchor="middle" text-rendering="geometricPrecision"><text x="205" y="140" fill="#000" textLength="310" transform="scale(.1)">sugar</text></g></svg>
+<!--
+  - Designed and developed by Duckie Team 2023.
+  -
+  - Licensed under the MIT.
+  - Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
+  -->
+
+<svg xmlns="http://www.w3.org/2000/svg" width="41" height="20" aria-label="sugar" role="img">
+  <title>sugar</title>
+  <g shape-rendering="crispEdges">
+    <rect width="0" height="20" fill="#bfd4f2"/>
+    <rect width="41" height="20" x="0" fill="#bfd4f2"/>
+  </g>
+  <g fill="#fff" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="110" text-anchor="middle" text-rendering="geometricPrecision">
+    <text x="205" y="140" fill="#000" textLength="310" transform="scale(.1)">sugar</text>
+  </g>
+</svg>
