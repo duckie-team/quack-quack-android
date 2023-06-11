@@ -33,9 +33,9 @@ true
 ```
 
 <img
-    src={require('./images/simple-psi-defaultvalue.jpeg').default}
-    style={{width: '60%'}}
-    alt='simple-psi-defaultvalue'
+  src={require('./images/simple-psi-defaultvalue.jpeg').default}
+  style={{width: '60%'}}
+  alt='simple-psi-defaultvalue'
 />
 
 아래와 같이 sibling이 포함된 복잡한 PSI tree를 갖는 expression이라면 파싱의 난이도가 매우 상승합니다.
@@ -45,9 +45,9 @@ listOf(1, 2, 3)
 ```
 
 <img
-    src={require('./images/complex-psi-defaultvalue.jpeg').default}
-    style={{width: '60%'}}
-    alt='complex-psi-defaultvalue'
+  src={require('./images/complex-psi-defaultvalue.jpeg').default}
+  style={{width: '60%'}}
+  alt='complex-psi-defaultvalue'
 />
 
 따라서 default value까지 복사하여 sugar component 코드를 생성하는 건 무리라고 판단하고 default value 지원을 TODO로 남기려 했지만, 컴포즈 환경에서 default value가 없다는 건 개발자에게 너무 치명적인 경험 저하라고 생각하였습니다.
@@ -62,7 +62,7 @@ listOf(1, 2, 3)
 2. 생성할 코드의 default value는 `Any() as T`와 같은 식으로 컴파일 에러만 나지 않게 지정한다.
 3. 생성된 코드의 default value IR을 Ir Transformer를 통해 Ir Visitor에서 저장한 Ir로 교체한다.
 
-위와 같은 방법이 유효함을 로컬에서 증명하였고 `sugar-processor`가 `sugar-processor-kotlinc`로 바뀌게 됩니다([`0416f53`](https://github.com/duckie-team/quack-quack-android/pull/495/commits/0416f53e2d59add7fc8e0e2772b2fb459b216866)). 
+위와 같은 방법이 유효함을 로컬에서 증명하였고 `sugar-processor`가 `sugar-processor-kotlinc`로 바뀌게 됩니다([`0416f53`](https://github.com/duckie-team/quack-quack-android/pull/495/commits/0416f53e2d59add7fc8e0e2772b2fb459b216866)).
 
 ## Ir Visit
 

@@ -1,9 +1,18 @@
+/*
+ * Designed and developed by Duckie Team 2023.
+ *
+ * Licensed under the MIT.
+ * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
+ */
+
 const uiDescription = '꽥꽥의 핵심 모듈인 ui를 배워봅시다!'
 
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
   docs: [
     'introduction',
+    'why-adopt',
+    'mental-model',
     {
       type: 'category',
       label: 'Guides',
@@ -14,7 +23,6 @@ const sidebars = {
         keywords: ['guides'],
       },
       items: [
-        'guides/documentation-style',
         'guides/runtime',
         'guides/material',
         'guides/animation',
@@ -29,13 +37,9 @@ const sidebars = {
             keywords: ['ui'],
           },
           items: [
-            'guides/ui/why-adopt',
-            'guides/ui/setup',
-            'guides/ui/mental-model',
             'guides/ui/components',
             'guides/ui/design-tokens',
             'guides/ui/decorators',
-            'guides/ui/best-practices',
           ],
         },
         {
@@ -76,13 +80,32 @@ const sidebars = {
         },
       ],
     },
+    'best-practices',
     'development',
     'architecture',
     'modularization',
     'testing',
     'contributing',
     'resources',
-    'releases',
+    {
+      type: 'category',
+      label: 'Releases',
+      link: {
+        type: 'generated-index',
+        title: 'QuackQuack Releases',
+        description: 'Every release includes a BOM updates. Check the GitHub release page for the BOM version.',
+        keywords: ['release note'],
+      },
+      items: [
+        'relnotes/material',
+        'relnotes/material-icon',
+        'relnotes/animation',
+        'relnotes/ui',
+        'relnotes/ui-plugin',
+        'relnotes/ui-plugin-image',
+        'relnotes/ui-plugin-image-gif',
+      ],
+    },
     'license',
   ],
 };

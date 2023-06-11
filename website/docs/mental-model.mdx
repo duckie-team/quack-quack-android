@@ -2,14 +2,21 @@
 description: 새로운 꽥꽥의 핵심 컨셉
 ---
 
+
 import 'react-tooltip/dist/react-tooltip.css'
-import { Tooltip } from 'react-tooltip'
+import {Tooltip} from 'react-tooltip'
 
 import LargeButtonStyleGuide from './images/large-button-style-guide.svg';
 
 # Thinking in QuackQuack 2
 
-꽥꽥은 **Jetpack Compose를 이용한 [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier) 기반의 UI Kit** 입니다. 꽥꽥을 제대로 사용하기 위해서는 디자인 토큰(design token)과 데코레이터(decorator)라는 개념 이해가 중요합니다. 이 문서는 해당 개념들을 설명합니다.
+:::caution
+
+이 문서는 오래되었습니다. 최신화가 필요합니다.
+
+:::
+
+꽥꽥은 **Jetpack Compose를 이용한 [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier) 기반의 디자인 시스템**입니다. 꽥꽥을 제대로 사용하기 위해서는 디자인 토큰(design token)과 데코레이터(decorator)라는 개념 이해가 중요합니다. 이 문서는 해당 개념들을 설명합니다.
 
 :::info
 
@@ -26,7 +33,7 @@ import LargeButtonStyleGuide from './images/large-button-style-guide.svg';
 fun ComponentName(
   modifier: Modifier = Modifier,
   token: DesignToken, // 디자인 토큰 인자
-  // 이 컴포넌트에서 디자인 토큰 무관으로 공통되는 값들이 추가 인자로 제공됨 
+  // 이 컴포넌트에서 디자인 토큰 무관으로 공통되는 값들이 추가 인자로 제공됨
   // 예시) label: String, onClick: () -> Unit, enabled: Boolean, ... 기타 등등
 )
 ```
@@ -85,7 +92,7 @@ outlined variant에는 오른쪽 `X` 아이콘이 없지만, filled variant에�
 
 :::
 
-컴포넌트에 데코레이터 추가는 `Modifier`를 이용해 가능합니다. 데코레이터 `Modifier`는 `Modifier.{데코레이터 이름}(데코레이터 인자)`와 같은 형식으로 제공됩니다. 
+컴포넌트에 데코레이터 추가는 `Modifier`를 이용해 가능합니다. 데코레이터 `Modifier`는 `Modifier.{데코레이터 이름}(데코레이터 인자)`와 같은 형식으로 제공됩니다.
 
 버튼의 데코레이터는 왼쪽 아이콘과 오른쪽 아이콘을 나타냅니다. 따라서 `Modifier.icons(leadingIcon: QuackIcon, trailingIcon: QuackIcon)`으로 데코레이터 `Modifier`가 제공됩니다.
 
@@ -114,4 +121,4 @@ outlined variant에는 오른쪽 `X` 아이콘이 없지만, filled variant에�
 
 ### Modifier 순서 {#decorator-order}
 
-Jetpack Compose에서 기본으로 제공되는 `Modifier`는 적용 순서가 아주 중요합니다. 하지만 꽥꽥의 데코레이터 `Modifier`는 [꽥꽥 런타임](../runtime.mdx)에 의해 별도로 처리되므로 적용 순서의 영향을 받지 않습니다.
+Jetpack Compose에서 기본으로 제공되는 `Modifier`는 적용 순서가 아주 중요합니다. 하지만 꽥꽥의 데코레이터 `Modifier`는 [꽥꽥 런타임](/guides/runtime.mdx)에 의해 별도로 처리되므로 적용 순서의 영향을 받지 않습니다.
