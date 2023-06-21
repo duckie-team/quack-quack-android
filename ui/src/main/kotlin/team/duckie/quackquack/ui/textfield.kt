@@ -5,8 +5,6 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:OptIn(ExperimentalTextApi::class)
-
 package team.duckie.quackquack.ui
 
 import android.view.View
@@ -57,7 +55,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.SpanStyle
@@ -1753,10 +1750,12 @@ public fun QuackBaseDefaultTextField(
                         minus(counterTextMeasureResult.size.height / 2)
                       }
                     } else {
-                      Alignment.CenterVertically.align(
-                        size = counterTextMeasureResult.size.height,
-                        space = size.height.roundToInt(),
-                      ).toFloat()
+                      Alignment.CenterVertically
+                        .align(
+                          size = counterTextMeasureResult.size.height,
+                          space = size.height.roundToInt(),
+                        )
+                        .toFloat()
                     },
                   ),
                 )
