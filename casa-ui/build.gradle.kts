@@ -30,7 +30,7 @@ dependencies {
     libs.kotlin.collections.immutable,
     libs.compose.activity, // needed for BackHandler
     libs.compose.material3,
-    libs.compose.uiutil,
+    libs.compose.ui.util,
   )
   androidTestImplementation(libs.test.junit.compose)
 }

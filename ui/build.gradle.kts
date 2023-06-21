@@ -83,7 +83,8 @@ dependencies {
   )
   implementations(
     libs.coil.compose,
-    libs.compose.ui,
+    libs.compose.ui.core,
+    libs.compose.ui.text,
     libs.compose.foundation,
     libs.androidx.annotation,
     projects.runtime.orArtifact(),
