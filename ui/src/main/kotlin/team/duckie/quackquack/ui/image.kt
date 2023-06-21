@@ -46,8 +46,10 @@ import team.duckie.quackquack.util.modifier.getElementByTypeOrNull
  * @param contentScale 아이콘에 적용할 [contentScale][ContentScale]
  */
 @Deprecated(
-  message = "Displaying QuackIcon as QuackImage is no longer recommended; instead, use QuackIcon Composable.",
+  message = "Displaying QuackIcon as QuackImage is no longer recommended; instead, use QuackIcon Composable. " +
+    "This API will be removed in the 2.0.0 stable release.",
   replaceWith = ReplaceWith("QuackIcon"),
+  level = DeprecationLevel.ERROR,
 )
 @NoSugar
 @NonRestartableComposable

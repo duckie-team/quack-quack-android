@@ -28,7 +28,7 @@ android {
 
 dependencies {
   implementations(
-    libs.compose.ui,
+    libs.compose.ui.core,
     projects.util.orArtifact(),
   )
   testImplementations(

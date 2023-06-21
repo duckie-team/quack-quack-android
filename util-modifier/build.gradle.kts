@@ -18,7 +18,7 @@ android {
 
 dependencies {
   implementations(
-    libs.compose.ui,
-    libs.compose.uiutil,
+    libs.compose.ui.core,
+    libs.compose.ui.util,
   )
 }

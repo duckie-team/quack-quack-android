@@ -34,7 +34,7 @@ android {
 dependencies {
   implementations(
     libs.compose.runtime,
-    libs.compose.ui,
+    libs.compose.ui.core,
   )
   testImplementations(
     projects.utilModifier,
