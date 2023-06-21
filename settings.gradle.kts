@@ -53,6 +53,5 @@ include(
   ":casa-annotation",
   ":casa-material",
   ":casa-processor",
-  ":screenshot-matcher",
   ":bom",
 )

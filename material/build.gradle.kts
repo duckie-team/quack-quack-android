@@ -38,7 +38,7 @@ dependencies {
     projects.materialIcon.orArtifact(),
   )
   implementations(
-    libs.compose.uiutil,
+    libs.compose.ui.util,
     libs.compose.material.ripple,
     libs.androidx.core.ktx, // needed for androidx.core.graphics (used in SquircleShape)
     projects.util.orArtifact(),

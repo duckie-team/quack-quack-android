@@ -17,6 +17,6 @@ android {
 }
 
 dependencies {
-  api(libs.compose.uiutil)
+  api(libs.compose.ui.util)
   implementation(libs.compose.foundation)
 }
