@@ -28,6 +28,10 @@ formatting:
     active: false
   Indentation:
     indentSize: 2
+  PropertyWrapping:
+    active: false
+  ParameterWrapping:
+    active: false
   ParameterListWrapping:
     active: false
   ArgumentListWrapping:
