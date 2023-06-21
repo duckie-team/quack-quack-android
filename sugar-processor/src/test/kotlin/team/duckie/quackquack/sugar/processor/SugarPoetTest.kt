@@ -84,7 +84,6 @@ import kotlin.Boolean
 import kotlin.OptIn
 import kotlin.String
 import kotlin.Suppress
-import kotlin.Unit
 import team.duckie.quackquack.casa.`annotation`.Casa
 import team.duckie.quackquack.casa.`annotation`.SugarGeneratorUsage
 import team.duckie.quackquack.sugar.material.SugarCompilerApi
@@ -101,7 +100,7 @@ public fun QuackOneText(
   text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
-): Unit {
+) {
   QuackText(
     modifier = modifier,
     text = text,
@@ -120,7 +119,7 @@ public fun QuackTwoText(
   text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
-): Unit {
+) {
   QuackText(
     modifier = modifier,
     text = text,
@@ -139,7 +138,7 @@ public fun QuackThreeText(
   text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
-): Unit {
+) {
   QuackText(
     modifier = modifier,
     text = text,
@@ -210,7 +209,6 @@ import kotlin.Boolean
 import kotlin.OptIn
 import kotlin.String
 import kotlin.Suppress
-import kotlin.Unit
 import team.duckie.quackquack.casa.`annotation`.Casa
 import team.duckie.quackquack.casa.`annotation`.SugarGeneratorUsage
 import team.duckie.quackquack.sugar.material.SugarCompilerApi
@@ -238,7 +236,7 @@ public fun QuackAwesomeOne(
   text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
-): Unit {
+) {
   QuackText(
     modifier = modifier,
     text = text,
@@ -268,7 +266,7 @@ public fun QuackAwesomeTwo(
   text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
-): Unit {
+) {
   QuackText(
     modifier = modifier,
     text = text,
@@ -298,7 +296,7 @@ public fun QuackAwesomeThree(
   text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
-): Unit {
+) {
   QuackText(
     modifier = modifier,
     text = text,
@@ -360,7 +358,6 @@ import kotlin.Boolean
 import kotlin.OptIn
 import kotlin.String
 import kotlin.Suppress
-import kotlin.Unit
 import team.duckie.quackquack.casa.`annotation`.Casa
 import team.duckie.quackquack.casa.`annotation`.SugarGeneratorUsage
 import team.duckie.quackquack.sugar.material.SugarCompilerApi
@@ -377,7 +374,7 @@ public fun QuackOneText(
   text: String,
   singleLine: Boolean = sugar(),
   softWrap: Boolean = sugar(),
-): Unit {
+) {
   QuackText(
     modifier = modifier,
     text = text,
@@ -452,7 +449,7 @@ import team.duckie.quackquack.sugar.material.sugar
 @Composable
 @NonRestartableComposable
 @SugarRefer("QuackCheckbox")
-public fun QuackOneCheckbox(onCheckChanged: (P0: Boolean) -> Unit): Unit {
+public fun QuackOneCheckbox(onCheckChanged: (P0: Boolean) -> Unit) {
   QuackCheckbox(
     style = AwesomeType.One,
     onCheckChanged = onCheckChanged,
@@ -463,7 +460,7 @@ public fun QuackOneCheckbox(onCheckChanged: (P0: Boolean) -> Unit): Unit {
 @Composable
 @NonRestartableComposable
 @SugarRefer("QuackCheckbox2")
-public fun QuackOneCheckbox2(onCheckChanged: suspend (P0: Boolean, P1: Boolean) -> Boolean): Unit {
+public fun QuackOneCheckbox2(onCheckChanged: suspend (P0: Boolean, P1: Boolean) -> Boolean) {
   QuackCheckbox2(
     style = AwesomeType.One,
     onCheckChanged = onCheckChanged,
