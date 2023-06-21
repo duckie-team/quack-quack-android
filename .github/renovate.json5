@@ -22,11 +22,11 @@
       ],
     },
     {
-      "groupName": "Compose Compiler unstable updates",
-      "groupSlug": "kotlin",
+      "groupName": "Compose unstable updates",
+      "groupSlug": "compose",
       "ignoreUnstable": false,
-      "matchPackagePrefixes": [
-        "androidx.compose.compiler",
+      "matchPackagePatterns": [
+        "androidx.compose.*",
       ],
     },
     {
