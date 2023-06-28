@@ -526,7 +526,7 @@ public class QuackPrimaryOutlinedRoundSmallButtonDefaults internal constructor()
 
   override var borderThickness: Dp = 1.dp
 
-  override var typography: QuackTypography = QuackTypography.Subtitle2
+  override var typography: QuackTypography = QuackTypography.Body2
   override var disabledTypography: QuackTypography = typography
 
   @Stable
