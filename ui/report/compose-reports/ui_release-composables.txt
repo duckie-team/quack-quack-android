@@ -1,8 +1,8 @@
 scheme("[androidx.compose.ui.UiComposable]") fun QuackButton(
+  stable text: String
+  stable style: QuackButtonStyle<T>
   stable modifier: Modifier? = @static Companion
   stable enabled: Boolean = @static true
-  stable style: QuackButtonStyle<T>
-  stable text: String
   stable rippleEnabled: Boolean = @static true
   stable onClick: Function0<Unit>
 )
@@ -237,11 +237,11 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackText
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackClickableText(
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ClickableText(
   stable modifier: Modifier
   stable text: String
   stable highlightData: TextHighlightData
-  stable style: QuackTypography
+  stable style: TextStyle
   stable softWrap: Boolean
   stable overflow: TextOverflow
   stable maxLines: Int
@@ -314,9 +314,64 @@ scheme("[androidx.compose.ui.UiComposable]") fun QuackDefaultTextField(
 }
 , $composer, 0)
 )
-fun rememberLtrTextMeasurer(
-  stable cacheSize: Int = @static 8
-): TextMeasurer
+fun QuackFilledTextField(
+  stable value: String
+  stable onValueChange: Function1<@[ParameterName(name = 'value')] String, Unit>
+  stable style: QuackTextFieldStyle<Style, TextFieldColors>
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable readOnly: Boolean = @static false
+  stable placeholderText: String? = @static null
+  stable placeholderStrategy: TextFieldPlaceholderStrategy? = @static TextFieldPlaceholderStrategy.Hidable
+  stable keyboardOptions: KeyboardOptions? = @static Companion.Default
+  stable keyboardActions: KeyboardActions? = @static Companion.Default
+  stable singleLine: Boolean = @static false
+  stable minLines: Int = @static 1
+  stable maxLines: Int = @dynamic if (singleLine) {
+  1
+} else {
+  Companion  .  MAX_VALUE
+}
+
+  stable visualTransformation: VisualTransformation? = @static Companion.None
+  stable onTextLayout: Function1<@[ParameterName(name = 'layoutResult')] TextLayoutResult, Unit>? = @static { it: TextLayoutResult ->
+
+}
+
+  stable interactionSource: MutableInteractionSource? = @static remember({
+  MutableInteractionSource  (  )
+}
+, $composer, 0)
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackFilledTextField(
+  stable value: TextFieldValue
+  stable onValueChange: Function1<@[ParameterName(name = 'value')] TextFieldValue, Unit>
+  stable style: QuackTextFieldStyle<Style, TextFieldColors>
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable readOnly: Boolean = @static false
+  stable placeholderText: String? = @static null
+  stable placeholderStrategy: TextFieldPlaceholderStrategy? = @static TextFieldPlaceholderStrategy.Hidable
+  stable keyboardOptions: KeyboardOptions? = @static Companion.Default
+  stable keyboardActions: KeyboardActions? = @static Companion.Default
+  stable singleLine: Boolean = @static false
+  stable minLines: Int = @static 1
+  stable maxLines: Int = @dynamic if (singleLine) {
+  1
+} else {
+  Companion  .  MAX_VALUE
+}
+
+  stable visualTransformation: VisualTransformation? = @static Companion.None
+  stable onTextLayout: Function1<@[ParameterName(name = 'layoutResult')] TextLayoutResult, Unit>? = @static { it: TextLayoutResult ->
+
+}
+
+  stable interactionSource: MutableInteractionSource? = @static remember({
+  MutableInteractionSource  (  )
+}
+, $composer, 0)
+)
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBaseDefaultTextField(
   stable value: TextFieldValue
   stable onValueChange: Function1<@[ParameterName(name = 'value')] TextFieldValue, Unit>
@@ -332,17 +387,18 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBase
   stable maxLines: Int
   stable visualTransformation: VisualTransformation
   stable onTextLayout: Function1<@[ParameterName(name = 'layoutResult')] TextLayoutResult, Unit>
-  stable validationState: TextFieldValidationState
-  stable validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy
+  stable validationState: TextFieldValidationState?
+  stable validationLabelVisibilityStrategy: TextFieldValidationLabelVisibilityStrategy?
   stable interactionSource: MutableInteractionSource
   stable backgroundColor: QuackColor
   stable contentPadding: PaddingValues?
   stable contentSpacedBy: Dp
-  stable validationLabelAndIndicatorSpacedBy: Dp
+  stable validationLabelAndIndicatorSpacedBy: Dp?
   stable typography: QuackTypography
   stable placeholderTypography: QuackTypography
-  stable errorTypography: QuackTypography
-  stable successTypography: QuackTypography
+  stable errorTypography: QuackTypography?
+  stable successTypography: QuackTypography?
+  stable textFieldType: QuackTextFieldType
   stable leadingIcon: ImageVector?
   stable leadingIconSize: Dp?
   stable leadingIconTint: QuackColor?
@@ -364,8 +420,10 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBase
   stable counterBaseAndHighlightGap: Dp?
   stable counterMaxLength: Int?
 )
-fun QuackFilledTextField()
 fun QuackOutlinedTextField()
+fun rememberLtrTextMeasurer(
+  stable cacheSize: Int = @static 8
+): TextMeasurer
 readonly inline fun currentFontScale(
   stable content: Function1<@[ParameterName(name = 'fontScale')] Float, T>
 ): T

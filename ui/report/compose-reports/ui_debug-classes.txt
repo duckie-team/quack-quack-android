@@ -160,7 +160,7 @@ stable class TextFieldColors {
 }
 stable class TextFieldColors {
   stable val backgroundColor: QuackColor?
-  stable val backgroundColorGetter: Function2<@[ParameterName(name = 'text')] String, @[ParameterName(name = 'focusInteraction')] FocusInteraction, QuackColor>?
+  stable val backgroundColorGetter: Function2<@[ParameterName(name = 'text')] String, @[ParameterName(name = 'focusInteraction')] FocusInteraction?, QuackColor>?
   stable val contentColor: QuackColor
   stable val placeholderColor: QuackColor
   <runtime stability> = Stable
