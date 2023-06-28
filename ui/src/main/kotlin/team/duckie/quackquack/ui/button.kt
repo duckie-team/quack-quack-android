@@ -526,7 +526,7 @@ public class QuackPrimaryOutlinedRoundSmallButtonDefaults internal constructor()
 
   override var borderThickness: Dp = 1.dp
 
-  override var typography: QuackTypography = QuackTypography.Subtitle2
+  override var typography: QuackTypography = QuackTypography.Body2
   override var disabledTypography: QuackTypography = typography
 
   @Stable
@@ -761,10 +761,10 @@ public fun Modifier.icons(
 @NonRestartableComposable
 @ExperimentalQuackQuackApi
 public fun <T : ButtonStyleMarker> QuackButton(
+  @CasaValue("\"QuackButton is experimental\"") text: String,
+  @SugarToken @CasaValue("QuackButtonStyle.Large") style: QuackButtonStyle<T>,
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
-  @SugarToken @CasaValue("QuackButtonStyle.Large") style: QuackButtonStyle<T>,
-  @CasaValue("\"QuackButton is experimental\"") text: String,
   rippleEnabled: Boolean = true,
   @CasaValue("{}") onClick: () -> Unit,
 ) {
@@ -836,24 +836,7 @@ public fun <T : ButtonStyleMarker> QuackButton(
 
   val currentOnClick = onClick.takeIf { enabled }
 
-  val inspectableModifier = style
-    .wrappedDebugInspectable(composeModifier)
-    .wrappedDebugInspectable {
-      name = "QuackButton"
-      properties["text"] = text
-      properties["backgroundColor"] = currentBackgroundColor
-      properties["iconColor"] = iconColor
-      properties["rippleColor"] = rippleColor
-      properties["rippleEnabled"] = currentRippleEnabled
-      properties["shape"] = shape
-      properties["border"] = currentBorder
-      properties["typography"] = currentTypography
-      properties["contentPadding"] = currentContentPadding
-      properties["iconSpacedBy"] = iconSpacedBy
-      properties["leadingIcon"] = leadingIcon
-      properties["trailingIcon"] = trailingIcon
-      properties["onClick"] = currentOnClick
-    }
+  val inspectableModifier = style.wrappedDebugInspectable(composeModifier)
 
   QuackBaseButton(
     modifier = inspectableModifier,
@@ -880,6 +863,7 @@ private const val TrailingIconLayoutId = "QuackBaseButtonTrailingIcon"
 // TODO: Modifier.testTag 별도 모듈로 분리 (아마 util-test)
 //       isQuackQuackTestTagEnabled 로컬 변수 boolean 값에 따라 활성화해야 함
 //       (클라이언트에서 test tag 중복 방지)
+// XXX - testTag를 product code에서 설정하면 안됨. test code에서만 testTag 설정하도록 변경.
 /**
  * 고유한 배치 정책으로 버튼을 그립니다. 배치 정책의 자세한 정보는 [QuackButton] 문서를 참고하세요.
  *
