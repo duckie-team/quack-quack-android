@@ -9,8 +9,8 @@ package internal
 
 internal object ApplicationConstants {
   const val MinSdk = 21
-  const val TargetSdk = 33
-  const val CompileSdk = 33
+  const val TargetSdk = 34
+  const val CompileSdk = 34
   const val VersionCode = 2000
   const val VersionName = "2.0.0"
   val JavaVersion = org.gradle.api.JavaVersion.VERSION_17
