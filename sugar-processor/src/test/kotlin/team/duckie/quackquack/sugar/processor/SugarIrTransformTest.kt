@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:OptIn(ExperimentalCompilerApi::class, UnsafeCastFunction::class)
+@file:OptIn(ExperimentalCompilerApi::class)
 @file:Suppress(
   "RedundantUnitReturnType",
   "RedundantVisibilityModifier",
@@ -27,7 +27,6 @@ import io.kotest.engine.spec.tempdir
 import io.kotest.matchers.shouldBe
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.JvmTarget
-import org.jetbrains.kotlin.utils.addToStdlib.UnsafeCastFunction
 import org.jetbrains.kotlin.utils.addToStdlib.cast
 
 class SugarIrTransformTest : StringSpec() {
