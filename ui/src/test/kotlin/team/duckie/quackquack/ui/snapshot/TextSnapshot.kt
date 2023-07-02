@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.captureRoboImage
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -52,7 +51,6 @@ class TextSnapshot {
     }
   }
 
-  @Ignore("Using Quote typography results in an NPE. But why?")
   @Config(qualifiers = RobolectricDeviceQualifiers.Pixel7)
   @Test
   fun QuackText_Quote() {

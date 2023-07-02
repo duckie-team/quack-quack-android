@@ -165,9 +165,9 @@ internal object QuackTextErrors {
 @SugarName(SugarName.PREFIX_NAME + SugarName.TOKEN_NAME)
 @Composable
 public fun QuackText(
-  modifier: Modifier = Modifier,
   @CasaValue("\"QuackText\"") text: String,
   @SugarToken typography: QuackTypography,
+  modifier: Modifier = Modifier,
   singleLine: Boolean = false,
   softWrap: Boolean = true,
   overflow: TextOverflow = TextOverflow.Ellipsis,
@@ -232,13 +232,17 @@ public fun QuackText(
           )
         }
         .layout { measurable, constraints ->
-          val quoteablePlaceable = measurable.measure(constraints.asLoose(width = true, height = true))
+          val looseConstraints = constraints.asLoose(width = true, height = true)
+          val quoteablePlaceable = measurable.measure(looseConstraints)
 
-          layout(width = constraints.maxWidth, height = constraints.minHeight) {
+          val width = constraints.maxWidth
+          val height = quoteablePlaceable.height
+
+          layout(width = width, height = height) {
             quoteablePlaceable.place(
               x = Alignment.CenterHorizontally.align(
                 size = quoteablePlaceable.width,
-                space = constraints.maxWidth,
+                space = width,
                 layoutDirection = layoutDirection,
               ),
               y = 0,
