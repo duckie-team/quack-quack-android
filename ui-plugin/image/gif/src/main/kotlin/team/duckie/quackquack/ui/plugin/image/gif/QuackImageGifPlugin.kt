@@ -18,11 +18,12 @@ import team.duckie.quackquack.ui.plugin.image.QuackImagePlugin
  * 내부적으로 [QuackImagePlugin.CoilImageLoader]를 사용합니다.
  */
 @Stable
-public val QuackImageGifPlugin: QuackImagePlugin.CoilImageLoader = QuackImagePlugin.CoilImageLoader { _, _, _, _ ->
-  components {
-    add(
-      if (Build.VERSION.SDK_INT >= 28) ImageDecoderDecoder.Factory()
-      else GifDecoder.Factory(),
-    )
+public val QuackImageGifPlugin: QuackImagePlugin.CoilImageLoader =
+  QuackImagePlugin.CoilImageLoader { _, _, _, _ ->
+    components {
+      add(
+        if (Build.VERSION.SDK_INT >= 28) ImageDecoderDecoder.Factory()
+        else GifDecoder.Factory(),
+      )
+    }
   }
-}

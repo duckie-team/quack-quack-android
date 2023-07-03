@@ -126,25 +126,29 @@ public fun QuackImage(
   contentScale: ContentScale = ContentScale.Fit,
   contentDescription: String? = null,
 ) {
+  val context = LocalContext.current
+  val localQuackPlugins = LocalQuackPlugins.current
   val currentColorFilter = remember(tint) { tint.toColorFilterOrNull() }
   val imageLoader =
-    LocalQuackPlugins.current.takeIf { it != EmptyQuackPlugins }?.let { plugins ->
-      val context = LocalContext.current
-      val quackPluginLocal = modifier.getElementByTypeOrNull<QuackPluginLocal>()
-      val imageLoaderPlugins = plugins.lastByTypeOrNull<QuackImagePlugin.CoilImageLoader>()
+    remember(localQuackPlugins, src, modifier, contentDescription) {
+      localQuackPlugins.takeIf { it != EmptyQuackPlugins }?.let { plugins ->
+        val imageLoaderPlugins = plugins.lastByTypeOrNull<QuackImagePlugin.CoilImageLoader>()
+          ?: return@let null
+        val quackPluginLocal = modifier.getElementByTypeOrNull<QuackPluginLocal>()
 
-      var builder = ImageLoader.Builder(context)
-      if (imageLoaderPlugins != null) {
-        with(imageLoaderPlugins) {
-          builder = builder.builder(
-            context = context,
-            src = src,
-            contentDescription = contentDescription,
-            quackPluginLocal = quackPluginLocal,
-          )
-        }
+        val builder =
+          with(imageLoaderPlugins) {
+            ImageLoader
+              .Builder(context)
+              .quackBuild(
+                context = context,
+                src = src,
+                contentDescription = contentDescription,
+                quackPluginLocal = quackPluginLocal,
+              )
+          }
+        builder.build()
       }
-      builder.build()
     } ?: @Suppress("DEPRECATION") LocalImageLoader.current
 
   AsyncImage(

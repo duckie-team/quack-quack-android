@@ -15,6 +15,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
  * 만약 등록된 플러그인이 없다면 [EmptyQuackPlugins]를 반환합니다.
  * 플러그인을 등록하려면 [rememberQuackPlugins]를 사용하세요.
  */
-public val LocalQuackPlugins: ProvidableCompositionLocal<QuackPlugins> = staticCompositionLocalOf {
-  EmptyQuackPlugins
-}
+public val LocalQuackPlugins: ProvidableCompositionLocal<QuackPlugins> =
+  staticCompositionLocalOf {
+    EmptyQuackPlugins
+  }
