@@ -1,13 +1,1 @@
-<!--
-  - Designed and developed by Duckie Team 2023.
-  -
-  - Licensed under the MIT.
-  - Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
-  -->
-
-<svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
-  <path d="M11.1329 4.867L4.86694 11.133" stroke="#222222" stroke-linecap="round" stroke-linejoin="round"
-    stroke-width="1.5" />
-  <path d="M4.86694 4.867L11.1329 11.133" stroke="#222222" stroke-linecap="round" stroke-linejoin="round"
-    stroke-width="1.5" />
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><path stroke="#222" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.1329 4.867L4.86694 11.133"/><path stroke="#222" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.86694 4.867L11.1329 11.133"/></svg>

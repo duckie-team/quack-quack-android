@@ -1,17 +1,1 @@
-<!--
-  - Designed and developed by Duckie Team 2023.
-  -
-  - Licensed under the MIT.
-  - Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
-  -->
-
-<svg xmlns="http://www.w3.org/2000/svg" width="49" height="20" aria-label="catalog" role="img">
-  <title>catalog</title>
-  <g shape-rendering="crispEdges">
-    <rect width="0" height="20" fill="#8ed610"/>
-    <rect width="49" height="20" x="0" fill="#8ed610"/>
-  </g>
-  <g fill="#fff" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="110" text-anchor="middle" text-rendering="geometricPrecision">
-    <text x="245" y="140" fill="#000" textLength="390" transform="scale(.1)">catalog</text>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="49" height="20" aria-label="catalog" role="img"><title>catalog</title><g shape-rendering="crispEdges"><rect width="0" height="20" fill="#8ed610"/><rect width="49" height="20" x="0" fill="#8ed610"/></g><g fill="#fff" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="110" text-anchor="middle" text-rendering="geometricPrecision"><text x="245" y="140" fill="#000" textLength="390" transform="scale(.1)">catalog</text></g></svg>
