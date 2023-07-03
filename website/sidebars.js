@@ -104,6 +104,8 @@ const sidebars = {
         'relnotes/ui-plugin',
         'relnotes/ui-plugin-image',
         'relnotes/ui-plugin-image-gif',
+        'relnotes/ui-plugin-interceptor',
+        'relnotes/ui-plugin-interceptor-textfield',
       ],
     },
     'license',
