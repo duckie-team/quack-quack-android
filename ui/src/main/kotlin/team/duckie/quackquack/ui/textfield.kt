@@ -87,6 +87,7 @@ import team.duckie.quackquack.runtime.quackMaterializeOf
 import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.sugar.material.SugarToken
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
+import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafely
 import team.duckie.quackquack.ui.token.HorizontalDirection
 import team.duckie.quackquack.ui.token.VerticalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
@@ -1048,6 +1049,11 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
   require(style is QuackDefaultTextFieldStyle)
+  val defaultTextFieldStyle = style as QuackDefaultTextFieldStyle
+
+  @Suppress("NAME_SHADOWING")
+  val style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors> =
+    rememberInterceptedStyleSafely(style = style, modifier = modifier)
 
   var isSizeSpecified = false
   val (composeModifier, quackDataModels) = currentComposer.quackMaterializeOf(modifier) { currentModifier ->
@@ -1093,7 +1099,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   val currentContentPadding = if (isSizeSpecified) null else contentPadding
 
   val contentSpacedBy = style.contentSpacedBy
-  val validationLabelAndIndicatorSpacedBy = style.validationLabelAndIndicatorSpacedBy
+  val validationLabelAndIndicatorSpacedBy = defaultTextFieldStyle.validationLabelAndIndicatorSpacedBy
 
   val typography = remember(style.typography, contentColor) {
     style.typography.change(color = contentColor)
@@ -1101,7 +1107,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   val placeholderTypography = remember(style.typography, placeholderColor) {
     style.typography.change(color = placeholderColor)
   }
-  val validationLabelTypography = style.validationLabelTypography
+  val validationLabelTypography = defaultTextFieldStyle.validationLabelTypography
   val errorTypography = remember(validationLabelTypography, errorColor) {
     validationLabelTypography.change(color = errorColor)
   }
@@ -1270,7 +1276,9 @@ public fun <Style : QuackFilledTextFieldStyle> QuackFilledTextField(
   onTextLayout: (layoutResult: TextLayoutResult) -> Unit = {},
   interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
-  require(style is QuackFilledTextFieldStyle)
+  @Suppress("NAME_SHADOWING")
+  val style: QuackTextFieldStyle<Style, QuackFilledTextFieldStyle.TextFieldColors> =
+    rememberInterceptedStyleSafely(style = style, modifier = modifier)
 
   var focusInteraction by remember { mutableStateOf<FocusInteraction?>(null) }
   LaunchedEffect(interactionSource) {

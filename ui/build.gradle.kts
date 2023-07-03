@@ -91,6 +91,7 @@ dependencies {
     projects.material.orArtifact(),
     projects.materialIcon.orArtifact(),
     projects.uiPlugin.image.orArtifact(),
+    projects.uiPlugin.interceptor.orArtifact(),
     projects.util.orArtifact(),
     projects.utilModifier.orArtifact(),
     projects.casaAnnotation.orArtifact(),

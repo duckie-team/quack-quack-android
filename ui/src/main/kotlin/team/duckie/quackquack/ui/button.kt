@@ -52,6 +52,7 @@ import team.duckie.quackquack.runtime.QuackDataModifierModel
 import team.duckie.quackquack.runtime.quackMaterializeOf
 import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafely
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
 import team.duckie.quackquack.ui.util.asLoose
@@ -768,6 +769,9 @@ public fun <T : ButtonStyleMarker> QuackButton(
   rippleEnabled: Boolean = true,
   @CasaValue("{}") onClick: () -> Unit,
 ) {
+  @Suppress("NAME_SHADOWING")
+  val style: QuackButtonStyle<T> = rememberInterceptedStyleSafely(style = style, modifier = modifier)
+
   val isSmallButton = style is QuackSmallButtonStyle
   // TODO: 다른 경우로 사이즈를 지정하는 방법이 있을까?
   // TODO(3): LayoutModifierNode 지원

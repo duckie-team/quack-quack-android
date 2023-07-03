@@ -54,6 +54,7 @@ import team.duckie.quackquack.runtime.QuackDataModifierModel
 import team.duckie.quackquack.runtime.quackMaterializeOf
 import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafely
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
 import team.duckie.quackquack.ui.util.asLoose
@@ -552,6 +553,9 @@ public fun <T : TagStyleMarker> QuackTag(
   rippleEnabled: Boolean = true,
   @CasaValue("{}") onClick: () -> Unit,
 ) {
+  @Suppress("NAME_SHADOWING")
+  val style: QuackTagStyle<T> = rememberInterceptedStyleSafely(style = style, modifier = modifier)
+
   val isGrayscaleFlat = style is QuackGrayscaleFlatTagDefaults
   if (isGrayscaleFlat) {
     check(selected) { QuackTagErrors.GrayscaleFlatStyleUnselectedState }
