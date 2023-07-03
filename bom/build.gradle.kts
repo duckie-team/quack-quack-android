@@ -11,17 +11,12 @@ plugins {
 }
 
 dependencies {
-  val ignoreProjects = listOf(
-    projects.bom.dependencyProject,
-    projects.uiSample.dependencyProject,
-    projects.utilBackendTest.dependencyProject,
-    projects.catalog.dependencyProject,
-    projects.materialIconGenerator.dependencyProject,
-  )
-
   constraints {
     rootProject.subprojects.forEach { project ->
-      if (project !in ignoreProjects) {
+      if (
+        project != projects.bom.dependencyProject &&
+        File(project.projectDir, "version.txt").exists()
+      ) {
         api(
           ArtifactConfig.of(project).toString()
             .also { artifact ->

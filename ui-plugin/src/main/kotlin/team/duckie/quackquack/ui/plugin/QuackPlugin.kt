@@ -25,6 +25,7 @@ public interface QuackPlugin
 @Immutable
 public interface QuackPlugins {
   /** 등록된 전체 플러그인 */
+  @Stable
   public val plugins: MutableVector<QuackPlugin>
 
   /**
@@ -36,6 +37,7 @@ public interface QuackPlugins {
    * }
    * ```
    */
+  @Stable
   public operator fun QuackPlugin.unaryPlus()
 }
 
@@ -54,6 +56,7 @@ public object EmptyQuackPlugins : QuackPlugins {
 }
 
 /** capacity가 16인 기본 플러그인 저장소 인스턴스를 제공합니다. */
+@Immutable
 private class QuackPluginsScope : QuackPlugins {
   override val plugins = mutableVectorOf<QuackPlugin>()
   override fun QuackPlugin.unaryPlus() {

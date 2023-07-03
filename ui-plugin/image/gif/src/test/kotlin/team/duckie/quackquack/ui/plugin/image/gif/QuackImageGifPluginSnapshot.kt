@@ -24,7 +24,7 @@ import team.duckie.quackquack.ui.plugin.rememberQuackPlugins
 
 @Ignore("GIF 녹화 안됨")
 @RunWith(AndroidJUnit4::class)
-class QuackImageGifPluginTest {
+class QuackImageGifPluginSnapshot {
   @get:Rule
   val compose = createAndroidComposeRule<ComponentActivity>()
 

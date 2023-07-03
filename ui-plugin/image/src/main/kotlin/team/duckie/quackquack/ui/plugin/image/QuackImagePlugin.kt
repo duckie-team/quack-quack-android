@@ -31,8 +31,9 @@ public sealed interface QuackImagePlugin : QuackPlugin {
      * @param contentDescription `QuackImage`의 `contentDescription` 인자로 제공된 값
      * @param quackPluginLocal `Modifier.quackPluginLocal`로 제공된 값
      */
+    // compose-ui 의존성 없어서 Modifier.quackPluginLocal에 링크를 적용하지 않음
     @Stable
-    public fun ImageLoader.Builder.builder(
+    public fun ImageLoader.Builder.quackBuild(
       context: Context,
       src: Any?,
       contentDescription: String?,

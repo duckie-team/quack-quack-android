@@ -97,7 +97,7 @@ private fun imageResultOf(drawable: Drawable, request: ImageRequest) =
 private class QuackImageCoilBuilderIntercepter(
   private val map: MutableMap<String, Any?> = mutableMapOf(),
 ) : QuackImagePlugin.CoilImageLoader {
-  override fun ImageLoader.Builder.builder(
+  override fun ImageLoader.Builder.quackBuild(
     context: Context,
     src: Any?,
     contentDescription: String?,
