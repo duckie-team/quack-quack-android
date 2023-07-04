@@ -40,4 +40,6 @@ public class SnapshotPathGeneratorRule(private val domain: String) : TestWatcher
     File("$BaseSnapshotPath/$domain/$realtimeTestMethodName.${if (isGif) "gif" else "png"}")
 }
 
+@Target(AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.SOURCE)
 public annotation class SnapshotName(public val name: String)
