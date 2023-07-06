@@ -44,22 +44,14 @@ class MainActivity : ComponentActivity() {
         }
       }*/
       /*Preview {
-        QuackFilledTextField(
-          value = String.Empty,
-          onValueChange = {},
-          style = QuackTextFieldStyle.FilledLarge {
-            colors = colors.copy(
-              backgroundColorGetter = { _, focus ->
-                when (focus) {
-                  is FocusInteraction.Focus -> QuackColor.Success
-                  is FocusInteraction.Unfocus -> QuackColor.Alert
-                  else -> QuackColor.Dimmed
-                }
-              }
-            )
-          },
-        )
-        BasicTextField(value = "aaaaa", onValueChange = {})
+        var _index by remember { mutableIntStateOf(0) }
+        QuackTab(index = _index, modifier = Modifier.fillMaxWidth()) {
+          repeat(3) {
+            tab("Tab".repeat(candidateIndex + 1)) { index ->
+              _index = index
+            }
+          }
+        }
       }*/
     }
   }
