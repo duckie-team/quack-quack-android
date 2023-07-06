@@ -204,6 +204,28 @@ scheme("[androidx.compose.ui.UiComposable]") fun QuackTitle2(
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackTab(
+  stable index: Int
+  stable colors: QuackTabColors? = @static Companion.defaultTabColors()
+  indicatorStartXOffsetAnimatable: Animatable<Int, AnimationVector1D>? = @dynamic remember({
+  Animatable  (
+    initialValue     =     QuackTabIndicatorXOffsetInitialValue    , 
+    typeConverter     =     Companion    .    VectorConverter    , 
+    label     =     "QuackTabIndicatorStartXOffset"
+  )
+}
+, $composer, 0)
+  indicatorEndXOffsetAnimatable: Animatable<Int, AnimationVector1D>? = @dynamic remember({
+  Animatable  (
+    initialValue     =     QuackTabIndicatorXOffsetInitialValue    , 
+    typeConverter     =     Companion    .    VectorConverter    , 
+    label     =     "QuackTabIndicatorEndXOffset"
+  )
+}
+, $composer, 0)
+  stable modifier: Modifier? = @static Companion
+  stable content: @[ExtensionFunctionType] Function1<QuackTabScope, Unit>
+)
 scheme("[androidx.compose.ui.UiComposable]") fun QuackTag(
   stable text: String
   stable style: QuackTagStyle<T>
@@ -230,9 +252,9 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBase
   stable onClick: Function0<Unit>?
 )
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackText(
-  stable modifier: Modifier? = @static Companion
   stable text: String
   stable typography: QuackTypography
+  stable modifier: Modifier? = @static Companion
   stable singleLine: Boolean = @static false
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis

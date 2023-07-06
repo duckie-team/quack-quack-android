@@ -1,6 +1,10 @@
 stable class ImageSnapshot {
   <runtime stability> = Stable
 }
+unstable class TabSnapshot {
+  unstable val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Unstable
+}
 unstable class TagSnapshot {
   unstable val testNameToSelectState: MutableMap<String, Boolean>
   runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
@@ -21,6 +25,10 @@ unstable class SnapshotPathGeneratorRule {
   <runtime stability> = Unstable
 }
 runtime class ButtonTest {
+  runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
+  <runtime stability> = Runtime(AndroidComposeTestRule)
+}
+runtime class TabTest {
   runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
   <runtime stability> = Runtime(AndroidComposeTestRule)
 }

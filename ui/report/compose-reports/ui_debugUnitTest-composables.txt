@@ -1,0 +1,20 @@
+restartable skippable scheme("[androidx.compose.ui.UiComposable, [androidx.compose.ui.UiComposable]]") fun TestColumn(
+  stable contentGap: Dp = @static 15.dp
+  stable content: Function2<Composer, Int, Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable, [androidx.compose.ui.UiComposable]]") fun WithLabel(
+  stable label: String
+  stable isTitle: Boolean = @static false
+  stable labelGap: Dp = @static 4.dp
+  stable contentGap: Dp = @dynamic if (isTitle) {
+  15  .  dp
+} else {
+  4  .  dp
+}
+
+  stable content: @[ExtensionFunctionType] Function3<ColumnScope, Composer, Int, Unit>
+)
+restartable skippable scheme("[0, [0]]") fun withIncreaseFontScale(
+  stable fontScale: Float
+  stable content: Function2<Composer, Int, Unit>
+)
