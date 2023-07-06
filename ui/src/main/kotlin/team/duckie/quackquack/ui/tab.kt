@@ -493,9 +493,9 @@ private interface TextLayoutResultParentData {
 @VisibleForTesting
 @Stable
 internal val Measurable.tabIndex: Int
-  get() = requireNotNull((parentData as? TabIndexParentData)).tabIndex
+  get() = requireNotNull(parentData as? TabIndexParentData).tabIndex
 
 @VisibleForTesting
 @Stable
 internal val Measurable.textLayoutResult: TextLayoutResult
-  get() = requireNotNull((parentData as? TextLayoutResultParentData)).textLayoutResult
+  get() = requireNotNull(parentData as? TextLayoutResultParentData).textLayoutResult
