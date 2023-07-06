@@ -12,6 +12,7 @@ package team.duckie.quackquack.util
 
 import androidx.compose.ui.util.fastFirstOrNull
 import androidx.compose.ui.util.fastForEach
+import androidx.compose.ui.util.fastForEachIndexed
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
@@ -32,6 +33,42 @@ public inline fun <reified T> List<*>.fastFilterIsInstanceOrNull(): List<T>? {
     if (element is T) target += element
   }
   return target.ifEmpty { null }
+}
+
+/**
+ * Returns the largest value among all values produced by [selector] function
+ * applied to each element in the array.
+ *
+ * @throws NoSuchElementException if the array is empty.
+ */
+public inline fun <T, R : Comparable<R>> List<T>.fastMaxOf(selector: (T) -> R): R {
+  contract { callsInPlace(selector) }
+  if (isEmpty()) throw NoSuchElementException()
+  var maxValue = selector(this[0])
+  for (i in 1..lastIndex) {
+    val e = get(i)
+    val v = selector(e)
+    if (maxValue < v) {
+      maxValue = v
+    }
+  }
+  return maxValue
+}
+
+/**
+ * Returns a list containing the results of applying the given [transform] function
+ * to each element and its index in the original array.
+ *
+ * @param [transform] function that takes the index of an element and the element itself
+ * and returns the result of the transform applied to the element.
+ */
+public inline fun <T, R> List<T>.fastMapIndexed(transform: (Int, T) -> R): List<R> {
+  contract { callsInPlace(transform) }
+  val target = ArrayList<R>(size)
+  fastForEachIndexed { index, element ->
+    target += transform(index, element)
+  }
+  return target
 }
 
 // start -- COPIED FROM https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui-text/src/commonMain/kotlin/androidx/compose/ui/text/TempListUtils.kt;drc=ceaa7640c065146360515e598a3d09f6f66553dd
@@ -99,6 +136,24 @@ public inline fun <T, R> List<T>.fastFold(initial: R, operation: (acc: R, T) -> 
   var accumulator = initial
   fastForEach { e ->
     accumulator = operation(accumulator, e)
+  }
+  return accumulator
+}
+
+/**
+ * Accumulates value starting with [initial] value and applying [operation] from left to right
+ * to current accumulator value and each element.
+ *
+ * Returns the specified [initial] value if the collection is empty.
+ *
+ * @param [operation] function that takes current accumulator value and an element, and calculates
+ * the next accumulator value.
+ */
+public inline fun <T, R> List<T>.fastFoldIndexed(initial: R, operation: (Int, acc: R, T) -> R): R {
+  contract { callsInPlace(operation) }
+  var accumulator = initial
+  fastForEachIndexed { index, element ->
+    accumulator = operation(index, accumulator, element)
   }
   return accumulator
 }
