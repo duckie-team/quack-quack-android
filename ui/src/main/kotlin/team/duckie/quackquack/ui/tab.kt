@@ -413,8 +413,8 @@ public fun QuackTab(
       }
 
     layout(width = ensuredMaxWidth, height = tabLabelContainerHeight) {
-      tabPlaceables.fastForEachIndexed { index, tab ->
-        tab.place(x = eachTabXOffsets[index], y = 0)
+      tabPlaceables.fastForEachIndexed { tabIndex, tab ->
+        tab.place(x = eachTabXOffsets[tabIndex], y = 0)
       }
     }
   }
