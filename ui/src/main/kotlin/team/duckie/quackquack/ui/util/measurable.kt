@@ -19,9 +19,9 @@ public operator fun List<Measurable>.get(layoutId: String): Measurable =
     ?: error("No Measurable was found for the given layoutId($layoutId).")
 
 @Stable
-public fun List<Measurable>.getByIdOrNull(layoutId: String): Measurable? =
+public fun List<Measurable>.fastGetByIdOrNull(layoutId: String): Measurable? =
   fastFirstOrNull { measurable -> measurable.layoutId == layoutId }
 
 @Stable
-public fun List<Measurable>.filterById(layoutId: String): List<Measurable> =
+public fun List<Measurable>.fastFilterById(layoutId: String): List<Measurable> =
   fastFilter { measurable -> measurable.layoutId == layoutId }
