@@ -58,4 +58,3 @@ public value class QuackPadding internal constructor(@PublishedApi internal val 
 @Stable
 public fun QuackPadding(horizontal: Dp = 0.dp, vertical: Dp = 0.dp): QuackPadding =
   QuackPadding(packFloats(horizontal.value, vertical.value))
-

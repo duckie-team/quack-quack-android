@@ -24,6 +24,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.collection.MutableVector
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
@@ -41,6 +42,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
 import androidx.compose.ui.util.fastMap
+import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
 import team.duckie.quackquack.animation.animatedQuackTypographyAsState
 import team.duckie.quackquack.material.QuackColor
@@ -341,7 +343,10 @@ public fun QuackTab(
               val labelPlacementTopLeftOffset =
                 Offset(
                   x = tabLabelSpacedBy.toPx(),
-                  y = size.height / 2 - labelMeasureResult.size.height / 2,
+                  y = Alignment
+                    .CenterVertically
+                    .align(size = labelMeasureResult.size.height, space = size.height.roundToInt())
+                    .toFloat(),
                 )
               onDrawFront {
                 drawText(

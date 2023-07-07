@@ -41,7 +41,6 @@ import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
-import androidx.compose.ui.util.fastFirstOrNull
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackBorder
 import team.duckie.quackquack.material.QuackColor
@@ -56,7 +55,9 @@ import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafe
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
 import team.duckie.quackquack.ui.util.asLoose
+import team.duckie.quackquack.ui.util.fastGetByIdOrNull
 import team.duckie.quackquack.ui.util.fontScaleAwareIconSize
+import team.duckie.quackquack.ui.util.get
 import team.duckie.quackquack.ui.util.wrappedDebugInspectable
 import team.duckie.quackquack.util.MustBeTested
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
@@ -937,15 +938,9 @@ public fun QuackBaseButton(
       }
     },
   ) { measurables, constraints ->
-    val leadingIconMeasurable = measurables.fastFirstOrNull { measurable ->
-      measurable.layoutId == LeadingIconLayoutId
-    }
-    val textMeasurable = measurables.fastFirstOrNull { measurable ->
-      measurable.layoutId == TextLayoutId
-    }!!
-    val trailingIconMeasurable = measurables.fastFirstOrNull { measurable ->
-      measurable.layoutId == TrailingIconLayoutId
-    }
+    val textMeasurable = measurables[TextLayoutId]
+    val leadingIconMeasurable = measurables.fastGetByIdOrNull(LeadingIconLayoutId)
+    val trailingIconMeasurable = measurables.fastGetByIdOrNull(TrailingIconLayoutId)
 
     val looseConstraints = constraints.asLoose(width = true, height = true)
 
