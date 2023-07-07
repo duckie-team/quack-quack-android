@@ -3,10 +3,11 @@
 </p>
 <h1 align="center">QuackQuack</h1>
 
-<img src="assets/QuackTextSnapshot_ModifierSpan.png" align="right"/>
+<img src="assets/awesome-quackquack.png" align="right"/>
 
 ```kotlin
-QuackText(
+
+ import java.awt.ColorQuackText(
   modifier = Modifier
     .background(color = Color.White)
     .span(
@@ -14,7 +15,7 @@ QuackText(
       style = SpanStyle(color = QuackColor.DuckieOrange),
     )
     .padding(30.dp),
-  text = "QuackQuack is an awesome ui kit created by the Duckie team.",
+  text = "QuackQuack is an awesome design system created by the Duckie team.",
   typography = QuackTypography.Body1,
 )
 ```
