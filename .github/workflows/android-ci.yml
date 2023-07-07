@@ -44,7 +44,7 @@ jobs:
         run: ./gradlew test --stacktrace
 
       - name: Verify components snapshot
-        run: ./gradlew :ui:verifyRoborazziDebug
+        run: ./gradlew verifyRoborazziDebug
 
       - name: Cache GMD
         if: contains(github.event.pull_request.labels.*.name, 'casa-ui')
@@ -66,13 +66,24 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: android-reports
+          retention-days: 7
           path: |
             **/build/reports/*
+
+      - name: Upload screenshot-diff
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-reports
+          retention-days: 7
+          path: |
+            **/build/outputs/roborazzi/*
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: android-test-results
+          retention-days: 7
           path: |
             **/build/test-results/*
