@@ -80,6 +80,14 @@ stable class QuackSecondaryRoundSmallButtonDefaults {
   stable var typography: QuackTypography
   stable var disabledTypography: QuackTypography
 }
+stable class QuackSwitchColors {
+  stable val track: QuackColor
+  stable val disableTrack: QuackColor
+  stable val thumb: QuackColor
+  stable val thumbStroke: QuackColor
+  stable val disableThumb: QuackColor
+  stable val disableThumbStroke: QuackColor
+}
 stable class QuackTabColors {
   stable val background: QuackColor
   stable val underline: QuackColor

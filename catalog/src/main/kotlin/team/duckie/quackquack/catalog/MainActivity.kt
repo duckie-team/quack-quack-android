@@ -44,14 +44,8 @@ class MainActivity : ComponentActivity() {
         }
       }*/
       /*Preview {
-        var _index by remember { mutableIntStateOf(0) }
-        QuackTab(index = _index, modifier = Modifier.fillMaxWidth()) {
-          repeat(3) {
-            tab("Tab".repeat(candidateIndex + 1)) { index ->
-              _index = index
-            }
-          }
-        }
+        var enable by remember { mutableStateOf(false) }
+        QuackSwitch(enable) { enable = !enable }
       }*/
     }
   }
