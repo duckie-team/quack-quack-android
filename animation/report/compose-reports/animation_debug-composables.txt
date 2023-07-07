@@ -1,6 +1,19 @@
+fun animatedQuackBorderAsState(
+  stable targetValue: QuackBorder
+  unstable animationSpec: AnimationSpec<Any>? = @static quackTween()
+  stable label: String? = @static "QuackBorder"
+  stable widthAnimationfinishedListener: Function1<@[ParameterName(name = 'dp')] Dp, Unit>? = @static null
+  stable colorAnimationFinishedListener: Function1<@[ParameterName(name = 'color')] QuackColor, Unit>? = @static null
+): QuackBorder
+fun animateQuackColorAsState(
+  stable targetValue: QuackColor
+  unstable animationSpec: AnimationSpec<QuackColor>? = @static quackTween()
+  stable label: String? = @static "QuackColor"
+  stable finishedListener: Function1<@[ParameterName(name = 'color')] QuackColor, Unit>? = @static null
+): State<QuackColor>
 fun animatedQuackTypographyAsState(
   stable targetValue: QuackTypography
-  unstable animationSpec: DurationBasedAnimationSpec<Any>? = @static quackTween()
+  unstable animationSpec: AnimationSpec<Any>? = @static quackTween()
   stable label: String? = @static "QuackTypography"
   stable colorAnimationFinishedListener: Function1<@[ParameterName(name = 'color')] QuackColor, Unit>? = @static null
   stable sizeAnimationFinishedListener: Function1<@[ParameterName(name = 'size')] Float, Unit>? = @static null
