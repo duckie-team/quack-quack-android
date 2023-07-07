@@ -6,8 +6,7 @@
 <img src="assets/awesome-quackquack.png" align="right"/>
 
 ```kotlin
-
- import java.awt.ColorQuackText(
+QuackText(
   modifier = Modifier
     .background(color = Color.White)
     .span(
