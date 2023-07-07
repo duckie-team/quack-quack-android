@@ -204,6 +204,12 @@ scheme("[androidx.compose.ui.UiComposable]") fun QuackTitle2(
   stable softWrap: Boolean = @static true
   stable overflow: TextOverflow = @static Companion.Ellipsis
 )
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackSwitch(
+  stable enabled: Boolean
+  stable colors: QuackSwitchColors? = @static Companion.defaultSwitchColors
+  stable modifier: Modifier? = @static Companion
+  stable onClick: Function0<Unit>
+)
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackTab(
   stable index: Int
   stable colors: QuackTabColors? = @static Companion.defaultTabColors()

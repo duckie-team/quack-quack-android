@@ -1,6 +1,10 @@
 stable class ImageSnapshot {
   <runtime stability> = Stable
 }
+unstable class SwitchSnapshot {
+  unstable val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Unstable
+}
 unstable class TabSnapshot {
   unstable val snapshotPath: SnapshotPathGeneratorRule
   <runtime stability> = Unstable
