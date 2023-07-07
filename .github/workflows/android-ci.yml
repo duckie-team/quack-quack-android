@@ -77,7 +77,7 @@ jobs:
           name: android-screenshot-diffs
           retention-days: 7
           path: |
-            **/build/outputs/roborazzi/*
+            **/snapshots/**/*_compare.png
 
       - name: Upload test results
         if: always()
