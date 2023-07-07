@@ -5,8 +5,11 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:Suppress("UNCHECKED_CAST")
+
 package team.duckie.quackquack.animation
 
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,6 +22,7 @@ import team.duckie.quackquack.material.QuackColor
  * [QuackBorder.color]의 변화에 애니메이션이 적용됩니다.
  *
  * @param targetValue 애니메이션을 적용할 [QuackBorder]
+ * @param animationSpec 애니메이션에 적용할 [애니메이션 스펙][AnimationSpec]
  * @param label Animation Inspector에서 이 애니메이션을 구분할 별칭
  * @param widthAnimationfinishedListener [QuackBorder.thickness]의 애니메이션이
  * 끝나면 호출될 콜백
@@ -30,18 +34,20 @@ import team.duckie.quackquack.material.QuackColor
 @Composable
 public fun animatedQuackBorderAsState(
   targetValue: QuackBorder,
-  label: String = "QuackBorderAnimation",
+  animationSpec: AnimationSpec<Any> = quackTween(),
+  label: String = "QuackBorder",
   widthAnimationfinishedListener: ((dp: Dp) -> Unit)? = null,
   colorAnimationFinishedListener: ((color: QuackColor) -> Unit)? = null,
 ): QuackBorder {
   val widthAnimationState by animateDpAsState(
     targetValue = targetValue.thickness,
-    animationSpec = QuackAnimationSpec(),
-    finishedListener = widthAnimationfinishedListener,
+    animationSpec = animationSpec as AnimationSpec<Dp>,
     label = label,
+    finishedListener = widthAnimationfinishedListener,
   )
   val colorAnimationState by animateQuackColorAsState(
     targetValue = targetValue.color,
+    animationSpec = animationSpec as AnimationSpec<QuackColor>,
     label = label,
     finishedListener = colorAnimationFinishedListener,
   )

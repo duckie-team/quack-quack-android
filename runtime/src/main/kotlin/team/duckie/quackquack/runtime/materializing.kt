@@ -75,9 +75,8 @@ public fun Composer.quackMaterializeOf(
       is QuackComposedModifier -> {
         @Suppress("UNCHECKED_CAST")
         val factory = element.factory as Modifier.(Composer, Int) -> Modifier
-        val composed = factory.invoke(Modifier, this, 0) as? QuackDataModifierModel ?: error(
-          message = QuackMaterializingErrors.MustProducesQuackDataModel,
-        )
+        val composed = factory.invoke(Modifier, this, 0) as? QuackDataModifierModel
+          ?: error(message = QuackMaterializingErrors.MustProducesQuackDataModel)
         quackDataModels += composed
         acc
       }

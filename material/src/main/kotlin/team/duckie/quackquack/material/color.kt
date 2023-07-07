@@ -50,13 +50,9 @@ public value class QuackColor(public val value: Color) : ReadOnlyProperty<Any, C
    * @return [alpha] 값이 변경된 [QuackColor]
    */
   @Stable
-  public fun change(alpha: Float): QuackColor {
-    return if (alpha == value.alpha) {
-      this
-    } else {
-      QuackColor(value.copy(alpha = alpha))
-    }
-  }
+  public fun change(alpha: Float): QuackColor =
+    if (alpha == value.alpha) this
+    else QuackColor(value.copy(alpha = alpha))
 
   public companion object {
     @Stable

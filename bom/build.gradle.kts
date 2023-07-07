@@ -20,7 +20,7 @@ dependencies {
         api(
           ArtifactConfig.of(project).toString()
             .also { artifact ->
-              println("BOM publishing: $artifact")
+              println("BOM loading: $artifact")
             },
         )
       }

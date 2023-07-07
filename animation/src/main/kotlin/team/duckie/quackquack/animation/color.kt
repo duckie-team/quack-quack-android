@@ -9,6 +9,7 @@
 
 package team.duckie.quackquack.animation
 
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector4D
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
@@ -155,6 +156,7 @@ private val QuackColorVectorConverter: (colorSpace: ColorSpace) -> TwoWayConvert
  * [QuackColor]에 변경이 있을 때 애니메이션을 적용합니다.
  *
  * @param targetValue 색상 변경을 감지할 [QuackColor]
+ * @param animationSpec 애니메이션에 적용할 [애니메이션 스펙][AnimationSpec]
  * @param label Animation Inspector에서 이 애니메이션을 구분할 별칭
  * @param finishedListener 애니메이션이 끝났을 때 실행될 콜백
  *
@@ -163,7 +165,8 @@ private val QuackColorVectorConverter: (colorSpace: ColorSpace) -> TwoWayConvert
 @Composable
 public fun animateQuackColorAsState(
   targetValue: QuackColor,
-  label: String = "animateQuackColorAsState",
+  animationSpec: AnimationSpec<QuackColor> = quackTween(),
+  label: String = "QuackColor",
   finishedListener: ((color: QuackColor) -> Unit)? = null,
 ): State<QuackColor> {
   val converter = remember(targetValue.value.colorSpace) {
@@ -172,8 +175,8 @@ public fun animateQuackColorAsState(
   return animateValueAsState(
     targetValue = targetValue,
     typeConverter = converter,
-    animationSpec = QuackAnimationSpec(),
-    finishedListener = finishedListener,
+    animationSpec = animationSpec,
     label = label,
+    finishedListener = finishedListener,
   )
 }

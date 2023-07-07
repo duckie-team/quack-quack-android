@@ -33,14 +33,14 @@ import team.duckie.quackquack.ui.defaultTextFieldIcon
 import team.duckie.quackquack.ui.defaultTextFieldIndicator
 import team.duckie.quackquack.ui.filledTextFieldIcon
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
-import team.duckie.quackquack.ui.snapshot.util.LargestFontScale
-import team.duckie.quackquack.ui.snapshot.util.MultilinesSnapshotQualifier
-import team.duckie.quackquack.ui.snapshot.util.SnapshotPathGeneratorRule
-import team.duckie.quackquack.ui.snapshot.util.TestColumn
-import team.duckie.quackquack.ui.snapshot.util.WithLabel
 import team.duckie.quackquack.ui.token.HorizontalDirection
 import team.duckie.quackquack.ui.token.VerticalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
+import team.duckie.quackquack.util.compose.snapshot.test.LargestFontScale
+import team.duckie.quackquack.util.compose.snapshot.test.MultilinesSnapshotQualifier
+import team.duckie.quackquack.util.compose.snapshot.test.SnapshotPathGeneratorRule
+import team.duckie.quackquack.util.compose.snapshot.test.TestColumn
+import team.duckie.quackquack.util.compose.snapshot.test.WithLabel
 
 private const val MediumText = "가나다라마바사아자차카타파하"
 private const val LongText = "그러므로 주며, 없으면 우리 보라. 이것은 온갖 안고, 거선의 황금시대다."

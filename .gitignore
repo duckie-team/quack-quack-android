@@ -5,6 +5,7 @@
 !/.idea/codeStyleSettings.xml
 !/.idea/codeStyles
 !/.idea/dictionaries
+!/.idea/inspectionProfiles
 *.iml
 .gradle
 build

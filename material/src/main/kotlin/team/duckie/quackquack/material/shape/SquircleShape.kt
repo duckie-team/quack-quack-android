@@ -35,20 +35,19 @@ public object SquircleShape : Shape {
     size: Size,
     layoutDirection: LayoutDirection,
     density: Density,
-  ): Outline.Generic {
-    return Outline.Generic(
+  ): Outline.Generic =
+    Outline.Generic(
       path = createSquirclePath(
         size = size,
         smoothing = SMOOTHING,
       ),
     )
-  }
 
   private fun createSquirclePath(
     size: Size,
     smoothing: Double,
-  ): androidx.compose.ui.graphics.Path {
-    return Path().apply {
+  ): androidx.compose.ui.graphics.Path =
+    Path().apply {
       val oversize = size.width * OVERSAMPLING_MULTIPLIER
       val squircleRadius = (oversize / 2F).toInt()
 
@@ -87,7 +86,6 @@ public object SquircleShape : Shape {
         ),
       )
     }.asComposePath()
-  }
 
   private fun evalSquircleFun(x: Int, poweredRadius: Double, smoothing: Double) =
     (poweredRadius - abs(x.toDouble().pow(smoothing))).pow(1 / smoothing).toFloat()

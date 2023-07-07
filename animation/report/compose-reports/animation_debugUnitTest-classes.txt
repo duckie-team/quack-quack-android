@@ -1,0 +1,4 @@
+runtime class QuackTypographySnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
+}

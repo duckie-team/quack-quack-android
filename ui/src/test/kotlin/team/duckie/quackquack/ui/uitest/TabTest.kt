@@ -25,12 +25,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.QuackTab
 import team.duckie.quackquack.ui.QuackTabScopeScope
-import team.duckie.quackquack.ui.commonutil.setQuackContent
+import team.duckie.quackquack.ui.common.setQuackContent
 import team.duckie.quackquack.ui.layoutIdWithTabIndexPairTextLayoutResult
 import team.duckie.quackquack.ui.tabIndex
 import team.duckie.quackquack.ui.textLayoutResult
 import team.duckie.quackquack.ui.util.rememberLtrTextMeasurer
-import team.duckie.quackquack.util.Empty
 
 @RunWith(AndroidJUnit4::class)
 class TabTest {
@@ -44,7 +43,7 @@ class TabTest {
 
       val layoutId = "AwesomeLayoutId"
       val tabIndex = 999
-      val textLayoutResult = textMeasurer.measure(text = String.Empty)
+      val textLayoutResult = textMeasurer.measure(text = "")
 
       Box(
         Modifier
@@ -78,7 +77,7 @@ class TabTest {
         tab(
           label = run {
             labelIndices[time] = candidateIndex
-            String.Empty
+            ""
           },
           onClick = {},
         )

@@ -15,6 +15,7 @@ plugins {
   alias(libs.plugins.kotlin.dokka)
   alias(libs.plugins.gradle.dependency.graph)
   alias(libs.plugins.gradle.dependency.handler.extensions)
+  alias(libs.plugins.test.roborazzi) apply false
   idea
 }
 
@@ -116,6 +117,6 @@ allprojects {
   }
 }
 
-tasks.register(name = "cleanAll", type = Delete::class) {
+tasks.register("cleanAll", type = Delete::class) {
   allprojects.map(Project::getBuildDir).forEach(::delete)
 }

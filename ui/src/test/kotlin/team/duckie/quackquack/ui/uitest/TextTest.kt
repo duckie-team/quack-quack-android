@@ -25,12 +25,11 @@ import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.ui.QuackText
 import team.duckie.quackquack.ui.QuackTextErrors
-import team.duckie.quackquack.ui.commonutil.setQuackContent
+import team.duckie.quackquack.ui.common.setQuackContent
 import team.duckie.quackquack.ui.highlight
 import team.duckie.quackquack.ui.span
 import team.duckie.quackquack.ui.uitest.util.markTest
 import team.duckie.quackquack.ui.uitest.util.onTest
-import team.duckie.quackquack.util.Empty
 
 @RunWith(AndroidJUnit4::class)
 class TextTest {
@@ -52,7 +51,7 @@ class TextTest {
               ),
             )
             .highlight(highlights = emptyList()),
-          text = String.Empty,
+          text = "",
           typography = QuackTypography.Body1,
         )
       }

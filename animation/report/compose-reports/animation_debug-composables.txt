@@ -1,31 +1,7 @@
-restartable skippable fun QuackAnimatedContent(
-  stable modifier: Modifier? = @static Companion
-  targetState: T
-  stable label: String? = @static "AnimatedContent"
-  stable content: @[ExtensionFunctionType] Function4<AnimatedVisibilityScope, @[ParameterName(name = 'animatedTargetState')] T, Composer, Int, Unit>
-)
-restartable skippable scheme("[0, [0]]") fun QuackAnimatedVisibility(
-  stable modifier: Modifier? = @static Companion
-  stable visible: Boolean
-  stable label: String? = @static "AnimatedVisibility"
-  stable otherEnterAnimation: EnterTransition? = @static null
-  stable otherExitAnimation: ExitTransition? = @static null
-  stable content: @[ExtensionFunctionType] Function3<AnimatedVisibilityScope, Composer, Int, Unit>
-)
-fun animatedQuackBorderAsState(
-  stable targetValue: QuackBorder
-  stable label: String? = @static "QuackBorderAnimation"
-  stable widthAnimationfinishedListener: Function1<@[ParameterName(name = 'dp')] Dp, Unit>? = @static null
-  stable colorAnimationFinishedListener: Function1<@[ParameterName(name = 'color')] QuackColor, Unit>? = @static null
-): QuackBorder
-fun animateQuackColorAsState(
-  stable targetValue: QuackColor
-  stable label: String? = @static "animateQuackColorAsState"
-  stable finishedListener: Function1<@[ParameterName(name = 'color')] QuackColor, Unit>? = @static null
-): State<QuackColor>
-fun animatedQuackTextStyleAsState(
+fun animatedQuackTypographyAsState(
   stable targetValue: QuackTypography
-  stable label: String? = @static "animatedQuackTextStyleAsState"
+  unstable animationSpec: DurationBasedAnimationSpec<Any>? = @static quackTween()
+  stable label: String? = @static "QuackTypography"
   stable colorAnimationFinishedListener: Function1<@[ParameterName(name = 'color')] QuackColor, Unit>? = @static null
   stable sizeAnimationFinishedListener: Function1<@[ParameterName(name = 'size')] Float, Unit>? = @static null
   stable letterSpacingAnimationFinishedListener: Function1<@[ParameterName(name = 'letterSpacing')] Float, Unit>? = @static null

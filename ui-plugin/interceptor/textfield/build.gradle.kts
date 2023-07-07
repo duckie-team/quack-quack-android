@@ -14,6 +14,7 @@ plugins {
   quackquack("android-compose")
   quackquack("kotlin-explicit-api")
   quackquack("test-junit")
+  quackquack("test-roborazzi")
   quackquack("quack-publishing")
   alias(libs.plugins.test.roborazzi)
 }
@@ -31,16 +32,6 @@ tasks.withType<DokkaMultiModuleTask> {
 
 android {
   namespace = "team.duckie.quackquack.ui.plugin.interceptor.textfield"
-
-  testOptions {
-    unitTests {
-      isIncludeAndroidResources = true
-      isReturnDefaultValues = true
-      all { test ->
-        test.systemProperty("robolectric.graphicsMode", "NATIVE")
-      }
-    }
-  }
 }
 
 dependencies {
@@ -52,11 +43,7 @@ dependencies {
   )
   testImplementations(
     libs.compose.foundation,
-    libs.test.robolectric,
-    libs.test.junit.compose,
     libs.test.kotest.assertion.core,
-    libs.test.kotlin.coroutines, // needed for compose-ui-test
-    libs.bundles.test.roborazzi,
     projects.utilComposeSnapshotTest,
   )
 }

@@ -56,8 +56,8 @@ public data class QuackTypography(
 ) {
   /** [QuackTypography]을 컴포즈 Text 컴포넌트에 사용하기 위해 [TextStyle]로 변환합니다. */
   @Stable
-  public fun asComposeStyle(): TextStyle {
-    return TextStyle(
+  public fun asComposeStyle(): TextStyle =
+    TextStyle(
       color = color.value,
       fontSize = size,
       fontFamily = fontFamily,
@@ -66,7 +66,6 @@ public data class QuackTypography(
       textAlign = textAlign,
       lineHeight = lineHeight,
     )
-  }
 
   /**
    * 정해진 [QuackTypography]에서 일부 값만 변경이 필요할 때가 있습니다. 이를 대응하기 위해
@@ -86,10 +85,9 @@ public data class QuackTypography(
   public fun change(
     color: QuackColor = this.color,
     textAlign: TextAlign = this.textAlign,
-  ): QuackTypography {
-    return if (color == this.color && textAlign == this.textAlign) {
-      this
-    } else {
+  ): QuackTypography =
+    if (color == this.color && textAlign == this.textAlign) this
+    else
       QuackTypography(
         color = color,
         size = size,
@@ -98,8 +96,6 @@ public data class QuackTypography(
         lineHeight = lineHeight,
         textAlign = textAlign,
       )
-    }
-  }
 
   public companion object {
     @Stable
@@ -206,7 +202,3 @@ public inline val FontWeight.Companion.Regular: FontWeight get() = Normal
 @Suppress("NOTHING_TO_INLINE")
 @Stable
 public inline fun Float.toSp(): TextUnit = TextUnit(value = this, type = TextUnitType.Sp)
-
-/** [List]의 component 정의가 5까지만 있어서 6번째 component를 추가로 정의합니다. */
-@Suppress("MagicNumber")
-public operator fun <T> List<T>.component6(): T = get(index = 5)

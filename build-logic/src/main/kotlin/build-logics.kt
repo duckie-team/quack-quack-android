@@ -20,6 +20,8 @@ import internal.libs
 import internal.androidExtensions
 import internal.isAndroidProject
 import internal.setupJunit
+import java.io.File
+import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
@@ -74,15 +76,6 @@ internal class AndroidGmdPlugin : BuildLogicPlugin({
   configureGmd(androidExtensions)
 })
 
-internal class AndroidLintPlugin : BuildLogicPlugin({
-  applyPlugins(Plugins.AndroidLint)
-
-  dependencies {
-    add("compileOnly", libs.findBundle("android-lint").get())
-    add("testImplementation", libs.findBundle("test-android-lint").get())
-  }
-})
-
 internal class AndroidComposePlugin : BuildLogicPlugin({
   configureCompose(androidExtensions)
 })
@@ -122,8 +115,6 @@ internal class JvmKotlinPlugin : BuildLogicPlugin({
   dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get())
 })
 
-// prefix가 `Jvm`이 아니라 `Test`인 이유:
-// 적용 타켓(android or pure)에 따라 `useJUnitPlatform()` 방식이 달라짐
 internal class TestJUnitPlugin : BuildLogicPlugin({
   useTestPlatformForTarget()
   dependencies {
@@ -133,16 +124,57 @@ internal class TestJUnitPlugin : BuildLogicPlugin({
     )
   }
 })
+
 internal class TestKotestPlugin : BuildLogicPlugin({
   useTestPlatformForTarget()
   dependencies.add("testImplementation", libs.findLibrary("test-kotest-framework").get())
+})
+
+internal class TestRoborazziPlugin : BuildLogicPlugin({
+  if (!isAndroidProject) throw GradleException("roborazzi only supports Android projects.")
+
+  androidExtensions.testOptions {
+    unitTests {
+      isIncludeAndroidResources = true
+      isReturnDefaultValues = true
+      all { test ->
+        test.systemProperty("robolectric.graphicsMode", "NATIVE")
+      }
+    }
+  }
+
+  val properties = File(projectDir, "src/test/resources/robolectric.properties")
+  if (!properties.exists()) {
+    properties.parentFile.mkdirs()
+    properties.createNewFile()
+    properties.writeText(
+      """
+      #
+      # Designed and developed by Duckie Team 2023.
+      #
+      # Licensed under the MIT.
+      # Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
+      #
+
+      sdk=33
+      """.trimIndent(),
+    )
+  }
+
+  applyPlugins(libs.findPlugin("test-roborazzi").get().get().pluginId)
+
+  dependencies.add("testImplementation", libs.findLibrary("test-robolectric").get())
+  dependencies.add("testImplementation", libs.findLibrary("test-junit-compose").get())
+  dependencies.add("testImplementation", libs.findLibrary("test-kotlin-coroutines").get()) // needed for compose-ui-test
+  dependencies.add("testImplementation", libs.findBundle("test-roborazzi").get())
+  dependencies.add("testImplementation", project(":util-compose-snapshot-test"))
 })
 
 internal class KotlinExplicitApiPlugin : BuildLogicPlugin({
   tasks
     .matching { task ->
       task is KotlinCompile &&
-          !task.name.contains("test", ignoreCase = true)
+        !task.name.contains("test", ignoreCase = true)
     }
     .configureEach {
       if (!project.hasProperty("kotlin.optOutExplicitApi")) {
@@ -190,6 +222,7 @@ private fun Project.useTestPlatformForTarget() {
         }
       }
     }
+
     tasks.withType<Test>().configureEach {
       setTestConfiguration()
     }

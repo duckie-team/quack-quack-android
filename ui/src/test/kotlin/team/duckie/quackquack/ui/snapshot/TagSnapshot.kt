@@ -26,24 +26,20 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
-import org.robolectric.annotation.GraphicsMode
 import team.duckie.quackquack.material.icon.QuackIcon
 import team.duckie.quackquack.material.icon.quackicon.Outlined
 import team.duckie.quackquack.material.icon.quackicon.outlined.Heart
-import team.duckie.quackquack.ui.commonutil.setQuackContent
-import team.duckie.quackquack.ui.snapshot.util.BaseSnapshotPath
-import team.duckie.quackquack.ui.snapshot.util.withIncreaseFontScale
+import team.duckie.quackquack.ui.common.setQuackContent
 import team.duckie.quackquack.ui.sugar.QuackFilledTag
 import team.duckie.quackquack.ui.sugar.QuackGrayscaleFlatTag
 import team.duckie.quackquack.ui.sugar.QuackGrayscaleOutlinedTag
 import team.duckie.quackquack.ui.sugar.QuackOutlinedTag
 import team.duckie.quackquack.ui.trailingIcon
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
+import team.duckie.quackquack.util.compose.snapshot.test.BaseSnapshotPath
+import team.duckie.quackquack.util.compose.snapshot.test.withIncreaseFontScale
 
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
-@GraphicsMode(GraphicsMode.Mode.NATIVE)
 class TagSnapshot {
   private val testNameToSelectState = mutableMapOf<String, Boolean>()
 
@@ -63,9 +59,9 @@ class TagSnapshot {
     options = RoborazziRule.Options(
       captureType = RoborazziRule.CaptureType.AllImage,
       outputFileProvider = { description, _, fileExtension ->
-        val testName = "$BaseSnapshotPath/tag/${description.methodName}"
-        val countedTestName = stateMarkedTestName(testName)
-        File("$countedTestName.$fileExtension")
+        val snapshotPath = "$BaseSnapshotPath/tag/${description.methodName}"
+        val countedSnapshotPath = stateMarkedTestName(snapshotPath)
+        File("$countedSnapshotPath.$fileExtension")
       },
     ),
   )

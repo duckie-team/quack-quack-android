@@ -15,14 +15,13 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.QuackSwitch
-import team.duckie.quackquack.ui.snapshot.util.SnapshotPathGeneratorRule
+import team.duckie.quackquack.util.compose.snapshot.test.SnapshotPathGeneratorRule
 
+// FIXME: CompareOptions is a workaround for the "Verify components snapshot" failure in #788.
 @RunWith(AndroidJUnit4::class)
 class SwitchSnapshot {
   @get:Rule
   val snapshotPath = SnapshotPathGeneratorRule("switch")
-
-  // FIXME: CompareOptions is a workaround for the "Verify components snapshot" failure in #788.
 
   @Test
   fun Enabled() {

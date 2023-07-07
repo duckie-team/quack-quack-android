@@ -23,9 +23,9 @@ import org.robolectric.annotation.Config
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.ui.QuackText
-import team.duckie.quackquack.ui.snapshot.util.SnapshotPathGeneratorRule
-import team.duckie.quackquack.ui.snapshot.util.TestColumn
 import team.duckie.quackquack.ui.span
+import team.duckie.quackquack.util.compose.snapshot.test.SnapshotPathGeneratorRule
+import team.duckie.quackquack.util.compose.snapshot.test.TestColumn
 
 @RunWith(AndroidJUnit4::class)
 class TextSnapshot {

@@ -27,7 +27,7 @@ import team.duckie.quackquack.ui.TextFieldErrors.CannotAppliedCounterAndTrailing
 import team.duckie.quackquack.ui.TextFieldErrors.ValidationLabelProvidedButNoBottomDirectionIndicator
 import team.duckie.quackquack.ui.TextFieldErrors.sameDirectionIcon
 import team.duckie.quackquack.ui.TextFieldValidationState
-import team.duckie.quackquack.ui.commonutil.setQuackContent
+import team.duckie.quackquack.ui.common.setQuackContent
 import team.duckie.quackquack.ui.counter
 import team.duckie.quackquack.ui.defaultTextFieldIcon
 import team.duckie.quackquack.ui.defaultTextFieldIndicator
@@ -35,7 +35,6 @@ import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
 import team.duckie.quackquack.ui.token.HorizontalDirection
 import team.duckie.quackquack.ui.token.VerticalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
-import team.duckie.quackquack.util.Empty
 
 @RunWith(AndroidJUnit4::class)
 class TextFieldTest {
@@ -56,7 +55,7 @@ class TextFieldTest {
               icon = QuackIcon.Outlined.Heart,
               direction = HorizontalDirection.Left,
             ),
-          value = String.Empty,
+          value = "",
           onValueChange = {},
           style = QuackTextFieldStyle.Default,
         )
@@ -70,7 +69,7 @@ class TextFieldTest {
       compose.setQuackContent {
         QuackDefaultTextField(
           modifier = Modifier.defaultTextFieldIndicator(color = null, colorGetter = null),
-          value = String.Empty,
+          value = "",
           onValueChange = {},
           style = QuackTextFieldStyle.Default,
         )
@@ -84,10 +83,10 @@ class TextFieldTest {
       compose.setQuackContent {
         QuackDefaultTextField(
           modifier = Modifier.defaultTextFieldIndicator(direction = VerticalDirection.Top),
-          value = String.Empty,
+          value = "",
           onValueChange = {},
           style = QuackTextFieldStyle.Default,
-          validationState = TextFieldValidationState.Success(String.Empty),
+          validationState = TextFieldValidationState.Success(""),
         )
       }
     }
@@ -101,7 +100,7 @@ class TextFieldTest {
           modifier = Modifier
             .counter(10)
             .defaultTextFieldIcon(QuackIcon.Outlined.Heart),
-          value = String.Empty,
+          value = "",
           onValueChange = {},
           style = QuackTextFieldStyle.Default,
         )
