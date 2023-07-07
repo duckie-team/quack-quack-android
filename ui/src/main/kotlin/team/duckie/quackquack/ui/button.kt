@@ -770,7 +770,7 @@ public fun <T : ButtonStyleMarker> QuackButton(
   @CasaValue("{}") onClick: () -> Unit,
 ) {
   @Suppress("NAME_SHADOWING")
-  val style: QuackButtonStyle<T> = rememberInterceptedStyleSafely(style = style, modifier = modifier)
+  val style = rememberInterceptedStyleSafely<QuackButtonStyle<T>>(style = style, modifier = modifier)
 
   val isSmallButton = style is QuackSmallButtonStyle
   // TODO: 다른 경우로 사이즈를 지정하는 방법이 있을까?
@@ -796,17 +796,13 @@ public fun <T : ButtonStyleMarker> QuackButton(
   val borderThickness = style.borderThickness
   val borderColor = style.colors.borderColor
   val disabledBorderColor = style.colors.disabledBorderColor
-  val currentBorder = remember(
-    enabled,
-    borderThickness,
-    borderColor,
-    disabledBorderColor,
-  ) {
-    QuackBorder(
-      thickness = borderThickness,
-      color = if (enabled) borderColor else disabledBorderColor,
-    )
-  }
+  val currentBorder =
+    remember(enabled, borderThickness, borderColor, disabledBorderColor) {
+      QuackBorder(
+        thickness = borderThickness,
+        color = if (enabled) borderColor else disabledBorderColor,
+      )
+    }
 
   val iconColor = style.colors.iconColor
 
@@ -815,9 +811,7 @@ public fun <T : ButtonStyleMarker> QuackButton(
   val currentRippleEnabled = if (enabled) rippleEnabled else false
 
   val radius = style.radius
-  val shape = remember(radius) {
-    RoundedCornerShape(size = radius)
-  }
+  val shape = remember(radius) { RoundedCornerShape(size = radius) }
 
   val contentPadding = style.contentPadding
   val currentContentPadding = if (isSizeSpecified) null else contentPadding
