@@ -110,9 +110,9 @@ private val height = 16.dp
 private val trackHeight = 12.dp
 private val thumbStrokeThickness = 1.dp
 
-private const val animationMillis = 300
-private val sizeTweenSpec = tween<Float>(durationMillis = animationMillis)
-private val colorTweenSpec = tween<Color>(durationMillis = animationMillis)
+private const val AnimationMillis = 300
+private val sizeTweenSpec = tween<Float>(durationMillis = AnimationMillis)
+private val colorTweenSpec = tween<Color>(durationMillis = AnimationMillis)
 
 /**
  * 꽥꽥 디자인 가이드라인에 의거한 스위치를 그립니다.
