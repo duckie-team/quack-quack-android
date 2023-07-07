@@ -41,7 +41,6 @@ import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
-import androidx.compose.ui.util.fastFirstOrNull
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackBorder
 import team.duckie.quackquack.material.QuackColor
@@ -56,7 +55,9 @@ import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafe
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
 import team.duckie.quackquack.ui.util.asLoose
+import team.duckie.quackquack.ui.util.fastGetByIdOrNull
 import team.duckie.quackquack.ui.util.fontScaleAwareIconSize
+import team.duckie.quackquack.ui.util.get
 import team.duckie.quackquack.ui.util.wrappedDebugInspectable
 import team.duckie.quackquack.util.MustBeTested
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
@@ -770,7 +771,7 @@ public fun <T : ButtonStyleMarker> QuackButton(
   @CasaValue("{}") onClick: () -> Unit,
 ) {
   @Suppress("NAME_SHADOWING")
-  val style: QuackButtonStyle<T> = rememberInterceptedStyleSafely(style = style, modifier = modifier)
+  val style = rememberInterceptedStyleSafely<QuackButtonStyle<T>>(style = style, modifier = modifier)
 
   val isSmallButton = style is QuackSmallButtonStyle
   // TODO: 다른 경우로 사이즈를 지정하는 방법이 있을까?
@@ -796,17 +797,13 @@ public fun <T : ButtonStyleMarker> QuackButton(
   val borderThickness = style.borderThickness
   val borderColor = style.colors.borderColor
   val disabledBorderColor = style.colors.disabledBorderColor
-  val currentBorder = remember(
-    enabled,
-    borderThickness,
-    borderColor,
-    disabledBorderColor,
-  ) {
-    QuackBorder(
-      thickness = borderThickness,
-      color = if (enabled) borderColor else disabledBorderColor,
-    )
-  }
+  val currentBorder =
+    remember(enabled, borderThickness, borderColor, disabledBorderColor) {
+      QuackBorder(
+        thickness = borderThickness,
+        color = if (enabled) borderColor else disabledBorderColor,
+      )
+    }
 
   val iconColor = style.colors.iconColor
 
@@ -815,9 +812,7 @@ public fun <T : ButtonStyleMarker> QuackButton(
   val currentRippleEnabled = if (enabled) rippleEnabled else false
 
   val radius = style.radius
-  val shape = remember(radius) {
-    RoundedCornerShape(size = radius)
-  }
+  val shape = remember(radius) { RoundedCornerShape(size = radius) }
 
   val contentPadding = style.contentPadding
   val currentContentPadding = if (isSizeSpecified) null else contentPadding
@@ -943,15 +938,9 @@ public fun QuackBaseButton(
       }
     },
   ) { measurables, constraints ->
-    val leadingIconMeasurable = measurables.fastFirstOrNull { measurable ->
-      measurable.layoutId == LeadingIconLayoutId
-    }
-    val textMeasurable = measurables.fastFirstOrNull { measurable ->
-      measurable.layoutId == TextLayoutId
-    }!!
-    val trailingIconMeasurable = measurables.fastFirstOrNull { measurable ->
-      measurable.layoutId == TrailingIconLayoutId
-    }
+    val textMeasurable = measurables[TextLayoutId]
+    val leadingIconMeasurable = measurables.fastGetByIdOrNull(LeadingIconLayoutId)
+    val trailingIconMeasurable = measurables.fastGetByIdOrNull(TrailingIconLayoutId)
 
     val looseConstraints = constraints.asLoose(width = true, height = true)
 

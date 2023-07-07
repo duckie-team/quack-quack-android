@@ -22,6 +22,7 @@ dependencies {
     libs.compose.runtime,
     libs.compose.ui.core,
     libs.compose.foundation,
-    libs.test.junit.core
+    libs.test.robolectric,
+    libs.test.junit.core,
   )
 }

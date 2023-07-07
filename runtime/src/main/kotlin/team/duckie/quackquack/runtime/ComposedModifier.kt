@@ -22,13 +22,18 @@ private class KeyedQuackComposedModifier1(
   factory: @Composable Modifier.() -> Modifier,
 ) : QuackComposedModifier(factory) {
   override fun equals(other: Any?): Boolean {
-    return other is KeyedQuackComposedModifier1 &&
-      fqName == other.fqName &&
-      key1 == other.key1
+    if (this === other) return true
+    if (other !is KeyedQuackComposedModifier1) return false
+
+    if (fqName != other.fqName) return false
+
+    return key1 == other.key1
   }
 
   override fun hashCode(): Int {
-    return 31 * fqName.hashCode() + key1.hashCode()
+    var result = fqName.hashCode()
+    result = 31 * result + (key1?.hashCode() ?: 0)
+    return result
   }
 }
 
@@ -40,16 +45,19 @@ private class KeyedQuackComposedModifier2(
   factory: @Composable Modifier.() -> Modifier,
 ) : QuackComposedModifier(factory) {
   override fun equals(other: Any?): Boolean {
-    return other is KeyedQuackComposedModifier2 &&
-      fqName == other.fqName &&
-      key1 == other.key1 &&
-      key2 == other.key2
+    if (this === other) return true
+    if (other !is KeyedQuackComposedModifier2) return false
+
+    if (fqName != other.fqName) return false
+    if (key1 != other.key1) return false
+
+    return key2 == other.key2
   }
 
   override fun hashCode(): Int {
     var result = fqName.hashCode()
-    result = 31 * result + key1.hashCode()
-    result = 31 * result + key2.hashCode()
+    result = 31 * result + (key1?.hashCode() ?: 0)
+    result = 31 * result + (key2?.hashCode() ?: 0)
     return result
   }
 }
@@ -63,18 +71,21 @@ private class KeyedQuackComposedModifier3(
   factory: @Composable Modifier.() -> Modifier,
 ) : QuackComposedModifier(factory) {
   override fun equals(other: Any?): Boolean {
-    return other is KeyedQuackComposedModifier3 &&
-      fqName == other.fqName &&
-      key1 == other.key1 &&
-      key2 == other.key2 &&
-      key3 == other.key3
+    if (this === other) return true
+    if (other !is KeyedQuackComposedModifier3) return false
+
+    if (fqName != other.fqName) return false
+    if (key1 != other.key1) return false
+    if (key2 != other.key2) return false
+
+    return key3 == other.key3
   }
 
   override fun hashCode(): Int {
     var result = fqName.hashCode()
-    result = 31 * result + key1.hashCode()
-    result = 31 * result + key2.hashCode()
-    result = 31 * result + key3.hashCode()
+    result = 31 * result + (key1?.hashCode() ?: 0)
+    result = 31 * result + (key2?.hashCode() ?: 0)
+    result = 31 * result + (key3?.hashCode() ?: 0)
     return result
   }
 }
@@ -86,13 +97,18 @@ private class KeyedQuackComposedModifierN(
   factory: @Composable Modifier.() -> Modifier,
 ) : QuackComposedModifier(factory) {
   override fun equals(other: Any?): Boolean {
-    return other is KeyedQuackComposedModifierN &&
-      fqName == other.fqName &&
-      keys.contentEquals(other.keys)
+    if (this === other) return true
+    if (other !is KeyedQuackComposedModifierN) return false
+
+    if (fqName != other.fqName) return false
+
+    return keys.contentEquals(other.keys)
   }
 
   override fun hashCode(): Int {
-    return 31 * fqName.hashCode() + keys.contentHashCode()
+    var result = fqName.hashCode()
+    result = 31 * result + keys.contentHashCode()
+    return result
   }
 }
 
@@ -108,9 +124,8 @@ private class KeyedQuackComposedModifierN(
  * @see Composer.quackMaterializeOf
  */
 @Stable
-public fun Modifier.quackComposed(factory: @Composable Modifier.() -> Modifier): Modifier {
-  return then(QuackComposedModifier(factory))
-}
+public fun Modifier.quackComposed(factory: @Composable Modifier.() -> Modifier): Modifier =
+  this then QuackComposedModifier(factory)
 
 /**
  * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
@@ -135,15 +150,13 @@ public fun Modifier.quackComposed(
   fullyQualifiedName: String,
   key1: Any?,
   factory: @Composable Modifier.() -> Modifier,
-): Modifier {
-  return then(
+): Modifier =
+  this then
     KeyedQuackComposedModifier1(
       fqName = fullyQualifiedName,
       key1 = key1,
       factory = factory,
-    ),
-  )
-}
+    )
 
 /**
  * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
@@ -169,16 +182,14 @@ public fun Modifier.quackComposed(
   key1: Any?,
   key2: Any?,
   factory: @Composable Modifier.() -> Modifier,
-): Modifier {
-  return then(
+): Modifier =
+  this then
     KeyedQuackComposedModifier2(
       fqName = fullyQualifiedName,
       key1 = key1,
       key2 = key2,
       factory = factory,
-    ),
-  )
-}
+    )
 
 /**
  * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
@@ -205,17 +216,15 @@ public fun Modifier.quackComposed(
   key2: Any?,
   key3: Any?,
   factory: @Composable Modifier.() -> Modifier,
-): Modifier {
-  return then(
+): Modifier =
+  this then
     KeyedQuackComposedModifier3(
       fqName = fullyQualifiedName,
       key1 = key1,
       key2 = key2,
       key3 = key3,
       factory = factory,
-    ),
-  )
-}
+    )
 
 /**
  * [Modifier.composed]의 꽥꽥 버전을 구현합니다.
@@ -240,12 +249,10 @@ public fun Modifier.quackComposed(
   fullyQualifiedName: String,
   vararg keys: Any?,
   factory: @Composable Modifier.() -> Modifier,
-): Modifier {
-  return then(
+): Modifier =
+  this then
     KeyedQuackComposedModifierN(
       fqName = fullyQualifiedName,
       keys = keys,
       factory = factory,
-    ),
-  )
-}
+    )

@@ -12,6 +12,7 @@ plugins {
   quackquack("android-compose")
   quackquack("kotlin-explicit-api")
   quackquack("test-junit")
+  quackquack("test-roborazzi")
   quackquack("quack-publishing")
   alias(libs.plugins.test.roborazzi)
 }
@@ -29,16 +30,6 @@ android {
   sourceSets {
     getByName("test").resources.srcDir("src/test/assets")
   }
-
-  testOptions {
-    unitTests {
-      isIncludeAndroidResources = true
-      isReturnDefaultValues = true
-      all { test ->
-        test.systemProperty("robolectric.graphicsMode", "NATIVE")
-      }
-    }
-  }
 }
 
 dependencies {
@@ -47,11 +38,5 @@ dependencies {
     libs.compose.runtime,
     libs.coil.gif,
   )
-  testImplementations(
-    libs.test.robolectric,
-    libs.test.junit.compose,
-    libs.test.kotlin.coroutines, // needed for compose-ui-test
-    libs.bundles.test.roborazzi,
-    projects.ui,
-  )
+  testImplementation(projects.ui)
 }

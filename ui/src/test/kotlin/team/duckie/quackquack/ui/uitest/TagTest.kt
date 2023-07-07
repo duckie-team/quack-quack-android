@@ -17,10 +17,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.QuackTagErrors.GrayscaleFlatStyleUnselectedState
-import team.duckie.quackquack.ui.commonutil.setQuackContent
+import team.duckie.quackquack.ui.common.setQuackContent
 import team.duckie.quackquack.ui.sugar.QuackGrayscaleFlatTag
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
-import team.duckie.quackquack.util.Empty
 
 @RunWith(AndroidJUnit4::class)
 class TagTest {
@@ -31,7 +30,7 @@ class TagTest {
   fun GrayscaleFlatStyleDotAllowUnselectedState() {
     shouldThrowWithMessage<IllegalStateException>(GrayscaleFlatStyleUnselectedState) {
       compose.setQuackContent {
-        QuackGrayscaleFlatTag(String.Empty, selected = false) {}
+        QuackGrayscaleFlatTag("", selected = false) {}
       }
     }
   }

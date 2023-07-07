@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:Suppress("UNCHECKED_CAST")
+
 package team.duckie.quackquack.ui.plugin
 
 import androidx.compose.runtime.collection.MutableVector
@@ -64,7 +66,6 @@ class QuackPluginsTest : StringSpec() {
       pluginOrNull.shouldBeNull()
     }
 
-    @Suppress("UNCHECKED_CAST")
     "filterByTypeOrNull으로 타입에 맞는 플러그인을 모두 조회할 수 있음" {
       open class LocalP : QuackPlugin
       open class LocalP2 : QuackPlugin

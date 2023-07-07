@@ -1,13 +1,14 @@
-stable class ImageSnapshot {
-  <runtime stability> = Stable
+runtime class ImageSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
 }
-unstable class SwitchSnapshot {
-  unstable val snapshotPath: SnapshotPathGeneratorRule
-  <runtime stability> = Unstable
+runtime class SwitchSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
 }
-unstable class TabSnapshot {
-  unstable val snapshotPath: SnapshotPathGeneratorRule
-  <runtime stability> = Unstable
+runtime class TabSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
 }
 unstable class TagSnapshot {
   unstable val testNameToSelectState: MutableMap<String, Boolean>
@@ -15,18 +16,13 @@ unstable class TagSnapshot {
   unstable val roborazzi: RoborazziRule
   <runtime stability> = Unstable
 }
-unstable class TextFieldSnapshot {
-  unstable val snapshotPath: SnapshotPathGeneratorRule
-  <runtime stability> = Unstable
+runtime class TextFieldSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
 }
-unstable class TextSnapshot {
-  unstable val snapshotPath: SnapshotPathGeneratorRule
-  <runtime stability> = Unstable
-}
-unstable class SnapshotPathGeneratorRule {
-  stable val domain: String
-  stable var realtimeTestMethodName: String?
-  <runtime stability> = Unstable
+runtime class TextSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
 }
 runtime class ButtonTest {
   runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>

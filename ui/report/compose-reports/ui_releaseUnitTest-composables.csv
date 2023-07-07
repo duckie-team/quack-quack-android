@@ -1,4 +1,1 @@
 package,name,composable,skippable,restartable,readonly,inline,isLambda,hasDefaults,defaultsGroup,groups,calls,
-team.duckie.quackquack.ui.snapshot.util.TestColumn,TestColumn,1,1,1,0,0,0,0,0,1,1,
-team.duckie.quackquack.ui.snapshot.util.WithLabel,WithLabel,1,1,1,0,0,0,1,0,2,1,
-team.duckie.quackquack.ui.snapshot.util.withIncreaseFontScale,withIncreaseFontScale,1,1,1,0,0,0,0,0,1,2,

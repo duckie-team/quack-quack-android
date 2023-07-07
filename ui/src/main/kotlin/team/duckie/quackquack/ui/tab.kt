@@ -11,6 +11,7 @@ package team.duckie.quackquack.ui
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.snap
@@ -23,6 +24,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.collection.MutableVector
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
@@ -40,12 +42,14 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
 import androidx.compose.ui.util.fastMap
+import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
-import team.duckie.quackquack.animation.animatedQuackTextStyleAsState
+import team.duckie.quackquack.animation.animatedQuackTypographyAsState
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.material.quackClickable
 import team.duckie.quackquack.sugar.material.NoSugar
+import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafely
 import team.duckie.quackquack.ui.util.fastFilterById
 import team.duckie.quackquack.ui.util.onDrawFront
 import team.duckie.quackquack.ui.util.rememberLtrTextMeasurer
@@ -223,6 +227,9 @@ public fun QuackTab(
   modifier: Modifier = Modifier,
   content: QuackTabScope.() -> Unit,
 ) {
+  @Suppress("NAME_SHADOWING")
+  val colors = rememberInterceptedStyleSafely<QuackTabColors>(style = colors, modifier = modifier)
+
   fun Modifier.drawUnderline() =
     drawWithCache {
       val underline = object {
@@ -303,9 +310,11 @@ public fun QuackTab(
       .drawUnderline(),
     content = {
       tabs.fastForEachIndexed { tabIndex, (label, onClick) ->
+        @Suppress("UNCHECKED_CAST")
         val labelTypography =
-          animatedQuackTextStyleAsState(
+          animatedQuackTypographyAsState(
             targetValue = if (index == tabIndex) tabTypography else disabledTabTypography,
+            animationSpec = tabTweenSpec as AnimationSpec<Any>,
             label = "QuackTabLabelTypography",
           )
         val labelMeasureResult = remember(label, labelTypography) {
@@ -334,7 +343,10 @@ public fun QuackTab(
               val labelPlacementTopLeftOffset =
                 Offset(
                   x = tabLabelSpacedBy.toPx(),
-                  y = size.height / 2 - labelMeasureResult.size.height / 2,
+                  y = Alignment
+                    .CenterVertically
+                    .align(size = labelMeasureResult.size.height, space = size.height.roundToInt())
+                    .toFloat(),
                 )
               onDrawFront {
                 drawText(

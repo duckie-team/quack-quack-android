@@ -1,0 +1,47 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="ConstPropertyName" enabled="false" enabled_by_default="false" level="WEAK WARNING" />
+    <inspection_tool class="LocalVariableName" enabled="false" enabled_by_default="false" level="WEAK WARNING" />
+    <inspection_tool class="PreviewAnnotationInFunctionWithParameters" enabled="true" enabled_by_default="true"
+      level="ERROR">
+      <option name="composableFile" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PreviewApiLevelMustBeValid" enabled="true" enabled_by_default="true" level="ERROR">
+      <option name="composableFile" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PreviewDimensionRespectsLimit" enabled="true" enabled_by_default="true" level="WARNING">
+      <option name="composableFile" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PreviewFontScaleMustBeGreaterThanZero" enabled="true" enabled_by_default="true"
+      level="ERROR">
+      <option name="composableFile" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PreviewMultipleParameterProviders" enabled="true" enabled_by_default="true" level="ERROR">
+      <option name="composableFile" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PreviewMustBeTopLevelFunction" enabled="true" enabled_by_default="true" level="ERROR">
+      <option name="composableFile" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PreviewNeedsComposableAnnotation" enabled="true" enabled_by_default="true" level="ERROR">
+      <option name="composableFile" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PreviewNotSupportedInUnitTestFiles" enabled="true" enabled_by_default="true" level="ERROR">
+      <option name="composableFile" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PreviewPickerAnnotation" enabled="true" enabled_by_default="true" level="ERROR">
+      <option name="composableFile" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PrivatePropertyName" enabled="false" enabled_by_default="false" level="WEAK WARNING" />
+    <inspection_tool class="RedundantSuppression" enabled="false" enabled_by_default="false" level="WARNING" />
+    <inspection_tool class="RedundantUnitExpression" enabled="false" enabled_by_default="false" level="WARNING" />
+    <inspection_tool class="SpellCheckingInspection" enabled="false" enabled_by_default="false" level="TYPO">
+      <option name="processCode" value="true" />
+      <option name="processLiterals" value="true" />
+      <option name="processComments" value="true" />
+    </inspection_tool>
+    <inspection_tool class="TestFunctionName" enabled="false" enabled_by_default="false" level="WEAK WARNING" />
+    <inspection_tool class="UnusedReceiverParameter" enabled="false" enabled_by_default="false" level="WARNING" />
+    <inspection_tool class="UnusedVersionCatalogEntry" enabled="false" enabled_by_default="false" level="WARNING" />
+  </profile>
+</component>

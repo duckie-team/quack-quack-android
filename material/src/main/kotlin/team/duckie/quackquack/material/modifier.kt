@@ -31,38 +31,39 @@ public fun Modifier.quackSurface(
   rippleEnabled: Boolean = true,
   rippleColor: QuackColor = QuackColor.Unspecified,
   onClick: (() -> Unit)? = null,
-): Modifier = inspectable(
-  inspectorInfo = debugInspectorInfo {
-    name = "quackSurface"
-    properties["shape"] = shape
-    properties["backgroundColor"] = backgroundColor
-    properties["border"] = border
-    properties["elevation"] = elevation
-    properties["role"] = role
-    properties["rippleEnabled"] = rippleEnabled
-    properties["rippleColor"] = rippleColor
-    properties["onClick"] = onClick
-  },
-) {
-  this
-    .shadow(
-      elevation = elevation,
-      shape = shape,
-      clip = false,
-    )
-    .clip(shape = shape)
-    .background(
-      color = backgroundColor.value,
-      shape = shape,
-    )
-    .quackClickable(
-      role = role,
-      rippleEnabled = rippleEnabled,
-      rippleColor = rippleColor,
-      onClick = onClick,
-    )
-    .quackBorder(
-      border = border,
-      shape = shape,
-    )
-}
+): Modifier =
+  inspectable(
+    inspectorInfo = debugInspectorInfo {
+      name = "quackSurface"
+      properties["shape"] = shape
+      properties["backgroundColor"] = backgroundColor
+      properties["border"] = border
+      properties["elevation"] = elevation
+      properties["role"] = role
+      properties["rippleEnabled"] = rippleEnabled
+      properties["rippleColor"] = rippleColor
+      properties["onClick"] = onClick
+    },
+  ) {
+    this
+      .shadow(
+        elevation = elevation,
+        shape = shape,
+        clip = false,
+      )
+      .clip(shape = shape)
+      .background(
+        color = backgroundColor.value,
+        shape = shape,
+      )
+      .quackClickable(
+        role = role,
+        rippleEnabled = rippleEnabled,
+        rippleColor = rippleColor,
+        onClick = onClick,
+      )
+      .quackBorder(
+        border = border,
+        shape = shape,
+      )
+  }

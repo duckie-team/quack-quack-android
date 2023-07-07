@@ -18,6 +18,7 @@ plugins {
   quackquack("kotlin-explicit-api")
   quackquack("quack-publishing")
   quackquack("test-junit")
+  quackquack("test-roborazzi")
   alias(libs.plugins.kotlin.ksp)
   alias(libs.plugins.test.roborazzi)
 }
@@ -45,13 +46,8 @@ android {
   }
 
   testOptions {
-    unitTests {
-      isIncludeAndroidResources = true
-      isReturnDefaultValues = true
-      all { test ->
-        test.maxHeapSize = "4G"
-        test.systemProperty("robolectric.graphicsMode", "NATIVE")
-      }
+    unitTests.all { test ->
+      test.maxHeapSize = "4G"
     }
   }
 }
@@ -97,13 +93,7 @@ dependencies {
     projects.casaAnnotation.orArtifact(),
   )
 
-  testImplementations(
-    libs.test.robolectric,
-    libs.test.junit.compose,
-    libs.test.kotest.assertion.core,
-    libs.test.kotlin.coroutines, // needed for compose-ui-test
-    libs.bundles.test.roborazzi,
-  )
+  testImplementation(libs.test.kotest.assertion.core)
   androidTestImplementations(
     libs.test.junit.compose,
     libs.test.kotest.assertion.core,

@@ -1,4 +1,0 @@
-unstable class QuackAnimationSpec {
-  stable var snapMode: Boolean
-  <runtime stability> = Unstable
-}

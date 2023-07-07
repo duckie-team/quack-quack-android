@@ -35,5 +35,7 @@ dependencies {
     libs.test.kotlin.coroutines,
     libs.test.mockito.core,
     libs.test.mockito.kotlin,
+    projects.utilModifier,
+    projects.utilComposeRuntimeTest,
   )
 }

@@ -18,12 +18,12 @@ gradlePlugin {
     "AndroidApplicationPlugin" to "android-application",
     "AndroidLibraryPlugin" to "android-library",
     "AndroidGmdPlugin" to "android-gmd",
-    "AndroidLintPlugin" to "android-lint",
     "AndroidComposePlugin" to "android-compose",
     "AndroidComposeMetricsPlugin" to "android-compose-metrics",
     "JvmKotlinPlugin" to "jvm-kotlin",
     "TestJUnitPlugin" to "test-junit",
     "TestKotestPlugin" to "test-kotest",
+    "TestRoborazziPlugin" to "test-roborazzi",
     "KotlinExplicitApiPlugin" to "kotlin-explicit-api",
     "QuackMavenPublishingPlugin" to "quack-publishing",
   )

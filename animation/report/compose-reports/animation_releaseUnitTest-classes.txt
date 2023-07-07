@@ -1,0 +1,12 @@
+runtime class QuackBorderSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
+}
+runtime class QuackColorSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
+}
+runtime class QuackTypographySnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
+}

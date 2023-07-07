@@ -20,7 +20,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.QuackButton
 import team.duckie.quackquack.ui.QuackButtonStyle
-import team.duckie.quackquack.ui.commonutil.setQuackContent
+import team.duckie.quackquack.ui.common.setQuackContent
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 
 @RunWith(AndroidJUnit4::class)

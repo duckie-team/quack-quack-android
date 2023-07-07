@@ -39,6 +39,7 @@ import team.duckie.quackquack.runtime.quackComposed
 import team.duckie.quackquack.runtime.quackMaterializeOf
 import team.duckie.quackquack.sugar.material.SugarName
 import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafely
 import team.duckie.quackquack.ui.util.asLoose
 import team.duckie.quackquack.ui.util.rememberLtrTextMeasurer
 import team.duckie.quackquack.util.fastFirstIsInstanceOrNull
@@ -74,15 +75,16 @@ private data class TextHighlightData(
 public fun Modifier.span(
   texts: List<String>,
   style: SpanStyle,
-): Modifier = inspectable(
-  inspectorInfo = debugInspectorInfo {
-    name = "span"
-    properties["texts"] = texts
-    properties["style"] = style
-  },
-) {
-  TextSpanData(texts = texts, style = style)
-}
+): Modifier =
+  inspectable(
+    inspectorInfo = debugInspectorInfo {
+      name = "span"
+      properties["texts"] = texts
+      properties["style"] = style
+    },
+  ) {
+    TextSpanData(texts = texts, style = style)
+  }
 
 /**
  * 주어진 텍스트에 클릭 가능한 [SpanStyle]을 입힙니다.
@@ -97,15 +99,16 @@ public fun Modifier.highlight(
     color = QuackColor.DuckieOrange.value,
     fontWeight = FontWeight.SemiBold,
   ),
-): Modifier = inspectable(
-  inspectorInfo = debugInspectorInfo {
-    name = "highlight"
-    properties["highlights"] = highlights
-    properties["span"] = span
-  },
-) {
-  TextHighlightData(highlights = highlights, span = span)
-}
+): Modifier =
+  inspectable(
+    inspectorInfo = debugInspectorInfo {
+      name = "highlight"
+      properties["highlights"] = highlights
+      properties["span"] = span
+    },
+  ) {
+    TextHighlightData(highlights = highlights, span = span)
+  }
 
 /**
  * 주어진 텍스트에 클릭 가능한 [SpanStyle]을 입힙니다.
@@ -122,20 +125,21 @@ public fun Modifier.highlight(
     fontWeight = FontWeight.SemiBold,
   ),
   globalOnClick: (text: String) -> Unit,
-): Modifier = inspectable(
-  inspectorInfo = debugInspectorInfo {
-    name = "highlight"
-    properties["texts"] = texts
-    properties["span"] = span
-  },
-) {
-  quackComposed {
-    val highlights = remember(texts, globalOnClick) {
-      texts.fastMap { text -> HighlightText(text, globalOnClick) }
+): Modifier =
+  inspectable(
+    inspectorInfo = debugInspectorInfo {
+      name = "highlight"
+      properties["texts"] = texts
+      properties["span"] = span
+    },
+  ) {
+    quackComposed {
+      val highlights = remember(texts, globalOnClick) {
+        texts.fastMap { text -> HighlightText(text, globalOnClick) }
+      }
+      TextHighlightData(highlights = highlights, span = span)
     }
-    TextHighlightData(highlights = highlights, span = span)
   }
-}
 
 @VisibleForTesting
 internal object QuackTextErrors {
@@ -184,6 +188,8 @@ public fun QuackText(
     error(QuackTextErrors.CannotUseSpanAndHighlightAtSameTime)
   }
 
+  @Suppress("NAME_SHADOWING")
+  val typography = rememberInterceptedStyleSafely<QuackTypography>(style = typography, modifier = modifier)
   val currentTypography = remember(typography, calculation = typography::asComposeStyle)
 
   val maxLines = if (singleLine) 1 else Int.MAX_VALUE

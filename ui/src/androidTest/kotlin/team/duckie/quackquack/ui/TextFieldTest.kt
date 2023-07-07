@@ -15,15 +15,15 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import io.kotest.matchers.shouldBe
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.theme.QuackTheme
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
-import team.duckie.quackquack.util.Empty
 
-// wip
+@Ignore("WIP")
 class TextFieldTest {
   @get:Rule
   val compose = createComposeRule()
@@ -35,7 +35,7 @@ class TextFieldTest {
     compose.setContent {
       QuackTheme {
         QuackFilledTextField(
-          value = String.Empty,
+          value = "",
           onValueChange = {},
           style = QuackTextFieldStyle.FilledLarge {
             colors = colors.copy(

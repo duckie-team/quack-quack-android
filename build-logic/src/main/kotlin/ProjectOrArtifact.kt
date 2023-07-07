@@ -47,14 +47,9 @@ private const val useArtifact = false
  *
  * @see useArtifact
  */
-fun ProjectDependency.orArtifact(): Any {
-  return if (useArtifact) {
-    val artifact = ArtifactConfig.of(dependencyProject)
-    artifact.toString()
-  } else {
-    this
-  }
-}
+fun ProjectDependency.orArtifact(): Any =
+  if (useArtifact) ArtifactConfig.of(dependencyProject).toString()
+  else this
 
 /**
  * [useArtifact]가 false일 때만 주어진 [block]을 실행합니다.

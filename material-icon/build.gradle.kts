@@ -12,37 +12,19 @@ plugins {
   quackquack("android-compose")
   quackquack("kotlin-explicit-api")
   quackquack("test-junit")
+  quackquack("test-roborazzi")
   quackquack("quack-publishing")
   alias(libs.plugins.test.roborazzi)
 }
 
 android {
   namespace = "team.duckie.quackquack.material.icon"
-
-  defaultConfig {
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-  }
-
-  testOptions {
-    unitTests {
-      isIncludeAndroidResources = true
-      isReturnDefaultValues = true
-      all { test ->
-        test.systemProperty("robolectric.graphicsMode", "NATIVE")
-      }
-    }
-  }
 }
 
 dependencies {
   implementation(libs.compose.ui.core)
-
   testImplementations(
     libs.compose.foundation,
-    libs.test.robolectric,
-    libs.test.junit.compose,
     libs.test.kotest.assertion.core,
-    libs.test.kotlin.coroutines, // needed for compose-ui-test
-    libs.bundles.test.roborazzi,
   )
 }

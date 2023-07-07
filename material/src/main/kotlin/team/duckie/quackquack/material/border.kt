@@ -42,9 +42,8 @@ public class QuackBorder(
 
   /** [QuackBorder] 를 [BorderStroke]로 변환합니다. */
   @Stable
-  public fun asComposeBorder(): BorderStroke {
-    return BorderStroke(width = thickness, brush = brush)
-  }
+  public fun asComposeBorder(): BorderStroke =
+    BorderStroke(width = thickness, brush = brush)
 }
 
 /**
@@ -59,17 +58,18 @@ public class QuackBorder(
 public fun Modifier.quackBorder(
   border: QuackBorder?,
   shape: Shape = RectangleShape,
-): Modifier = applyIf(border != null) {
-  inspectable(
-    inspectorInfo = debugInspectorInfo {
-      name = "quackBorder"
-      properties["border"] = border
-      properties["shape"] = shape
-    },
-  ) {
-    border(
-      border = border!!.asComposeBorder(),
-      shape = shape,
-    )
+): Modifier =
+  applyIf(border != null) {
+    inspectable(
+      inspectorInfo = debugInspectorInfo {
+        name = "quackBorder"
+        properties["border"] = border
+        properties["shape"] = shape
+      },
+    ) {
+      border(
+        border = border!!.asComposeBorder(),
+        shape = shape,
+      )
+    }
   }
-}

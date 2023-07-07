@@ -554,7 +554,7 @@ public fun <T : TagStyleMarker> QuackTag(
   @CasaValue("{}") onClick: () -> Unit,
 ) {
   @Suppress("NAME_SHADOWING")
-  val style: QuackTagStyle<T> = rememberInterceptedStyleSafely(style = style, modifier = modifier)
+  val style = rememberInterceptedStyleSafely<QuackTagStyle<T>>(style = style, modifier = modifier)
 
   val isGrayscaleFlat = style is QuackGrayscaleFlatTagDefaults
   if (isGrayscaleFlat) {
@@ -582,26 +582,20 @@ public fun <T : TagStyleMarker> QuackTag(
   val borderThickness = style.borderThickness
   val borderColor = style.colors.borderColor
   val unselectedBorderColor = style.colors.unselectedBorderColor
-  val currentBorder = remember(
-    selected,
-    borderThickness,
-    borderColor,
-    unselectedBorderColor,
-  ) {
-    QuackBorder(
-      thickness = borderThickness,
-      color = if (selected) borderColor else unselectedBorderColor,
-    )
-  }
+  val currentBorder =
+    remember(selected, borderThickness, borderColor, unselectedBorderColor) {
+      QuackBorder(
+        thickness = borderThickness,
+        color = if (selected) borderColor else unselectedBorderColor,
+      )
+    }
 
   val rippleColor = style.colors.rippleColor
   val currentRippleEnabled = if (selected) rippleEnabled else false
 
   val radius = style.radius
 
-  val shape = remember(radius) {
-    RoundedCornerShape(size = radius)
-  }
+  val shape = remember(radius) { RoundedCornerShape(size = radius) }
 
   val contentPadding = style.contentPadding
   val currentContentPadding = if (isSizeSpecified) null else contentPadding
@@ -610,14 +604,10 @@ public fun <T : TagStyleMarker> QuackTag(
 
   val typography = style.typography
   val unselectedTypography = style.unselectedTypography
-  val currentTypography = remember(
-    selected,
-    typography,
-    unselectedTypography,
-    currentContentColor,
-  ) {
-    (if (selected) typography else unselectedTypography).change(color = currentContentColor)
-  }
+  val currentTypography =
+    remember(selected, typography, unselectedTypography, currentContentColor) {
+      (if (selected) typography else unselectedTypography).change(color = currentContentColor)
+    }
 
   val iconColor = style.colors.iconColor
   val unselectedIconColor = style.colors.unselectedIconColor
@@ -627,25 +617,7 @@ public fun <T : TagStyleMarker> QuackTag(
   val trailingIconSize = trailingIconData?.size
   val trailingIconOnClick = trailingIconData?.onClick
 
-  val inspectableModifier = style
-    .wrappedDebugInspectable(composeModifier)
-    .wrappedDebugInspectable {
-      name = "QuackTag"
-      properties["text"] = text
-      properties["backgroundColor"] = currentBackgroundColor
-      properties["rippleColor"] = rippleColor
-      properties["rippleEnabled"] = currentRippleEnabled
-      properties["shape"] = shape
-      properties["border"] = currentBorder
-      properties["typography"] = currentTypography
-      properties["contentPadding"] = currentContentPadding
-      properties["iconSpacedBy"] = iconSpacedBy
-      properties["iconColor"] = currentIconColor
-      properties["trailingIcon"] = trailingIcon
-      properties["trailingIconSize"] = trailingIconSize
-      properties["trailingIconOnClick"] = trailingIconOnClick
-      properties["onClick"] = onClick
-    }
+  val inspectableModifier = style.wrappedDebugInspectable(composeModifier)
 
   QuackBaseTag(
     modifier = inspectableModifier,

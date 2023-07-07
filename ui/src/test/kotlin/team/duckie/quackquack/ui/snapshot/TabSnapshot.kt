@@ -18,7 +18,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import team.duckie.quackquack.ui.QuackTab
-import team.duckie.quackquack.ui.snapshot.util.SnapshotPathGeneratorRule
+import team.duckie.quackquack.util.compose.snapshot.test.SnapshotPathGeneratorRule
 
 @Config(qualifiers = "w400dp-h200dp")
 @RunWith(AndroidJUnit4::class)

@@ -35,7 +35,7 @@ class QuackMavenPublishingPlugin : Plugin<Project> {
       }
 
       val (group, module, version) = ArtifactConfig.of(this).also { artifact ->
-        logger.warn("Publishing $artifact...")
+        logger.warn("Loading $artifact...")
       }
 
       extensions.configure<MavenPublishBaseExtension> {

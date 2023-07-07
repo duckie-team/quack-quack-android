@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.quackClickable
 import team.duckie.quackquack.sugar.material.NoSugar
+import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafely
 import team.duckie.quackquack.ui.util.onDrawFront
 
 /**
@@ -133,6 +134,9 @@ public fun QuackSwitch(
   modifier: Modifier = Modifier,
   onClick: () -> Unit,
 ) {
+  @Suppress("NAME_SHADOWING")
+  val colors = rememberInterceptedStyleSafely<QuackSwitchColors>(style = colors, modifier = modifier)
+
   val density = LocalDensity.current
 
   val enabledXCenter = remember(density, width, height) {

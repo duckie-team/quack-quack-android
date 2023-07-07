@@ -9,14 +9,6 @@
 
 package team.duckie.quackquack.util
 
-/**
- * MagicNumber을 예외적으로 허용할 때 사용하는 어노테이션입니다.
- *
- * @param because MagicNumber를 허용하는 이유
- */
-@Retention(AnnotationRetention.SOURCE)
-public annotation class AllowMagicNumber(val because: String)
-
 /** 주의깊게 사용해야 하는 API임을 나타냅니다. */
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
