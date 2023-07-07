@@ -70,11 +70,11 @@ jobs:
           path: |
             **/build/reports/*
 
-      - name: Upload screenshot-diff
+      - name: Upload screenshot-diffs
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: android-reports
+          name: android-screenshot-diffs
           retention-days: 7
           path: |
             **/build/outputs/roborazzi/*
