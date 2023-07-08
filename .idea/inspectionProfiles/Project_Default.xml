@@ -1,6 +1,7 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
+    <inspection_tool class="SpellCheckingInspection" enabled="false" enabled_by_default="false" level="TYPO" />
     <inspection_tool class="ConstPropertyName" enabled="false" enabled_by_default="false" level="WEAK WARNING" />
     <inspection_tool class="LocalVariableName" enabled="false" enabled_by_default="false" level="WEAK WARNING" />
     <inspection_tool class="PreviewAnnotationInFunctionWithParameters" enabled="true" enabled_by_default="true"
