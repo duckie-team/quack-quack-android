@@ -7,17 +7,16 @@
 
 plugins {
   quackquack("jvm-kotlin")
-  quackquack("test-kotest")
+  quackquack("quack-publishing")
 }
 
 dependencies {
   implementations(
     libs.kotlin.embeddable.compiler,
-    projects.sugarMaterial,
-    projects.sugarCore.node,
-  )
-  testImplementations(
-    libs.test.kotlin.compilation.core,
-    projects.utilBackendTest,
+    projects.sugarMaterial.orArtifact(),
+    projects.sugarCore.error.orArtifact(),
+    projects.sugarCore.names.orArtifact(),
+    projects.sugarCore.node.orArtifact(),
+    projects.utilBackendKotlinc.orArtifact(),
   )
 }

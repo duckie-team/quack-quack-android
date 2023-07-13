@@ -18,9 +18,9 @@ import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import kotlinx.collections.immutable.ImmutableList
-import team.duckie.quackquack.util.backend.FormatterOffComment
-import team.duckie.quackquack.util.backend.SuppressAnnotation
-import team.duckie.quackquack.util.backend.getGeneratedFileComment
+import team.duckie.quackquack.util.backend.kotlinpoet.FormatterOffComment
+import team.duckie.quackquack.util.backend.kotlinpoet.SuppressAnnotation
+import team.duckie.quackquack.util.backend.kotlinpoet.getGeneratedFileComment
 import team.duckie.quackquack.util.backend.ksp.generateBuildOrLocalFile
 import team.duckie.quackquack.util.backend.ksp.requireContainingFile
 

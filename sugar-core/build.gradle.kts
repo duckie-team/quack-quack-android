@@ -19,9 +19,11 @@ dependencies {
   compileOnly(libs.kotlin.embeddable.compiler)
   implementations(
     libs.google.autoservice.annotation,
+    libs.jetbrains.annotation,
     projects.sugarCore.node,
     projects.sugarCore.visitor,
     projects.sugarCore.codegen,
+    projects.utilBackendKotlinc,
   )
   ksp(libs.google.autoservice.ksp.processor)
 }

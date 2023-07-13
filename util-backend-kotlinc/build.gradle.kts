@@ -14,7 +14,6 @@ plugins {
 }
 
 dependencies {
-  api(projects.utilBackend.orArtifact())
   implementations(
     libs.kotlin.kotlinpoet.core,
     libs.kotlin.embeddable.compiler,

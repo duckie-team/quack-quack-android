@@ -11,22 +11,24 @@ import org.intellij.lang.annotations.Language
 
 public object ComposeStub {
   @Language("kotlin")
-  public const val Modifier: String = """
+  public const val Modifier: String =
+    """
 package androidx.compose.ui
 
 interface Modifier { companion object : Modifier }
     """
 
   @Language("kotlin")
-  public const val Composable: String = """
+  public const val Composable: String =
+    """
 package androidx.compose.runtime
 
 @Retention(AnnotationRetention.BINARY)
 @Target(
-    AnnotationTarget.FUNCTION,
-    AnnotationTarget.TYPE,
-    AnnotationTarget.TYPE_PARAMETER,
-    AnnotationTarget.PROPERTY_GETTER,
+  AnnotationTarget.FUNCTION,
+  AnnotationTarget.TYPE,
+  AnnotationTarget.TYPE_PARAMETER,
+  AnnotationTarget.PROPERTY_GETTER,
 )
 annotation class Composable
     """

@@ -19,9 +19,12 @@ ksp {
 dependencies {
   compileOnly(libs.kotlin.embeddable.compiler)
   ksp(libs.google.autoservice.ksp.processor)
-  implementation(libs.google.autoservice.annotation)
-  testImplementations(
-    libs.test.kotlin.compilation.core,
-    projects.utilBackendTest,
+  implementations(
+    libs.google.autoservice.annotation,
+    projects.sugarCore.names.orArtifact(),
+    projects.sugarCore.error.orArtifact(),
+    projects.sugarCore.node.orArtifact(),
+    projects.sugarCore.visitor.orArtifact(),
+    projects.utilBackendKotlinc.orArtifact(),
   )
 }

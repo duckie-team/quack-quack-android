@@ -13,11 +13,14 @@ import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSourceLocation
 import org.jetbrains.kotlin.ir.IrElement
 import org.jetbrains.kotlin.ir.declarations.IrFile
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
+import org.jetbrains.kotlin.ir.expressions.IrConstructorCall
 import org.jetbrains.kotlin.ir.types.IrType
 import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.types.isUnit
 import org.jetbrains.kotlin.ir.util.SYNTHETIC_OFFSET
+import org.jetbrains.kotlin.ir.util.fqNameWhenAvailable
 import org.jetbrains.kotlin.ir.util.hasAnnotation
+import org.jetbrains.kotlin.ir.util.parentAsClass
 
 /**
  * 주어진 [함수][IrSimpleFunction]가 꽥꽥 컴포넌트인지 조회합니다.
@@ -57,3 +60,7 @@ public fun IrFile.locationOf(irElement: IrElement?): CompilerMessageSourceLocati
     lineContent = null,
   )!!
 }
+
+/** 주어진 어노테이션의 fqn을 조회하여 반환하고, 만약 조회에 실패했다면 공백을 반환합니다. */
+public fun IrConstructorCall.toFqnStringOrEmpty(): String =
+  symbol.owner.parentAsClass.fqNameWhenAvailable?.asString().orEmpty()

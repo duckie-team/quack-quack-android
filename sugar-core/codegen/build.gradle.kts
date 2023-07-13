@@ -7,7 +7,6 @@
 
 plugins {
   quackquack("jvm-kotlin")
-  quackquack("test-kotest")
 }
 
 dependencies {
@@ -15,5 +14,9 @@ dependencies {
     libs.kotlin.embeddable.compiler,
     libs.kotlin.kotlinpoet.core,
     projects.sugarCore.node,
+    projects.sugarCore.names,
+    projects.sugarCore.error,
+    projects.utilBackendKotlinc,
+    projects.utilBackendKotlinpoet,
   )
 }

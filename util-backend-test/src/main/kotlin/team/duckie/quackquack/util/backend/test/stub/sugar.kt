@@ -11,16 +11,18 @@ import org.intellij.lang.annotations.Language
 
 public object SugarStub {
   @Language("kotlin")
-  public const val Typer: String = """
+  public const val Typer: String =
+    """
 package team.duckie.quackquack.sugar.material
 
 fun <T> sugar(): T {
-    throw NotImplementedError()
+  throw NotImplementedError()
 }   
     """
 
   @Language("kotlin")
-  public const val Annotations: String = """
+  public const val Annotations: String =
+    """
 package team.duckie.quackquack.sugar.material
 
 import kotlin.reflect.KClass
@@ -28,11 +30,11 @@ import kotlin.reflect.KClass
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
 annotation class SugarName(val name: String = DEFAULT_NAME) {
-    companion object {
-        const val PREFIX_NAME: String = "Quack"
-        const val DEFAULT_NAME: String = "<<DEFAULT_NAME>>"
-        const val TOKEN_NAME: String = "<<SUGAR_TOKEN>>"
-    }
+  companion object {
+    const val PREFIX_NAME: String = "Quack"
+    const val DEFAULT_NAME: String = "<<DEFAULT_NAME>>"
+    const val TOKEN_NAME: String = "<<SUGAR_TOKEN>>"
+  }
 }
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
