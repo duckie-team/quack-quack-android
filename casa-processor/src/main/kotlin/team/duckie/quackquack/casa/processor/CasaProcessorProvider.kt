@@ -14,7 +14,6 @@ import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
-import com.google.devtools.ksp.symbol.KSAnnotated
 
 private const val CasaPathArg = "CasaPath"
 
@@ -35,13 +34,12 @@ private class CasaSymbolProcessor(
   logger: KSPLogger,
   options: Map<String, Any>,
 ) : SymbolProcessor {
-  private val processor = CasaProcessor(
-    codeGenerator = codeGenerator,
-    logger = logger,
-    casaPath = options[CasaPathArg]?.toString(),
-  )
+  private val processor =
+    CasaProcessor(
+      codeGenerator = codeGenerator,
+      logger = logger,
+      casaPath = options[CasaPathArg]?.toString(),
+    )
 
-  override fun process(resolver: Resolver): List<KSAnnotated> {
-    return processor.resolve(resolver)
-  }
+  override fun process(resolver: Resolver) = processor.resolve(resolver)
 }
