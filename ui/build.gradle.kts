@@ -99,12 +99,12 @@ dependencies {
     libs.test.kotest.assertion.core,
   )
 
-  kotlinCompilerPlugin(projects.sugarProcessor.orArtifact())
+   kotlinCompilerPlugin(projects.sugarCompiler.orArtifact())
 
   safeRunWithinDevelopmentMode {
     ksps(
       // TODO: projects.casaProcessor,
     )
-    // kotlinCompilerPlugin(projects.docusaurusIntegration)
+     kotlinCompilerPlugin(projects.sugarCore)
   }
 }
