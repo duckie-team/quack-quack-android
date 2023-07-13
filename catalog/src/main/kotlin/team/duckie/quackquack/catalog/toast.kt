@@ -14,4 +14,3 @@ import android.widget.Toast
 
 internal fun Activity.toast(message: String) =
   Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).also(Toast::show)
-
