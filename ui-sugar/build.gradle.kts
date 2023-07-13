@@ -17,4 +17,11 @@ android {
 
 dependencies {
   api(projects.ui.orArtifact())
+  implementations(
+    libs.compose.ui.core,
+    libs.compose.ui.text,
+    libs.compose.foundation,
+    projects.casaAnnotation.orArtifact(),
+    projects.sugarMaterial.orArtifact(),
+  )
 }
