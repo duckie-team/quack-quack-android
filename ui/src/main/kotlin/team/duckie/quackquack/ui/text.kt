@@ -39,6 +39,7 @@ import team.duckie.quackquack.runtime.quackComposed
 import team.duckie.quackquack.runtime.quackMaterializeOf
 import team.duckie.quackquack.sugar.material.SugarName
 import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.sugar.material.Sugarable
 import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafely
 import team.duckie.quackquack.ui.util.asLoose
 import team.duckie.quackquack.ui.util.rememberLtrTextMeasurer
@@ -166,6 +167,7 @@ internal object QuackTextErrors {
  *
  * @sample team.duckie.quackquack.ui.sample.SampleTest
  */
+@Sugarable
 @SugarName(SugarName.PREFIX_NAME + SugarName.TOKEN_NAME)
 @Composable
 public fun QuackText(

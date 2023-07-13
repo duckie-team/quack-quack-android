@@ -33,7 +33,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.quackClickable
-import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafely
 import team.duckie.quackquack.ui.util.onDrawFront
 
@@ -126,7 +125,6 @@ private val colorTweenSpec = tween<Color>(durationMillis = AnimationMillis)
  * @param onClick 스위치가 클릭됐을 때 실행할 람다식. 토글은 stable 릴리스 전에 지원될 예정입니다.
  */
 // TODO(impl): anchored-draggable 지원 (toggle)
-@NoSugar
 @Composable
 public fun QuackSwitch(
   enabled: Boolean,

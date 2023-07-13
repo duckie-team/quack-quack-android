@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:OptIn(ExperimentalCompilerApi::class)
+
 package team.duckie.quackquack.sugar.test
 
 import com.tschuchort.compiletesting.KotlinCompilation
@@ -12,10 +14,17 @@ import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.engine.spec.tempdir
 import io.kotest.matchers.shouldBe
+import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.utils.addToStdlib.cast
+import team.duckie.quackquack.sugar.compiler.SugarCompilerRegistrar
 
 class SugarCompilerTransformTest : StringSpec() {
-  private val testCompilation = CompilerTestCompilation(tempdir())
+  private val testCompilation =
+    TestCompilation(tempdir()).apply {
+      prepareSetting {
+        compilerPluginRegistrars = listOf(SugarCompilerRegistrar.asPluginRegistrar())
+      }
+    }
 
   init {
     "Default Argument에 SugarIrTransform이 정상 작동함" {
@@ -23,11 +32,13 @@ class SugarCompilerTransformTest : StringSpec() {
         kotlin(
           "main.kt",
           """
-import team.duckie.quackquack.sugar.material.SugarToken
 import androidx.compose.runtime.Composable
+import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.sugar.material.Sugarable
 
 var number = 0
 
+@Sugarable
 @Composable
 fun QuackText(
   @SugarToken style: AwesomeType,

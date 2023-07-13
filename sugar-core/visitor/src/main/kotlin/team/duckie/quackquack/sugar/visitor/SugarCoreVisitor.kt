@@ -41,7 +41,6 @@ import team.duckie.quackquack.sugar.error.SourceError
 import team.duckie.quackquack.sugar.names.CasaValueFqn
 import team.duckie.quackquack.sugar.names.ComposableFqn
 import team.duckie.quackquack.sugar.names.ImportsFqn
-import team.duckie.quackquack.sugar.names.NoSugarFqn
 import team.duckie.quackquack.sugar.names.QuackComponentPrefix
 import team.duckie.quackquack.sugar.names.RequiresOptInFqn
 import team.duckie.quackquack.sugar.names.SugarDefaultName
@@ -49,6 +48,7 @@ import team.duckie.quackquack.sugar.names.SugarGeneratedFileFqn
 import team.duckie.quackquack.sugar.names.SugarNameFqn
 import team.duckie.quackquack.sugar.names.SugarTokenFqn
 import team.duckie.quackquack.sugar.names.SugarTokenName
+import team.duckie.quackquack.sugar.names.SugarableFqn
 import team.duckie.quackquack.sugar.node.SugarComponentNode
 import team.duckie.quackquack.sugar.node.SugarParameter
 import team.duckie.quackquack.util.backend.kotlinc.Logger
@@ -74,7 +74,7 @@ class SugarCoreVisitor(
   }
 
   override fun visitSimpleFunction(declaration: IrSimpleFunction) {
-    if (declaration.isQuackComponent) {
+    if (declaration.isQuackComponent && declaration.hasAnnotation(SugarableFqn)) {
       val componentLocation = declaration.file.locationOf(declaration)
       val componentFqn =
         declaration.fqNameWhenAvailable
@@ -82,8 +82,6 @@ class SugarCoreVisitor(
             message = SourceError.quackComponentFqnUnavailable(declaration.name.asString()),
             location = componentLocation,
           )
-
-      if (declaration.hasAnnotation(NoSugarFqn)) return
 
       val sugarNameAnnotation = declaration.getAnnotation(SugarNameFqn)
       val sugarName = sugarNameAnnotation?.getSugarNameIfNotDefault(owner = declaration)

@@ -24,16 +24,12 @@ plugins {
 }
 
 tasks.withType<KotlinCompile> {
-  val sugarProcessorKotlinCompilerPluginId = "team.duckie.quackquack.sugar.processor"
-  val sugarPath = "$projectDir/src/main/kotlin/team/duckie/quackquack/ui/sugar"
+  val sugarCorePluginId = "team.duckie.quackquack.sugar.core"
+  val sugarPath = "${projects.uiSugar.dependencyProject.projectDir}/src/main/kotlin/team/duckie/quackquack/ui/sugar"
   kotlinOptions {
     freeCompilerArgs = freeCompilerArgs + listOf(
       "-P",
-      "plugin:$sugarProcessorKotlinCompilerPluginId:sugarPath=$sugarPath",
-    )
-    freeCompilerArgs = freeCompilerArgs + listOf(
-      "-P",
-      "plugin:$sugarProcessorKotlinCompilerPluginId:poet=$sugarPoet",
+      "plugin:$sugarCorePluginId:sugarPath=$sugarPath",
     )
   }
 }
@@ -99,12 +95,10 @@ dependencies {
     libs.test.kotest.assertion.core,
   )
 
-   kotlinCompilerPlugin(projects.sugarCompiler.orArtifact())
+  kotlinCompilerPlugin(projects.sugarCompiler.orArtifact())
 
   safeRunWithinDevelopmentMode {
-    ksps(
-      // TODO: projects.casaProcessor,
-    )
-     kotlinCompilerPlugin(projects.sugarCore)
+    // TODO: ksp(projects.casaProcessor)
+    kotlinCompilerPlugin(projects.sugarCore)
   }
 }

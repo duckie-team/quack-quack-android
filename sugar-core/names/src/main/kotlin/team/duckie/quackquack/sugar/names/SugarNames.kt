@@ -21,12 +21,12 @@ import team.duckie.quackquack.casa.annotation.Casa
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.casa.annotation.SugarGeneratorUsage
 import team.duckie.quackquack.sugar.material.Imports
-import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.sugar.material.SugarCompilerApi
 import team.duckie.quackquack.sugar.material.SugarGeneratedFile
 import team.duckie.quackquack.sugar.material.SugarName
 import team.duckie.quackquack.sugar.material.SugarRefer
 import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.sugar.material.Sugarable
 
 val RequiresOptInFqn = RequiresOptIn::class.qualifiedName!!.toFqnClass()
 
@@ -56,7 +56,7 @@ val SugarReferCn = SugarRefer::class.asClassName()
 val SugarReferFqn = SugarRefer::class.qualifiedName!!.toFqnClass()
 
 val ImportsFqn = Imports::class.qualifiedName!!.toFqnClass()
-val NoSugarFqn = NoSugar::class.qualifiedName!!.toFqnClass()
+val SugarableFqn = Sugarable::class.qualifiedName!!.toFqnClass()
 
 private fun String.toFqnClass() = FqName(this)
 private fun String.toCnClass() = ClassName.bestGuess(this)

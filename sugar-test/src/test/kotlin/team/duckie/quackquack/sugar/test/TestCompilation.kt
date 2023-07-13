@@ -5,7 +5,6 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:OptIn(ExperimentalCompilerApi::class)
 @file:Suppress("MemberVisibilityCanBePrivate")
 
 package team.duckie.quackquack.sugar.test
@@ -13,13 +12,11 @@ package team.duckie.quackquack.sugar.test
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import java.io.File
-import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.JvmTarget
-import team.duckie.quackquack.sugar.compiler.SugarCompilerRegistrar
 import team.duckie.quackquack.util.backend.test.findGeneratedFileOrNull
 
-class CompilerTestCompilation(private val tempDir: File) {
-  private var defaultPrepareSetting: (KotlinCompilation.(tempDir: File) -> Unit)? = null
+class TestCompilation(private val tempDir: File) {
+  private var prepareSetting: (KotlinCompilation.(tempDir: File) -> Unit)? = null
 
   fun compile(vararg sourceFiles: SourceFile) =
     prepare(*sourceFiles).compile()
@@ -32,12 +29,11 @@ class CompilerTestCompilation(private val tempDir: File) {
       inheritClassPath = true
       supportsK2 = false
       useK2 = false
-      compilerPluginRegistrars = listOf(SugarCompilerRegistrar.asPluginRegistrar())
-      defaultPrepareSetting?.invoke(this, tempDir)
+      prepareSetting?.invoke(this, tempDir)
     }
 
-  fun defaultPrepareSetting(block: KotlinCompilation.(tempDir: File) -> Unit) {
-    defaultPrepareSetting = block
+  fun prepareSetting(block: KotlinCompilation.(tempDir: File) -> Unit) {
+    prepareSetting = block
   }
 
   fun findGeneratedFileOrNull(fileName: String) = tempDir.findGeneratedFileOrNull(fileName)

@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:OptIn(ExperimentalCompilerApi::class)
+
 package team.duckie.quackquack.sugar.test
 
 import com.tschuchort.compiletesting.KotlinCompilation
@@ -14,8 +16,9 @@ import io.kotest.core.test.Enabled
 import io.kotest.engine.spec.tempdir
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
+import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
+import team.duckie.quackquack.sugar.compiler.SugarCompilerRegistrar
 import team.duckie.quackquack.sugar.error.NotSupportedError.nestedFunctionalType
-import team.duckie.quackquack.sugar.error.PoetError.sugarComponentButNoSugarRefer
 import team.duckie.quackquack.sugar.error.SourceError.multipleSugarTokenIsNotAllowed
 import team.duckie.quackquack.sugar.error.SourceError.quackComponentWithoutSugarToken
 import team.duckie.quackquack.sugar.error.SourceError.sugarNamePrefixIsNotQuack
@@ -24,7 +27,12 @@ import team.duckie.quackquack.sugar.error.SourceError.sugarTokenButNoCompanionOb
 import team.duckie.quackquack.sugar.error.SugarTransformError.sugarComponentAndSugarReferHasDifferentParameters
 
 class SugarCompilerErrorTest : ExpectSpec() {
-  private val testCompilation = CompilerTestCompilation(tempdir())
+  private val testCompilation =
+    TestCompilation(tempdir()).apply {
+      prepareSetting {
+        compilerPluginRegistrars = listOf(SugarCompilerRegistrar.asPluginRegistrar())
+      }
+    }
 
   init {
     context("NotSupportedError") {
@@ -41,8 +49,10 @@ class SugarCompilerErrorTest : ExpectSpec() {
             "main.kt",
             """
 import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.sugar.material.Sugarable
 import androidx.compose.runtime.Composable
 
+@Sugarable
 @Composable
 fun QuackText(
   @SugarToken style: AwesomeType,
@@ -64,7 +74,9 @@ fun QuackText(
             "main.kt",
             """
 import androidx.compose.runtime.Composable
+import team.duckie.quackquack.sugar.material.Sugarable
 
+@Sugarable
 @Composable
 fun QuackText() {}
             """,
@@ -75,32 +87,16 @@ fun QuackText() {}
         result.messages shouldContain quackComponentWithoutSugarToken("QuackText")
       }
 
-      expect("quackComponentWithoutSugarToken - @NoSugar applied") {
-        val result = testCompilation.compile(
-          kotlin(
-            "main.kt",
-            """
-import team.duckie.quackquack.sugar.material.NoSugar
-import androidx.compose.runtime.Composable
-
-@NoSugar
-@Composable
-fun QuackText() {}
-            """,
-          ),
-        )
-
-        result.exitCode shouldBe KotlinCompilation.ExitCode.OK
-      }
-
       expect("multipleSugarTokenIsNotAllowed") {
         val result = testCompilation.compile(
           kotlin(
             "main.kt",
             """
-import team.duckie.quackquack.sugar.material.SugarToken
 import androidx.compose.runtime.Composable
+import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.sugar.material.Sugarable
 
+@Sugarable
 @Composable
 fun QuackText(
   @SugarToken style: AwesomeType,
@@ -122,7 +118,9 @@ fun QuackText(
 import androidx.compose.runtime.Composable
 import team.duckie.quackquack.sugar.material.SugarName
 import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.sugar.material.Sugarable
 
+@Sugarable
 @SugarName("Text")
 @Composable
 fun QuackText(@SugarToken type: AwesomeType) {}
@@ -142,7 +140,9 @@ fun QuackText(@SugarToken type: AwesomeType) {}
 import androidx.compose.runtime.Composable
 import team.duckie.quackquack.sugar.material.SugarName
 import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.sugar.material.Sugarable
 
+@Sugarable
 @SugarName("QuackText")
 @Composable
 fun QuackText(@SugarToken type: AwesomeType) {}
@@ -161,7 +161,9 @@ fun QuackText(@SugarToken type: AwesomeType) {}
             """
 import androidx.compose.runtime.Composable
 import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.sugar.material.Sugarable
 
+@Sugarable
 @Composable
 fun QuackText(@SugarToken type: AwesomeType3) {}
             """,
@@ -173,39 +175,17 @@ fun QuackText(@SugarToken type: AwesomeType3) {}
       }
     }
 
-    context("PoetError") {
-      expect("sugarComponentButNoSugarRefer") {
-        val result = testCompilation.compile(
-          kotlin(
-            "main.kt",
-            """
-@file:OptIn(SugarCompilerApi::class)
-@file:SugarGeneratedFile
-
-import androidx.compose.runtime.Composable
-import team.duckie.quackquack.sugar.material.SugarCompilerApi
-import team.duckie.quackquack.sugar.material.SugarGeneratedFile
-
-@Composable
-fun QuackOneText() {}
-            """,
-          ),
-        )
-
-        result.exitCode shouldBe KotlinCompilation.ExitCode.INTERNAL_ERROR
-        result.messages shouldContain sugarComponentButNoSugarRefer("QuackOneText")
-      }
-    }
-
     context("SugarTransformError") {
       expect("sugarComponentAndSugarReferHasDifferentParameters") {
         val result = testCompilation.compile(
           kotlin(
             "main.kt",
             """
-import team.duckie.quackquack.sugar.material.SugarToken
 import androidx.compose.runtime.Composable
+import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.sugar.material.Sugarable
 
+@Sugarable
 @Composable
 fun QuackText(@SugarToken style: AwesomeType) {}
             """,
@@ -222,8 +202,8 @@ import team.duckie.quackquack.sugar.material.SugarGeneratedFile
 import team.duckie.quackquack.sugar.material.SugarRefer
 import team.duckie.quackquack.sugar.material.sugar
 
-@Composable
 @SugarRefer("QuackText")
+@Composable
 fun QuackOneText(newNumber: Int = sugar()) {}
             """,
           ),

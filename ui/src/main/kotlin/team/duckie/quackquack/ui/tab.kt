@@ -48,7 +48,6 @@ import team.duckie.quackquack.animation.animatedQuackTypographyAsState
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.material.quackClickable
-import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafely
 import team.duckie.quackquack.ui.util.fastFilterById
 import team.duckie.quackquack.ui.util.onDrawFront
@@ -205,7 +204,6 @@ private val tabSnapSpec = snap<Int>()
  *
  * 자세한 내용은 [QuackTabScope]를 참고하세요.
  */
-@NoSugar
 @Composable
 public fun QuackTab(
   index: Int,

@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.duckie.quackquack.material.QuackColor
 import team.duckie.quackquack.material.icon.QuackIcon
-import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.ui.util.fontScaleAwareIconSize
 import team.duckie.quackquack.util.applyIf
 
@@ -38,7 +37,6 @@ import team.duckie.quackquack.util.applyIf
  * @param contentScale [icon]에 적용할 [contentScale][ContentScale]
  * @param contentDescription [icon]을 설명하는 문구. 접근성 서비스에 사용됩니다.
  */
-@NoSugar
 @NonRestartableComposable
 @Composable
 public fun QuackIcon(

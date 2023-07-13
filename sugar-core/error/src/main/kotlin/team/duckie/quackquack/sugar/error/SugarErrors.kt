@@ -50,12 +50,6 @@ object SourceError {
       " ($name)".getIfGivenIsNotNull(name)
 }
 
-object PoetError {
-  fun sugarComponentButNoSugarRefer(name: String?) =
-    "The SugarRefer for the Sugar component is missing." +
-      " ($name)".getIfGivenIsNotNull(name)
-}
-
 object SugarVisitError {
   fun noMatchedSugarComponentNode(name: String?) =
     "No SugarComponentNode was found for the given SugarRefer. " +

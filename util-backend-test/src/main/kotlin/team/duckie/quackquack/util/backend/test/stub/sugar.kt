@@ -31,9 +31,9 @@ import kotlin.reflect.KClass
 @Retention(AnnotationRetention.BINARY)
 annotation class SugarName(val name: String = DEFAULT_NAME) {
   companion object {
-    const val PREFIX_NAME: String = "Quack"
-    const val DEFAULT_NAME: String = "<<DEFAULT_NAME>>"
-    const val TOKEN_NAME: String = "<<SUGAR_TOKEN>>"
+    const val PREFIX_NAME = "Quack"
+    const val DEFAULT_NAME = "<<DEFAULT_NAME>>"
+    const val TOKEN_NAME = "<<SUGAR_TOKEN>>"
   }
 }
 
@@ -47,7 +47,7 @@ annotation class SugarRefer(val fqn: String)
 
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
-annotation class NoSugar
+annotation class Sugarable
 
 @Target(AnnotationTarget.FILE)
 @Retention(AnnotationRetention.BINARY)

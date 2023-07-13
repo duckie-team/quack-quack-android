@@ -24,10 +24,8 @@ import org.jetbrains.kotlin.ir.util.hasAnnotation
 import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
 import org.jetbrains.kotlin.utils.addToStdlib.UnsafeCastFunction
 import org.jetbrains.kotlin.utils.addToStdlib.cast
-import team.duckie.quackquack.sugar.error.PoetError
 import team.duckie.quackquack.sugar.error.SugarTransformError
 import team.duckie.quackquack.sugar.error.SugarVisitError
-import team.duckie.quackquack.sugar.names.NoSugarFqn
 import team.duckie.quackquack.sugar.names.SugarGeneratedFileFqn
 import team.duckie.quackquack.sugar.names.SugarReferFqn
 import team.duckie.quackquack.sugar.node.SugarComponentNode
@@ -62,30 +60,24 @@ internal class SugarIrTransformer(
     data: Map<String, SugarComponentNode>,
   ): IrStatement {
     if (declaration.isQuackComponent) {
-      if (declaration.hasAnnotation(NoSugarFqn)) {
-        return super.visitSimpleFunction(declaration, data)
-      }
-
       val referAnnotation =
         declaration.getAnnotation(SugarReferFqn)
-          ?: logger.throwError(
-            message = PoetError.sugarComponentButNoSugarRefer(declaration.name.asString()),
-            location = declaration.file.locationOf(declaration),
-          )
+          ?: return super.visitSimpleFunction(declaration, data)
       val referFqn = referAnnotation.getReferFqName()
 
       data[referFqn]?.let { referIrData ->
         declaration.valueParameters.forEach { parameter ->
-          parameter.defaultValue = referIrData.findMatchedDefaultValue(
-            sugarComponentName = declaration.name.asString(),
-            parameter = parameter,
-            error = { message ->
-              logger.throwError(
-                message = message,
-                location = declaration.file.locationOf(parameter),
-              )
-            },
-          )
+          parameter.defaultValue =
+            referIrData.findMatchedDefaultValue(
+              sugarComponentName = declaration.name.asString(),
+              parameter = parameter,
+              error = { message ->
+                logger.throwError(
+                  message = message,
+                  location = declaration.file.locationOf(parameter),
+                )
+              },
+            )
         }
       } ?: logger.throwError(
         message = SugarVisitError.noMatchedSugarComponentNode(declaration.name.asString()),

@@ -28,8 +28,8 @@ import team.duckie.quackquack.util.backend.test.removePackageLine
 // TODO: nullable한 인자 테스트 작성
 class SugarCoreTest : StringSpec() {
   private val testCompilation =
-    CompilerTestCompilation(tempdir()).apply {
-      defaultPrepareSetting { tempDir ->
+    TestCompilation(tempdir()).apply {
+      prepareSetting { tempDir ->
         compilerPluginRegistrars = listOf(SugarCoreRegistrar.asPluginRegistrar())
         pluginOptions = listOf(
           PluginOption(
@@ -51,10 +51,12 @@ class SugarCoreTest : StringSpec() {
         kotlin(
           "text.kt",
           """
-import team.duckie.quackquack.sugar.material.SugarToken
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.sugar.material.Sugarable
 
+@Sugarable
 @Composable
 fun QuackText(
   modifier: Modifier = Modifier,
@@ -181,6 +183,7 @@ public fun QuackThreeText(
           """
 import team.duckie.quackquack.sugar.material.SugarToken
 import team.duckie.quackquack.sugar.material.SugarName
+import team.duckie.quackquack.sugar.material.Sugarable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
@@ -191,6 +194,7 @@ import androidx.compose.ui.Modifier
  * @param text 표시할 문자 
  */
 @SugarName(SugarName.PREFIX_NAME + "Awesome" + SugarName.TOKEN_NAME)
+@Sugarable
 @Composable
 fun QuackText(
   modifier: Modifier = Modifier,
@@ -330,10 +334,11 @@ public fun QuackAwesomeThree(
         kotlin(
           "text.kt",
           """
-import team.duckie.quackquack.sugar.material.SugarToken
-import team.duckie.quackquack.sugar.material.SugarName
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.sugar.material.SugarName
+import team.duckie.quackquack.sugar.material.Sugarable
 
 /**
  * AWESOME!. AWESOME!!. AWESOME!!!.
@@ -343,6 +348,7 @@ import androidx.compose.ui.Modifier
  * @param text 표시할 문자
  */
 @SugarName(SugarName.DEFAULT_NAME)
+@Sugarable
 @Composable
 fun QuackText(
   modifier: Modifier = Modifier,
@@ -419,15 +425,18 @@ public fun QuackOneText(
         kotlin(
           "checkbox.kt",
           """
-import team.duckie.quackquack.sugar.material.SugarToken
 import androidx.compose.runtime.Composable
+import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.sugar.material.Sugarable
 
+@Sugarable
 @Composable
 fun QuackCheckbox(
   @SugarToken style: AwesomeType,
   onCheckChanged: (checked: Boolean) -> Unit,
 ) {}
 
+@Sugarable
 @Composable
 fun QuackCheckbox2(
   @SugarToken style: AwesomeType,

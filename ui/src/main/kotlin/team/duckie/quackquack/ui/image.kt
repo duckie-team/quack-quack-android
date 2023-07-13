@@ -27,7 +27,6 @@ import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.compose.LocalImageLoader
 import team.duckie.quackquack.material.QuackColor
-import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.ui.plugin.EmptyQuackPlugins
 import team.duckie.quackquack.ui.plugin.LocalQuackPlugins
 import team.duckie.quackquack.ui.plugin.QuackPluginLocal
@@ -51,7 +50,6 @@ import team.duckie.quackquack.util.modifier.getElementByTypeOrNull
   replaceWith = ReplaceWith("QuackIcon"),
   level = DeprecationLevel.ERROR,
 )
-@NoSugar
 @NonRestartableComposable
 @Composable
 public fun QuackImage(
@@ -76,7 +74,6 @@ public fun QuackImage(
  * @param contentScale drawable 리소스에 적용할 [contentScale][ContentScale]
  * @param contentDescription 접근성 서비스에서 이 이미지가 무엇을 나타내는지 설명할 문구
  */
-@NoSugar
 @NonRestartableComposable
 @Composable
 public fun QuackImage(
@@ -116,7 +113,6 @@ public fun QuackImage(
  * @param contentScale 이미지 리소스에 적용할 [contentScale][ContentScale]
  * @param contentDescription 접근성 서비스에서 이 이미지가 무엇을 나타내는지 설명할 문구
  */
-@NoSugar
 @NonRestartableComposable
 @Composable
 public fun QuackImage(
