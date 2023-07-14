@@ -29,11 +29,9 @@ import org.junit.runner.RunWith
 import team.duckie.quackquack.material.icon.QuackIcon
 import team.duckie.quackquack.material.icon.quackicon.Outlined
 import team.duckie.quackquack.material.icon.quackicon.outlined.Heart
+import team.duckie.quackquack.ui.QuackTag
+import team.duckie.quackquack.ui.QuackTagStyle
 import team.duckie.quackquack.ui.common.setQuackContent
-import team.duckie.quackquack.ui.sugar.QuackFilledTag
-import team.duckie.quackquack.ui.sugar.QuackGrayscaleFlatTag
-import team.duckie.quackquack.ui.sugar.QuackGrayscaleOutlinedTag
-import team.duckie.quackquack.ui.sugar.QuackOutlinedTag
 import team.duckie.quackquack.ui.trailingIcon
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.util.compose.snapshot.test.BaseSnapshotPath
@@ -70,10 +68,11 @@ class TagSnapshot {
   fun Outlined() {
     compose.setQuackContent {
       var selected by remember { mutableStateOf(true) }
-      QuackOutlinedTag(
+      QuackTag(
         modifier = Modifier.trailingIcon(),
         text = "QuackOutlinedTag",
         selected = selected,
+        style = QuackTagStyle.Outlined,
       ) {
         selected = !selected
       }
@@ -85,10 +84,11 @@ class TagSnapshot {
   fun Filled() {
     compose.setQuackContent {
       var selected by remember { mutableStateOf(true) }
-      QuackFilledTag(
+      QuackTag(
         modifier = Modifier.trailingIcon(),
         text = "QuackFilledTag",
         selected = selected,
+        style = QuackTagStyle.Filled,
       ) {
         selected = !selected
       }
@@ -103,10 +103,11 @@ class TagSnapshot {
       var selected by remember { mutableStateOf(true) }
 
       withIncreaseFontScale(4f) {
-        QuackFilledTag(
+        QuackTag(
           modifier = Modifier.trailingIcon(),
           text = "QuackFilledTag",
           selected = selected,
+          style = QuackTagStyle.Filled,
         ) {
           selected = !selected
         }
@@ -120,10 +121,11 @@ class TagSnapshot {
     // no toggable
     // no decoratable
     compose.setQuackContent {
-      QuackGrayscaleFlatTag(
+      QuackTag(
         modifier = Modifier.trailingIcon(),
         text = "QuackGrayscaleFlatTag",
         onClick = {},
+        style = QuackTagStyle.GrayscaleFlat,
       )
     }
   }
@@ -132,10 +134,11 @@ class TagSnapshot {
   fun GrayscaleOutlined() {
     compose.setQuackContent {
       var selected by remember { mutableStateOf(true) }
-      QuackGrayscaleOutlinedTag(
+      QuackTag(
         modifier = Modifier.trailingIcon(),
         text = "QuackGrayscaleOutlinedTag",
         selected = selected,
+        style = QuackTagStyle.GrayscaleOutlined,
       ) {
         selected = !selected
       }

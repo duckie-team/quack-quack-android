@@ -6,7 +6,7 @@
  */
 
 @file:OptIn(ExperimentalQuackQuackApi::class, ExperimentalDesignToken::class)
-@file:Suppress("UnnecessaryOptInAnnotation")
+@file:Suppress("UnnecessaryOptInAnnotation", "UnusedPrivateMember", "unused")
 
 package team.duckie.quackquack.catalog
 
@@ -17,13 +17,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import casaModels
-import team.duckie.quackquack.casa.ui.CasaScreen
-import team.duckie.quackquack.casa.ui.theme.CasaTheme
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 
@@ -31,9 +29,10 @@ class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      CasaTheme {
+      Text("TODO")
+      /*CasaTheme {
         CasaScreen(models = casaModels)
-      }
+      }*/
       /*QuackTheme(
         plugins = rememberQuackPlugins {
           +QuackImageGifPlugin
@@ -51,7 +50,6 @@ class MainActivity : ComponentActivity() {
   }
 }
 
-@Suppress("UnusedPrivateMember", "unused")
 @Composable
 private fun Preview(content: @Composable ColumnScope.() -> Unit) {
   Column(

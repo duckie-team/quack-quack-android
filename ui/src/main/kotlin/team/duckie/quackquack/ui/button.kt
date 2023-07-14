@@ -49,8 +49,8 @@ import team.duckie.quackquack.material.QuackTypography
 import team.duckie.quackquack.material.quackSurface
 import team.duckie.quackquack.runtime.QuackDataModifierModel
 import team.duckie.quackquack.runtime.quackMaterializeOf
-import team.duckie.quackquack.sugar.material.NoSugar
 import team.duckie.quackquack.sugar.material.SugarToken
+import team.duckie.quackquack.sugar.material.Sugarable
 import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafely
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 import team.duckie.quackquack.ui.util.QuackDsl
@@ -758,6 +758,7 @@ public fun Modifier.icons(
  * @param rippleEnabled 클릭했을 때 리플 애니메이션을 적용할지 여부
  * @param onClick 클릭했을 때 실행할 람다식. [enabled]이 true일 때만 작동합니다.
  */
+@Sugarable
 @MustBeTested(passed = true)
 @Composable
 @NonRestartableComposable
@@ -868,7 +869,6 @@ private const val TrailingIconLayoutId = "QuackBaseButtonTrailingIcon"
  *
  * 이 컴포넌트는 [QuackButtonStyle]의 필드를 개별 인자로 받습니다.
  */
-@NoSugar
 @Composable
 public fun QuackBaseButton(
   modifier: Modifier,

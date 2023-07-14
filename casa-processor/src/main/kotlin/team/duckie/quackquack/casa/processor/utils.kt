@@ -21,9 +21,5 @@ internal fun <T> Sequence<T>.singleOrNullStrict(predicate: (T) -> Boolean): T? {
   return single
 }
 
-internal fun StringBuilder.appendLineWithIndent(
-  value: String?,
-  indentSize: Int = 2,
-): StringBuilder {
-  return appendLine("${" ".repeat(indentSize)}$value")
-}
+internal fun StringBuilder.appendLineWithIndent(value: String?, indentSize: Int = 2) =
+  appendLine("${" ".repeat(indentSize)}$value")

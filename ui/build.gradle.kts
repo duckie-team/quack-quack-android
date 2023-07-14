@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:Suppress("UnstableApiUsage", "INLINE_FROM_HIGHER_PLATFORM")
+@file:Suppress("UnstableApiUsage")
 
 import org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME as kotlinCompilerPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -24,16 +24,12 @@ plugins {
 }
 
 tasks.withType<KotlinCompile> {
-  val sugarProcessorKotlinCompilerPluginId = "team.duckie.quackquack.sugar.processor"
-  val sugarPath = "$projectDir/src/main/kotlin/team/duckie/quackquack/ui/sugar"
+  val sugarCorePluginId = "team.duckie.quackquack.sugar.core"
+  val sugarPath = "${projects.uiSugar.dependencyProject.projectDir}/src/main/kotlin/team/duckie/quackquack/ui/sugar"
   kotlinOptions {
     freeCompilerArgs = freeCompilerArgs + listOf(
       "-P",
-      "plugin:$sugarProcessorKotlinCompilerPluginId:sugarPath=$sugarPath",
-    )
-    freeCompilerArgs = freeCompilerArgs + listOf(
-      "-P",
-      "plugin:$sugarProcessorKotlinCompilerPluginId:poet=$sugarPoet",
+      "plugin:$sugarCorePluginId:sugarPath=$sugarPath",
     )
   }
 }
@@ -53,7 +49,6 @@ android {
 }
 
 ksp {
-  arg("AidePath", "$rootDir/aide/src/main/kotlin/team/duckie/quackquack/aide/rule")
   arg("CasaPath", "$rootDir/catalog/src/main/kotlin/team/duckie/quackquack/catalog")
 }
 
@@ -99,12 +94,10 @@ dependencies {
     libs.test.kotest.assertion.core,
   )
 
-  kotlinCompilerPlugin(projects.sugarProcessor.orArtifact())
+  kotlinCompilerPlugin(projects.sugarCompiler.orArtifact())
 
   safeRunWithinDevelopmentMode {
-    ksps(
-      // TODO: projects.casaProcessor,
-    )
-    // kotlinCompilerPlugin(projects.docusaurusIntegration)
+    // TODO: ksp(projects.casaProcessor)
+    kotlinCompilerPlugin(projects.sugarCore)
   }
 }
