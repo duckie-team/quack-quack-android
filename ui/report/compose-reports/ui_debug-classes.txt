@@ -80,6 +80,21 @@ stable class QuackSecondaryRoundSmallButtonDefaults {
   stable var typography: QuackTypography
   stable var disabledTypography: QuackTypography
 }
+stable class QuackSwitchColors {
+  stable val track: QuackColor
+  stable val disableTrack: QuackColor
+  stable val thumb: QuackColor
+  stable val thumbStroke: QuackColor
+  stable val disableThumb: QuackColor
+  stable val disableThumbStroke: QuackColor
+}
+stable class QuackTabColors {
+  stable val background: QuackColor
+  stable val underline: QuackColor
+  stable val indicate: QuackColor
+  stable val contentColor: QuackColor
+  stable val disableContentColor: QuackColor
+}
 stable class QuackTagColors {
   stable val backgroundColor: QuackColor
   stable val unselectedBackgroundColor: QuackColor
@@ -126,4 +141,76 @@ stable class QuackGrayscaleOutlinedTagDefaults {
   stable var borderThickness: Dp
   stable var typography: QuackTypography
   stable var unselectedTypography: QuackTypography
+}
+stable class Success {
+  stable val label: String?
+  <runtime stability> = Stable
+}
+stable class Error {
+  stable val label: String?
+  <runtime stability> = Stable
+}
+stable class Default {
+  <runtime stability> = Stable
+}
+stable class TextFieldValidationState {
+}
+stable class Invisible {
+  stable val baselineLabel: String
+  stable val baselineTypography: QuackTypography?
+  <runtime stability> = Stable
+}
+stable class Gone {
+  <runtime stability> = Stable
+}
+stable class TextFieldValidationLabelVisibilityStrategy {
+}
+stable class TextFieldColors {
+  stable val backgroundColor: QuackColor
+  stable val contentColor: QuackColor
+  stable val placeholderColor: QuackColor
+  stable val errorColor: QuackColor
+  stable val successColor: QuackColor
+  <runtime stability> = Stable
+}
+stable class TextFieldColors {
+  stable val backgroundColor: QuackColor?
+  stable val backgroundColorGetter: Function2<@[ParameterName(name = 'text')] String, @[ParameterName(name = 'focusInteraction')] FocusInteraction?, QuackColor>?
+  stable val contentColor: QuackColor
+  stable val placeholderColor: QuackColor
+  <runtime stability> = Stable
+}
+stable class QuackDefaultTextFieldDefaults {
+  stable var colors: TextFieldColors
+  stable var contentPadding: PaddingValues
+  stable var contentSpacedBy: Dp
+  stable var validationLabelAndIndicatorSpacedBy: Dp
+  stable var typography: QuackTypography
+  stable val validationLabelTypography: QuackTypography
+  <runtime stability> = Stable
+}
+stable class QuackDefaultLargeTextFieldDefaults {
+  stable var colors: TextFieldColors
+  stable var contentPadding: PaddingValues
+  stable var contentSpacedBy: Dp
+  stable var validationLabelAndIndicatorSpacedBy: Dp
+  stable var typography: QuackTypography
+  stable val validationLabelTypography: QuackTypography
+  <runtime stability> = Stable
+}
+stable class QuackFilledLargeTextFieldDefaults {
+  stable var radius: Dp
+  stable var colors: TextFieldColors
+  stable var contentPadding: PaddingValues
+  stable var contentSpacedBy: Dp
+  stable var typography: QuackTypography
+  <runtime stability> = Stable
+}
+stable class QuackFilledFlatTextFieldDefaults {
+  stable var radius: Dp
+  stable var colors: TextFieldColors
+  stable var contentPadding: PaddingValues
+  stable var contentSpacedBy: Dp
+  stable var typography: QuackTypography
+  <runtime stability> = Stable
 }
