@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:Suppress("RedundantVisibilityModifier")
+
 package team.duckie.quackquack.casa.processor
 
 import com.tschuchort.compiletesting.KotlinCompilation
@@ -116,7 +118,6 @@ fun Button2(
 import androidx.compose.runtime.Composable
 import kotlin.Boolean
 import kotlin.String
-import kotlin.Suppress
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
