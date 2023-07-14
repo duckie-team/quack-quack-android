@@ -49,7 +49,6 @@ android {
 }
 
 ksp {
-  arg("AidePath", "$rootDir/aide/src/main/kotlin/team/duckie/quackquack/aide/rule")
   arg("CasaPath", "$rootDir/catalog/src/main/kotlin/team/duckie/quackquack/catalog")
 }
 
