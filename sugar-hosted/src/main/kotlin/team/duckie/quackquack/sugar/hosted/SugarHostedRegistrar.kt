@@ -5,10 +5,10 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:Suppress("DEPRECATION", "unused")
+@file:Suppress("DEPRECATION", "unused", "UnstableApiUsage")
 @file:OptIn(ExperimentalCompilerApi::class)
 
-package team.duckie.quackquack.sugar.compiler
+package team.duckie.quackquack.sugar.hosted
 
 import com.google.auto.service.AutoService
 import org.jetbrains.annotations.TestOnly
@@ -19,7 +19,6 @@ import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
-import team.duckie.quackquack.sugar.hosted.visitor.SugarCoreVisitor
 import team.duckie.quackquack.util.backend.kotlinc.getLogger
 
 /**
@@ -33,7 +32,7 @@ import team.duckie.quackquack.util.backend.kotlinc.getLogger
  * 순서를 조정할 수 없습니다.
  */
 @AutoService(ComponentRegistrar::class)
-class SugarCompilerRegistrar : ComponentRegistrar {
+class SugarHostedRegistrar : ComponentRegistrar {
   override val supportsK2 = false
 
   override fun registerProjectComponents(project: MockProject, configuration: CompilerConfiguration) {
@@ -45,7 +44,7 @@ class SugarCompilerRegistrar : ComponentRegistrar {
   companion object {
     /**
      * [ComponentRegistrar]의 complie test는 DeprecatedError 상태로 항상 테스트에 실패합니다.
-     * 이를 해결하기 위해 [SugarCompilerRegistrar]의 [CompilerPluginRegistrar] 버전을 제공합니다.
+     * 이를 해결하기 위해 [SugarHostedRegistrar]의 [CompilerPluginRegistrar] 버전을 제공합니다.
      * 이 함수는 오직 테스트 코드에서만 사용돼야 합니다. (테스트 환경에서는 Compose Compiler가
      * 적용되지 않으니 유효합니다.)
      */
@@ -58,7 +57,13 @@ class SugarCompilerRegistrar : ComponentRegistrar {
       }
     }
 
-    private fun CompilerConfiguration.getSugarIrExtension() =
-      SugarCompilerExtension(logger = getLogger("sugar-compiler"))
+    private fun CompilerConfiguration.getSugarIrExtension(): SugarHostedExtension {
+      val sugarPath = requireNotNull(this[KEY_SUGAR_PATH]) { "sugarPath was missing." }
+
+      return SugarHostedExtension(
+        logger = getLogger("sugar-core"),
+        sugarPath = sugarPath,
+      )
+    }
   }
 }

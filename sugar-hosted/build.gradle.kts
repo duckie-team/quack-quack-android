@@ -9,7 +9,6 @@
 
 plugins {
   quackquack("jvm-kotlin")
-  quackquack("quack-publishing")
   alias(libs.plugins.kotlin.ksp)
 }
 
@@ -20,12 +19,13 @@ ksp {
 
 dependencies {
   compileOnly(libs.kotlin.embeddable.compiler)
-  ksp(libs.google.autoservice.ksp.processor)
   implementations(
     libs.google.autoservice.annotation,
-    projects.sugarHosted.node.orArtifact(),
-    projects.sugarHosted.visitor.orArtifact(),
-    projects.sugarHosted.transformer.orArtifact(),
-    projects.utilBackendKotlinc.orArtifact(),
+    libs.jetbrains.annotation,
+    projects.sugarHosted.node,
+    projects.sugarHosted.visitor,
+    projects.sugarHosted.codegen,
+    projects.utilBackendKotlinc,
   )
+  ksp(libs.google.autoservice.ksp.processor)
 }

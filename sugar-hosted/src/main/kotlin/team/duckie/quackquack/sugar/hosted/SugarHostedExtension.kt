@@ -5,17 +5,20 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.sugar.compiler
+package team.duckie.quackquack.sugar.hosted
 
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
+import team.duckie.quackquack.sugar.hosted.codegen.generateSugarComponentFiles
 import team.duckie.quackquack.sugar.hosted.node.SugarComponentNode
-import team.duckie.quackquack.sugar.hosted.transformer.SugarIrTransformer
 import team.duckie.quackquack.sugar.hosted.visitor.SugarCoreVisitor
 import team.duckie.quackquack.util.backend.kotlinc.Logger
 
-internal class SugarCompilerExtension(private val logger: Logger) : IrGenerationExtension {
+internal class SugarHostedExtension(
+  private val logger: Logger,
+  private val sugarPath: String,
+) : IrGenerationExtension {
   override fun generate(
     moduleFragment: IrModuleFragment,
     pluginContext: IrPluginContext,
@@ -26,19 +29,11 @@ internal class SugarCompilerExtension(private val logger: Logger) : IrGeneration
       logger = logger,
       addSugarComponentNode = nodes::add,
     )
-    val transformer = SugarIrTransformer(
-      context = pluginContext,
-      logger = logger,
-    )
 
     moduleFragment.accept(visitor, null)
-    moduleFragment.transform(transformer, nodes.asMap())
+    generateSugarComponentFiles(
+      sugarComponentNodes = nodes,
+      sugarPath = sugarPath,
+    )
   }
 }
-
-private fun List<SugarComponentNode>.asMap() =
-  buildMap(capacity = size) {
-    this@asMap.forEach { SugarComponentNode ->
-      set(SugarComponentNode.referFqn.asString(), SugarComponentNode)
-    }
-  }

@@ -5,19 +5,20 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
+
 plugins {
   quackquack("jvm-kotlin")
-  quackquack("test-kotest")
 }
 
 dependencies {
-  testImplementations(
-    libs.test.kotlin.compilation.core,
-    projects.sugarCompiler,
-    projects.sugarHosted,
+  implementations(
+    libs.kotlin.embeddable.compiler,
+    libs.kotlin.kotlinpoet.core,
+    projects.sugarHosted.node,
+    projects.sugarHosted.names,
     projects.sugarHosted.error,
-    projects.sugarHosted.visitor,
-    projects.sugarHosted.codegen,
-    projects.utilBackendTest,
+    projects.utilBackendKotlinc,
+    projects.utilBackendKotlinpoet,
   )
 }

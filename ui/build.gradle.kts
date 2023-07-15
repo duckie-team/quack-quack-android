@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:Suppress("UnstableApiUsage")
+@file:Suppress("UnstableApiUsage", "INLINE_FROM_HIGHER_PLATFORM")
 
 import org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME as kotlinCompilerPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -24,12 +24,12 @@ plugins {
 }
 
 tasks.withType<KotlinCompile> {
-  val sugarCorePluginId = "team.duckie.quackquack.sugar.core"
+  val sugarHostedPluginId = "team.duckie.quackquack.sugar.hosted"
   val sugarPath = "${projects.uiSugar.dependencyProject.projectDir}/src/main/kotlin/team/duckie/quackquack/ui/sugar"
   kotlinOptions {
     freeCompilerArgs = freeCompilerArgs + listOf(
       "-P",
-      "plugin:$sugarCorePluginId:sugarPath=$sugarPath",
+      "plugin:$sugarHostedPluginId:sugarPath=$sugarPath",
     )
   }
 }
@@ -98,6 +98,6 @@ dependencies {
 
   safeRunWithinDevelopmentMode {
     // TODO: ksp(projects.casaProcessor)
-    kotlinCompilerPlugin(projects.sugarCore)
+    kotlinCompilerPlugin(projects.sugarHosted)
   }
 }
