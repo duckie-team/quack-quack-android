@@ -7,16 +7,16 @@
 
 plugins {
   quackquack("jvm-kotlin")
-  quackquack("quack-publishing")
 }
 
 dependencies {
   implementations(
     libs.kotlin.embeddable.compiler,
-    projects.sugarMaterial.orArtifact(),
-    projects.sugarCore.error.orArtifact(),
-    projects.sugarCore.names.orArtifact(),
-    projects.sugarCore.node.orArtifact(),
-    projects.utilBackendKotlinc.orArtifact(),
+    libs.kotlin.kotlinpoet.core,
+    projects.sugarHosted.node,
+    projects.sugarHosted.names,
+    projects.sugarHosted.error,
+    projects.utilBackendKotlinc,
+    projects.utilBackendKotlinpoet,
   )
 }

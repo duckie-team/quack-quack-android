@@ -11,5 +11,5 @@ plugins {
 }
 
 dependencies {
-  implementation(projects.sugarCore.names.orArtifact())
+  implementation(projects.sugarHosted.names.orArtifact())
 }

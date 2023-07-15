@@ -13,10 +13,10 @@ plugins {
 dependencies {
   implementations(
     libs.kotlin.embeddable.compiler,
-    projects.sugarCore.names.orArtifact(),
-    projects.sugarCore.error.orArtifact(),
     projects.sugarMaterial.orArtifact(),
-    projects.casaAnnotation.orArtifact(),
+    projects.sugarHosted.error.orArtifact(),
+    projects.sugarHosted.names.orArtifact(),
+    projects.sugarHosted.node.orArtifact(),
     projects.utilBackendKotlinc.orArtifact(),
   )
 }

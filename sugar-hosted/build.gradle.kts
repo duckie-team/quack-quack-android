@@ -20,9 +20,9 @@ dependencies {
   implementations(
     libs.google.autoservice.annotation,
     libs.jetbrains.annotation,
-    projects.sugarCore.node,
-    projects.sugarCore.visitor,
-    projects.sugarCore.codegen,
+    projects.sugarHosted.node,
+    projects.sugarHosted.visitor,
+    projects.sugarHosted.codegen,
     projects.utilBackendKotlinc,
   )
   ksp(libs.google.autoservice.ksp.processor)

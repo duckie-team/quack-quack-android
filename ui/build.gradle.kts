@@ -98,6 +98,6 @@ dependencies {
 
   safeRunWithinDevelopmentMode {
     // TODO: ksp(projects.casaProcessor)
-    kotlinCompilerPlugin(projects.sugarCore)
+    kotlinCompilerPlugin(projects.sugarHosted)
   }
 }

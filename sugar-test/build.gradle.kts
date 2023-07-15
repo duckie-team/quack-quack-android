@@ -14,10 +14,10 @@ dependencies {
   testImplementations(
     libs.test.kotlin.compilation.core,
     projects.sugarCompiler,
-    projects.sugarCore,
-    projects.sugarCore.error,
-    projects.sugarCore.visitor,
-    projects.sugarCore.codegen,
+    projects.sugarHosted,
+    projects.sugarHosted.error,
+    projects.sugarHosted.visitor,
+    projects.sugarHosted.codegen,
     projects.utilBackendTest,
   )
 }
