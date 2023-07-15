@@ -18,13 +18,13 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import team.duckie.quackquack.sugar.compiler.SugarCompilerRegistrar
-import team.duckie.quackquack.sugar.error.NotSupportedError.nestedFunctionalType
-import team.duckie.quackquack.sugar.error.SourceError.multipleSugarTokenIsNotAllowed
-import team.duckie.quackquack.sugar.error.SourceError.quackComponentWithoutSugarToken
-import team.duckie.quackquack.sugar.error.SourceError.sugarNamePrefixIsNotQuack
-import team.duckie.quackquack.sugar.error.SourceError.sugarNameWithoutTokenName
-import team.duckie.quackquack.sugar.error.SourceError.sugarTokenButNoCompanionObject
-import team.duckie.quackquack.sugar.error.SugarTransformError.sugarComponentAndSugarReferHasDifferentParameters
+import team.duckie.quackquack.sugar.hosted.error.NotSupportedError.nestedFunctionalType
+import team.duckie.quackquack.sugar.hosted.error.SourceError.multipleSugarTokenIsNotAllowed
+import team.duckie.quackquack.sugar.hosted.error.SourceError.quackComponentWithoutSugarToken
+import team.duckie.quackquack.sugar.hosted.error.SourceError.sugarNamePrefixIsNotQuack
+import team.duckie.quackquack.sugar.hosted.error.SourceError.sugarNameWithoutTokenName
+import team.duckie.quackquack.sugar.hosted.error.SourceError.sugarTokenButNoCompanionObject
+import team.duckie.quackquack.sugar.hosted.error.SugarTransformError.sugarComponentAndSugarReferHasDifferentParameters
 
 class SugarCompilerErrorTest : ExpectSpec() {
   private val testCompilation =

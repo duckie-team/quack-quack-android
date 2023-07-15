@@ -48,6 +48,7 @@ include(
   ":sugar-hosted",
   ":sugar-hosted:node",
   ":sugar-hosted:visitor",
+  ":sugar-hosted:transformer",
   ":sugar-hosted:codegen",
   ":sugar-hosted:names",
   ":sugar-hosted:error",

@@ -7,10 +7,10 @@
 
 @file:Suppress("unused")
 
-package team.duckie.quackquack.sugar.error
+package team.duckie.quackquack.sugar.hosted.error
 
-import team.duckie.quackquack.sugar.names.QuackComponentPrefix
-import team.duckie.quackquack.sugar.names.SugarTokenName
+import team.duckie.quackquack.sugar.hosted.names.QuackComponentPrefix
+import team.duckie.quackquack.sugar.hosted.names.SugarTokenName
 
 object NotSupportedError {
   fun nestedFunctionalType(name: String?) =

@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.sugar.codegen
+package team.duckie.quackquack.sugar.hosted.codegen
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
@@ -19,13 +19,13 @@ import org.jetbrains.kotlin.ir.util.isSuspendFunction
 import org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryJavaAnnotation.Companion.addAnnotation
 import org.jetbrains.kotlin.types.checker.SimpleClassicTypeSystemContext.getClassFqNameUnsafe
 import org.jetbrains.kotlin.utils.addToStdlib.applyIf
-import team.duckie.quackquack.sugar.error.NotSupportedError
-import team.duckie.quackquack.sugar.names.CasaValueCn
-import team.duckie.quackquack.sugar.names.ComposableCn
-import team.duckie.quackquack.sugar.names.QuackComponentPrefix
-import team.duckie.quackquack.sugar.names.SugarTokenName
-import team.duckie.quackquack.sugar.node.SugarComponentNode
-import team.duckie.quackquack.sugar.node.SugarParameter
+import team.duckie.quackquack.sugar.hosted.error.NotSupportedError
+import team.duckie.quackquack.sugar.hosted.names.CasaValueCn
+import team.duckie.quackquack.sugar.hosted.names.ComposableCn
+import team.duckie.quackquack.sugar.hosted.names.QuackComponentPrefix
+import team.duckie.quackquack.sugar.hosted.names.SugarTokenName
+import team.duckie.quackquack.sugar.hosted.node.SugarComponentNode
+import team.duckie.quackquack.sugar.hosted.node.SugarParameter
 import team.duckie.quackquack.util.backend.kotlinc.unsafeClassName
 
 internal fun String.bestGuessToKotlinPackageName(): String {
@@ -102,6 +102,7 @@ internal fun SugarParameter.toParameterSpec(): ParameterSpec {
               )
               .copy(suspending = type.isSuspendFunction())
           }
+
           else -> {
             type.unsafeClassName
           }

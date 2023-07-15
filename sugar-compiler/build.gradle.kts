@@ -21,10 +21,9 @@ dependencies {
   ksp(libs.google.autoservice.ksp.processor)
   implementations(
     libs.google.autoservice.annotation,
-    projects.sugarHosted.names.orArtifact(),
-    projects.sugarHosted.error.orArtifact(),
     projects.sugarHosted.node.orArtifact(),
     projects.sugarHosted.visitor.orArtifact(),
+    projects.sugarHosted.transformer.orArtifact(),
     projects.utilBackendKotlinc.orArtifact(),
   )
 }

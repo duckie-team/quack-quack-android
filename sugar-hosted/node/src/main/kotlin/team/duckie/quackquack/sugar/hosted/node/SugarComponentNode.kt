@@ -7,7 +7,7 @@
 
 @file:Suppress("unused")
 
-package team.duckie.quackquack.sugar.node
+package team.duckie.quackquack.sugar.hosted.node
 
 import org.jetbrains.kotlin.ir.declarations.IrFunction
 import org.jetbrains.kotlin.ir.declarations.IrValueParameter

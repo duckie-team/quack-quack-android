@@ -5,9 +5,16 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+/*
+ * Designed and developed by Duckie Team 2023.
+ *
+ * Licensed under the MIT.
+ * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
+ */
+
 @file:OptIn(UnsafeCastFunction::class)
 
-package team.duckie.quackquack.sugar.compiler.ir
+package team.duckie.quackquack.sugar.hosted.transformer
 
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.IrStatement

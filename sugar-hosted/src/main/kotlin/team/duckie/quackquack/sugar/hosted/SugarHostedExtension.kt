@@ -5,17 +5,17 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.sugar.core
+package team.duckie.quackquack.sugar.hosted
 
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
-import team.duckie.quackquack.sugar.codegen.generateSugarComponentFiles
-import team.duckie.quackquack.sugar.node.SugarComponentNode
-import team.duckie.quackquack.sugar.visitor.SugarCoreVisitor
+import team.duckie.quackquack.sugar.hosted.codegen.generateSugarComponentFiles
+import team.duckie.quackquack.sugar.hosted.node.SugarComponentNode
+import team.duckie.quackquack.sugar.hosted.visitor.SugarCoreVisitor
 import team.duckie.quackquack.util.backend.kotlinc.Logger
 
-internal class SugarCoreExtension(
+internal class SugarHostedExtension(
   private val logger: Logger,
   private val sugarPath: String,
 ) : IrGenerationExtension {

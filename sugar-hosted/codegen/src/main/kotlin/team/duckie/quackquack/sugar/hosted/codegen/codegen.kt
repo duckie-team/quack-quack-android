@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.sugar.codegen
+package team.duckie.quackquack.sugar.hosted.codegen
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
@@ -14,26 +14,26 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
-import java.io.File
 import org.jetbrains.kotlin.ir.declarations.name
 import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.util.file
 import org.jetbrains.kotlin.name.FqName
-import team.duckie.quackquack.sugar.names.CasaCn
-import team.duckie.quackquack.sugar.names.ComposableCn
-import team.duckie.quackquack.sugar.names.NonRestartableComposableCn
-import team.duckie.quackquack.sugar.names.SugarCompilerApiCn
-import team.duckie.quackquack.sugar.names.SugarFqn
-import team.duckie.quackquack.sugar.names.SugarGeneratedFileCn
-import team.duckie.quackquack.sugar.names.SugarGeneratorUsageCn
-import team.duckie.quackquack.sugar.names.SugarReferCn
-import team.duckie.quackquack.sugar.node.SugarComponentNode
-import team.duckie.quackquack.sugar.node.SugarParameter
+import team.duckie.quackquack.sugar.hosted.names.CasaCn
+import team.duckie.quackquack.sugar.hosted.names.ComposableCn
+import team.duckie.quackquack.sugar.hosted.names.NonRestartableComposableCn
+import team.duckie.quackquack.sugar.hosted.names.SugarCompilerApiCn
+import team.duckie.quackquack.sugar.hosted.names.SugarFqn
+import team.duckie.quackquack.sugar.hosted.names.SugarGeneratedFileCn
+import team.duckie.quackquack.sugar.hosted.names.SugarGeneratorUsageCn
+import team.duckie.quackquack.sugar.hosted.names.SugarReferCn
+import team.duckie.quackquack.sugar.hosted.node.SugarComponentNode
+import team.duckie.quackquack.sugar.hosted.node.SugarParameter
 import team.duckie.quackquack.util.backend.kotlinc.addImports
 import team.duckie.quackquack.util.backend.kotlinc.toFqnStringOrEmpty
 import team.duckie.quackquack.util.backend.kotlinpoet.addAnnotations
 import team.duckie.quackquack.util.backend.kotlinpoet.addFunctions
 import team.duckie.quackquack.util.backend.kotlinpoet.getGeneratedFileComment
+import java.io.File
 
 private val GeneratedComment = getGeneratedFileComment("sugar-core")
 

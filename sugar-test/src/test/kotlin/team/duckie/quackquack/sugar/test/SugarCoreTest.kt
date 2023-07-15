@@ -10,7 +10,7 @@
 
 package team.duckie.quackquack.sugar.test
 
-import team.duckie.quackquack.sugar.core.PluginId as SugarCorePluginId
+import team.duckie.quackquack.sugar.hosted.PluginId as SugarCorePluginId
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.PluginOption
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
@@ -19,9 +19,9 @@ import io.kotest.engine.spec.tempdir
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
-import team.duckie.quackquack.sugar.core.OPTION_SUGAR_PATH
-import team.duckie.quackquack.sugar.core.SugarCoreCommandLineProcessor
-import team.duckie.quackquack.sugar.core.SugarCoreRegistrar
+import team.duckie.quackquack.sugar.hosted.OPTION_SUGAR_PATH
+import team.duckie.quackquack.sugar.hosted.SugarCoreCommandLineProcessor
+import team.duckie.quackquack.sugar.hosted.SugarHostedRegistrar
 import team.duckie.quackquack.util.backend.test.removePackageLine
 
 // TODO: @Imports 테스트 작성
@@ -30,7 +30,7 @@ class SugarCoreTest : StringSpec() {
   private val testCompilation =
     TestCompilation(tempdir()).apply {
       prepareSetting { tempDir ->
-        compilerPluginRegistrars = listOf(SugarCoreRegistrar.asPluginRegistrar())
+        compilerPluginRegistrars = listOf(SugarHostedRegistrar.asPluginRegistrar())
         pluginOptions = listOf(
           PluginOption(
             pluginId = SugarCorePluginId,

@@ -8,7 +8,7 @@
 @file:OptIn(ExperimentalCompilerApi::class)
 @file:Suppress("unused")
 
-package team.duckie.quackquack.sugar.core
+package team.duckie.quackquack.sugar.hosted
 
 import com.google.auto.service.AutoService
 import org.jetbrains.annotations.VisibleForTesting
@@ -20,7 +20,7 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.CompilerConfigurationKey
 
 @VisibleForTesting
-const val PluginId = "team.duckie.quackquack.sugar.core"
+const val PluginId = "team.duckie.quackquack.sugar.hosted"
 
 internal val KEY_SUGAR_PATH =
   CompilerConfigurationKey<String>("Where the sugar components will be created - required")

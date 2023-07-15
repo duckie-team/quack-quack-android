@@ -5,9 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:OptIn(UnsafeCastFunction::class)
-
-package team.duckie.quackquack.sugar.visitor
+package team.duckie.quackquack.sugar.hosted.visitor
 
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.backend.jvm.ir.psiElement
@@ -27,7 +25,6 @@ import org.jetbrains.kotlin.ir.util.companionObject
 import org.jetbrains.kotlin.ir.util.file
 import org.jetbrains.kotlin.ir.util.fqNameWhenAvailable
 import org.jetbrains.kotlin.ir.util.getAnnotation
-import org.jetbrains.kotlin.ir.util.hasAnnotation
 import org.jetbrains.kotlin.ir.util.parentAsClass
 import org.jetbrains.kotlin.ir.util.properties
 import org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid
@@ -35,22 +32,21 @@ import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.name.FqName
-import org.jetbrains.kotlin.utils.addToStdlib.UnsafeCastFunction
 import org.jetbrains.kotlin.utils.addToStdlib.cast
-import team.duckie.quackquack.sugar.error.SourceError
-import team.duckie.quackquack.sugar.names.CasaValueFqn
-import team.duckie.quackquack.sugar.names.ComposableFqn
-import team.duckie.quackquack.sugar.names.ImportsFqn
-import team.duckie.quackquack.sugar.names.QuackComponentPrefix
-import team.duckie.quackquack.sugar.names.RequiresOptInFqn
-import team.duckie.quackquack.sugar.names.SugarDefaultName
-import team.duckie.quackquack.sugar.names.SugarGeneratedFileFqn
-import team.duckie.quackquack.sugar.names.SugarNameFqn
-import team.duckie.quackquack.sugar.names.SugarTokenFqn
-import team.duckie.quackquack.sugar.names.SugarTokenName
-import team.duckie.quackquack.sugar.names.SugarableFqn
-import team.duckie.quackquack.sugar.node.SugarComponentNode
-import team.duckie.quackquack.sugar.node.SugarParameter
+import team.duckie.quackquack.sugar.hosted.error.SourceError
+import team.duckie.quackquack.sugar.hosted.names.CasaValueFqn
+import team.duckie.quackquack.sugar.hosted.names.ComposableFqn
+import team.duckie.quackquack.sugar.hosted.names.ImportsFqn
+import team.duckie.quackquack.sugar.hosted.names.QuackComponentPrefix
+import team.duckie.quackquack.sugar.hosted.names.RequiresOptInFqn
+import team.duckie.quackquack.sugar.hosted.names.SugarDefaultName
+import team.duckie.quackquack.sugar.hosted.names.SugarGeneratedFileFqn
+import team.duckie.quackquack.sugar.hosted.names.SugarNameFqn
+import team.duckie.quackquack.sugar.hosted.names.SugarTokenFqn
+import team.duckie.quackquack.sugar.hosted.names.SugarTokenName
+import team.duckie.quackquack.sugar.hosted.names.SugarableFqn
+import team.duckie.quackquack.sugar.hosted.node.SugarComponentNode
+import team.duckie.quackquack.sugar.hosted.node.SugarParameter
 import team.duckie.quackquack.util.backend.kotlinc.Logger
 import team.duckie.quackquack.util.backend.kotlinc.isQuackComponent
 import team.duckie.quackquack.util.backend.kotlinc.locationOf

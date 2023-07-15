@@ -5,6 +5,13 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
+/*
+ * Designed and developed by Duckie Team 2023.
+ *
+ * Licensed under the MIT.
+ * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
+ */
+
 @file:Suppress("DEPRECATION", "unused")
 @file:OptIn(ExperimentalCompilerApi::class)
 
@@ -19,7 +26,7 @@ import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
-import team.duckie.quackquack.sugar.visitor.SugarCoreVisitor
+import team.duckie.quackquack.sugar.hosted.visitor.SugarCoreVisitor
 import team.duckie.quackquack.util.backend.kotlinc.getLogger
 
 /**

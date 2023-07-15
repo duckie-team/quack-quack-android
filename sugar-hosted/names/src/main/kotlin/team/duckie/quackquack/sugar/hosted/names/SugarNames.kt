@@ -12,7 +12,7 @@
   "unused",
 )
 
-package team.duckie.quackquack.sugar.names
+package team.duckie.quackquack.sugar.hosted.names
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asClassName

@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.sugar.node
+package team.duckie.quackquack.sugar.hosted.node
 
 import org.jetbrains.kotlin.ir.backend.js.utils.asString
 import org.jetbrains.kotlin.ir.declarations.IrFunction
@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.name.Name
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.sugar.material.Imports
 import team.duckie.quackquack.sugar.material.SugarToken
-import team.duckie.quackquack.sugar.names.ComposableFqn
+import team.duckie.quackquack.sugar.hosted.names.ComposableFqn
 
 /**
  * [IrValueParameter]에서 sugar component 생성에 필요한 정보를 관리합니다.
