@@ -14,6 +14,7 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
+import java.io.File
 import org.jetbrains.kotlin.ir.declarations.name
 import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.util.file
@@ -33,7 +34,6 @@ import team.duckie.quackquack.util.backend.kotlinc.toFqnStringOrEmpty
 import team.duckie.quackquack.util.backend.kotlinpoet.addAnnotations
 import team.duckie.quackquack.util.backend.kotlinpoet.addFunctions
 import team.duckie.quackquack.util.backend.kotlinpoet.getGeneratedFileComment
-import java.io.File
 
 private val GeneratedComment = getGeneratedFileComment("sugar-core")
 

@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-package team.duckie.quackquack.sugar.test
+package team.duckie.quackquack.sugar.test.utils
 
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import team.duckie.quackquack.util.backend.test.stub.ComposeStub

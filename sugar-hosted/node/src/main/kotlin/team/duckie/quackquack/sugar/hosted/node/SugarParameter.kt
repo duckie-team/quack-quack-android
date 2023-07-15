@@ -16,9 +16,9 @@ import org.jetbrains.kotlin.ir.util.dumpKotlinLike
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import team.duckie.quackquack.casa.annotation.CasaValue
+import team.duckie.quackquack.sugar.hosted.names.ComposableFqn
 import team.duckie.quackquack.sugar.material.Imports
 import team.duckie.quackquack.sugar.material.SugarToken
-import team.duckie.quackquack.sugar.hosted.names.ComposableFqn
 
 /**
  * [IrValueParameter]에서 sugar component 생성에 필요한 정보를 관리합니다.

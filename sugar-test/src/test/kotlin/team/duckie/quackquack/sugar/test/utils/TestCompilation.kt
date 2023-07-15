@@ -7,7 +7,7 @@
 
 @file:Suppress("MemberVisibilityCanBePrivate")
 
-package team.duckie.quackquack.sugar.test
+package team.duckie.quackquack.sugar.test.utils
 
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile

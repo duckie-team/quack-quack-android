@@ -25,8 +25,9 @@ import team.duckie.quackquack.sugar.hosted.error.SourceError.sugarNamePrefixIsNo
 import team.duckie.quackquack.sugar.hosted.error.SourceError.sugarNameWithoutTokenName
 import team.duckie.quackquack.sugar.hosted.error.SourceError.sugarTokenButNoCompanionObject
 import team.duckie.quackquack.sugar.hosted.error.SugarTransformError.sugarComponentAndSugarReferHasDifferentParameters
+import team.duckie.quackquack.sugar.test.utils.TestCompilation
 
-class SugarCompilerErrorTest : ExpectSpec() {
+class SugarErrorTest : ExpectSpec() {
   private val testCompilation =
     TestCompilation(tempdir()).apply {
       prepareSetting {

@@ -17,8 +17,9 @@ import io.kotest.matchers.shouldBe
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.utils.addToStdlib.cast
 import team.duckie.quackquack.sugar.compiler.SugarCompilerRegistrar
+import team.duckie.quackquack.sugar.test.utils.TestCompilation
 
-class SugarCompilerTransformTest : StringSpec() {
+class SugarTransformTest : StringSpec() {
   private val testCompilation =
     TestCompilation(tempdir()).apply {
       prepareSetting {

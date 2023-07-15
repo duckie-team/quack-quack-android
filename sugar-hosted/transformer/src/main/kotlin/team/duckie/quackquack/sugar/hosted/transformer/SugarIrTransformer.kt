@@ -5,13 +5,6 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-/*
- * Designed and developed by Duckie Team 2023.
- *
- * Licensed under the MIT.
- * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
- */
-
 @file:OptIn(UnsafeCastFunction::class)
 
 package team.duckie.quackquack.sugar.hosted.transformer
@@ -31,16 +24,16 @@ import org.jetbrains.kotlin.ir.util.hasAnnotation
 import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
 import org.jetbrains.kotlin.utils.addToStdlib.UnsafeCastFunction
 import org.jetbrains.kotlin.utils.addToStdlib.cast
-import team.duckie.quackquack.sugar.error.SugarTransformError
-import team.duckie.quackquack.sugar.error.SugarVisitError
-import team.duckie.quackquack.sugar.names.SugarGeneratedFileFqn
-import team.duckie.quackquack.sugar.names.SugarReferFqn
-import team.duckie.quackquack.sugar.node.SugarComponentNode
+import team.duckie.quackquack.sugar.hosted.error.SugarTransformError
+import team.duckie.quackquack.sugar.hosted.error.SugarVisitError
+import team.duckie.quackquack.sugar.hosted.names.SugarGeneratedFileFqn
+import team.duckie.quackquack.sugar.hosted.names.SugarReferFqn
+import team.duckie.quackquack.sugar.hosted.node.SugarComponentNode
 import team.duckie.quackquack.util.backend.kotlinc.Logger
 import team.duckie.quackquack.util.backend.kotlinc.isQuackComponent
 import team.duckie.quackquack.util.backend.kotlinc.locationOf
 
-internal class SugarIrTransformer(
+class SugarIrTransformer(
   @Suppress("unused") private val context: IrPluginContext,
   private val logger: Logger,
 ) : IrElementTransformer<Map<String, SugarComponentNode>> {

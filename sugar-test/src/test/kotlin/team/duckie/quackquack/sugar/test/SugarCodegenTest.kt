@@ -10,7 +10,7 @@
 
 package team.duckie.quackquack.sugar.test
 
-import team.duckie.quackquack.sugar.hosted.PluginId as SugarCorePluginId
+import team.duckie.quackquack.sugar.hosted.PluginId as SugarHostedPluginId
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.PluginOption
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
@@ -22,18 +22,19 @@ import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import team.duckie.quackquack.sugar.hosted.OPTION_SUGAR_PATH
 import team.duckie.quackquack.sugar.hosted.SugarCoreCommandLineProcessor
 import team.duckie.quackquack.sugar.hosted.SugarHostedRegistrar
+import team.duckie.quackquack.sugar.test.utils.TestCompilation
 import team.duckie.quackquack.util.backend.test.removePackageLine
 
 // TODO: @Imports 테스트 작성
 // TODO: nullable한 인자 테스트 작성
-class SugarCoreTest : StringSpec() {
+class SugarCodegenTest : StringSpec() {
   private val testCompilation =
     TestCompilation(tempdir()).apply {
       prepareSetting { tempDir ->
         compilerPluginRegistrars = listOf(SugarHostedRegistrar.asPluginRegistrar())
         pluginOptions = listOf(
           PluginOption(
-            pluginId = SugarCorePluginId,
+            pluginId = SugarHostedPluginId,
             optionName = OPTION_SUGAR_PATH.optionName,
             optionValue = tempDir.path,
           ),
