@@ -61,7 +61,7 @@ class SugarHostedRegistrar : ComponentRegistrar {
       val sugarPath = requireNotNull(this[KEY_SUGAR_PATH]) { "sugarPath was missing." }
 
       return SugarHostedExtension(
-        logger = getLogger("sugar-core"),
+        logger = getLogger("sugar-hosted"),
         sugarPath = sugarPath,
       )
     }

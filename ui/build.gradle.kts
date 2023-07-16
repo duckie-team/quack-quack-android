@@ -25,7 +25,7 @@ plugins {
 
 tasks.withType<KotlinCompile> {
   val sugarHostedPluginId = "team.duckie.quackquack.sugar.hosted"
-  val sugarPath = "${projects.uiSugar.dependencyProject.projectDir}/src/main/kotlin/team/duckie/quackquack/ui/sugar"
+  val sugarPath = "$projectDir/src/main/kotlin/team/duckie/quackquack/ui/sugar/"
   kotlinOptions {
     freeCompilerArgs = freeCompilerArgs + listOf(
       "-P",

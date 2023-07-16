@@ -33,9 +33,10 @@ import team.duckie.quackquack.util.backend.kotlinc.addImports
 import team.duckie.quackquack.util.backend.kotlinc.toFqnStringOrEmpty
 import team.duckie.quackquack.util.backend.kotlinpoet.addAnnotations
 import team.duckie.quackquack.util.backend.kotlinpoet.addFunctions
+import team.duckie.quackquack.util.backend.kotlinpoet.addSuppressionAnnotation
 import team.duckie.quackquack.util.backend.kotlinpoet.getGeneratedFileComment
 
-private val GeneratedComment = getGeneratedFileComment("sugar-core")
+private val GeneratedComment = getGeneratedFileComment("sugar-hosted")
 
 @Suppress("OPT_IN_CAN_ONLY_BE_USED_AS_ANNOTATION")
 private val SugarCompilerOptInAnnotation =
@@ -67,6 +68,7 @@ fun generateSugarComponentFiles(sugarComponentNodes: List<SugarComponentNode>, s
           fileName = fileName.substringBeforeLast("."),
         )
         .addFileComment(GeneratedComment)
+        .addSuppressionAnnotation()
         .addAnnotations(
           SugarCompilerOptInAnnotation,
           SugarGeneratedFileMarkerAnnotation,
