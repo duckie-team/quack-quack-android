@@ -153,11 +153,15 @@ public annotation class SugarName(val name: String = DEFAULT_NAME) {
  *   QuackTheme(theme = Theme.System)
  * }
  * ```
+ *
+ * @param acceptable 사용 가능한 sugar token의 simple name을 나타냅니다.
+ * 만약 빈 배열이 들어온 경우 sugar token으로 지정된 타입의 모든 property가
+ * sugar token이 가능함을 의미합니다.
  */
 @MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.BINARY)
-public annotation class SugarToken
+public annotation class SugarToken(vararg val acceptable: String = [])
 
 /**
  * 생성된 sugar component의 원래 대상에 해당하는 fully-qualified name을 나타냅니다.

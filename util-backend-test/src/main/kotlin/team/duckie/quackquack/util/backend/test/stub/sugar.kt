@@ -39,7 +39,7 @@ annotation class SugarName(val name: String = DEFAULT_NAME) {
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.BINARY)
-annotation class SugarToken
+annotation class SugarToken(vararg val acceptable: String = [])
 
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
