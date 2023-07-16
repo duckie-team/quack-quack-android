@@ -86,20 +86,20 @@ class SugarNodeVisitor(
       val sugarNameAnnotation = declaration.getAnnotation(SugarNameFqn)
       val sugarName = sugarNameAnnotation?.getSugarNameIfNotDefault(owner = declaration)
 
-      var sugarToken: IrValueParameter? = null
+      var sugarTokenWithAnnotation: Pair<IrValueParameter, IrConstructorCall>? = null
       val sugarParameters =
         declaration.valueParameters.map { parameter ->
-          val isSugarToken = parameter.hasAnnotation(SugarTokenFqn)
-          if (isSugarToken) {
-            check(sugarToken == null) {
+          val sugarTokenAnnotation = parameter.getAnnotation(SugarTokenFqn)
+          if (sugarTokenAnnotation != null) {
+            check(sugarTokenWithAnnotation == null) {
               SourceError.multipleSugarTokenIsNotAllowed(declaration.name.asString())
             }
-            sugarToken = parameter
+            sugarTokenWithAnnotation = parameter to sugarTokenAnnotation
           }
-          parameter.toSugarParameter(owner = declaration, isToken = isSugarToken)
+          parameter.toSugarParameter(owner = declaration, isToken = sugarTokenAnnotation != null)
         }
 
-      sugarToken
+      sugarTokenWithAnnotation
         ?: logger.throwError(
           message = SourceError.quackComponentWithoutSugarToken(componentFqn.asString()),
           location = componentLocation,
@@ -117,13 +117,13 @@ class SugarNodeVisitor(
           kdocGetter = { usedTokenLiteral ->
             declaration.getSugareKDoc(
               referFqn = componentFqn,
-              tokenName = sugarToken!!.name.asString(),
+              tokenName = sugarTokenWithAnnotation!!.first.name.asString(),
               usedTokenLiteral = usedTokenLiteral,
             )
           },
           sugarName = sugarName,
-          sugarToken = sugarToken!!,
-          tokenFqExpressions = sugarToken!!.getAllTokenFqExpressions(),
+          sugarToken = sugarTokenWithAnnotation!!.first,
+          tokenFqExpressions = sugarTokenWithAnnotation!!.getAllTokenFqExpressions(),
           parameters = sugarParameters,
           optins = optins,
         )
@@ -162,7 +162,7 @@ private fun IrValueParameter.toSugarParameter(owner: IrFunction, isToken: Boolea
   }
   val sugarImports = getAnnotation(ImportsFqn)?.let { sugarImportsAnnotation ->
     // Assuming the first argument is always "clazz"
-    val sugarImportsExpression = sugarImportsAnnotation.getValueArgument(0)
+    val sugarImportsExpression = sugarImportsAnnotation.getValueArgument(0) ?: return@let emptyList()
     sugarImportsExpression
       .cast<IrVararg>()
       .elements
@@ -227,13 +227,16 @@ private fun IrSimpleFunction.getSugareKDoc(
   }
 }
 
-private fun IrValueParameter.getAllTokenFqExpressions(): List<String> {
-  val tokenClass = type.getClass()!!
+private fun Pair<IrValueParameter, IrConstructorCall>.getAllTokenFqExpressions(): List<String> {
+  val tokenClass = first.type.getClass()!!
   val tokenClassName = tokenClass.name.asString()
+  val acceptableTokens = second.getSugarTokenAccetpableSn()
   return tokenClass.companionObject()?.let { companion ->
     val tokenableProperties =
       companion.properties.filter { property ->
-        property.visibility.isPublicAPI
+        property.visibility.isPublicAPI &&
+          if (acceptableTokens.isEmpty()) true
+          else acceptableTokens.contains(property.name.asString())
       }
     val propertyFqExpressions =
       tokenableProperties.map { property ->
@@ -241,4 +244,15 @@ private fun IrValueParameter.getAllTokenFqExpressions(): List<String> {
       }
     propertyFqExpressions.toList()
   } ?: error(SourceError.sugarTokenButNoCompanionObject(tokenClassName))
+}
+
+private fun IrConstructorCall.getSugarTokenAccetpableSn(): List<String> {
+  // Assuming the first argument is always "acceptable"
+  val acceptableTokens = getValueArgument(0) ?: return emptyList()
+  return acceptableTokens
+    .cast<IrVararg>()
+    .elements
+    .map { element ->
+      element.cast<IrConst<String>>().value
+    }
 }

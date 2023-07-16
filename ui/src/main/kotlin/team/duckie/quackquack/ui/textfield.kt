@@ -884,7 +884,8 @@ public fun Modifier.counter(
 public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   @CasaValue("\"QuackDefaultTextFieldPreview\"") value: String,
   @CasaValue("{}") onValueChange: (value: String) -> Unit,
-  @SugarToken @CasaValue("QuackTextFieldStyle.Default") style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors>,
+  @SugarToken("Default", "DefaultLarge") @CasaValue("QuackTextFieldStyle.Default")
+  style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors>,
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
@@ -1032,7 +1033,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
 public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   value: TextFieldValue,
   onValueChange: (value: TextFieldValue) -> Unit,
-  @SugarToken style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors>,
+  @SugarToken("Default", "DefaultLarge") style: QuackTextFieldStyle<Style, QuackDefaultTextFieldStyle.TextFieldColors>,
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
@@ -1188,7 +1189,8 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
 public fun <Style : QuackFilledTextFieldStyle> QuackFilledTextField(
   @CasaValue("\"QuackFilledTextFieldPreview\"") value: String,
   @CasaValue("{}") onValueChange: (value: String) -> Unit,
-  @SugarToken @CasaValue("QuackTextFieldStyle.FilledLarge") style: QuackTextFieldStyle<Style, QuackFilledTextFieldStyle.TextFieldColors>,
+  @SugarToken("FilledLarge", "FilledFlat") @CasaValue("QuackTextFieldStyle.FilledLarge")
+  style: QuackTextFieldStyle<Style, QuackFilledTextFieldStyle.TextFieldColors>,
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
@@ -1263,7 +1265,7 @@ public fun <Style : QuackFilledTextFieldStyle> QuackFilledTextField(
 public fun <Style : QuackFilledTextFieldStyle> QuackFilledTextField(
   value: TextFieldValue,
   onValueChange: (value: TextFieldValue) -> Unit,
-  @SugarToken style: QuackTextFieldStyle<Style, QuackFilledTextFieldStyle.TextFieldColors>,
+  @SugarToken("FilledLarge", "FilledFlat") style: QuackTextFieldStyle<Style, QuackFilledTextFieldStyle.TextFieldColors>,
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
