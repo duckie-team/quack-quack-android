@@ -35,7 +35,7 @@ internal class SugarCompilerExtension(private val logger: Logger) : IrGeneration
 
 private fun List<SugarComponentNode>.asMap() =
   buildMap(capacity = size) {
-    this@asMap.forEach { SugarComponentNode ->
-      set(SugarComponentNode.referFqn.asString(), SugarComponentNode)
+    this@asMap.forEach { node ->
+      set(node.referFqn.asString(), node)
     }
   }
