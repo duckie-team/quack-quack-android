@@ -21,6 +21,7 @@ import org.jetbrains.kotlin.ir.expressions.IrExpressionBody
 import org.jetbrains.kotlin.ir.util.file
 import org.jetbrains.kotlin.ir.util.getAnnotation
 import org.jetbrains.kotlin.ir.util.hasAnnotation
+import org.jetbrains.kotlin.ir.util.hasDefaultValue
 import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
 import org.jetbrains.kotlin.utils.addToStdlib.UnsafeCastFunction
 import org.jetbrains.kotlin.utils.addToStdlib.cast
@@ -66,7 +67,8 @@ class SugarNodeTransformer(
       val referFqn = referAnnotation.getReferFqName()
 
       data[referFqn]?.let { referIrData ->
-        declaration.valueParameters.forEach { parameter ->
+        for (parameter in declaration.valueParameters) {
+          if (!parameter.hasDefaultValue()) continue
           parameter.defaultValue =
             referIrData.findMatchedDefaultValue(
               sugarComponentName = declaration.name.asString(),
