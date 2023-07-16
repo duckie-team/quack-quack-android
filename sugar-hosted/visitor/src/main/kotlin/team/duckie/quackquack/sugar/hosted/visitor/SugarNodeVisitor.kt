@@ -55,7 +55,7 @@ import team.duckie.quackquack.util.backend.kotlinc.Logger
 import team.duckie.quackquack.util.backend.kotlinc.isQuackComponent
 import team.duckie.quackquack.util.backend.kotlinc.locationOf
 
-class SugarCoreVisitor(
+class SugarNodeVisitor(
   @Suppress("unused") private val context: IrPluginContext,
   private val logger: Logger,
   private val addSugarComponentNode: (data: SugarComponentNode) -> Unit,

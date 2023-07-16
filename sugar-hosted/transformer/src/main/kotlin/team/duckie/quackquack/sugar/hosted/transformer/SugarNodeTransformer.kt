@@ -33,7 +33,7 @@ import team.duckie.quackquack.util.backend.kotlinc.Logger
 import team.duckie.quackquack.util.backend.kotlinc.isQuackComponent
 import team.duckie.quackquack.util.backend.kotlinc.locationOf
 
-class SugarIrTransformer(
+class SugarNodeTransformer(
   @Suppress("unused") private val context: IrPluginContext,
   private val logger: Logger,
 ) : IrElementTransformer<Map<String, SugarComponentNode>> {

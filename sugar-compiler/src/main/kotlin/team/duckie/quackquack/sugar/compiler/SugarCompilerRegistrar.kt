@@ -19,7 +19,7 @@ import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
-import team.duckie.quackquack.sugar.hosted.visitor.SugarCoreVisitor
+import team.duckie.quackquack.sugar.hosted.visitor.SugarNodeVisitor
 import team.duckie.quackquack.util.backend.kotlinc.getLogger
 
 /**
@@ -27,7 +27,7 @@ import team.duckie.quackquack.util.backend.kotlinc.getLogger
  *
  * Compose Compiler의 [`Default Arguments Transform`](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/compiler/compiler-hosted/src/main/java/androidx/compose/compiler/plugins/kotlin/lower/ComposableFunctionBodyTransformer.kt;l=341-365)에
  * 의해 모든 컴포저블 함수에서 default argument의 값이 null로 변경됩니다. 하지만 sugar component를
- * 생성하기 위해선 default value의 값을 보존해야 합니다. 이를 위해 [SugarCoreVisitor]가 Compose Compiler
+ * 생성하기 위해선 default value의 값을 보존해야 합니다. 이를 위해 [SugarNodeVisitor]가 Compose Compiler
  * 보다 먼저 적용될 수 있도록 Compiler Plugin의 적용 순서를 조정할 수 있는 deprecated된 [registerProjectComponents]
  * 메서드를 사용합니다. deprecated 되지 않은 [CompilerPluginRegistrar]를 사용하면 Compiler Plugin의 적용
  * 순서를 조정할 수 없습니다.
