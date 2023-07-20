@@ -56,9 +56,9 @@ private val SugarGeneratedFileMarkerAnnotation =
     .build()
 
 fun generateSugarComponentFiles(sugarComponentNodes: List<SugarComponentNode>, sugarPath: String) {
-  val fileGroupedNodeDatas = sugarComponentNodes.groupBy { node -> node.owner.file.name }
+  val fileGroupedNodeData = sugarComponentNodes.groupBy { node -> node.owner.file.name }
 
-  fileGroupedNodeDatas.forEach { (fileName, componentNode) ->
+  fileGroupedNodeData.forEach { (fileName, componentNode) ->
     val (imports, funSpecs) = componentNode.toFunSpecsWithImports()
     val ktSpec =
       FileSpec

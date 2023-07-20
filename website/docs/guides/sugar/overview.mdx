@@ -54,7 +54,7 @@ listOf(1, 2, 3)
 
 이 문제를 해결하기 위해 KSP보다 코드에 더 low level로 접근할 수 있는 방안을 고민해 보았고, [IR](https://en.wikipedia.org/wiki/Intermediate_representation)이 떠올랐습니다.
 
-코틀린은 IR 접근 API를 public experimental로 공개하고 있으며, Kotlin Compiler Plugin으로 가능합니다. Kotlin Compiler Plugin의 약간의 가설 검증([`29b6fb2`](https://github.com/duckie-team/quack-quack-android/pull/495/commits/29b6fb2913511664ede170a0bed6a3c9a0712774), [`IrValueParameter#defalutValue`](https://slack-chats.kotlinlang.org/t/10002221/hi-is-it-possible-to-get-the-default-value-of-an-irvaluepara#a047d5bf-c73a-48bf-92c8-d3cd7231ace3)) 후에 위와 같은 문제는 비슷한 이유로 해결이 어렵다고 느꼈지만, 해결할 수 있는 다른 방법을 찾아냅니다.
+코틀린은 IR 접근 API를 public experimental로 공개하고 있으며, Kotlin Compiler Plugin으로 가능합니다. Kotlin Compiler Plugin의 약간의 가설 검증([`29b6fb2`](https://github.com/duckie-team/quack-quack-android/pull/495/commits/29b6fb2913511664ede170a0bed6a3c9a0712774), [`IrValueParameter#defaultValue`](https://slack-chats.kotlinlang.org/t/10002221/hi-is-it-possible-to-get-the-default-value-of-an-irvaluepara#a047d5bf-c73a-48bf-92c8-d3cd7231ace3)) 후에 위와 같은 문제는 비슷한 이유로 해결이 어렵다고 느꼈지만, 해결할 수 있는 다른 방법을 찾아냅니다.
 
 제가 생각한 방법은 이렇습니다.
 

@@ -170,7 +170,7 @@ public fun CasaScreen(
         models.fastMap(CasaModel::domain).toImmutableList()
       }
 
-      CasaContentWithDoaminFilter(
+      CasaContentWithDomainFilter(
         modifier = Modifier
           .fillMaxSize()
           .padding(padding),
@@ -194,7 +194,7 @@ public fun CasaScreen(
 }
 
 @Composable
-private fun CasaContentWithDoaminFilter(
+private fun CasaContentWithDomainFilter(
   modifier: Modifier = Modifier,
   domains: ImmutableList<String>,
   selectedDomains: SnapshotStateList<String>,

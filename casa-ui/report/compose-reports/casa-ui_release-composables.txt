@@ -34,7 +34,7 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun CasaScree
   stable models: ImmutableList<CasaModel>
   stable config: CasaConfig? = @static CasaConfig()
 )
-restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun CasaContentWithDoaminFilter(
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun CasaContentWithDomainFilter(
   stable modifier: Modifier? = @static Companion
   stable domains: ImmutableList<String>
   stable selectedDomains: SnapshotStateList<String>

@@ -30,8 +30,8 @@ import team.duckie.quackquack.util.DpSize
 @ReadOnlyComposable
 public inline fun <T> currentFontScale(content: (fontScale: Float) -> T): T {
   contract { callsInPlace(content, InvocationKind.EXACTLY_ONCE) }
-  val configration = LocalConfiguration.current
-  return content(configration.fontScale)
+  val configuration = LocalConfiguration.current
+  return content(configuration.fontScale)
 }
 
 /**
