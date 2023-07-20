@@ -44,7 +44,7 @@ class SugarCompilerRegistrar : ComponentRegistrar {
 
   companion object {
     /**
-     * [ComponentRegistrar]의 complie test는 DeprecatedError 상태로 항상 테스트에 실패합니다.
+     * [ComponentRegistrar]의 compile test는 DeprecatedError 상태로 항상 테스트에 실패합니다.
      * 이를 해결하기 위해 [SugarCompilerRegistrar]의 [CompilerPluginRegistrar] 버전을 제공합니다.
      * 이 함수는 오직 테스트 코드에서만 사용돼야 합니다. (테스트 환경에서는 Compose Compiler가
      * 적용되지 않으니 유효합니다.)

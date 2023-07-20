@@ -42,8 +42,8 @@ public suspend fun composed(
   }
   withContext(coroutineContext) {
     withRunningRecomposer { recomposer ->
-      val compositon = Composition(applier = EmptyApplier, parent = recomposer)
-      compositon.setContent { withinCompositionContent(compositon) }
+      val composition = Composition(applier = EmptyApplier, parent = recomposer)
+      composition.setContent { withinCompositionContent(composition) }
       withRecomposer(recomposer)
     }
   }
