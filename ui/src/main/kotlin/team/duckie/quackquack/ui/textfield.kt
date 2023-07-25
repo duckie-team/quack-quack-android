@@ -85,7 +85,6 @@ import team.duckie.quackquack.material.theme.LocalQuackTextFieldTheme
 import team.duckie.quackquack.runtime.QuackDataModifierModel
 import team.duckie.quackquack.runtime.quackMaterializeOf
 import team.duckie.quackquack.sugar.material.SugarToken
-import team.duckie.quackquack.sugar.material.Sugarable
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
 import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafely
 import team.duckie.quackquack.ui.token.HorizontalDirection
@@ -876,7 +875,7 @@ public fun Modifier.counter(
  * @param interactionSource 이 텍스트 필드의 인터랙션 스트림을 나타내는 변경 가능한 인터랙션 소스입니다. 인터랙션을 관찰하고
  * 다른 인터랙션에서 이 텍스트 필드의 모양/동작을 커스터마이징하려면 자신만의 변경 가능한 인터랙션 소스를 생성하여 전달할 수 있습니다.
  */
-@Sugarable
+// @Sugarable (#706)
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
@@ -1025,7 +1024,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
  * @param interactionSource 이 텍스트 필드의 인터랙션 스트림을 나타내는 변경 가능한 인터랙션 소스입니다. 인터랙션을 관찰하고
  * 다른 인터랙션에서 이 텍스트 필드의 모양/동작을 커스터마이징하려면 자신만의 변경 가능한 인터랙션 소스를 생성하여 전달할 수 있습니다.
  */
-@Sugarable
+// @Sugarable (#706)
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
@@ -1181,7 +1180,7 @@ public fun <Style : QuackDefaultTextFieldStyle> QuackDefaultTextField(
   )
 }
 
-@Sugarable
+// @Sugarable (#706)
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
@@ -1257,7 +1256,7 @@ public fun <Style : QuackFilledTextFieldStyle> QuackFilledTextField(
   )
 }
 
-@Sugarable
+// @Sugarable (#706)
 @ExperimentalDesignToken
 @ExperimentalQuackQuackApi
 @NonRestartableComposable
