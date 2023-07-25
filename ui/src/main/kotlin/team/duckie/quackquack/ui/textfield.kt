@@ -90,6 +90,7 @@ import team.duckie.quackquack.ui.plugin.interceptor.rememberInterceptedStyleSafe
 import team.duckie.quackquack.ui.token.HorizontalDirection
 import team.duckie.quackquack.ui.token.VerticalDirection
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
+import team.duckie.quackquack.ui.util.LazyValue
 import team.duckie.quackquack.ui.util.QuackDsl
 import team.duckie.quackquack.ui.util.asLoose
 import team.duckie.quackquack.ui.util.buildFloat
@@ -1405,10 +1406,6 @@ private const val DefaultLeadingIconLayoutId = "QuackBaseDefaultTextFieldLeading
 private const val DefaultLeadingIconContainerLayoutId = "QuackBaseDefaultTextFieldLeadingIconContainerLayoutId"
 private const val DefaultTrailingIconLayoutId = "QuackBaseDefaultTextFieldTrailingIconLayoutId"
 private const val DefaultTrailingIconContainerLayoutId = "QuackBaseDefaultTextFieldTrailingIconContainerLayoutId"
-
-/** 동적으로 계산되는 값의 인스턴스를 보관하는 래퍼 클래스 */
-@Stable
-private class LazyValue<T>(var value: T? = null)
 
 /** 텍스트 필드의 너비가 지정되지 않았을 떄 기본으로 사용할 너비 */
 private val DefaultMinWidth = 200.dp

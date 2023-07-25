@@ -287,6 +287,78 @@ fun rememberSpanAnnotatedString(
   stable spanStyle: SpanStyle
   unstable annotationTexts: List<String>
 ): AnnotatedString
+scheme("[androidx.compose.ui.UiComposable]") fun QuackTextArea(
+  stable value: String
+  stable onValueChange: Function1<@[ParameterName(name = 'value')] String, Unit>
+  stable style: QuackTextAreaStyle? = @static Companion.Default
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable readOnly: Boolean = @static false
+  stable placeholderText: String? = @static null
+  stable keyboardOptions: KeyboardOptions? = @static Companion.Default
+  stable keyboardActions: KeyboardActions? = @static Companion.Default
+  stable minLines: Int = @static 1
+  stable maxLines: Int = @static Companion.MAX_VALUE
+  stable visualTransformation: VisualTransformation? = @static Companion.None
+  stable onTextLayout: Function1<@[ParameterName(name = 'layoutResult')] TextLayoutResult, Unit>? = @static { it: TextLayoutResult ->
+
+}
+
+  stable interactionSource: MutableInteractionSource? = @static remember({
+  MutableInteractionSource  (  )
+}
+, $composer, 0)
+)
+scheme("[androidx.compose.ui.UiComposable]") fun QuackTextArea(
+  stable value: TextFieldValue
+  stable onValueChange: Function1<@[ParameterName(name = 'value')] TextFieldValue, Unit>
+  stable style: QuackTextAreaStyle? = @static Companion.Default
+  stable modifier: Modifier? = @static Companion
+  stable enabled: Boolean = @static true
+  stable readOnly: Boolean = @static false
+  stable placeholderText: String? = @static null
+  stable keyboardOptions: KeyboardOptions? = @static Companion.Default
+  stable keyboardActions: KeyboardActions? = @static Companion.Default
+  stable minLines: Int = @static 1
+  stable maxLines: Int = @static Companion.MAX_VALUE
+  stable visualTransformation: VisualTransformation? = @static Companion.None
+  stable onTextLayout: Function1<@[ParameterName(name = 'layoutResult')] TextLayoutResult, Unit>? = @static { it: TextLayoutResult ->
+
+}
+
+  stable interactionSource: MutableInteractionSource? = @static remember({
+  MutableInteractionSource  (  )
+}
+, $composer, 0)
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun QuackBaseTextArea(
+  stable value: TextFieldValue
+  stable onValueChange: Function1<@[ParameterName(name = 'value')] TextFieldValue, Unit>
+  stable modifier: Modifier
+  stable radius: Dp
+  stable minHeight: Dp
+  stable border: QuackBorder
+  stable enabled: Boolean
+  stable readOnly: Boolean
+  stable placeholderText: String?
+  stable keyboardOptions: KeyboardOptions
+  stable keyboardActions: KeyboardActions
+  stable minLines: Int
+  stable maxLines: Int
+  stable visualTransformation: VisualTransformation
+  stable onTextLayout: Function1<@[ParameterName(name = 'layoutResult')] TextLayoutResult, Unit>
+  stable interactionSource: MutableInteractionSource
+  stable backgroundColor: QuackColor
+  stable contentPadding: PaddingValues
+  stable typography: QuackTypography
+  stable placeholderTypography: QuackTypography
+  stable counterBaseColor: QuackColor?
+  stable counterHighlightColor: QuackColor?
+  stable counterTypography: QuackTypography?
+  stable counterBaseAndHighlightGap: Dp?
+  stable counterMaxLength: Int?
+  stable counterContentGap: Dp?
+)
 fun QuackDefaultTextField(
   stable value: String
   stable onValueChange: Function1<@[ParameterName(name = 'value')] String, Unit>
