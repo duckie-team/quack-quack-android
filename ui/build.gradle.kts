@@ -25,7 +25,7 @@ plugins {
 
 tasks.withType<KotlinCompile> {
   val sugarHostedPluginId = "team.duckie.quackquack.sugar.hosted"
-  val sugarPath = "${projects.uiSugar.dependencyProject.projectDir}/src/main/kotlin/team/duckie/quackquack/ui/sugar"
+  val sugarPath = "${/*projects.uiSugar.dependencyProject*/projectDir}/src/main/kotlin/team/duckie/quackquack/ui/sugar"
   kotlinOptions {
     freeCompilerArgs = freeCompilerArgs + listOf(
       "-P",
@@ -97,7 +97,10 @@ dependencies {
   kotlinCompilerPlugin(projects.sugarCompiler.orArtifact())
 
   safeRunWithinDevelopmentMode {
-    // TODO: ksp(projects.casaProcessor)
-    kotlinCompilerPlugin(projects.sugarHosted)
+    // TODO: casa에 optin 자동 추가 지원
+    // ksp(projects.casaProcessor)
+
+    // TODO: resolve #706
+    // kotlinCompilerPlugin(projects.sugarHosted)
   }
 }
