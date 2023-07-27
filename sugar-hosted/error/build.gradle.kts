@@ -1,3 +1,5 @@
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+
 /*
  * Designed and developed by Duckie Team 2023.
  *
@@ -8,6 +10,10 @@
 plugins {
   quackquack("jvm-kotlin")
   quackquack("quack-publishing")
+}
+
+tasks.withType<DokkaMultiModuleTask> {
+  dependsOn(":sugar-hosted:dokkaHtmlMultiModule")
 }
 
 dependencies {

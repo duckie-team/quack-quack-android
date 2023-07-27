@@ -7,9 +7,15 @@
 
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+
 plugins {
   quackquack("jvm-kotlin")
   alias(libs.plugins.kotlin.ksp)
+}
+
+tasks.withType<DokkaMultiModuleTask> {
+  dependsOn(":dokkaHtmlMultiModule")
 }
 
 ksp {

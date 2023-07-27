@@ -7,9 +7,15 @@
 
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+
 plugins {
   quackquack("jvm-kotlin")
   quackquack("quack-publishing")
+}
+
+tasks.withType<DokkaMultiModuleTask> {
+  dependsOn(":sugar-hosted:dokkaHtmlMultiModule")
 }
 
 dependencies {
