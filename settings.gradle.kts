@@ -42,7 +42,7 @@ include(
   ":ui-plugin:interceptor",
   ":ui-plugin:interceptor:textfield",
   ":ui-sample",
-  ":ui-sugar",
+  // ":ui-sugar",
   ":sugar-material",
   ":sugar-compiler",
   ":sugar-hosted",
