@@ -480,10 +480,10 @@ public class QuackPrimaryOutlinedSmallButtonDefaults internal constructor() :
 
   @Stable
   public fun buttonColors(
-    backgroundColor: QuackColor = QuackColor.Gray3,
-    disabledBackgroundColor: QuackColor = QuackColor.White,
-    contentColor: QuackColor = QuackColor.Gray1,
-    disabledContentColor: QuackColor = QuackColor.DuckieOrange,
+    backgroundColor: QuackColor = QuackColor.White,
+    disabledBackgroundColor: QuackColor = QuackColor.Gray3,
+    contentColor: QuackColor = QuackColor.DuckieOrange,
+    disabledContentColor: QuackColor = QuackColor.Gray1,
     borderColor: QuackColor = backgroundColor,
     disabledBorderColor: QuackColor = disabledContentColor,
     rippleColor: QuackColor = QuackColor.Unspecified,

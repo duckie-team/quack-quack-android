@@ -15,12 +15,14 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.kotest.matchers.ints.shouldBeZero
+import io.kotest.matchers.shouldBe
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import team.duckie.quackquack.ui.QuackButton
 import team.duckie.quackquack.ui.QuackButtonStyle
 import team.duckie.quackquack.ui.common.setQuackContent
+import team.duckie.quackquack.ui.sugar.QuackPrimaryOutlinedSmallButton
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 
 @RunWith(AndroidJUnit4::class)
@@ -46,5 +48,23 @@ class ButtonTest {
     button.performClick()
 
     compose.runOnIdle { clicked.shouldBeZero() }
+  }
+
+  @Test
+  fun onClick_should_works_when_enabled_is_true_with_PrimaryOutlinedSmall() {
+    var clicked = 0
+
+    compose.setQuackContent {
+      QuackPrimaryOutlinedSmallButton(
+        enabled = true,
+        text = "button",
+        onClick = { clicked++ },
+      )
+    }
+
+    val button = compose.onNodeWithTag("button")
+    button.performClick()
+
+    compose.runOnIdle { clicked shouldBe 1 }
   }
 }
