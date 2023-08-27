@@ -1,3 +1,7 @@
+runtime class ButtonSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
+}
 runtime class ImageSnapshot {
   runtime val snapshotPath: SnapshotPathGeneratorRule
   <runtime stability> = Runtime(SnapshotPathGeneratorRule)
@@ -15,6 +19,10 @@ unstable class TagSnapshot {
   runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
   unstable val roborazzi: RoborazziRule
   <runtime stability> = Unstable
+}
+runtime class TextAreaSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
 }
 runtime class TextFieldSnapshot {
   runtime val snapshotPath: SnapshotPathGeneratorRule
