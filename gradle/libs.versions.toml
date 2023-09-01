@@ -11,7 +11,7 @@ jetbrains-annotation = "24.0.1"
 
 kotlin-core = "1.9.0"
 kotlin-coroutines = "1.7.3"
-kotlin-dokka = "1.8.20"
+kotlin-dokka = "1.9.0"
 kotlin-ksp = "1.9.0-1.0.13"
 kotlin-kotlinpoet = "1.14.2"
 kotlin-detekt = "1.23.1"
