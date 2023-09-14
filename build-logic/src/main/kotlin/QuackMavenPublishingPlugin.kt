@@ -18,7 +18,7 @@ import org.gradle.api.publish.maven.MavenPom
 import org.gradle.kotlin.dsl.configure
 
 private const val RepositoryName = "duckie-team/quack-quack-android"
-private const val QuackBaseGroupId = "team.duckie.quackquack"
+private const val QuackBaseGroupId = "io.github.duckie-team"
 
 class QuackMavenPublishingPlugin : Plugin<Project> {
   override fun apply(project: Project) {
