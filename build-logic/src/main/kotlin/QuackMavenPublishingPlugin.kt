@@ -73,10 +73,10 @@ private fun MavenPom.configureMavenPom(artifactId: String) {
   }
   developers {
     developer {
-      id.set("jisungbin")
-      name.set("Ji Sungbin")
-      url.set("https://sungb.in")
-      email.set("ji@sungb.in")
+      id.set("duckie")
+      name.set("io.github.duckie-team")
+      url.set("https://blog.duckie.team/")
+      email.set("duckieteam.hi@gmail.com")
     }
   }
   scm {

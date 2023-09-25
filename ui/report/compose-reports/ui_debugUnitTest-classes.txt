@@ -1,4 +1,60 @@
+runtime class ButtonSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
+}
+runtime class ImageSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
+}
+runtime class SwitchSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
+}
+runtime class TabSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
+}
+unstable class TagSnapshot {
+  unstable val testNameToSelectState: MutableMap<String, Boolean>
+  runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
+  unstable val roborazzi: RoborazziRule
+  <runtime stability> = Unstable
+}
 runtime class TextAreaSnapshot {
   runtime val snapshotPath: SnapshotPathGeneratorRule
   <runtime stability> = Runtime(SnapshotPathGeneratorRule)
+}
+runtime class TextFieldSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
+}
+runtime class TextSnapshot {
+  runtime val snapshotPath: SnapshotPathGeneratorRule
+  <runtime stability> = Runtime(SnapshotPathGeneratorRule)
+}
+runtime class ButtonTest {
+  runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
+  <runtime stability> = Runtime(AndroidComposeTestRule)
+}
+runtime class TabTest {
+  runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
+  <runtime stability> = Runtime(AndroidComposeTestRule)
+}
+runtime class TagTest {
+  runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
+  <runtime stability> = Runtime(AndroidComposeTestRule)
+}
+runtime class TextFieldTest {
+  runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
+  <runtime stability> = Runtime(AndroidComposeTestRule)
+}
+runtime class TextTest {
+  runtime val compose: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
+  <runtime stability> = Runtime(AndroidComposeTestRule)
+}
+stable class HashCodeTest {
+  <runtime stability> = Stable
+}
+stable class NumberBuilderTest {
+  <runtime stability> = Stable
 }

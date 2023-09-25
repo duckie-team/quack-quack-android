@@ -142,6 +142,21 @@ stable class QuackGrayscaleOutlinedTagDefaults {
   stable var typography: QuackTypography
   stable var unselectedTypography: QuackTypography
 }
+stable class TextAreaColors {
+  stable val backgroundColor: QuackColor
+  stable val contentColor: QuackColor
+  stable val placeholderColor: QuackColor
+  <runtime stability> = Stable
+}
+stable class QuackTextAreaDefaultStyle {
+  stable var radius: Dp
+  stable var minHeight: Dp
+  stable var colors: TextAreaColors
+  stable var border: QuackBorder
+  stable var contentPadding: QuackPadding
+  stable var placeholderTypography: QuackTypography
+  stable var typography: QuackTypography
+}
 stable class Success {
   stable val label: String?
   <runtime stability> = Stable
