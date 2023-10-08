@@ -19,10 +19,16 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
 import land.sungbin.kotlin.dataclass.nocopy.NoCopy
 
-private val suit = FontFamily(
-  Font(resId = R.font.quack_suit_bold, weight = FontWeight.Bold),
-  Font(resId = R.font.quack_suit_medium, weight = FontWeight.Medium),
-  Font(resId = R.font.quack_suit_regular, weight = FontWeight.Regular),
+// private val suit = FontFamily(
+//  Font(resId = R.font.quack_suit_bold, weight = FontWeight.Bold),
+//  Font(resId = R.font.quack_suit_medium, weight = FontWeight.Medium),
+//  Font(resId = R.font.quack_suit_regular, weight = FontWeight.Regular),
+// )
+
+private val pretendard = FontFamily(
+  Font(resId = R.font.quack_pretendard_bold, weight = FontWeight.Bold),
+  Font(resId = R.font.quack_pretendard_medium, weight = FontWeight.Medium),
+  Font(resId = R.font.quack_pretendard_regular, weight = FontWeight.Regular),
 )
 
 private val puradak = FontFamily(
@@ -52,7 +58,7 @@ public data class QuackTypography(
   public val letterSpacing: TextUnit,
   public val lineHeight: TextUnit,
   public val textAlign: TextAlign = TextAlign.Start,
-  public val fontFamily: FontFamily = suit,
+  public val fontFamily: FontFamily = pretendard,
 ) {
   /** [QuackTypography]을 컴포즈 Text 컴포넌트에 사용하기 위해 [TextStyle]로 변환합니다. */
   @Stable
