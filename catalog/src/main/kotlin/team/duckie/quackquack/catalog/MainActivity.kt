@@ -17,35 +17,59 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import team.duckie.quackquack.casa.material.CasaModel
+import team.duckie.quackquack.casa.ui.CasaScreen
+import team.duckie.quackquack.casa.ui.theme.CasaTheme
 import team.duckie.quackquack.ui.optin.ExperimentalDesignToken
+import team.duckie.quackquack.ui.sugar.QuackTitle1
+import team.duckie.quackquack.ui.sugar.QuackTitle2
 import team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      Text("TODO")
-      /*CasaTheme {
+      val textQuackTextCasaModel = CasaModel(
+        name = "AwEsOmEQuackText",
+        domain = "text",
+        kdocDefaultSection = "QuackText KDOC",
+        components = persistentListOf(
+          "Title1" to {
+            QuackTitle1(text = "This is QuackTitle1")
+          },
+          "Title2" to {
+            QuackTitle2(text = "This is QUackTitle2")
+          },
+        ),
+      )
+
+      val casaModels: ImmutableList<CasaModel> = persistentListOf(
+        textQuackTextCasaModel,
+      )
+
+      CasaTheme {
         CasaScreen(models = casaModels)
-      }*/
-      /*QuackTheme(
-        plugins = rememberQuackPlugins {
-          +QuackImageGifPlugin
-        },
-      ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-          QuackImage(src = "https://media.tenor.com/K-Noz5k7X04AAAAi/colors-rainbow.gif")
-        }
-      }*/
-      /*Preview {
-        var enable by remember { mutableStateOf(false) }
-        QuackSwitch(enable) { enable = !enable }
-      }*/
+      }
+//      QuackTheme(
+//        plugins = rememberQuackPlugins {
+//          +QuackImageGifPlugin
+//        },
+//      ) {
+//        Box(modifier = Modifier.fillMaxSize()) {
+//          QuackImage(src = "https://media.tenor.com/K-Noz5k7X04AAAAi/colors-rainbow.gif")
+//        }
+//      }
+//      Preview {
+//        var enable by remember { mutableStateOf(false) }
+//        QuackSwitch(enable) { enable = !enable }
+//      }
     }
   }
 }
