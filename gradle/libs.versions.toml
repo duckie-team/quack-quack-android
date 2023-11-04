@@ -42,7 +42,7 @@ coil-compose = "2.4.0"
 coil-gif = "2.5.0"
 coil-test = "2.5.0"
 
-test-kotest = "5.7.2"
+test-kotest = "5.8.0"
 test-junit-core = "4.13.2"
 test-junit-engine = "5.10.0"
 test-junit-compose = "1.6.0-alpha03"
