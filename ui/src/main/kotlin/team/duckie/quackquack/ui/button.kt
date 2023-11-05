@@ -40,7 +40,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.offset
 import team.duckie.quackquack.casa.annotation.CasaValue
 import team.duckie.quackquack.material.QuackBorder
 import team.duckie.quackquack.material.QuackColor
@@ -938,6 +937,7 @@ public fun QuackBaseButton(
       }
     },
   ) { measurables, constraints ->
+
     val textMeasurable = measurables[TextLayoutId]
     val leadingIconMeasurable = measurables.fastGetByIdOrNull(LeadingIconLayoutId)
     val trailingIconMeasurable = measurables.fastGetByIdOrNull(TrailingIconLayoutId)
@@ -951,26 +951,30 @@ public fun QuackBaseButton(
       padding.vertical.roundToPx() * 2
     } ?: 0
 
-    val baselineConstraints = constraints.offset(
-      horizontal = -horizontalPadding,
-      vertical = -verticalPadding,
-    )
-    val textPlaceable = textMeasurable.measure(baselineConstraints)
+    val textPlaceable = textMeasurable.measure(looseConstraints)
 
     val width = constraints.constrainWidth(textPlaceable.width + horizontalPadding)
     val height = constraints.constrainHeight(textPlaceable.height + verticalPadding)
 
-    layout(width = width, height = height) {
+    val layoutWidth = if (width <= constraints.minWidth) {
+      constraints.maxWidth
+    } else width
+
+    val layoutHeight = if (height <= constraints.minHeight) {
+      constraints.maxHeight
+    } else height
+
+    layout(width = layoutWidth, height = layoutHeight) {
       val textPlaceableX = Alignment.CenterHorizontally.align(
         size = textPlaceable.width,
-        space = width,
+        space = layoutWidth,
         layoutDirection = layoutDirection,
       )
       textPlaceable.place(
         x = textPlaceableX,
         y = Alignment.CenterVertically.align(
           size = textPlaceable.height,
-          space = height,
+          space = layoutHeight,
         ),
       )
 
