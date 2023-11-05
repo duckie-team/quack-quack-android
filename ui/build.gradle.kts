@@ -76,6 +76,8 @@ dependencies {
     libs.coil.compose,
     libs.compose.ui.core,
     libs.compose.ui.text,
+    libs.compose.activity,
+    libs.compose.material3,
     libs.compose.foundation,
     libs.androidx.annotation,
     projects.runtime.orArtifact(),
@@ -97,10 +99,9 @@ dependencies {
   kotlinCompilerPlugin(projects.sugarCompiler.orArtifact())
 
   safeRunWithinDevelopmentMode {
-    // TODO: casa에 optin 자동 추가 지원
-    // ksp(projects.casaProcessor)
+    ksp(projects.casaProcessor)
 
     // TODO: resolve #706
-    // kotlinCompilerPlugin(projects.sugarHosted)
+//     kotlinCompilerPlugin(projects.sugarHosted)
   }
 }

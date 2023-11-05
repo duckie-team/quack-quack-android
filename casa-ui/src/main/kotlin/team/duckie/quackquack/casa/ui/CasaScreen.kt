@@ -8,7 +8,7 @@
 /* ktlint-disable wrapping */
 
 @file:Suppress("Wrapping")
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@file:OptIn(ExperimentalAnimationApi::class)
 
 package team.duckie.quackquack.casa.ui
 
@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -126,6 +125,7 @@ public fun CasaScreen(
           }
         },
         contentAlignment = Alignment.CenterEnd,
+        label = "",
       ) { isSearchState ->
         if (isSearchState) {
           CasaSearchTopAppBar(
@@ -186,7 +186,9 @@ public fun CasaScreen(
       )
     } else {
       CasaComponents(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+          .fillMaxSize()
+          .padding(padding),
         model = selectedModel!!,
       )
     }

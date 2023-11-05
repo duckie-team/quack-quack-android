@@ -14,3 +14,7 @@ internal const val SugarReferSn = "SugarRefer"
 internal const val CasaValueSn = "CasaValue"
 internal val CasaModelCn = ClassName("team.duckie.quackquack.casa.material", "CasaModel")
 internal const val CasaFqn = "team.duckie.quackquack.casa.annotation.Casa"
+
+internal val ExperimentalQuackQuackApiCn = "team.duckie.quackquack.ui.util.ExperimentalQuackQuackApi".toCnClass()
+
+private fun String.toCnClass() = ClassName.bestGuess(this)

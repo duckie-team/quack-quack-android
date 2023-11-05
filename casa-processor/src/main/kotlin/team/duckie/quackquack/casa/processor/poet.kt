@@ -22,6 +22,17 @@ import team.duckie.quackquack.util.backend.kotlinpoet.getGeneratedFileComment
 import team.duckie.quackquack.util.backend.ksp.generateBuildOrLocalFile
 import team.duckie.quackquack.util.backend.ksp.requireContainingFile
 
+// @Suppress("OPT_IN_CAN_ONLY_BE_USED_AS_ANNOTATION")
+// private val OptInCompilerAnnotation =
+//  AnnotationSpec
+//    .builder(OptIn::class)
+//    .addMember(
+//      "%T::class",
+//      ExperimentalQuackQuackApiCn,
+//    )
+//    .useSiteTarget(AnnotationSpec.UseSiteTarget.FILE)
+//    .build()
+
 private val GeneratedComment = getGeneratedFileComment("casa-processor")
 private val RequiredImports =
   listOf(
@@ -87,7 +98,6 @@ internal fun generateCasaModels(
       .addModifiers(KModifier.PUBLIC)
       .build()
 
-  // TODO(3): OptIn 어노테이션 자동 추가
   val casaModelFileSpec =
     FileSpec
       .builder(
@@ -96,11 +106,13 @@ internal fun generateCasaModels(
       )
       .addFileComment(GeneratedComment)
       .apply {
-        // memberImports += if (packageName.isNotEmpty()) {
-        //   Import("$packageName.$import")
-        // } else {
-        //   Import(import)
-        // }
+        // FIXME OptInCompilerAnnotation 추가 시 코드가 제대로 생성되지 않음
+//        addAnnotation(OptInCompilerAnnotation)
+//         memberImports += if (packageName.isNotEmpty()) {
+//           Import("$packageName.$import")
+//         } else {
+//           Import(import)
+//         }
         addImport(packageName = "", imports)
         casaModelPropertySpecs.forEach(::addProperty)
       }

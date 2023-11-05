@@ -4,7 +4,6 @@
  * Licensed under the MIT.
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
-
 plugins {
   quackquack("jvm-kotlin")
   quackquack("test-kotest")
@@ -23,6 +22,8 @@ dependencies {
     libs.kotlin.kotlinpoet.core,
     libs.kotlin.collections.immutable,
     libs.google.autoservice.annotation,
+    libs.kotlin.embeddable.compiler,
+    libs.kotlin.kotlinpoet.core,
     projects.utilBackendKsp,
     projects.utilBackendKotlinpoet,
   )
