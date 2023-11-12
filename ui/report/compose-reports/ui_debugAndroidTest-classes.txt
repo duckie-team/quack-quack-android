@@ -1,8 +1,4 @@
-unstable class ButtonTest {
-  unstable val rule: ComposeContentTestRule
-  <runtime stability> = Unstable
-}
-unstable class TextTest {
-  unstable val rule: ComposeContentTestRule
+unstable class TextFieldTest {
+  unstable val compose: ComposeContentTestRule
   <runtime stability> = Unstable
 }
