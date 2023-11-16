@@ -35,7 +35,7 @@ compose-animation = "1.6.0-alpha03"
 compose-foundation = "1.6.0-alpha03"
 compose-material-ripple = "1.6.0-alpha03"
 compose-material3 = "1.2.0-alpha05" # for Playground
-compose-activity = "1.8.0"
+compose-activity = "1.8.1"
 compose-svg-converter = "0.8.1"
 
 coil-compose = "2.4.0"
