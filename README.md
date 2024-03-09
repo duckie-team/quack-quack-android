@@ -24,9 +24,9 @@ It makes the DUCKIE team's mobile products consistent and prioritizes user and d
 
 ---
 
-## The full documentation is available on the project website: https://quackquack.duckie.team/android 
+## This project is no longer maintained!
 
-## work-in-progress ☕☕☕
+## The full documentation is available on the project website: https://quackquack.duckie.team/android 
 
 ### Want to see what else we're working on? 👀
 
