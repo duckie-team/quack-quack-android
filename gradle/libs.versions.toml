@@ -38,7 +38,7 @@ compose-material3 = "1.2.0-alpha05" # for Playground
 compose-activity = "1.8.1"
 compose-svg-converter = "0.8.1"
 
-coil-compose = "2.4.0"
+coil-compose = "2.7.0"
 coil-gif = "2.5.0"
 coil-test = "2.5.0"
 
