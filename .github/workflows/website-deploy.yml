@@ -48,7 +48,7 @@ jobs:
           arguments: dokkaHtmlMultiModule --no-configuration-cache
 
       - name: Setup Node 20
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20.0.0'
           cache: 'npm'
